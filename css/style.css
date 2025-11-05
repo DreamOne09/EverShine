@@ -31,6 +31,7 @@ body {
     line-height: 1.6;
     overflow-x: hidden;
     position: relative;
+    padding-bottom: 60px; /* 為固定橫幅預留空間 */
 }
 
 /* 全站背景金絲線效果 */
@@ -986,6 +987,276 @@ body::before {
 }
 
 /* ============================================
+   頁面 Hero（非首頁用）
+   ============================================ */
+.page-hero {
+    position: relative;
+    min-height: 50vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+    padding-top: 80px;
+    background: var(--bg-darker);
+}
+
+/* ============================================
+   會員展示預覽
+   ============================================ */
+.members-preview {
+    padding: 5rem 0;
+    background: var(--bg-dark);
+    text-align: center;
+}
+
+.section-description {
+    font-size: 1.2rem;
+    color: var(--text-gray);
+    line-height: 1.8;
+    margin-bottom: 2rem;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.preview-cta {
+    margin-top: 2rem;
+}
+
+/* ============================================
+   引薦報告
+   ============================================ */
+.referrals-intro {
+    padding: 4rem 0;
+    background: var(--bg-dark);
+}
+
+.intro-content {
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.intro-text {
+    font-size: 1.1rem;
+    color: var(--text-gray);
+    line-height: 1.8;
+    margin-bottom: 2rem;
+}
+
+.intro-features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.feature-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    text-align: left;
+}
+
+.feature-icon {
+    width: 30px;
+    height: 30px;
+    background: var(--gold);
+    color: var(--bg-darker);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+.feature-item p {
+    color: var(--text-gray);
+    line-height: 1.6;
+}
+
+.referrals {
+    padding: 4rem 0;
+    background: var(--bg-darker);
+}
+
+.referral-card {
+    background: rgba(212, 175, 55, 0.05);
+    border: 2px solid var(--border-gold);
+    border-radius: 15px;
+    padding: 3rem;
+    margin-bottom: 3rem;
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.referral-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.referral-card:hover {
+    border-color: var(--gold);
+    box-shadow: 0 10px 40px rgba(212, 175, 55, 0.2);
+    transform: translateY(-5px);
+}
+
+.referral-header {
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-gold);
+}
+
+.referral-badge {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--bg-darker);
+    padding: 0.5rem 1.5rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.referral-title {
+    font-size: 1.8rem;
+    color: var(--gold);
+    font-weight: 700;
+    margin: 0;
+}
+
+.referral-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+}
+
+.referral-section {
+    background: rgba(212, 175, 55, 0.03);
+    border: 1px solid var(--border-gold);
+    border-radius: 10px;
+    padding: 2rem;
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-gold);
+}
+
+.section-icon {
+    font-size: 1.5rem;
+}
+
+.section-header h4 {
+    font-size: 1.3rem;
+    color: var(--text-white);
+    margin: 0;
+    font-weight: 600;
+}
+
+.referrer-name {
+    color: var(--gold);
+    font-weight: 700;
+}
+
+.section-content {
+    color: var(--text-gray);
+    line-height: 1.8;
+}
+
+.section-content p {
+    margin-bottom: 1rem;
+    font-size: 1rem;
+}
+
+.testimonial-tag {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background: rgba(212, 175, 55, 0.1);
+    border-left: 3px solid var(--gold);
+    border-radius: 5px;
+}
+
+.testimonial-tag strong {
+    color: var(--gold);
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.referral-footer {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-gold);
+}
+
+.referral-metrics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: center;
+}
+
+.metric-item {
+    padding: 0.5rem 1rem;
+    background: rgba(212, 175, 55, 0.1);
+    border: 1px solid var(--border-gold);
+    border-radius: 20px;
+    color: var(--text-white);
+    font-size: 0.9rem;
+}
+
+/* ============================================
+   固定橫幅
+   ============================================ */
+.fixed-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(10, 10, 10, 0.98);
+    border-top: 2px solid var(--gold);
+    padding: 0.8rem 0;
+    z-index: 1000;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+}
+
+.banner-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.banner-text {
+    color: var(--text-white);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.banner-separator {
+    color: var(--gold);
+    font-size: 0.9rem;
+}
+
+
+/* ============================================
    響應式設計
    ============================================ */
 @media (max-width: 768px) {
@@ -1075,10 +1346,41 @@ body::before {
     }
 
     .back-to-top {
-        bottom: 20px;
+        bottom: 80px;
         right: 20px;
         width: 45px;
         height: 45px;
+    }
+
+    .banner-content {
+        flex-direction: column;
+        gap: 0.5rem;
+        text-align: center;
+    }
+
+    .banner-separator {
+        display: none;
+    }
+
+    .banner-text {
+        font-size: 0.85rem;
+    }
+
+    body {
+        padding-bottom: 80px;
+    }
+
+    .referral-card {
+        padding: 2rem;
+    }
+
+    .referral-title {
+        font-size: 1.5rem;
+    }
+
+    .referral-metrics {
+        flex-direction: column;
+        align-items: center;
     }
 }
 

@@ -2,17 +2,50 @@
 // 全域變數
 // ============================================
 let membersData = [];
-let allIndustries = [];
+let allCategories = [];
 
 // ============================================
 // 頁面載入完成後初始化
 // ============================================
 document.addEventListener('DOMContentLoaded', () => {
-    loadMembersData();
+    // 檢查是否有會員展示區，才載入會員資料
+    if (document.getElementById('membersGrid')) {
+        loadMembersData();
+    }
+    
     initNavigation();
-    initMetricsAnimation();
+    
+    // 檢查是否有關鍵數字區塊
+    if (document.querySelector('.metric-value')) {
+        initMetricsAnimation();
+    }
+    
     initBackToTop();
+    
+    // 處理頁面載入時的錨點定位
+    handleAnchorNavigation();
 });
+
+// ============================================
+// 處理錨點導航
+// ============================================
+function handleAnchorNavigation() {
+    // 檢查 URL 中是否有錨點
+    if (window.location.hash) {
+        setTimeout(() => {
+            const targetId = window.location.hash;
+            const targetSection = document.querySelector(targetId);
+            if (targetSection) {
+                const navHeight = document.querySelector('.navbar')?.offsetHeight || 0;
+                const targetPosition = targetSection.offsetTop - navHeight;
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+            }
+        }, 100);
+    }
+}
 
 // ============================================
 // 載入會員資料
@@ -53,8 +86,28 @@ async function loadMembersData() {
         
         membersData = data.members;
         
-        // 提取所有產業別
-        allIndustries = [...new Set(membersData.map(member => member.industry))].sort();
+        // 為每個會員添加分類（如果沒有）並修正照片路徑
+        membersData.forEach(member => {
+            if (!member.category) {
+                member.category = getCategoryByIndustry(member.industry);
+            }
+            // 修正照片路徑 - 統一使用相對路徑
+            if (member.photo) {
+                // 移除 ../ 前綴，統一使用相對路徑
+                member.photo = member.photo.replace(/^\.\.\//, '');
+                // 如果路徑包含 ../會員照片/，改為 會員照片/
+                if (member.photo.includes('../會員照片/')) {
+                    member.photo = member.photo.replace('../會員照片/', '會員照片/');
+                }
+                // 如果路徑包含 ../images/members/，改為 images/members/
+                if (member.photo.includes('../images/members/')) {
+                    member.photo = member.photo.replace('../images/members/', 'images/members/');
+                }
+            }
+        });
+        
+        // 提取所有分類
+        allCategories = [...new Set(membersData.map(member => member.category))].sort();
         
         // 初始化篩選器
         initFilterButtons();
@@ -88,52 +141,47 @@ function initFilterButtons() {
     const filterButtonsContainer = document.getElementById('filterButtons');
     if (!filterButtonsContainer) return;
     
-    // 清空現有按鈕（保留「全部顯示」）
-    const allButton = filterButtonsContainer.querySelector('[data-industry="all"]');
+    // 清空現有按鈕
     filterButtonsContainer.innerHTML = '';
     
-    // 重新加入「全部顯示」按鈕
-    if (allButton) {
-        filterButtonsContainer.appendChild(allButton);
-    } else {
-        const allBtn = document.createElement('button');
-        allBtn.className = 'filter-btn active';
-        allBtn.setAttribute('data-industry', 'all');
-        allBtn.textContent = '全部顯示';
-        allBtn.addEventListener('click', () => filterMembers('all'));
-        filterButtonsContainer.appendChild(allBtn);
-    }
+    // 加入「全部顯示」按鈕
+    const allBtn = document.createElement('button');
+    allBtn.className = 'filter-btn active';
+    allBtn.setAttribute('data-category', 'all');
+    allBtn.textContent = '全部顯示';
+    allBtn.addEventListener('click', () => filterMembersByCategory('all'));
+    filterButtonsContainer.appendChild(allBtn);
     
-    // 為每個產業別建立按鈕
-    allIndustries.forEach(industry => {
+    // 為每個分類建立按鈕
+    allCategories.forEach(category => {
         const btn = document.createElement('button');
         btn.className = 'filter-btn';
-        btn.setAttribute('data-industry', industry);
-        btn.textContent = industry;
-        btn.addEventListener('click', () => filterMembers(industry));
+        btn.setAttribute('data-category', category);
+        btn.textContent = category;
+        btn.addEventListener('click', () => filterMembersByCategory(category));
         filterButtonsContainer.appendChild(btn);
     });
 }
 
 // ============================================
-// 篩選會員
+// 依分類篩選會員
 // ============================================
-function filterMembers(industry) {
+function filterMembersByCategory(category) {
     // 更新按鈕狀態
     const buttons = document.querySelectorAll('.filter-btn');
     buttons.forEach(btn => {
         btn.classList.remove('active');
-        if (btn.getAttribute('data-industry') === industry) {
+        if (btn.getAttribute('data-category') === category) {
             btn.classList.add('active');
         }
     });
     
     // 篩選會員
     let filteredMembers;
-    if (industry === 'all') {
+    if (category === 'all') {
         filteredMembers = membersData;
     } else {
-        filteredMembers = membersData.filter(member => member.industry === industry);
+        filteredMembers = membersData.filter(member => member.category === category);
     }
     
     // 顯示篩選後的會員
@@ -210,20 +258,30 @@ function buildContactHtml(contact) {
 // 初始化導航功能
 // ============================================
 function initNavigation() {
-    // 平滑滾動
+    // 平滑滾動（只處理錨點連結）
     const navLinks = document.querySelectorAll('.nav-link');
     navLinks.forEach(link => {
         link.addEventListener('click', (e) => {
-            e.preventDefault();
-            const targetId = link.getAttribute('href');
-            const targetSection = document.querySelector(targetId);
-            if (targetSection) {
-                const navHeight = document.querySelector('.navbar').offsetHeight;
-                const targetPosition = targetSection.offsetTop - navHeight;
-                window.scrollTo({
-                    top: targetPosition,
-                    behavior: 'smooth'
-                });
+            const href = link.getAttribute('href');
+            
+            // 如果是頁面連結（包含 .html），讓瀏覽器正常處理
+            if (href && href.includes('.html')) {
+                // 如果是跨頁面錨點（例如 index.html#join），讓瀏覽器正常跳轉
+                return; // 不阻止預設行為
+            }
+            
+            // 如果是同頁面的錨點連結，處理平滑滾動
+            if (href && href.startsWith('#')) {
+                e.preventDefault();
+                const targetSection = document.querySelector(href);
+                if (targetSection) {
+                    const navHeight = document.querySelector('.navbar').offsetHeight;
+                    const targetPosition = targetSection.offsetTop - navHeight;
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
             }
             
             // 關閉行動選單
