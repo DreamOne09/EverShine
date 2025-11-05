@@ -106,14 +106,25 @@ async function loadMembersData() {
             }
         });
         
-        // 提取所有分類
-        allCategories = [...new Set(membersData.map(member => member.category))].sort();
+        // 提取所有分類並統計人數
+        const categoryCounts = {};
+        membersData.forEach(member => {
+            const cat = member.category;
+            categoryCounts[cat] = (categoryCounts[cat] || 0) + 1;
+        });
+        
+        // 按會員人數排序分類（從多到少）
+        allCategories = Object.keys(categoryCounts)
+            .sort((a, b) => categoryCounts[b] - categoryCounts[a]);
+        
+        // 儲存分類統計資訊
+        window.categoryCounts = categoryCounts;
         
         // 初始化篩選器
         initFilterButtons();
         
-        // 顯示所有會員
-        displayMembers(membersData);
+        // 顯示所有會員（按分類分組）
+        displayMembersByCategory(membersData);
     } catch (error) {
         console.error('載入會員資料失敗:', error);
         console.error('錯誤詳情:', error.message);
@@ -180,12 +191,13 @@ function filterMembersByCategory(category) {
     let filteredMembers;
     if (category === 'all') {
         filteredMembers = membersData;
+        // 顯示所有會員（按分類分組）
+        displayMembersByCategory(filteredMembers);
     } else {
         filteredMembers = membersData.filter(member => member.category === category);
+        // 顯示單一分類的會員
+        displayMembers(filteredMembers);
     }
-    
-    // 顯示篩選後的會員
-    displayMembers(filteredMembers);
 }
 
 // ============================================
@@ -204,23 +216,81 @@ function displayMembers(members) {
 }
 
 // ============================================
+// 按分類分組顯示會員
+// ============================================
+function displayMembersByCategory(members) {
+    const membersGrid = document.getElementById('membersGrid');
+    if (!membersGrid) return;
+    
+    // 按分類分組會員
+    const membersByCategory = {};
+    members.forEach(member => {
+        const cat = member.category;
+        if (!membersByCategory[cat]) {
+            membersByCategory[cat] = [];
+        }
+        membersByCategory[cat].push(member);
+    });
+    
+    // 按分類人數排序（從多到少）
+    const sortedCategories = Object.keys(membersByCategory)
+        .sort((a, b) => membersByCategory[b].length - membersByCategory[a].length);
+    
+    // 生成 HTML
+    let html = '';
+    sortedCategories.forEach(category => {
+        const categoryMembers = membersByCategory[category];
+        const count = categoryMembers.length;
+        
+        html += `
+            <div class="category-section" data-category="${category}">
+                <div class="category-header">
+                    <h3 class="category-title">${category}</h3>
+                    <span class="category-count">${count} 位會員</span>
+                </div>
+                <div class="category-members-grid">
+                    ${categoryMembers.map(member => createMemberCard(member)).join('')}
+                </div>
+            </div>
+        `;
+    });
+    
+    membersGrid.innerHTML = html;
+}
+
+// ============================================
 // 建立會員卡片 HTML
 // ============================================
 function createMemberCard(member) {
     // 處理照片路徑 - 使用 JSON 中的照片路徑，如果沒有則使用占位圖
     const photoPath = member.photo || '';
-    const placeholderSvg = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='120' height='120' fill='%231a1a1a'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' fill='%23D4AF37' font-family='Arial' font-size='40'%3E${encodeURIComponent(member.name.charAt(0))}%3C/text%3E%3C/svg%3E`;
+    const placeholderSvg = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Crect width='150' height='150' fill='%231a1a1a'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' fill='%23D4AF37' font-family='Arial' font-size='50'%3E${encodeURIComponent(member.name.charAt(0))}%3C/text%3E%3C/svg%3E`;
     
     // 建立聯絡方式 HTML
     const contactHtml = buildContactHtml(member.contact);
     
+    // 建立網站連結 HTML
+    const websiteHtml = member.website ? `
+        <div class="member-website">
+            <a href="${member.website}" target="_blank" rel="noopener noreferrer" class="website-link">
+                <span class="website-icon">🌐</span>
+                <span>前往網站</span>
+            </a>
+        </div>
+    ` : '';
+    
     return `
         <div class="member-card">
-            <img src="${photoPath || placeholderSvg}" alt="${member.name}" class="member-photo" onerror="this.src='${placeholderSvg}';">
-            <h3 class="member-name">${member.name}</h3>
-            <span class="member-industry">${member.industry}</span>
-            <p class="member-description">${member.description || '專業服務提供商'}</p>
-            ${contactHtml ? `<div class="member-contact">${contactHtml}</div>` : ''}
+            <div class="member-photo-container">
+                <img src="${photoPath || placeholderSvg}" alt="${member.name}" class="member-photo" onerror="this.src='${placeholderSvg}';">
+            </div>
+            <div class="member-info">
+                <h3 class="member-name">${member.name}</h3>
+                <span class="member-industry">${member.industry}</span>
+                <p class="member-description">${member.description || '專業服務提供商'}</p>
+                ${websiteHtml}
+                ${contactHtml ? `<div class="member-contact">${contactHtml}</div>` : ''}
+            </div>
         </div>
     `;
 }
