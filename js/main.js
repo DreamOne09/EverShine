@@ -113,8 +113,9 @@ async function loadMembersData() {
             categoryCounts[cat] = (categoryCounts[cat] || 0) + 1;
         });
         
-        // 按會員人數排序分類（從多到少）
+        // 按會員人數排序分類（從多到少），並過濾掉「其他」分類
         allCategories = Object.keys(categoryCounts)
+            .filter(cat => cat !== "其他")
             .sort((a, b) => categoryCounts[b] - categoryCounts[a]);
         
         // 儲存分類統計資訊
@@ -232,9 +233,10 @@ function displayMembersByCategory(members) {
         membersByCategory[cat].push(member);
     });
     
-    // 按分類人數排序（從多到少）
-    const sortedCategories = Object.keys(membersByCategory)
-        .sort((a, b) => membersByCategory[b].length - membersByCategory[a].length);
+        // 按分類人數排序（從多到少），並過濾掉「其他」分類
+        const sortedCategories = Object.keys(membersByCategory)
+            .filter(cat => cat !== "其他")
+            .sort((a, b) => membersByCategory[b].length - membersByCategory[a].length);
     
     // 生成 HTML
     let html = '';
