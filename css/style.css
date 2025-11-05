@@ -30,6 +30,50 @@ body {
     color: var(--text-white);
     line-height: 1.6;
     overflow-x: hidden;
+    position: relative;
+}
+
+/* 全站背景金絲線效果 */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        /* 垂直金絲線 */
+        repeating-linear-gradient(
+            0deg,
+            transparent 0px,
+            transparent 48px,
+            rgba(212, 175, 55, 0.08) 49px,
+            rgba(212, 175, 55, 0.15) 50px,
+            rgba(212, 175, 55, 0.08) 51px,
+            transparent 52px,
+            transparent 100px
+        ),
+        /* 水平金絲線 */
+        repeating-linear-gradient(
+            90deg,
+            transparent 0px,
+            transparent 48px,
+            rgba(212, 175, 55, 0.08) 49px,
+            rgba(212, 175, 55, 0.15) 50px,
+            rgba(212, 175, 55, 0.08) 51px,
+            transparent 52px,
+            transparent 100px
+        );
+    background-size: 100px 100px;
+    opacity: 0.6;
+    z-index: -1;
+    pointer-events: none;
+    animation: subtlePatternMove 40s linear infinite;
+}
+
+@keyframes subtlePatternMove {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(100px, 100px); }
 }
 
 .container {
@@ -176,11 +220,43 @@ body {
     width: 100%;
     height: 100%;
     background-image: 
-        linear-gradient(90deg, transparent 0%, rgba(212, 175, 55, 0.1) 50%, transparent 100%),
-        linear-gradient(0deg, transparent 0%, rgba(212, 175, 55, 0.1) 50%, transparent 100%);
-    background-size: 100px 100px;
-    opacity: 0.3;
-    animation: patternMove 20s linear infinite;
+        /* 垂直金絲線 */
+        repeating-linear-gradient(
+            0deg,
+            transparent 0px,
+            transparent 48px,
+            rgba(212, 175, 55, 0.15) 49px,
+            rgba(212, 175, 55, 0.25) 50px,
+            rgba(212, 175, 55, 0.15) 51px,
+            transparent 52px,
+            transparent 100px
+        ),
+        /* 水平金絲線 */
+        repeating-linear-gradient(
+            90deg,
+            transparent 0px,
+            transparent 48px,
+            rgba(212, 175, 55, 0.15) 49px,
+            rgba(212, 175, 55, 0.25) 50px,
+            rgba(212, 175, 55, 0.15) 51px,
+            transparent 52px,
+            transparent 100px
+        ),
+        /* 對角線裝飾 */
+        repeating-linear-gradient(
+            45deg,
+            transparent 0px,
+            transparent 98px,
+            rgba(212, 175, 55, 0.08) 99px,
+            rgba(212, 175, 55, 0.12) 100px,
+            rgba(212, 175, 55, 0.08) 101px,
+            transparent 102px,
+            transparent 200px
+        );
+    background-size: 100px 100px, 100px 100px, 200px 200px;
+    opacity: 1;
+    animation: patternMove 30s linear infinite;
+    pointer-events: none;
 }
 
 @keyframes patternMove {
@@ -429,6 +505,66 @@ body {
     color: var(--gold);
     font-weight: bold;
     font-size: 1.2rem;
+}
+
+/* 價值觀區塊 */
+.values-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.value-card {
+    background: rgba(212, 175, 55, 0.05);
+    border: 1px solid var(--border-gold);
+    border-radius: 10px;
+    padding: 2rem;
+    text-align: center;
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.value-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.1), transparent);
+    transition: var(--transition);
+}
+
+.value-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--gold);
+    box-shadow: 0 10px 30px rgba(212, 175, 55, 0.2);
+}
+
+.value-card:hover::before {
+    left: 100%;
+    transition: 0.5s;
+}
+
+.value-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.value-card h4 {
+    font-size: 1.5rem;
+    color: var(--gold);
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.value-card p {
+    color: var(--text-gray);
+    line-height: 1.6;
+    font-size: 1rem;
 }
 
 /* ============================================
@@ -912,6 +1048,10 @@ body {
     }
 
     .contact-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .values-grid {
         grid-template-columns: 1fr;
     }
 

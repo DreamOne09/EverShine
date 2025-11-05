@@ -22,3 +22,6 @@ Thumbs.db
 .env
 .env.local
 
+# 參考資料夾（不推送到 GitHub）
+參考資料/
+

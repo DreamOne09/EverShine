@@ -19,17 +19,36 @@ document.addEventListener('DOMContentLoaded', () => {
 // ============================================
 async function loadMembersData() {
     try {
-        // 使用相對路徑，確保在 GitHub Pages 和本地都能正常運作
-        const response = await fetch('./data/members.json');
+        // 嘗試多種路徑，確保在不同環境下都能正常運作
+        let response;
+        const paths = [
+            './data/members.json',
+            'data/members.json',
+            '/data/members.json',
+            '../data/members.json'
+        ];
         
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+        let lastError = null;
+        for (const path of paths) {
+            try {
+                response = await fetch(path);
+                if (response.ok) {
+                    break;
+                }
+            } catch (err) {
+                lastError = err;
+                continue;
+            }
+        }
+        
+        if (!response || !response.ok) {
+            throw new Error(`無法載入會員資料檔案。請確認檔案存在於 data/members.json，或使用 HTTP 伺服器開啟網站（避免 CORS 限制）。`);
         }
         
         const data = await response.json();
         
         if (!data || !data.members || !Array.isArray(data.members)) {
-            throw new Error('會員資料格式錯誤');
+            throw new Error('會員資料格式錯誤：找不到 members 陣列');
         }
         
         membersData = data.members;
@@ -51,9 +70,11 @@ async function loadMembersData() {
         if (membersGrid) {
             membersGrid.innerHTML = `
                 <div style="text-align: center; color: #888; grid-column: 1 / -1; padding: 2rem;">
-                    <p style="margin-bottom: 1rem;">載入會員資料時發生錯誤</p>
-                    <p style="font-size: 0.9rem; color: #666;">${error.message}</p>
-                    <p style="font-size: 0.9rem; color: #666; margin-top: 1rem;">請確認 data/members.json 檔案存在且格式正確</p>
+                    <p style="margin-bottom: 1rem; color: #D4AF37; font-size: 1.1rem;">載入會員資料時發生錯誤</p>
+                    <p style="font-size: 0.9rem; color: #666; margin-bottom: 0.5rem;">${error.message}</p>
+                    <p style="font-size: 0.85rem; color: #555; margin-top: 1rem;">
+                        提示：如果使用本地檔案開啟，請使用 HTTP 伺服器（如 VS Code Live Server）或部署到 GitHub Pages
+                    </p>
                 </div>
             `;
         }
