@@ -266,20 +266,13 @@ function displayMembersByCategory(members) {
 function createMemberCard(member) {
     // 處理照片路徑 - 使用 JSON 中的照片路徑，如果沒有則使用占位圖
     const photoPath = member.photo || '';
-    const placeholderSvg = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Crect width='150' height='150' fill='%231a1a1a'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' fill='%23D4AF37' font-family='Arial' font-size='50'%3E${encodeURIComponent(member.name.charAt(0))}%3C/text%3E%3C/svg%3E`;
+    const placeholderSvg = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Crect width='150' height='150' rx='12' fill='%23001933'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' fill='%234ca8df' font-family='Arial' font-size='50'%3E${encodeURIComponent(member.name.charAt(0))}%3C/text%3E%3C/svg%3E`;
     
-    // 建立聯絡方式 HTML
+    const servicesHtml = buildServicesHtml(member.services);
+    const hashtagsHtml = buildHashtagsHtml(member.hashtags);
+    const socialHtml = buildSocialLinks(member.social);
     const contactHtml = buildContactHtml(member.contact);
-    
-    // 建立網站連結 HTML
-    const websiteHtml = member.website ? `
-        <div class="member-website">
-            <a href="${member.website}" target="_blank" rel="noopener noreferrer" class="website-link">
-                <span class="website-icon">🌐</span>
-                <span>前往網站</span>
-            </a>
-        </div>
-    ` : '';
+    const description = member.description || '專業服務提供商';
     
     return `
         <div class="member-card">
@@ -288,9 +281,11 @@ function createMemberCard(member) {
             </div>
             <div class="member-info">
                 <h3 class="member-name">${member.name}</h3>
-                <span class="member-industry">${member.industry}</span>
-                <p class="member-description">${member.description || '專業服務提供商'}</p>
-                ${websiteHtml}
+                <span class="member-industry">${member.industry || ''}</span>
+                <p class="member-description">${description}</p>
+                ${servicesHtml}
+                ${hashtagsHtml}
+                ${socialHtml}
                 ${contactHtml ? `<div class="member-contact">${contactHtml}</div>` : ''}
             </div>
         </div>
@@ -314,16 +309,99 @@ function buildContactHtml(contact) {
     
     let html = '';
     if (contact.email) {
-        html += `<p><strong>Email:</strong> <a href="mailto:${contact.email}" style="color: #D4AF37;">${contact.email}</a></p>`;
+        html += `<p><strong>Email</strong><a class="contact-link" href="mailto:${contact.email}">${contact.email}</a></p>`;
     }
     if (contact.phone) {
-        html += `<p><strong>電話:</strong> ${contact.phone}</p>`;
+        html += `<p><strong>電話</strong><span>${contact.phone}</span></p>`;
     }
     if (contact.line) {
-        html += `<p><strong>Line:</strong> ${contact.line}</p>`;
+        html += `<p><strong>Line</strong><span>${contact.line}</span></p>`;
     }
     
     return html;
+}
+
+// ============================================
+// 建立服務項目 HTML
+// ============================================
+function buildServicesHtml(services) {
+    if (!Array.isArray(services) || services.length === 0) return '';
+    const items = services
+        .filter(service => typeof service === 'string' && service.trim().length > 0)
+        .map(service => `<li>${service.trim()}</li>`)
+        .join('');
+    if (!items) return '';
+    return `
+        <div class="member-services">
+            <h4>服務項目</h4>
+            <ul class="member-services-list">
+                ${items}
+            </ul>
+        </div>
+    `;
+}
+
+// ============================================
+// 建立 Hashtag HTML
+// ============================================
+function buildHashtagsHtml(hashtags) {
+    if (!Array.isArray(hashtags) || hashtags.length === 0) return '';
+    const chips = hashtags
+        .filter(tag => typeof tag === 'string' && tag.trim().length > 0)
+        .map(tag => `<span class="hashtag-chip">${tag.trim()}</span>`)
+        .join('');
+    if (!chips) return '';
+    return `
+        <div class="member-hashtags">
+            ${chips}
+        </div>
+    `;
+}
+
+// ============================================
+// 建立社群連結 HTML
+// ============================================
+function buildSocialLinks(social) {
+    if (!social || typeof social !== 'object') return '';
+    const labelMap = {
+        website: { label: '官方網站', icon: '🌐' },
+        facebook: { label: 'Facebook', icon: '📘' },
+        instagram: { label: 'Instagram', icon: '📸' },
+        linkedin: { label: 'LinkedIn', icon: '💼' },
+        youtube: { label: 'YouTube', icon: '▶️' },
+        threads: { label: 'Threads', icon: '💬' },
+    };
+    const links = Object.entries(social)
+        .filter(([, value]) => typeof value === 'string' && value.trim().length > 0)
+        .map(([key, value]) => {
+            const meta = labelMap[key] || { label: key, icon: '🔗' };
+            const href = ensureUrlProtocol(value.trim());
+            const aria = `${meta.label} - ${value.trim()}`;
+            return `
+                <a class="member-social-link" href="${href}" target="_blank" rel="noopener noreferrer" aria-label="${aria}">
+                    <span class="social-icon">${meta.icon}</span>
+                    <span class="social-label">${meta.label}</span>
+                </a>
+            `;
+        })
+        .join('');
+    if (!links) return '';
+    return `
+        <div class="member-social">
+            ${links}
+        </div>
+    `;
+}
+
+// ============================================
+// 確保連結包含協定
+// ============================================
+function ensureUrlProtocol(url) {
+    if (!url) return '';
+    if (/^(https?:)?\/\//i.test(url) || url.startsWith('mailto:')) {
+        return url;
+    }
+    return `https://${url}`;
 }
 
 // ============================================
@@ -382,11 +460,11 @@ function initNavigation() {
     if (navbar) {
         window.addEventListener('scroll', () => {
             if (window.scrollY > 50) {
-                navbar.style.background = 'rgba(10, 10, 10, 0.98)';
-                navbar.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.3)';
+                navbar.style.background = 'rgba(6, 32, 58, 0.95)';
+                navbar.style.boxShadow = '0 12px 24px rgba(1, 27, 54, 0.35)';
             } else {
-                navbar.style.background = 'rgba(10, 10, 10, 0.95)';
-                navbar.style.boxShadow = 'none';
+                navbar.style.background = 'rgba(8, 38, 68, 0.9)';
+                navbar.style.boxShadow = '0 8px 18px rgba(1, 27, 54, 0.25)';
             }
         });
     }
