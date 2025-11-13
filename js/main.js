@@ -201,6 +201,9 @@ function displayMembers(members) {
     }
     
     membersGrid.innerHTML = members.map(member => createMemberCard(member)).join('');
+    
+    // 初始化摺疊功能
+    initMemberToggles();
 }
 
 // ============================================
@@ -231,13 +234,19 @@ function displayMembersByCategory(members) {
         const categoryMembers = membersByCategory[category];
         const count = categoryMembers.length;
         
+        const categoryId = `category-${category.replace(/\s+/g, '-').toLowerCase()}`;
         html += `
             <div class="category-section" data-category="${category}">
                 <div class="category-header">
-                    <h3 class="category-title">${category}</h3>
-                    <span class="category-count">${count} 位會員</span>
+                    <div class="category-header-left">
+                        <h3 class="category-title">${category}</h3>
+                        <span class="category-count">${count} 位會員</span>
+                    </div>
+                    <button class="category-toggle-btn expanded" aria-label="展開/摺疊分類" data-target="${categoryId}">
+                        <span class="toggle-icon">▲</span>
+                    </button>
                 </div>
-                <div class="category-members-grid">
+                <div class="category-members-grid expanded" id="${categoryId}-members">
                     ${categoryMembers.map(member => createMemberCard(member)).join('')}
                 </div>
             </div>
@@ -245,6 +254,10 @@ function displayMembersByCategory(members) {
     });
     
     membersGrid.innerHTML = html;
+    
+    // 初始化摺疊功能
+    initMemberToggles();
+    initCategoryToggles();
 }
 
 // ============================================
@@ -260,20 +273,32 @@ function createMemberCard(member) {
     const socialHtml = buildSocialLinks(member.social);
     const contactHtml = buildContactHtml(member.contact);
     const description = member.description || '專業服務提供商';
+    const memberId = `member-${member.name.replace(/\s+/g, '-').toLowerCase()}`;
     
     return `
-        <div class="member-card">
-            <div class="member-photo-container">
-                <img src="${photoPath || placeholderSvg}" alt="${member.name}" class="member-photo" onerror="this.src='${placeholderSvg}';">
+        <div class="member-card" data-member-id="${memberId}">
+            <div class="member-header">
+                <div class="member-photo-container">
+                    <img src="${photoPath || placeholderSvg}" alt="${member.name}" class="member-photo" onerror="this.src='${placeholderSvg}';">
+                </div>
+                <div class="member-basic-info">
+                    <div class="member-name-industry">
+                        <span class="member-industry">${member.industry || ''}</span>
+                        <h3 class="member-name">${member.name}</h3>
+                    </div>
+                    <button class="member-toggle-btn" aria-label="展開/摺疊會員資訊" data-target="${memberId}">
+                        <span class="toggle-icon">▼</span>
+                    </button>
+                </div>
             </div>
-            <div class="member-info">
-                <h3 class="member-name">${member.name}</h3>
-                <span class="member-industry">${member.industry || ''}</span>
-                <p class="member-description">${description}</p>
-                ${servicesHtml}
-                ${hashtagsHtml}
-                ${socialHtml}
-                ${contactHtml ? `<div class="member-contact">${contactHtml}</div>` : ''}
+            <div class="member-details" id="${memberId}-details">
+                <div class="member-info">
+                    <p class="member-description">${description}</p>
+                    ${servicesHtml}
+                    ${hashtagsHtml}
+                    ${socialHtml}
+                    ${contactHtml ? `<div class="member-contact">${contactHtml}</div>` : ''}
+                </div>
             </div>
         </div>
     `;
@@ -532,6 +557,46 @@ function initBackToTop() {
         window.scrollTo({
             top: 0,
             behavior: 'smooth'
+        });
+    });
+}
+
+// ============================================
+// 初始化會員卡片摺疊功能
+// ============================================
+function initMemberToggles() {
+    const toggleButtons = document.querySelectorAll('.member-toggle-btn');
+    toggleButtons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const targetId = btn.getAttribute('data-target');
+            const detailsElement = document.getElementById(`${targetId}-details`);
+            const icon = btn.querySelector('.toggle-icon');
+            
+            if (detailsElement) {
+                const isExpanded = detailsElement.classList.toggle('expanded');
+                btn.classList.toggle('expanded', isExpanded);
+                icon.textContent = isExpanded ? '▲' : '▼';
+            }
+        });
+    });
+}
+
+// ============================================
+// 初始化類別摺疊功能
+// ============================================
+function initCategoryToggles() {
+    const toggleButtons = document.querySelectorAll('.category-toggle-btn');
+    toggleButtons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const targetId = btn.getAttribute('data-target');
+            const membersGrid = document.getElementById(`${targetId}-members`);
+            const icon = btn.querySelector('.toggle-icon');
+            
+            if (membersGrid) {
+                const isExpanded = membersGrid.classList.toggle('expanded');
+                btn.classList.toggle('expanded', isExpanded);
+                icon.textContent = isExpanded ? '▲' : '▼';
+            }
         });
     });
 }
