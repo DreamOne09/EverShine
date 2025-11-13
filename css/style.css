@@ -586,8 +586,8 @@ body::after {
         radial-gradient(ellipse 2200px 1600px at 50% 80%, var(--nebula-blue-light) 0%, transparent 85%);
     animation: cosmicPulse 35s ease-in-out infinite;
     mix-blend-mode: screen;
-    opacity: 0.7;
-    z-index: 0;
+    opacity: 0.3;
+    z-index: -1;
     pointer-events: none;
 }
 
@@ -629,11 +629,11 @@ body::after {
     height: 100%;
     background: linear-gradient(
         180deg,
-        rgba(0, 0, 0, 0.4) 0%,
-        rgba(0, 15, 30, 0.5) 30%,
-        rgba(0, 20, 40, 0.6) 50%,
-        rgba(0, 15, 30, 0.5) 70%,
-        rgba(0, 0, 0, 0.7) 100%
+        rgba(0, 0, 0, 0.2) 0%,
+        rgba(0, 15, 30, 0.25) 30%,
+        rgba(0, 20, 40, 0.3) 50%,
+        rgba(0, 15, 30, 0.25) 70%,
+        rgba(0, 0, 0, 0.4) 100%
     );
     z-index: 1;
 }
