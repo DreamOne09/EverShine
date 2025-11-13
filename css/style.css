@@ -29,11 +29,12 @@ html {
 body {
     font-family: 'Noto Sans TC', sans-serif;
     background-color: var(--bg-primary);
-    background-image:
-        radial-gradient(circle at 22% 18%, rgba(120, 87, 255, 0.28), transparent 55%),
-        radial-gradient(circle at 78% 12%, rgba(255, 120, 196, 0.22), transparent 50%),
-        radial-gradient(circle at 50% 80%, rgba(35, 150, 255, 0.18), transparent 60%),
-        linear-gradient(180deg, rgba(0, 46, 92, 0.95) 0%, rgba(0, 24, 44, 0.98) 100%);
+    background:
+        radial-gradient(ellipse 800px 600px at 20% 25%, rgba(110, 84, 255, 0.4) 0%, transparent 60%),
+        radial-gradient(ellipse 700px 500px at 75% 30%, rgba(255, 132, 206, 0.35) 0%, transparent 55%),
+        radial-gradient(ellipse 900px 700px at 50% 80%, rgba(35, 150, 255, 0.3) 0%, transparent 65%),
+        radial-gradient(ellipse 600px 400px at 10% 70%, rgba(76, 168, 223, 0.25) 0%, transparent 50%),
+        linear-gradient(180deg, rgba(0, 24, 48, 0.98) 0%, rgba(0, 15, 30, 0.99) 50%, rgba(0, 24, 48, 0.98) 100%);
     color: var(--text-white);
     line-height: 1.6;
     overflow-x: hidden;
@@ -72,15 +73,14 @@ body::after {
     position: fixed;
     inset: 0;
     background:
-        radial-gradient(circle at 20% 65%, rgba(110, 84, 255, 0.32) 0%, transparent 55%),
-        radial-gradient(circle at 75% 30%, rgba(255, 132, 206, 0.25) 0%, transparent 55%),
-        radial-gradient(circle at 55% 80%, rgba(76, 168, 223, 0.18) 0%, transparent 60%),
-        radial-gradient(circle at 40% 20%, rgba(120, 87, 255, 0.15) 0%, transparent 50%);
+        radial-gradient(circle 400px at 30% 40%, rgba(110, 84, 255, 0.25) 0%, transparent 60%),
+        radial-gradient(circle 350px at 70% 60%, rgba(255, 132, 206, 0.2) 0%, transparent 55%),
+        radial-gradient(circle 500px at 50% 20%, rgba(76, 168, 223, 0.18) 0%, transparent 65%);
+    animation: nebulaFloat 25s ease-in-out infinite;
     mix-blend-mode: screen;
-    opacity: 0.9;
+    opacity: 0.8;
     z-index: -2;
     pointer-events: none;
-    animation: nebulaDrift 60s ease-in-out infinite;
 }
 
 @keyframes nebulaDrift {
@@ -93,69 +93,81 @@ body::after {
 @keyframes shootingStar1 {
     0% {
         opacity: 0;
-        transform: translate(-150px, -150px) rotate(45deg);
+        transform: translate(-200px, -200px) rotate(45deg) scale(0.5);
     }
-    5% {
-        opacity: 0.6;
+    2% {
+        opacity: 0.8;
+        transform: translate(-150px, -150px) rotate(45deg) scale(0.7);
     }
-    15% {
+    10% {
+        opacity: 1;
+        transform: translate(calc(50vw - 200px), calc(50vh - 200px)) rotate(45deg) scale(1);
+    }
+    20% {
         opacity: 0.9;
+        transform: translate(calc(100vw + 200px), calc(100vh + 200px)) rotate(45deg) scale(0.8);
     }
-    25% {
-        opacity: 0.7;
-    }
-    40% {
-        opacity: 0.3;
+    30% {
+        opacity: 0.5;
+        transform: translate(calc(100vw + 300px), calc(100vh + 300px)) rotate(45deg) scale(0.6);
     }
     100% {
         opacity: 0;
-        transform: translate(calc(100vw + 300px), calc(100vh + 300px)) rotate(45deg);
+        transform: translate(calc(100vw + 400px), calc(100vh + 400px)) rotate(45deg) scale(0.3);
     }
 }
 
 @keyframes shootingStar2 {
     0% {
         opacity: 0;
-        transform: translate(calc(100vw + 150px), -200px) rotate(-45deg);
+        transform: translate(calc(100vw + 200px), -250px) rotate(-45deg) scale(0.5);
     }
-    8% {
-        opacity: 0.5;
+    3% {
+        opacity: 0.7;
+        transform: translate(calc(100vw + 150px), -200px) rotate(-45deg) scale(0.7);
     }
-    18% {
+    12% {
+        opacity: 1;
+        transform: translate(calc(50vw + 100px), calc(50vh - 100px)) rotate(-45deg) scale(1);
+    }
+    22% {
         opacity: 0.85;
+        transform: translate(-100px, calc(100vh + 100px)) rotate(-45deg) scale(0.8);
     }
-    28% {
-        opacity: 0.6;
-    }
-    45% {
-        opacity: 0.2;
+    35% {
+        opacity: 0.4;
+        transform: translate(-200px, calc(100vh + 200px)) rotate(-45deg) scale(0.6);
     }
     100% {
         opacity: 0;
-        transform: translate(-250px, calc(100vh + 200px)) rotate(-45deg);
+        transform: translate(-300px, calc(100vh + 300px)) rotate(-45deg) scale(0.3);
     }
 }
 
 @keyframes shootingStar3 {
     0% {
         opacity: 0;
-        transform: translate(50vw, -250px) rotate(30deg);
+        transform: translate(calc(50vw - 100px), -300px) rotate(30deg) scale(0.5);
     }
-    10% {
-        opacity: 0.55;
+    4% {
+        opacity: 0.75;
+        transform: translate(50vw, -250px) rotate(30deg) scale(0.8);
     }
-    20% {
+    15% {
+        opacity: 1;
+        transform: translate(calc(50vw + 200px), calc(50vh + 50px)) rotate(30deg) scale(1);
+    }
+    25% {
         opacity: 0.8;
+        transform: translate(calc(50vw + 350px), calc(100vh + 200px)) rotate(30deg) scale(0.85);
     }
-    30% {
-        opacity: 0.5;
-    }
-    50% {
-        opacity: 0.15;
+    40% {
+        opacity: 0.3;
+        transform: translate(calc(50vw + 450px), calc(100vh + 300px)) rotate(30deg) scale(0.5);
     }
     100% {
         opacity: 0;
-        transform: translate(calc(50vw + 400px), calc(100vh + 250px)) rotate(30deg);
+        transform: translate(calc(50vw + 550px), calc(100vh + 400px)) rotate(30deg) scale(0.2);
     }
 }
 
@@ -173,48 +185,63 @@ body::after {
 
 .meteor {
     position: absolute;
-    width: 2px;
-    height: 100px;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, rgba(76, 168, 223, 0.7) 30%, rgba(76, 168, 223, 0.4) 60%, transparent 100%);
-    border-radius: 2px;
-    box-shadow: 0 0 8px rgba(76, 168, 223, 0.6), 0 0 16px rgba(76, 168, 223, 0.3);
-    opacity: 0.8;
-    filter: blur(0.5px);
+    width: 3px;
+    height: 150px;
+    background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 1) 0%,
+        rgba(255, 255, 255, 0.9) 5%,
+        rgba(135, 206, 250, 0.8) 15%,
+        rgba(76, 168, 223, 0.6) 30%,
+        rgba(76, 168, 223, 0.4) 50%,
+        rgba(76, 168, 223, 0.2) 70%,
+        rgba(76, 168, 223, 0.1) 85%,
+        transparent 100%
+    );
+    border-radius: 50% 50% 50% 0;
+    box-shadow: 
+        0 0 10px rgba(255, 255, 255, 0.8),
+        0 0 20px rgba(135, 206, 250, 0.6),
+        0 0 30px rgba(76, 168, 223, 0.4),
+        0 0 40px rgba(76, 168, 223, 0.2);
+    opacity: 0;
+    filter: blur(1px);
+    transform-origin: top center;
 }
 
 .meteor:nth-child(1) {
-    top: 10%;
-    left: 10%;
-    animation: shootingStar1 8s ease-in-out infinite;
+    top: 15%;
+    left: 5%;
+    animation: shootingStar1 6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
     animation-delay: 0s;
 }
 
 .meteor:nth-child(2) {
-    top: 30%;
-    right: 15%;
-    animation: shootingStar2 12s ease-in-out infinite;
-    animation-delay: 3s;
+    top: 25%;
+    right: 10%;
+    animation: shootingStar2 7s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    animation-delay: 2.5s;
 }
 
 .meteor:nth-child(3) {
-    top: 60%;
-    left: 50%;
-    animation: shootingStar3 10s ease-in-out infinite;
-    animation-delay: 6s;
+    top: 55%;
+    left: 45%;
+    animation: shootingStar3 8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    animation-delay: 5s;
 }
 
 .meteor:nth-child(4) {
-    top: 20%;
-    left: 70%;
-    animation: shootingStar1 9s ease-in-out infinite;
-    animation-delay: 4s;
+    top: 18%;
+    left: 65%;
+    animation: shootingStar1 6.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    animation-delay: 3.8s;
 }
 
 .meteor:nth-child(5) {
-    top: 80%;
-    left: 30%;
-    animation: shootingStar2 11s ease-in-out infinite;
-    animation-delay: 7s;
+    top: 75%;
+    left: 25%;
+    animation: shootingStar2 7.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    animation-delay: 6.2s;
 }
 
 
