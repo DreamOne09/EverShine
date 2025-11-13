@@ -2513,6 +2513,16 @@ body::after {
     .hero-background {
         background-attachment: scroll;
     }
+    
+    .page-hero .hero-background {
+        background-attachment: scroll;
+    }
+    
+    .page-hero .hero-content {
+        padding: 2rem 1.5rem;
+        max-width: 95%;
+        border-radius: 12px;
+    }
 
     .section-title {
         font-size: 1.8rem;
