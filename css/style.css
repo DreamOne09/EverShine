@@ -643,7 +643,7 @@ body::after {
    ============================================ */
 .metrics {
     padding: 5rem 0;
-    background: var(--bg-dark);
+    background: transparent;
     position: relative;
     overflow: hidden;
 }
@@ -753,7 +753,7 @@ body::after {
    ============================================ */
 .about {
     padding: 5rem 0;
-    background: var(--bg-darker);
+    background: transparent;
     position: relative;
     overflow: hidden;
 }
@@ -910,7 +910,7 @@ body::after {
    ============================================ */
 .timeline {
     padding: 5rem 0;
-    background: var(--bg-darker);
+    background: transparent;
     position: relative;
     overflow: hidden;
 }
@@ -1050,7 +1050,7 @@ body::after {
    ============================================ */
 .members {
     padding: 5rem 0;
-    background: var(--bg-dark);
+    background: transparent;
     position: relative;
     overflow: hidden;
 }
@@ -1410,7 +1410,7 @@ body::after {
    ============================================ */
 .join {
     padding: 5rem 0;
-    background: var(--bg-darker);
+    background: transparent;
     position: relative;
     overflow: hidden;
 }
@@ -1485,7 +1485,7 @@ body::after {
    ============================================ */
 .contact {
     padding: 5rem 0;
-    background: var(--bg-dark);
+    background: transparent;
     position: relative;
     overflow: hidden;
 }
@@ -1574,7 +1574,7 @@ body::after {
    頁尾
    ============================================ */
 .footer {
-    background: var(--bg-darker);
+    background: transparent;
     padding: 3rem 0 1rem;
     border-top: 1px solid var(--border-gold);
     position: relative;
@@ -1762,7 +1762,7 @@ body::after {
     text-align: center;
     overflow: hidden;
     padding-top: 80px;
-    background: var(--bg-darker);
+    background: transparent;
 }
 
 .page-hero::before {
@@ -1802,7 +1802,7 @@ body::after {
    ============================================ */
 .unique-features {
     padding: 6rem 0;
-    background: linear-gradient(180deg, var(--bg-darker) 0%, var(--bg-dark) 100%);
+    background: transparent;
     position: relative;
     overflow: hidden;
 }
@@ -2130,7 +2130,7 @@ body::after {
    ============================================ */
 .members-preview {
     padding: 5rem 0;
-    background: var(--bg-darker);
+    background: transparent;
     text-align: center;
     position: relative;
     overflow: hidden;
@@ -2185,7 +2185,7 @@ body::after {
    ============================================ */
 .referrals-intro {
     padding: 4rem 0;
-    background: var(--bg-dark);
+    background: transparent;
     position: relative;
     overflow: hidden;
 }
@@ -2262,7 +2262,7 @@ body::after {
 
 .referrals {
     padding: 4rem 0;
-    background: var(--bg-darker);
+    background: transparent;
     position: relative;
     overflow: hidden;
 }
