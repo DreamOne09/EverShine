@@ -8,6 +8,11 @@ let allCategories = [];
 // 頁面載入完成後初始化
 // ============================================
 document.addEventListener('DOMContentLoaded', () => {
+    // 載入共用組件（導航欄、頁尾、橫幅等）
+    if (typeof initComponents === 'function') {
+        initComponents();
+    }
+    
     // 檢查是否有會員展示區，才載入會員資料
     if (document.getElementById('membersGrid')) {
         loadMembersData();
@@ -48,34 +53,16 @@ function handleAnchorNavigation() {
 }
 
 // ============================================
-// 載入會員資料
+// 載入會員資料 - 簡化路徑處理（遵循 KISS 原則）
 // ============================================
 async function loadMembersData() {
     try {
-        // 嘗試多種路徑，確保在不同環境下都能正常運作
-        let response;
-        const paths = [
-            './data/members.json',
-            'data/members.json',
-            '/data/members.json',
-            '../data/members.json'
-        ];
+        // 簡化：只嘗試最常見的路徑
+        const dataPath = 'data/members.json';
+        const response = await fetch(dataPath);
         
-        let lastError = null;
-        for (const path of paths) {
-            try {
-                response = await fetch(path);
-                if (response.ok) {
-                    break;
-                }
-            } catch (err) {
-                lastError = err;
-                continue;
-            }
-        }
-        
-        if (!response || !response.ok) {
-            throw new Error(`無法載入會員資料檔案。請確認檔案存在於 data/members.json，或使用 HTTP 伺服器開啟網站（避免 CORS 限制）。`);
+        if (!response.ok) {
+            throw new Error(`無法載入會員資料檔案。請確認檔案存在於 ${dataPath}，或使用 HTTP 伺服器開啟網站（避免 CORS 限制）。`);
         }
         
         const data = await response.json();

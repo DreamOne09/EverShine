@@ -11,40 +11,35 @@ const categoryMapping = {
     "其他": []
 };
 
-// 根據產業別取得分類
+// 根據產業別取得分類 - 簡化邏輯（遵循 KISS 原則）
 function getCategoryByIndustry(industry) {
+    // 先檢查映射表
     for (const [category, industries] of Object.entries(categoryMapping)) {
         if (industries.includes(industry)) {
             return category;
         }
     }
-    // 如果找不到分類，根據產業名稱關鍵字判斷
+    
+    // 如果找不到，使用關鍵字匹配（簡化版）
     const industryLower = industry.toLowerCase();
-    if (industryLower.includes('顧問') || industryLower.includes('顧問') || industryLower.includes('設計') && !industryLower.includes('包裝') && !industryLower.includes('插畫')) {
-        return "企業顧問";
+    const keywordMap = {
+        '企業顧問': ['顧問', '律師', '會計', '地政', '專利', '信託', '人力'],
+        '企業行銷': ['行銷', '設計', '創意', '包裝', '插畫', '團體服', '禮贈品'],
+        '資訊系統': ['系統', '資訊', '網站', 'line', '機電', '弱電'],
+        '工程裝修': ['工程', '裝修', '空調', '水電', '泥作', '商空', '住宅', '策展', '燈具'],
+        '健康美麗': ['健康', '美麗', '保險', '營養', '醫療', '健身', '寵物', '共享', '指甲', '物理治療'],
+        '休閒教育': ['教育', '教學', '輔導', '魔術'],
+        '投資理財': ['投資', '理財', '黃金', '交易'],
+        '美食餐飲': ['餐飲', '美食', '茶葉', '烘焙', '麵包', '食物', '雞蛋糕']
+    };
+    
+    for (const [category, keywords] of Object.entries(keywordMap)) {
+        if (keywords.some(keyword => industryLower.includes(keyword))) {
+            return category;
+        }
     }
-    if (industryLower.includes('行銷') || industryLower.includes('設計') || industryLower.includes('創意') || industryLower.includes('包裝') || industryLower.includes('插畫') || industryLower.includes('團體服')) {
-        return "企業行銷";
-    }
-    if (industryLower.includes('系統') || industryLower.includes('資訊') || industryLower.includes('網站') || industryLower.includes('line')) {
-        return "資訊系統";
-    }
-    if (industryLower.includes('工程') || industryLower.includes('裝修') || industryLower.includes('設計') && (industryLower.includes('商空') || industryLower.includes('住宅') || industryLower.includes('策展'))) {
-        return "工程裝修";
-    }
-    if (industryLower.includes('健康') || industryLower.includes('美麗') || industryLower.includes('保險') || industryLower.includes('營養') || industryLower.includes('醫療') || industryLower.includes('健身') || industryLower.includes('寵物') || industryLower.includes('共享')) {
-        return "健康美麗";
-    }
-    if (industryLower.includes('教育') || industryLower.includes('教學') || industryLower.includes('輔導')) {
-        return "休閒教育";
-    }
-    if (industryLower.includes('投資') || industryLower.includes('理財') || industryLower.includes('黃金') || industryLower.includes('交易') || industryLower.includes('ai程式')) {
-        return "投資理財";
-    }
-    if (industryLower.includes('餐飲') || industryLower.includes('美食') || industryLower.includes('茶葉') || industryLower.includes('烘焙') || industryLower.includes('麵包') || industryLower.includes('食物')) {
-        return "美食餐飲";
-    }
-    // 預設歸類為企業顧問
+    
+    // 預設歸類
     console.warn(`未找到產業 "${industry}" 的分類，預設歸類為「企業顧問」`);
     return "企業顧問";
 }
