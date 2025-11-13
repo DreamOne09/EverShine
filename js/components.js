@@ -45,8 +45,10 @@ function getNavigationHTML() {
                         </svg>
                     </a>
                     <a href="https://www.threads.com/@chhubni" target="_blank" rel="noopener noreferrer" class="nav-social-link" aria-label="Threads">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 2.163c5.42 0 9.837 4.417 9.837 9.837S17.42 21.837 12 21.837 2.163 17.42 2.163 12 6.58 2.163 12 2.163zm-1.5 4.5c-2.485 0-4.5 2.015-4.5 4.5s2.015 4.5 4.5 4.5c.83 0 1.58-.225 2.235-.618l-1.235-1.235c-.315.21-.675.353-1.06.353-1.105 0-2-.895-2-2s.895-2 2-2c.385 0 .745.143 1.06.353l1.235-1.235c-.655-.393-1.405-.618-2.235-.618zm3 0c-.83 0-1.58.225-2.235.618l1.235 1.235c.315-.21.675-.353 1.06-.353 1.105 0 2 .895 2 2s-.895 2-2 2c-.385 0-.745-.143-1.06-.353l-1.235 1.235c.655.393 1.405.618 2.235.618 2.485 0 4.5-2.015 4.5-4.5s-2.015-4.5-4.5-4.5z"/>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                            <path d="M8 12c0-2.21 1.79-4 4-4s4 1.79 4 4-1.79 4-4 4-4-1.79-4-4z" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                            <path d="M16 8l-2 2 2 2M8 16l2-2-2-2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </a>
                 </li>
@@ -90,8 +92,10 @@ function getFooterHTML() {
                             <span class="social-name">Instagram</span>
                         </a>
                         <a href="https://www.threads.com/@chhubni" target="_blank" rel="noopener noreferrer" class="footer-social-link" aria-label="Threads">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 2.163c5.42 0 9.837 4.417 9.837 9.837S17.42 21.837 12 21.837 2.163 17.42 2.163 12 6.58 2.163 12 2.163zm-1.5 4.5c-2.485 0-4.5 2.015-4.5 4.5s2.015 4.5 4.5 4.5c.83 0 1.58-.225 2.235-.618l-1.235-1.235c-.315.21-.675.353-1.06.353-1.105 0-2-.895-2-2s.895-2 2-2c.385 0 .745.143 1.06.353l1.235-1.235c-.655-.393-1.405-.618-2.235-.618zm3 0c-.83 0-1.58.225-2.235.618l1.235 1.235c.315-.21.675-.353 1.06-.353 1.105 0 2 .895 2 2s-.895 2-2 2c-.385 0-.745-.143-1.06-.353l-1.235 1.235c.655.393 1.405.618 2.235.618 2.485 0 4.5-2.015 4.5-4.5s-2.015-4.5-4.5-4.5z"/>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                                <path d="M8 12c0-2.21 1.79-4 4-4s4 1.79 4 4-1.79 4-4 4-4-1.79-4-4z" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                                <path d="M16 8l-2 2 2 2M8 16l2-2-2-2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
                             <span class="social-name">Threads</span>
                         </a>

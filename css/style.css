@@ -928,6 +928,9 @@ body::after {
     background: transparent;
     position: relative;
     overflow: hidden;
+    border: none;
+    border-top: none;
+    border-bottom: none;
 }
 
 .metrics::before,
@@ -1011,6 +1014,9 @@ body::after {
     background: transparent;
     position: relative;
     overflow: hidden;
+    border: none;
+    border-top: none;
+    border-bottom: none;
 }
 
 .about::before,
@@ -1141,6 +1147,9 @@ body::after {
     background: transparent;
     position: relative;
     overflow: hidden;
+    border: none;
+    border-top: none;
+    border-bottom: none;
 }
 
 .timeline::before,
@@ -1268,6 +1277,9 @@ body::after {
     background: transparent;
     position: relative;
     overflow: hidden;
+    border: none;
+    border-top: none;
+    border-bottom: none;
 }
 
 .members::before,
@@ -1600,6 +1612,9 @@ body::after {
     background: transparent;
     position: relative;
     overflow: hidden;
+    border: none;
+    border-top: none;
+    border-bottom: none;
 }
 
 .join::before,
@@ -1662,6 +1677,9 @@ body::after {
     background: transparent;
     position: relative;
     overflow: hidden;
+    border: none;
+    border-top: none;
+    border-bottom: none;
 }
 
 .contact::before,
@@ -1884,6 +1902,9 @@ body::after {
     overflow: hidden;
     padding-top: 80px;
     background: transparent;
+    border: none;
+    border-top: none;
+    border-bottom: none;
 }
 
 .page-hero::before,
@@ -1899,6 +1920,9 @@ body::after {
     background: transparent;
     position: relative;
     overflow: hidden;
+    border: none;
+    border-top: none;
+    border-bottom: none;
 }
 
 .unique-features::before,
