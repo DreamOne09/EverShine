@@ -288,7 +288,7 @@ body::after {
     transform-origin: top left;
 }
 
-/* 流星1: 向右下45度移動，尾巴在左上 */
+/* 流星1: 向右下45度移動，尾巴應該在左上方（與飛行方向相反） */
 .meteor:nth-child(1) {
     top: 10%;
     left: 5%;
@@ -306,9 +306,10 @@ body::after {
     );
     animation: shootingStar1 12s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
     animation-delay: 0s;
+    transform-origin: bottom right;
 }
 
-/* 流星2: 向左下-45度移動，尾巴在右上 */
+/* 流星2: 向左下-45度移動，尾巴應該在右上方（與飛行方向相反） */
 .meteor:nth-child(2) {
     top: 20%;
     right: 8%;
@@ -326,9 +327,10 @@ body::after {
     );
     animation: shootingStar2 14s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
     animation-delay: 3s;
+    transform-origin: bottom left;
 }
 
-/* 流星3: 向右下30度移動，尾巴在左上 */
+/* 流星3: 向右下30度移動，尾巴應該在左上方（與飛行方向相反） */
 .meteor:nth-child(3) {
     top: 50%;
     left: 40%;
@@ -346,6 +348,7 @@ body::after {
     );
     animation: shootingStar3 15s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
     animation-delay: 6s;
+    transform-origin: bottom right;
 }
 
 /* 流星4: 向右下45度移動，尾巴在左上 */
@@ -772,12 +775,7 @@ body::after {
     z-index: 1;
     max-width: 800px;
     padding: 3rem 2.5rem;
-    background: var(--glass-bg-dark);
-    backdrop-filter: var(--glass-blur-medium);
-    -webkit-backdrop-filter: var(--glass-blur-medium);
-    border-radius: 25px;
-    border: 1px solid var(--glass-border-light);
-    box-shadow: var(--glass-shadow);
+    background: transparent;
 }
 
 .hero-title {
@@ -930,36 +928,9 @@ body::after {
     overflow: hidden;
 }
 
-.metrics::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image:
-        radial-gradient(1px 1px at 18% 28%, rgba(255, 255, 255, 0.5), transparent),
-        radial-gradient(0.8px 0.8px at 58% 68%, rgba(169, 214, 255, 0.4), transparent),
-        radial-gradient(1.2px 1.2px at 78% 18%, rgba(255, 255, 255, 0.45), transparent);
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-    opacity: 0.3;
-    pointer-events: none;
-    z-index: 0;
-}
-
+.metrics::before,
 .metrics::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background:
-        radial-gradient(circle at 30% 40%, rgba(76, 168, 223, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 70% 60%, rgba(110, 84, 255, 0.08) 0%, transparent 50%);
-    pointer-events: none;
-    z-index: 0;
+    display: none;
 }
 
 .metrics-grid {
@@ -1040,36 +1011,9 @@ body::after {
     overflow: hidden;
 }
 
-.about::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image:
-        radial-gradient(1px 1px at 13% 48%, rgba(200, 230, 255, 0.4), transparent),
-        radial-gradient(1.2px 1.2px at 43% 23%, rgba(255, 255, 255, 0.45), transparent),
-        radial-gradient(0.9px 0.9px at 73% 73%, rgba(115, 188, 255, 0.4), transparent);
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-    opacity: 0.3;
-    pointer-events: none;
-    z-index: 0;
-}
-
+.about::before,
 .about::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background:
-        radial-gradient(circle at 25% 30%, rgba(110, 84, 255, 0.12) 0%, transparent 55%),
-        radial-gradient(circle at 75% 70%, rgba(76, 168, 223, 0.1) 0%, transparent 50%);
-    pointer-events: none;
-    z-index: 0;
+    display: none;
 }
 
 .about-content {
@@ -1337,37 +1281,9 @@ body::after {
     overflow: hidden;
 }
 
-.members::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image:
-        radial-gradient(1px 1px at 28% 18%, rgba(255, 255, 255, 0.4), transparent),
-        radial-gradient(0.9px 0.9px at 53% 58%, rgba(169, 214, 255, 0.35), transparent),
-        radial-gradient(1.2px 1.2px at 83% 38%, rgba(255, 255, 255, 0.45), transparent),
-        radial-gradient(0.8px 0.8px at 18% 78%, rgba(115, 188, 255, 0.35), transparent);
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-    opacity: 0.3;
-    pointer-events: none;
-    z-index: 0;
-}
-
+.members::before,
 .members::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background:
-        radial-gradient(circle at 40% 25%, rgba(76, 168, 223, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 60% 75%, rgba(255, 132, 206, 0.08) 0%, transparent 50%);
-    pointer-events: none;
-    z-index: 0;
+    display: none;
 }
 
 .filter-section {
@@ -1697,22 +1613,9 @@ body::after {
     overflow: hidden;
 }
 
-.join::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image:
-        radial-gradient(1px 1px at 20% 30%, rgba(255, 255, 255, 0.4), transparent),
-        radial-gradient(0.9px 0.9px at 50% 60%, rgba(169, 214, 255, 0.35), transparent),
-        radial-gradient(1.1px 1.1px at 80% 25%, rgba(115, 188, 255, 0.4), transparent);
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-    opacity: 0.3;
-    pointer-events: none;
-    z-index: 0;
+.join::before,
+.join::after {
+    display: none;
 }
 
 .join-content {
@@ -1772,36 +1675,9 @@ body::after {
     overflow: hidden;
 }
 
-.contact::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image:
-        radial-gradient(1px 1px at 23% 38%, rgba(255, 255, 255, 0.4), transparent),
-        radial-gradient(0.8px 0.8px at 53% 13%, rgba(169, 214, 255, 0.35), transparent),
-        radial-gradient(1.1px 1.1px at 78% 68%, rgba(255, 255, 255, 0.45), transparent);
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-    opacity: 0.3;
-    pointer-events: none;
-    z-index: 0;
-}
-
+.contact::before,
 .contact::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background:
-        radial-gradient(circle at 35% 50%, rgba(76, 168, 223, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 65% 30%, rgba(110, 84, 255, 0.08) 0%, transparent 50%);
-    pointer-events: none;
-    z-index: 0;
+    display: none;
 }
 
 .contact-grid {
@@ -1863,35 +1739,9 @@ body::after {
     overflow: hidden;
 }
 
-.footer::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image:
-        radial-gradient(0.9px 0.9px at 18% 28%, rgba(200, 230, 255, 0.35), transparent),
-        radial-gradient(1px 1px at 58% 58%, rgba(115, 188, 255, 0.35), transparent),
-        radial-gradient(1.1px 1.1px at 83% 23%, rgba(255, 255, 255, 0.4), transparent);
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-    opacity: 0.25;
-    pointer-events: none;
-    z-index: 0;
-}
-
+.footer::before,
 .footer::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background:
-        radial-gradient(circle at 30% 40%, rgba(76, 168, 223, 0.08) 0%, transparent 50%);
-    pointer-events: none;
-    z-index: 0;
+    display: none;
 }
 
 .footer-content {
@@ -2047,36 +1897,9 @@ body::after {
     background: transparent;
 }
 
-.page-hero::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image:
-        radial-gradient(1px 1px at 18% 28%, rgba(255, 255, 255, 0.4), transparent),
-        radial-gradient(0.8px 0.8px at 58% 68%, rgba(169, 214, 255, 0.35), transparent),
-        radial-gradient(1.2px 1.2px at 78% 18%, rgba(255, 255, 255, 0.45), transparent);
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-    opacity: 0.3;
-    pointer-events: none;
-    z-index: 0;
-}
-
+.page-hero::before,
 .page-hero::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background:
-        radial-gradient(circle at 30% 40%, rgba(76, 168, 223, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 70% 60%, rgba(110, 84, 255, 0.08) 0%, transparent 50%);
-    pointer-events: none;
-    z-index: 0;
+    display: none;
 }
 
 /* ============================================
@@ -2089,37 +1912,9 @@ body::after {
     overflow: hidden;
 }
 
-.unique-features::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image:
-        radial-gradient(1px 1px at 23% 33%, rgba(255, 255, 255, 0.4), transparent),
-        radial-gradient(0.9px 0.9px at 48% 13%, rgba(169, 214, 255, 0.35), transparent),
-        radial-gradient(1.2px 1.2px at 68% 63%, rgba(255, 255, 255, 0.45), transparent),
-        radial-gradient(0.8px 0.8px at 88% 28%, rgba(115, 188, 255, 0.35), transparent);
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-    opacity: 0.3;
-    pointer-events: none;
-    z-index: 0;
-}
-
+.unique-features::before,
 .unique-features::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: 
-        radial-gradient(circle at 30% 50%, rgba(76, 168, 223, 0.12) 0%, transparent 50%),
-        radial-gradient(circle at 70% 20%, rgba(110, 84, 255, 0.1) 0%, transparent 50%);
-    pointer-events: none;
-    z-index: 0;
+    display: none;
 }
 
 .features-content {
@@ -2756,6 +2551,10 @@ body::after {
         max-width: 224px;
     }
 
+    .hero-content {
+        padding: 2rem 1.5rem;
+    }
+
     .nav-menu {
         position: fixed;
         left: -100%;
@@ -2885,12 +2684,22 @@ body::after {
         max-width: 192px;
     }
 
+    .hero-content {
+        padding: 1.5rem 1rem;
+    }
+
     .hero-title {
         font-size: 2rem;
+        line-height: 1.2;
     }
 
     .hero-subtitle {
         font-size: 1.2rem;
+    }
+
+    .hero-description {
+        font-size: 0.95rem;
+        line-height: 1.6;
     }
 
     .section-title {
