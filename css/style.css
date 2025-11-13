@@ -465,25 +465,7 @@ body::after {
     66% { transform: translate(-20px, 30px) scale(0.9); }
 }
 
-.hero-background::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image:
-        linear-gradient(45deg, transparent 48%, rgba(76, 168, 223, 0.1) 49%, rgba(76, 168, 223, 0.1) 51%, transparent 52%),
-        linear-gradient(-45deg, transparent 48%, rgba(110, 84, 255, 0.08) 49%, rgba(110, 84, 255, 0.08) 51%, transparent 52%);
-    background-size: 100px 100px, 120px 120px;
-    opacity: 0.3;
-    animation: shootingStars 15s linear infinite;
-}
-
-@keyframes shootingStars {
-    0% { transform: translateX(-100px) translateY(-100px); }
-    100% { transform: translateX(100vw) translateY(100vh); }
-}
+/* 移除網格動畫效果 */
 
 .hero-content {
     position: relative;
