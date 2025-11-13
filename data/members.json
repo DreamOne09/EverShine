@@ -3,7 +3,7 @@
     {
       "name": "何昇軒",
       "industry": "律師",
-      "photo": "會員照片/正式會員-20251105T073702Z-1-001/正式會員/07 何昇軒 v/20221021-37-1.jpg",
+      "photo": "images/members/何昇軒.jpg",
       "description": "專業法律服務，提供各類法律諮詢與訴訟代理服務。",
       "contact": {
         "email": "",
@@ -25,7 +25,7 @@
     {
       "name": "劉弼凱",
       "industry": "水電工程",
-      "photo": "會員照片/正式會員-20251105T073702Z-1-001/正式會員/51劉弼凱/水電工程-劉弼凱.jpg",
+      "photo": "images/members/劉弼凱.jpg",
       "description": "專業水電工程服務，提供水電系統設計、安裝與維修服務。",
       "contact": {
         "email": "",
@@ -47,7 +47,7 @@
     {
       "name": "劉懿德",
       "industry": "策展規劃設計",
-      "photo": "會員照片/正式會員-20251105T073702Z-1-001/正式會員/39 劉懿德 V/Capture00235.jpg",
+      "photo": "images/members/劉懿德.jpg",
       "description": "專業策展規劃與設計服務，為各種活動與展覽提供完整的策劃與視覺設計。",
       "contact": {
         "email": "",
@@ -69,7 +69,7 @@
     {
       "name": "劉祐沁",
       "industry": "實體黃金買賣",
-      "photo": "會員照片/正式會員-20251105T073702Z-1-001/正式會員/23 劉祐沁 v/形象畫.jpg",
+      "photo": "images/members/劉祐沁.jpg",
       "description": "專業實體黃金買賣服務，提供黃金投資與買賣相關服務。",
       "contact": {
         "email": "",
@@ -91,7 +91,7 @@
     {
       "name": "吳介輝",
       "industry": "人壽保險",
-      "photo": "會員照片/正式會員-20251105T073702Z-1-001/正式會員/02 吳介輝 v/S__195944458.jpg",
+      "photo": "images/members/吳介輝.jpg",
       "description": "專業人壽保險規劃服務，為個人與家庭提供完善的保險保障規劃。",
       "contact": {
         "email": "",
@@ -113,7 +113,7 @@
     {
       "name": "吳宇峰",
       "industry": "泥作工程",
-      "photo": "會員照片/正式會員-20251105T073702Z-1-001/正式會員/38 吳宇峰 V/S__10010631_0.jpg",
+      "photo": "images/members/吳宇峰.jpg",
       "description": "專業泥作工程服務，提供建築泥作施工與裝潢泥作服務。",
       "contact": {
         "email": "",
@@ -135,7 +135,7 @@
     {
       "name": "吳睿霖",
       "industry": "統包工程",
-      "photo": "會員照片/正式會員-20251105T073702Z-1-001/正式會員/50吳睿霖 V/DSC_2340 拷貝.jpg",
+      "photo": "images/members/吳睿霖.jpg",
       "description": "專業統包工程服務，提供完整的工程規劃、設計與施工服務。",
       "contact": {
         "email": "",
@@ -157,7 +157,7 @@
     {
       "name": "吳貞妮",
       "industry": "插畫設計",
-      "photo": "會員照片/正式會員-20251105T073702Z-1-001/正式會員/37 吳貞妮 V/1713509907694.jpg",
+      "photo": "images/members/吳貞妮.jpg",
       "description": "專業插畫設計服務，為品牌、出版物提供創意插畫設計服務。",
       "contact": {
         "email": "",
@@ -179,7 +179,7 @@
     {
       "name": "孫成育",
       "industry": "禮贈品",
-      "photo": "會員照片/正式會員-20251105T073702Z-1-001/正式會員/11 孫成育 v/成育去背.png",
+      "photo": "images/members/孫成育.jpg",
       "description": "專業禮贈品服務，提供企業與個人客製化禮品設計與製作。",
       "contact": {
         "email": "",
@@ -201,7 +201,7 @@
     {
       "name": "廖俊瑋",
       "industry": "會計師",
-      "photo": "會員照片/正式會員-20251105T073702Z-1-001/正式會員/13廖俊瑋 v/440176.jpg",
+      "photo": "images/members/廖俊瑋.jpg",
       "description": "專業會計服務，提供稅務規劃、帳務處理與財務諮詢服務。",
       "contact": {
         "email": "",
@@ -223,7 +223,7 @@
     {
       "name": "廖涌辰",
       "industry": "健身教練",
-      "photo": "會員照片/正式會員-20251105T073702Z-1-001/正式會員/18 廖涌辰 v/S__27058713_0.jpg",
+      "photo": "images/members/廖涌辰.jpg",
       "description": "專業健身教練服務，提供個人化訓練計劃與健身指導。",
       "contact": {
         "email": "",
@@ -245,7 +245,7 @@
     {
       "name": "徐采璇",
       "industry": "原型食物料理師",
-      "photo": "會員照片/正式會員-20251105T073702Z-1-001/正式會員/32 徐幼璇 V/幼璇去背.png",
+      "photo": "images/members/徐采璇.jpg",
       "description": "專業原型食物料理服務，提供健康、天然的餐飲規劃與料理教學。",
       "contact": {
         "email": "",
@@ -267,7 +267,7 @@
     {
       "name": "施秉辰",
       "industry": "資訊弱電系統整合",
-      "photo": "會員照片/正式會員-20251105T073702Z-1-001/正式會員/30 施秉辰 V/施秉辰去背.png",
+      "photo": "images/members/施秉辰.jpg",
       "description": "專業資訊弱電系統整合服務，提供完整的網路與弱電系統規劃與建置。",
       "contact": {
         "email": "",
@@ -289,7 +289,7 @@
     {
       "name": "李孟一",
       "industry": "魔術方塊教學",
-      "photo": "會員照片/正式會員-20251105T073702Z-1-001/正式會員/24 李孟一 v/李孟一形象照.jpg",
+      "photo": "images/members/李孟一.jpg",
       "description": "專業魔術方塊教學服務，提供魔術方塊解題技巧與教學課程。",
       "contact": {
         "email": "",
@@ -311,7 +311,7 @@
     {
       "name": "李彥慶",
       "industry": "專利商標",
-      "photo": "會員照片/正式會員-20251105T073702Z-1-001/正式會員/16 李彥慶 v/20221022-123-1.jpg",
+      "photo": "images/members/李彥慶.jpg",
       "description": "專業專利商標服務，協助企業與個人申請專利與商標，保護智慧財產權。",
       "contact": {
         "email": "",
@@ -334,7 +334,7 @@
     {
       "name": "李慰祖",
       "industry": "團體服業",
-      "photo": "會員照片/正式會員-20251105T073702Z-1-001/正式會員/49李慰祖/李慰祖形象照.jpg",
+      "photo": "images/members/李慰祖.jpg",
       "description": "專業團體服服務，提供企業、學校團體服設計與製作服務。",
       "contact": {
         "email": "",
@@ -356,7 +356,7 @@
     {
       "name": "李秉誠",
       "industry": "包租代管",
-      "photo": "會員照片/正式會員-20251105T073702Z-1-001/正式會員/31 李秉誠 V/CON_9231-1.jpg",
+      "photo": "images/members/李秉誠.jpg",
       "description": "專業包租代管服務，提供不動產租賃管理與代管服務。",
       "contact": {
         "email": "",
@@ -378,7 +378,7 @@
     {
       "name": "李維恩",
       "industry": "網站創新開發",
-      "photo": "會員照片/正式會員-20251105T073702Z-1-001/正式會員/36 李維恩 V/CON_8964 拷貝.jpg",
+      "photo": "images/members/李維恩.jpg",
       "description": "專業網站創新開發服務，為企業打造現代化、高效能的網站與應用程式。",
       "contact": {
         "email": "",
@@ -400,7 +400,7 @@
     {
       "name": "李逸強",
       "industry": "地政士",
-      "photo": "會員照片/正式會員-20251105T073702Z-1-001/正式會員/14 李逸強 v/CBA_6774 拷貝.jpeg",
+      "photo": "images/members/李逸強.jpg",
       "description": "專業地政服務，提供土地登記、不動產買賣等相關法律服務。",
       "contact": {
         "email": "",
@@ -422,7 +422,7 @@
     {
       "name": "杜宗樺",
       "industry": "商空設計",
-      "photo": "會員照片/正式會員-20251105T073702Z-1-001/正式會員/08 杜宗樺 v/1621329.jpg",
+      "photo": "images/members/杜宗樺.jpg",
       "description": "專業商業空間設計服務，為零售、餐飲等商業空間提供完整的設計規劃。",
       "contact": {
         "email": "",
@@ -444,7 +444,7 @@
     {
       "name": "林修賢",
       "industry": "醫療輔具",
-      "photo": "會員照片/正式會員-20251105T073702Z-1-001/正式會員/01 林修賢 v/S__3031466_0.jpg",
+      "photo": "images/members/林修賢.jpg",
       "description": "專業醫療輔具服務，提供各類醫療輔具的銷售與諮詢服務。",
       "contact": {
         "email": "",
@@ -466,7 +466,7 @@
     {
       "name": "林庭瑀",
       "industry": "心靈諮詢",
-      "photo": "會員照片/正式會員-20251105T073702Z-1-001/正式會員/21 林庭瑀 v/IMG_3561.JPG",
+      "photo": "images/members/林庭瑀.jpg",
       "description": "專業心靈諮詢服務，提供心理輔導與心靈成長相關諮詢服務。",
       "contact": {
         "email": "",
@@ -488,7 +488,7 @@
     {
       "name": "林盈助",
       "industry": "麵包烘焙業",
-      "photo": "會員照片/正式會員-20251105T073702Z-1-001/正式會員/48 林盈助/20250325-665 拷貝.jpg",
+      "photo": "images/members/林盈助.jpg",
       "description": "專業麵包烘焙服務，提供優質麵包與烘焙產品。",
       "contact": {
         "email": "",
@@ -510,7 +510,7 @@
     {
       "name": "楊承樺",
       "industry": "運動營養師",
-      "photo": "會員照片/正式會員-20251105T073702Z-1-001/正式會員/17 楊承樺 v/唯唯樂形象照4.png",
+      "photo": "images/members/楊承樺.jpg",
       "description": "專業運動營養服務，為運動員與健身愛好者提供專業的營養規劃。",
       "contact": {
         "email": "",
@@ -532,7 +532,7 @@
     {
       "name": "楊明翰",
       "industry": "產物保險規劃",
-      "photo": "會員照片/正式會員-20251105T073702Z-1-001/正式會員/42楊明翰 V/明翰 去背.png",
+      "photo": "images/members/楊明翰.jpg",
       "description": "專業產物保險規劃服務，為企業與個人提供最適合的保險保障方案。",
       "contact": {
         "email": "",
@@ -554,7 +554,7 @@
     {
       "name": "楊明翰",
       "industry": "機電設計",
-      "photo": "會員照片/正式會員-20251105T073702Z-1-001/正式會員/42楊明翰 V/明翰 去背.png",
+      "photo": "images/members/楊明翰.jpg",
       "description": "專業機電設計服務，提供機電系統規劃與設計服務。",
       "contact": {
         "email": "",
@@ -576,7 +576,7 @@
     {
       "name": "江學洋",
       "industry": "品牌設計",
-      "photo": "會員照片/正式會員-20251105T073702Z-1-001/正式會員/10 江學洋 v/IMG_0052.JPG",
+      "photo": "images/members/江學洋.jpg",
       "description": "專業品牌設計服務，為企業打造完整的品牌視覺識別系統。",
       "contact": {
         "email": "",
@@ -598,7 +598,7 @@
     {
       "name": "江心怡",
       "industry": "LINE應用開發",
-      "photo": "會員照片/正式會員-20251105T073702Z-1-001/正式會員/29 江心怡 V/ALL-322-1.jpg",
+      "photo": "images/members/江心怡.jpg",
       "description": "專業LINE應用開發服務，協助企業開發LINE官方帳號與相關應用。",
       "contact": {
         "email": "",
@@ -620,7 +620,7 @@
     {
       "name": "江沛璇",
       "industry": "營養保健",
-      "photo": "會員照片/正式會員-20251105T073702Z-1-001/正式會員/04 江沛璇 v/ALL-418-1.jpg",
+      "photo": "images/members/江沛璇.jpg",
       "description": "專業營養保健諮詢服務，提供個人化營養規劃與健康管理建議。",
       "contact": {
         "email": "",
@@ -642,7 +642,7 @@
     {
       "name": "洪儀君",
       "industry": "手足指甲保健",
-      "photo": "會員照片/正式會員-20251105T073702Z-1-001/正式會員/20洪儀君 v/工作服直式.jpg",
+      "photo": "images/members/洪儀君.jpg",
       "description": "專業手足指甲保健服務，提供美甲、護理與健康諮詢。",
       "contact": {
         "email": "",
@@ -664,7 +664,7 @@
     {
       "name": "洪智威",
       "industry": "空調工程",
-      "photo": "會員照片/正式會員-20251105T073702Z-1-001/正式會員/27 洪智威 V/20221021-141-1.jpg",
+      "photo": "images/members/洪智威.jpg",
       "description": "專業空調工程服務，提供空調系統設計、安裝與維修服務。",
       "contact": {
         "email": "",
@@ -686,7 +686,7 @@
     {
       "name": "游凱地",
       "industry": "抗病毒地板",
-      "photo": "會員照片/正式會員-20251105T073702Z-1-001/正式會員/40游凱地 V/6d9abc22-09de-4eee-8063-aa32c1823f29.png",
+      "photo": "images/members/游凱地.jpg",
       "description": "專業抗病毒地板服務，提供抗菌、抗病毒的地板材料與施工服務。",
       "contact": {
         "email": "",
@@ -708,7 +708,7 @@
     {
       "name": "湯益承",
       "industry": "永續可分解包裝",
-      "photo": "會員照片/正式會員-20251105T073702Z-1-001/正式會員/55湯益承/Moonygreen_沐霓青_直式_正方形.png",
+      "photo": "images/members/湯益承.jpg",
       "description": "專業永續可分解包裝服務，提供環保包裝材料與設計服務。",
       "contact": {
         "email": "",
@@ -730,7 +730,7 @@
     {
       "name": "潘芷盈",
       "industry": "SEO內容行銷",
-      "photo": "會員照片/正式會員-20251105T073702Z-1-001/正式會員/54潘芷盈 V/BNI形象照_潘芷盈Jade.jpg",
+      "photo": "images/members/潘芷盈.jpg",
       "description": "專業SEO內容行銷服務，協助企業提升網站排名與品牌曝光度。",
       "contact": {
         "email": "",
@@ -752,7 +752,7 @@
     {
       "name": "王冠勛",
       "industry": "燈具照明",
-      "photo": "會員照片/正式會員-20251105T073702Z-1-001/正式會員/06 王冠勛 v/王冠勛去背圖.PNG",
+      "photo": "images/members/王冠勛.jpg",
       "description": "專業燈具照明服務，提供室內外照明設計與燈具銷售服務。",
       "contact": {
         "email": "",
@@ -774,7 +774,7 @@
     {
       "name": "王執定",
       "industry": "信託規劃顧問",
-      "photo": "會員照片/正式會員-20251105T073702Z-1-001/正式會員/05 王執定 v/王執定形象照.jpg",
+      "photo": "images/members/王執定.jpg",
       "description": "專業信託規劃顧問服務，為客戶提供完善的資產信託與財富管理規劃。",
       "contact": {
         "email": "",
@@ -796,7 +796,7 @@
     {
       "name": "王年煜",
       "industry": "AI程式交易",
-      "photo": "會員照片/正式會員-20251105T073702Z-1-001/正式會員/46 王年煜/S__3031467_0.jpg",
+      "photo": "images/members/王年煜.jpg",
       "description": "專業AI程式交易服務，運用先進演算法為客戶提供穩定獲利的交易策略。",
       "contact": {
         "email": "",
@@ -818,7 +818,7 @@
     {
       "name": "王祈",
       "industry": "升學輔導顧問",
-      "photo": "會員照片/正式會員-20251105T073702Z-1-001/正式會員/33 王祈 V/S__146251780_0.jpg",
+      "photo": "images/members/王祈.jpg",
       "description": "專業升學輔導服務，協助學生規劃最佳升學路徑，提供專業諮詢與輔導。",
       "contact": {
         "email": "",
@@ -841,7 +841,7 @@
     {
       "name": "王銓",
       "industry": "AI商務顧問",
-      "photo": "會員照片/正式會員-20251105T073702Z-1-001/正式會員/47 王銓/AI形象照.png",
+      "photo": "images/members/王銓.jpg",
       "description": "專業AI商務顧問服務，協助企業導入AI技術，提升營運效率與競爭力。",
       "contact": {
         "email": "",
@@ -864,7 +864,7 @@
     {
       "name": "蘇子超",
       "industry": "電子商品設計",
-      "photo": "會員照片/正式會員-20251105T073702Z-1-001/正式會員/35 蘇子超 V/CON_9117-1.jpg",
+      "photo": "images/members/蘇子超.jpg",
       "description": "專業電子商品設計服務，為電子產品提供工業設計與產品開發服務。",
       "contact": {
         "email": "",
@@ -886,7 +886,7 @@
     {
       "name": "蘇翊婷",
       "industry": "茶葉盤商",
-      "photo": "會員照片/正式會員-20251105T073702Z-1-001/正式會員/26 蘇翊婷 v/蘇大.png",
+      "photo": "images/members/蘇翊婷.jpg",
       "description": "專業茶葉盤商服務，提供優質茶葉批發與零售服務。",
       "contact": {
         "email": "",
@@ -908,7 +908,7 @@
     {
       "name": "許雅婷",
       "industry": "人力媒合平台",
-      "photo": "會員照片/正式會員-20251105T073702Z-1-001/正式會員/53許雅婷（牙牙）V/LINE_ALBUM_第十二會期新會員簡報素材_250623_1.jpg",
+      "photo": "images/members/許雅婷.jpg",
       "description": "專業人力媒合平台服務，協助企業與求職者進行有效的人才媒合。",
       "contact": {
         "email": "",
@@ -930,7 +930,7 @@
     {
       "name": "詹謦鴻",
       "industry": "寵物營養",
-      "photo": "會員照片/正式會員-20251105T073702Z-1-001/正式會員/19 詹謦鴻 v/Julia_pic.jpg",
+      "photo": "images/members/詹謦鴻.jpg",
       "description": "專業寵物營養服務，為寵物提供專業的營養規劃與健康諮詢。",
       "contact": {
         "email": "",
@@ -952,7 +952,7 @@
     {
       "name": "賴永相",
       "industry": "堅果烘焙",
-      "photo": "會員照片/正式會員-20251105T073702Z-1-001/正式會員/34 賴永相 V/S__4587647.jpg",
+      "photo": "images/members/賴永相.jpg",
       "description": "專業堅果烘焙服務，提供優質堅果產品與烘焙食品。",
       "contact": {
         "email": "",
@@ -974,7 +974,7 @@
     {
       "name": "賴瑋弘",
       "industry": "物理治療師",
-      "photo": "會員照片/正式會員-20251105T073702Z-1-001/正式會員/09 賴瑋弘 v/20221022-425-1.jpg",
+      "photo": "images/members/賴瑋弘.jpg",
       "description": "專業物理治療服務，提供運動傷害復健、姿勢矯正等專業治療。",
       "contact": {
         "email": "",
@@ -996,7 +996,7 @@
     {
       "name": "邱宇鴻",
       "industry": "中小企業顧問",
-      "photo": "會員照片/正式會員-20251105T073702Z-1-001/正式會員/12 邱宇鴻 v/1744708170842.jpg",
+      "photo": "images/members/邱宇鴻.jpg",
       "description": "專業中小企業顧問服務，協助企業提升營運效率與管理品質。",
       "contact": {
         "email": "",
@@ -1018,7 +1018,7 @@
     {
       "name": "邱翰城",
       "industry": "創意策劃",
-      "photo": "會員照片/正式會員-20251105T073702Z-1-001/正式會員/41 邱翰城（多多）V/形象照01.jpg",
+      "photo": "images/members/邱翰城.jpg",
       "description": "專業創意策劃服務，為活動、品牌提供創意企劃與執行服務。",
       "contact": {
         "email": "",
@@ -1040,7 +1040,7 @@
     {
       "name": "郭孝淵",
       "industry": "包裝設計",
-      "photo": "會員照片/正式會員-20251105T073702Z-1-001/正式會員/28 郭孝淵 V/郭孝淵.png",
+      "photo": "images/members/郭孝淵.jpg",
       "description": "專業包裝設計服務，為產品提供創意包裝設計與製作服務。",
       "contact": {
         "email": "",
@@ -1062,7 +1062,7 @@
     {
       "name": "郭家宏",
       "industry": "無麩質雞蛋糕",
-      "photo": "會員照片/正式會員-20251105T073702Z-1-001/正式會員/03 郭家宏 v/無麩質雞蛋糕 Gluten-free egg cake 郭家宏 Thomas Kuo.jpg",
+      "photo": "images/members/郭家宏.jpg",
       "description": "專業無麩質雞蛋糕製作，提供健康、美味的無麩質甜點選擇。",
       "contact": {
         "email": "",
@@ -1084,7 +1084,7 @@
     {
       "name": "鄭雅菁",
       "industry": "共享空間",
-      "photo": "會員照片/正式會員-20251105T073702Z-1-001/正式會員/22 鄭雅菁 v/雅菁去背.png",
+      "photo": "images/members/鄭雅菁.jpg",
       "description": "專業共享空間服務，提供靈活的工作空間租賃與管理服務。",
       "contact": {
         "email": "",
@@ -1106,7 +1106,7 @@
     {
       "name": "陳亭儒",
       "industry": "銀行融資顧問",
-      "photo": "會員照片/正式會員-20251105T073702Z-1-001/正式會員/44 陳亭儒 V/S__12886028.jpg",
+      "photo": "images/members/陳亭儒.jpg",
       "description": "專業銀行融資顧問服務，協助企業與個人規劃最佳融資方案。",
       "contact": {
         "email": "",
@@ -1128,7 +1128,7 @@
     {
       "name": "陳夗媃",
       "industry": "澎湖特色餐飲",
-      "photo": "會員照片/正式會員-20251105T073702Z-1-001/正式會員/45 陳夗媃 V/20250325-202 拷貝.jpeg",
+      "photo": "images/members/陳夗媃.jpg",
       "description": "專業澎湖特色餐飲服務，提供道地澎湖美食與特色餐飲體驗。",
       "contact": {
         "email": "",
@@ -1150,7 +1150,7 @@
     {
       "name": "陳育文",
       "industry": "住宅設計",
-      "photo": "會員照片/正式會員-20251105T073702Z-1-001/正式會員/15 陳育文 v/育文形象照_02.jpg",
+      "photo": "images/members/陳育文.jpg",
       "description": "專業住宅設計服務，為住家提供完整的室內設計與裝潢規劃。",
       "contact": {
         "email": "",
@@ -1172,7 +1172,7 @@
     {
       "name": "顧心芝",
       "industry": "餐飲行銷整合",
-      "photo": "會員照片/正式會員-20251105T073702Z-1-001/正式會員/43 顧心芝/S__30580803.jpg",
+      "photo": "images/members/顧心芝.jpg",
       "description": "專業餐飲行銷整合服務，協助餐飲業者提升品牌知名度與營運績效。",
       "contact": {
         "email": "",
@@ -1194,7 +1194,7 @@
     {
       "name": "黃昱歆",
       "industry": "自媒體經營",
-      "photo": "會員照片/正式會員-20251105T073702Z-1-001/正式會員/25 黃昱歆 v/CON_6305-1.jpg",
+      "photo": "images/members/黃昱歆.jpg",
       "description": "專業自媒體經營服務，協助個人與企業打造成功的自媒體品牌。",
       "contact": {
         "email": "",

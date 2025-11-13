@@ -25,3 +25,10 @@ Thumbs.db
 # 參考資料夾（不推送到 GitHub）
 參考資料/
 
+# 大型媒體檔案（不推送到 GitHub）
+*.mp4
+*.mov
+*.avi
+*.mkv
+**/BNI_個人短影片*.mp4
+
