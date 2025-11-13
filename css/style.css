@@ -122,14 +122,6 @@ body::before {
     opacity: 0.6;
     z-index: -1;
     pointer-events: none;
-    animation: starTwinkleSlow 15s ease-in-out infinite;
-}
-
-@keyframes starTwinkleSlow {
-    0%, 100% { opacity: 0.6; }
-    25% { opacity: 0.7; }
-    50% { opacity: 0.5; }
-    75% { opacity: 0.65; }
 }
 
 body::after {
@@ -142,256 +134,12 @@ body::after {
         radial-gradient(ellipse 1400px 900px at 50% 70%, var(--nebula-blue-light) 0%, transparent 75%),
         radial-gradient(ellipse 900px 600px at 10% 60%, var(--nebula-cyan-medium) 0%, transparent 60%),
         radial-gradient(ellipse 1100px 750px at 85% 75%, var(--nebula-indigo-dark) 0%, transparent 65%);
-    animation: nebulaFloat 30s ease-in-out infinite;
     mix-blend-mode: screen;
     opacity: 0.9;
     z-index: -2;
     pointer-events: none;
 }
 
-@keyframes nebulaDrift {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    33% { transform: translate(20px, -15px) scale(1.05); }
-    66% { transform: translate(-15px, 20px) scale(0.95); }
-}
-
-/* 添加流星動畫元素 */
-@keyframes shootingStar1 {
-    0% {
-        opacity: 0;
-        transform: translate(-150px, -150px) rotate(45deg) scale(0.6);
-    }
-    3% {
-        opacity: 0.7;
-        transform: translate(-100px, -100px) rotate(45deg) scale(0.75);
-    }
-    15% {
-        opacity: 1;
-        transform: translate(calc(40vw - 100px), calc(40vh - 100px)) rotate(45deg) scale(1);
-    }
-    30% {
-        opacity: 0.95;
-        transform: translate(calc(80vw + 50px), calc(80vh + 50px)) rotate(45deg) scale(0.9);
-    }
-    50% {
-        opacity: 0.6;
-        transform: translate(calc(100vw + 150px), calc(100vh + 150px)) rotate(45deg) scale(0.7);
-    }
-    70% {
-        opacity: 0.3;
-        transform: translate(calc(110vw + 200px), calc(110vh + 200px)) rotate(45deg) scale(0.5);
-    }
-    100% {
-        opacity: 0;
-        transform: translate(calc(120vw + 250px), calc(120vh + 250px)) rotate(45deg) scale(0.2);
-    }
-}
-
-@keyframes shootingStar2 {
-    0% {
-        opacity: 0;
-        transform: translate(calc(100vw + 150px), -200px) rotate(-45deg) scale(0.6);
-    }
-    3% {
-        opacity: 0.7;
-        transform: translate(calc(100vw + 100px), -150px) rotate(-45deg) scale(0.75);
-    }
-    15% {
-        opacity: 1;
-        transform: translate(calc(60vw + 50px), calc(30vh - 50px)) rotate(-45deg) scale(1);
-    }
-    30% {
-        opacity: 0.95;
-        transform: translate(calc(20vw - 50px), calc(70vh + 50px)) rotate(-45deg) scale(0.9);
-    }
-    50% {
-        opacity: 0.6;
-        transform: translate(-100px, calc(100vh + 100px)) rotate(-45deg) scale(0.7);
-    }
-    70% {
-        opacity: 0.3;
-        transform: translate(-200px, calc(110vh + 150px)) rotate(-45deg) scale(0.5);
-    }
-    100% {
-        opacity: 0;
-        transform: translate(-300px, calc(120vh + 200px)) rotate(-45deg) scale(0.2);
-    }
-}
-
-@keyframes shootingStar3 {
-    0% {
-        opacity: 0;
-        transform: translate(calc(50vw - 120px), -250px) rotate(30deg) scale(0.6);
-    }
-    3% {
-        opacity: 0.75;
-        transform: translate(calc(50vw - 80px), -200px) rotate(30deg) scale(0.75);
-    }
-    15% {
-        opacity: 1;
-        transform: translate(calc(50vw + 150px), calc(40vh + 30px)) rotate(30deg) scale(1);
-    }
-    30% {
-        opacity: 0.95;
-        transform: translate(calc(50vw + 300px), calc(80vh + 150px)) rotate(30deg) scale(0.9);
-    }
-    50% {
-        opacity: 0.6;
-        transform: translate(calc(50vw + 400px), calc(100vh + 250px)) rotate(30deg) scale(0.7);
-    }
-    70% {
-        opacity: 0.3;
-        transform: translate(calc(50vw + 480px), calc(110vh + 320px)) rotate(30deg) scale(0.5);
-    }
-    100% {
-        opacity: 0;
-        transform: translate(calc(50vw + 550px), calc(120vh + 380px)) rotate(30deg) scale(0.2);
-    }
-}
-
-/* 流星元素 */
-.meteor-shower {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: -1;
-    overflow: hidden;
-}
-
-.meteor {
-    position: absolute;
-    width: 2px;
-    height: 120px;
-    background: linear-gradient(
-        to bottom right,
-        rgba(255, 255, 255, 1) 0%,
-        rgba(255, 255, 255, 0.95) 3%,
-        rgba(135, 206, 250, 0.85) 10%,
-        rgba(76, 168, 223, 0.7) 25%,
-        rgba(76, 168, 223, 0.5) 45%,
-        rgba(76, 168, 223, 0.3) 65%,
-        rgba(76, 168, 223, 0.15) 80%,
-        rgba(76, 168, 223, 0.05) 92%,
-        transparent 100%
-    );
-    border-radius: 50% 0 0 50%;
-    box-shadow: 
-        0 0 8px rgba(255, 255, 255, 0.9),
-        0 0 15px rgba(135, 206, 250, 0.7),
-        0 0 25px rgba(76, 168, 223, 0.5),
-        0 0 35px rgba(76, 168, 223, 0.3);
-    opacity: 0;
-    filter: blur(0.8px);
-    transform-origin: top left;
-}
-
-/* 流星1: 向右下45度移動，尾巴應該在左上方（與飛行方向相反） */
-.meteor:nth-child(1) {
-    top: 10%;
-    left: 5%;
-    background: linear-gradient(
-        225deg,
-        rgba(255, 255, 255, 1) 0%,
-        rgba(255, 255, 255, 0.95) 3%,
-        rgba(135, 206, 250, 0.85) 10%,
-        rgba(76, 168, 223, 0.7) 25%,
-        rgba(76, 168, 223, 0.5) 45%,
-        rgba(76, 168, 223, 0.3) 65%,
-        rgba(76, 168, 223, 0.15) 80%,
-        rgba(76, 168, 223, 0.05) 92%,
-        transparent 100%
-    );
-    animation: shootingStar1 12s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
-    animation-delay: 0s;
-    transform-origin: bottom right;
-}
-
-/* 流星2: 向左下-45度移動，尾巴應該在右上方（與飛行方向相反） */
-.meteor:nth-child(2) {
-    top: 20%;
-    right: 8%;
-    background: linear-gradient(
-        135deg,
-        rgba(255, 255, 255, 1) 0%,
-        rgba(255, 255, 255, 0.95) 3%,
-        rgba(135, 206, 250, 0.85) 10%,
-        rgba(76, 168, 223, 0.7) 25%,
-        rgba(76, 168, 223, 0.5) 45%,
-        rgba(76, 168, 223, 0.3) 65%,
-        rgba(76, 168, 223, 0.15) 80%,
-        rgba(76, 168, 223, 0.05) 92%,
-        transparent 100%
-    );
-    animation: shootingStar2 14s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
-    animation-delay: 3s;
-    transform-origin: bottom left;
-}
-
-/* 流星3: 向右下30度移動，尾巴應該在左上方（與飛行方向相反） */
-.meteor:nth-child(3) {
-    top: 50%;
-    left: 40%;
-    background: linear-gradient(
-        210deg,
-        rgba(255, 255, 255, 1) 0%,
-        rgba(255, 255, 255, 0.95) 3%,
-        rgba(135, 206, 250, 0.85) 10%,
-        rgba(76, 168, 223, 0.7) 25%,
-        rgba(76, 168, 223, 0.5) 45%,
-        rgba(76, 168, 223, 0.3) 65%,
-        rgba(76, 168, 223, 0.15) 80%,
-        rgba(76, 168, 223, 0.05) 92%,
-        transparent 100%
-    );
-    animation: shootingStar3 15s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
-    animation-delay: 6s;
-    transform-origin: bottom right;
-}
-
-/* 流星4: 向右下45度移動，尾巴應該在左上方（與飛行方向相反） */
-.meteor:nth-child(4) {
-    top: 15%;
-    left: 60%;
-    background: linear-gradient(
-        225deg,
-        rgba(255, 255, 255, 1) 0%,
-        rgba(255, 255, 255, 0.95) 3%,
-        rgba(135, 206, 250, 0.85) 10%,
-        rgba(76, 168, 223, 0.7) 25%,
-        rgba(76, 168, 223, 0.5) 45%,
-        rgba(76, 168, 223, 0.3) 65%,
-        rgba(76, 168, 223, 0.15) 80%,
-        rgba(76, 168, 223, 0.05) 92%,
-        transparent 100%
-    );
-    animation: shootingStar1 13s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
-    animation-delay: 4.5s;
-    transform-origin: bottom right;
-}
-
-/* 流星5: 向左下-45度移動，尾巴在右上 */
-.meteor:nth-child(5) {
-    top: 70%;
-    left: 20%;
-    background: linear-gradient(
-        135deg,
-        rgba(255, 255, 255, 1) 0%,
-        rgba(255, 255, 255, 0.95) 3%,
-        rgba(135, 206, 250, 0.85) 10%,
-        rgba(76, 168, 223, 0.7) 25%,
-        rgba(76, 168, 223, 0.5) 45%,
-        rgba(76, 168, 223, 0.3) 65%,
-        rgba(76, 168, 223, 0.15) 80%,
-        rgba(76, 168, 223, 0.05) 92%,
-        transparent 100%
-    );
-    animation: shootingStar2 14.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
-    animation-delay: 8s;
-    transform-origin: bottom left;
-}
 
 
 .container {
@@ -754,13 +502,13 @@ body::after {
 
 @keyframes bounce {
     0%, 100% { transform: translateX(-50%) translateY(0); }
-    50% { transform: translateX(-50%) translateY(10px); }
+    50% { transform: translateX(-50%) translateY(8px); }
 }
 
 @keyframes fadeInUp {
     from {
         opacity: 0;
-        transform: translateY(30px);
+        transform: translateY(20px);
     }
     to {
         opacity: 1;
@@ -2505,12 +2253,12 @@ body::after {
     bottom: 0;
     left: 0;
     width: 100%;
-    background: var(--glass-bg-medium);
-    backdrop-filter: var(--glass-blur-medium);
-    -webkit-backdrop-filter: var(--glass-blur-medium);
+    background: rgba(0, 27, 54, 0.3);
+    backdrop-filter: blur(20px) saturate(150%);
+    -webkit-backdrop-filter: blur(20px) saturate(150%);
     padding: 0.8rem 0;
     z-index: 1000;
-    border-top: 1px solid var(--glass-border);
+    border-top: 1px solid rgba(76, 168, 223, 0.2);
     box-shadow: 
         0 -8px 32px rgba(0, 0, 0, 0.4),
         inset 0 1px 0 rgba(255, 255, 255, 0.1);
