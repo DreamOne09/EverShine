@@ -1508,9 +1508,11 @@ body::after {
 .member-basic-info {
     flex: 1;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    align-items: flex-start;
     justify-content: space-between;
     min-width: 0;
+    gap: 1rem;
 }
 
 .member-name-industry {
@@ -1518,7 +1520,8 @@ body::after {
     align-items: center;
     gap: 0.8rem;
     flex-wrap: wrap;
-    margin-bottom: 0.5rem;
+    flex: 1;
+    min-width: 0;
 }
 
 .member-industry {
@@ -1557,8 +1560,8 @@ body::after {
     width: 2rem;
     height: 2rem;
     border-radius: 50%;
-    margin-left: auto;
     flex-shrink: 0;
+    align-self: flex-start;
 }
 
 .member-toggle-btn:hover {
@@ -2914,16 +2917,18 @@ body::after {
     
     .member-basic-info {
         width: 100%;
-        align-items: center;
+        flex-direction: column;
+        align-items: stretch;
     }
     
     .member-name-industry {
         justify-content: center;
         width: 100%;
+        margin-bottom: 0.5rem;
     }
     
     .member-toggle-btn {
-        margin-left: 0;
+        align-self: center;
         margin-top: 0.5rem;
     }
     
