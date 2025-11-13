@@ -103,7 +103,6 @@ function getFooterHTML() {
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2025 BNI 長輝白金分會. All rights reserved.</p>
             </div>
         </div>
         <button class="back-to-top" id="backToTop" aria-label="回到頂部">
