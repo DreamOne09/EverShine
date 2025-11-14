@@ -180,17 +180,29 @@ body {
     }
 }
 
-/* 確保 hero section 使用 Canvas 星空背景 */
+/* 確保 hero section 使用 Canvas 星空背景，背景層級更高 */
 .hero,
 .page-hero {
     position: relative;
-    z-index: 1;
+    z-index: 2;
+    background: transparent;
 }
 
 /* 其他 section 使用新的星空背景 */
 section:not(.hero):not(.page-hero) {
     position: relative;
     z-index: 1;
+}
+
+/* 星空背景容器應該在 hero 之後才顯示 */
+.hero ~ .starry-background-container,
+.page-hero ~ .starry-background-container {
+    display: block;
+}
+
+/* 如果星空背景在 hero 之前，隱藏它 */
+.starry-background-container:first-child {
+    display: none;
 }
 
 /* 舊的CSS背景效果已移除，現在使用Canvas星空背景 */

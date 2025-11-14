@@ -4,6 +4,11 @@
 // ============================================
 
 function createStarryBackground() {
+    // 檢查是否已經存在
+    if (document.querySelector('.starry-background-container')) {
+        return;
+    }
+    
     // 創建星空容器
     const starryContainer = document.createElement('div');
     starryContainer.className = 'starry-background-container';
@@ -15,11 +20,16 @@ function createStarryBackground() {
         </div>
     `;
     
-    // 插入到 body，但在 hero 之後
-    const hero = document.querySelector('.hero');
-    if (hero && hero.nextSibling) {
+    // 找到第一個非 hero 的 section，在它之前插入
+    const hero = document.querySelector('.hero') || document.querySelector('.page-hero');
+    const firstNonHeroSection = document.querySelector('section:not(.hero):not(.page-hero)');
+    
+    if (firstNonHeroSection) {
+        firstNonHeroSection.parentNode.insertBefore(starryContainer, firstNonHeroSection);
+    } else if (hero && hero.nextSibling) {
         hero.parentNode.insertBefore(starryContainer, hero.nextSibling);
     } else {
+        // 如果沒有找到合適的位置，插入到 body 末尾
         document.body.appendChild(starryContainer);
     }
 }
