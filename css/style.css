@@ -109,20 +109,7 @@ body {
     background: transparent;
 }
 
-/* 動態星點容器 */
-.starfield {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    min-height: 100vh;
-    z-index: -1;
-    pointer-events: none;
-    overflow: hidden;
-}
-
-/* 星點閃爍動畫 - 減緩動畫速度，降低複雜度 */
+/* 星點閃爍動畫 - 保留用於其他元素 */
 @keyframes starTwinkle {
     0%, 100% {
         opacity: 0.5;
@@ -134,10 +121,8 @@ body {
     }
 }
 
-/* 銀河流動動畫 - 已停用，保持靜態背景 */
-
-/* 密集星空背景效果 - 參考深空宇宙風格 */
-body::before {
+/* 舊的CSS背景效果已移除，現在使用Canvas星空背景 */
+/* body::before {
     content: '';
     position: fixed;
     top: 0;
