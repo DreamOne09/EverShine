@@ -183,6 +183,50 @@ body {
     }
 }
 
+/* 流星效果 - 參考 Webflow 網站 */
+.shooting-stars {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 5px;
+    height: 85px;
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
+    background: linear-gradient(to top, rgba(255, 255, 255, 0), white);
+    animation: animShootingStar 10s linear infinite;
+    z-index: 10;
+}
+
+/* 多個流星，不同延遲和位置 */
+.shooting-stars:nth-child(4) {
+    animation-delay: 0s;
+    right: 20%;
+}
+
+.shooting-stars:nth-child(5) {
+    animation-delay: 3s;
+    right: 50%;
+}
+
+.shooting-stars:nth-child(6) {
+    animation-delay: 6s;
+    right: 80%;
+}
+
+/* 流星動畫 - 從右下角旋轉-45度移動到左上角 */
+@keyframes animShootingStar {
+    from {
+        transform: translateY(0px) translateX(0px) rotate(-45deg);
+        opacity: 1;
+        height: 5px;
+    }
+    to {
+        transform: translateY(-2560px) translateX(-2560px) rotate(-45deg);
+        opacity: 1;
+        height: 800px;
+    }
+}
+
 /* 確保 hero section 使用 Canvas 星空背景 */
 .hero,
 .page-hero {

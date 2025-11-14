@@ -18,6 +18,9 @@ function createStarryBackground() {
             <div class="stars-layer stars"></div>
             <div class="stars-layer stars1"></div>
             <div class="stars-layer stars2"></div>
+            <div class="shooting-stars"></div>
+            <div class="shooting-stars"></div>
+            <div class="shooting-stars"></div>
         </div>
     `;
     
