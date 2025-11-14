@@ -2272,6 +2272,8 @@ body::after {
     background: transparent;
     padding: 3rem 0 1rem;
     border-top: none;
+    border-bottom: none;
+    margin-top: 0;
     position: relative;
     overflow: hidden;
 }
@@ -2384,7 +2386,7 @@ body::after {
 .footer-bottom {
     text-align: center;
     padding-top: 2rem;
-    border-top: 1px solid var(--border-gold);
+    border-top: none;
     color: var(--text-gray-dark);
     position: relative;
     z-index: 1;
