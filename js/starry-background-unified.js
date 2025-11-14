@@ -30,8 +30,13 @@ function initStarryBackground() {
 
 // Canvas 星空（Hero section）
 function initCanvasSky() {
-    const canvas = document.getElementById('starrySkyCanvas');
-    if (!canvas) return;
+    let canvas = document.getElementById('starrySkyCanvas');
+    if (!canvas) {
+        canvas = document.createElement('canvas');
+        canvas.id = 'starrySkyCanvas';
+        canvas.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;min-height:100vh;z-index:-3;pointer-events:none;background:transparent;';
+        document.body.appendChild(canvas);
+    }
     
     const ctx = canvas.getContext('2d');
     let stars = [];
