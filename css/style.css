@@ -612,14 +612,7 @@ body::after {
     z-index: 10;
     max-width: 900px;
     padding: 4rem 3rem;
-    background: rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border-radius: 20px;
-    border: 1px solid rgba(76, 168, 223, 0.2);
-    box-shadow: 
-        0 20px 60px rgba(0, 0, 0, 0.5),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    background: transparent;
 }
 
 .hero-title {
