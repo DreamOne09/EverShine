@@ -600,20 +600,9 @@ body::after {
     z-index: 0;
 }
 
+/* 移除hero背景遮罩，讓背景圖片完整顯示 */
 .hero-background::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-        180deg,
-        rgba(0, 0, 0, 0.1) 0%,
-        rgba(0, 0, 0, 0.15) 50%,
-        rgba(0, 0, 0, 0.2) 100%
-    );
-    z-index: 1;
+    display: none;
 }
 
 /* 移除網格動畫效果 */
@@ -710,95 +699,17 @@ body::after {
     z-index: 1;
 }
 
-/* 發光效果外層 */
-.btn-primary::before {
-    content: '';
-    position: absolute;
-    inset: -3px;
-    border-radius: 10px;
-    background: linear-gradient(135deg, 
-        rgba(76, 168, 223, 0.4) 0%,
-        rgba(110, 84, 255, 0.4) 50%,
-        rgba(35, 150, 255, 0.4) 100%
-    );
-    opacity: 0;
-    filter: blur(12px);
-    transition: opacity 0.4s ease;
-    z-index: -1;
-}
-
-/* 發光效果內層 */
+/* 移除按鈕的glow效果 */
+.btn-primary::before,
 .btn-primary::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg,
-        transparent,
-        rgba(76, 168, 223, 0.3),
-        transparent
-    );
-    transition: left 0.6s ease;
-    z-index: -1;
+    display: none;
 }
 
 .btn-primary:hover {
     color: var(--text-white);
-    transform: translateY(-3px) scale(1.02);
-    box-shadow: 
-        0 8px 32px rgba(76, 168, 223, 0.4),
-        0 0 40px rgba(76, 168, 223, 0.3),
-        inset 0 0 20px rgba(76, 168, 223, 0.1);
+    transform: translateY(-2px);
     border-color: var(--gold-light);
-}
-
-.btn-primary:hover::before {
-    opacity: 1;
-}
-
-.btn-primary:hover::after {
-    left: 100%;
-}
-
-/* 按鈕文字容器 */
-.btn-primary .button-container {
-    position: relative;
-    z-index: 1;
-}
-
-/* 發光圓圈效果 - 參考提供的HTML */
-.btn-primary .glow-circle {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    background: radial-gradient(circle, 
-        rgba(76, 168, 223, 0.3) 0%,
-        transparent 70%
-    );
-    opacity: 0;
-    transform: scale(0.8);
-    transition: all 0.4s ease;
-    pointer-events: none;
-}
-
-.btn-primary:hover .glow-circle {
-    opacity: 1;
-    transform: scale(1.5);
-    animation: pulseGlow 2s ease-in-out infinite;
-}
-
-@keyframes pulseGlow {
-    0%, 100% {
-        opacity: 0.3;
-        transform: scale(1.5);
-    }
-    50% {
-        opacity: 0.6;
-        transform: scale(1.8);
-    }
+    background: rgba(255, 215, 0, 0.1);
 }
 
 .scroll-indicator {
@@ -2368,20 +2279,9 @@ body::after {
     z-index: 0;
 }
 
+/* 移除page-hero背景遮罩 */
 .page-hero .hero-background::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-        180deg,
-        rgba(0, 0, 0, 0.1) 0%,
-        rgba(0, 0, 0, 0.15) 50%,
-        rgba(0, 0, 0, 0.2) 100%
-    );
-    z-index: 1;
+    display: none;
 }
 
 .page-hero .hero-content {
