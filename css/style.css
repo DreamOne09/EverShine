@@ -467,14 +467,15 @@ body::after {
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 3rem;
 }
 
 .section-title {
     font-size: 2.5rem;
     font-weight: 700;
     text-align: center;
-    margin-bottom: 3rem;
+    margin-bottom: 4rem;
+    margin-top: 2rem;
     color: var(--gold);
     position: relative;
     padding-bottom: 1rem;
@@ -905,7 +906,7 @@ body::after {
    關於我們
    ============================================ */
 .about {
-    padding: 5rem 0;
+    padding: 7rem 0;
     background: transparent;
     position: relative;
     overflow: hidden;
@@ -937,8 +938,8 @@ body::after {
 .about-main-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 3rem;
-    margin-bottom: 4rem;
+    gap: 4rem;
+    margin-bottom: 5rem;
 }
 
 .about-item {
@@ -957,7 +958,7 @@ body::after {
 }
 
 .values-section {
-    margin-top: 3rem;
+    margin-top: 4rem;
 }
 
 .values-section-title {
@@ -1088,7 +1089,7 @@ body::after {
    大事記
    ============================================ */
 .timeline {
-    padding: 5rem 0;
+    padding: 7rem 0;
     background: transparent;
     position: relative;
     overflow: hidden;
@@ -1697,7 +1698,7 @@ body::after {
    加入我們
    ============================================ */
 .join {
-    padding: 5rem 0;
+    padding: 7rem 0;
     background: transparent;
     position: relative;
     overflow: hidden;
@@ -1866,7 +1867,7 @@ body::after {
    BNI 基本介紹
    ============================================ */
 .bni-intro {
-    padding: 5rem 0;
+    padding: 7rem 0;
     background: transparent;
     position: relative;
     overflow: hidden;
@@ -1883,8 +1884,8 @@ body::after {
 .bni-intro-header {
     display: flex;
     align-items: center;
-    gap: 3rem;
-    margin-bottom: 4rem;
+    gap: 4rem;
+    margin-bottom: 5rem;
     text-align: left;
 }
 
@@ -1968,20 +1969,20 @@ body::after {
 }
 
 .bni-stats-section {
-    margin-bottom: 4rem;
+    margin-bottom: 5rem;
 }
 
 .stats-section-title {
     font-size: 1.8rem;
     color: var(--gold);
     text-align: center;
-    margin-bottom: 2rem;
+    margin-bottom: 3rem;
     font-weight: 600;
 }
 
 .bni-taiwan-stats {
-    margin-top: 4rem;
-    padding: 3rem;
+    margin-top: 5rem;
+    padding: 4rem;
     background: var(--glass-bg-medium);
     backdrop-filter: var(--glass-blur-strong);
     -webkit-backdrop-filter: var(--glass-blur-strong);
@@ -1992,7 +1993,7 @@ body::after {
 .taiwan-stats-title {
     color: var(--gold);
     font-size: 1.8rem;
-    margin-bottom: 2rem;
+    margin-bottom: 3rem;
     text-align: center;
     font-weight: 600;
 }
@@ -2044,7 +2045,7 @@ body::after {
    BNI 傳統文化精神
    ============================================ */
 .bni-culture {
-    padding: 5rem 0;
+    padding: 7rem 0;
     background: transparent;
     position: relative;
     overflow: hidden;
@@ -2096,7 +2097,7 @@ body::after {
    BNI 創造的三個結果
    ============================================ */
 .bni-results {
-    padding: 5rem 0;
+    padding: 7rem 0;
     background: transparent;
     position: relative;
     overflow: hidden;
@@ -2108,8 +2109,8 @@ body::after {
 .bni-results-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    margin-top: 3rem;
+    gap: 3rem;
+    margin-top: 4rem;
     position: relative;
     z-index: 1;
 }
@@ -2164,7 +2165,7 @@ body::after {
    BNI 使命宣言
    ============================================ */
 .bni-mission {
-    padding: 5rem 0;
+    padding: 7rem 0;
     background: transparent;
     position: relative;
     overflow: hidden;
@@ -2800,7 +2801,7 @@ body::after {
     font-size: 1.2rem;
     color: var(--text-gray);
     line-height: 1.8;
-    margin-bottom: 2rem;
+    margin-bottom: 3rem;
     max-width: 800px;
     margin-left: auto;
     margin-right: auto;
@@ -3430,7 +3431,7 @@ body::after {
    會員成功案例
    ============================================ */
 .success-stories {
-    padding: 5rem 0;
+    padding: 7rem 0;
     background: transparent;
     position: relative;
     z-index: 1;
@@ -3442,8 +3443,8 @@ body::after {
 .success-stories-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    margin-top: 3rem;
+    gap: 3rem;
+    margin-top: 4rem;
 }
 
 .success-card {
@@ -3504,7 +3505,7 @@ body::after {
    會議資訊
    ============================================ */
 .meeting-info {
-    padding: 5rem 0;
+    padding: 7rem 0;
     background: transparent;
     position: relative;
     z-index: 1;
@@ -3516,8 +3517,8 @@ body::after {
 .meeting-info-content {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 3rem;
-    margin-top: 3rem;
+    gap: 4rem;
+    margin-top: 4rem;
 }
 
 .meeting-schedule-card {
@@ -3614,7 +3615,7 @@ body::after {
    ============================================ */
 .join-intro {
     text-align: center;
-    margin-bottom: 3rem;
+    margin-bottom: 4rem;
 }
 
 .join-intro h3 {
@@ -3633,8 +3634,8 @@ body::after {
 .join-benefits-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 2rem;
-    margin-bottom: 4rem;
+    gap: 2.5rem;
+    margin-bottom: 5rem;
 }
 
 .benefit-card {
@@ -3683,21 +3684,21 @@ body::after {
 }
 
 .join-process {
-    margin-bottom: 4rem;
+    margin-bottom: 5rem;
 }
 
 .join-process h3 {
     font-size: 2rem;
     color: var(--gold);
     text-align: center;
-    margin-bottom: 3rem;
+    margin-bottom: 4rem;
     font-weight: 600;
 }
 
 .process-steps {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 2.5rem;
     max-width: 800px;
     margin: 0 auto;
 }
@@ -3776,7 +3777,7 @@ body::after {
    常見問題 FAQ
    ============================================ */
 .faq {
-    padding: 5rem 0;
+    padding: 7rem 0;
     background: transparent;
     position: relative;
     z-index: 1;
@@ -3787,7 +3788,7 @@ body::after {
 
 .faq-content {
     max-width: 900px;
-    margin: 3rem auto 0;
+    margin: 4rem auto 0;
 }
 
 .faq-item {
@@ -3796,7 +3797,7 @@ body::after {
     -webkit-backdrop-filter: var(--glass-blur-strong);
     border: 1px solid var(--glass-border);
     border-radius: 15px;
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
     overflow: hidden;
     transition: var(--transition);
 }
