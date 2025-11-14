@@ -56,10 +56,10 @@ function initStarryBackground() {
             const maxX = Math.max(viewportWidth, 2560);
             const maxY = Math.max(viewportHeight, 2560);
             
-            // 生成不同層級的星星 - 更多星星讓背景更豐富
-            starsLayer.style.boxShadow = generateStarsShadow(80, maxX, maxY);
-            stars1Layer.style.boxShadow = generateStarsShadow(60, maxX, maxY);
-            stars2Layer.style.boxShadow = generateStarsShadow(40, maxX, maxY);
+            // 優化：減少星星數量以提高性能
+            starsLayer.style.boxShadow = generateStarsShadow(50, maxX, maxY);
+            stars1Layer.style.boxShadow = generateStarsShadow(40, maxX, maxY);
+            stars2Layer.style.boxShadow = generateStarsShadow(30, maxX, maxY);
         }
     }, 100);
 }

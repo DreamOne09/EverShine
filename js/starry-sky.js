@@ -49,7 +49,8 @@ class StarrySky {
     
     createStars() {
         this.stars = [];
-        const starCount = Math.floor((this.canvas.width * this.canvas.height) / 3000); // 更密集的星空
+        // 優化：減少星星數量以提高性能
+        const starCount = Math.min(Math.floor((this.canvas.width * this.canvas.height) / 5000), 500);
         
         for (let i = 0; i < starCount; i++) {
             const x = Math.random() * this.canvas.width;
@@ -85,7 +86,8 @@ class StarrySky {
     
     createNebulas() {
         this.nebulas = [];
-        const nebulaCount = 8;
+        // 優化：減少星雲數量以提高性能
+        const nebulaCount = 5;
         
         for (let i = 0; i < nebulaCount; i++) {
             this.nebulas.push({
