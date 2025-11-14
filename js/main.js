@@ -13,6 +13,9 @@ document.addEventListener('DOMContentLoaded', () => {
         initComponents();
     }
     
+    // 初始化動態星點背景
+    initStarfield();
+    
     // 檢查是否有會員展示區，才載入會員資料
     if (document.getElementById('membersGrid')) {
         loadMembersData();
@@ -272,7 +275,11 @@ function createMemberCard(member) {
     const hashtagsHtml = buildHashtagsHtml(member.hashtags);
     const socialHtml = buildSocialLinks(member.social);
     const contactHtml = buildContactHtml(member.contact);
-    const description = member.description || '專業服務提供商';
+    
+    // 使用簡短介紹（摺疊時顯示）和詳細介紹（展開時顯示）
+    const shortDescription = member.shortDescription || member.description || '專業服務提供商';
+    const fullDescription = member.fullDescription || member.description || '專業服務提供商';
+    
     const memberId = `member-${member.name.replace(/\s+/g, '-').toLowerCase()}`;
     
     return `
@@ -291,9 +298,14 @@ function createMemberCard(member) {
                     </button>
                 </div>
             </div>
+            <!-- 摺疊時顯示的簡短介紹 -->
+            <div class="member-short-description">
+                <p>${shortDescription}</p>
+            </div>
             <div class="member-details" id="${memberId}-details">
                 <div class="member-info">
-                    <p class="member-description">${description}</p>
+                    <!-- 展開時顯示的詳細介紹 -->
+                    <p class="member-description">${fullDescription}</p>
                     ${servicesHtml}
                     ${hashtagsHtml}
                     ${socialHtml}
@@ -571,11 +583,22 @@ function initMemberToggles() {
             const targetId = btn.getAttribute('data-target');
             const detailsElement = document.getElementById(`${targetId}-details`);
             const icon = btn.querySelector('.toggle-icon');
+            const card = btn.closest('.member-card');
+            const shortDesc = card?.querySelector('.member-short-description');
             
             if (detailsElement) {
                 const isExpanded = detailsElement.classList.toggle('expanded');
                 btn.classList.toggle('expanded', isExpanded);
                 icon.textContent = isExpanded ? '▲' : '▼';
+                
+                // 控制簡短介紹的顯示/隱藏
+                if (shortDesc) {
+                    if (isExpanded) {
+                        shortDesc.style.display = 'none';
+                    } else {
+                        shortDesc.style.display = 'block';
+                    }
+                }
             }
         });
     });
@@ -598,6 +621,82 @@ function initCategoryToggles() {
                 icon.textContent = isExpanded ? '▲' : '▼';
             }
         });
+    });
+}
+
+// ============================================
+// 初始化動態星點背景 - 生成大量星點營造宇宙感
+// ============================================
+function initStarfield() {
+    const starfield = document.getElementById('starfield');
+    if (!starfield) return;
+    
+    // 根據螢幕大小計算星點數量（響應式）
+    const width = window.innerWidth;
+    const height = Math.max(document.documentElement.scrollHeight, window.innerHeight);
+    const starCount = Math.floor((width * height) / 8000); // 每 8000 像素一個星點
+    
+    // 星點顏色配置（使用現有的 CSS 變數顏色）
+    const starColors = [
+        'rgba(255, 255, 255, 0.9)',      // 白色亮星
+        'rgba(255, 255, 255, 0.8)',      // 白色中等
+        'rgba(255, 255, 255, 0.7)',      // 白色暗星
+        'rgba(169, 214, 255, 0.85)',    // 藍色亮星
+        'rgba(169, 214, 255, 0.75)',    // 藍色中等
+        'rgba(200, 230, 255, 0.8)',     // 青色亮星
+        'rgba(200, 230, 255, 0.7)',     // 青色中等
+        'rgba(115, 188, 255, 0.75)',    // 天藍色
+        'rgba(115, 188, 255, 0.65)',    // 天藍色暗
+    ];
+    
+    // 清空現有星點
+    starfield.innerHTML = '';
+    
+    // 生成星點
+    for (let i = 0; i < starCount; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        
+        // 隨機位置
+        const x = Math.random() * 100;
+        const y = Math.random() * 100;
+        
+        // 隨機大小（0.5px 到 2px）
+        const size = Math.random() * 1.5 + 0.5;
+        
+        // 隨機顏色
+        const color = starColors[Math.floor(Math.random() * starColors.length)];
+        
+        // 隨機動畫延遲（創造閃爍效果）
+        const delay = Math.random() * 3;
+        
+        // 隨機動畫持續時間
+        const duration = Math.random() * 2 + 2;
+        
+        star.style.cssText = `
+            position: absolute;
+            left: ${x}%;
+            top: ${y}%;
+            width: ${size}px;
+            height: ${size}px;
+            background: ${color};
+            border-radius: 50%;
+            box-shadow: 0 0 ${size * 2}px ${color};
+            animation: starTwinkle ${duration}s ease-in-out infinite;
+            animation-delay: ${delay}s;
+            pointer-events: none;
+        `;
+        
+        starfield.appendChild(star);
+    }
+    
+    // 視窗大小改變時重新生成星點
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+            initStarfield();
+        }, 250);
     });
 }
 

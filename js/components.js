@@ -47,8 +47,7 @@ function getNavigationHTML() {
                     <a href="https://www.threads.com/@chhubni" target="_blank" rel="noopener noreferrer" class="nav-social-link" aria-label="Threads">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5" fill="none"/>
-                            <path d="M8 12c0-2.21 1.79-4 4-4s4 1.79 4 4-1.79 4-4 4-4-1.79-4-4z" stroke="currentColor" stroke-width="1.5" fill="none"/>
-                            <path d="M16 8l-2 2 2 2M8 16l2-2-2-2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M8 8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 1.1-.45 2.1-1.17 2.83L16 12l-1.17 1.17C14.45 13.9 14 14.9 14 16c0 2.21 1.79 4 4 4s4-1.79 4-4c0-1.1.45-2.1 1.17-2.83L22 12l1.17-1.17C23.55 10.1 24 9.1 24 8c0-2.21-1.79-4-4-4s-4 1.79-4 4c0 1.1-.45 2.1-1.17 2.83L16 12l1.17 1.17C17.55 13.9 18 14.9 18 16c0 2.21-1.79 4-4 4s-4-1.79-4-4c0-1.1-.45-2.1-1.17-2.83L8 12l-1.17-1.17C6.45 10.1 6 9.1 6 8c0-2.21 1.79-4 4-4s4 1.79 4 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </a>
                 </li>
@@ -94,8 +93,7 @@ function getFooterHTML() {
                         <a href="https://www.threads.com/@chhubni" target="_blank" rel="noopener noreferrer" class="footer-social-link" aria-label="Threads">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5" fill="none"/>
-                                <path d="M8 12c0-2.21 1.79-4 4-4s4 1.79 4 4-1.79 4-4 4-4-1.79-4-4z" stroke="currentColor" stroke-width="1.5" fill="none"/>
-                                <path d="M16 8l-2 2 2 2M8 16l2-2-2-2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M8 8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 1.1-.45 2.1-1.17 2.83L16 12l-1.17 1.17C14.45 13.9 14 14.9 14 16c0 2.21 1.79 4 4 4s4-1.79 4-4c0-1.1.45-2.1 1.17-2.83L22 12l1.17-1.17C23.55 10.1 24 9.1 24 8c0-2.21-1.79-4-4-4s-4 1.79-4 4c0 1.1-.45 2.1-1.17 2.83L16 12l1.17 1.17C17.55 13.9 18 14.9 18 16c0 2.21-1.79 4-4 4s-4-1.79-4-4c0-1.1-.45-2.1-1.17-2.83L8 12l-1.17-1.17C6.45 10.1 6 9.1 6 8c0-2.21 1.79-4 4-4s4 1.79 4 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
                             <span class="social-name">Threads</span>
                         </a>

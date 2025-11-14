@@ -77,21 +77,77 @@ body {
     font-family: 'Noto Sans TC', sans-serif;
     background-color: #000000;
     background:
+        /* 長條形銀河帶效果 - 橫向延伸的星雲 */
+        linear-gradient(90deg, 
+            transparent 0%,
+            rgba(76, 168, 223, 0.15) 10%,
+            rgba(110, 84, 255, 0.18) 20%,
+            rgba(35, 150, 255, 0.16) 30%,
+            rgba(120, 87, 255, 0.14) 40%,
+            rgba(76, 168, 223, 0.12) 50%,
+            rgba(110, 84, 255, 0.14) 60%,
+            rgba(35, 150, 255, 0.16) 70%,
+            rgba(120, 87, 255, 0.18) 80%,
+            rgba(76, 168, 223, 0.15) 90%,
+            transparent 100%
+        ),
+        /* 垂直方向的星雲帶 */
+        linear-gradient(0deg,
+            transparent 0%,
+            rgba(76, 168, 223, 0.12) 15%,
+            rgba(110, 84, 255, 0.14) 30%,
+            rgba(35, 150, 255, 0.13) 45%,
+            rgba(120, 87, 255, 0.11) 60%,
+            rgba(76, 168, 223, 0.13) 75%,
+            rgba(110, 84, 255, 0.12) 90%,
+            transparent 100%
+        ),
+        /* 原有星雲效果 */
         radial-gradient(ellipse 1400px 1000px at 20% 30%, rgba(76, 168, 223, 0.08) 0%, transparent 70%),
         radial-gradient(ellipse 1200px 900px at 75% 25%, rgba(110, 84, 255, 0.06) 0%, transparent 65%),
         radial-gradient(ellipse 1600px 1100px at 50% 70%, rgba(35, 150, 255, 0.05) 0%, transparent 75%),
         radial-gradient(ellipse 1000px 800px at 10% 60%, rgba(76, 168, 223, 0.04) 0%, transparent 60%),
         radial-gradient(ellipse 1300px 950px at 85% 75%, rgba(120, 87, 255, 0.05) 0%, transparent 65%),
         linear-gradient(180deg, #000000 0%, #000000 30%, #000000 70%, #000000 100%);
+    background-size: 200% 100%, 100% 200%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%;
+    background-position: center center, center center, center center, center center, center center, center center, center center;
     color: var(--text-white);
     line-height: 1.6;
     overflow-x: hidden;
     position: relative;
     padding-bottom: 60px; /* 為固定橫幅預留空間 */
     min-height: 100vh;
+    /* 移除動畫，保持靜態背景 */
 }
 
-/* 全站星空背景效果 - 深色星空，仰望星空的感覺 */
+/* 動態星點容器 */
+.starfield {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    min-height: 100vh;
+    z-index: -1;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+/* 星點閃爍動畫 - 減緩動畫速度，降低複雜度 */
+@keyframes starTwinkle {
+    0%, 100% {
+        opacity: 0.5;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.8;
+        transform: scale(1.1);
+    }
+}
+
+/* 銀河流動動畫 - 已停用，保持靜態背景 */
+
+/* 全站星空背景效果 - 深色星空，仰望星空的感覺（保留作為備用層） */
 body::before {
     content: '';
     position: fixed;
@@ -138,8 +194,8 @@ body::before {
         radial-gradient(1.2px 1.2px at 95% 52%, rgba(255, 255, 255, 0.8), transparent);
     background-size: 100% 100%;
     background-repeat: no-repeat;
-    opacity: 0.85;
-    z-index: -1;
+    opacity: 0.4;
+    z-index: -2;
     pointer-events: none;
 }
 
@@ -149,6 +205,30 @@ body::after {
     inset: 0;
     min-height: 100vh;
     background:
+        /* 長條形星雲帶 - 橫向銀河效果 */
+        linear-gradient(90deg,
+            transparent 0%,
+            rgba(76, 168, 223, 0.2) 5%,
+            rgba(110, 84, 255, 0.25) 10%,
+            rgba(35, 150, 255, 0.22) 15%,
+            rgba(120, 87, 255, 0.2) 20%,
+            rgba(76, 168, 223, 0.18) 25%,
+            rgba(110, 84, 255, 0.2) 30%,
+            rgba(35, 150, 255, 0.22) 35%,
+            rgba(120, 87, 255, 0.25) 40%,
+            rgba(76, 168, 223, 0.2) 45%,
+            transparent 50%,
+            rgba(76, 168, 223, 0.2) 55%,
+            rgba(110, 84, 255, 0.25) 60%,
+            rgba(35, 150, 255, 0.22) 65%,
+            rgba(120, 87, 255, 0.2) 70%,
+            rgba(76, 168, 223, 0.18) 75%,
+            rgba(110, 84, 255, 0.2) 80%,
+            rgba(35, 150, 255, 0.22) 85%,
+            rgba(120, 87, 255, 0.25) 90%,
+            rgba(76, 168, 223, 0.2) 95%,
+            transparent 100%
+        ),
         /* 增強星雲效果 - 更明顯但保持深空感 */
         radial-gradient(ellipse 1800px 1200px at 20% 30%, rgba(76, 168, 223, 0.12) 0%, rgba(76, 168, 223, 0.06) 30%, transparent 70%),
         radial-gradient(ellipse 1500px 1100px at 75% 25%, rgba(110, 84, 255, 0.1) 0%, rgba(110, 84, 255, 0.05) 30%, transparent 65%),
@@ -159,10 +239,11 @@ body::after {
         radial-gradient(ellipse 800px 600px at 40% 20%, rgba(255, 120, 196, 0.08) 0%, transparent 50%),
         radial-gradient(ellipse 900px 700px at 60% 80%, rgba(135, 206, 250, 0.07) 0%, transparent 55%);
     mix-blend-mode: screen;
-    opacity: 0.5;
-    z-index: -2;
+    opacity: 0.6;
+    z-index: -3;
     pointer-events: none;
-    animation: nebulaDrift 60s ease-in-out infinite alternate;
+    /* 移除動畫，保持靜態星雲效果 */
+    background-size: 200% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%;
 }
 
 /* 星系背景層 - 螺旋星系效果 */
@@ -211,36 +292,11 @@ body::after {
     background-size: 200% 200%, 180% 180%, 100% 100%, 100% 100%, 100% 100%;
     background-position: center center;
     mix-blend-mode: screen;
-    animation: galaxyRotate 120s linear infinite;
+    /* 移除動畫，保持靜態星系效果 */
 }
 
-/* 星雲飄移動畫 */
-@keyframes nebulaDrift {
-    0% {
-        transform: translate(0, 0) scale(1);
-        opacity: 0.5;
-    }
-    50% {
-        transform: translate(-20px, 15px) scale(1.05);
-        opacity: 0.55;
-    }
-    100% {
-        transform: translate(15px, -10px) scale(0.98);
-        opacity: 0.5;
-    }
-}
-
-/* 星系旋轉動畫 */
-@keyframes galaxyRotate {
-    0% {
-        transform: rotate(0deg);
-        background-position: center center, center center, center center, center center, center center;
-    }
-    100% {
-        transform: rotate(360deg);
-        background-position: center center, center center, center center, center center, center center;
-    }
-}
+/* 星雲飄移動畫 - 已停用 */
+/* 星系旋轉動畫 - 已停用 */
 
 
 
@@ -1258,6 +1314,18 @@ body::after {
     transform: rotate(180deg);
 }
 
+/* 簡短介紹 - 摺疊時顯示 */
+.member-short-description {
+    padding: 1rem 1.2rem;
+    margin-top: 1rem;
+    transition: opacity 0.3s ease, max-height 0.3s ease;
+}
+
+.member-card .member-details.expanded ~ .member-short-description,
+.member-card .member-details.expanded + .member-short-description {
+    display: none;
+}
+
 .member-details {
     max-height: 0;
     overflow: hidden;
@@ -1271,7 +1339,10 @@ body::after {
     opacity: 1;
     margin-top: 1.5rem;
     padding-top: 1.5rem;
-    border-top: 1px solid rgba(76, 168, 223, 0.2);
+}
+
+.member-details.expanded ~ .member-short-description {
+    display: none;
 }
 
 .member-info {
@@ -1572,7 +1643,7 @@ body::after {
 .footer {
     background: transparent;
     padding: 3rem 0 1rem;
-    border-top: 1px solid var(--border-gold);
+    border-top: none;
     position: relative;
     overflow: hidden;
 }
@@ -1769,14 +1840,7 @@ body::after {
     z-index: 10;
     max-width: 900px;
     padding: 4rem 3rem;
-    background: rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border-radius: 20px;
-    border: 1px solid rgba(76, 168, 223, 0.2);
-    box-shadow: 
-        0 20px 60px rgba(0, 0, 0, 0.5),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    background: transparent;
 }
 
 /* ============================================
