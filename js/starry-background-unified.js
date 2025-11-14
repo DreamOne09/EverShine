@@ -151,15 +151,15 @@ function initCSSSky() {
         sky.appendChild(div);
     });
     
-    // 創建流星
+    container.appendChild(sky);
+    document.body.insertBefore(container, document.body.firstChild);
+    
+    // 創建流星 - 直接添加到 body，不受容器 z-index 限制
     for (let i = 0; i < CONFIG.css.shootingStarCount; i++) {
         const div = document.createElement('div');
         div.className = 'shooting-stars';
-        sky.appendChild(div);
+        document.body.appendChild(div);
     }
-    
-    container.appendChild(sky);
-    document.body.insertBefore(container, document.body.firstChild);
     
     // 生成星星位置 - 確保覆蓋整個頁面
     setTimeout(() => {
