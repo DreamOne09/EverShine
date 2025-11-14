@@ -124,7 +124,6 @@ html {
 body {
     font-family: 'Noto Sans TC', sans-serif;
     background-color: #000;
-    background: transparent;
     color: var(--text-white);
     line-height: 1.6;
     overflow-x: hidden;
