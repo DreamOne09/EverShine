@@ -34,8 +34,8 @@ function initCanvasSky() {
     if (!canvas) {
         canvas = document.createElement('canvas');
         canvas.id = 'starrySkyCanvas';
-        canvas.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;min-height:100vh;z-index:-3;pointer-events:none;background:transparent;';
-        document.body.appendChild(canvas);
+        canvas.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;min-height:100vh;z-index:-3;pointer-events:none;background:transparent;display:block;';
+        document.body.insertBefore(canvas, document.body.firstChild);
     }
     
     const ctx = canvas.getContext('2d');
