@@ -5,17 +5,17 @@
 // 配置常數
 const CONFIG = {
     canvas: {
-        starDensity: 5000, // 每5000像素一個星星
-        maxStars: 500,
-        nebulaCount: 5
+        starDensity: 2000, // 每2000像素一個星星（增加密度）
+        maxStars: 1500, // 增加最大星星數
+        nebulaCount: 8 // 增加星雲數量
     },
     css: {
         starLayers: [
-            { count: 50, size: '1px', duration: '100s' },
-            { count: 40, size: '2px', duration: '125s' },
-            { count: 30, size: '3px', duration: '175s' }
+            { count: 150, size: '1px', duration: '100s' },
+            { count: 120, size: '2px', duration: '125s' },
+            { count: 80, size: '3px', duration: '175s' }
         ],
-        shootingStarCount: 3
+        shootingStarCount: 5 // 增加流星數量
     }
 };
 
