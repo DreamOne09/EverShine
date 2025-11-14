@@ -161,17 +161,28 @@ function initCSSSky() {
     container.appendChild(sky);
     document.body.insertBefore(container, document.body.firstChild);
     
-    // 生成星星位置
+    // 生成星星位置 - 確保覆蓋整個頁面
     setTimeout(() => {
         const layers = sky.querySelectorAll('.stars-layer');
         const w = Math.max(window.innerWidth, 2560);
-        const h = Math.max(document.documentElement.scrollHeight, window.innerHeight);
+        const h = Math.max(document.documentElement.scrollHeight, window.innerHeight, 5000);
+        
+        // 更新容器高度以覆蓋整個頁面
+        container.style.height = `${Math.max(document.documentElement.scrollHeight, window.innerHeight)}px`;
+        sky.style.height = `${Math.max(document.documentElement.scrollHeight, window.innerHeight)}px`;
         
         layers.forEach((layer, i) => {
             const config = CONFIG.css.starLayers[i];
             layer.style.boxShadow = generateStarsShadow(config.count, w, h);
         });
     }, 100);
+    
+    // 監聽滾動，動態更新高度
+    window.addEventListener('scroll', () => {
+        const newHeight = Math.max(document.documentElement.scrollHeight, window.innerHeight);
+        container.style.height = `${newHeight}px`;
+        sky.style.height = `${newHeight}px`;
+    });
 }
 
 // 生成星星 box-shadow

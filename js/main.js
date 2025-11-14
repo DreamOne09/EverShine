@@ -32,7 +32,40 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // 處理頁面載入時的錨點定位
     handleAnchorNavigation();
+    
+    // 初始化 FAQ 互動功能
+    initFAQ();
 });
+
+// ============================================
+// FAQ 互動功能
+// ============================================
+function initFAQ() {
+    const faqItems = document.querySelectorAll('.faq-item');
+    
+    faqItems.forEach(item => {
+        const question = item.querySelector('.faq-question');
+        if (question) {
+            question.addEventListener('click', () => {
+                const isActive = item.classList.contains('active');
+                
+                // 關閉其他 FAQ
+                faqItems.forEach(otherItem => {
+                    if (otherItem !== item) {
+                        otherItem.classList.remove('active');
+                    }
+                });
+                
+                // 切換當前 FAQ
+                if (isActive) {
+                    item.classList.remove('active');
+                } else {
+                    item.classList.add('active');
+                }
+            });
+        }
+    });
+}
 
 // ============================================
 // 處理錨點導航
