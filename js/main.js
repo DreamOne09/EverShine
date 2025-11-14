@@ -13,8 +13,8 @@ document.addEventListener('DOMContentLoaded', () => {
         initComponents();
     }
     
-    // 初始化動態星點背景
-    initStarfield();
+    // 星空背景已由 starry-sky.js 處理
+    // initStarfield(); // 改用 Canvas 星空背景
     
     // 檢查是否有會員展示區，才載入會員資料
     if (document.getElementById('membersGrid')) {
