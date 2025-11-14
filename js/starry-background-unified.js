@@ -189,7 +189,10 @@ function initCSSSky() {
 function generateStarsShadow(count, maxX, maxY) {
     const shadows = [];
     for (let i = 0; i < count; i++) {
-        shadows.push(`${Math.floor(Math.random() * maxX)}px ${Math.floor(Math.random() * maxY)}px #FFF`);
+        const x = Math.floor(Math.random() * maxX);
+        const y = Math.floor(Math.random() * maxY);
+        const brightness = Math.random() * 0.5 + 0.5; // 0.5 到 1.0
+        shadows.push(`${x}px ${y}px 2px rgba(255, 255, 255, ${brightness})`);
     }
     return shadows.join(', ');
 }
