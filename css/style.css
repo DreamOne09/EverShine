@@ -121,7 +121,7 @@ body {
     }
 }
 
-/* 星空背景容器 - 僅在非 hero section 顯示 */
+/* 星空背景容器 - 作為背景層，僅在非 hero section 顯示 */
 .starry-background-container {
     position: fixed;
     top: 0;
@@ -129,14 +129,16 @@ body {
     width: 100%;
     height: 100%;
     min-height: 100vh;
-    z-index: -1;
+    z-index: -2;
     pointer-events: none;
     overflow: hidden;
     background: #000;
 }
 
 .starry-sky {
-    position: relative;
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     min-height: 100vh;
@@ -145,6 +147,10 @@ body {
 /* 星星層級 */
 .stars-layer {
     position: absolute;
+    top: 0;
+    left: 0;
+    width: 1px;
+    height: 1px;
     border-radius: 50%;
     background: transparent;
 }
@@ -152,39 +158,36 @@ body {
 .stars-layer.stars {
     width: 1px;
     height: 1px;
-    z-index: 10;
     animation: animStar 100s linear infinite;
 }
 
 .stars-layer.stars1 {
     width: 2px;
     height: 2px;
-    z-index: 10;
     animation: animStar 125s linear infinite;
 }
 
 .stars-layer.stars2 {
     width: 3px;
     height: 3px;
-    z-index: 10;
     animation: animStar 175s linear infinite;
 }
 
-/* 星星移動動畫 */
+/* 星星移動動畫 - 從右下到左上移動 */
 @keyframes animStar {
     from {
-        transform: translateY(0px);
+        transform: translateY(0px) translateX(0px);
     }
     to {
         transform: translateY(-2560px) translateX(-2560px);
     }
 }
 
-/* 確保 hero section 使用 Canvas 星空背景，背景層級更高 */
+/* 確保 hero section 使用 Canvas 星空背景 */
 .hero,
 .page-hero {
     position: relative;
-    z-index: 2;
+    z-index: 1;
     background: transparent;
 }
 
@@ -192,17 +195,7 @@ body {
 section:not(.hero):not(.page-hero) {
     position: relative;
     z-index: 1;
-}
-
-/* 星空背景容器應該在 hero 之後才顯示 */
-.hero ~ .starry-background-container,
-.page-hero ~ .starry-background-container {
-    display: block;
-}
-
-/* 如果星空背景在 hero 之前，隱藏它 */
-.starry-background-container:first-child {
-    display: none;
+    background: transparent;
 }
 
 /* 舊的CSS背景效果已移除，現在使用Canvas星空背景 */
