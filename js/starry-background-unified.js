@@ -11,11 +11,11 @@ const CONFIG = {
     },
     css: {
         starLayers: [
-            { count: 150, size: '1px', duration: '100s' },
-            { count: 120, size: '2px', duration: '125s' },
-            { count: 80, size: '3px', duration: '175s' }
+            { count: 200, size: '1px', duration: '100s' },
+            { count: 150, size: '2px', duration: '125s' },
+            { count: 100, size: '3px', duration: '175s' }
         ],
-        shootingStarCount: 5 // 增加流星數量
+        shootingStarCount: 5 // 流星數量
     }
 };
 
@@ -191,8 +191,9 @@ function generateStarsShadow(count, maxX, maxY) {
     for (let i = 0; i < count; i++) {
         const x = Math.floor(Math.random() * maxX);
         const y = Math.floor(Math.random() * maxY);
-        const brightness = Math.random() * 0.5 + 0.5; // 0.5 到 1.0
-        shadows.push(`${x}px ${y}px 2px rgba(255, 255, 255, ${brightness})`);
+        const brightness = Math.random() * 0.4 + 0.6; // 0.6 到 1.0，更亮的星星
+        const size = Math.random() * 2 + 1; // 1px 到 3px 的光暈
+        shadows.push(`${x}px ${y}px ${size}px rgba(255, 255, 255, ${brightness})`);
     }
     return shadows.join(', ');
 }
