@@ -171,6 +171,13 @@ body {
     background: transparent;
 }
 
+/* 確保星星層可見 */
+.starry-background-container .stars-layer {
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: block !important;
+}
+
 .starry-sky {
     position: absolute;
     top: 0;
