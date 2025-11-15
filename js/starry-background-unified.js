@@ -11,11 +11,12 @@ const CONFIG = {
     },
     css: {
         starLayers: [
-            { count: 200, size: '1px', duration: '100s' },
-            { count: 150, size: '2px', duration: '125s' },
-            { count: 100, size: '3px', duration: '175s' }
+            { count: 4000, size: '1px', duration: '100s' },
+            { count: 3000, size: '2px', duration: '125s' },
+            { count: 2000, size: '3px', duration: '175s' },
+            { count: 1500, size: '1px', duration: '150s' }
         ],
-        shootingStarCount: 5 // 流星數量
+        shootingStarCount: 12 // 流星數量
     }
 };
 
@@ -155,9 +156,29 @@ function initCSSSky() {
     document.body.insertBefore(container, document.body.firstChild);
     
     // 創建流星 - 直接添加到 body，不受容器 z-index 限制
+    // 為每個流星設置完全隨機的起始位置和延遲時間
     for (let i = 0; i < CONFIG.css.shootingStarCount; i++) {
         const div = document.createElement('div');
         div.className = 'shooting-stars';
+        
+        // 完全隨機的起始位置（0% 到 100%），不限制重複
+        const randomRight = Math.random() * 100;
+        
+        // 隨機延遲時間（0 到 25 秒），讓流星更隨機出現
+        const randomDelay = Math.random() * 25;
+        
+        // 隨機動畫持續時間（6 到 18 秒），讓速度更隨機
+        const randomDuration = Math.random() * 12 + 6;
+        
+        // 隨機起始角度（-30度到-60度），讓流星軌跡更多樣
+        const randomAngle = Math.random() * 30 - 60;
+        
+        // 設置樣式
+        div.style.right = `${randomRight}%`;
+        div.style.animationDelay = `${randomDelay}s`;
+        div.style.animationDuration = `${randomDuration}s`;
+        div.style.setProperty('--shooting-angle', `${randomAngle}deg`);
+        
         document.body.appendChild(div);
     }
     
@@ -191,9 +212,24 @@ function generateStarsShadow(count, maxX, maxY) {
     for (let i = 0; i < count; i++) {
         const x = Math.floor(Math.random() * maxX);
         const y = Math.floor(Math.random() * maxY);
-        const brightness = Math.random() * 0.4 + 0.6; // 0.6 到 1.0，更亮的星星
-        const size = Math.random() * 2 + 1; // 1px 到 3px 的光暈
-        shadows.push(`${x}px ${y}px ${size}px rgba(255, 255, 255, ${brightness})`);
+        // 增加亮度範圍：0.7 到 1.0，讓星星更明顯
+        const brightness = Math.random() * 0.3 + 0.7;
+        // 增加光暈大小：2px 到 5px，讓星星更明顯
+        const size = Math.random() * 3 + 2;
+        // 使用更亮的白色和藍色星星混合
+        const colorType = Math.random();
+        let color;
+        if (colorType < 0.7) {
+            // 70% 是純白色星星
+            color = `rgba(255, 255, 255, ${brightness})`;
+        } else if (colorType < 0.9) {
+            // 20% 是藍白色星星
+            color = `rgba(200, 230, 255, ${brightness})`;
+        } else {
+            // 10% 是藍色星星
+            color = `rgba(169, 214, 255, ${brightness})`;
+        }
+        shadows.push(`${x}px ${y}px ${size}px ${color}, ${x}px ${y}px ${size * 2}px ${color.replace(/[\d\.]+\)$/, '0.3)')}`);
     }
     return shadows.join(', ');
 }

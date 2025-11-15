@@ -309,8 +309,8 @@ function createMemberCard(member) {
     const socialHtml = buildSocialLinks(member.social);
     const contactHtml = buildContactHtml(member.contact);
     
-    // 使用簡短介紹（摺疊時顯示）和詳細介紹（展開時顯示）
-    const shortDescription = member.shortDescription || member.description || '專業服務提供商';
+    // 使用簡短介紹（摺疊時顯示，30字）和詳細介紹（展開時顯示，200字）
+    const shortDescription = member.shortDescription || (member.description ? member.description.substring(0, 30) + '...' : '專業服務提供商');
     const fullDescription = member.fullDescription || member.description || '專業服務提供商';
     
     const memberId = `member-${member.name.replace(/\s+/g, '-').toLowerCase()}`;
