@@ -2027,6 +2027,65 @@ body::after {
 /* ============================================
    BNI 基本介紹
    ============================================ */
+/* 資料截止日期說明 */
+.data-notice {
+    padding: 2rem 0;
+    background: rgba(0, 27, 54, 0.6);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--glass-border);
+    position: relative;
+    z-index: 10;
+}
+
+.data-notice-content {
+    text-align: center;
+}
+
+.data-notice-text {
+    font-size: 1.1rem;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.data-notice-subtext {
+    font-size: 0.9rem;
+    color: var(--text-gray);
+}
+
+/* BNI簡介連結區塊（首頁） */
+.bni-intro-link {
+    padding: 5rem 0;
+    background: transparent;
+    position: relative;
+}
+
+.bni-intro-link-content {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.bni-intro-link-text {
+    font-size: 1.1rem;
+    color: var(--text-gray);
+    line-height: 1.8;
+    margin: 2rem 0 3rem;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* 回到首頁連結 */
+.back-to-home {
+    padding: 4rem 0;
+    background: transparent;
+    position: relative;
+}
+
+.back-to-home-content {
+    text-align: center;
+}
+
 .bni-intro {
     padding: 7rem 0;
     background: transparent;

@@ -31,6 +31,7 @@ function getNavigationHTML() {
             </button>
             <ul class="nav-menu" id="navMenu">
                 <li><a href="index.html" class="nav-link">首頁</a></li>
+                <li><a href="what-is-bni.html" class="nav-link">什麼是BNI</a></li>
                 <li><a href="members.html" class="nav-link">會員介紹</a></li>
                 <li><a href="referrals.html" class="nav-link">會員引薦報告</a></li>
                 <li class="nav-social">
@@ -71,6 +72,7 @@ function getFooterHTML() {
                     <h4>快速連結</h4>
                     <ul class="footer-links">
                         <li><a href="index.html">首頁</a></li>
+                        <li><a href="what-is-bni.html">什麼是BNI</a></li>
                         <li><a href="members.html">會員介紹</a></li>
                         <li><a href="referrals.html">會員引薦報告</a></li>
                     </ul>
