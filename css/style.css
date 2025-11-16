@@ -189,8 +189,8 @@ body {
     min-height: 100%;
 }
 
-/* 星星層級 */
-.stars-layer {
+/* 靜態星星層（會閃爍） */
+.static-stars-layer {
     position: absolute;
     top: 0;
     left: 0;
@@ -198,32 +198,58 @@ body {
     height: 1px;
     border-radius: 50%;
     background: transparent;
-    /* 基礎光暈，JavaScript生成的box-shadow會覆蓋這個 */
-    box-shadow: 0 0 2px rgba(255, 255, 255, 0.9);
+    animation: starTwinkle 3s ease-in-out infinite;
 }
 
-.stars-layer.stars {
-    width: 1px;
-    height: 1px;
+.static-stars-layer.static-stars0 {
+    animation-duration: 3s;
+    animation-delay: 0s;
+}
+
+.static-stars-layer.static-stars1 {
+    animation-duration: 4s;
+    animation-delay: 1s;
+}
+
+.static-stars-layer.static-stars2 {
+    animation-duration: 5s;
+    animation-delay: 2s;
+}
+
+/* 移動的星星層 */
+.moving-stars-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2px;
+    height: 2px;
+    border-radius: 50%;
+    background: transparent;
     animation: animStar 100s linear infinite;
 }
 
-.stars-layer.stars1 {
+.moving-stars-layer.moving-stars0 {
     width: 2px;
     height: 2px;
-    animation: animStar 125s linear infinite;
+    animation-duration: 100s;
 }
 
-.stars-layer.stars2 {
+.moving-stars-layer.moving-stars1 {
     width: 3px;
     height: 3px;
-    animation: animStar 175s linear infinite;
+    animation-duration: 125s;
 }
 
-.stars-layer.stars3 {
-    width: 1px;
-    height: 1px;
-    animation: animStar 150s linear infinite;
+/* 星星閃爍動畫 */
+@keyframes starTwinkle {
+    0%, 100% {
+        opacity: 0.4;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.2);
+    }
 }
 
 /* 星星移動動畫 - 從右下到左上移動 */
@@ -236,40 +262,37 @@ body {
     }
 }
 
-/* 流星效果 - 參考 Webflow 網站 */
+/* 流星效果 - 360度隨機方向 */
 .shooting-stars {
     position: fixed;
-    bottom: 0;
-    right: 0;
     width: 2px;
     height: 60px;
-    border-top-left-radius: 50%;
-    border-top-right-radius: 50%;
-    background: linear-gradient(to top, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.2));
-    box-shadow: 0 0 8px rgba(255, 255, 255, 0.5), 0 0 15px rgba(76, 168, 223, 0.4);
-    animation: animShootingStar 12s linear infinite;
+    border-radius: 50%;
+    background: linear-gradient(to top, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.3));
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.6), 0 0 20px rgba(76, 168, 223, 0.5);
+    animation: animShootingStar 10s linear infinite;
     z-index: 100;
     pointer-events: none;
+    transform-origin: center bottom;
 }
 
-/* 流星動畫 - 從右下角旋轉角度移動到左上角 */
-/* 注意：流星的位置、延遲時間和角度現在由 JavaScript 動態設置 */
+/* 流星動畫 - 360度隨機方向 */
 @keyframes animShootingStar {
     0% {
-        transform: translateY(0px) translateX(0px) rotate(var(--shooting-angle, -45deg));
+        transform: translate(0, 0) rotate(var(--angle, 0deg));
         opacity: 0;
         height: 2px;
     }
     5% {
-        opacity: 0.9;
+        opacity: 1;
     }
     95% {
-        opacity: 0.9;
+        opacity: 1;
     }
     100% {
-        transform: translateY(-200vh) translateX(-200vh) rotate(var(--shooting-angle, -45deg));
+        transform: translate(var(--move-x, 0), var(--move-y, 0)) rotate(var(--angle, 0deg));
         opacity: 0;
-        height: 200px;
+        height: 150px;
     }
 }
 

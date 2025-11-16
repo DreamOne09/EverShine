@@ -1,22 +1,27 @@
 // ============================================
-// 統一星空背景系統 - DRY & KISS 原則
+// 統一星空背景系統 - 優化效能版本
 // ============================================
 
 // 配置常數
 const CONFIG = {
     canvas: {
-        starDensity: 2000, // 每2000像素一個星星（增加密度）
-        maxStars: 1500, // 增加最大星星數
-        nebulaCount: 8 // 增加星雲數量
+        starDensity: 2000,
+        maxStars: 1500,
+        nebulaCount: 8
     },
     css: {
-        starLayers: [
-            { count: 4000, size: '1px', duration: '100s' },
-            { count: 3000, size: '2px', duration: '125s' },
-            { count: 2000, size: '3px', duration: '175s' },
-            { count: 1500, size: '1px', duration: '150s' }
+        // 靜態小星星層（會閃爍）
+        staticStars: [
+            { count: 800, size: '1px', twinkleSpeed: '3s' },
+            { count: 600, size: '1px', twinkleSpeed: '4s' },
+            { count: 400, size: '1px', twinkleSpeed: '5s' }
         ],
-        shootingStarCount: 12 // 流星數量
+        // 移動的星星層
+        movingStars: [
+            { count: 300, size: '2px', duration: '100s' },
+            { count: 200, size: '3px', duration: '125s' }
+        ],
+        shootingStarCount: 20 // 增加流星數量
     }
 };
 
@@ -145,58 +150,30 @@ function initCSSSky() {
     const sky = document.createElement('div');
     sky.className = 'starry-sky';
     
-    // 創建星星層
-    CONFIG.css.starLayers.forEach((layer, i) => {
+    // 創建靜態小星星層（會閃爍）
+    CONFIG.css.staticStars.forEach((layer, i) => {
         const div = document.createElement('div');
-        div.className = `stars-layer stars${i === 0 ? '' : i}`;
+        div.className = `static-stars-layer static-stars${i}`;
+        sky.appendChild(div);
+    });
+    
+    // 創建移動的星星層
+    CONFIG.css.movingStars.forEach((layer, i) => {
+        const div = document.createElement('div');
+        div.className = `moving-stars-layer moving-stars${i}`;
         sky.appendChild(div);
     });
     
     container.appendChild(sky);
     document.body.insertBefore(container, document.body.firstChild);
     
-    // 創建流星 - 直接添加到 body，不受容器 z-index 限制
-    // 為每個流星設置完全隨機的起始位置和延遲時間
-    for (let i = 0; i < CONFIG.css.shootingStarCount; i++) {
-        const div = document.createElement('div');
-        div.className = 'shooting-stars';
-        
-        // 完全隨機的起始位置（0% 到 100%），不限制重複
-        const randomRight = Math.random() * 100;
-        
-        // 隨機延遲時間（0 到 25 秒），讓流星更隨機出現
-        const randomDelay = Math.random() * 25;
-        
-        // 隨機動畫持續時間（6 到 18 秒），讓速度更隨機
-        const randomDuration = Math.random() * 12 + 6;
-        
-        // 隨機起始角度（-30度到-60度），讓流星軌跡更多樣
-        const randomAngle = Math.random() * 30 - 60;
-        
-        // 設置樣式
-        div.style.right = `${randomRight}%`;
-        div.style.animationDelay = `${randomDelay}s`;
-        div.style.animationDuration = `${randomDuration}s`;
-        div.style.setProperty('--shooting-angle', `${randomAngle}deg`);
-        
-        document.body.appendChild(div);
-    }
-    
-    // 生成星星位置 - 確保覆蓋整個頁面
+    // 生成星星位置
     setTimeout(() => {
-        const layers = sky.querySelectorAll('.stars-layer');
-        const w = Math.max(window.innerWidth, 2560);
-        const h = Math.max(document.documentElement.scrollHeight, window.innerHeight, 5000);
-        
-        // 更新容器高度以覆蓋整個頁面
-        container.style.height = `${Math.max(document.documentElement.scrollHeight, window.innerHeight)}px`;
-        sky.style.height = `${Math.max(document.documentElement.scrollHeight, window.innerHeight)}px`;
-        
-        layers.forEach((layer, i) => {
-            const config = CONFIG.css.starLayers[i];
-            layer.style.boxShadow = generateStarsShadow(config.count, w, h);
-        });
+        generateAllStars(sky, container);
     }, 100);
+    
+    // 創建流星 - 360度隨機方向
+    createShootingStars();
     
     // 監聽滾動，動態更新高度
     window.addEventListener('scroll', () => {
@@ -206,32 +183,97 @@ function initCSSSky() {
     });
 }
 
-// 生成星星 box-shadow
-function generateStarsShadow(count, maxX, maxY) {
+// 生成所有星星
+function generateAllStars(sky, container) {
+    const w = Math.max(window.innerWidth, 2560);
+    const h = Math.max(document.documentElement.scrollHeight, window.innerHeight, 5000);
+    
+    container.style.height = `${h}px`;
+    sky.style.height = `${h}px`;
+    
+    // 生成靜態星星
+    const staticLayers = sky.querySelectorAll('.static-stars-layer');
+    staticLayers.forEach((layer, i) => {
+        const config = CONFIG.css.staticStars[i];
+        layer.style.boxShadow = generateStaticStarsShadow(config.count, w, h);
+    });
+    
+    // 生成移動星星
+    const movingLayers = sky.querySelectorAll('.moving-stars-layer');
+    movingLayers.forEach((layer, i) => {
+        const config = CONFIG.css.movingStars[i];
+        layer.style.boxShadow = generateMovingStarsShadow(config.count, w, h);
+    });
+}
+
+// 生成靜態星星（會閃爍）
+function generateStaticStarsShadow(count, maxX, maxY) {
     const shadows = [];
     for (let i = 0; i < count; i++) {
         const x = Math.floor(Math.random() * maxX);
         const y = Math.floor(Math.random() * maxY);
-        // 增加亮度範圍：0.7 到 1.0，讓星星更明顯
-        const brightness = Math.random() * 0.3 + 0.7;
-        // 增加光暈大小：2px 到 5px，讓星星更明顯
-        const size = Math.random() * 3 + 2;
-        // 使用更亮的白色和藍色星星混合
-        const colorType = Math.random();
-        let color;
-        if (colorType < 0.7) {
-            // 70% 是純白色星星
-            color = `rgba(255, 255, 255, ${brightness})`;
-        } else if (colorType < 0.9) {
-            // 20% 是藍白色星星
-            color = `rgba(200, 230, 255, ${brightness})`;
-        } else {
-            // 10% 是藍色星星
-            color = `rgba(169, 214, 255, ${brightness})`;
-        }
-        shadows.push(`${x}px ${y}px ${size}px ${color}, ${x}px ${y}px ${size * 2}px ${color.replace(/[\d\.]+\)$/, '0.3)')}`);
+        const brightness = Math.random() * 0.4 + 0.6; // 0.6 到 1.0
+        const glowSize = Math.random() * 2 + 1; // 1px 到 3px 光暈
+        
+        // 小星星，有光暈效果
+        shadows.push(`${x}px ${y}px ${glowSize}px rgba(255, 255, 255, ${brightness})`);
     }
     return shadows.join(', ');
+}
+
+// 生成移動星星
+function generateMovingStarsShadow(count, maxX, maxY) {
+    const shadows = [];
+    for (let i = 0; i < count; i++) {
+        const x = Math.floor(Math.random() * maxX);
+        const y = Math.floor(Math.random() * maxY);
+        const brightness = Math.random() * 0.3 + 0.7;
+        const glowSize = Math.random() * 2 + 2; // 2px 到 4px 光暈
+        
+        shadows.push(`${x}px ${y}px ${glowSize}px rgba(255, 255, 255, ${brightness})`);
+    }
+    return shadows.join(', ');
+}
+
+// 創建流星 - 360度隨機方向
+function createShootingStars() {
+    // 清除舊的流星
+    document.querySelectorAll('.shooting-stars').forEach(el => el.remove());
+    
+    for (let i = 0; i < CONFIG.css.shootingStarCount; i++) {
+        const div = document.createElement('div');
+        div.className = 'shooting-stars';
+        
+        // 隨機起始位置（0% 到 100%）
+        const startX = Math.random() * 100;
+        const startY = Math.random() * 100;
+        
+        // 360度隨機角度
+        const angle = Math.random() * 360;
+        
+        // 計算移動距離（vh單位）
+        const distance = 150 + Math.random() * 100; // 150-250vh
+        const rad = (angle * Math.PI) / 180;
+        const moveX = Math.cos(rad) * distance;
+        const moveY = Math.sin(rad) * distance;
+        
+        // 隨機延遲時間（0 到 30 秒）
+        const randomDelay = Math.random() * 30;
+        
+        // 隨機動畫持續時間（5 到 15 秒）
+        const randomDuration = Math.random() * 10 + 5;
+        
+        // 設置樣式
+        div.style.left = `${startX}%`;
+        div.style.top = `${startY}%`;
+        div.style.animationDelay = `${randomDelay}s`;
+        div.style.animationDuration = `${randomDuration}s`;
+        div.style.setProperty('--move-x', `${moveX}vh`);
+        div.style.setProperty('--move-y', `${moveY}vh`);
+        div.style.setProperty('--angle', `${angle}deg`);
+        
+        document.body.appendChild(div);
+    }
 }
 
 // 統一初始化
@@ -240,4 +282,3 @@ if (document.readyState === 'loading') {
 } else {
     initStarryBackground();
 }
-
