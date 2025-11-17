@@ -1,9 +1,28 @@
 // ============================================
-// 統一星空背景系統 - 類別化設計，符合物理定律
+// 統一星空背景系統 - 重構版本（遵循DRY和KISS原則）
 // ============================================
 
+/**
+ * 星空背景系統架構說明：
+ * 
+ * 1. Canvas星空（Hero section）：
+ *    - 使用Canvas API繪製星星和星雲
+ *    - 星星帶有光暈效果和閃爍動畫
+ *    - 星雲有飄移動畫
+ * 
+ * 2. CSS星空（其他sections）：
+ *    - 使用box-shadow生成大量星星（性能優化）
+ *    - 靜態星星層：會閃爍的小星星
+ *    - 移動星星層：緩慢移動的星星
+ *    - 流星：符合物理定律的拖曳尾巴
+ * 
+ * 3. 設計原則：
+ *    - DRY (Don't Repeat Yourself)：配置集中管理
+ *    - KISS (Keep It Simple, Stupid)：簡單清晰的實現
+ */
+
 // ============================================
-// 配置類別
+// 配置類別 - 集中管理所有配置
 // ============================================
 class StarrySkyConfig {
     constructor() {
@@ -30,26 +49,26 @@ class StarrySkyConfig {
             shootingStars: {
                 minCount: 5,
                 maxCount: 10,
-                minSpeed: 3,  // 秒
-                maxSpeed: 12, // 秒
-                minTailLength: 80,  // px
-                maxTailLength: 150, // px
-                glowIntensity: 0.9, // 光暈強度
-                tailFadeSteps: 20   // 尾巴衰減階數
+                minSpeed: 3,
+                maxSpeed: 12,
+                minTailLength: 80,
+                maxTailLength: 150,
+                glowIntensity: 0.9,
+                tailFadeSteps: 20
             }
         };
         
         // 色彩配置 - 冷色調
         this.colors = {
             stars: {
-                primary: 'rgba(255, 255, 255',      // 冷白 (70%)
-                secondary: 'rgba(200, 230, 255',     // 淺藍 (20%)
-                tertiary: 'rgba(169, 214, 255',      // 冷藍 (10%)
+                primary: 'rgba(255, 255, 255',
+                secondary: 'rgba(200, 230, 255',
+                tertiary: 'rgba(169, 214, 255',
             },
             shootingStars: {
-                core: 'rgba(255, 255, 255',          // 核心白色
-                glow: 'rgba(135, 206, 250',         // 天藍光暈
-                tail: 'rgba(176, 224, 230'          // 淺藍尾巴
+                core: 'rgba(255, 255, 255',
+                glow: 'rgba(135, 206, 250',
+                tail: 'rgba(176, 224, 230'
             }
         };
     }
@@ -64,60 +83,42 @@ class ShootingStar {
         this.viewportWidth = viewportWidth;
         this.viewportHeight = viewportHeight;
         
-        // 隨機角度 (0-360度)
         this.angle = Math.random() * 360;
         this.rad = (this.angle * Math.PI) / 180;
         
-        // 隨機速度 (秒)
         this.duration = config.shootingStars.minSpeed + 
                        Math.random() * (config.shootingStars.maxSpeed - config.shootingStars.minSpeed);
         
-        // 計算移動距離（確保穿過整個畫面）
         const diagonal = Math.sqrt(viewportWidth * viewportWidth + viewportHeight * viewportHeight);
         this.distance = diagonal * 1.3;
         
-        // 速度向量
         this.velocityX = Math.cos(this.rad) * this.distance;
         this.velocityY = Math.sin(this.rad) * this.distance;
-        
-        // 速度大小（用於計算尾巴長度）
         this.speed = Math.sqrt(this.velocityX * this.velocityX + this.velocityY * this.velocityY);
         
-        // 尾巴長度與速度成正比
         const speedRatio = this.speed / (diagonal * 1.3);
         this.tailLength = config.shootingStars.minTailLength + 
                          speedRatio * (config.shootingStars.maxTailLength - config.shootingStars.minTailLength);
         
-        // 起始位置（從畫面外開始）
         this.setStartPosition();
-        
-        // 隨機延遲
         this.delay = Math.random() * 40;
-        
-        // 創建DOM元素
         this.createElement();
     }
     
     setStartPosition() {
-        // 根據角度選擇起始邊緣
         if (this.angle >= 0 && this.angle < 45) {
-            // 從左邊外開始
             this.startX = -150;
             this.startY = this.viewportHeight * Math.random();
         } else if (this.angle >= 45 && this.angle < 135) {
-            // 從下邊外開始
             this.startX = this.viewportWidth * Math.random();
             this.startY = this.viewportHeight + 150;
         } else if (this.angle >= 135 && this.angle < 225) {
-            // 從右邊外開始
             this.startX = this.viewportWidth + 150;
             this.startY = this.viewportHeight * Math.random();
         } else if (this.angle >= 225 && this.angle < 315) {
-            // 從上邊外開始
             this.startX = this.viewportWidth * Math.random();
             this.startY = -150;
         } else {
-            // 從左上角外開始
             this.startX = -150;
             this.startY = -150;
         }
@@ -127,70 +128,44 @@ class ShootingStar {
         this.element = document.createElement('div');
         this.element.className = 'shooting-star';
         
-        // 設置位置
         this.element.style.left = `${this.startX}px`;
         this.element.style.top = `${this.startY}px`;
-        
-        // 設置動畫屬性
         this.element.style.animationDelay = `${this.delay}s`;
         this.element.style.animationDuration = `${this.duration}s`;
-        
-        // 設置CSS變數
         this.element.style.setProperty('--move-x', `${this.velocityX}px`);
         this.element.style.setProperty('--move-y', `${this.velocityY}px`);
         this.element.style.setProperty('--angle', `${this.angle}deg`);
         this.element.style.setProperty('--tail-length', `${this.tailLength}px`);
         this.element.style.setProperty('--duration', `${this.duration}s`);
-        this.element.style.setProperty('--speed', `${this.speed}`);
         
-        // 創建尾巴元素（使用CSS漸變模擬）
         this.createTail();
-        
         document.body.appendChild(this.element);
     }
     
     createTail() {
-        // 使用線性漸變創建符合物理的尾巴
-        // 尾巴方向與速度向量一致
         const tailGradient = this.generateTailGradient();
         this.element.style.background = tailGradient;
     }
     
     generateTailGradient() {
-        // 計算尾巴方向（與速度向量相反，因為是拖尾）
-        const tailAngle = this.angle + 180; // 尾巴在流星後方
-        const tailRad = (tailAngle * Math.PI) / 180;
-        
-        // 使用CSS線性漸變創建衰減效果
+        const tailAngle = this.angle + 180;
         const steps = this.config.shootingStars.tailFadeSteps;
         const colors = [];
         
-        // 從核心到尾巴末端，亮度逐漸衰減
         for (let i = 0; i <= steps; i++) {
             const ratio = i / steps;
-            // 使用指數衰減模擬自然衰減
             const opacity = Math.pow(1 - ratio, 2) * this.config.shootingStars.glowIntensity;
             const alpha = Math.max(0, opacity);
             
             if (i === 0) {
-                // 核心：最亮
                 colors.push(`${this.config.colors.shootingStars.core}, ${alpha})`);
             } else if (i < steps * 0.3) {
-                // 前30%：光暈區域
                 colors.push(`${this.config.colors.shootingStars.glow}, ${alpha * 0.8})`);
             } else {
-                // 後70%：尾巴區域，逐漸變淡
                 colors.push(`${this.config.colors.shootingStars.tail}, ${alpha * 0.5})`);
             }
         }
         
-        // 計算漸變方向（與速度向量一致）
-        const x1 = 50 + Math.cos(tailRad) * 50;
-        const y1 = 50 + Math.sin(tailRad) * 50;
-        const x2 = 50 - Math.cos(tailRad) * 50;
-        const y2 = 50 - Math.sin(tailRad) * 50;
-        
-        // 創建線性漸變字符串
         const colorStops = colors.map((color, i) => {
             const percent = (i / steps) * 100;
             return `${color} ${percent}%`;
@@ -207,7 +182,7 @@ class ShootingStar {
 }
 
 // ============================================
-// 星空管理器類別
+// 星空管理器類別 - 統一管理
 // ============================================
 class StarrySkyManager {
     constructor() {
@@ -216,6 +191,7 @@ class StarrySkyManager {
         this.canvas = null;
         this.ctx = null;
         this.animationId = null;
+        this.isInitialized = false;
     }
     
     // 初始化Canvas星空（Hero section）
@@ -246,11 +222,13 @@ class StarrySkyManager {
     }
     
     resize() {
+        if (!this.canvas) return;
         this.canvas.width = window.innerWidth;
         this.canvas.height = Math.max(document.documentElement.scrollHeight, window.innerHeight);
     }
     
     createStars() {
+        if (!this.canvas) return;
         this.stars = [];
         const count = Math.min(
             Math.floor((this.canvas.width * this.canvas.height) / this.config.canvas.starDensity),
@@ -276,6 +254,7 @@ class StarrySkyManager {
     }
     
     createNebulas() {
+        if (!this.canvas) return;
         this.nebulas = [];
         const colors = [[76, 168, 223], [110, 84, 255], [35, 150, 255], [120, 87, 255], [135, 206, 250]];
         
@@ -294,6 +273,7 @@ class StarrySkyManager {
     }
     
     draw() {
+        if (!this.canvas || !this.ctx) return;
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         
         // 繪製星雲
@@ -319,7 +299,6 @@ class StarrySkyManager {
             s.twinklePhase += s.twinkleSpeed;
             const opacity = s.opacity * (Math.sin(s.twinklePhase) * 0.3 + 0.7);
             
-            // 繪製光暈
             const glowSize = s.size * 3;
             const glowGradient = this.ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, glowSize);
             glowGradient.addColorStop(0, `${s.color}, ${opacity * 0.8})`);
@@ -331,7 +310,6 @@ class StarrySkyManager {
             this.ctx.arc(s.x, s.y, glowSize, 0, Math.PI * 2);
             this.ctx.fill();
             
-            // 繪製核心
             this.ctx.beginPath();
             this.ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
             this.ctx.fillStyle = `${s.color}, ${opacity})`;
@@ -341,21 +319,28 @@ class StarrySkyManager {
         this.animationId = requestAnimationFrame(() => this.draw());
     }
     
-    // 初始化CSS星空（其他section）
+    // 初始化CSS星空（其他section）- 重構版本
     initCSSSky() {
+        // 清除舊的容器
         const existing = document.querySelector('.starry-background-container');
-        if (existing) existing.remove();
+        if (existing) {
+            existing.remove();
+        }
         
+        // 創建容器
         const container = document.createElement('div');
         container.className = 'starry-background-container';
+        container.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;min-height:100vh;z-index:-1;pointer-events:none;overflow:visible;background:transparent;';
         
         const sky = document.createElement('div');
         sky.className = 'starry-sky';
+        sky.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;min-height:100vh;';
         
         // 創建靜態星星層
         this.config.css.staticStars.forEach((layer, i) => {
             const div = document.createElement('div');
             div.className = `static-stars-layer static-stars${i}`;
+            div.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;background:transparent;z-index:1;';
             sky.appendChild(div);
         });
         
@@ -363,29 +348,43 @@ class StarrySkyManager {
         this.config.css.movingStars.forEach((layer, i) => {
             const div = document.createElement('div');
             div.className = `moving-stars-layer moving-stars${i}`;
+            div.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;background:transparent;z-index:1;';
             sky.appendChild(div);
         });
         
         container.appendChild(sky);
         document.body.insertBefore(container, document.body.firstChild);
         
-        // 生成星星位置
-        setTimeout(() => {
+        // 確保DOM已插入後再生成星星
+        requestAnimationFrame(() => {
             this.generateAllStars(sky, container);
-        }, 100);
+        });
         
         // 創建流星
         this.createShootingStars();
         
-        // 監聽滾動
-        window.addEventListener('scroll', () => {
+        // 監聽滾動和視窗大小變化
+        let resizeTimeout;
+        const updateHeight = () => {
             const newHeight = Math.max(document.documentElement.scrollHeight, window.innerHeight);
             container.style.height = `${newHeight}px`;
             sky.style.height = `${newHeight}px`;
+        };
+        
+        window.addEventListener('scroll', updateHeight);
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                updateHeight();
+                this.generateAllStars(sky, container);
+                this.createShootingStars();
+            }, 250);
         });
     }
     
     generateAllStars(sky, container) {
+        if (!sky || !container) return;
+        
         const w = Math.max(window.innerWidth, 2560);
         const h = Math.max(document.documentElement.scrollHeight, window.innerHeight, 5000);
         
@@ -394,17 +393,41 @@ class StarrySkyManager {
         
         // 生成靜態星星
         const staticLayers = sky.querySelectorAll('.static-stars-layer');
+        if (staticLayers.length === 0) {
+            console.warn('星空背景：找不到靜態星星層');
+            return;
+        }
+        
         staticLayers.forEach((layer, i) => {
-            const config = this.config.css.staticStars[i];
-            layer.style.boxShadow = this.generateStaticStarsShadow(config.count, w, h);
+            if (this.config.css.staticStars[i]) {
+                const shadow = this.generateStaticStarsShadow(this.config.css.staticStars[i].count, w, h);
+                layer.style.boxShadow = shadow;
+                // 確保可見
+                layer.style.opacity = '1';
+                layer.style.visibility = 'visible';
+                layer.style.display = 'block';
+            }
         });
         
         // 生成移動星星
         const movingLayers = sky.querySelectorAll('.moving-stars-layer');
+        if (movingLayers.length === 0) {
+            console.warn('星空背景：找不到移動星星層');
+            return;
+        }
+        
         movingLayers.forEach((layer, i) => {
-            const config = this.config.css.movingStars[i];
-            layer.style.boxShadow = this.generateMovingStarsShadow(config.count, w, h);
+            if (this.config.css.movingStars[i]) {
+                const shadow = this.generateMovingStarsShadow(this.config.css.movingStars[i].count, w, h);
+                layer.style.boxShadow = shadow;
+                // 確保可見
+                layer.style.opacity = '1';
+                layer.style.visibility = 'visible';
+                layer.style.display = 'block';
+            }
         });
+        
+        console.log('星空背景：已生成', staticLayers.length, '層靜態星星和', movingLayers.length, '層移動星星');
     }
     
     generateStaticStarsShadow(count, maxX, maxY) {
@@ -412,15 +435,14 @@ class StarrySkyManager {
         for (let i = 0; i < count; i++) {
             const x = Math.floor(Math.random() * maxX);
             const y = Math.floor(Math.random() * maxY);
-            const brightness = Math.random() * 0.3 + 0.7; // 0.7 到 1.0，更亮
-            const glowSize = Math.random() * 5 + 2; // 2px 到 7px 光暈，更明顯
+            const brightness = Math.random() * 0.3 + 0.7;
+            const glowSize = Math.random() * 5 + 2;
             
             const colorRand = Math.random();
             const color = colorRand < 0.7 ? this.config.colors.stars.primary :
                           colorRand < 0.9 ? this.config.colors.stars.secondary :
                           this.config.colors.stars.tertiary;
             
-            // 雙層光暈：核心 + 外層光暈
             shadows.push(
                 `${x}px ${y}px 0 0 ${color}, ${brightness})`,
                 `${x}px ${y}px ${glowSize}px ${color}, ${brightness * 0.6})`
@@ -451,14 +473,12 @@ class StarrySkyManager {
     }
     
     createShootingStars() {
-        // 清除舊的流星
         this.shootingStars.forEach(star => star.destroy());
         this.shootingStars = [];
         
         const viewportWidth = window.innerWidth;
         const viewportHeight = window.innerHeight;
         
-        // 隨機數量：5-10顆
         const count = this.config.css.shootingStars.minCount + 
                      Math.floor(Math.random() * (this.config.css.shootingStars.maxCount - this.config.css.shootingStars.minCount + 1));
         
@@ -470,13 +490,19 @@ class StarrySkyManager {
     
     // 統一初始化
     init() {
-        this.initCanvasSky();
-        this.initCSSSky();
+        if (this.isInitialized) {
+            console.warn('星空背景：已經初始化，跳過重複初始化');
+            return;
+        }
         
-        // 視窗大小改變時重新創建流星
-        window.addEventListener('resize', () => {
-            this.createShootingStars();
-        });
+        try {
+            this.initCanvasSky();
+            this.initCSSSky();
+            this.isInitialized = true;
+            console.log('星空背景：初始化完成');
+        } catch (error) {
+            console.error('星空背景：初始化失敗', error);
+        }
     }
 }
 
@@ -486,7 +512,9 @@ class StarrySkyManager {
 const starrySkyManager = new StarrySkyManager();
 
 if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => starrySkyManager.init());
+    document.addEventListener('DOMContentLoaded', () => {
+        starrySkyManager.init();
+    });
 } else {
     starrySkyManager.init();
 }
