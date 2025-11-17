@@ -140,6 +140,7 @@ class ShootingStar {
         this.element.style.setProperty('--move-y', `${this.velocityY}px`);
         this.element.style.setProperty('--angle', `${this.angle}deg`);
         this.element.style.setProperty('--tail-length', `${this.tailLength}px`);
+        this.element.style.setProperty('--duration', `${this.duration}s`);
         this.element.style.setProperty('--speed', `${this.speed}`);
         
         // 創建尾巴元素（使用CSS漸變模擬）
