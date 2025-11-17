@@ -10,18 +10,19 @@ const CONFIG = {
         nebulaCount: 8
     },
     css: {
-        // 靜態小星星層（會閃爍）
+        // 靜態小星星層（會閃爍）- 大幅增加數量以達到滿天星點
         staticStars: [
-            { count: 800, size: '1px', twinkleSpeed: '3s' },
-            { count: 600, size: '1px', twinkleSpeed: '4s' },
-            { count: 400, size: '1px', twinkleSpeed: '5s' }
+            { count: 2500, size: '1px', twinkleSpeed: '3s' },
+            { count: 2000, size: '1px', twinkleSpeed: '4s' },
+            { count: 1500, size: '1px', twinkleSpeed: '5s' },
+            { count: 1000, size: '1px', twinkleSpeed: '6s' }
         ],
         // 移動的星星層
         movingStars: [
-            { count: 300, size: '2px', duration: '100s' },
-            { count: 200, size: '3px', duration: '125s' }
+            { count: 500, size: '2px', duration: '100s' },
+            { count: 300, size: '3px', duration: '125s' }
         ],
-        shootingStarCount: 20 // 增加流星數量
+        shootingStarCount: 8 // 減少流星數量，但增加光暈效果
     }
 };
 
@@ -206,17 +207,19 @@ function generateAllStars(sky, container) {
     });
 }
 
-// 生成靜態星星（會閃爍）
+// 生成靜態星星（會閃爍）- 增加光暈效果
 function generateStaticStarsShadow(count, maxX, maxY) {
     const shadows = [];
     for (let i = 0; i < count; i++) {
         const x = Math.floor(Math.random() * maxX);
         const y = Math.floor(Math.random() * maxY);
-        const brightness = Math.random() * 0.4 + 0.6; // 0.6 到 1.0
-        const glowSize = Math.random() * 2 + 1; // 1px 到 3px 光暈
+        const brightness = Math.random() * 0.5 + 0.5; // 0.5 到 1.0，更亮
+        const glowSize = Math.random() * 3 + 1; // 1px 到 4px 光暈
         
-        // 小星星，有光暈效果
-        shadows.push(`${x}px ${y}px ${glowSize}px rgba(255, 255, 255, ${brightness})`);
+        // 小星星，有明顯光暈效果（雙層光暈）
+        const color = Math.random() < 0.7 ? '255, 255, 255' : 
+                      Math.random() < 0.9 ? '200, 230, 255' : '169, 214, 255';
+        shadows.push(`${x}px ${y}px ${glowSize}px rgba(${color}, ${brightness})`);
     }
     return shadows.join(', ');
 }
@@ -235,7 +238,7 @@ function generateMovingStarsShadow(count, maxX, maxY) {
     return shadows.join(', ');
 }
 
-// 創建流星 - 360度隨機方向
+// 創建流星 - 360度隨機方向，不同速度
 function createShootingStars() {
     // 清除舊的流星
     document.querySelectorAll('.shooting-stars').forEach(el => el.remove());
@@ -251,17 +254,17 @@ function createShootingStars() {
         // 360度隨機角度
         const angle = Math.random() * 360;
         
-        // 計算移動距離（vh單位）
-        const distance = 150 + Math.random() * 100; // 150-250vh
+        // 計算移動距離（vh單位）- 不同方向不同距離
+        const distance = 120 + Math.random() * 180; // 120-300vh，更長的距離
         const rad = (angle * Math.PI) / 180;
         const moveX = Math.cos(rad) * distance;
         const moveY = Math.sin(rad) * distance;
         
-        // 隨機延遲時間（0 到 30 秒）
-        const randomDelay = Math.random() * 30;
+        // 隨機延遲時間（0 到 40 秒）
+        const randomDelay = Math.random() * 40;
         
-        // 隨機動畫持續時間（5 到 15 秒）
-        const randomDuration = Math.random() * 10 + 5;
+        // 隨機動畫持續時間（3 到 12 秒）- 不同速度
+        const randomDuration = Math.random() * 9 + 3;
         
         // 設置樣式
         div.style.left = `${startX}%`;

@@ -216,6 +216,11 @@ body {
     animation-delay: 2s;
 }
 
+.static-stars-layer.static-stars3 {
+    animation-duration: 6s;
+    animation-delay: 3s;
+}
+
 /* 移動的星星層 */
 .moving-stars-layer {
     position: absolute;
@@ -262,37 +267,63 @@ body {
     }
 }
 
-/* 流星效果 - 360度隨機方向 */
+/* 流星效果 - 360度隨機方向，開頭有明顯光暈 */
 .shooting-stars {
     position: fixed;
-    width: 2px;
-    height: 60px;
+    width: 3px;
+    height: 80px;
     border-radius: 50%;
-    background: linear-gradient(to top, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.3));
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.6), 0 0 20px rgba(76, 168, 223, 0.5);
+    /* 開頭有明顯光暈的漸變 */
+    background: linear-gradient(
+        to top,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.1) 10%,
+        rgba(255, 255, 255, 0.9) 20%,
+        rgba(255, 255, 255, 0.8) 50%,
+        rgba(255, 255, 255, 0.3) 100%
+    );
+    /* 開頭明顯的光暈效果 */
+    box-shadow: 
+        0 0 20px rgba(255, 255, 255, 0.9),
+        0 0 40px rgba(76, 168, 223, 0.7),
+        0 0 60px rgba(76, 168, 223, 0.4),
+        0 0 80px rgba(76, 168, 223, 0.2);
     animation: animShootingStar 10s linear infinite;
     z-index: 100;
     pointer-events: none;
     transform-origin: center bottom;
 }
 
-/* 流星動畫 - 360度隨機方向 */
+/* 流星動畫 - 360度隨機方向，使用translate和rotate */
 @keyframes animShootingStar {
     0% {
         transform: translate(0, 0) rotate(var(--angle, 0deg));
         opacity: 0;
-        height: 2px;
+        height: 3px;
+        filter: blur(0px);
+    }
+    2% {
+        opacity: 1;
+        filter: blur(1px);
     }
     5% {
         opacity: 1;
+        height: 80px;
+        filter: blur(0.5px);
     }
     95% {
         opacity: 1;
+        filter: blur(1px);
+    }
+    98% {
+        opacity: 0.5;
+        filter: blur(2px);
     }
     100% {
         transform: translate(var(--move-x, 0), var(--move-y, 0)) rotate(var(--angle, 0deg));
         opacity: 0;
-        height: 150px;
+        height: 120px;
+        filter: blur(3px);
     }
 }
 
