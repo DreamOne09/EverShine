@@ -165,7 +165,7 @@ body {
     width: 100%;
     height: 100%;
     min-height: 100vh;
-    z-index: -2;
+    z-index: -1;
     pointer-events: none;
     overflow: visible;
     background: transparent;
@@ -194,11 +194,12 @@ body {
     position: absolute;
     top: 0;
     left: 0;
-    width: 1px;
-    height: 1px;
+    width: 100%;
+    height: 100%;
     border-radius: 50%;
     background: transparent;
     animation: starTwinkle 3s ease-in-out infinite;
+    z-index: 1;
 }
 
 .static-stars-layer.static-stars0 {
@@ -226,11 +227,12 @@ body {
     position: absolute;
     top: 0;
     left: 0;
-    width: 2px;
-    height: 2px;
+    width: 100%;
+    height: 100%;
     border-radius: 50%;
     background: transparent;
     animation: animStar 100s linear infinite;
+    z-index: 1;
 }
 
 .moving-stars-layer.moving-stars0 {
@@ -294,7 +296,7 @@ body {
     transform-origin: center bottom;
 }
 
-/* 流星動畫 - 360度隨機方向，使用translate和rotate */
+/* 流星動畫 - 360度隨機方向，從畫面外開始 */
 @keyframes animShootingStar {
     0% {
         transform: translate(0, 0) rotate(var(--angle, 0deg));
@@ -302,28 +304,28 @@ body {
         height: 3px;
         filter: blur(0px);
     }
-    2% {
-        opacity: 1;
-        filter: blur(1px);
-    }
-    5% {
-        opacity: 1;
-        height: 80px;
+    1% {
+        opacity: 0.8;
         filter: blur(0.5px);
     }
-    95% {
+    2% {
         opacity: 1;
-        filter: blur(1px);
+        height: 60px;
+        filter: blur(0px);
+    }
+    50% {
+        opacity: 1;
+        height: 80px;
     }
     98% {
-        opacity: 0.5;
-        filter: blur(2px);
+        opacity: 0.8;
+        filter: blur(1px);
     }
     100% {
         transform: translate(var(--move-x, 0), var(--move-y, 0)) rotate(var(--angle, 0deg));
         opacity: 0;
-        height: 120px;
-        filter: blur(3px);
+        height: 100px;
+        filter: blur(2px);
     }
 }
 

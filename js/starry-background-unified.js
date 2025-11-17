@@ -238,27 +238,55 @@ function generateMovingStarsShadow(count, maxX, maxY) {
     return shadows.join(', ');
 }
 
-// 創建流星 - 360度隨機方向，不同速度
+// 創建流星 - 從畫面外開始，360度隨機方向，不同速度
 function createShootingStars() {
     // 清除舊的流星
     document.querySelectorAll('.shooting-stars').forEach(el => el.remove());
+    
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+    const diagonal = Math.sqrt(viewportWidth * viewportWidth + viewportHeight * viewportHeight);
     
     for (let i = 0; i < CONFIG.css.shootingStarCount; i++) {
         const div = document.createElement('div');
         div.className = 'shooting-stars';
         
-        // 隨機起始位置（0% 到 100%）
-        const startX = Math.random() * 100;
-        const startY = Math.random() * 100;
-        
         // 360度隨機角度
         const angle = Math.random() * 360;
-        
-        // 計算移動距離（vh單位）- 不同方向不同距離
-        const distance = 120 + Math.random() * 180; // 120-300vh，更長的距離
         const rad = (angle * Math.PI) / 180;
+        
+        // 計算移動距離（確保穿過整個畫面）
+        const distance = diagonal * 1.2; // 至少1.2倍對角線長度
+        
+        // 計算移動向量
         const moveX = Math.cos(rad) * distance;
         const moveY = Math.sin(rad) * distance;
+        
+        // 從畫面外開始：根據角度決定起始位置
+        // 計算起始位置，確保在畫面外
+        let startX, startY;
+        // 根據角度選擇起始邊緣
+        if (angle >= 0 && angle < 45) {
+            // 從左邊外開始
+            startX = -100;
+            startY = viewportHeight * Math.random();
+        } else if (angle >= 45 && angle < 135) {
+            // 從下邊外開始
+            startX = viewportWidth * Math.random();
+            startY = viewportHeight + 100;
+        } else if (angle >= 135 && angle < 225) {
+            // 從右邊外開始
+            startX = viewportWidth + 100;
+            startY = viewportHeight * Math.random();
+        } else if (angle >= 225 && angle < 315) {
+            // 從上邊外開始
+            startX = viewportWidth * Math.random();
+            startY = -100;
+        } else {
+            // 從左上角外開始
+            startX = -100;
+            startY = -100;
+        }
         
         // 隨機延遲時間（0 到 40 秒）
         const randomDelay = Math.random() * 40;
@@ -267,12 +295,12 @@ function createShootingStars() {
         const randomDuration = Math.random() * 9 + 3;
         
         // 設置樣式
-        div.style.left = `${startX}%`;
-        div.style.top = `${startY}%`;
+        div.style.left = `${startX}px`;
+        div.style.top = `${startY}px`;
         div.style.animationDelay = `${randomDelay}s`;
         div.style.animationDuration = `${randomDuration}s`;
-        div.style.setProperty('--move-x', `${moveX}vh`);
-        div.style.setProperty('--move-y', `${moveY}vh`);
+        div.style.setProperty('--move-x', `${moveX}px`);
+        div.style.setProperty('--move-y', `${moveY}px`);
         div.style.setProperty('--angle', `${angle}deg`);
         
         document.body.appendChild(div);
