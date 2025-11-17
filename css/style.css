@@ -269,62 +269,54 @@ body {
     }
 }
 
-/* 流星效果 - 360度隨機方向，開頭有明顯光暈 */
-.shooting-stars {
+/* 流星效果 - 符合物理定律的拖曳尾巴 */
+.shooting-star {
     position: fixed;
-    width: 3px;
-    height: 80px;
+    width: 4px;
+    height: var(--tail-length, 100px);
     border-radius: 50%;
-    /* 開頭有明顯光暈的漸變 */
-    background: linear-gradient(
-        to top,
-        rgba(255, 255, 255, 0) 0%,
-        rgba(255, 255, 255, 0.1) 10%,
-        rgba(255, 255, 255, 0.9) 20%,
-        rgba(255, 255, 255, 0.8) 50%,
-        rgba(255, 255, 255, 0.3) 100%
-    );
-    /* 開頭明顯的光暈效果 */
+    /* 背景漸變由JS動態生成，符合物理定律 */
+    /* 開頭明顯的光暈效果 - 多層光暈 */
     box-shadow: 
-        0 0 20px rgba(255, 255, 255, 0.9),
-        0 0 40px rgba(76, 168, 223, 0.7),
-        0 0 60px rgba(76, 168, 223, 0.4),
-        0 0 80px rgba(76, 168, 223, 0.2);
-    animation: animShootingStar 10s linear infinite;
+        0 0 15px rgba(255, 255, 255, 0.95),
+        0 0 30px rgba(135, 206, 250, 0.8),
+        0 0 50px rgba(135, 206, 250, 0.5),
+        0 0 80px rgba(135, 206, 250, 0.3);
+    animation: animShootingStar var(--duration, 8s) linear infinite;
     z-index: 100;
     pointer-events: none;
-    transform-origin: center bottom;
+    transform-origin: center center;
+    /* 確保流星可見 */
+    opacity: 1;
+    will-change: transform, opacity;
 }
 
-/* 流星動畫 - 360度隨機方向，從畫面外開始 */
+/* 流星動畫 - 360度隨機方向，從畫面外開始，符合物理定律 */
 @keyframes animShootingStar {
     0% {
         transform: translate(0, 0) rotate(var(--angle, 0deg));
         opacity: 0;
-        height: 3px;
         filter: blur(0px);
     }
     1% {
-        opacity: 0.8;
+        opacity: 0.9;
         filter: blur(0.5px);
     }
     2% {
         opacity: 1;
-        height: 60px;
         filter: blur(0px);
     }
     50% {
         opacity: 1;
-        height: 80px;
+        filter: blur(0px);
     }
     98% {
-        opacity: 0.8;
+        opacity: 0.9;
         filter: blur(1px);
     }
     100% {
         transform: translate(var(--move-x, 0), var(--move-y, 0)) rotate(var(--angle, 0deg));
         opacity: 0;
-        height: 100px;
         filter: blur(2px);
     }
 }
