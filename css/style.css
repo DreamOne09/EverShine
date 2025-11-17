@@ -3823,6 +3823,52 @@ body::after {
     }
 
 /* ============================================
+   區塊標題卡片（通用樣式）
+   ============================================ */
+.section-header-card {
+    background: var(--glass-bg-medium);
+    backdrop-filter: var(--glass-blur-strong);
+    -webkit-backdrop-filter: var(--glass-blur-strong);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 3rem 2.5rem;
+    text-align: center;
+    margin-bottom: 4rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    transition: var(--transition);
+}
+
+.section-header-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--gold);
+    box-shadow: 0 12px 40px rgba(76, 168, 223, 0.3);
+}
+
+.section-header-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 2rem;
+    color: var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(76, 168, 223, 0.1);
+    border-radius: 50%;
+    border: 2px solid var(--gold);
+}
+
+.section-header-card .section-title {
+    margin-bottom: 1rem;
+}
+
+.section-header-card .section-description {
+    font-size: 1.1rem;
+    color: var(--text-gray);
+    line-height: 1.8;
+    margin: 0;
+}
+
+/* ============================================
    會員成功案例
    ============================================ */
 .success-stories {
@@ -4249,8 +4295,55 @@ body::after {
     line-height: 1.6;
 }
 
-.join-process {
+.join-process-card {
+    background: var(--glass-bg-medium);
+    backdrop-filter: var(--glass-blur-strong);
+    -webkit-backdrop-filter: var(--glass-blur-strong);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 3rem 2.5rem;
     margin-bottom: 5rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    transition: var(--transition);
+}
+
+.join-process-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--gold);
+    box-shadow: 0 12px 40px rgba(76, 168, 223, 0.3);
+}
+
+.join-process-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+    text-align: center;
+}
+
+.join-process-icon {
+    width: 64px;
+    height: 64px;
+    color: var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(76, 168, 223, 0.1);
+    border-radius: 50%;
+    border: 2px solid var(--gold);
+    flex-shrink: 0;
+}
+
+.join-process-header h3 {
+    font-size: 2rem;
+    color: var(--gold);
+    margin: 0;
+    font-weight: 600;
+}
+
+.join-process {
+    margin-bottom: 0;
 }
 
 .join-process h3 {

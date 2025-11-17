@@ -83,11 +83,21 @@ class ShootingStar {
         this.viewportWidth = viewportWidth;
         this.viewportHeight = viewportHeight;
         
+        // 安全訪問配置
+        const shootingStarsConfig = config.css?.shootingStars || {
+            minSpeed: 3,
+            maxSpeed: 12,
+            minTailLength: 80,
+            maxTailLength: 150,
+            glowIntensity: 0.9,
+            tailFadeSteps: 20
+        };
+        
         this.angle = Math.random() * 360;
         this.rad = (this.angle * Math.PI) / 180;
         
-        this.duration = config.shootingStars.minSpeed + 
-                       Math.random() * (config.shootingStars.maxSpeed - config.shootingStars.minSpeed);
+        this.duration = shootingStarsConfig.minSpeed + 
+                       Math.random() * (shootingStarsConfig.maxSpeed - shootingStarsConfig.minSpeed);
         
         const diagonal = Math.sqrt(viewportWidth * viewportWidth + viewportHeight * viewportHeight);
         this.distance = diagonal * 1.3;
@@ -97,8 +107,10 @@ class ShootingStar {
         this.speed = Math.sqrt(this.velocityX * this.velocityX + this.velocityY * this.velocityY);
         
         const speedRatio = this.speed / (diagonal * 1.3);
-        this.tailLength = config.shootingStars.minTailLength + 
-                         speedRatio * (config.shootingStars.maxTailLength - config.shootingStars.minTailLength);
+        this.tailLength = shootingStarsConfig.minTailLength + 
+                         speedRatio * (shootingStarsConfig.maxTailLength - shootingStarsConfig.minTailLength);
+        
+        this.shootingStarsConfig = shootingStarsConfig;
         
         this.setStartPosition();
         this.delay = Math.random() * 40;
@@ -149,20 +161,28 @@ class ShootingStar {
     
     generateTailGradient() {
         const tailAngle = this.angle + 180;
-        const steps = this.config.shootingStars.tailFadeSteps;
+        const steps = this.shootingStarsConfig.tailFadeSteps || 20;
+        const glowIntensity = this.shootingStarsConfig.glowIntensity || 0.9;
         const colors = [];
+        
+        // 安全訪問顏色配置
+        const colorsConfig = this.config.colors?.shootingStars || {
+            core: 'rgba(255, 255, 255',
+            glow: 'rgba(135, 206, 250',
+            tail: 'rgba(176, 224, 230'
+        };
         
         for (let i = 0; i <= steps; i++) {
             const ratio = i / steps;
-            const opacity = Math.pow(1 - ratio, 2) * this.config.shootingStars.glowIntensity;
+            const opacity = Math.pow(1 - ratio, 2) * glowIntensity;
             const alpha = Math.max(0, opacity);
             
             if (i === 0) {
-                colors.push(`${this.config.colors.shootingStars.core}, ${alpha})`);
+                colors.push(`${colorsConfig.core}, ${alpha})`);
             } else if (i < steps * 0.3) {
-                colors.push(`${this.config.colors.shootingStars.glow}, ${alpha * 0.8})`);
+                colors.push(`${colorsConfig.glow}, ${alpha * 0.8})`);
             } else {
-                colors.push(`${this.config.colors.shootingStars.tail}, ${alpha * 0.5})`);
+                colors.push(`${colorsConfig.tail}, ${alpha * 0.5})`);
             }
         }
         
