@@ -100,13 +100,20 @@ class ShootingStar {
                        Math.random() * (shootingStarsConfig.maxSpeed - shootingStarsConfig.minSpeed);
         
         const diagonal = Math.sqrt(viewportWidth * viewportWidth + viewportHeight * viewportHeight);
+        // 物理正確：總移動距離 = 對角線 * 1.3（確保從畫面外到畫面外）
         this.distance = diagonal * 1.3;
         
-        this.velocityX = Math.cos(this.rad) * this.distance;
-        this.velocityY = Math.sin(this.rad) * this.distance;
-        this.speed = Math.sqrt(this.velocityX * this.velocityX + this.velocityY * this.velocityY);
+        // 物理正確：速度向量 = 方向 * 速度大小
+        // 速度大小（每秒像素數）= 距離 / 時間
+        const speedPixelsPerSecond = this.distance / this.duration;
+        // 速度向量（方向 * 速度）
+        this.velocityX = Math.cos(this.rad) * speedPixelsPerSecond;
+        this.velocityY = Math.sin(this.rad) * speedPixelsPerSecond;
+        // 實際速度（用於計算尾巴長度）
+        this.speed = speedPixelsPerSecond;
         
-        const speedRatio = this.speed / (diagonal * 1.3);
+        // 物理正確：尾巴長度與速度成正比（速度越快，尾巴越長）
+        const speedRatio = this.speed / 500; // 標準化速度比例
         this.tailLength = shootingStarsConfig.minTailLength + 
                          speedRatio * (shootingStarsConfig.maxTailLength - shootingStarsConfig.minTailLength);
         
@@ -144,8 +151,12 @@ class ShootingStar {
         this.element.style.top = `${this.startY}px`;
         this.element.style.animationDelay = `${this.delay}s`;
         this.element.style.animationDuration = `${this.duration}s`;
-        this.element.style.setProperty('--move-x', `${this.velocityX}px`);
-        this.element.style.setProperty('--move-y', `${this.velocityY}px`);
+        // 物理正確：CSS transform 需要的是總位移距離，不是速度
+        // 總位移 = 速度 * 時間（duration）
+        const totalMoveX = this.velocityX * this.duration;
+        const totalMoveY = this.velocityY * this.duration;
+        this.element.style.setProperty('--move-x', `${totalMoveX}px`);
+        this.element.style.setProperty('--move-y', `${totalMoveY}px`);
         this.element.style.setProperty('--angle', `${this.angle}deg`);
         this.element.style.setProperty('--tail-length', `${this.tailLength}px`);
         this.element.style.setProperty('--duration', `${this.duration}s`);
@@ -160,29 +171,43 @@ class ShootingStar {
     }
     
     generateTailGradient() {
+        // 尾巴方向與速度向量相反（拖尾效果）
+        // 計算尾巴的實際角度：流星移動方向 + 180度
         const tailAngle = this.angle + 180;
         const steps = this.shootingStarsConfig.tailFadeSteps || 20;
         const glowIntensity = this.shootingStarsConfig.glowIntensity || 0.9;
         const colors = [];
         
-        // 安全訪問顏色配置
+        // 安全訪問顏色配置 - 使用白色為主
         const colorsConfig = this.config.colors?.shootingStars || {
             core: 'rgba(255, 255, 255',
-            glow: 'rgba(135, 206, 250',
-            tail: 'rgba(176, 224, 230'
+            glow: 'rgba(200, 230, 255',
+            tail: 'rgba(169, 214, 255'
         };
+        
+        // 物理正確：尾巴長度已在前面的 tailLength 計算中處理（與速度成正比）
+        // 這裡根據速度調整光暈強度（速度越快，光暈越強）
+        const speedFactor = Math.min(this.speed / 500, 2); // 速度因子，用於調整光暈強度
         
         for (let i = 0; i <= steps; i++) {
             const ratio = i / steps;
-            const opacity = Math.pow(1 - ratio, 2) * glowIntensity;
-            const alpha = Math.max(0, opacity);
+            // 物理正確：指數衰減 - 距離越遠，亮度越低（符合大氣散射）
+            // 使用平方衰減模擬真實的拖尾效果
+            const opacity = Math.pow(1 - ratio, 2.5) * glowIntensity * Math.min(speedFactor, 1.2);
+            const alpha = Math.max(0, Math.min(1, opacity));
             
             if (i === 0) {
+                // 核心：最亮，純白色
                 colors.push(`${colorsConfig.core}, ${alpha})`);
-            } else if (i < steps * 0.3) {
-                colors.push(`${colorsConfig.glow}, ${alpha * 0.8})`);
+            } else if (i < steps * 0.2) {
+                // 前20%：光暈區域，接近白色
+                colors.push(`${colorsConfig.core}, ${alpha * 0.9})`);
+            } else if (i < steps * 0.5) {
+                // 20%-50%：過渡區域
+                colors.push(`${colorsConfig.glow}, ${alpha * 0.7})`);
             } else {
-                colors.push(`${colorsConfig.tail}, ${alpha * 0.5})`);
+                // 後50%：尾巴末端，逐漸變淡
+                colors.push(`${colorsConfig.tail}, ${alpha * 0.4})`);
             }
         }
         
@@ -191,6 +216,7 @@ class ShootingStar {
             return `${color} ${percent}%`;
         }).join(', ');
         
+        // 返回線性漸變，方向與速度向量一致
         return `linear-gradient(${tailAngle}deg, ${colorStops})`;
     }
     
@@ -483,12 +509,12 @@ class StarrySkyManager {
                           colorRand < 0.95 ? 'rgba(200, 230, 255' :  // 10% 淺藍白
                           'rgba(169, 214, 255';  // 5% 冷藍
             
-            // 三層光暈：核心點（較大）+ 中層光暈 + 外層光暈（更大）
-            const coreSize = 2; // 核心點大小
+            // 三層光暈：核心點（更大更明顯）+ 中層光暈 + 外層光暈
+            const coreSize = Math.random() * 2 + 2; // 2px 到 4px 核心點，更大更明顯
             shadows.push(
-                `${x}px ${y}px 0 ${coreSize}px ${color}, ${brightness})`,  // 核心點
-                `${x}px ${y}px 0 ${coreSize + 2}px ${color}, ${brightness * 0.8})`,  // 中層
-                `${x}px ${y}px ${glowSize}px ${color}, ${brightness * 0.5})`  // 外層光暈
+                `${x}px ${y}px 0 ${coreSize}px ${color}, ${brightness})`,  // 核心點（有實際大小）
+                `${x}px ${y}px ${glowSize * 0.6}px ${color}, ${brightness * 0.85})`,  // 中層光暈
+                `${x}px ${y}px ${glowSize}px ${color}, ${brightness * 0.6})`  // 外層光暈
             );
         }
         
@@ -513,11 +539,12 @@ class StarrySkyManager {
                           colorRand < 0.95 ? 'rgba(200, 230, 255' :  // 10% 淺藍白
                           'rgba(169, 214, 255';  // 5% 冷藍
             
-            const coreSize = 2;
+            // 三層光暈：核心點（更大更明顯）+ 中層光暈 + 外層光暈
+            const coreSize = Math.random() * 2 + 2; // 2px 到 4px 核心點，更大更明顯
             shadows.push(
-                `${x}px ${y}px 0 ${coreSize}px ${color}, ${brightness})`,
-                `${x}px ${y}px 0 ${coreSize + 2}px ${color}, ${brightness * 0.8})`,
-                `${x}px ${y}px ${glowSize}px ${color}, ${brightness * 0.5})`
+                `${x}px ${y}px 0 ${coreSize}px ${color}, ${brightness})`,  // 核心點（有實際大小）
+                `${x}px ${y}px ${glowSize * 0.6}px ${color}, ${brightness * 0.85})`,  // 中層光暈
+                `${x}px ${y}px ${glowSize}px ${color}, ${brightness * 0.6})`  // 外層光暈
             );
         }
         

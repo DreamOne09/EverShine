@@ -168,7 +168,9 @@ body {
     z-index: -1;
     pointer-events: none;
     overflow: visible;
-    background: transparent;
+    background: transparent !important;
+    /* 確保容器不會遮擋星星 */
+    background-color: transparent !important;
 }
 
 /* 確保星星層可見 */
@@ -288,56 +290,71 @@ body {
 /* 流星效果 - 符合物理定律的拖曳尾巴 */
 .shooting-star {
     position: fixed;
-    width: 4px;
-    height: var(--tail-length, 100px);
-    border-radius: 50%;
-    /* 背景漸變由JS動態生成，符合物理定律 */
-    /* 開頭明顯的光暈效果 - 多層光暈 */
+    width: 3px;  /* 流星核心寬度 */
+    height: var(--tail-length, 100px);  /* 尾巴長度由速度決定 */
+    border-radius: 0;
+    /* 背景漸變由JS動態生成，符合物理定律 - 尾巴方向與速度向量相反 */
+    /* 開頭明顯的光暈效果 - 多層光暈，模擬大氣摩擦發光 */
     box-shadow: 
-        0 0 15px rgba(255, 255, 255, 0.95),
-        0 0 30px rgba(135, 206, 250, 0.8),
-        0 0 50px rgba(135, 206, 250, 0.5),
-        0 0 80px rgba(135, 206, 250, 0.3);
+        0 0 15px rgba(255, 255, 255, 1),
+        0 0 30px rgba(255, 255, 255, 0.9),
+        0 0 50px rgba(200, 230, 255, 0.7),
+        0 0 80px rgba(200, 230, 255, 0.5);
     animation: animShootingStar var(--duration, 8s) linear infinite;
     z-index: 100;
     pointer-events: none;
-    transform-origin: center center;
+    /* 物理正確：變換原點在流星頭部（0%位置），這樣旋轉和移動都從頭部開始 */
+    transform-origin: center top;
     /* 確保流星可見 */
     opacity: 1;
     will-change: transform, opacity;
+    /* 確保在黑色背景之上 */
+    mix-blend-mode: screen;
 }
 
 /* 流星動畫 - 360度隨機方向，從畫面外開始，符合物理定律 */
 @keyframes animShootingStar {
     0% {
+        /* 物理正確：從起始位置開始，完全透明（在畫面外） */
         transform: translate(0, 0) rotate(var(--angle, 0deg));
         opacity: 0;
         filter: blur(0px);
-        height: 3px;
+        height: var(--tail-length, 100px);  /* 尾巴長度始終一致（由速度決定） */
+    }
+    0.5% {
+        /* 快速進入畫面 */
+        opacity: 0.3;
+        filter: blur(0px);
     }
     1% {
         opacity: 0.95;
         filter: blur(0px);
     }
     2% {
+        /* 完全可見 */
         opacity: 1;
         filter: blur(0px);
-        height: var(--tail-length, 100px);
     }
     50% {
+        /* 中間位置，保持最大亮度 */
         opacity: 1;
         filter: blur(0px);
-        height: var(--tail-length, 100px);
     }
     98% {
-        opacity: 0.95;
+        /* 開始離開畫面 */
+        opacity: 0.9;
+        filter: blur(0.5px);
+    }
+    99% {
+        opacity: 0.5;
         filter: blur(1px);
     }
     100% {
+        /* 物理正確：移動到終點位置，完全透明（離開畫面） */
+        /* 移動距離 = 速度 * 時間，方向由角度決定 */
         transform: translate(var(--move-x, 0), var(--move-y, 0)) rotate(var(--angle, 0deg));
         opacity: 0;
         filter: blur(2px);
-        height: calc(var(--tail-length, 100px) * 1.2);
     }
 }
 
@@ -639,9 +656,19 @@ body::after {
     filter: drop-shadow(0 2px 4px rgba(76, 168, 223, 0.3));
 }
 
-.nav-social-link:hover svg {
+.nav-social-link:hover svg,
+.nav-social-link:hover img {
     transform: scale(1.15) rotate(5deg);
     filter: drop-shadow(0 4px 12px rgba(76, 168, 223, 0.6));
+}
+
+.nav-social-link img {
+    width: 18px;
+    height: 18px;
+    position: relative;
+    z-index: 1;
+    transition: all 0.3s ease;
+    filter: drop-shadow(0 2px 4px rgba(76, 168, 223, 0.3));
 }
 
 .nav-link {
@@ -2762,9 +2789,20 @@ body::after {
     filter: drop-shadow(0 2px 4px rgba(76, 168, 223, 0.3));
 }
 
-.footer-social-link:hover svg {
+.footer-social-link:hover svg,
+.footer-social-link:hover img {
     transform: scale(1.15) rotate(5deg);
     filter: drop-shadow(0 4px 12px rgba(76, 168, 223, 0.6));
+}
+
+.footer-social-link img {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    position: relative;
+    z-index: 2;
+    transition: all 0.3s ease;
+    filter: drop-shadow(0 2px 4px rgba(76, 168, 223, 0.3));
 }
 
 .footer-social-link .social-name {
