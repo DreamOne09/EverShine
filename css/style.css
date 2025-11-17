@@ -656,20 +656,11 @@ body::after {
     filter: drop-shadow(0 2px 4px rgba(76, 168, 223, 0.3));
 }
 
-.nav-social-link:hover svg,
-.nav-social-link:hover img {
+.nav-social-link:hover svg {
     transform: scale(1.15) rotate(5deg);
     filter: drop-shadow(0 4px 12px rgba(76, 168, 223, 0.6));
 }
 
-.nav-social-link img {
-    width: 18px;
-    height: 18px;
-    position: relative;
-    z-index: 1;
-    transition: all 0.3s ease;
-    filter: drop-shadow(0 2px 4px rgba(76, 168, 223, 0.3));
-}
 
 .nav-link {
     color: var(--text-white);
@@ -2816,21 +2807,12 @@ body::after {
     filter: drop-shadow(0 2px 4px rgba(76, 168, 223, 0.3));
 }
 
-.footer-social-link:hover svg,
-.footer-social-link:hover img {
+.footer-social-link:hover svg {
     transform: scale(1.15) rotate(5deg);
     filter: drop-shadow(0 4px 12px rgba(76, 168, 223, 0.6));
 }
 
-.footer-social-link img {
-    flex-shrink: 0;
-    width: 24px;
-    height: 24px;
-    position: relative;
-    z-index: 2;
-    transition: all 0.3s ease;
-    filter: drop-shadow(0 2px 4px rgba(76, 168, 223, 0.3));
-}
+
 
 .footer-social-link .social-name {
     color: var(--text-white);
@@ -3973,18 +3955,40 @@ body::after {
     background: var(--glass-bg-medium);
     backdrop-filter: var(--glass-blur-strong);
     -webkit-backdrop-filter: var(--glass-blur-strong);
-    border: 1px solid var(--glass-border);
+    border: 2px solid var(--glass-border);
     border-radius: 20px;
     padding: 0;
     transition: var(--transition);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 
+                0 0 0 1px rgba(76, 168, 223, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
     overflow: hidden;
+    position: relative;
+}
+
+.success-card-horizontal::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(180deg, var(--gold), transparent);
+    opacity: 0.6;
 }
 
 .success-card-horizontal:hover {
     transform: translateX(10px);
     border-color: var(--gold);
-    box-shadow: 0 12px 40px rgba(76, 168, 223, 0.4);
+    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4), 
+                0 0 0 1px rgba(76, 168, 223, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2),
+                0 0 30px rgba(76, 168, 223, 0.2);
+}
+
+.success-card-horizontal:hover::before {
+    opacity: 1;
+    width: 6px;
 }
 
 .success-card-content {
@@ -4000,6 +4004,18 @@ body::after {
     text-align: left;
     padding-right: 2rem;
     border-right: 2px solid var(--glass-border);
+    position: relative;
+}
+
+.success-member-info::after {
+    content: '';
+    position: absolute;
+    right: -2px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg, transparent, var(--gold), transparent);
+    opacity: 0.6;
 }
 
 .success-member-name {
@@ -4077,10 +4093,36 @@ body::after {
     background: var(--glass-bg-medium);
     backdrop-filter: var(--glass-blur-strong);
     -webkit-backdrop-filter: var(--glass-blur-strong);
-    border: 1px solid var(--glass-border);
+    border: 2px solid var(--glass-border);
     border-radius: 20px;
     padding: 3rem;
     text-align: center;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 
+                0 0 0 1px rgba(76, 168, 223, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.meeting-schedule-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0.6;
+}
+
+.meeting-schedule-section:hover {
+    transform: translateY(-5px);
+    border-color: var(--gold);
+    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4), 
+                0 0 0 1px rgba(76, 168, 223, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2),
+                0 0 30px rgba(76, 168, 223, 0.2);
 }
 
 .schedule-time-large {
@@ -4121,9 +4163,35 @@ body::after {
     background: var(--glass-bg-medium);
     backdrop-filter: var(--glass-blur-strong);
     -webkit-backdrop-filter: var(--glass-blur-strong);
-    border: 1px solid var(--glass-border);
+    border: 2px solid var(--glass-border);
     border-radius: 20px;
     padding: 3rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 
+                0 0 0 1px rgba(76, 168, 223, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.meeting-features-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0.6;
+}
+
+.meeting-features-section:hover {
+    transform: translateY(-5px);
+    border-color: var(--gold);
+    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4), 
+                0 0 0 1px rgba(76, 168, 223, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2),
+                0 0 30px rgba(76, 168, 223, 0.2);
 }
 
 .features-title {
@@ -4146,12 +4214,24 @@ body::after {
     font-size: 1.1rem;
     color: var(--text-gray);
     line-height: 1.8;
+    padding: 1rem;
+    border-radius: 12px;
+    background: rgba(76, 168, 223, 0.05);
+    border: 1px solid rgba(76, 168, 223, 0.1);
+    transition: var(--transition);
+}
+
+.feature-item:hover {
+    background: rgba(76, 168, 223, 0.1);
+    border-color: rgba(76, 168, 223, 0.3);
+    transform: translateX(5px);
 }
 
 .feature-item svg {
     flex-shrink: 0;
     color: var(--gold);
     margin-top: 0.2rem;
+    filter: drop-shadow(0 2px 4px rgba(76, 168, 223, 0.4));
 }
 
 @media (max-width: 1024px) {
