@@ -474,23 +474,26 @@ class StarrySkyManager {
         for (let i = 0; i < actualCount; i++) {
             const x = Math.floor(Math.random() * maxX);
             const y = Math.floor(Math.random() * maxY);
-            const brightness = Math.random() * 0.3 + 0.7; // 0.7 到 1.0
-            const glowSize = Math.random() * 5 + 2; // 2px 到 7px
+            const brightness = Math.random() * 0.2 + 0.8; // 0.8 到 1.0，更亮
+            const glowSize = Math.random() * 8 + 4; // 4px 到 12px，更大的光暈
             
+            // 主要使用白色，少數使用藍白色
             const colorRand = Math.random();
-            const color = colorRand < 0.7 ? this.config.colors.stars.primary :
-                          colorRand < 0.9 ? this.config.colors.stars.secondary :
-                          this.config.colors.stars.tertiary;
+            const color = colorRand < 0.85 ? 'rgba(255, 255, 255' :  // 85% 純白色
+                          colorRand < 0.95 ? 'rgba(200, 230, 255' :  // 10% 淺藍白
+                          'rgba(169, 214, 255';  // 5% 冷藍
             
-            // 雙層光暈：核心點 + 外層光暈
+            // 三層光暈：核心點（較大）+ 中層光暈 + 外層光暈（更大）
+            const coreSize = 2; // 核心點大小
             shadows.push(
-                `${x}px ${y}px 0 0 ${color}, ${brightness})`,
-                `${x}px ${y}px ${glowSize}px ${color}, ${brightness * 0.6})`
+                `${x}px ${y}px 0 ${coreSize}px ${color}, ${brightness})`,  // 核心點
+                `${x}px ${y}px 0 ${coreSize + 2}px ${color}, ${brightness * 0.8})`,  // 中層
+                `${x}px ${y}px ${glowSize}px ${color}, ${brightness * 0.5})`  // 外層光暈
             );
         }
         
         const result = shadows.join(', ');
-        console.log(`生成 ${actualCount} 顆靜態星星，box-shadow 長度: ${result.length} 字符`);
+        console.log(`生成 ${actualCount} 顆靜態星星（白色為主），box-shadow 長度: ${result.length} 字符`);
         return result;
     }
     
@@ -501,21 +504,24 @@ class StarrySkyManager {
         for (let i = 0; i < actualCount; i++) {
             const x = Math.floor(Math.random() * maxX);
             const y = Math.floor(Math.random() * maxY);
-            const brightness = Math.random() * 0.3 + 0.7;
-            const glowSize = Math.random() * 4 + 2;
+            const brightness = Math.random() * 0.2 + 0.8; // 0.8 到 1.0，更亮
+            const glowSize = Math.random() * 6 + 3; // 3px 到 9px，更大的光暈
             
+            // 主要使用白色
             const colorRand = Math.random();
-            const color = colorRand < 0.7 ? this.config.colors.stars.primary :
-                          colorRand < 0.9 ? this.config.colors.stars.secondary :
-                          this.config.colors.stars.tertiary;
+            const color = colorRand < 0.85 ? 'rgba(255, 255, 255' :  // 85% 純白色
+                          colorRand < 0.95 ? 'rgba(200, 230, 255' :  // 10% 淺藍白
+                          'rgba(169, 214, 255';  // 5% 冷藍
             
+            const coreSize = 2;
             shadows.push(
-                `${x}px ${y}px 0 0 ${color}, ${brightness})`,
-                `${x}px ${y}px ${glowSize}px ${color}, ${brightness * 0.6})`
+                `${x}px ${y}px 0 ${coreSize}px ${color}, ${brightness})`,
+                `${x}px ${y}px 0 ${coreSize + 2}px ${color}, ${brightness * 0.8})`,
+                `${x}px ${y}px ${glowSize}px ${color}, ${brightness * 0.5})`
             );
         }
         
-        console.log(`生成 ${actualCount} 顆移動星星`);
+        console.log(`生成 ${actualCount} 顆移動星星（白色為主）`);
         return shadows.join(', ');
     }
     

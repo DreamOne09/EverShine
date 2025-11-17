@@ -196,12 +196,18 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: transparent;
+    background: transparent !important;
     animation: starTwinkle 3s ease-in-out infinite;
     z-index: 1;
     /* 確保可以顯示 box-shadow */
     border-radius: 0;
     overflow: visible;
+    /* 確保星星可見 */
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: block !important;
+    /* 確保在黑色背景之上 */
+    mix-blend-mode: screen;
 }
 
 .static-stars-layer.static-stars0 {
@@ -231,12 +237,18 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: transparent;
+    background: transparent !important;
     animation: animStar 100s linear infinite;
     z-index: 1;
     /* 確保可以顯示 box-shadow */
     border-radius: 0;
     overflow: visible;
+    /* 確保星星可見 */
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: block !important;
+    /* 確保在黑色背景之上 */
+    mix-blend-mode: screen;
 }
 
 .moving-stars-layer.moving-stars0 {
@@ -301,27 +313,31 @@ body {
         transform: translate(0, 0) rotate(var(--angle, 0deg));
         opacity: 0;
         filter: blur(0px);
+        height: 3px;
     }
     1% {
-        opacity: 0.9;
-        filter: blur(0.5px);
+        opacity: 0.95;
+        filter: blur(0px);
     }
     2% {
         opacity: 1;
         filter: blur(0px);
+        height: var(--tail-length, 100px);
     }
     50% {
         opacity: 1;
         filter: blur(0px);
+        height: var(--tail-length, 100px);
     }
     98% {
-        opacity: 0.9;
+        opacity: 0.95;
         filter: blur(1px);
     }
     100% {
         transform: translate(var(--move-x, 0), var(--move-y, 0)) rotate(var(--angle, 0deg));
         opacity: 0;
         filter: blur(2px);
+        height: calc(var(--tail-length, 100px) * 1.2);
     }
 }
 
