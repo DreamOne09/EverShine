@@ -33,27 +33,26 @@ class StarrySkyConfig {
         };
         
         this.css = {
-            // 靜態小星星層（會閃爍）- 滿天星點
+            // 靜態小星星層（參考代碼風格）- 滿天星點
+            // 使用純白色 #FFF，簡單的 box-shadow
             staticStars: [
-                { count: 3000, size: '1px', twinkleSpeed: '3s' },
-                { count: 2500, size: '1px', twinkleSpeed: '4s' },
-                { count: 2000, size: '1px', twinkleSpeed: '5s' },
-                { count: 1500, size: '1px', twinkleSpeed: '6s' }
+                { count: 50, size: '1px', twinkleSpeed: '3s' },  // 參考代碼：約50顆
+                { count: 50, size: '1px', twinkleSpeed: '4s' },  // 使用 :after 偽元素增加數量
             ],
-            // 移動的星星層
+            // 移動的星星層（參考代碼風格）
             movingStars: [
-                { count: 600, size: '2px', duration: '100s' },
-                { count: 400, size: '3px', duration: '125s' }
+                { count: 50, size: '2px', duration: '100s' },   // stars1: 2px, 100s
+                { count: 50, size: '3px', duration: '125s' },   // stars2: 3px, 125s
             ],
-            // 流星配置
+            // 流星配置（參考代碼風格）
             shootingStars: {
-                minCount: 5,
-                maxCount: 10,
-                minSpeed: 3,
-                maxSpeed: 12,
-                minTailLength: 80,
-                maxTailLength: 150,
-                glowIntensity: 0.9,
+                minCount: 1,
+                maxCount: 3,
+                minSpeed: 10,
+                maxSpeed: 10,
+                minTailLength: 85,
+                maxTailLength: 85,
+                glowIntensity: 1.0,
                 tailFadeSteps: 20
             }
         };
@@ -75,7 +74,7 @@ class StarrySkyConfig {
 }
 
 // ============================================
-// 流星類別 - 符合物理定律
+// 流星類別（參考代碼風格）
 // ============================================
 class ShootingStar {
     constructor(config, viewportWidth, viewportHeight) {
@@ -83,141 +82,39 @@ class ShootingStar {
         this.viewportWidth = viewportWidth;
         this.viewportHeight = viewportHeight;
         
-        // 安全訪問配置
+        // 參考代碼風格：簡單的配置
         const shootingStarsConfig = config.css?.shootingStars || {
-            minSpeed: 3,
-            maxSpeed: 12,
-            minTailLength: 80,
-            maxTailLength: 150,
-            glowIntensity: 0.9,
-            tailFadeSteps: 20
+            minSpeed: 10,
+            maxSpeed: 10
         };
         
-        this.angle = Math.random() * 360;
-        this.rad = (this.angle * Math.PI) / 180;
+        // 參考代碼：固定動畫時長 10s
+        this.duration = shootingStarsConfig.minSpeed;
+        this.delay = Math.random() * 5; // 隨機延遲 0-5 秒
         
-        this.duration = shootingStarsConfig.minSpeed + 
-                       Math.random() * (shootingStarsConfig.maxSpeed - shootingStarsConfig.minSpeed);
-        
-        const diagonal = Math.sqrt(viewportWidth * viewportWidth + viewportHeight * viewportHeight);
-        // 物理正確：總移動距離 = 對角線 * 1.3（確保從畫面外到畫面外）
-        this.distance = diagonal * 1.3;
-        
-        // 物理正確：速度向量 = 方向 * 速度大小
-        // 速度大小（每秒像素數）= 距離 / 時間
-        const speedPixelsPerSecond = this.distance / this.duration;
-        // 速度向量（方向 * 速度）
-        this.velocityX = Math.cos(this.rad) * speedPixelsPerSecond;
-        this.velocityY = Math.sin(this.rad) * speedPixelsPerSecond;
-        // 實際速度（用於計算尾巴長度）
-        this.speed = speedPixelsPerSecond;
-        
-        // 物理正確：尾巴長度與速度成正比（速度越快，尾巴越長）
-        const speedRatio = this.speed / 500; // 標準化速度比例
-        this.tailLength = shootingStarsConfig.minTailLength + 
-                         speedRatio * (shootingStarsConfig.maxTailLength - shootingStarsConfig.minTailLength);
-        
-        this.shootingStarsConfig = shootingStarsConfig;
-        
-        this.setStartPosition();
-        this.delay = Math.random() * 40;
         this.createElement();
-    }
-    
-    setStartPosition() {
-        if (this.angle >= 0 && this.angle < 45) {
-            this.startX = -150;
-            this.startY = this.viewportHeight * Math.random();
-        } else if (this.angle >= 45 && this.angle < 135) {
-            this.startX = this.viewportWidth * Math.random();
-            this.startY = this.viewportHeight + 150;
-        } else if (this.angle >= 135 && this.angle < 225) {
-            this.startX = this.viewportWidth + 150;
-            this.startY = this.viewportHeight * Math.random();
-        } else if (this.angle >= 225 && this.angle < 315) {
-            this.startX = this.viewportWidth * Math.random();
-            this.startY = -150;
-        } else {
-            this.startX = -150;
-            this.startY = -150;
-        }
     }
     
     createElement() {
         this.element = document.createElement('div');
         this.element.className = 'shooting-star';
         
-        this.element.style.left = `${this.startX}px`;
-        this.element.style.top = `${this.startY}px`;
+        // 參考代碼風格：流星從右下角開始，隨機位置
+        this.element.style.bottom = '0';
+        this.element.style.right = `${Math.random() * 100}%`;
         this.element.style.animationDelay = `${this.delay}s`;
         this.element.style.animationDuration = `${this.duration}s`;
-        // 物理正確：CSS transform 需要的是總位移距離，不是速度
-        // 總位移 = 速度 * 時間（duration）
-        const totalMoveX = this.velocityX * this.duration;
-        const totalMoveY = this.velocityY * this.duration;
-        this.element.style.setProperty('--move-x', `${totalMoveX}px`);
-        this.element.style.setProperty('--move-y', `${totalMoveY}px`);
-        this.element.style.setProperty('--angle', `${this.angle}deg`);
-        this.element.style.setProperty('--tail-length', `${this.tailLength}px`);
-        this.element.style.setProperty('--duration', `${this.duration}s`);
         
-        this.createTail();
-        document.body.appendChild(this.element);
-    }
-    
-    createTail() {
-        const tailGradient = this.generateTailGradient();
-        this.element.style.background = tailGradient;
-    }
-    
-    generateTailGradient() {
-        // 尾巴方向與速度向量相反（拖尾效果）
-        // 計算尾巴的實際角度：流星移動方向 + 180度
-        const tailAngle = this.angle + 180;
-        const steps = this.shootingStarsConfig.tailFadeSteps || 20;
-        const glowIntensity = this.shootingStarsConfig.glowIntensity || 0.9;
-        const colors = [];
+        // 參考代碼：使用 linear-gradient 創建尾巴
+        this.element.style.background = 'linear-gradient(to top, rgba(255, 255, 255, 0), white)';
         
-        // 安全訪問顏色配置 - 使用白色為主
-        const colorsConfig = this.config.colors?.shootingStars || {
-            core: 'rgba(255, 255, 255',
-            glow: 'rgba(200, 230, 255',
-            tail: 'rgba(169, 214, 255'
-        };
-        
-        // 物理正確：尾巴長度已在前面的 tailLength 計算中處理（與速度成正比）
-        // 這裡根據速度調整光暈強度（速度越快，光暈越強）
-        const speedFactor = Math.min(this.speed / 500, 2); // 速度因子，用於調整光暈強度
-        
-        for (let i = 0; i <= steps; i++) {
-            const ratio = i / steps;
-            // 物理正確：指數衰減 - 距離越遠，亮度越低（符合大氣散射）
-            // 使用平方衰減模擬真實的拖尾效果
-            const opacity = Math.pow(1 - ratio, 2.5) * glowIntensity * Math.min(speedFactor, 1.2);
-            const alpha = Math.max(0, Math.min(1, opacity));
-            
-            if (i === 0) {
-                // 核心：最亮，純白色
-                colors.push(`${colorsConfig.core}, ${alpha})`);
-            } else if (i < steps * 0.2) {
-                // 前20%：光暈區域，接近白色
-                colors.push(`${colorsConfig.core}, ${alpha * 0.9})`);
-            } else if (i < steps * 0.5) {
-                // 20%-50%：過渡區域
-                colors.push(`${colorsConfig.glow}, ${alpha * 0.7})`);
-            } else {
-                // 後50%：尾巴末端，逐漸變淡
-                colors.push(`${colorsConfig.tail}, ${alpha * 0.4})`);
-            }
+        // 添加到星空容器
+        const container = document.querySelector('.starry-background-container');
+        if (container) {
+            container.appendChild(this.element);
+        } else {
+            document.body.appendChild(this.element);
         }
-        
-        const colorStops = colors.map((color, i) => {
-            const percent = (i / steps) * 100;
-            return `${color} ${percent}%`;
-        }).join(', ');
-        
-        // 返回線性漸變，方向與速度向量一致
-        return `linear-gradient(${tailAngle}deg, ${colorStops})`;
     }
     
     destroy() {
@@ -390,11 +287,12 @@ class StarrySkyManager {
             sky.appendChild(div);
         });
         
-        // 創建移動星星層
+        // 創建移動星星層（參考代碼風格：使用 :after 偽元素增加星星數量）
         this.config.css.movingStars.forEach((layer, i) => {
             const div = document.createElement('div');
             div.className = `moving-stars-layer moving-stars${i}`;
-            div.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;background:transparent;z-index:1;';
+            // 參考代碼：width 和 height 設為星星大小
+            div.style.cssText = `position:absolute;top:0;left:0;width:${layer.size};height:${layer.size};border-radius:50%;background:transparent;z-index:1;`;
             sky.appendChild(div);
         });
         
@@ -449,14 +347,16 @@ class StarrySkyManager {
         staticLayers.forEach((layer, i) => {
             if (this.config.css.staticStars[i]) {
                 const shadow = this.generateStaticStarsShadow(this.config.css.staticStars[i].count, w, h);
+                const shadowAfter = this.generateStaticStarsShadow(this.config.css.staticStars[i].count, w, h);
                 if (shadow) {
                     layer.style.boxShadow = shadow;
+                    // 參考代碼：使用 :after 偽元素增加星星數量
+                    // 通過 CSS 變數傳遞給 :after
+                    layer.style.setProperty('--shadow-after', shadowAfter);
                     // 確保可見
                     layer.style.opacity = '1';
                     layer.style.visibility = 'visible';
                     layer.style.display = 'block';
-                    layer.style.width = '100%';
-                    layer.style.height = '100%';
                     console.log(`靜態星星層 ${i}: box-shadow 已設置，長度 ${shadow.length} 字符`);
                 } else {
                     console.error(`靜態星星層 ${i}: 無法生成 box-shadow`);
@@ -474,14 +374,16 @@ class StarrySkyManager {
         movingLayers.forEach((layer, i) => {
             if (this.config.css.movingStars[i]) {
                 const shadow = this.generateMovingStarsShadow(this.config.css.movingStars[i].count, w, h);
+                const shadowAfter = this.generateMovingStarsShadow(this.config.css.movingStars[i].count, w, h);
                 if (shadow) {
                     layer.style.boxShadow = shadow;
+                    // 參考代碼：使用 :after 偽元素增加星星數量
+                    // 通過 CSS 變數傳遞給 :after
+                    layer.style.setProperty('--shadow-after', shadowAfter);
                     // 確保可見
                     layer.style.opacity = '1';
                     layer.style.visibility = 'visible';
                     layer.style.display = 'block';
-                    layer.style.width = '100%';
-                    layer.style.height = '100%';
                     console.log(`移動星星層 ${i}: box-shadow 已設置`);
                 } else {
                     console.error(`移動星星層 ${i}: 無法生成 box-shadow`);
@@ -494,62 +396,35 @@ class StarrySkyManager {
     
     generateStaticStarsShadow(count, maxX, maxY) {
         const shadows = [];
-        // 限制數量以避免過長的字符串（瀏覽器限制）
-        const actualCount = Math.min(count, 2000); // 每層最多2000顆，避免性能問題
+        // 參考代碼風格：簡單的 box-shadow，純白色 #FFF
+        const actualCount = Math.min(count, 100); // 參考代碼約50顆，我們生成更多以填滿畫面
         
         for (let i = 0; i < actualCount; i++) {
             const x = Math.floor(Math.random() * maxX);
             const y = Math.floor(Math.random() * maxY);
-            const brightness = Math.random() * 0.2 + 0.8; // 0.8 到 1.0，更亮
-            const glowSize = Math.random() * 8 + 4; // 4px 到 12px，更大的光暈
-            
-            // 主要使用白色，少數使用藍白色
-            const colorRand = Math.random();
-            const color = colorRand < 0.85 ? 'rgba(255, 255, 255' :  // 85% 純白色
-                          colorRand < 0.95 ? 'rgba(200, 230, 255' :  // 10% 淺藍白
-                          'rgba(169, 214, 255';  // 5% 冷藍
-            
-            // 三層光暈：核心點（更大更明顯）+ 中層光暈 + 外層光暈
-            const coreSize = Math.random() * 2 + 2; // 2px 到 4px 核心點，更大更明顯
-            shadows.push(
-                `${x}px ${y}px 0 ${coreSize}px ${color}, ${brightness})`,  // 核心點（有實際大小）
-                `${x}px ${y}px ${glowSize * 0.6}px ${color}, ${brightness * 0.85})`,  // 中層光暈
-                `${x}px ${y}px ${glowSize}px ${color}, ${brightness * 0.6})`  // 外層光暈
-            );
+            // 參考代碼：簡單的格式 "xpx ypx #FFF"
+            shadows.push(`${x}px ${y}px #FFF`);
         }
         
-        const result = shadows.join(', ');
-        console.log(`生成 ${actualCount} 顆靜態星星（白色為主），box-shadow 長度: ${result.length} 字符`);
+        const result = shadows.join(' , ');
+        console.log(`生成 ${actualCount} 顆靜態星星（參考代碼風格），box-shadow 長度: ${result.length} 字符`);
         return result;
     }
     
     generateMovingStarsShadow(count, maxX, maxY) {
         const shadows = [];
-        const actualCount = Math.min(count, 500); // 每層最多500顆
+        // 參考代碼風格：簡單的 box-shadow，純白色 #FFF
+        const actualCount = Math.min(count, 100); // 參考代碼約50顆
         
         for (let i = 0; i < actualCount; i++) {
             const x = Math.floor(Math.random() * maxX);
             const y = Math.floor(Math.random() * maxY);
-            const brightness = Math.random() * 0.2 + 0.8; // 0.8 到 1.0，更亮
-            const glowSize = Math.random() * 6 + 3; // 3px 到 9px，更大的光暈
-            
-            // 主要使用白色
-            const colorRand = Math.random();
-            const color = colorRand < 0.85 ? 'rgba(255, 255, 255' :  // 85% 純白色
-                          colorRand < 0.95 ? 'rgba(200, 230, 255' :  // 10% 淺藍白
-                          'rgba(169, 214, 255';  // 5% 冷藍
-            
-            // 三層光暈：核心點（更大更明顯）+ 中層光暈 + 外層光暈
-            const coreSize = Math.random() * 2 + 2; // 2px 到 4px 核心點，更大更明顯
-            shadows.push(
-                `${x}px ${y}px 0 ${coreSize}px ${color}, ${brightness})`,  // 核心點（有實際大小）
-                `${x}px ${y}px ${glowSize * 0.6}px ${color}, ${brightness * 0.85})`,  // 中層光暈
-                `${x}px ${y}px ${glowSize}px ${color}, ${brightness * 0.6})`  // 外層光暈
-            );
+            // 參考代碼：簡單的格式 "xpx ypx #FFF"
+            shadows.push(`${x}px ${y}px #FFF`);
         }
         
-        console.log(`生成 ${actualCount} 顆移動星星（白色為主）`);
-        return shadows.join(', ');
+        console.log(`生成 ${actualCount} 顆移動星星（參考代碼風格）`);
+        return shadows.join(' , ');
     }
     
     createShootingStars() {

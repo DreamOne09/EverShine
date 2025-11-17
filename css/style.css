@@ -191,25 +191,34 @@ body {
     min-height: 100%;
 }
 
-/* 靜態星星層（會閃爍） */
+/* 靜態星星層（參考代碼風格） */
 .static-stars-layer {
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    background: transparent !important;
-    animation: starTwinkle 3s ease-in-out infinite;
-    z-index: 1;
-    /* 確保可以顯示 box-shadow */
-    border-radius: 0;
+    width: 1px;
+    height: 1px;
+    border-radius: 50%;
+    background: transparent;
+    z-index: 10;
+    /* 參考代碼：不使用 mix-blend-mode，直接顯示 */
+    opacity: 1;
+    visibility: visible;
+    display: block;
     overflow: visible;
-    /* 確保星星可見 */
-    opacity: 1 !important;
-    visibility: visible !important;
-    display: block !important;
-    /* 確保在黑色背景之上 */
-    mix-blend-mode: screen;
+}
+
+/* 參考代碼：使用 :after 偽元素增加星星數量 */
+.static-stars-layer::after {
+    content: " ";
+    position: absolute;
+    top: -600px;
+    width: 1px;
+    height: 1px;
+    border-radius: 50%;
+    background: transparent;
+    /* box-shadow 將由 JavaScript 動態設置 */
+    box-shadow: var(--shadow-after);
 }
 
 .static-stars-layer.static-stars0 {
@@ -232,37 +241,52 @@ body {
     animation-delay: 3s;
 }
 
-/* 移動的星星層 */
+/* 移動的星星層（參考代碼風格） */
 .moving-stars-layer {
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    background: transparent !important;
-    animation: animStar 100s linear infinite;
-    z-index: 1;
-    /* 確保可以顯示 box-shadow */
-    border-radius: 0;
+    border-radius: 50%;
+    background: transparent;
+    z-index: 10;
+    /* 參考代碼：不使用 mix-blend-mode，直接顯示 */
+    opacity: 1;
+    visibility: visible;
+    display: block;
     overflow: visible;
-    /* 確保星星可見 */
-    opacity: 1 !important;
-    visibility: visible !important;
-    display: block !important;
-    /* 確保在黑色背景之上 */
-    mix-blend-mode: screen;
 }
 
 .moving-stars-layer.moving-stars0 {
     width: 2px;
     height: 2px;
-    animation-duration: 100s;
+    animation: animStar 100s linear infinite;
 }
 
 .moving-stars-layer.moving-stars1 {
     width: 3px;
     height: 3px;
-    animation-duration: 125s;
+    animation: animStar 125s linear infinite;
+}
+
+/* 參考代碼：使用 :after 偽元素增加星星數量 */
+.moving-stars-layer::after {
+    content: " ";
+    position: absolute;
+    top: -600px;
+    border-radius: 50%;
+    background: transparent;
+    /* box-shadow 將由 JavaScript 動態設置 */
+    box-shadow: var(--shadow-after);
+}
+
+.moving-stars-layer.moving-stars0::after {
+    width: 2px;
+    height: 2px;
+}
+
+.moving-stars-layer.moving-stars1::after {
+    width: 3px;
+    height: 3px;
 }
 
 /* 星星閃爍動畫 */
@@ -277,84 +301,43 @@ body {
     }
 }
 
-/* 星星移動動畫 - 從右下到左上移動 */
+/* 星星移動動畫（參考代碼風格） */
 @keyframes animStar {
     from {
-        transform: translateY(0px) translateX(0px);
+        transform: translateY(0px);
     }
     to {
         transform: translateY(-2560px) translateX(-2560px);
     }
 }
 
-/* 流星效果 - 符合物理定律的拖曳尾巴 */
+/* 流星效果（參考代碼風格） */
 .shooting-star {
-    position: fixed;
-    width: 3px;  /* 流星核心寬度 */
-    height: var(--tail-length, 100px);  /* 尾巴長度由速度決定 */
-    border-radius: 0;
-    /* 背景漸變由JS動態生成，符合物理定律 - 尾巴方向與速度向量相反 */
-    /* 開頭明顯的光暈效果 - 多層光暈，模擬大氣摩擦發光 */
-    box-shadow: 
-        0 0 15px rgba(255, 255, 255, 1),
-        0 0 30px rgba(255, 255, 255, 0.9),
-        0 0 50px rgba(200, 230, 255, 0.7),
-        0 0 80px rgba(200, 230, 255, 0.5);
-    animation: animShootingStar var(--duration, 8s) linear infinite;
-    z-index: 100;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 5px;
+    height: 85px;
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
+    background: linear-gradient(to top, rgba(255, 255, 255, 0), white);
+    animation: animShootingStar var(--duration, 10s) linear infinite;
+    z-index: 10;
     pointer-events: none;
-    /* 物理正確：變換原點在流星頭部（0%位置），這樣旋轉和移動都從頭部開始 */
-    transform-origin: center top;
-    /* 確保流星可見 */
     opacity: 1;
-    will-change: transform, opacity;
-    /* 確保在黑色背景之上 */
-    mix-blend-mode: screen;
 }
 
-/* 流星動畫 - 360度隨機方向，從畫面外開始，符合物理定律 */
+/* 流星動畫（參考代碼風格） */
 @keyframes animShootingStar {
-    0% {
-        /* 物理正確：從起始位置開始，完全透明（在畫面外） */
-        transform: translate(0, 0) rotate(var(--angle, 0deg));
-        opacity: 0;
-        filter: blur(0px);
-        height: var(--tail-length, 100px);  /* 尾巴長度始終一致（由速度決定） */
-    }
-    0.5% {
-        /* 快速進入畫面 */
-        opacity: 0.3;
-        filter: blur(0px);
-    }
-    1% {
-        opacity: 0.95;
-        filter: blur(0px);
-    }
-    2% {
-        /* 完全可見 */
+    from {
+        transform: translateY(0px) translateX(0px) rotate(-45deg);
         opacity: 1;
-        filter: blur(0px);
+        height: 5px;
     }
-    50% {
-        /* 中間位置，保持最大亮度 */
+    to {
+        transform: translateY(-2560px) translateX(-2560px) rotate(-45deg);
         opacity: 1;
-        filter: blur(0px);
-    }
-    98% {
-        /* 開始離開畫面 */
-        opacity: 0.9;
-        filter: blur(0.5px);
-    }
-    99% {
-        opacity: 0.5;
-        filter: blur(1px);
-    }
-    100% {
-        /* 物理正確：移動到終點位置，完全透明（離開畫面） */
-        /* 移動距離 = 速度 * 時間，方向由角度決定 */
-        transform: translate(var(--move-x, 0), var(--move-y, 0)) rotate(var(--angle, 0deg));
-        opacity: 0;
-        filter: blur(2px);
+        height: 800px;
     }
 }
 
@@ -3944,14 +3927,15 @@ body::after {
     border-bottom: none;
 }
 
-.success-stories-horizontal {
-    display: flex;
-    flex-direction: column;
+/* 會員成功案例 - 獨立卡片網格佈局 */
+.success-stories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2rem;
-    margin-top: 4rem;
+    margin-top: 3rem;
 }
 
-.success-card-horizontal {
+.success-card-individual {
     background: var(--glass-bg-medium);
     backdrop-filter: var(--glass-blur-strong);
     -webkit-backdrop-filter: var(--glass-blur-strong);
@@ -3959,63 +3943,84 @@ body::after {
     border-radius: 20px;
     padding: 0;
     transition: var(--transition);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
                 0 0 0 1px rgba(76, 168, 223, 0.1),
                 inset 0 1px 0 rgba(255, 255, 255, 0.1);
     overflow: hidden;
     position: relative;
+    display: flex;
+    flex-direction: column;
 }
 
-.success-card-horizontal::before {
+.success-card-individual::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
-    width: 4px;
-    height: 100%;
-    background: linear-gradient(180deg, var(--gold), transparent);
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
     opacity: 0.6;
 }
 
-.success-card-horizontal:hover {
-    transform: translateX(10px);
+.success-card-individual:hover {
+    transform: translateY(-8px);
     border-color: var(--gold);
-    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4), 
+    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4),
                 0 0 0 1px rgba(76, 168, 223, 0.3),
                 inset 0 1px 0 rgba(255, 255, 255, 0.2),
                 0 0 30px rgba(76, 168, 223, 0.2);
 }
 
-.success-card-horizontal:hover::before {
+.success-card-individual:hover::before {
     opacity: 1;
-    width: 6px;
+    height: 6px;
 }
 
-.success-card-content {
+.success-card-image-wrapper {
+    width: 100%;
+    height: 250px;
+    overflow: hidden;
+    position: relative;
+    background: linear-gradient(135deg, rgba(76, 168, 223, 0.1), rgba(76, 168, 223, 0.05));
+}
+
+.success-card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transition);
+}
+
+.success-card-individual:hover .success-card-image {
+    transform: scale(1.05);
+}
+
+.success-card-body {
+    padding: 2rem;
     display: flex;
-    align-items: center;
-    gap: 3rem;
-    padding: 2.5rem;
+    flex-direction: column;
+    flex: 1;
 }
 
 .success-member-info {
-    flex-shrink: 0;
-    min-width: 200px;
-    text-align: left;
-    padding-right: 2rem;
-    border-right: 2px solid var(--glass-border);
+    text-align: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 2px solid var(--glass-border);
     position: relative;
 }
 
 .success-member-info::after {
     content: '';
     position: absolute;
-    right: -2px;
-    top: 0;
-    bottom: 0;
-    width: 2px;
-    background: linear-gradient(180deg, transparent, var(--gold), transparent);
-    opacity: 0.6;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0.8;
 }
 
 .success-member-name {
@@ -4023,15 +4028,11 @@ body::after {
     color: var(--gold);
     font-weight: 700;
     margin-bottom: 0.5rem;
-    text-decoration: underline;
-    text-decoration-color: var(--gold);
-    text-underline-offset: 4px;
 }
 
 .success-member-industry {
     font-size: 1rem;
     color: var(--text-gray);
-    margin-bottom: 1.5rem;
     font-weight: 500;
 }
 
@@ -4039,27 +4040,31 @@ body::after {
     font-size: 1rem;
     color: var(--text-gray);
     line-height: 1.8;
-    flex: 1;
     word-wrap: break-word;
     overflow-wrap: break-word;
     margin: 0;
+    flex: 1;
+}
+
+/* 響應式設計 */
+@media (max-width: 1200px) {
+    .success-stories-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
 @media (max-width: 768px) {
-    .success-card-content {
-        flex-direction: column;
+    .success-stories-grid {
+        grid-template-columns: 1fr;
         gap: 1.5rem;
-        padding: 2rem;
     }
     
-    .success-member-info {
-        min-width: auto;
-        width: 100%;
-        padding-right: 0;
-        padding-bottom: 1.5rem;
-        border-right: none;
-        border-bottom: 2px solid var(--glass-border);
-        text-align: center;
+    .success-card-image-wrapper {
+        height: 200px;
+    }
+    
+    .success-card-body {
+        padding: 1.5rem;
     }
 }
 
