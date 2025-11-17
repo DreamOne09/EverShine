@@ -1005,11 +1005,11 @@ body::after {
     display: none;
 }
 
-/* 新的關於長輝白金分會佈局 - 左側標題+圖形，右側內容 */
+/* 新的關於長輝白金分會佈局 - 3欄：左側標題+圖形，中間內容，右側核心價值 */
 .about-content-new {
     display: grid;
-    grid-template-columns: 400px 1fr;
-    gap: 5rem;
+    grid-template-columns: 350px 1fr 400px;
+    gap: 4rem;
     align-items: start;
     position: relative;
     z-index: 1;
@@ -1045,10 +1045,16 @@ body::after {
     text-align: left;
 }
 
-.about-right {
+.about-center {
     display: flex;
     flex-direction: column;
-    gap: 3rem;
+}
+
+.about-right {
+    position: sticky;
+    top: 120px;
+    display: flex;
+    flex-direction: column;
 }
 
 .about-content-blocks {
@@ -1140,10 +1146,17 @@ body::after {
     margin: 0;
 }
 
+@media (max-width: 1400px) {
+    .about-content-new {
+        grid-template-columns: 300px 1fr 350px;
+        gap: 3rem;
+    }
+}
+
 @media (max-width: 1200px) {
     .about-content-new {
-        grid-template-columns: 300px 1fr;
-        gap: 3rem;
+        grid-template-columns: 280px 1fr 320px;
+        gap: 2.5rem;
     }
     
     .about-title-main {
@@ -1151,6 +1164,7 @@ body::after {
     }
 }
 
+/* 手機版本：維持原來的垂直堆疊佈局 */
 @media (max-width: 968px) {
     .about-content-new {
         grid-template-columns: 1fr;
@@ -1163,8 +1177,21 @@ body::after {
         text-align: center;
     }
     
+    .about-right {
+        position: static;
+    }
+    
     .about-title-main {
         text-align: center;
+    }
+    
+    /* 手機版本：核心價值回到中間內容下方 */
+    .about-content-blocks {
+        margin-bottom: 3rem;
+    }
+    
+    .values-section-new {
+        margin-top: 0;
     }
 }
 
