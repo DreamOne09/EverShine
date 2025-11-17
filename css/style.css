@@ -206,6 +206,7 @@ body {
     visibility: visible;
     display: block;
     overflow: visible;
+    /* 確保星星層覆蓋整個容器（通過 JS 設置 width:100%, height:100%） */
 }
 
 /* 參考代碼：使用 :after 偽元素增加星星數量 */
@@ -3930,9 +3931,10 @@ body::after {
 /* 會員成功案例 - 獨立卡片網格佈局 */
 .success-stories-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2.5rem;
     margin-top: 3rem;
+    width: 100%;
 }
 
 .success-card-individual {
@@ -3950,6 +3952,8 @@ body::after {
     position: relative;
     display: flex;
     flex-direction: column;
+    min-height: 500px;
+    width: 100%;
 }
 
 .success-card-individual::before {
@@ -3979,17 +3983,48 @@ body::after {
 
 .success-card-image-wrapper {
     width: 100%;
-    height: 250px;
+    height: 280px;
     overflow: hidden;
     position: relative;
     background: linear-gradient(135deg, rgba(76, 168, 223, 0.1), rgba(76, 168, 223, 0.05));
+    border-radius: 20px 20px 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .success-card-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center;
     transition: var(--transition);
+    display: block;
+    border-radius: 20px 20px 0 0;
+}
+
+/* 如果圖片載入失敗，顯示佔位符 */
+.success-card-image-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80px;
+    height: 80px;
+    background: rgba(76, 168, 223, 0.2);
+    border-radius: 50%;
+    border: 2px dashed var(--gold);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.success-card-image-wrapper.image-error::after {
+    opacity: 1;
+}
+
+.success-card-image-wrapper.image-error {
+    background: linear-gradient(135deg, rgba(76, 168, 223, 0.2), rgba(76, 168, 223, 0.1));
 }
 
 .success-card-individual:hover .success-card-image {
@@ -4056,11 +4091,15 @@ body::after {
 @media (max-width: 768px) {
     .success-stories-grid {
         grid-template-columns: 1fr;
-        gap: 1.5rem;
+        gap: 2rem;
+    }
+    
+    .success-card-individual {
+        min-height: auto;
     }
     
     .success-card-image-wrapper {
-        height: 200px;
+        height: 220px;
     }
     
     .success-card-body {

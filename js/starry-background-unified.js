@@ -35,9 +35,10 @@ class StarrySkyConfig {
         this.css = {
             // 靜態小星星層（參考代碼風格）- 滿天星點
             // 使用純白色 #FFF，簡單的 box-shadow
+            // 參考代碼：.stars 有約50顆，加上 :after 又有約50顆，所以總共約100顆
             staticStars: [
-                { count: 50, size: '1px', twinkleSpeed: '3s' },  // 參考代碼：約50顆
-                { count: 50, size: '1px', twinkleSpeed: '4s' },  // 使用 :after 偽元素增加數量
+                { count: 50, size: '1px', twinkleSpeed: '3s' },  // 第一層：50顆
+                { count: 50, size: '1px', twinkleSpeed: '4s' },  // 第二層：50顆（:after 會再增加50顆）
             ],
             // 移動的星星層（參考代碼風格）
             movingStars: [
@@ -280,10 +281,12 @@ class StarrySkyManager {
         sky.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;min-height:100vh;';
         
         // 創建靜態星星層
+        // 創建靜態星星層（參考代碼風格：使用 :after 偽元素增加星星數量）
         this.config.css.staticStars.forEach((layer, i) => {
             const div = document.createElement('div');
             div.className = `static-stars-layer static-stars${i}`;
-            div.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;background:transparent;z-index:1;';
+            // 參考代碼：width 和 height 設為星星大小（1px）
+            div.style.cssText = `position:absolute;top:0;left:0;width:${layer.size};height:${layer.size};border-radius:50%;background:transparent;z-index:10;`;
             sky.appendChild(div);
         });
         
@@ -349,10 +352,16 @@ class StarrySkyManager {
                 const shadow = this.generateStaticStarsShadow(this.config.css.staticStars[i].count, w, h);
                 const shadowAfter = this.generateStaticStarsShadow(this.config.css.staticStars[i].count, w, h);
                 if (shadow) {
+                    // 參考代碼：直接設置 box-shadow
                     layer.style.boxShadow = shadow;
                     // 參考代碼：使用 :after 偽元素增加星星數量
                     // 通過 CSS 變數傳遞給 :after
                     layer.style.setProperty('--shadow-after', shadowAfter);
+                    // 確保星星層覆蓋整個視窗（參考代碼中星星層是絕對定位，覆蓋整個容器）
+                    layer.style.width = '100%';
+                    layer.style.height = '100%';
+                    layer.style.top = '0';
+                    layer.style.left = '0';
                     // 確保可見
                     layer.style.opacity = '1';
                     layer.style.visibility = 'visible';
@@ -376,6 +385,7 @@ class StarrySkyManager {
                 const shadow = this.generateMovingStarsShadow(this.config.css.movingStars[i].count, w, h);
                 const shadowAfter = this.generateMovingStarsShadow(this.config.css.movingStars[i].count, w, h);
                 if (shadow) {
+                    // 參考代碼：直接設置 box-shadow
                     layer.style.boxShadow = shadow;
                     // 參考代碼：使用 :after 偽元素增加星星數量
                     // 通過 CSS 變數傳遞給 :after
