@@ -196,10 +196,12 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    border-radius: 50%;
     background: transparent;
     animation: starTwinkle 3s ease-in-out infinite;
     z-index: 1;
+    /* 確保可以顯示 box-shadow */
+    border-radius: 0;
+    overflow: visible;
 }
 
 .static-stars-layer.static-stars0 {
@@ -229,10 +231,12 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    border-radius: 50%;
     background: transparent;
     animation: animStar 100s linear infinite;
     z-index: 1;
+    /* 確保可以顯示 box-shadow */
+    border-radius: 0;
+    overflow: visible;
 }
 
 .moving-stars-layer.moving-stars0 {

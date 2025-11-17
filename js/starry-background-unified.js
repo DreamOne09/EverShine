@@ -355,10 +355,12 @@ class StarrySkyManager {
         container.appendChild(sky);
         document.body.insertBefore(container, document.body.firstChild);
         
-        // 確保DOM已插入後再生成星星
-        requestAnimationFrame(() => {
-            this.generateAllStars(sky, container);
-        });
+        // 確保DOM已插入後再生成星星 - 使用多重延遲確保DOM完全準備好
+        setTimeout(() => {
+            requestAnimationFrame(() => {
+                this.generateAllStars(sky, container);
+            });
+        }, 200);
         
         // 創建流星
         this.createShootingStars();
@@ -401,11 +403,18 @@ class StarrySkyManager {
         staticLayers.forEach((layer, i) => {
             if (this.config.css.staticStars[i]) {
                 const shadow = this.generateStaticStarsShadow(this.config.css.staticStars[i].count, w, h);
-                layer.style.boxShadow = shadow;
-                // 確保可見
-                layer.style.opacity = '1';
-                layer.style.visibility = 'visible';
-                layer.style.display = 'block';
+                if (shadow) {
+                    layer.style.boxShadow = shadow;
+                    // 確保可見
+                    layer.style.opacity = '1';
+                    layer.style.visibility = 'visible';
+                    layer.style.display = 'block';
+                    layer.style.width = '100%';
+                    layer.style.height = '100%';
+                    console.log(`靜態星星層 ${i}: box-shadow 已設置，長度 ${shadow.length} 字符`);
+                } else {
+                    console.error(`靜態星星層 ${i}: 無法生成 box-shadow`);
+                }
             }
         });
         
@@ -419,11 +428,18 @@ class StarrySkyManager {
         movingLayers.forEach((layer, i) => {
             if (this.config.css.movingStars[i]) {
                 const shadow = this.generateMovingStarsShadow(this.config.css.movingStars[i].count, w, h);
-                layer.style.boxShadow = shadow;
-                // 確保可見
-                layer.style.opacity = '1';
-                layer.style.visibility = 'visible';
-                layer.style.display = 'block';
+                if (shadow) {
+                    layer.style.boxShadow = shadow;
+                    // 確保可見
+                    layer.style.opacity = '1';
+                    layer.style.visibility = 'visible';
+                    layer.style.display = 'block';
+                    layer.style.width = '100%';
+                    layer.style.height = '100%';
+                    console.log(`移動星星層 ${i}: box-shadow 已設置`);
+                } else {
+                    console.error(`移動星星層 ${i}: 無法生成 box-shadow`);
+                }
             }
         });
         
@@ -432,28 +448,37 @@ class StarrySkyManager {
     
     generateStaticStarsShadow(count, maxX, maxY) {
         const shadows = [];
-        for (let i = 0; i < count; i++) {
+        // 限制數量以避免過長的字符串（瀏覽器限制）
+        const actualCount = Math.min(count, 2000); // 每層最多2000顆，避免性能問題
+        
+        for (let i = 0; i < actualCount; i++) {
             const x = Math.floor(Math.random() * maxX);
             const y = Math.floor(Math.random() * maxY);
-            const brightness = Math.random() * 0.3 + 0.7;
-            const glowSize = Math.random() * 5 + 2;
+            const brightness = Math.random() * 0.3 + 0.7; // 0.7 到 1.0
+            const glowSize = Math.random() * 5 + 2; // 2px 到 7px
             
             const colorRand = Math.random();
             const color = colorRand < 0.7 ? this.config.colors.stars.primary :
                           colorRand < 0.9 ? this.config.colors.stars.secondary :
                           this.config.colors.stars.tertiary;
             
+            // 雙層光暈：核心點 + 外層光暈
             shadows.push(
                 `${x}px ${y}px 0 0 ${color}, ${brightness})`,
                 `${x}px ${y}px ${glowSize}px ${color}, ${brightness * 0.6})`
             );
         }
-        return shadows.join(', ');
+        
+        const result = shadows.join(', ');
+        console.log(`生成 ${actualCount} 顆靜態星星，box-shadow 長度: ${result.length} 字符`);
+        return result;
     }
     
     generateMovingStarsShadow(count, maxX, maxY) {
         const shadows = [];
-        for (let i = 0; i < count; i++) {
+        const actualCount = Math.min(count, 500); // 每層最多500顆
+        
+        for (let i = 0; i < actualCount; i++) {
             const x = Math.floor(Math.random() * maxX);
             const y = Math.floor(Math.random() * maxY);
             const brightness = Math.random() * 0.3 + 0.7;
@@ -469,6 +494,8 @@ class StarrySkyManager {
                 `${x}px ${y}px ${glowSize}px ${color}, ${brightness * 0.6})`
             );
         }
+        
+        console.log(`生成 ${actualCount} 顆移動星星`);
         return shadows.join(', ');
     }
     
