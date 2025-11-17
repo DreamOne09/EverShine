@@ -295,7 +295,7 @@ class StarrySkyManager {
             const div = document.createElement('div');
             div.className = `moving-stars-layer moving-stars${i}`;
             // 參考代碼：width 和 height 設為星星大小
-            div.style.cssText = `position:absolute;top:0;left:0;width:${layer.size};height:${layer.size};border-radius:50%;background:transparent;z-index:1;`;
+            div.style.cssText = `position:absolute;top:0;left:0;width:${layer.size};height:${layer.size};border-radius:50%;background:transparent;z-index:10;`;
             sky.appendChild(div);
         });
         
@@ -353,16 +353,12 @@ class StarrySkyManager {
                 const shadowAfter = this.generateStaticStarsShadow(this.config.css.staticStars[i].count, w, h);
                 if (shadow) {
                     // 參考代碼：直接設置 box-shadow
+                    // 注意：星星層本身保持 1px，box-shadow 會自動擴展到整個容器範圍
                     layer.style.boxShadow = shadow;
                     // 參考代碼：使用 :after 偽元素增加星星數量
                     // 通過 CSS 變數傳遞給 :after
                     layer.style.setProperty('--shadow-after', shadowAfter);
-                    // 確保星星層覆蓋整個視窗（參考代碼中星星層是絕對定位，覆蓋整個容器）
-                    layer.style.width = '100%';
-                    layer.style.height = '100%';
-                    layer.style.top = '0';
-                    layer.style.left = '0';
-                    // 確保可見
+                    // 確保可見（星星層本身保持 1px，box-shadow 會顯示星星）
                     layer.style.opacity = '1';
                     layer.style.visibility = 'visible';
                     layer.style.display = 'block';
@@ -386,11 +382,12 @@ class StarrySkyManager {
                 const shadowAfter = this.generateMovingStarsShadow(this.config.css.movingStars[i].count, w, h);
                 if (shadow) {
                     // 參考代碼：直接設置 box-shadow
+                    // 注意：星星層本身是 2px/3px，box-shadow 會自動擴展到整個容器範圍
                     layer.style.boxShadow = shadow;
                     // 參考代碼：使用 :after 偽元素增加星星數量
                     // 通過 CSS 變數傳遞給 :after
                     layer.style.setProperty('--shadow-after', shadowAfter);
-                    // 確保可見
+                    // 確保可見（星星層本身保持 2px/3px，box-shadow 會顯示星星）
                     layer.style.opacity = '1';
                     layer.style.visibility = 'visible';
                     layer.style.display = 'block';
@@ -416,6 +413,7 @@ class StarrySkyManager {
             shadows.push(`${x}px ${y}px #FFF`);
         }
         
+        // 參考代碼格式：逗號後有空格 "xpx ypx #FFF , xpx ypx #FFF"
         const result = shadows.join(' , ');
         console.log(`生成 ${actualCount} 顆靜態星星（參考代碼風格），box-shadow 長度: ${result.length} 字符`);
         return result;
@@ -433,8 +431,10 @@ class StarrySkyManager {
             shadows.push(`${x}px ${y}px #FFF`);
         }
         
-        console.log(`生成 ${actualCount} 顆移動星星（參考代碼風格）`);
-        return shadows.join(' , ');
+        // 參考代碼格式：逗號後有空格 "xpx ypx #FFF , xpx ypx #FFF"
+        const result = shadows.join(' , ');
+        console.log(`生成 ${actualCount} 顆移動星星（參考代碼風格），box-shadow 長度: ${result.length} 字符`);
+        return result;
     }
     
     createShootingStars() {

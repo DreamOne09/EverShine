@@ -206,7 +206,7 @@ body {
     visibility: visible;
     display: block;
     overflow: visible;
-    /* 確保星星層覆蓋整個容器（通過 JS 設置 width:100%, height:100%） */
+    /* 參考代碼：星星層本身是 1px，box-shadow 會自動擴展到整個容器範圍 */
 }
 
 /* 參考代碼：使用 :after 偽元素增加星星數量 */
@@ -255,6 +255,7 @@ body {
     visibility: visible;
     display: block;
     overflow: visible;
+    /* 參考代碼：星星層本身是 2px/3px，box-shadow 會自動擴展到整個容器範圍 */
 }
 
 .moving-stars-layer.moving-stars0 {
@@ -314,16 +315,16 @@ body {
 
 /* 流星效果（參考代碼風格） */
 .shooting-star {
-    position: absolute;
-    bottom: 0;
-    right: 0;
+    z-index: 10;
     width: 5px;
     height: 85px;
     border-top-left-radius: 50%;
     border-top-right-radius: 50%;
+    position: absolute;
+    bottom: 0;
+    right: 0;
     background: linear-gradient(to top, rgba(255, 255, 255, 0), white);
     animation: animShootingStar var(--duration, 10s) linear infinite;
-    z-index: 10;
     pointer-events: none;
     opacity: 1;
 }
