@@ -285,8 +285,8 @@ class StarrySkyManager {
         this.config.css.staticStars.forEach((layer, i) => {
             const div = document.createElement('div');
             div.className = `static-stars-layer static-stars${i}`;
-            // 參考代碼：width 和 height 設為星星大小（1px）
-            div.style.cssText = `position:absolute;top:0;left:0;width:${layer.size};height:${layer.size};border-radius:50%;background:transparent;z-index:10;`;
+            // 參考代碼：width 和 height 設為星星大小（1px），移除 border-radius 避免裁剪 box-shadow
+            div.style.cssText = `position:absolute;top:0;left:0;width:${layer.size};height:${layer.size};border-radius:0;background:transparent;z-index:10;opacity:1;visibility:visible;display:block;overflow:visible;pointer-events:none;`;
             sky.appendChild(div);
         });
         
@@ -294,8 +294,8 @@ class StarrySkyManager {
         this.config.css.movingStars.forEach((layer, i) => {
             const div = document.createElement('div');
             div.className = `moving-stars-layer moving-stars${i}`;
-            // 參考代碼：width 和 height 設為星星大小
-            div.style.cssText = `position:absolute;top:0;left:0;width:${layer.size};height:${layer.size};border-radius:50%;background:transparent;z-index:10;`;
+            // 參考代碼：width 和 height 設為星星大小，移除 border-radius 避免裁剪 box-shadow
+            div.style.cssText = `position:absolute;top:0;left:0;width:${layer.size};height:${layer.size};border-radius:0;background:transparent;z-index:10;opacity:1;visibility:visible;display:block;overflow:visible;pointer-events:none;`;
             sky.appendChild(div);
         });
         
@@ -305,9 +305,11 @@ class StarrySkyManager {
         // 確保DOM已插入後再生成星星 - 使用多重延遲確保DOM完全準備好
         setTimeout(() => {
             requestAnimationFrame(() => {
-                this.generateAllStars(sky, container);
+                requestAnimationFrame(() => {
+                    this.generateAllStars(sky, container);
+                });
             });
-        }, 200);
+        }, 100);
         
         // 創建流星
         this.createShootingStars();
@@ -404,36 +406,36 @@ class StarrySkyManager {
     generateStaticStarsShadow(count, maxX, maxY) {
         const shadows = [];
         // 參考代碼風格：簡單的 box-shadow，純白色 #FFF
-        const actualCount = Math.min(count, 100); // 參考代碼約50顆，我們生成更多以填滿畫面
+        const actualCount = count; // 使用配置的數量
         
         for (let i = 0; i < actualCount; i++) {
             const x = Math.floor(Math.random() * maxX);
             const y = Math.floor(Math.random() * maxY);
-            // 參考代碼：簡單的格式 "xpx ypx #FFF"
-            shadows.push(`${x}px ${y}px #FFF`);
+            // 參考代碼：簡單的格式 "xpx ypx #FFF" - 必須有模糊半徑才能顯示
+            shadows.push(`${x}px ${y}px 0 1px #FFF`);
         }
         
         // 參考代碼格式：逗號後有空格 "xpx ypx #FFF , xpx ypx #FFF"
         const result = shadows.join(' , ');
-        console.log(`生成 ${actualCount} 顆靜態星星（參考代碼風格），box-shadow 長度: ${result.length} 字符`);
+        console.log(`生成 ${actualCount} 顆靜態星星，box-shadow 長度: ${result.length} 字符`);
         return result;
     }
     
     generateMovingStarsShadow(count, maxX, maxY) {
         const shadows = [];
         // 參考代碼風格：簡單的 box-shadow，純白色 #FFF
-        const actualCount = Math.min(count, 100); // 參考代碼約50顆
+        const actualCount = count; // 使用配置的數量
         
         for (let i = 0; i < actualCount; i++) {
             const x = Math.floor(Math.random() * maxX);
             const y = Math.floor(Math.random() * maxY);
-            // 參考代碼：簡單的格式 "xpx ypx #FFF"
-            shadows.push(`${x}px ${y}px #FFF`);
+            // 參考代碼：簡單的格式 "xpx ypx #FFF" - 必須有模糊半徑才能顯示
+            shadows.push(`${x}px ${y}px 0 1px #FFF`);
         }
         
         // 參考代碼格式：逗號後有空格 "xpx ypx #FFF , xpx ypx #FFF"
         const result = shadows.join(' , ');
-        console.log(`生成 ${actualCount} 顆移動星星（參考代碼風格），box-shadow 長度: ${result.length} 字符`);
+        console.log(`生成 ${actualCount} 顆移動星星，box-shadow 長度: ${result.length} 字符`);
         return result;
     }
     

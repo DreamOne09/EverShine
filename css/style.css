@@ -198,15 +198,16 @@ body {
     left: 0;
     width: 1px;
     height: 1px;
-    border-radius: 50%;
+    border-radius: 0;
     background: transparent;
     z-index: 10;
     /* 參考代碼：不使用 mix-blend-mode，直接顯示 */
-    opacity: 1;
-    visibility: visible;
-    display: block;
-    overflow: visible;
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: block !important;
+    overflow: visible !important;
     /* 參考代碼：星星層本身是 1px，box-shadow 會自動擴展到整個容器範圍 */
+    pointer-events: none;
 }
 
 /* 參考代碼：使用 :after 偽元素增加星星數量 */
@@ -214,12 +215,14 @@ body {
     content: " ";
     position: absolute;
     top: -600px;
+    left: 0;
     width: 1px;
     height: 1px;
-    border-radius: 50%;
+    border-radius: 0;
     background: transparent;
     /* box-shadow 將由 JavaScript 動態設置 */
     box-shadow: var(--shadow-after);
+    pointer-events: none;
 }
 
 .static-stars-layer.static-stars0 {
@@ -247,15 +250,16 @@ body {
     position: absolute;
     top: 0;
     left: 0;
-    border-radius: 50%;
+    border-radius: 0;
     background: transparent;
     z-index: 10;
     /* 參考代碼：不使用 mix-blend-mode，直接顯示 */
-    opacity: 1;
-    visibility: visible;
-    display: block;
-    overflow: visible;
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: block !important;
+    overflow: visible !important;
     /* 參考代碼：星星層本身是 2px/3px，box-shadow 會自動擴展到整個容器範圍 */
+    pointer-events: none;
 }
 
 .moving-stars-layer.moving-stars0 {
@@ -275,10 +279,12 @@ body {
     content: " ";
     position: absolute;
     top: -600px;
-    border-radius: 50%;
+    left: 0;
+    border-radius: 0;
     background: transparent;
     /* box-shadow 將由 JavaScript 動態設置 */
     box-shadow: var(--shadow-after);
+    pointer-events: none;
 }
 
 .moving-stars-layer.moving-stars0::after {
@@ -315,18 +321,19 @@ body {
 
 /* 流星效果（參考代碼風格） */
 .shooting-star {
-    z-index: 10;
+    z-index: 10 !important;
     width: 5px;
     height: 85px;
     border-top-left-radius: 50%;
     border-top-right-radius: 50%;
-    position: absolute;
+    position: fixed !important;
     bottom: 0;
     right: 0;
     background: linear-gradient(to top, rgba(255, 255, 255, 0), white);
     animation: animShootingStar var(--duration, 10s) linear infinite;
     pointer-events: none;
-    opacity: 1;
+    opacity: 1 !important;
+    visibility: visible !important;
 }
 
 /* 流星動畫（參考代碼風格） */
@@ -361,67 +368,6 @@ section:not(.hero):not(.page-hero) {
 }
 
 /* 舊的CSS背景效果已移除，現在使用Canvas星空背景 */
-/* body::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    min-height: 100vh;
-    background-image:
-        /* 更多星星，更密集的星空 */
-        radial-gradient(2px 2px at 2% 3%, rgba(255, 255, 255, 0.95), transparent),
-        radial-gradient(1.5px 1.5px at 5% 8%, rgba(255, 255, 255, 0.9), transparent),
-        radial-gradient(1px 1px at 8% 15%, rgba(255, 255, 255, 0.85), transparent),
-        radial-gradient(2px 2px at 12% 5%, rgba(169, 214, 255, 0.9), transparent),
-        radial-gradient(1px 1px at 15% 22%, rgba(255, 255, 255, 0.8), transparent),
-        radial-gradient(1.5px 1.5px at 18% 12%, rgba(200, 230, 255, 0.85), transparent),
-        radial-gradient(1px 1px at 22% 28%, rgba(255, 255, 255, 0.75), transparent),
-        radial-gradient(2px 2px at 25% 18%, rgba(115, 188, 255, 0.9), transparent),
-        radial-gradient(1px 1px at 28% 35%, rgba(255, 255, 255, 0.7), transparent),
-        radial-gradient(1.5px 1.5px at 32% 8%, rgba(169, 214, 255, 0.85), transparent),
-        radial-gradient(1px 1px at 35% 42%, rgba(255, 255, 255, 0.75), transparent),
-        radial-gradient(2px 2px at 38% 25%, rgba(200, 230, 255, 0.9), transparent),
-        radial-gradient(1px 1px at 42% 55%, rgba(115, 188, 255, 0.7), transparent),
-        radial-gradient(1.5px 1.5px at 45% 15%, rgba(255, 255, 255, 0.8), transparent),
-        radial-gradient(1px 1px at 48% 38%, rgba(169, 214, 255, 0.75), transparent),
-        radial-gradient(2px 2px at 52% 22%, rgba(200, 230, 255, 0.85), transparent),
-        radial-gradient(1px 1px at 55% 48%, rgba(255, 255, 255, 0.7), transparent),
-        radial-gradient(1.5px 1.5px at 58% 32%, rgba(115, 188, 255, 0.8), transparent),
-        radial-gradient(1px 1px at 62% 58%, rgba(255, 255, 255, 0.75), transparent),
-        radial-gradient(2px 2px at 65% 18%, rgba(169, 214, 255, 0.9), transparent),
-        radial-gradient(1px 1px at 68% 45%, rgba(200, 230, 255, 0.7), transparent),
-        radial-gradient(1.5px 1.5px at 72% 28%, rgba(255, 255, 255, 0.8), transparent),
-        radial-gradient(1px 1px at 75% 62%, rgba(115, 188, 255, 0.75), transparent),
-        radial-gradient(2px 2px at 78% 12%, rgba(169, 214, 255, 0.85), transparent),
-        radial-gradient(1px 1px at 82% 38%, rgba(255, 255, 255, 0.7), transparent),
-        radial-gradient(1.5px 1.5px at 85% 52%, rgba(200, 230, 255, 0.8), transparent),
-        radial-gradient(1px 1px at 88% 22%, rgba(115, 188, 255, 0.75), transparent),
-        radial-gradient(2px 2px at 92% 48%, rgba(255, 255, 255, 0.85), transparent),
-        radial-gradient(1px 1px at 95% 65%, rgba(169, 214, 255, 0.7), transparent),
-        radial-gradient(1.5px 1.5px at 3% 72%, rgba(200, 230, 255, 0.75), transparent),
-        radial-gradient(1px 1px at 7% 88%, rgba(255, 255, 255, 0.7), transparent),
-        radial-gradient(2px 2px at 12% 78%, rgba(115, 188, 255, 0.8), transparent),
-        radial-gradient(1px 1px at 18% 92%, rgba(169, 214, 255, 0.75), transparent),
-        radial-gradient(1.5px 1.5px at 25% 85%, rgba(200, 230, 255, 0.7), transparent),
-        radial-gradient(1px 1px at 32% 95%, rgba(255, 255, 255, 0.8), transparent),
-        radial-gradient(2px 2px at 38% 82%, rgba(115, 188, 255, 0.85), transparent),
-        radial-gradient(1px 1px at 45% 88%, rgba(169, 214, 255, 0.7), transparent),
-        radial-gradient(1.5px 1.5px at 52% 92%, rgba(200, 230, 255, 0.75), transparent),
-        radial-gradient(1px 1px at 58% 85%, rgba(255, 255, 255, 0.7), transparent),
-        radial-gradient(2px 2px at 65% 78%, rgba(115, 188, 255, 0.8), transparent),
-        radial-gradient(1px 1px at 72% 88%, rgba(169, 214, 255, 0.75), transparent),
-        radial-gradient(1.5px 1.5px at 78% 95%, rgba(200, 230, 255, 0.7), transparent),
-        radial-gradient(1px 1px at 85% 82%, rgba(255, 255, 255, 0.8), transparent),
-        radial-gradient(2px 2px at 92% 88%, rgba(115, 188, 255, 0.85), transparent);
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-    opacity: 0.6;
-    z-index: -2;
-    pointer-events: none;
-    animation: starTwinkle 4s ease-in-out infinite;
-}
 
 body::after {
     content: '';
@@ -2147,6 +2093,40 @@ body::after {
     text-align: center;
     max-width: 800px;
     margin: 0 auto;
+    background: var(--glass-bg-medium);
+    backdrop-filter: var(--glass-blur-strong);
+    -webkit-backdrop-filter: var(--glass-blur-strong);
+    border: 2px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 3rem 2.5rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 
+                0 0 0 1px rgba(76, 168, 223, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.bni-intro-link-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0.6;
+}
+
+.bni-intro-link-content:hover {
+    transform: translateY(-5px);
+    border-color: var(--gold);
+    box-shadow: 0 12px 40px rgba(76, 168, 223, 0.3);
+}
+
+.bni-intro-link-content:hover::before {
+    opacity: 1;
+    height: 6px;
 }
 
 .bni-intro-link-text {
@@ -2156,6 +2136,7 @@ body::after {
     margin: 2rem 0 3rem;
     word-wrap: break-word;
     overflow-wrap: break-word;
+    padding: 0;
 }
 
 /* 回到首頁連結 */
@@ -4117,15 +4098,15 @@ body::after {
 /* 響應式設計 */
 @media (max-width: 1400px) {
     .success-stories-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 2rem;
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 2rem !important;
     }
 }
 
 @media (max-width: 1024px) {
     .success-stories-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1.5rem;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 1.5rem !important;
     }
     
     .success-card-image-wrapper {
@@ -4136,12 +4117,12 @@ body::after {
 
 @media (max-width: 768px) {
     .success-stories-grid {
-        grid-template-columns: 1fr;
-        gap: 2rem;
+        grid-template-columns: 1fr !important;
+        gap: 2rem !important;
     }
     
     .success-card-individual {
-        max-width: 100%;
+        max-width: 100% !important;
     }
     
     .success-card-image-wrapper {
