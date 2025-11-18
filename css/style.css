@@ -213,24 +213,22 @@ body {
     pointer-events: none;
 }
 
+/* 靜態星星動畫 - 參考代碼 */
+
 .static-stars-layer.static-stars0 {
-    animation-duration: 3s;
-    animation-delay: 0s;
+    animation: animStar 100s linear infinite;
 }
 
 .static-stars-layer.static-stars1 {
-    animation-duration: 4s;
-    animation-delay: 1s;
+    animation: animStar 125s linear infinite;
 }
 
 .static-stars-layer.static-stars2 {
-    animation-duration: 5s;
-    animation-delay: 2s;
+    animation: animStar 175s linear infinite;
 }
 
 .static-stars-layer.static-stars3 {
-    animation-duration: 6s;
-    animation-delay: 3s;
+    animation: animStar 200s linear infinite;
 }
 
 /* 移動的星星層（參考代碼風格） */
@@ -249,14 +247,14 @@ body {
 }
 
 .moving-stars-layer.moving-stars0 {
-    width: 1px;
-    height: 1px;
+    width: 2px;
+    height: 2px;
     animation: animStar 100s linear infinite;
 }
 
 .moving-stars-layer.moving-stars1 {
-    width: 2px;
-    height: 2px;
+    width: 3px;
+    height: 3px;
     animation: animStar 125s linear infinite;
 }
 

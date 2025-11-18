@@ -33,18 +33,18 @@ class StarrySkyConfig {
         };
         
         this.css = {
-            // 靜態小星星層 - 適量星點效果
-            // 使用純白色 #FFF，簡單的 box-shadow（參考代碼格式）
+            // 靜態小星星層 - 參考代碼配置
+            // 使用純白色 #FFF，格式：xpx ypx #FFF
             staticStars: [
-                { count: 200, size: '1px', twinkleSpeed: '3s' },  // 第一層：200顆
-                { count: 150, size: '1px', twinkleSpeed: '4s' },  // 第二層：150顆（:after 會再增加150顆）
-                { count: 100, size: '1px', twinkleSpeed: '5s' },  // 第三層：100顆
-                { count: 80, size: '1px', twinkleSpeed: '6s' },  // 第四層：80顆（:after 會再增加80顆）
+                { count: 52, size: '1px', animationDuration: '100s' },  // 第一層：52顆（參考代碼）
+                { count: 73, size: '1px', animationDuration: '125s' },  // 第二層：73顆（:after 會再增加）
+                { count: 64, size: '1px', animationDuration: '175s' },  // 第三層：64顆
+                { count: 49, size: '1px', animationDuration: '200s' },  // 第四層：49顆（:after 會再增加）
             ],
             // 移動的星星層（參考代碼風格）
             movingStars: [
-                { count: 50, size: '1px', duration: '100s' },   // stars1: 1px, 100s, 50顆
-                { count: 30, size: '2px', duration: '125s' },   // stars2: 2px, 125s, 30顆
+                { count: 72, size: '2px', duration: '125s' },   // stars1: 2px, 125s, 72顆（參考代碼）
+                { count: 64, size: '3px', duration: '175s' },   // stars2: 3px, 175s, 64顆（參考代碼）
             ],
             // 流星配置（參考代碼風格）
             shootingStars: {
@@ -405,15 +405,14 @@ class StarrySkyManager {
     
     generateStaticStarsShadow(count, maxX, maxY) {
         const shadows = [];
-        // 參考代碼風格：box-shadow 加上 spread 讓星星可見
-        const actualCount = count; // 使用配置的數量
+        // 完全按照參考代碼格式：xpx ypx #FFF
+        const actualCount = count;
         
         for (let i = 0; i < actualCount; i++) {
             const x = Math.floor(Math.random() * maxX);
             const y = Math.floor(Math.random() * maxY);
-            // 格式：xpx ypx blur spread color
-            // 使用 0 0 1px #FFF 讓星星有發光效果
-            shadows.push(`${x}px ${y}px 0 1px #FFF`);
+            // 參考代碼格式：718px 1689px #FFF , 1405px 2127px #FFF ...
+            shadows.push(`${x}px ${y}px #FFF`);
         }
         
         const result = shadows.join(' , ');
@@ -423,15 +422,14 @@ class StarrySkyManager {
     
     generateMovingStarsShadow(count, maxX, maxY) {
         const shadows = [];
-        // 參考代碼風格：box-shadow 加上 spread 讓星星可見
-        const actualCount = count; // 使用配置的數量
+        // 完全按照參考代碼格式：xpx ypx #FFF
+        const actualCount = count;
         
         for (let i = 0; i < actualCount; i++) {
             const x = Math.floor(Math.random() * maxX);
             const y = Math.floor(Math.random() * maxY);
-            // 格式：xpx ypx blur spread color
-            // 使用 0 0 1px #FFF 讓星星有發光效果
-            shadows.push(`${x}px ${y}px 0 1px #FFF`);
+            // 參考代碼格式：452px 2369px #FFF , 2030px 2013px #FFF ...
+            shadows.push(`${x}px ${y}px #FFF`);
         }
         
         // 參考代碼格式：逗號後有空格 "xpx ypx #FFF , xpx ypx #FFF"
