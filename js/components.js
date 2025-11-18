@@ -111,19 +111,6 @@ function getFooterHTML() {
     </footer>`;
 }
 
-// 固定橫幅 HTML
-function getFixedBannerHTML() {
-    return `
-        <div class="fixed-banner">
-            <div class="banner-content">
-                <span class="banner-text">Copyright © 2025 BNI 台灣 - 長輝白金分會</span>
-                <span class="banner-separator">|</span>
-                <span class="banner-text">每週三早上 6:30 線上開會</span>
-            </div>
-        </div>
-    `;
-}
-
 // 初始化共用元件 - 自動載入所有組件
 function initComponents() {
     // 載入流星動畫容器（如果不存在）
@@ -151,11 +138,6 @@ function initComponents() {
             // 如果沒有 placeholder，在 body 結尾插入
             document.body.insertAdjacentHTML('beforeend', getFooterHTML());
         }
-    }
-    
-    // 載入固定橫幅（如果不存在）
-    if (!document.querySelector('.fixed-banner')) {
-        document.body.insertAdjacentHTML('beforeend', getFixedBannerHTML());
     }
 }
 

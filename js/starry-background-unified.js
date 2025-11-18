@@ -33,22 +33,23 @@ class StarrySkyConfig {
         };
         
         this.css = {
-            // 靜態小星星層（參考代碼風格）- 滿天星點
-            // 使用純白色 #FFF，簡單的 box-shadow
-            // 參考代碼：.stars 有約50顆，加上 :after 又有約50顆，所以總共約100顆
+            // 靜態小星星層 - 滿天星點效果
+            // 使用純白色 #FFF，簡單的 box-shadow（參考代碼格式）
             staticStars: [
-                { count: 50, size: '1px', twinkleSpeed: '3s' },  // 第一層：50顆
-                { count: 50, size: '1px', twinkleSpeed: '4s' },  // 第二層：50顆（:after 會再增加50顆）
+                { count: 3000, size: '1px', twinkleSpeed: '3s' },  // 第一層：3000顆
+                { count: 2500, size: '1px', twinkleSpeed: '4s' },  // 第二層：2500顆（:after 會再增加2500顆）
+                { count: 2000, size: '1px', twinkleSpeed: '5s' },  // 第三層：2000顆
+                { count: 1500, size: '1px', twinkleSpeed: '6s' },  // 第四層：1500顆（:after 會再增加1500顆）
             ],
             // 移動的星星層（參考代碼風格）
             movingStars: [
-                { count: 50, size: '2px', duration: '100s' },   // stars1: 2px, 100s
-                { count: 50, size: '3px', duration: '125s' },   // stars2: 3px, 125s
+                { count: 700, size: '1px', duration: '100s' },   // stars1: 1px, 100s, 700顆
+                { count: 300, size: '2px', duration: '125s' },   // stars2: 2px, 125s, 300顆
             ],
             // 流星配置（參考代碼風格）
             shootingStars: {
-                minCount: 1,
-                maxCount: 3,
+                minCount: 5,
+                maxCount: 8,
                 minSpeed: 10,
                 maxSpeed: 10,
                 minTailLength: 85,
@@ -109,13 +110,8 @@ class ShootingStar {
         // 參考代碼：使用 linear-gradient 創建尾巴
         this.element.style.background = 'linear-gradient(to top, rgba(255, 255, 255, 0), white)';
         
-        // 添加到星空容器
-        const container = document.querySelector('.starry-background-container');
-        if (container) {
-            container.appendChild(this.element);
-        } else {
-            document.body.appendChild(this.element);
-        }
+        // 添加到 body（讓流星保持在固定的 z-index 層級）
+        document.body.appendChild(this.element);
     }
     
     destroy() {
