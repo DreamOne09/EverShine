@@ -4425,6 +4425,74 @@ body::after {
     }
 }
 
+@media (max-width: 768px) {
+    .meeting-info {
+        padding: 4rem 0 !important;
+    }
+    
+    .meeting-info .container {
+        padding: 0 1.5rem !important;
+    }
+    
+    .section-header-card {
+        padding: 2rem 1.5rem !important;
+        margin-bottom: 2rem !important;
+    }
+    
+    .section-header-icon svg {
+        width: 40px !important;
+        height: 40px !important;
+    }
+    
+    .meeting-info-content-new {
+        gap: 1.5rem !important;
+    }
+    
+    .meeting-schedule-section,
+    .meeting-features-section {
+        padding: 2rem 1.5rem !important;
+    }
+    
+    .schedule-time-large {
+        margin-bottom: 1.5rem !important;
+    }
+    
+    .schedule-day {
+        font-size: 1.5rem !important;
+    }
+    
+    .schedule-time-range {
+        font-size: 2rem !important;
+    }
+    
+    .schedule-type-new {
+        font-size: 1rem !important;
+    }
+    
+    .schedule-note-new {
+        font-size: 0.85rem !important;
+    }
+    
+    .features-title {
+        font-size: 1.2rem !important;
+        margin-bottom: 1.25rem !important;
+    }
+    
+    .features-grid {
+        gap: 1rem !important;
+    }
+    
+    .feature-item {
+        padding: 0.75rem !important;
+        font-size: 0.9rem !important;
+    }
+    
+    .feature-item svg {
+        width: 18px !important;
+        height: 18px !important;
+    }
+}
+
 .meeting-schedule-card {
     background: var(--glass-bg-medium);
     backdrop-filter: var(--glass-blur-strong);
