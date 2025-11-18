@@ -33,18 +33,18 @@ class StarrySkyConfig {
         };
         
         this.css = {
-            // 靜態小星星層 - 滿天星點效果
+            // 靜態小星星層 - 適量星點效果
             // 使用純白色 #FFF，簡單的 box-shadow（參考代碼格式）
             staticStars: [
-                { count: 3000, size: '1px', twinkleSpeed: '3s' },  // 第一層：3000顆
-                { count: 2500, size: '1px', twinkleSpeed: '4s' },  // 第二層：2500顆（:after 會再增加2500顆）
-                { count: 2000, size: '1px', twinkleSpeed: '5s' },  // 第三層：2000顆
-                { count: 1500, size: '1px', twinkleSpeed: '6s' },  // 第四層：1500顆（:after 會再增加1500顆）
+                { count: 200, size: '1px', twinkleSpeed: '3s' },  // 第一層：200顆
+                { count: 150, size: '1px', twinkleSpeed: '4s' },  // 第二層：150顆（:after 會再增加150顆）
+                { count: 100, size: '1px', twinkleSpeed: '5s' },  // 第三層：100顆
+                { count: 80, size: '1px', twinkleSpeed: '6s' },  // 第四層：80顆（:after 會再增加80顆）
             ],
             // 移動的星星層（參考代碼風格）
             movingStars: [
-                { count: 700, size: '1px', duration: '100s' },   // stars1: 1px, 100s, 700顆
-                { count: 300, size: '2px', duration: '125s' },   // stars2: 2px, 125s, 300顆
+                { count: 50, size: '1px', duration: '100s' },   // stars1: 1px, 100s, 50顆
+                { count: 30, size: '2px', duration: '125s' },   // stars2: 2px, 125s, 30顆
             ],
             // 流星配置（參考代碼風格）
             shootingStars: {
@@ -281,8 +281,8 @@ class StarrySkyManager {
         this.config.css.staticStars.forEach((layer, i) => {
             const div = document.createElement('div');
             div.className = `static-stars-layer static-stars${i}`;
-            // 參考代碼：width 和 height 設為 2px 確保可見，移除 border-radius 避免裁剪 box-shadow
-            div.style.cssText = `position:absolute;top:0;left:0;width:2px;height:2px;border-radius:0;background:transparent;z-index:10;opacity:1;visibility:visible;display:block;overflow:visible;pointer-events:none;`;
+            // 參考代碼：width 和 height 設為 1px，z-index 設為 1（在容器內）
+            div.style.cssText = `position:absolute;top:0;left:0;width:1px;height:1px;border-radius:50%;background:transparent;z-index:1;opacity:1;visibility:visible;display:block;overflow:visible;pointer-events:none;`;
             sky.appendChild(div);
         });
         
@@ -290,8 +290,8 @@ class StarrySkyManager {
         this.config.css.movingStars.forEach((layer, i) => {
             const div = document.createElement('div');
             div.className = `moving-stars-layer moving-stars${i}`;
-            // 參考代碼：width 和 height 設為星星大小，移除 border-radius 避免裁剪 box-shadow
-            div.style.cssText = `position:absolute;top:0;left:0;width:${layer.size};height:${layer.size};border-radius:0;background:transparent;z-index:10;opacity:1;visibility:visible;display:block;overflow:visible;pointer-events:none;`;
+            // 參考代碼：width 和 height 設為星星大小，z-index 設為 1（在容器內）
+            div.style.cssText = `position:absolute;top:0;left:0;width:${layer.size};height:${layer.size};border-radius:50%;background:transparent;z-index:1;opacity:1;visibility:visible;display:block;overflow:visible;pointer-events:none;`;
             sky.appendChild(div);
         });
         
@@ -405,14 +405,15 @@ class StarrySkyManager {
     
     generateStaticStarsShadow(count, maxX, maxY) {
         const shadows = [];
-        // 參考代碼風格：簡單的 box-shadow，純白色 #FFF
+        // 參考代碼風格：box-shadow 加上 spread 讓星星可見
         const actualCount = count; // 使用配置的數量
         
         for (let i = 0; i < actualCount; i++) {
             const x = Math.floor(Math.random() * maxX);
             const y = Math.floor(Math.random() * maxY);
-            // 完全按照參考代碼格式：xpx ypx #FFF
-            shadows.push(`${x}px ${y}px #FFF`);
+            // 格式：xpx ypx blur spread color
+            // 使用 0 0 1px #FFF 讓星星有發光效果
+            shadows.push(`${x}px ${y}px 0 1px #FFF`);
         }
         
         const result = shadows.join(' , ');
@@ -422,14 +423,15 @@ class StarrySkyManager {
     
     generateMovingStarsShadow(count, maxX, maxY) {
         const shadows = [];
-        // 參考代碼風格：簡單的 box-shadow，純白色 #FFF
+        // 參考代碼風格：box-shadow 加上 spread 讓星星可見
         const actualCount = count; // 使用配置的數量
         
         for (let i = 0; i < actualCount; i++) {
             const x = Math.floor(Math.random() * maxX);
             const y = Math.floor(Math.random() * maxY);
-            // 完全按照參考代碼格式：xpx ypx #FFF
-            shadows.push(`${x}px ${y}px #FFF`);
+            // 格式：xpx ypx blur spread color
+            // 使用 0 0 1px #FFF 讓星星有發光效果
+            shadows.push(`${x}px ${y}px 0 1px #FFF`);
         }
         
         // 參考代碼格式：逗號後有空格 "xpx ypx #FFF , xpx ypx #FFF"
