@@ -145,18 +145,6 @@ body {
     background: transparent;
 }
 
-/* 星點閃爍動畫 - 保留用於其他元素 */
-@keyframes starTwinkle {
-    0%, 100% {
-        opacity: 0.5;
-        transform: scale(1);
-    }
-    50% {
-        opacity: 0.8;
-        transform: scale(1.1);
-    }
-}
-
 /* 星空背景容器 - 覆蓋整個頁面 */
 .starry-background-container {
     position: fixed;
@@ -3911,14 +3899,16 @@ body::after {
 /* ============================================
    會員成功案例
    ============================================ */
+/* 會員成功案例 */
 .success-stories {
     padding: 7rem 0;
     background: transparent;
     position: relative;
     z-index: 1;
     border: none;
-    border-top: none;
-    border-bottom: none;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: visible !important;
 }
 
 /* 會員成功案例 - 獨立卡片網格佈局 */
@@ -3931,13 +3921,6 @@ body::after {
     width: 100% !important;
     max-width: 100% !important;
     box-sizing: border-box !important;
-}
-
-/* 確保容器正確顯示 */
-.success-stories {
-    width: 100% !important;
-    max-width: 100% !important;
-    overflow: visible !important;
 }
 
 .success-stories .container {
