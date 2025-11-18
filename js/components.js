@@ -101,6 +101,8 @@ function getFooterHTML() {
                 </div>
             </div>
             <div class="footer-bottom">
+                <p class="copyright">Copyright © 2025 BNI 台灣 - 長輝白金分會</p>
+                <p class="developer-info">本網站由琢奧科技有限公司開發與維護，網站與系統開發歡迎洽詢 <a href="mailto:info@dropout.tw">info@dropout.tw</a></p>
             </div>
         </div>
         <button class="back-to-top" id="backToTop" aria-label="回到頂部">
