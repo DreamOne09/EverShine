@@ -353,20 +353,22 @@ class StarrySkyManager {
             if (this.config.css.staticStars[i]) {
                 const shadow = this.generateStaticStarsShadow(this.config.css.staticStars[i].count, w, h);
                 const shadowAfter = this.generateStaticStarsShadow(this.config.css.staticStars[i].count, w, h);
-                if (shadow) {
+                if (shadow && shadow.length > 0) {
                     // 參考代碼：直接設置 box-shadow
-                    // 注意：星星層本身保持 1px，box-shadow 會自動擴展到整個容器範圍
+                    // 注意：星星層本身是 2px，box-shadow 會自動擴展到整個容器範圍
                     layer.style.boxShadow = shadow;
                     // 參考代碼：使用 :after 偽元素增加星星數量
                     // 通過 CSS 變數傳遞給 :after
                     layer.style.setProperty('--shadow-after', shadowAfter);
-                    // 確保可見（星星層本身保持 1px，box-shadow 會顯示星星）
+                    // 確保可見（星星層本身是 2px，box-shadow 會顯示星星）
                     layer.style.opacity = '1';
                     layer.style.visibility = 'visible';
                     layer.style.display = 'block';
-                    console.log(`靜態星星層 ${i}: box-shadow 已設置，長度 ${shadow.length} 字符`);
+                    layer.style.width = '2px';
+                    layer.style.height = '2px';
+                    console.log(`靜態星星層 ${i}: box-shadow 已設置，長度 ${shadow.length} 字符，前50字符: ${shadow.substring(0, 50)}`);
                 } else {
-                    console.error(`靜態星星層 ${i}: 無法生成 box-shadow`);
+                    console.error(`靜態星星層 ${i}: 無法生成 box-shadow，shadow: ${shadow}`);
                 }
             }
         });
@@ -382,7 +384,7 @@ class StarrySkyManager {
             if (this.config.css.movingStars[i]) {
                 const shadow = this.generateMovingStarsShadow(this.config.css.movingStars[i].count, w, h);
                 const shadowAfter = this.generateMovingStarsShadow(this.config.css.movingStars[i].count, w, h);
-                if (shadow) {
+                if (shadow && shadow.length > 0) {
                     // 參考代碼：直接設置 box-shadow
                     // 注意：星星層本身是 2px/3px，box-shadow 會自動擴展到整個容器範圍
                     layer.style.boxShadow = shadow;
@@ -393,9 +395,9 @@ class StarrySkyManager {
                     layer.style.opacity = '1';
                     layer.style.visibility = 'visible';
                     layer.style.display = 'block';
-                    console.log(`移動星星層 ${i}: box-shadow 已設置`);
+                    console.log(`移動星星層 ${i}: box-shadow 已設置，長度 ${shadow.length} 字符，前50字符: ${shadow.substring(0, 50)}`);
                 } else {
-                    console.error(`移動星星層 ${i}: 無法生成 box-shadow`);
+                    console.error(`移動星星層 ${i}: 無法生成 box-shadow，shadow: ${shadow}`);
                 }
             }
         });

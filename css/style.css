@@ -189,6 +189,8 @@ body {
     min-height: 100vh;
     /* 確保覆蓋整個頁面高度 */
     min-height: 100%;
+    z-index: 1 !important;
+    overflow: visible !important;
 }
 
 /* 靜態星星層（參考代碼風格） */
@@ -200,7 +202,7 @@ body {
     height: 2px;
     border-radius: 0;
     background: transparent;
-    z-index: 10;
+    z-index: 1 !important;
     /* 參考代碼：不使用 mix-blend-mode，直接顯示 */
     opacity: 1 !important;
     visibility: visible !important;
@@ -252,7 +254,7 @@ body {
     left: 0;
     border-radius: 0;
     background: transparent;
-    z-index: 10;
+    z-index: 1 !important;
     /* 參考代碼：不使用 mix-blend-mode，直接顯示 */
     opacity: 1 !important;
     visibility: visible !important;
@@ -362,9 +364,9 @@ body {
 section:not(.hero):not(.page-hero) {
     position: relative;
     z-index: 1;
-    background: transparent;
+    background: transparent !important;
     /* 確保不遮擋星空背景 */
-    background-color: transparent;
+    background-color: transparent !important;
 }
 
 
@@ -379,39 +381,39 @@ body::after {
         /* 長條形星雲帶 - 橫向銀河效果 */
         linear-gradient(90deg,
             transparent 0%,
-            rgba(76, 168, 223, 0.2) 5%,
-            rgba(110, 84, 255, 0.25) 10%,
-            rgba(35, 150, 255, 0.22) 15%,
-            rgba(120, 87, 255, 0.2) 20%,
-            rgba(76, 168, 223, 0.18) 25%,
-            rgba(110, 84, 255, 0.2) 30%,
-            rgba(35, 150, 255, 0.22) 35%,
-            rgba(120, 87, 255, 0.25) 40%,
-            rgba(76, 168, 223, 0.2) 45%,
+            rgba(76, 168, 223, 0.08) 5%,
+            rgba(110, 84, 255, 0.1) 10%,
+            rgba(35, 150, 255, 0.09) 15%,
+            rgba(120, 87, 255, 0.08) 20%,
+            rgba(76, 168, 223, 0.07) 25%,
+            rgba(110, 84, 255, 0.08) 30%,
+            rgba(35, 150, 255, 0.09) 35%,
+            rgba(120, 87, 255, 0.1) 40%,
+            rgba(76, 168, 223, 0.08) 45%,
             transparent 50%,
-            rgba(76, 168, 223, 0.2) 55%,
-            rgba(110, 84, 255, 0.25) 60%,
-            rgba(35, 150, 255, 0.22) 65%,
-            rgba(120, 87, 255, 0.2) 70%,
-            rgba(76, 168, 223, 0.18) 75%,
-            rgba(110, 84, 255, 0.2) 80%,
-            rgba(35, 150, 255, 0.22) 85%,
-            rgba(120, 87, 255, 0.25) 90%,
-            rgba(76, 168, 223, 0.2) 95%,
+            rgba(76, 168, 223, 0.08) 55%,
+            rgba(110, 84, 255, 0.1) 60%,
+            rgba(35, 150, 255, 0.09) 65%,
+            rgba(120, 87, 255, 0.08) 70%,
+            rgba(76, 168, 223, 0.07) 75%,
+            rgba(110, 84, 255, 0.08) 80%,
+            rgba(35, 150, 255, 0.09) 85%,
+            rgba(120, 87, 255, 0.1) 90%,
+            rgba(76, 168, 223, 0.08) 95%,
             transparent 100%
         ),
         /* 增強星雲效果 - 更明顯但保持深空感 */
-        radial-gradient(ellipse 1800px 1200px at 20% 30%, rgba(76, 168, 223, 0.12) 0%, rgba(76, 168, 223, 0.06) 30%, transparent 70%),
-        radial-gradient(ellipse 1500px 1100px at 75% 25%, rgba(110, 84, 255, 0.1) 0%, rgba(110, 84, 255, 0.05) 30%, transparent 65%),
-        radial-gradient(ellipse 2000px 1400px at 50% 70%, rgba(35, 150, 255, 0.08) 0%, rgba(35, 150, 255, 0.04) 35%, transparent 75%),
-        radial-gradient(ellipse 1200px 1000px at 10% 60%, rgba(76, 168, 223, 0.09) 0%, rgba(76, 168, 223, 0.04) 25%, transparent 60%),
-        radial-gradient(ellipse 1600px 1150px at 85% 75%, rgba(120, 87, 255, 0.1) 0%, rgba(120, 87, 255, 0.05) 30%, transparent 65%),
+        radial-gradient(ellipse 1800px 1200px at 20% 30%, rgba(76, 168, 223, 0.05) 0%, rgba(76, 168, 223, 0.02) 30%, transparent 70%),
+        radial-gradient(ellipse 1500px 1100px at 75% 25%, rgba(110, 84, 255, 0.04) 0%, rgba(110, 84, 255, 0.02) 30%, transparent 65%),
+        radial-gradient(ellipse 2000px 1400px at 50% 70%, rgba(35, 150, 255, 0.03) 0%, rgba(35, 150, 255, 0.01) 35%, transparent 75%),
+        radial-gradient(ellipse 1200px 1000px at 10% 60%, rgba(76, 168, 223, 0.04) 0%, rgba(76, 168, 223, 0.02) 25%, transparent 60%),
+        radial-gradient(ellipse 1600px 1150px at 85% 75%, rgba(120, 87, 255, 0.04) 0%, rgba(120, 87, 255, 0.02) 30%, transparent 65%),
         /* 新增星雲細節 */
-        radial-gradient(ellipse 800px 600px at 40% 20%, rgba(255, 120, 196, 0.08) 0%, transparent 50%),
-        radial-gradient(ellipse 900px 700px at 60% 80%, rgba(135, 206, 250, 0.07) 0%, transparent 55%);
+        radial-gradient(ellipse 800px 600px at 40% 20%, rgba(255, 120, 196, 0.03) 0%, transparent 50%),
+        radial-gradient(ellipse 900px 700px at 60% 80%, rgba(135, 206, 250, 0.03) 0%, transparent 55%);
     mix-blend-mode: screen;
-    opacity: 0.6;
-    z-index: -3;
+    opacity: 0.25;
+    z-index: -5;
     pointer-events: none;
     /* 移除動畫，保持靜態星雲效果 */
     background-size: 200% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%;
@@ -3927,6 +3929,23 @@ body::after {
     gap: 2rem !important;
     margin-top: 3rem !important;
     width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* 確保容器正確顯示 */
+.success-stories {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: visible !important;
+}
+
+.success-stories .container {
+    width: 100% !important;
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+    padding: 0 3rem !important;
+    box-sizing: border-box !important;
 }
 
 .success-stories-grid .success-card-individual,
@@ -4117,26 +4136,44 @@ body::after {
 }
 
 @media (max-width: 768px) {
+    .success-stories {
+        padding: 4rem 0 !important;
+    }
+    
+    .success-stories .container {
+        padding: 0 1.5rem !important;
+    }
+    
     .success-stories-grid {
         grid-template-columns: 1fr !important;
-        gap: 2rem !important;
+        gap: 1.5rem !important;
     }
     
     .success-card-individual {
         max-width: 100% !important;
+        margin: 0 !important;
     }
     
     .success-card-image-wrapper {
-        height: 220px !important;
-        max-height: 220px !important;
+        height: 200px !important;
+        max-height: 200px !important;
     }
     
     .success-card-body {
-        padding: 1.5rem !important;
+        padding: 1.25rem !important;
+    }
+    
+    .success-member-name {
+        font-size: 1.1rem !important;
+    }
+    
+    .success-member-industry {
+        font-size: 0.85rem !important;
     }
     
     .success-quote {
-        font-size: 0.9rem !important;
+        font-size: 0.85rem !important;
+        line-height: 1.5 !important;
     }
 }
 
