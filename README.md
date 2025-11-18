@@ -74,18 +74,39 @@ staticStars: [
     { count: 1500, size: '1px', twinkleSpeed: '6s' }
 ]
 
+// 移動星星配置
+movingStars: [
+    { count: 700, size: '1px', animationDuration: '100s' },
+    { count: 300, size: '2px', animationDuration: '125s' }
+]
+
 // 流星配置
 shootingStars: {
-    minCount: 5,
-    maxCount: 10,
-    minSpeed: 3,  // 秒
-    maxSpeed: 12, // 秒
-    minTailLength: 80,  // px
-    maxTailLength: 150, // px
-    glowIntensity: 0.9,
-    tailFadeSteps: 20
+    count: 8,
+    minDelay: 0,
+    maxDelay: 8,
+    minDuration: 2,
+    maxDuration: 5
 }
 ```
+
+### Box-Shadow 格式說明
+
+本專案使用參考代碼的標準格式生成星星：
+
+```javascript
+// 正確格式：xpx ypx #FFF
+shadows.push(`${x}px ${y}px #FFF`);
+
+// 錯誤格式（已修正）：
+// shadows.push(`${x}px ${y}px 2px 1px rgba(255, 255, 255, ${brightness})`);
+```
+
+**為什麼使用簡單格式？**
+- 更好的性能（瀏覽器渲染更快）
+- 更清晰的星星顯示
+- 符合參考代碼標準
+- 減少視覺雜訊
 
 ### 診斷與除錯
 
@@ -104,7 +125,69 @@ shootingStars: {
 - 視窗大小變化時才重新生成星星
 - 流星使用 CSS 動畫而非 JavaScript 動畫
 
-## 最新更新（2025-11）
+## 最新更新
+
+### 2025-01-31 - 星空背景重構與 UI 優化
+
+#### 🌟 星空背景系統重構
+- **修正 box-shadow 格式**：改回參考代碼標準格式 `xpx ypx #FFF`
+  - 之前使用複雜的 `xpx ypx 2px 1px rgba(255, 255, 255, ${brightness})` 導致顯示問題
+  - 現在使用最簡潔的格式，確保星星正確顯示
+- **優化星星層尺寸**：
+  - 靜態星星層：`1px x 1px`
+  - 移動星星層：`1px x 1px` 和 `2px x 2px`
+  - 所有星星層設置 `border-radius: 50%` 和 `background: transparent`
+- **動畫保持完整**：
+  - `@keyframes animStar`：星星移動動畫（translateY/translateX -2560px）
+  - `@keyframes animShootingStar`：流星動畫（尾巴從 5px 拉長到 800px）
+  - 流星樣式：`linear-gradient(to top, rgba(255, 255, 255, 0), white)`
+
+#### 🎨 Footer 視覺優化
+- **添加明顯分隔線**：
+  - 上方使用 `2px solid rgba(76, 168, 223, 0.3)` 分隔線
+  - 添加金色漸變光暈效果 `linear-gradient(90deg, transparent, rgba(76, 168, 223, 0.5), var(--gold), ...)`
+  - Footer 內容區與版權資訊之間添加 `1px` 分隔線
+- **新增開發商資訊**：
+  - 顯示「本網站由琢奧科技有限公司開發與維護」
+  - 提供聯繫郵箱：`info@dropout.tw`
+  - 版權資訊：「Copyright © 2025 BNI 台灣 - 長輝白金分會」
+- **增強 Fixed Banner 視覺**：
+  - 背景不透明度提升至 `0.95`
+  - 邊框加強至 `2px solid rgba(76, 168, 223, 0.4)`
+  - 陰影效果增強，確保在所有內容上方都清晰可見
+
+#### 🔗 URL 優化
+- **移除 index.html 後綴**：
+  - 導航欄、Footer 和所有內部鏈接從 `href="index.html"` 改為 `href="/"`
+  - 優化 SEO 和用戶體驗
+  - URL 顯示為 `https://evershine.tw/` 而非 `https://evershine.tw/index.html`
+
+#### 🎯 卡片樣式增強
+- **強化所有卡片區塊**：
+  - 增加邊框厚度（1px → 2px）
+  - 放大圓角（15px → 20px）
+  - 加強陰影效果
+  - 添加頂部金色漸變線（`::before` 偽元素）
+  - 優化 hover 效果（translateY, scale, 陰影）
+- **涵蓋區塊**：
+  - 會員成功案例卡片
+  - 會議資訊卡片
+  - 關於我們區塊
+  - 加入我們卡片
+  - 常見問題卡片
+  - 什麼是 BNI 介紹卡片
+
+#### 📱 響應式優化
+- **桌面版排版**：
+  - 會員成功案例：4 欄 → 3 欄 (1400px) → 2 欄 (1024px) → 1 欄 (768px)
+  - 圖片 `object-position: center top` 確保商務人士頭像可見
+  - 固定容器最大寬度 `1200px`，居中顯示
+- **行動版優化**：
+  - 調整 padding、gap、字體大小
+  - 圖片高度適配小螢幕（200px）
+  - 優化卡片內距和間距
+
+### 2025-11 - 配色與會員資料更新
 
 - 更新全站配色：`#005391`（背景）、`#4ca8df`（重點）、`#1d2f38`（輔色）與星雲粒子動畫。
 - 會員資料新增欄位：
@@ -116,7 +199,18 @@ shootingStars: {
 
 ## 部署
 
-本專案部署於 GitHub Pages：https://dreamone09.github.io/EverShine/
+本專案部署於 GitHub Pages：https://evershine.tw
+
+**自訂網域設定**：
+- 主網域：`evershine.tw`
+- DNS 設定：指向 GitHub Pages
+- HTTPS 已啟用
+
+## 開發與維護
+
+**網站開發與維護**：琢奧科技有限公司  
+**技術支援**：info@dropout.tw  
+**版權所有**：© 2025 BNI 台灣 - 長輝白金分會
 
 ## 本地開發
 
