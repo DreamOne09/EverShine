@@ -4009,7 +4009,7 @@ body::after {
     width: 100% !important;
     height: 100% !important;
     object-fit: cover !important;
-    object-position: center !important;
+    object-position: center top !important;
     transition: var(--transition);
     display: block !important;
     border-radius: 20px 20px 0 0;
@@ -4098,12 +4098,6 @@ body::after {
 }
 
 /* 響應式設計 */
-@media (max-width: 1200px) {
-    .success-stories-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
 @media (max-width: 768px) {
     .success-stories-grid {
         grid-template-columns: 1fr;
