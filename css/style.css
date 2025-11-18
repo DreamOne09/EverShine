@@ -196,8 +196,8 @@ body {
     position: absolute;
     top: 0;
     left: 0;
-    width: 1px;
-    height: 1px;
+    width: 2px;
+    height: 2px;
     border-radius: 0;
     background: transparent;
     z-index: 10;
@@ -206,7 +206,7 @@ body {
     visibility: visible !important;
     display: block !important;
     overflow: visible !important;
-    /* 參考代碼：星星層本身是 1px，box-shadow 會自動擴展到整個容器範圍 */
+    /* 參考代碼：星星層本身是 2px，box-shadow 會自動擴展到整個容器範圍 */
     pointer-events: none;
 }
 
@@ -216,8 +216,8 @@ body {
     position: absolute;
     top: -600px;
     left: 0;
-    width: 1px;
-    height: 1px;
+    width: 2px;
+    height: 2px;
     border-radius: 0;
     background: transparent;
     /* box-shadow 將由 JavaScript 動態設置 */

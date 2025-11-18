@@ -285,8 +285,8 @@ class StarrySkyManager {
         this.config.css.staticStars.forEach((layer, i) => {
             const div = document.createElement('div');
             div.className = `static-stars-layer static-stars${i}`;
-            // 參考代碼：width 和 height 設為星星大小（1px），移除 border-radius 避免裁剪 box-shadow
-            div.style.cssText = `position:absolute;top:0;left:0;width:${layer.size};height:${layer.size};border-radius:0;background:transparent;z-index:10;opacity:1;visibility:visible;display:block;overflow:visible;pointer-events:none;`;
+            // 參考代碼：width 和 height 設為 2px 確保可見，移除 border-radius 避免裁剪 box-shadow
+            div.style.cssText = `position:absolute;top:0;left:0;width:2px;height:2px;border-radius:0;background:transparent;z-index:10;opacity:1;visibility:visible;display:block;overflow:visible;pointer-events:none;`;
             sky.appendChild(div);
         });
         
@@ -411,8 +411,8 @@ class StarrySkyManager {
         for (let i = 0; i < actualCount; i++) {
             const x = Math.floor(Math.random() * maxX);
             const y = Math.floor(Math.random() * maxY);
-            // 參考代碼：簡單的格式 "xpx ypx #FFF" - 必須有模糊半徑才能顯示
-            shadows.push(`${x}px ${y}px 0 1px #FFF`);
+            // 參考代碼：簡單的格式 "xpx ypx #FFF" - 使用擴散半徑讓星星可見
+            shadows.push(`${x}px ${y}px 0 2px #FFF`);
         }
         
         // 參考代碼格式：逗號後有空格 "xpx ypx #FFF , xpx ypx #FFF"
@@ -429,8 +429,8 @@ class StarrySkyManager {
         for (let i = 0; i < actualCount; i++) {
             const x = Math.floor(Math.random() * maxX);
             const y = Math.floor(Math.random() * maxY);
-            // 參考代碼：簡單的格式 "xpx ypx #FFF" - 必須有模糊半徑才能顯示
-            shadows.push(`${x}px ${y}px 0 1px #FFF`);
+            // 參考代碼：簡單的格式 "xpx ypx #FFF" - 使用擴散半徑讓星星可見
+            shadows.push(`${x}px ${y}px 0 2px #FFF`);
         }
         
         // 參考代碼格式：逗號後有空格 "xpx ypx #FFF , xpx ypx #FFF"
