@@ -4721,15 +4721,34 @@ body::after {
     backdrop-filter: var(--glass-blur-strong);
     -webkit-backdrop-filter: var(--glass-blur-strong);
     border: 2px solid var(--glass-border);
-    border-radius: 15px;
-    padding: 2rem;
+    border-radius: 20px;
+    padding: 2.5rem 2rem;
     text-align: center;
     transition: var(--transition);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 
-                0 0 0 1px rgba(76, 168, 223, 0.1),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 
+                0 0 0 1px rgba(76, 168, 223, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
     position: relative;
     overflow: hidden;
+}
+
+.benefit-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0.7;
+}
+
+.benefit-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    border-color: var(--gold);
+    box-shadow: 0 15px 50px rgba(76, 168, 223, 0.4),
+                0 0 0 2px rgba(76, 168, 223, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .benefit-card::before {
@@ -4790,12 +4809,23 @@ body::after {
     border-radius: 20px;
     padding: 3rem 2.5rem;
     margin-bottom: 5rem;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 
-                0 0 0 1px rgba(76, 168, 223, 0.1),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 
+                0 0 0 1px rgba(76, 168, 223, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
     transition: var(--transition);
     position: relative;
     overflow: hidden;
+}
+
+.join-process-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0.7;
 }
 
 .join-process-card::before {
@@ -5018,14 +5048,22 @@ body::after {
     backdrop-filter: var(--glass-blur-strong);
     -webkit-backdrop-filter: var(--glass-blur-strong);
     border: 2px solid var(--glass-border);
-    border-radius: 15px;
+    border-radius: 20px;
     margin-bottom: 2rem;
     overflow: hidden;
     transition: var(--transition);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 
-                0 0 0 1px rgba(76, 168, 223, 0.1),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 
+                0 0 0 1px rgba(76, 168, 223, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
     position: relative;
+}
+
+.faq-item:hover {
+    transform: translateY(-3px);
+    border-color: var(--gold);
+    box-shadow: 0 12px 48px rgba(76, 168, 223, 0.3),
+                0 0 0 2px rgba(76, 168, 223, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .faq-item::before {
