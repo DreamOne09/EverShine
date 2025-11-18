@@ -313,7 +313,7 @@ body {
     border-top-left-radius: 50%;
     border-top-right-radius: 50%;
     position: fixed !important;
-    bottom: 0;
+    bottom: -200px;
     right: 0;
     background: linear-gradient(to top, rgba(255, 255, 255, 0), white);
     animation: animShootingStar var(--duration, 10s) linear infinite;
@@ -3989,6 +3989,8 @@ body::after {
     box-sizing: border-box !important;
 }
 
+/* 確保響應式斷點生效 */
+
 .success-stories .container {
     width: 100% !important;
     max-width: 1200px !important;
@@ -4184,6 +4186,7 @@ body::after {
     }
 }
 
+/* 手機版：1 欄排列 */
 @media (max-width: 768px) {
     .success-stories {
         padding: 4rem 0 !important;
@@ -4191,11 +4194,14 @@ body::after {
     
     .success-stories .container {
         padding: 0 1.5rem !important;
+        max-width: 100% !important;
     }
     
+    .success-stories .success-stories-grid,
     .success-stories-grid {
         grid-template-columns: 1fr !important;
         gap: 1.5rem !important;
+        display: grid !important;
     }
     
     .success-card-individual {

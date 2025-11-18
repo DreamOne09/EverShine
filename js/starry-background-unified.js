@@ -48,10 +48,10 @@ class StarrySkyConfig {
             ],
             // 流星配置（參考代碼風格）
             shootingStars: {
-                minCount: 5,
-                maxCount: 8,
-                minSpeed: 10,
-                maxSpeed: 10,
+                minCount: 6,
+                maxCount: 10,
+                minSpeed: 8,
+                maxSpeed: 15,
                 minTailLength: 85,
                 maxTailLength: 85,
                 glowIntensity: 1.0,
@@ -86,13 +86,13 @@ class ShootingStar {
         
         // 參考代碼風格：簡單的配置
         const shootingStarsConfig = config.css?.shootingStars || {
-            minSpeed: 10,
-            maxSpeed: 10
+            minSpeed: 8,
+            maxSpeed: 15
         };
         
-        // 參考代碼：固定動畫時長 10s
-        this.duration = shootingStarsConfig.minSpeed;
-        this.delay = Math.random() * 5; // 隨機延遲 0-5 秒
+        // 每顆流星不同的動畫時長和延遲，創造自然效果
+        this.duration = shootingStarsConfig.minSpeed + Math.random() * (shootingStarsConfig.maxSpeed - shootingStarsConfig.minSpeed);
+        this.delay = Math.random() * this.duration; // 隨機延遲，避免同時出現
         
         this.createElement();
     }
@@ -101,8 +101,8 @@ class ShootingStar {
         this.element = document.createElement('div');
         this.element.className = 'shooting-star';
         
-        // 參考代碼風格：流星從右下角開始，隨機位置
-        this.element.style.bottom = '0';
+        // 流星從視窗外下方開始，隨機水平位置
+        this.element.style.bottom = '-200px';
         this.element.style.right = `${Math.random() * 100}%`;
         this.element.style.animationDelay = `${this.delay}s`;
         this.element.style.animationDuration = `${this.duration}s`;
