@@ -360,12 +360,14 @@ class StarrySkyManager {
                     // 參考代碼：使用 :after 偽元素增加星星數量
                     // 通過 CSS 變數傳遞給 :after
                     layer.style.setProperty('--shadow-after', shadowAfter);
-                    // 確保可見（星星層本身是 2px，box-shadow 會顯示星星）
+                    // 確保可見（星星層本身是 1px，box-shadow 會顯示星星）
                     layer.style.opacity = '1';
                     layer.style.visibility = 'visible';
                     layer.style.display = 'block';
-                    layer.style.width = '2px';
-                    layer.style.height = '2px';
+                    layer.style.width = '1px';
+                    layer.style.height = '1px';
+                    layer.style.borderRadius = '50%';
+                    layer.style.background = 'transparent';
                     console.log(`靜態星星層 ${i}: box-shadow 已設置，長度 ${shadow.length} 字符，前50字符: ${shadow.substring(0, 50)}`);
                 } else {
                     console.error(`靜態星星層 ${i}: 無法生成 box-shadow，shadow: ${shadow}`);
@@ -413,12 +415,11 @@ class StarrySkyManager {
         for (let i = 0; i < actualCount; i++) {
             const x = Math.floor(Math.random() * maxX);
             const y = Math.floor(Math.random() * maxY);
-            // 使用 RGBA 和 blur 讓星星更明顯
-            const brightness = 0.7 + Math.random() * 0.3;
-            shadows.push(`${x}px ${y}px 2px 1px rgba(255, 255, 255, ${brightness})`);
+            // 完全按照參考代碼格式：xpx ypx #FFF
+            shadows.push(`${x}px ${y}px #FFF`);
         }
         
-        const result = shadows.join(', ');
+        const result = shadows.join(' , ');
         console.log(`生成 ${actualCount} 顆靜態星星，box-shadow 長度: ${result.length} 字符`);
         return result;
     }
@@ -431,9 +432,8 @@ class StarrySkyManager {
         for (let i = 0; i < actualCount; i++) {
             const x = Math.floor(Math.random() * maxX);
             const y = Math.floor(Math.random() * maxY);
-            // 使用 RGBA 和 blur 讓星星更明顯
-            const brightness = 0.6 + Math.random() * 0.3;
-            shadows.push(`${x}px ${y}px 2px 1px rgba(255, 255, 255, ${brightness})`);
+            // 完全按照參考代碼格式：xpx ypx #FFF
+            shadows.push(`${x}px ${y}px #FFF`);
         }
         
         // 參考代碼格式：逗號後有空格 "xpx ypx #FFF , xpx ypx #FFF"

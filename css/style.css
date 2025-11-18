@@ -186,19 +186,16 @@ body {
     position: absolute;
     top: 0;
     left: 0;
-    width: 3px;
-    height: 3px;
+    width: 1px;
+    height: 1px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.9);
+    background: transparent;
     z-index: 1 !important;
-    /* 參考代碼：不使用 mix-blend-mode，直接顯示 */
     opacity: 1 !important;
     visibility: visible !important;
     display: block !important;
     overflow: visible !important;
-    /* 參考代碼：星星層本身是 3px，box-shadow 會自動擴展到整個容器範圍 */
     pointer-events: none;
-    box-shadow: 0 0 3px rgba(255, 255, 255, 0.5);
 }
 
 /* 參考代碼：使用 :after 偽元素增加星星數量 */
@@ -207,12 +204,12 @@ body {
     position: absolute;
     top: -600px;
     left: 0;
-    width: 3px;
-    height: 3px;
+    width: 1px;
+    height: 1px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.8);
+    background: transparent;
     /* box-shadow 將由 JavaScript 動態設置 */
-    box-shadow: var(--shadow-after), 0 0 3px rgba(255, 255, 255, 0.5);
+    box-shadow: var(--shadow-after);
     pointer-events: none;
 }
 
@@ -241,27 +238,25 @@ body {
     position: absolute;
     top: 0;
     left: 0;
-    border-radius: 0;
+    border-radius: 50%;
     background: transparent;
     z-index: 1 !important;
-    /* 參考代碼：不使用 mix-blend-mode，直接顯示 */
     opacity: 1 !important;
     visibility: visible !important;
     display: block !important;
     overflow: visible !important;
-    /* 參考代碼：星星層本身是 2px/3px，box-shadow 會自動擴展到整個容器範圍 */
     pointer-events: none;
 }
 
 .moving-stars-layer.moving-stars0 {
-    width: 2px;
-    height: 2px;
+    width: 1px;
+    height: 1px;
     animation: animStar 100s linear infinite;
 }
 
 .moving-stars-layer.moving-stars1 {
-    width: 3px;
-    height: 3px;
+    width: 2px;
+    height: 2px;
     animation: animStar 125s linear infinite;
 }
 
@@ -271,7 +266,7 @@ body {
     position: absolute;
     top: -600px;
     left: 0;
-    border-radius: 0;
+    border-radius: 50%;
     background: transparent;
     /* box-shadow 將由 JavaScript 動態設置 */
     box-shadow: var(--shadow-after);
@@ -279,13 +274,13 @@ body {
 }
 
 .moving-stars-layer.moving-stars0::after {
-    width: 2px;
-    height: 2px;
+    width: 1px;
+    height: 1px;
 }
 
 .moving-stars-layer.moving-stars1::after {
-    width: 3px;
-    height: 3px;
+    width: 2px;
+    height: 2px;
 }
 
 /* 星星閃爍動畫 */

@@ -20,7 +20,7 @@ function getNavigationHTML() {
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <div class="nav-logo">
-                <a href="index.html">
+                <a href="/">
                     <img src="images/assets/logo/透明底白字長條logo.png" alt="長輝白金分會" class="logo-image">
                 </a>
             </div>
@@ -30,7 +30,7 @@ function getNavigationHTML() {
                 <span></span>
             </button>
             <ul class="nav-menu" id="navMenu">
-                <li><a href="index.html" class="nav-link">首頁</a></li>
+                <li><a href="/" class="nav-link">首頁</a></li>
                 <li><a href="what-is-bni.html" class="nav-link">什麼是BNI</a></li>
                 <li><a href="members.html" class="nav-link">會員介紹</a></li>
                 <li><a href="referrals.html" class="nav-link">會員引薦報告</a></li>
@@ -70,7 +70,7 @@ function getFooterHTML() {
                 <div class="footer-section">
                     <h4>快速連結</h4>
                     <ul class="footer-links">
-                        <li><a href="index.html">首頁</a></li>
+                        <li><a href="/">首頁</a></li>
                         <li><a href="what-is-bni.html">什麼是BNI</a></li>
                         <li><a href="members.html">會員介紹</a></li>
                         <li><a href="referrals.html">會員引薦報告</a></li>
