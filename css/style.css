@@ -186,18 +186,19 @@ body {
     position: absolute;
     top: 0;
     left: 0;
-    width: 2px;
-    height: 2px;
-    border-radius: 0;
-    background: transparent;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.9);
     z-index: 1 !important;
     /* 參考代碼：不使用 mix-blend-mode，直接顯示 */
     opacity: 1 !important;
     visibility: visible !important;
     display: block !important;
     overflow: visible !important;
-    /* 參考代碼：星星層本身是 2px，box-shadow 會自動擴展到整個容器範圍 */
+    /* 參考代碼：星星層本身是 3px，box-shadow 會自動擴展到整個容器範圍 */
     pointer-events: none;
+    box-shadow: 0 0 3px rgba(255, 255, 255, 0.5);
 }
 
 /* 參考代碼：使用 :after 偽元素增加星星數量 */
@@ -206,12 +207,12 @@ body {
     position: absolute;
     top: -600px;
     left: 0;
-    width: 2px;
-    height: 2px;
-    border-radius: 0;
-    background: transparent;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.8);
     /* box-shadow 將由 JavaScript 動態設置 */
-    box-shadow: var(--shadow-after);
+    box-shadow: var(--shadow-after), 0 0 3px rgba(255, 255, 255, 0.5);
     pointer-events: none;
 }
 

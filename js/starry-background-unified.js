@@ -413,12 +413,12 @@ class StarrySkyManager {
         for (let i = 0; i < actualCount; i++) {
             const x = Math.floor(Math.random() * maxX);
             const y = Math.floor(Math.random() * maxY);
-            // 參考代碼：簡單的格式 "xpx ypx #FFF" - 使用擴散半徑讓星星可見
-            shadows.push(`${x}px ${y}px 0 2px #FFF`);
+            // 使用 RGBA 和 blur 讓星星更明顯
+            const brightness = 0.7 + Math.random() * 0.3;
+            shadows.push(`${x}px ${y}px 2px 1px rgba(255, 255, 255, ${brightness})`);
         }
         
-        // 參考代碼格式：逗號後有空格 "xpx ypx #FFF , xpx ypx #FFF"
-        const result = shadows.join(' , ');
+        const result = shadows.join(', ');
         console.log(`生成 ${actualCount} 顆靜態星星，box-shadow 長度: ${result.length} 字符`);
         return result;
     }
@@ -431,8 +431,9 @@ class StarrySkyManager {
         for (let i = 0; i < actualCount; i++) {
             const x = Math.floor(Math.random() * maxX);
             const y = Math.floor(Math.random() * maxY);
-            // 參考代碼：簡單的格式 "xpx ypx #FFF" - 使用擴散半徑讓星星可見
-            shadows.push(`${x}px ${y}px 0 2px #FFF`);
+            // 使用 RGBA 和 blur 讓星星更明顯
+            const brightness = 0.6 + Math.random() * 0.3;
+            shadows.push(`${x}px ${y}px 2px 1px rgba(255, 255, 255, ${brightness})`);
         }
         
         // 參考代碼格式：逗號後有空格 "xpx ypx #FFF , xpx ypx #FFF"
