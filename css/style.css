@@ -3938,31 +3938,33 @@ body::after {
 }
 
 /* 會員成功案例 - 獨立卡片網格佈局 */
+.success-stories .success-stories-grid,
 .success-stories-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 2rem;
-    margin-top: 3rem;
-    width: 100%;
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 2rem !important;
+    margin-top: 3rem !important;
+    width: 100% !important;
 }
 
+.success-stories-grid .success-card-individual,
 .success-card-individual {
-    background: var(--glass-bg-medium);
-    backdrop-filter: var(--glass-blur-strong);
-    -webkit-backdrop-filter: var(--glass-blur-strong);
-    border: 2px solid var(--glass-border);
-    border-radius: 20px;
-    padding: 0;
+    background: var(--glass-bg-medium) !important;
+    backdrop-filter: var(--glass-blur-strong) !important;
+    -webkit-backdrop-filter: var(--glass-blur-strong) !important;
+    border: 2px solid var(--glass-border) !important;
+    border-radius: 20px !important;
+    padding: 0 !important;
     transition: var(--transition);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
                 0 0 0 1px rgba(76, 168, 223, 0.1),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-    overflow: hidden;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    max-width: 100%;
+                inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+    overflow: hidden !important;
+    position: relative !important;
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100% !important;
+    max-width: 100% !important;
 }
 
 .success-card-individual::before {
@@ -4045,20 +4047,26 @@ body::after {
     transform: scale(1.05);
 }
 
+.success-card-individual .success-card-body,
 .success-card-body {
     padding: 1.5rem !important;
     display: flex !important;
     flex-direction: column !important;
     flex: 1 !important;
-    min-height: 0;
+    min-height: 0 !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
 }
 
+.success-card-body .success-member-info,
 .success-member-info {
-    text-align: center;
-    margin-bottom: 1.5rem;
-    padding-bottom: 1.5rem;
-    border-bottom: 2px solid var(--glass-border);
-    position: relative;
+    text-align: center !important;
+    margin-bottom: 1.5rem !important;
+    padding-bottom: 1.5rem !important;
+    border-bottom: 2px solid var(--glass-border) !important;
+    position: relative !important;
+    width: 100% !important;
+    display: block !important;
 }
 
 .success-member-info::after {
@@ -4089,6 +4097,7 @@ body::after {
     font-weight: 500;
 }
 
+.success-card-body .success-quote,
 .success-quote {
     font-size: 0.95rem !important;
     color: var(--text-gray) !important;
@@ -4098,9 +4107,11 @@ body::after {
     margin: 0 !important;
     margin-top: 1rem !important;
     padding: 0 !important;
-    flex: 1;
+    flex: 1 !important;
     text-align: left !important;
     display: block !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
 }
 
 /* 響應式設計 */
