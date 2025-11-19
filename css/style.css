@@ -8,17 +8,71 @@
 }
 
 :root {
-    /* 基礎顏色 */
+    /* ============================================
+       設計系統 - Typography Scale
+       ============================================ */
+    --font-size-h1: 3.5rem;        /* Hero 標題 */
+    --font-size-h2: 2.75rem;       /* Section 標題 */
+    --font-size-h3: 2rem;          /* 卡片標題 */
+    --font-size-h4: 1.5rem;        /* 子標題 */
+    --font-size-body: 1.125rem;    /* 正文 */
+    --font-size-small: 0.95rem;    /* 輔助文字 */
+    
+    --line-height-tight: 1.2;
+    --line-height-normal: 1.6;
+    --line-height-relaxed: 1.9;
+    
+    /* ============================================
+       設計系統 - Spacing System (8px base)
+       ============================================ */
+    --space-xs: 0.5rem;    /* 8px */
+    --space-sm: 1rem;      /* 16px */
+    --space-md: 1.5rem;    /* 24px */
+    --space-lg: 2rem;      /* 32px */
+    --space-xl: 3rem;      /* 48px */
+    --space-2xl: 4rem;    /* 64px */
+    --space-3xl: 6rem;     /* 96px */
+    --space-4xl: 8rem;     /* 128px */
+    
+    --section-padding-y: var(--space-4xl);  /* 8rem */
+    --section-padding-x: var(--space-lg);    /* 2rem */
+    --section-gap: var(--space-3xl);         /* 6rem */
+    
+    /* ============================================
+       設計系統 - Color System
+       ============================================ */
+    /* 主色調 */
+    --color-primary: #4ca8df;        /* 金色 - 主要 CTA */
+    --color-primary-light: #78c6fb; /* 淺金色 */
+    --color-primary-dark: #2d8ec8;  /* 深金色 */
+    
+    /* 語義顏色 */
+    --color-success: #10b981;
+    --color-warning: #f59e0b;
+    --color-error: #ef4444;
+    --color-info: #3b82f6;
+    
+    /* 中性色 */
+    --color-text-primary: #f4f9ff;   /* 主要文字 */
+    --color-text-secondary: #c5d8e8; /* 次要文字 */
+    --color-text-muted: #7a95ac;    /* 輔助文字 */
+    
+    /* 背景 */
+    --color-bg-primary: rgba(0, 27, 54, 0.5);
+    --color-bg-secondary: rgba(0, 27, 54, 0.35);
+    --color-bg-elevated: rgba(0, 27, 54, 0.6);
+    
+    /* 基礎顏色 (保持向後兼容) */
     --bg-dark: #1d2f38;
     --bg-darker: #001b36;
     --bg-primary: #005391;
     --bg-black: #000000;
-    --gold: #4ca8df;
-    --gold-light: #78c6fb;
-    --gold-dark: #2d8ec8;
-    --text-white: #f4f9ff;
-    --text-gray: #c5d8e8;
-    --text-gray-dark: #7a95ac;
+    --gold: var(--color-primary);
+    --gold-light: var(--color-primary-light);
+    --gold-dark: var(--color-primary-dark);
+    --text-white: var(--color-text-primary);
+    --text-gray: var(--color-text-secondary);
+    --text-gray-dark: var(--color-text-muted);
     --border-gold: rgba(76, 168, 223, 0.35);
     --shadow-soft: 0 12px 32px rgba(1, 27, 54, 0.35);
     --transition: all 0.3s ease;
@@ -547,14 +601,15 @@ body::after {
 }
 
 .section-title {
-    font-size: 2.5rem;
+    font-size: var(--font-size-h2);
     font-weight: 700;
     text-align: center;
-    margin-bottom: 4rem;
-    margin-top: 2rem;
-    color: var(--gold);
+    margin-bottom: var(--space-2xl);
+    margin-top: var(--space-lg);
+    color: var(--color-primary);
     position: relative;
-    padding-bottom: 1rem;
+    padding-bottom: var(--space-sm);
+    line-height: var(--line-height-tight);
 }
 
 .section-title::after {
@@ -809,27 +864,65 @@ body::after {
 }
 
 /* 按鈕容器 - 參考發光效果 */
+/* ============================================
+   CTA 按鈕層級系統
+   ============================================ */
+
+/* 主要 CTA - Hero 和關鍵轉換點 */
 .btn-primary {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 1rem 2.5rem;
-    background: transparent;
-    color: var(--gold);
-    border: 2px solid var(--gold);
+    padding: 1.25rem 2.5rem;
+    background: linear-gradient(135deg, var(--color-primary-dark), var(--color-primary));
+    color: white;
+    border: 2px solid var(--color-primary);
     text-decoration: none;
-    font-weight: 600;
-    font-size: 1.1rem;
-    border-radius: 8px;
+    font-weight: 700;
+    font-size: 1.125rem;
+    border-radius: 12px;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: visible;
-    animation: fadeInUp 1s ease 0.6s both;
     z-index: 1;
+    box-shadow: 0 8px 24px rgba(76, 168, 223, 0.4);
+    text-shadow: none;
+}
+
+/* Hero 區塊的按鈕額外加強光暈 */
+.hero .btn-primary {
     text-shadow: 
-        0 0 10px rgba(255, 255, 255, 0.8),
-        0 0 20px rgba(255, 255, 255, 0.5),
-        0 0 30px rgba(255, 255, 255, 0.3);
+        0 0 15px rgba(255, 255, 255, 1),
+        0 0 30px rgba(255, 255, 255, 0.7),
+        0 0 45px rgba(255, 255, 255, 0.5),
+        0 0 60px rgba(218, 165, 32, 0.3);
+    box-shadow: 
+        0 0 20px rgba(255, 255, 255, 0.3),
+        0 0 40px rgba(218, 165, 32, 0.2),
+        0 8px 24px rgba(76, 168, 223, 0.4);
+    animation: fadeInUp 1s ease 0.6s both;
+}
+
+/* 次要 CTA - 內部連結 */
+.btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 2rem;
+    background: transparent;
+    color: var(--color-primary);
+    border: 2px solid var(--color-primary);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background: rgba(76, 168, 223, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(76, 168, 223, 0.3);
 }
 
 /* Hero 區塊的按鈕額外加強光暈 */
@@ -845,10 +938,11 @@ body::after {
 }
 
 .btn-primary:hover {
-    color: var(--text-white);
-    transform: translateY(-2px);
-    border-color: var(--gold-light);
-    background: rgba(255, 215, 0, 0.1);
+    color: white;
+    transform: translateY(-3px);
+    border-color: var(--color-primary-light);
+    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
+    box-shadow: 0 12px 32px rgba(76, 168, 223, 0.5);
 }
 
 .scroll-indicator {
@@ -4929,16 +5023,39 @@ body::after {
     backdrop-filter: var(--glass-blur-strong) !important;
     -webkit-backdrop-filter: var(--glass-blur-strong) !important;
     border: 3px solid var(--glass-border-strong) !important;
-    border-radius: 20px !important;
-    padding: 3rem 2.5rem !important;
-    margin-bottom: 5rem !important;
+    border-radius: 24px !important;
+    padding: var(--space-2xl) var(--space-xl) !important;
+    margin-bottom: var(--space-2xl) !important;
     box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5), 
                 0 0 0 1px rgba(76, 168, 223, 0.2),
                 inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
     position: relative !important;
-    overflow: hidden !important;
+    overflow: visible !important;
     display: block !important;
+}
+
+.join-process-header {
+    text-align: center;
+    margin-bottom: var(--space-2xl);
+    padding-bottom: var(--space-lg);
+    border-bottom: 2px solid rgba(76, 168, 223, 0.2);
+}
+
+.join-process-header h3 {
+    font-size: var(--font-size-h3);
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-xs);
+}
+
+.join-process-header::after {
+    content: '簡單5步驟，開啟您的商務網絡';
+    display: block;
+    font-size: var(--font-size-body);
+    color: var(--color-text-secondary);
+    margin-top: var(--space-xs);
+    font-weight: 400;
 }
 
 .join-process-card::before {
@@ -5008,50 +5125,97 @@ body::after {
     margin: 0 auto;
 }
 
+/* ============================================
+   加入流程 - 垂直時間軸設計
+   ============================================ */
+.process-steps {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+    position: relative;
+    padding-left: var(--space-xl);
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* 時間軸連接線 */
+.process-steps::before {
+    content: '';
+    position: absolute;
+    left: 24px;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: linear-gradient(180deg, 
+        var(--color-primary-dark) 0%, 
+        var(--color-primary) 50%, 
+        var(--color-primary-light) 100%);
+    border-radius: 2px;
+    opacity: 0.3;
+}
+
 .process-step {
     display: flex;
-    gap: 2rem;
+    gap: var(--space-lg);
     align-items: flex-start;
-    background: var(--glass-bg-medium);
+    background: var(--color-bg-elevated);
     backdrop-filter: var(--glass-blur-strong);
     -webkit-backdrop-filter: var(--glass-blur-strong);
-    border: 1px solid var(--glass-border);
-    border-radius: 15px;
-    padding: 2rem;
-    transition: var(--transition);
+    border: 3px solid var(--glass-border-strong);
+    border-left: 4px solid var(--color-primary);
+    border-radius: 16px;
+    padding: var(--space-lg);
+    margin-left: calc(var(--space-xl) - 24px);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4),
+                0 0 0 1px rgba(76, 168, 223, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .process-step:hover {
-    transform: translateX(10px);
-    border-color: var(--gold);
-    box-shadow: 0 10px 30px rgba(76, 168, 223, 0.38);
+    transform: translateX(8px);
+    border-left-color: var(--color-primary-light);
+    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5),
+                0 0 0 2px rgba(76, 168, 223, 0.3);
 }
 
 .step-number {
-    width: 50px;
-    height: 50px;
-    background: var(--gold);
-    color: var(--bg-darker);
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
     border-radius: 50%;
+    background: linear-gradient(135deg, var(--color-primary-dark), var(--color-primary));
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.5rem;
+    font-size: var(--font-size-h4);
     font-weight: 700;
-    flex-shrink: 0;
+    color: white;
+    box-shadow: 0 4px 16px rgba(76, 168, 223, 0.4);
+    position: absolute;
+    left: calc(-24px - var(--space-xl));
+    top: var(--space-lg);
+    z-index: 2;
+}
+
+.step-content {
+    flex: 1;
+    padding-left: var(--space-md);
 }
 
 .step-content h4 {
-    font-size: 1.3rem;
-    color: var(--gold);
-    margin-bottom: 0.5rem;
-    font-weight: 600;
+    font-size: var(--font-size-h4);
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-xs);
+    line-height: var(--line-height-tight);
 }
 
 .step-content p {
-    font-size: 1rem;
-    color: var(--text-gray);
-    line-height: 1.7;
+    font-size: var(--font-size-body);
+    color: var(--color-text-secondary);
+    line-height: var(--line-height-relaxed);
 }
 
 .join-cta-section {
