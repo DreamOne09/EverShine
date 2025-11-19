@@ -4667,19 +4667,20 @@ body::after {
 }
 
 .join-intro-card {
-    background: var(--glass-bg-medium);
-    backdrop-filter: var(--glass-blur-strong);
-    -webkit-backdrop-filter: var(--glass-blur-strong);
-    border: 2px solid var(--glass-border);
-    border-radius: 20px;
-    padding: 3rem 2.5rem;
-    text-align: center;
-    margin-bottom: 4rem;
-    max-width: 800px;
-    margin-left: auto;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 
-                0 0 0 1px rgba(76, 168, 223, 0.1),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    background: var(--glass-bg-medium) !important;
+    backdrop-filter: var(--glass-blur-strong) !important;
+    -webkit-backdrop-filter: var(--glass-blur-strong) !important;
+    border: 3px solid var(--glass-border) !important;
+    border-radius: 20px !important;
+    padding: 3rem 2.5rem !important;
+    text-align: center !important;
+    margin-bottom: 4rem !important;
+    max-width: 800px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5), 
+                0 0 0 1px rgba(76, 168, 223, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
     position: relative;
     overflow: hidden;
 }
@@ -4738,30 +4739,32 @@ body::after {
 }
 
 .benefit-card {
-    background: var(--glass-bg-medium);
-    backdrop-filter: var(--glass-blur-strong);
-    -webkit-backdrop-filter: var(--glass-blur-strong);
-    border: 2px solid var(--glass-border);
-    border-radius: 20px;
-    padding: 2.5rem 2rem;
-    text-align: center;
-    transition: var(--transition);
+    background: var(--glass-bg-medium) !important;
+    backdrop-filter: var(--glass-blur-strong) !important;
+    -webkit-backdrop-filter: var(--glass-blur-strong) !important;
+    border: 3px solid var(--glass-border) !important;
+    border-radius: 20px !important;
+    padding: 2.5rem 2rem !important;
+    text-align: center !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 
                 0 0 0 1px rgba(76, 168, 223, 0.2),
-                inset 0 1px 0 rgba(255, 255, 255, 0.15);
-    position: relative;
-    overflow: hidden;
+                inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
+    position: relative !important;
+    overflow: hidden !important;
+    display: block !important;
 }
 
 .benefit-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, transparent, var(--gold), transparent);
-    opacity: 0.7;
+    content: '' !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 5px !important;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent) !important;
+    opacity: 0.8 !important;
+    z-index: 2 !important;
 }
 
 .benefit-card:hover {
@@ -4823,19 +4826,20 @@ body::after {
 }
 
 .join-process-card {
-    background: var(--glass-bg-medium);
-    backdrop-filter: var(--glass-blur-strong);
-    -webkit-backdrop-filter: var(--glass-blur-strong);
-    border: 2px solid var(--glass-border);
-    border-radius: 20px;
-    padding: 3rem 2.5rem;
-    margin-bottom: 5rem;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 
+    background: var(--glass-bg-medium) !important;
+    backdrop-filter: var(--glass-blur-strong) !important;
+    -webkit-backdrop-filter: var(--glass-blur-strong) !important;
+    border: 3px solid var(--glass-border) !important;
+    border-radius: 20px !important;
+    padding: 3rem 2.5rem !important;
+    margin-bottom: 5rem !important;
+    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5), 
                 0 0 0 1px rgba(76, 168, 223, 0.2),
-                inset 0 1px 0 rgba(255, 255, 255, 0.15);
-    transition: var(--transition);
-    position: relative;
-    overflow: hidden;
+                inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    position: relative !important;
+    overflow: hidden !important;
+    display: block !important;
 }
 
 .join-process-card::before {
@@ -4966,19 +4970,20 @@ body::after {
 }
 
 .join-cta-card {
-    background: var(--glass-bg-medium);
-    backdrop-filter: var(--glass-blur-strong);
-    -webkit-backdrop-filter: var(--glass-blur-strong);
-    border: 2px solid var(--glass-border);
-    border-radius: 20px;
-    padding: 3.5rem 2.5rem;
-    text-align: center;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 
-                0 0 0 1px rgba(76, 168, 223, 0.1),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-    transition: var(--transition);
-    position: relative;
-    overflow: hidden;
+    background: var(--glass-bg-medium) !important;
+    backdrop-filter: var(--glass-blur-strong) !important;
+    -webkit-backdrop-filter: var(--glass-blur-strong) !important;
+    border: 3px solid var(--glass-border) !important;
+    border-radius: 20px !important;
+    padding: 3.5rem 2.5rem !important;
+    text-align: center !important;
+    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5), 
+                0 0 0 1px rgba(76, 168, 223, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    position: relative !important;
+    overflow: hidden !important;
+    display: block !important;
 }
 
 .join-cta-card::after {
@@ -5064,18 +5069,19 @@ body::after {
 }
 
 .faq-item {
-    background: var(--glass-bg-medium);
-    backdrop-filter: var(--glass-blur-strong);
-    -webkit-backdrop-filter: var(--glass-blur-strong);
-    border: 2px solid var(--glass-border);
-    border-radius: 20px;
-    margin-bottom: 2rem;
-    overflow: hidden;
-    transition: var(--transition);
+    background: var(--glass-bg-medium) !important;
+    backdrop-filter: var(--glass-blur-strong) !important;
+    -webkit-backdrop-filter: var(--glass-blur-strong) !important;
+    border: 3px solid var(--glass-border) !important;
+    border-radius: 20px !important;
+    margin-bottom: 2rem !important;
+    overflow: hidden !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 
                 0 0 0 1px rgba(76, 168, 223, 0.2),
-                inset 0 1px 0 rgba(255, 255, 255, 0.15);
-    position: relative;
+                inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
+    position: relative !important;
+    display: block !important;
 }
 
 .faq-item:hover {
@@ -5087,13 +5093,13 @@ body::after {
 }
 
 .faq-item::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    content: '' !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 5px !important;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent) !important;
     opacity: 0;
     transition: var(--transition);
 }
