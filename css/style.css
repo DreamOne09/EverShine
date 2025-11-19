@@ -4979,7 +4979,7 @@ body::after {
     z-index: 2 !important;
 }
 
-.join-cta-card::before {
+.join-cta-card::after {
     content: '';
     position: absolute;
     top: 0;
@@ -4988,9 +4988,10 @@ body::after {
     height: 100%;
     background: linear-gradient(90deg, transparent, rgba(76, 168, 223, 0.1), transparent);
     transition: left 0.5s ease;
+    z-index: 1;
 }
 
-.join-cta-card:hover::before {
+.join-cta-card:hover::after {
     left: 100%;
 }
 
