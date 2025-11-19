@@ -1942,10 +1942,9 @@ body::after {
     padding: 7rem 0;
     background: transparent;
     position: relative;
-    overflow: hidden;
+    z-index: 10;
+    overflow: visible;
     border: none;
-    border-top: none;
-    border-bottom: none;
 }
 
 .join::before,
@@ -5054,10 +5053,9 @@ body::after {
     padding: 7rem 0;
     background: transparent;
     position: relative;
-    z-index: 1;
+    z-index: 10;
     border: none;
-    border-top: none;
-    border-bottom: none;
+    overflow: visible;
 }
 
 .faq-content {
@@ -5215,3 +5213,4 @@ body::after {
     }
 }
 
+}

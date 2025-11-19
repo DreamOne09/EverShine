@@ -33,18 +33,18 @@ class StarrySkyConfig {
         };
         
         this.css = {
-            // 靜態小星星層 - 參考代碼配置
+            // 靜態小星星層 - 增加數量確保滿天星效果
             // 使用純白色 #FFF，格式：xpx ypx #FFF
             staticStars: [
-                { count: 52, size: '1px', animationDuration: '100s' },  // 第一層：52顆（參考代碼）
-                { count: 73, size: '1px', animationDuration: '125s' },  // 第二層：73顆（:after 會再增加）
-                { count: 64, size: '1px', animationDuration: '175s' },  // 第三層：64顆
-                { count: 49, size: '1px', animationDuration: '200s' },  // 第四層：49顆（:after 會再增加）
+                { count: 200, size: '1px', animationDuration: '100s' },  // 第一層：200顆
+                { count: 180, size: '1px', animationDuration: '125s' },  // 第二層：180顆（:after 會再增加）
+                { count: 160, size: '1px', animationDuration: '175s' },  // 第三層：160顆
+                { count: 140, size: '1px', animationDuration: '200s' },  // 第四層：140顆（:after 會再增加）
             ],
-            // 移動的星星層（參考代碼風格）
+            // 移動的星星層（增加數量）
             movingStars: [
-                { count: 72, size: '2px', duration: '125s' },   // stars1: 2px, 125s, 72顆（參考代碼）
-                { count: 64, size: '3px', duration: '175s' },   // stars2: 3px, 175s, 64顆（參考代碼）
+                { count: 120, size: '2px', duration: '125s' },   // stars1: 2px, 125s, 120顆
+                { count: 100, size: '3px', duration: '175s' },   // stars2: 3px, 175s, 100顆
             ],
             // 流星配置（參考代碼風格）
             shootingStars: {
