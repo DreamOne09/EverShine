@@ -409,8 +409,8 @@ class StarrySkyManager {
         for (let i = 0; i < actualCount; i++) {
             const x = Math.floor(Math.random() * maxX);
             const y = Math.floor(Math.random() * maxY);
-            // 使用純白色星星，提高可見度
-            shadows.push(`${x}px ${y}px 1px 2px rgba(255, 255, 255, 1)`);
+            // 使用純白色星星，加大發光效果確保可見
+            shadows.push(`${x}px ${y}px 0 2px rgba(255, 255, 255, 1), ${x}px ${y}px 0 4px rgba(255, 255, 255, 0.5)`);
         }
         
         const result = shadows.join(' , ');
@@ -425,8 +425,8 @@ class StarrySkyManager {
         for (let i = 0; i < actualCount; i++) {
             const x = Math.floor(Math.random() * maxX);
             const y = Math.floor(Math.random() * maxY);
-            // 使用純白色星星，提高可見度和發光效果
-            shadows.push(`${x}px ${y}px 2px 3px rgba(255, 255, 255, 1)`);
+            // 使用純白色星星，加大發光效果確保可見
+            shadows.push(`${x}px ${y}px 0 3px rgba(255, 255, 255, 1), ${x}px ${y}px 0 6px rgba(255, 255, 255, 0.4)`);
         }
         
         const result = shadows.join(' , ');
