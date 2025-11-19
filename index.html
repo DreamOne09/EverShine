@@ -83,14 +83,21 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Security and Performance -->
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 </head>
 <body>
+    <!-- Skip to main content -->
+    <a href="#main-content" class="skip-to-main">跳到主要內容</a>
+    
     <!-- Canvas 星空背景 -->
-    <canvas id="starrySkyCanvas"></canvas>
+    <canvas id="starrySkyCanvas" aria-hidden="true"></canvas>
     <!-- 共用組件將由 components.js 自動載入 -->
 
     <!-- Hero區塊 -->
-    <section id="home" class="hero">
+    <section id="home" class="hero" role="banner" aria-label="首頁橫幅">
         <div class="hero-background"></div>
         <div class="hero-content">
             <h1 class="hero-title">長輝白金分會</h1>
@@ -104,10 +111,11 @@
     </section>
 
     <!-- BNI簡介連結 -->
-    <section id="bni-intro-link" class="bni-intro-link">
+    <main id="main-content">
+    <section id="bni-intro-link" class="bni-intro-link" aria-labelledby="bni-intro-title">
         <div class="container">
             <div class="bni-intro-link-content">
-                <h2 class="section-title">什麼是BNI？</h2>
+                <h2 class="section-title" id="bni-intro-title">什麼是BNI？</h2>
                 <p class="bni-intro-link-text">BNI（Business Network International）是全球最大商務引薦平台，成立40年，遍及76+國家，擁有11,300+分會和34萬+會員。透過專業的引薦機制，協助企業家建立強而有力的商業網絡。</p>
                 <a href="/what-is-bni" class="btn-primary">了解更多關於BNI</a>
             </div>
@@ -624,6 +632,8 @@
             </div>
         </div>
     </section>
+
+    </main>
 
     <!-- 共用組件（頁尾、固定橫幅）將由 components.js 自動載入 -->
 

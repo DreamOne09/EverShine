@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>找不到頁面 - BNI 長輝白金分會</title>
+    <link rel="canonical" href="https://evershine.tw/404">
+    <link rel="icon" type="image/png" href="images/assets/logo/白色正方形logo.png">
+    <link rel="stylesheet" href="css/style.css?v=20251119-HOMEPAGE-REFACTOR">
+    <style>
+        .error-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .error-content {
+            max-width: 600px;
+            background: var(--glass-bg-medium);
+            backdrop-filter: var(--glass-blur-strong);
+            -webkit-backdrop-filter: var(--glass-blur-strong);
+            border: 3px solid var(--glass-border-strong);
+            border-radius: 24px;
+            padding: 4rem 3rem;
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5), 
+                        0 0 0 2px rgba(76, 168, 223, 0.3),
+                        inset 0 2px 0 rgba(255, 255, 255, 0.2);
+            position: relative;
+        }
+        
+        .error-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, transparent, #4ca8df, transparent);
+            opacity: 0.8;
+            z-index: 2;
+        }
+        
+        .error-404 {
+            font-size: 6rem;
+            font-weight: 700;
+            color: var(--gold);
+            margin: 0;
+            line-height: 1;
+            text-shadow: 0 0 30px rgba(76, 168, 223, 0.5);
+        }
+        
+        .error-title {
+            font-size: 2rem;
+            color: var(--text-white);
+            margin: 1.5rem 0;
+        }
+        
+        .error-description {
+            font-size: 1.1rem;
+            color: var(--text-gray);
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+        
+        .error-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn-primary {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+            color: var(--text-white);
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 2px solid var(--gold);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(76, 168, 223, 0.4);
+        }
+        
+        .btn-secondary {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: transparent;
+            color: var(--gold);
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 2px solid var(--gold);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(76, 168, 223, 0.1);
+            transform: translateY(-3px);
+        }
+        
+        @media (max-width: 768px) {
+            .error-404 {
+                font-size: 4rem;
+            }
+            
+            .error-title {
+                font-size: 1.5rem;
+            }
+            
+            .error-content {
+                padding: 3rem 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="starrySkyCanvas"></canvas>
+    
+    <div class="error-page">
+        <div class="error-content">
+            <h1 class="error-404">404</h1>
+            <h2 class="error-title">找不到此頁面</h2>
+            <p class="error-description">
+                抱歉，您訪問的頁面不存在或已被移動。<br>
+                請返回首頁或瀏覽其他內容。
+            </p>
+            <div class="error-actions">
+                <a href="/" class="btn-primary">返回首頁</a>
+                <a href="/members" class="btn-secondary">查看會員</a>
+                <a href="/what-is-bni" class="btn-secondary">認識 BNI</a>
+            </div>
+        </div>
+    </div>
+    
+    <script src="js/starry-background-unified.js?v=20250131-16" defer></script>
+</body>
+</html>
+
