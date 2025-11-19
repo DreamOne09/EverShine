@@ -267,36 +267,35 @@ class StarrySkyManager {
             existing.remove();
         }
         
-        // 創建容器
+        // 創建容器 - 確保在最底層
         const container = document.createElement('div');
         container.className = 'starry-background-container';
-        container.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;min-height:100vh;z-index:-1;pointer-events:none;overflow:visible;background:transparent;';
+        container.style.cssText = 'position:fixed!important;top:0!important;left:0!important;width:100%!important;height:100%!important;min-height:100vh!important;z-index:-10!important;pointer-events:none!important;overflow:visible!important;background:transparent!important;';
         
         const sky = document.createElement('div');
         sky.className = 'starry-sky';
-        sky.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;min-height:100vh;';
+        sky.style.cssText = 'position:absolute!important;top:0!important;left:0!important;width:100%!important;height:100%!important;min-height:100vh!important;z-index:-2!important;';
         
         // 創建靜態星星層
-        // 創建靜態星星層（參考代碼風格：使用 :after 偽元素增加星星數量）
         this.config.css.staticStars.forEach((layer, i) => {
             const div = document.createElement('div');
             div.className = `static-stars-layer static-stars${i}`;
-            // 參考代碼：width 和 height 設為 1px，z-index 設為 1（在容器內）
-            div.style.cssText = `position:absolute;top:0;left:0;width:1px;height:1px;border-radius:50%;background:transparent;z-index:1;opacity:1;visibility:visible;display:block;overflow:visible;pointer-events:none;`;
+            div.style.cssText = `position:absolute!important;top:0!important;left:0!important;width:1px!important;height:1px!important;border-radius:50%!important;background:transparent!important;z-index:-2!important;opacity:1!important;visibility:visible!important;display:block!important;overflow:visible!important;pointer-events:none!important;filter:brightness(1.5) contrast(1.3)!important;`;
             sky.appendChild(div);
         });
         
-        // 創建移動星星層（參考代碼風格：使用 :after 偽元素增加星星數量）
+        // 創建移動星星層
         this.config.css.movingStars.forEach((layer, i) => {
             const div = document.createElement('div');
             div.className = `moving-stars-layer moving-stars${i}`;
-            // 參考代碼：width 和 height 設為星星大小，z-index 設為 1（在容器內）
-            div.style.cssText = `position:absolute;top:0;left:0;width:${layer.size};height:${layer.size};border-radius:50%;background:transparent;z-index:1;opacity:1;visibility:visible;display:block;overflow:visible;pointer-events:none;`;
+            div.style.cssText = `position:absolute!important;top:0!important;left:0!important;width:${layer.size}!important;height:${layer.size}!important;border-radius:50%!important;background:transparent!important;z-index:-2!important;opacity:1!important;visibility:visible!important;display:block!important;overflow:visible!important;pointer-events:none!important;filter:brightness(1.5) contrast(1.3)!important;`;
             sky.appendChild(div);
         });
         
         container.appendChild(sky);
         document.body.insertBefore(container, document.body.firstChild);
+        
+        console.log('✅ 星空容器已創建，準備生成星星...');
         
         // 確保DOM已插入後再生成星星 - 使用多重延遲確保DOM完全準備好
         setTimeout(() => {
