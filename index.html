@@ -50,7 +50,7 @@
     <!-- 關鍵內嵌樣式 - 確保卡片立即顯示 -->
     <style>
     /* 會員成功案例 - 統一顏色！ */
-    .success-stories-grid{display:grid!important;grid-template-columns:repeat(3,1fr)!important;gap:3rem!important;margin-top:4rem!important}
+    .success-stories-grid{display:grid!important;grid-template-columns:repeat(2,1fr)!important;gap:3rem!important;margin-top:4rem!important}
     .success-card-individual{background:rgba(0,27,54,.5)!important;backdrop-filter:blur(12px) saturate(150%)!important;-webkit-backdrop-filter:blur(12px) saturate(150%)!important;border:3px solid rgba(76,168,223,.5)!important;border-radius:20px!important;padding:0!important;box-shadow:0 12px 48px rgba(0,0,0,.5),0 0 0 2px rgba(76,168,223,.2),inset 0 1px 0 rgba(255,255,255,.1)!important;position:relative!important;overflow:hidden!important;display:flex!important;flex-direction:column!important;min-height:500px!important}
     .success-card-individual::before{content:''!important;position:absolute!important;top:0!important;left:0!important;right:0!important;height:5px!important;background:linear-gradient(90deg,transparent,#4ca8df,transparent)!important;opacity:.8!important;z-index:2!important}
     .success-card-image-wrapper{width:100%!important;height:280px!important;overflow:hidden!important;border-radius:20px 20px 0 0!important;flex-shrink:0!important}
@@ -85,16 +85,24 @@
     .faq-answer{padding:0 3rem 2.5rem!important;color:#c5d8e8!important;line-height:2!important;font-size:1.08rem!important}
     
     /* 響應式 */
-    @media (max-width:1400px){.success-stories-grid{grid-template-columns:repeat(3,1fr)!important}}
-    @media (max-width:1024px){.success-stories-grid{grid-template-columns:repeat(2,1fr)!important}}
     @media (max-width:768px){.success-stories-grid,.join-benefits-grid{grid-template-columns:1fr!important}}
     </style>
     
-    <link rel="stylesheet" href="css/style.css?v=20251119-STARS-FIX">
-    <script src="js/starry-background-unified.js?v=20251119-STARS-FIX" defer></script>
+    <!-- 預載入關鍵資源 -->
+    <link rel="preload" href="css/style.css" as="style">
+    <link rel="preload" href="js/starry-background-unified.js" as="script">
+    
+    <!-- 字體預連接 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- 樣式和腳本 -->
+    <link rel="stylesheet" href="css/style.css?v=20251119-STARS-FIX">
+    <script src="js/starry-background-unified.js?v=20251119-STARS-FIX" defer></script>
+    
+    <!-- 字體載入（使用 display=swap 避免阻塞） -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet"></noscript>
     
     <!-- Security and Performance -->
     <meta name="referrer" content="strict-origin-when-cross-origin">
@@ -435,95 +443,25 @@
             <h2 class="section-title">加入我們</h2>
             <div class="join-content">
                 <div class="join-intro-card">
-                    <div class="join-intro-icon">
-                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </div>
                     <h3>為什麼要加入 BNI 長輝白金分會？</h3>
                     <p class="join-intro-text">加入我們，您將獲得專業的商務引薦網絡，與60+行業代表建立長期合作關係。</p>
-                </div>
-                
-                <div class="join-benefits-grid">
-                    <div class="benefit-card">
-                        <div class="benefit-icon">
-                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M17 21V19C17 17.9391 16.5786 16.9217 15.8284 16.1716C15.0783 15.4214 14.0609 15 13 15H5C3.93913 15 2.92172 15.4214 2.17157 16.1716C1.42143 16.9217 1 17.9391 1 19V21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </div>
-                        <h4>拓展人脈網絡</h4>
-                        <p>連結各行各業專業人才</p>
-                    </div>
-                    <div class="benefit-card">
-                        <div class="benefit-icon">
-                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M3 21L12 3L21 21H3Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </div>
-                        <h4>優質引薦機會</h4>
-                        <p>獲得高品質的商務引薦</p>
-                    </div>
-                    <div class="benefit-card">
-                        <div class="benefit-icon">
-                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </div>
-                        <h4>品牌曝光</h4>
-                        <p>提升個人品牌與業務曝光度</p>
-                    </div>
-                    <div class="benefit-card">
-                        <div class="benefit-icon">
-                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" fill="currentColor" fill-opacity="0.3"/>
-                            </svg>
-                        </div>
-                        <h4>持續成長</h4>
-                        <p>與優秀企業家交流學習</p>
-                    </div>
+                    <ul class="join-benefits-list">
+                        <li>拓展人脈網絡 - 連結各行各業專業人才</li>
+                        <li>優質引薦機會 - 獲得高品質的商務引薦</li>
+                        <li>品牌曝光 - 提升個人品牌與業務曝光度</li>
+                        <li>持續成長 - 與優秀企業家交流學習</li>
+                    </ul>
                 </div>
                 
                 <div class="join-process-card">
-                    <div class="join-process-header">
-                        <h3>加入流程</h3>
-                    </div>
-                    <div class="process-steps">
-                        <div class="process-step">
-                            <div class="step-number">1</div>
-                            <div class="step-content">
-                                <h4>成為來賓</h4>
-                                <p>免費參與一次線上例會，體驗實際運作模式</p>
-                            </div>
-                        </div>
-                        <div class="process-step">
-                            <div class="step-number">2</div>
-                            <div class="step-content">
-                                <h4>評估適合度</h4>
-                                <p>與現有會員交流，了解會員權益與責任</p>
-                            </div>
-                        </div>
-                        <div class="process-step">
-                            <div class="step-number">3</div>
-                            <div class="step-content">
-                                <h4>提交申請</h4>
-                                <p>確認適合後，提交正式加入申請</p>
-                            </div>
-                        </div>
-                        <div class="process-step">
-                            <div class="step-number">4</div>
-                            <div class="step-content">
-                                <h4>完成培訓</h4>
-                                <p>參加新會員MSP培訓，熟悉BNI運作方式</p>
-                            </div>
-                        </div>
-                        <div class="process-step">
-                            <div class="step-number">5</div>
-                            <div class="step-content">
-                                <h4>正式加入</h4>
-                                <p>開始享受專業的商務引薦服務</p>
-                            </div>
-                        </div>
-                    </div>
+                    <h3>加入流程</h3>
+                    <ol class="join-process-list">
+                        <li><strong>成為來賓</strong> - 免費參與一次線上例會，體驗實際運作模式</li>
+                        <li><strong>評估適合度</strong> - 與現有會員交流，了解會員權益與責任</li>
+                        <li><strong>提交申請</strong> - 確認適合後，提交正式加入申請</li>
+                        <li><strong>完成培訓</strong> - 參加新會員MSP培訓，熟悉BNI運作方式</li>
+                        <li><strong>正式加入</strong> - 開始享受專業的商務引薦服務</li>
+                    </ol>
                 </div>
                 
                 <div class="join-cta-section">
