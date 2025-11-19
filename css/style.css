@@ -5191,7 +5191,7 @@ body::after {
 
 @media (max-width: 480px) {
     .success-stories-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
     }
     
     .join-benefits-grid {
