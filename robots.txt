@@ -1,0 +1,18 @@
+# robots.txt for EverShine BNI Website
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://evershine.tw/sitemap.xml
+
+# Disallow development/test files
+Disallow: /index-new-content.html
+Disallow: /*.md$
+Disallow: /*.json$
+
+# Allow CSS, JS, and images
+Allow: /css/
+Allow: /js/
+Allow: /images/
+

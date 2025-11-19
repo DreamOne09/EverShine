@@ -991,12 +991,11 @@ body::after {
    關於我們
    ============================================ */
 .about {
-    padding: 7rem 0;
+    padding: 8rem 0;
     background: transparent;
     position: relative;
     overflow: hidden;
     border: none;
-    border-top: none;
     border-bottom: none;
 }
 
@@ -1067,14 +1066,14 @@ body::after {
     background: var(--glass-bg-medium);
     backdrop-filter: var(--glass-blur-strong);
     -webkit-backdrop-filter: var(--glass-blur-strong);
-    border: 2px solid var(--glass-border);
+    border: 3px solid var(--glass-border-strong);
     border-radius: 20px;
     padding: 2.5rem;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
-                0 0 0 1px rgba(76, 168, 223, 0.1),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5),
+                0 0 0 2px rgba(76, 168, 223, 0.3),
+                inset 0 2px 0 rgba(255, 255, 255, 0.2);
     position: relative;
-    transition: var(--transition);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .about-block::before {
@@ -1140,13 +1139,14 @@ body::after {
     background: var(--glass-bg-medium);
     backdrop-filter: var(--glass-blur-strong);
     -webkit-backdrop-filter: var(--glass-blur-strong);
-    border: 2px solid var(--glass-border);
+    border: 3px solid var(--glass-border-strong);
     border-radius: 20px;
     padding: 2.5rem;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
-                0 0 0 1px rgba(76, 168, 223, 0.1),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5),
+                0 0 0 2px rgba(76, 168, 223, 0.3),
+                inset 0 2px 0 rgba(255, 255, 255, 0.2);
     position: relative;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .values-section-new::before {
