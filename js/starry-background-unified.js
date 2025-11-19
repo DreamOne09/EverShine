@@ -280,7 +280,7 @@ class StarrySkyManager {
         this.config.css.staticStars.forEach((layer, i) => {
             const div = document.createElement('div');
             div.className = `static-stars-layer static-stars${i}`;
-            div.style.cssText = `position:absolute!important;top:0!important;left:0!important;width:1px!important;height:1px!important;border-radius:50%!important;background:transparent!important;z-index:-2!important;opacity:1!important;visibility:visible!important;display:block!important;overflow:visible!important;pointer-events:none!important;filter:brightness(1.5) contrast(1.3)!important;`;
+            div.style.cssText = `position:absolute!important;top:0!important;left:0!important;width:1px!important;height:1px!important;border-radius:50%!important;background:white!important;z-index:-2!important;opacity:1!important;visibility:visible!important;display:block!important;overflow:visible!important;pointer-events:none!important;`;
             sky.appendChild(div);
         });
         
