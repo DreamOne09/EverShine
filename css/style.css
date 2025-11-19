@@ -4343,12 +4343,10 @@ body::after {
    會議資訊
    ============================================ */
 .meeting-info {
-    padding: 7rem 0;
+    padding: 8rem 0;
     background: transparent;
     position: relative;
-    z-index: 1;
     border: none;
-    border-top: none;
     border-bottom: none;
 }
 
