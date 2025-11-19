@@ -31,9 +31,9 @@ function getNavigationHTML() {
             </button>
             <ul class="nav-menu" id="navMenu">
                 <li><a href="/" class="nav-link">首頁</a></li>
-                <li><a href="what-is-bni.html" class="nav-link">什麼是BNI</a></li>
-                <li><a href="members.html" class="nav-link">會員介紹</a></li>
-                <li><a href="referrals.html" class="nav-link">會員引薦報告</a></li>
+                <li><a href="/what-is-bni" class="nav-link">什麼是BNI</a></li>
+                <li><a href="/members" class="nav-link">會員介紹</a></li>
+                <li><a href="/referrals" class="nav-link">會員引薦報告</a></li>
                 <li class="nav-social">
                     <a href="https://www.facebook.com/BNlLongTermCare" target="_blank" rel="noopener noreferrer" class="nav-social-link" aria-label="Facebook">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
@@ -71,9 +71,9 @@ function getFooterHTML() {
                     <h4>快速連結</h4>
                     <ul class="footer-links">
                         <li><a href="/">首頁</a></li>
-                        <li><a href="what-is-bni.html">什麼是BNI</a></li>
-                        <li><a href="members.html">會員介紹</a></li>
-                        <li><a href="referrals.html">會員引薦報告</a></li>
+                        <li><a href="/what-is-bni">什麼是BNI</a></li>
+                        <li><a href="/members">會員介紹</a></li>
+                        <li><a href="/referrals">會員引薦報告</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
