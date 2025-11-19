@@ -154,13 +154,21 @@
             const grid = document.querySelector('.success-stories-grid');
             const card = document.querySelector('.success-card-individual');
             
+            console.log('Grid element:', grid);
+            console.log('Card element:', card);
+            
             if (grid && card) {
                 const gridStyle = window.getComputedStyle(grid);
                 const cardStyle = window.getComputedStyle(card);
                 
-                document.getElementById('gridColumns').textContent = gridStyle.gridTemplateColumns;
-                document.getElementById('cardBorder').textContent = cardStyle.border;
-                document.getElementById('cardBg').textContent = cardStyle.background.substring(0, 50) + '...';
+                console.log('Grid display:', gridStyle.display);
+                console.log('Grid template columns:', gridStyle.gridTemplateColumns);
+                console.log('Card border:', cardStyle.border);
+                console.log('Card background:', cardStyle.background);
+                
+                document.getElementById('gridColumns').textContent = gridStyle.gridTemplateColumns || 'none';
+                document.getElementById('cardBorder').textContent = cardStyle.border || 'none';
+                document.getElementById('cardBg').textContent = (cardStyle.background || 'none').substring(0, 50) + '...';
                 
                 // 判斷當前斷點
                 const width = window.innerWidth;
@@ -171,6 +179,9 @@
                 else breakpoint = '手機 (< 768px) - 應顯示 1 欄';
                 
                 document.getElementById('breakpoint').textContent = breakpoint;
+            } else {
+                console.error('Grid or Card element not found!');
+                document.getElementById('gridColumns').textContent = 'ERROR: Element not found';
             }
         }
         
