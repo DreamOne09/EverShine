@@ -4175,9 +4175,9 @@ body::after {
 .success-stories .success-stories-grid,
 .success-stories-grid {
     display: grid !important;
-    grid-template-columns: repeat(4, 1fr) !important;
-    gap: 2rem !important;
-    margin-top: 3rem !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: var(--space-xl) !important;
+    margin-top: var(--space-2xl) !important;
     width: 100% !important;
     max-width: 100% !important;
     box-sizing: border-box !important;
