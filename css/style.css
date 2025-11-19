@@ -325,14 +325,14 @@ body {
     width: 1px;
     height: 1px;
     border-radius: 50%;
-    background: white !important;
+    background: transparent !important;
     z-index: -2 !important;
     opacity: 1 !important;
     visibility: visible !important;
     display: block !important;
     overflow: visible !important;
     pointer-events: none;
-    box-shadow: 0 0 4px 2px rgba(255, 255, 255, 0.9) !important;
+    /* box-shadow 將由 JavaScript 動態設置 */
 }
 
 /* 參考代碼：使用 :after 偽元素增加星星數量 */
@@ -374,14 +374,14 @@ body {
     top: 0;
     left: 0;
     border-radius: 50%;
-    background: white !important;
+    background: transparent !important;
     z-index: -2 !important;
     opacity: 1 !important;
     visibility: visible !important;
     display: block !important;
     overflow: visible !important;
     pointer-events: none;
-    box-shadow: 0 0 6px 3px rgba(255, 255, 255, 0.9) !important;
+    /* box-shadow 將由 JavaScript 動態設置 */
 }
 
 .moving-stars-layer.moving-stars0 {
@@ -443,15 +443,16 @@ body {
 
 /* 流星效果（參考代碼風格） */
 .shooting-star {
-    z-index: -1 !important;
-    width: 5px;
-    height: 85px;
+    z-index: 100 !important;
+    width: 2px;
+    height: 100px;
     border-top-left-radius: 50%;
     border-top-right-radius: 50%;
     position: fixed !important;
     bottom: -200px;
     right: 0;
-    background: linear-gradient(to top, rgba(255, 255, 255, 0), white);
+    background: linear-gradient(to top, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
     animation: animShootingStar var(--duration, 10s) linear infinite;
     pointer-events: none;
     opacity: 1 !important;
@@ -463,12 +464,12 @@ body {
     from {
         transform: translateY(0px) translateX(0px) rotate(-45deg);
         opacity: 1;
-        height: 5px;
+        height: 100px;
     }
     to {
-        transform: translateY(-2560px) translateX(-2560px) rotate(-45deg);
-        opacity: 1;
-        height: 800px;
+        transform: translateY(calc(-100vh - 200px)) translateX(calc(-100vw - 200px)) rotate(-45deg);
+        opacity: 0;
+        height: 300px;
     }
 }
 
@@ -1122,6 +1123,116 @@ body::after {
 }
 
 /* 新的關於長輝白金分會佈局 - 3欄：左側標題+圖形，中間內容，右側核心價值 */
+/* 關於長輝白金分會 - 統一卡片樣式 */
+.about-purpose-card {
+    max-width: 900px;
+    margin: 2rem auto 3rem;
+    text-align: center;
+}
+
+.about-logo-container {
+    margin-bottom: 2.5rem;
+}
+
+.about-logo {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+}
+
+.about-purpose-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+    text-align: left;
+}
+
+.purpose-section {
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(76, 168, 223, 0.2);
+}
+
+.purpose-section:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.purpose-title {
+    font-size: 1.8rem;
+    color: var(--gold);
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.purpose-text {
+    font-size: 1.1rem;
+    color: var(--text-gray);
+    line-height: 1.8;
+    margin: 0;
+}
+
+.purpose-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.purpose-list li {
+    font-size: 1.1rem;
+    color: var(--text-gray);
+    line-height: 1.8;
+    padding: 0.5rem 0;
+    padding-left: 1.5rem;
+    position: relative;
+}
+
+.purpose-list li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: var(--gold);
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+/* 核心價值統一卡片 */
+.values-card {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.values-card-title {
+    font-size: 1.8rem;
+    color: var(--gold);
+    margin-bottom: 2rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+.values-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.value-text-item {
+    font-size: 1.05rem;
+    color: var(--text-gray);
+    line-height: 1.8;
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(76, 168, 223, 0.1);
+}
+
+.value-text-item:last-child {
+    border-bottom: none;
+}
+
+.value-text-item strong {
+    color: var(--gold);
+    font-weight: 600;
+    margin-right: 0.5rem;
+}
+
 .about-content-new {
     display: grid;
     grid-template-columns: 350px 1fr 400px;
@@ -2274,6 +2385,27 @@ body::after {
     margin-top: 3rem;
     position: relative;
     z-index: 1;
+}
+
+/* ============================================
+   統一卡片樣式系統（參考聯絡卡片簡潔風格）
+   ============================================ */
+.unified-card-simple {
+    background: var(--glass-bg-medium);
+    backdrop-filter: var(--glass-blur-strong);
+    -webkit-backdrop-filter: var(--glass-blur-strong);
+    border: 1px solid var(--glass-border);
+    border-radius: 10px;
+    padding: 2.5rem;
+    transition: var(--transition);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+.unified-card-simple:hover {
+    transform: translateY(-5px);
+    border-color: var(--gold);
+    box-shadow: 0 10px 30px rgba(76, 168, 223, 0.28);
 }
 
 .contact-card {
@@ -4283,14 +4415,11 @@ body::after {
     background: var(--glass-bg-medium) !important;
     backdrop-filter: var(--glass-blur-strong) !important;
     -webkit-backdrop-filter: var(--glass-blur-strong) !important;
-    border: 3px solid var(--glass-border-strong) !important;
-    border-radius: 20px !important;
+    border: 1px solid var(--glass-border) !important;
+    border-radius: 10px !important;
     padding: 0 !important;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5),
-                0 0 0 2px rgba(76, 168, 223, 0.2),
-                inset 0 2px 0 rgba(255, 255, 255, 0.15),
-                0 0 50px rgba(76, 168, 223, 0.1) !important;
+    transition: var(--transition) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
     overflow: hidden !important;
     position: relative !important;
     display: flex !important;
@@ -4298,6 +4427,12 @@ body::after {
     height: 100% !important;
     max-width: 100% !important;
     min-height: 500px !important;
+}
+
+.success-card-individual:hover {
+    transform: translateY(-5px) !important;
+    border-color: var(--gold) !important;
+    box-shadow: 0 10px 30px rgba(76, 168, 223, 0.28) !important;
 }
 
 .success-card-individual::before {
@@ -4312,31 +4447,16 @@ body::after {
     z-index: 2;
 }
 
-.success-card-individual:hover {
-    transform: translateY(-10px) scale(1.02) !important;
-    border-color: var(--gold) !important;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6),
-                0 0 0 3px rgba(218, 165, 32, 0.5),
-                inset 0 2px 0 rgba(255, 255, 255, 0.3),
-                0 0 60px rgba(76, 168, 223, 0.4),
-                0 0 100px rgba(218, 165, 32, 0.2) !important;
-}
-
-.success-card-individual:hover::before {
-    opacity: 1;
-    height: 8px;
-    box-shadow: 0 0 20px rgba(218, 165, 32, 0.6);
-}
 
 .success-card-individual .success-card-image-wrapper,
 .success-card-image-wrapper {
     width: 100% !important;
-    height: 280px !important;
-    max-height: 280px !important;
+    height: 400px !important;
+    max-height: 400px !important;
     overflow: hidden !important;
     position: relative !important;
     background: linear-gradient(135deg, rgba(76, 168, 223, 0.15), rgba(76, 168, 223, 0.08)) !important;
-    border-radius: 17px 17px 0 0 !important;
+    border-radius: 10px 10px 0 0 !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -4352,9 +4472,50 @@ body::after {
     object-position: center top !important;
     transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
     display: block !important;
-    border-radius: 17px 17px 0 0 !important;
+    border-radius: 10px 10px 0 0 !important;
     max-width: 100% !important;
     filter: brightness(1.05) contrast(1.1) !important;
+}
+
+/* 會員資訊 Bubble - 左上角 */
+.success-member-bubble {
+    position: absolute !important;
+    top: 1.5rem !important;
+    left: 1.5rem !important;
+    background: rgba(0, 27, 54, 0.85) !important;
+    backdrop-filter: blur(12px) saturate(150%) !important;
+    -webkit-backdrop-filter: blur(12px) saturate(150%) !important;
+    border: 2px solid var(--gold) !important;
+    border-radius: 16px !important;
+    padding: 1rem 1.5rem !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 
+                0 0 0 1px rgba(76, 168, 223, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+    z-index: 10 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.5rem !important;
+}
+
+.success-member-bubble .success-member-name {
+    font-size: 1.8rem !important;
+    color: var(--gold) !important;
+    font-weight: 700 !important;
+    margin: 0 !important;
+    line-height: 1.2 !important;
+}
+
+.success-member-bubble .success-member-industry {
+    font-size: 1.2rem !important;
+    color: var(--text-white) !important;
+    font-weight: 600 !important;
+    margin: 0 !important;
+    padding: 0.5rem 1rem !important;
+    background: rgba(76, 168, 223, 0.2) !important;
+    border-radius: 12px !important;
+    border: 1px solid rgba(76, 168, 223, 0.4) !important;
+    display: inline-block !important;
+    width: fit-content !important;
 }
 
 /* 如果圖片載入失敗，顯示佔位符 */
@@ -4421,27 +4582,9 @@ body::after {
     opacity: 0.8;
 }
 
-.success-card-body .success-member-name,
-.success-member-name {
-    font-size: 1.6rem !important;
-    color: var(--gold) !important;
-    font-weight: 700 !important;
-    margin-bottom: 0.5rem !important;
-    display: block !important;
-    visibility: visible !important;
-    line-height: 1.3 !important;
-}
-
-.success-member-industry {
-    font-size: 1.1rem !important;
-    color: var(--text-gray) !important;
-    font-weight: 500 !important;
-    display: inline-block !important;
-    padding: 0.4rem 1rem !important;
-    background: rgba(76, 168, 223, 0.1) !important;
-    border-radius: 20px !important;
-    border: 1px solid rgba(76, 168, 223, 0.3) !important;
-    margin-top: 0.25rem !important;
+/* 舊的會員資訊樣式已移除，現在使用 bubble 樣式 */
+.success-card-body .success-member-info {
+    display: none !important;
 }
 
 .success-card-body .success-quote,
@@ -4469,8 +4612,23 @@ body::after {
     }
     
     .success-card-image-wrapper {
-        height: 220px !important;
-        max-height: 220px !important;
+        height: 320px !important;
+        max-height: 320px !important;
+    }
+    
+    .success-member-bubble {
+        top: 1rem !important;
+        left: 1rem !important;
+        padding: 0.75rem 1.25rem !important;
+    }
+    
+    .success-member-bubble .success-member-name {
+        font-size: 1.5rem !important;
+    }
+    
+    .success-member-bubble .success-member-industry {
+        font-size: 1rem !important;
+        padding: 0.4rem 0.8rem !important;
     }
 }
 
@@ -4498,20 +4656,27 @@ body::after {
     }
     
     .success-card-image-wrapper {
-        height: 200px !important;
-        max-height: 200px !important;
+        height: 280px !important;
+        max-height: 280px !important;
     }
     
     .success-card-body {
         padding: 1.25rem !important;
     }
     
-    .success-member-name {
-        font-size: 1.1rem !important;
+    .success-member-bubble {
+        top: 0.75rem !important;
+        left: 0.75rem !important;
+        padding: 0.6rem 1rem !important;
     }
     
-    .success-member-industry {
-        font-size: 0.85rem !important;
+    .success-member-bubble .success-member-name {
+        font-size: 1.3rem !important;
+    }
+    
+    .success-member-bubble .success-member-industry {
+        font-size: 0.9rem !important;
+        padding: 0.35rem 0.7rem !important;
     }
     
     .success-quote {
@@ -4535,48 +4700,47 @@ body::after {
     margin-bottom: 3rem;
 }
 
-.meeting-info-content-new {
-    display: grid !important;
-    grid-template-columns: 1fr 1.5fr !important;
-    gap: 4rem !important;
+/* 會議資訊統一卡片 */
+.meeting-info-card {
+    background: var(--glass-bg-medium) !important;
+    backdrop-filter: var(--glass-blur-strong) !important;
+    -webkit-backdrop-filter: var(--glass-blur-strong) !important;
+    border: 1px solid var(--glass-border) !important;
+    border-radius: 10px !important;
+    padding: 2.5rem !important;
     margin-top: 2rem !important;
-    align-items: start !important;
+    max-width: 900px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
+    transition: var(--transition) !important;
+    position: relative !important;
 }
 
-.meeting-schedule-section {
-    background: var(--glass-bg-medium);
-    backdrop-filter: var(--glass-blur-strong);
-    -webkit-backdrop-filter: var(--glass-blur-strong);
-    border: 2px solid var(--glass-border);
-    border-radius: 20px;
-    padding: 3rem;
+.meeting-info-card:hover {
+    transform: translateY(-5px) !important;
+    border-color: var(--gold) !important;
+    box-shadow: 0 10px 30px rgba(76, 168, 223, 0.28) !important;
+}
+
+.meeting-time-section {
     text-align: center;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 
-                0 0 0 1px rgba(76, 168, 223, 0.1),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-    transition: var(--transition);
+    margin-bottom: 3rem;
+    padding-bottom: 2.5rem;
+    border-bottom: 2px solid var(--glass-border);
     position: relative;
-    overflow: hidden;
 }
 
-.meeting-schedule-section::before {
+.meeting-time-section::after {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 2px;
     background: linear-gradient(90deg, transparent, var(--gold), transparent);
-    opacity: 0.6;
-}
-
-.meeting-schedule-section:hover {
-    transform: translateY(-5px);
-    border-color: var(--gold);
-    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4), 
-                0 0 0 1px rgba(76, 168, 223, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2),
-                0 0 30px rgba(76, 168, 223, 0.2);
+    opacity: 0.8;
 }
 
 .schedule-time-large {
@@ -4611,6 +4775,14 @@ body::after {
     color: var(--text-white);
     font-weight: 600;
     letter-spacing: 0.5px;
+    margin-bottom: 1rem;
+}
+
+.schedule-note {
+    font-size: 1.05rem;
+    color: var(--text-gray);
+    line-height: 1.8;
+    margin-top: 1rem;
 }
 
 .schedule-details-new {
@@ -4638,46 +4810,44 @@ body::after {
 }
 
 .meeting-features-section {
-    background: var(--glass-bg-medium);
-    backdrop-filter: var(--glass-blur-strong);
-    -webkit-backdrop-filter: var(--glass-blur-strong);
-    border: 2px solid var(--glass-border);
-    border-radius: 20px;
-    padding: 3rem;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 
-                0 0 0 1px rgba(76, 168, 223, 0.1),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-    transition: var(--transition);
+    margin-top: 2rem;
+}
+
+.meeting-features-section .features-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.meeting-features-section .features-list li {
+    padding: 1rem 0;
+    padding-left: 2rem;
     position: relative;
-    overflow: hidden;
+    color: var(--text-gray);
+    font-size: 1.05rem;
+    line-height: 1.8;
+    border-bottom: 1px solid rgba(76, 168, 223, 0.1);
 }
 
-.meeting-features-section::before {
-    content: '';
+.meeting-features-section .features-list li:last-child {
+    border-bottom: none;
+}
+
+.meeting-features-section .features-list li::before {
+    content: '✓';
     position: absolute;
-    top: 0;
     left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, transparent, var(--gold), transparent);
-    opacity: 0.6;
+    color: var(--gold);
+    font-weight: bold;
+    font-size: 1.2rem;
 }
 
-.meeting-features-section:hover {
-    transform: translateY(-5px);
-    border-color: var(--gold);
-    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4), 
-                0 0 0 1px rgba(76, 168, 223, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2),
-                0 0 30px rgba(76, 168, 223, 0.2);
-}
-
-.features-title {
+.meeting-features-section .features-title {
     font-size: 1.8rem;
     color: var(--gold);
     margin-bottom: 2rem;
     font-weight: 600;
-    text-align: center;
+    text-align: left;
     padding-bottom: 1.5rem;
     border-bottom: 2px solid var(--glass-border);
     position: relative;
@@ -4949,16 +5119,24 @@ body::after {
     background: var(--glass-bg-medium) !important;
     backdrop-filter: var(--glass-blur-strong) !important;
     -webkit-backdrop-filter: var(--glass-blur-strong) !important;
-    border: 2px solid var(--glass-border-strong) !important;
-    border-radius: 20px !important;
-    padding: 3rem 2.5rem !important;
+    border: 1px solid var(--glass-border) !important;
+    border-radius: 10px !important;
+    padding: 2.5rem !important;
     text-align: left !important;
     margin-bottom: 3rem !important;
     margin-top: 2rem !important;
     max-width: 900px !important;
     margin-left: auto !important;
     margin-right: auto !important;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
+    transition: var(--transition) !important;
+    position: relative !important;
+}
+
+.join-intro-card:hover {
+    transform: translateY(-5px) !important;
+    border-color: var(--gold) !important;
+    box-shadow: 0 10px 30px rgba(76, 168, 223, 0.28) !important;
 }
 
 .join-intro-card h3 {
@@ -5095,14 +5273,22 @@ body::after {
     background: var(--glass-bg-medium) !important;
     backdrop-filter: var(--glass-blur-strong) !important;
     -webkit-backdrop-filter: var(--glass-blur-strong) !important;
-    border: 2px solid var(--glass-border-strong) !important;
-    border-radius: 20px !important;
-    padding: 3rem 2.5rem !important;
+    border: 1px solid var(--glass-border) !important;
+    border-radius: 10px !important;
+    padding: 2.5rem !important;
     margin-bottom: 3rem !important;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
     max-width: 900px !important;
     margin-left: auto !important;
     margin-right: auto !important;
+    transition: var(--transition) !important;
+    position: relative !important;
+}
+
+.join-process-card:hover {
+    transform: translateY(-5px) !important;
+    border-color: var(--gold) !important;
+    box-shadow: 0 10px 30px rgba(76, 168, 223, 0.28) !important;
 }
 
 .join-process-card h3 {
@@ -5233,14 +5419,22 @@ body::after {
     background: var(--glass-bg-medium) !important;
     backdrop-filter: var(--glass-blur-strong) !important;
     -webkit-backdrop-filter: var(--glass-blur-strong) !important;
-    border: 2px solid var(--glass-border-strong) !important;
-    border-radius: 20px !important;
-    padding: 3rem 2.5rem !important;
+    border: 1px solid var(--glass-border) !important;
+    border-radius: 10px !important;
+    padding: 2.5rem !important;
     text-align: center !important;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
     max-width: 900px !important;
     margin-left: auto !important;
     margin-right: auto !important;
+    transition: var(--transition) !important;
+    position: relative !important;
+}
+
+.join-cta-card:hover {
+    transform: translateY(-5px) !important;
+    border-color: var(--gold) !important;
+    box-shadow: 0 10px 30px rgba(76, 168, 223, 0.28) !important;
 }
 
 .join-cta-icon {
@@ -5288,50 +5482,22 @@ body::after {
     background: var(--glass-bg-medium) !important;
     backdrop-filter: var(--glass-blur-strong) !important;
     -webkit-backdrop-filter: var(--glass-blur-strong) !important;
-    border: 3px solid var(--glass-border-strong) !important;
-    border-radius: 24px !important;
-    margin-bottom: 2.5rem !important;
+    border: 1px solid var(--glass-border) !important;
+    border-radius: 10px !important;
+    margin-bottom: 2rem !important;
     overflow: hidden !important;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5), 
-                0 0 0 2px rgba(76, 168, 223, 0.25),
-                inset 0 2px 0 rgba(255, 255, 255, 0.2) !important;
+    transition: var(--transition) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
     position: relative !important;
     display: block !important;
 }
 
 .faq-item:hover {
-    transform: translateY(-3px);
-    border-color: var(--gold);
-    box-shadow: 0 12px 48px rgba(76, 168, 223, 0.3),
-                0 0 0 2px rgba(76, 168, 223, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    transform: translateY(-5px) !important;
+    border-color: var(--gold) !important;
+    box-shadow: 0 10px 30px rgba(76, 168, 223, 0.28) !important;
 }
 
-.faq-item::before {
-    content: '' !important;
-    position: absolute !important;
-    top: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    height: 5px !important;
-    background: linear-gradient(90deg, transparent, var(--gold), transparent) !important;
-    opacity: 0.8 !important;
-    z-index: 2 !important;
-}
-
-.faq-item:hover {
-    border-color: var(--gold);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), 
-                0 0 0 1px rgba(76, 168, 223, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2),
-                0 0 30px rgba(76, 168, 223, 0.2);
-    transform: translateY(-3px);
-}
-
-.faq-item:hover::before {
-    opacity: 1;
-}
 
 .faq-question {
     display: flex;

@@ -49,43 +49,23 @@
     
     <!-- 關鍵內嵌樣式 - 確保卡片立即顯示 -->
     <style>
-    /* 會員成功案例 - 統一顏色！ */
+    /* 會員成功案例 - 統一簡潔風格 */
     .success-stories-grid{display:grid!important;grid-template-columns:repeat(2,1fr)!important;gap:3rem!important;margin-top:4rem!important}
-    .success-card-individual{background:rgba(0,27,54,.5)!important;backdrop-filter:blur(12px) saturate(150%)!important;-webkit-backdrop-filter:blur(12px) saturate(150%)!important;border:3px solid rgba(76,168,223,.5)!important;border-radius:20px!important;padding:0!important;box-shadow:0 12px 48px rgba(0,0,0,.5),0 0 0 2px rgba(76,168,223,.2),inset 0 1px 0 rgba(255,255,255,.1)!important;position:relative!important;overflow:hidden!important;display:flex!important;flex-direction:column!important;min-height:500px!important}
-    .success-card-individual::before{content:''!important;position:absolute!important;top:0!important;left:0!important;right:0!important;height:5px!important;background:linear-gradient(90deg,transparent,#4ca8df,transparent)!important;opacity:.8!important;z-index:2!important}
-    .success-card-image-wrapper{width:100%!important;height:280px!important;overflow:hidden!important;border-radius:20px 20px 0 0!important;flex-shrink:0!important}
+    .success-card-individual{background:rgba(0,27,54,.5)!important;backdrop-filter:blur(12px) saturate(150%)!important;-webkit-backdrop-filter:blur(12px) saturate(150%)!important;border:1px solid rgba(76,168,223,.3)!important;border-radius:10px!important;padding:0!important;box-shadow:0 8px 32px rgba(0,0,0,.2)!important;position:relative!important;overflow:hidden!important;display:flex!important;flex-direction:column!important;min-height:500px!important}
+    .success-card-image-wrapper{width:100%!important;height:400px!important;overflow:hidden!important;border-radius:10px 10px 0 0!important;flex-shrink:0!important;position:relative!important}
     .success-card-image{width:100%!important;height:100%!important;object-fit:cover!important;object-position:center top!important}
     .success-card-body{padding:2rem!important;display:flex!important;flex-direction:column!important;gap:1rem!important;flex-grow:1!important}
+    .success-member-bubble{position:absolute!important;top:1.5rem!important;left:1.5rem!important;background:rgba(0,27,54,.85)!important;backdrop-filter:blur(12px) saturate(150%)!important;-webkit-backdrop-filter:blur(12px) saturate(150%)!important;border:2px solid #daa520!important;border-radius:16px!important;padding:1rem 1.5rem!important;box-shadow:0 8px 24px rgba(0,0,0,.4)!important;z-index:10!important;display:flex!important;flex-direction:column!important;gap:.5rem!important}
+    .success-member-bubble .success-member-name{font-size:1.8rem!important;color:#daa520!important;font-weight:700!important;margin:0!important;line-height:1.2!important}
+    .success-member-bubble .success-member-industry{font-size:1.2rem!important;color:#f4f9ff!important;font-weight:600!important;margin:0!important;padding:.5rem 1rem!important;background:rgba(76,168,223,.2)!important;border-radius:12px!important;border:1px solid rgba(76,168,223,.4)!important;display:inline-block!important;width:fit-content!important}
     
-    /* 加入我們 - 完整優化！ */
-    .join{padding:10rem 0!important;position:relative!important;z-index:10!important}
-    .join-content{max-width:1200px!important;margin:0 auto!important;padding:0 2rem!important}
-    .join-intro-card{background:rgba(0,27,54,.5)!important;backdrop-filter:blur(12px) saturate(150%)!important;-webkit-backdrop-filter:blur(12px) saturate(150%)!important;border:3px solid rgba(76,168,223,.5)!important;border-radius:24px!important;padding:4rem 3rem!important;box-shadow:0 16px 64px rgba(0,0,0,.6),0 0 0 2px rgba(76,168,223,.3),inset 0 2px 0 rgba(255,255,255,.2)!important;position:relative!important;overflow:hidden!important;display:block!important;margin:0 auto 6rem!important;max-width:900px!important;text-align:center!important}
-    .join-intro-card::before{content:''!important;position:absolute!important;top:0!important;left:0!important;right:0!important;height:5px!important;background:linear-gradient(90deg,transparent,#4ca8df,transparent)!important;opacity:.8!important;z-index:2!important}
-    .join-benefits-grid{display:grid!important;grid-template-columns:repeat(4,1fr)!important;gap:2.5rem!important;margin:5rem 0 6rem!important;padding:0 1rem!important}
-    .benefit-card{background:rgba(0,27,54,.5)!important;backdrop-filter:blur(12px) saturate(150%)!important;-webkit-backdrop-filter:blur(12px) saturate(150%)!important;border:3px solid rgba(76,168,223,.5)!important;border-radius:24px!important;padding:3rem 2rem!important;box-shadow:0 12px 48px rgba(0,0,0,.5),0 0 0 2px rgba(76,168,223,.3),inset 0 2px 0 rgba(255,255,255,.2)!important;position:relative!important;overflow:hidden!important;display:flex!important;flex-direction:column!important;align-items:center!important;min-height:320px!important;text-align:center!important;transition:all .4s cubic-bezier(.4,0,.2,1)!important}
-    .benefit-card::before{content:''!important;position:absolute!important;top:0!important;left:0!important;right:0!important;height:5px!important;background:linear-gradient(90deg,transparent,#4ca8df,transparent)!important;opacity:.8!important;z-index:2!important}
-    .benefit-icon{width:80px!important;height:80px!important;margin:0!important;color:#4ca8df!important;display:flex!important;align-items:center!important;justify-content:center!important;background:rgba(76,168,223,.1)!important;border-radius:50%!important}
-    .benefit-card h4{color:#4ca8df!important;margin:1.5rem 0!important;font-size:1.4rem!important;font-weight:700!important}
-    .benefit-card p{color:#c5d8e8!important;line-height:1.9!important;font-size:1.05rem!important;flex-grow:1!important;display:flex!important;align-items:center!important}
-    .join-process-card{background:rgba(0,27,54,.5)!important;backdrop-filter:blur(12px) saturate(150%)!important;-webkit-backdrop-filter:blur(12px) saturate(150%)!important;border:3px solid rgba(76,168,223,.5)!important;border-radius:24px!important;padding:4rem 3rem!important;box-shadow:0 16px 64px rgba(0,0,0,.6),0 0 0 2px rgba(76,168,223,.3),inset 0 2px 0 rgba(255,255,255,.2)!important;position:relative!important;overflow:hidden!important;margin-bottom:4rem!important}
-    .join-process-card::before{content:''!important;position:absolute!important;top:0!important;left:0!important;right:0!important;height:5px!important;background:linear-gradient(90deg,transparent,#4ca8df,transparent)!important;opacity:.8!important;z-index:2!important}
-    .join-cta-card{background:rgba(0,27,54,.5)!important;backdrop-filter:blur(12px) saturate(150%)!important;-webkit-backdrop-filter:blur(12px) saturate(150%)!important;border:3px solid rgba(76,168,223,.5)!important;border-radius:24px!important;padding:4rem 3rem!important;box-shadow:0 16px 64px rgba(0,0,0,.6),0 0 0 2px rgba(76,168,223,.3),inset 0 2px 0 rgba(255,255,255,.2)!important;position:relative!important;overflow:hidden!important;text-align:center!important}
-    .join-cta-card::before{content:''!important;position:absolute!important;top:0!important;left:0!important;right:0!important;height:5px!important;background:linear-gradient(90deg,transparent,#4ca8df,transparent)!important;opacity:.8!important;z-index:2!important}
-    
-    /* 常見問題 - 完整優化！ */
-    .faq{padding:10rem 0!important;position:relative!important;z-index:10!important}
-    .faq-content{max-width:900px!important;margin:5rem auto 0!important;padding:0 2rem!important}
-    .faq-item{background:rgba(0,27,54,.5)!important;backdrop-filter:blur(12px) saturate(150%)!important;-webkit-backdrop-filter:blur(12px) saturate(150%)!important;border:3px solid rgba(76,168,223,.5)!important;border-radius:24px!important;margin-bottom:2.5rem!important;overflow:hidden!important;box-shadow:0 12px 48px rgba(0,0,0,.5),0 0 0 2px rgba(76,168,223,.3),inset 0 2px 0 rgba(255,255,255,.2)!important;position:relative!important;display:block!important;transition:all .4s cubic-bezier(.4,0,.2,1)!important}
-    .faq-item::before{content:''!important;position:absolute!important;top:0!important;left:0!important;right:0!important;height:5px!important;background:linear-gradient(90deg,transparent,#4ca8df,transparent)!important;opacity:.8!important;z-index:2!important}
-    .faq-question{padding:2.5rem 3rem!important;cursor:pointer!important;display:flex!important;justify-content:space-between!important;align-items:center!important;background:rgba(76,168,223,.05)!important;transition:all .3s ease!important}
-    .faq-question h3{color:#f4f9ff!important;font-size:1.25rem!important;font-weight:700!important;margin:0!important;flex:1!important}
-    .faq-toggle{font-size:2rem!important;color:#4ca8df!important;font-weight:300!important;transition:transform .3s ease!important}
-    .faq-item.active .faq-question{background:rgba(76,168,223,.1)!important}
-    .faq-answer{padding:0 3rem 2.5rem!important;color:#c5d8e8!important;line-height:2!important;font-size:1.08rem!important}
-    
-    /* 響應式 */
-    @media (max-width:768px){.success-stories-grid,.join-benefits-grid{grid-template-columns:1fr!important}}
+    /* 載入畫面 */
+    .page-loader{position:fixed!important;top:0!important;left:0!important;width:100%!important;height:100%!important;background:#000!important;z-index:9999!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;transition:opacity .5s ease!important}
+    .page-loader.hidden{opacity:0!important;pointer-events:none!important}
+    .loader-text{font-family:'Noto Sans TC',sans-serif!important;font-size:2rem!important;color:#4ca8df!important;margin-bottom:2rem!important;font-weight:700!important;animation:fadeIn 1s ease!important}
+    .loader-logo{width:150px!important;height:150px!important;object-fit:contain!important;animation:logoFadeIn 1.5s ease!important;opacity:0!important;animation-fill-mode:forwards!important}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes logoFadeIn{0%{opacity:0;transform:scale(0.5)}50%{opacity:0}100%{opacity:1;transform:scale(1)}}
     </style>
     
     <!-- 預載入關鍵資源 -->
@@ -109,6 +89,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 </head>
 <body>
+    <!-- 載入畫面 -->
+    <div class="page-loader" id="pageLoader">
+        <div class="loader-text">歡迎來到長輝白金分會</div>
+        <img src="images/assets/logo/白色正方形logo.png" alt="長輝白金分會" class="loader-logo" onerror="this.style.display='none';">
+    </div>
+    
     <!-- Skip to main content -->
     <a href="#main-content" class="skip-to-main">跳到主要內容</a>
     
@@ -151,48 +137,48 @@
                 <div class="success-card-individual">
                     <div class="success-card-image-wrapper">
                         <img src="images/members/何昇軒.jpg" alt="何昇軒" class="success-card-image" loading="lazy" onerror="this.style.display='none'; this.parentElement.classList.add('image-error');">
-                    </div>
-                    <div class="success-card-body">
-                        <div class="success-member-info">
+                        <div class="success-member-bubble">
                             <h3 class="success-member-name">何昇軒</h3>
                             <p class="success-member-industry">律師</p>
                         </div>
+                    </div>
+                    <div class="success-card-body">
                         <blockquote class="success-quote">「加入BNI長輝白金分會後，我的法律事務所業務量在一年內成長了250%。透過會員的引薦，我獲得了許多優質的企業客戶，包括契約審閱、商業法律顧問等服務。每週的線上例會讓我能夠與各行各業的專業人士建立深厚的合作關係，不僅拓展了業務範圍，更提升了服務品質。BNI的引薦機制讓我能夠專注於提供專業的法律服務，而業務開發則透過會員網絡自然產生。」</blockquote>
                     </div>
                 </div>
                 <div class="success-card-individual">
                     <div class="success-card-image-wrapper">
                         <img src="images/members/劉弼凱.jpg" alt="劉弼凱" class="success-card-image" loading="lazy" onerror="this.style.display='none'; this.parentElement.classList.add('image-error');">
-                    </div>
-                    <div class="success-card-body">
-                        <div class="success-member-info">
+                        <div class="success-member-bubble">
                             <h3 class="success-member-name">劉弼凱</h3>
                             <p class="success-member-industry">水電工程</p>
                         </div>
+                    </div>
+                    <div class="success-card-body">
                         <blockquote class="success-quote">「作為水電工程專業人士，加入BNI讓我認識了許多建築、裝潢、統包等相關行業的會員。透過每週例會的交流，我不僅獲得了穩定的工程引薦，更建立了可靠的合作夥伴網絡。線上會議的便利性讓我在忙碌的工程期間也能持續參與，保持與商業社群的連結。這一年來，我的工程案量增加了180%，而且都是透過會員引薦的高品質客戶。」</blockquote>
                     </div>
                 </div>
                 <div class="success-card-individual">
                     <div class="success-card-image-wrapper">
                         <img src="images/members/吳介輝.jpg" alt="吳介輝" class="success-card-image" loading="lazy" onerror="this.style.display='none'; this.parentElement.classList.add('image-error');">
-                    </div>
-                    <div class="success-card-body">
-                        <div class="success-member-info">
+                        <div class="success-member-bubble">
                             <h3 class="success-member-name">吳介輝</h3>
                             <p class="success-member-industry">人壽保險</p>
                         </div>
+                    </div>
+                    <div class="success-card-body">
                         <blockquote class="success-quote">「BNI長輝白金分會的線上會議模式非常適合我的工作型態。每週三早上的例會讓我能夠在開始一天工作前就與60多位不同行業的專業人士交流，這為我的保險業務帶來了巨大的成長。透過會員的引薦，我不僅獲得了個人客戶，更接觸到許多企業團體保險的機會。加入BNI後，我的業務量成長了220%，而且客戶品質都非常優質。」</blockquote>
                     </div>
                 </div>
                 <div class="success-card-individual">
                     <div class="success-card-image-wrapper">
                         <img src="images/members/孫成育.jpg" alt="孫成育" class="success-card-image" loading="lazy" onerror="this.style.display='none'; this.parentElement.classList.add('image-error');">
-                    </div>
-                    <div class="success-card-body">
-                        <div class="success-member-info">
+                        <div class="success-member-bubble">
                             <h3 class="success-member-name">孫成育</h3>
                             <p class="success-member-industry">禮贈品</p>
                         </div>
+                    </div>
+                    <div class="success-card-body">
                         <blockquote class="success-quote">「禮贈品業務需要與各行各業建立合作關係，BNI正是我尋找的理想平台。透過每週例會，我認識了許多企業主和採購決策者，他們在需要企業禮品、活動贈品時都會優先想到我。線上會議的便利性讓我即使出差也能參與，不會錯過任何引薦機會。這一年來，我的業務量成長了200%，而且都是透過會員引薦的長期合作客戶。」</blockquote>
                     </div>
                 </div>
@@ -204,51 +190,21 @@
     <section id="meeting-info" class="meeting-info">
         <div class="container">
             <h2 class="section-title">會議資訊</h2>
-            <div class="meeting-info-content-new unified-card-primary">
-                <div class="meeting-schedule-section">
-                    <div class="schedule-time-large">
-                        <div class="schedule-day">每週三</div>
-                        <div class="schedule-time-range">早上 6:30 - 8:30</div>
-                    </div>
-                    <div class="schedule-details-new">
-                        <p class="schedule-type-new">全程支援線上與會</p>
-                        <p class="schedule-note-new">不需舟車勞頓，在家或辦公室即可參與</p>
-                    </div>
+            <div class="meeting-info-card unified-card-primary">
+                <div class="meeting-time-section">
+                    <div class="schedule-day">每週三</div>
+                    <div class="schedule-time-range">早上 6:30 - 8:30</div>
+                    <p class="schedule-note">全程支援線上與會 · 不需舟車勞頓，在家或辦公室即可參與</p>
                 </div>
                 <div class="meeting-features-section">
                     <h3 class="features-title">會議內容包含</h3>
-                    <div class="features-grid">
-                        <div class="feature-item">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                            <span>專業分工（會議主持人、教育、主題簡報）</span>
-                        </div>
-                        <div class="feature-item">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                            <span>分組交流時間</span>
-                        </div>
-                        <div class="feature-item">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                            <span>主講行銷影片</span>
-                        </div>
-                        <div class="feature-item">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                            <span>引薦見證環節</span>
-                        </div>
-                        <div class="feature-item">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                            <span>60+ 行業代表參與</span>
-                </div>
-                </div>
+                    <ul class="features-list">
+                        <li>專業分工（會議主持人、教育、主題簡報）</li>
+                        <li>分組交流時間</li>
+                        <li>主講行銷影片</li>
+                        <li>引薦見證環節</li>
+                        <li>60+ 行業代表參與</li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -257,60 +213,48 @@
     <!-- 關於我們 -->
     <section id="about" class="about">
         <div class="container">
-            <div class="about-content-new">
-                <div class="about-left">
-                    <div class="about-title-graphic">
-                        <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="60" cy="60" r="50" stroke="currentColor" stroke-width="2" opacity="0.3"/>
-                            <circle cx="60" cy="60" r="40" stroke="currentColor" stroke-width="2" opacity="0.5"/>
-                            <circle cx="60" cy="60" r="30" stroke="currentColor" stroke-width="2" opacity="0.7"/>
-                            <circle cx="60" cy="60" r="20" stroke="currentColor" stroke-width="2"/>
-                            <path d="M60 20L65 35L80 40L70 50L72 65L60 60L48 65L50 50L40 40L55 35L60 20Z" fill="currentColor" opacity="0.6"/>
-                        </svg>
-                    </div>
-                    <h2 class="about-title-main">關於<br>長輝白金分會</h2>
+            <h2 class="section-title">關於長輝白金分會</h2>
+            
+            <!-- Core Purpose, Mission, Vision 統一卡片 -->
+            <div class="about-purpose-card unified-card-simple">
+                <div class="about-logo-container">
+                    <img src="images/assets/logo/白色正方形logo.png" alt="長輝白金分會" class="about-logo" onerror="this.style.display='none';">
                 </div>
-                <div class="about-center">
-                    <div class="about-content-blocks">
-                        <div class="about-block">
-                            <h3 class="about-block-title">Core Purpose</h3>
-                            <p class="about-block-text">精進會員的個人成長、壯大夥伴彼此的事業</p>
-                        </div>
-                        <div class="about-block">
-                            <h3 class="about-block-title">Mission</h3>
-                            <ul class="about-block-list">
-                                <li>強化產業合作</li>
-                                <li>發展強而有力的夥伴關係</li>
-                                <li>創造持續不斷的引薦</li>
-                    </ul>
-                        </div>
-                        <div class="about-block">
-                            <h3 class="about-block-title">Vision</h3>
-                            <p class="about-block-text">成為企業家首選的商務合作平台</p>
-                        </div>
+                <div class="about-purpose-content">
+                    <div class="purpose-section">
+                        <h3 class="purpose-title">Core Purpose</h3>
+                        <p class="purpose-text">精進會員的個人成長、壯大夥伴彼此的事業</p>
+                    </div>
+                    <div class="purpose-section">
+                        <h3 class="purpose-title">Mission</h3>
+                        <ul class="purpose-list">
+                            <li>強化產業合作</li>
+                            <li>發展強而有力的夥伴關係</li>
+                            <li>創造持續不斷的引薦</li>
+                        </ul>
+                    </div>
+                    <div class="purpose-section">
+                        <h3 class="purpose-title">Vision</h3>
+                        <p class="purpose-text">成為企業家首選的商務合作平台</p>
                     </div>
                 </div>
-                <div class="about-right">
-                    <div class="values-section-new">
-                        <h3 class="values-title">核心價值</h3>
-                        <div class="values-list">
-                            <div class="value-item">
-                            <h4>專業</h4>
-                            <p>以專業的態度與服務，為每位會員提供最優質的商務引薦與支援</p>
-                        </div>
-                            <div class="value-item">
-                                <h4>誠信</h4>
-                                <p>以誠信為本，建立互信互重的合作關係，打造可靠的商務平台</p>
-                            </div>
-                            <div class="value-item">
-                            <h4>熱情</h4>
-                            <p>懷抱熱忱與積極態度，持續推動商會發展與會員成長</p>
-                        </div>
-                            <div class="value-item">
-                                <h4>實踐</h4>
-                                <p>將理念化為行動，透過實際的引薦與合作，創造實質的商業價值</p>
-                            </div>
-                        </div>
+            </div>
+            
+            <!-- 核心價值統一卡片 -->
+            <div class="values-card unified-card-simple">
+                <h3 class="values-card-title">核心價值</h3>
+                <div class="values-content">
+                    <div class="value-text-item">
+                        <strong>專業</strong> - 以專業的態度與服務，為每位會員提供最優質的商務引薦與支援
+                    </div>
+                    <div class="value-text-item">
+                        <strong>誠信</strong> - 以誠信為本，建立互信互重的合作關係，打造可靠的商務平台
+                    </div>
+                    <div class="value-text-item">
+                        <strong>熱情</strong> - 懷抱熱忱與積極態度，持續推動商會發展與會員成長
+                    </div>
+                    <div class="value-text-item">
+                        <strong>實踐</strong> - 將理念化為行動，透過實際的引薦與合作，創造實質的商業價值
                     </div>
                 </div>
             </div>

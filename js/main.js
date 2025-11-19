@@ -35,6 +35,19 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // 初始化 FAQ 互動功能
     initFAQ();
+    
+    // 隱藏載入畫面
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            const loader = document.getElementById('pageLoader');
+            if (loader) {
+                loader.classList.add('hidden');
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                }, 500);
+            }
+        }, 1500); // 顯示1.5秒後隱藏
+    });
 });
 
 // ============================================

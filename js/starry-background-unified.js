@@ -101,14 +101,21 @@ class ShootingStar {
         this.element = document.createElement('div');
         this.element.className = 'shooting-star';
         
-        // 流星從視窗外下方開始，隨機水平位置
-        this.element.style.bottom = '-200px';
-        this.element.style.right = `${Math.random() * 100}%`;
+        // 流星從視窗外隨機位置開始（右下角區域）
+        const startX = Math.random() * 50 + 50; // 50-100%
+        const startY = Math.random() * 50 + 50; // 50-100%
+        
+        this.element.style.left = `${startX}%`;
+        this.element.style.top = `${startY}%`;
+        this.element.style.bottom = 'auto';
+        this.element.style.right = 'auto';
         this.element.style.animationDelay = `${this.delay}s`;
         this.element.style.animationDuration = `${this.duration}s`;
+        this.element.style.setProperty('--duration', `${this.duration}s`);
         
         // 參考代碼：使用 linear-gradient 創建尾巴
-        this.element.style.background = 'linear-gradient(to top, rgba(255, 255, 255, 0), white)';
+        this.element.style.background = 'linear-gradient(to top, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1))';
+        this.element.style.transform = 'rotate(-45deg)';
         
         // 添加到 body（讓流星保持在固定的 z-index 層級）
         document.body.appendChild(this.element);
@@ -267,28 +274,28 @@ class StarrySkyManager {
             existing.remove();
         }
         
-        // 創建容器 - 確保在最底層
+        // 創建容器 - 確保在最底層（與CSS一致）
         const container = document.createElement('div');
         container.className = 'starry-background-container';
-        container.style.cssText = 'position:fixed!important;top:0!important;left:0!important;width:100%!important;height:100%!important;min-height:100vh!important;z-index:-10!important;pointer-events:none!important;overflow:visible!important;background:transparent!important;';
+        container.style.cssText = 'position:fixed!important;top:0!important;left:0!important;width:100%!important;height:100%!important;min-height:100vh!important;z-index:-3!important;pointer-events:none!important;overflow:visible!important;background:transparent!important;';
         
         const sky = document.createElement('div');
         sky.className = 'starry-sky';
         sky.style.cssText = 'position:absolute!important;top:0!important;left:0!important;width:100%!important;height:100%!important;min-height:100vh!important;z-index:-2!important;';
         
-        // 創建靜態星星層
+        // 創建靜態星星層（背景必須透明，星星通過box-shadow顯示）
         this.config.css.staticStars.forEach((layer, i) => {
             const div = document.createElement('div');
             div.className = `static-stars-layer static-stars${i}`;
-            div.style.cssText = `position:absolute!important;top:0!important;left:0!important;width:1px!important;height:1px!important;border-radius:50%!important;background:white!important;z-index:-2!important;opacity:1!important;visibility:visible!important;display:block!important;overflow:visible!important;pointer-events:none!important;`;
+            div.style.cssText = `position:absolute!important;top:0!important;left:0!important;width:1px!important;height:1px!important;border-radius:50%!important;background:transparent!important;z-index:-2!important;opacity:1!important;visibility:visible!important;display:block!important;overflow:visible!important;pointer-events:none!important;`;
             sky.appendChild(div);
         });
         
-        // 創建移動星星層
+        // 創建移動星星層（背景必須透明，星星通過box-shadow顯示）
         this.config.css.movingStars.forEach((layer, i) => {
             const div = document.createElement('div');
             div.className = `moving-stars-layer moving-stars${i}`;
-            div.style.cssText = `position:absolute!important;top:0!important;left:0!important;width:${layer.size}!important;height:${layer.size}!important;border-radius:50%!important;background:white!important;z-index:-2!important;opacity:1!important;visibility:visible!important;display:block!important;overflow:visible!important;pointer-events:none!important;`;
+            div.style.cssText = `position:absolute!important;top:0!important;left:0!important;width:${layer.size}!important;height:${layer.size}!important;border-radius:50%!important;background:transparent!important;z-index:-2!important;opacity:1!important;visibility:visible!important;display:block!important;overflow:visible!important;pointer-events:none!important;`;
             sky.appendChild(div);
             console.log(`✅ 創建移動星星層 ${i}`);
         });
@@ -410,11 +417,11 @@ class StarrySkyManager {
         for (let i = 0; i < actualCount; i++) {
             const x = Math.floor(Math.random() * maxX);
             const y = Math.floor(Math.random() * maxY);
-            // 使用簡單格式，確保星星可見：xpx ypx 2px 2px white
-            shadows.push(`${x}px ${y}px 0 2px white`);
+            // 正確格式：需要加上spread radius才能顯示，格式為 xpx ypx 0 spread color
+            shadows.push(`${x}px ${y}px 0 1px white`);
         }
         
-        const result = shadows.join(' , ');
+        const result = shadows.join(', ');
         console.log(`✅ 生成 ${actualCount} 顆靜態星星，box-shadow 長度: ${result.length} 字符`);
         return result;
     }
@@ -426,11 +433,11 @@ class StarrySkyManager {
         for (let i = 0; i < actualCount; i++) {
             const x = Math.floor(Math.random() * maxX);
             const y = Math.floor(Math.random() * maxY);
-            // 使用簡單格式，確保星星可見：xpx ypx 0 3px white
-            shadows.push(`${x}px ${y}px 0 3px white`);
+            // 正確格式：需要加上spread radius才能顯示，格式為 xpx ypx 0 spread color
+            shadows.push(`${x}px ${y}px 0 2px white`);
         }
         
-        const result = shadows.join(' , ');
+        const result = shadows.join(', ');
         console.log(`✅ 生成 ${actualCount} 顆移動星星，box-shadow 長度: ${result.length} 字符`);
         return result;
     }
