@@ -405,14 +405,14 @@ class StarrySkyManager {
     
     generateStaticStarsShadow(count, maxX, maxY) {
         const shadows = [];
-        // 完全按照參考代碼格式：xpx ypx #FFF
         const actualCount = count;
         
         for (let i = 0; i < actualCount; i++) {
             const x = Math.floor(Math.random() * maxX);
             const y = Math.floor(Math.random() * maxY);
-            // 參考代碼格式：718px 1689px #FFF , 1405px 2127px #FFF ...
-            shadows.push(`${x}px ${y}px #FFF`);
+            // 添加 blur 和 spread 讓星星更明顯：xpx ypx blur spread color
+            // 使用 1px blur 和 1px spread 創建發光效果
+            shadows.push(`${x}px ${y}px 1px 1px rgba(255, 255, 255, 0.9)`);
         }
         
         const result = shadows.join(' , ');
@@ -422,17 +422,16 @@ class StarrySkyManager {
     
     generateMovingStarsShadow(count, maxX, maxY) {
         const shadows = [];
-        // 完全按照參考代碼格式：xpx ypx #FFF
         const actualCount = count;
         
         for (let i = 0; i < actualCount; i++) {
             const x = Math.floor(Math.random() * maxX);
             const y = Math.floor(Math.random() * maxY);
-            // 參考代碼格式：452px 2369px #FFF , 2030px 2013px #FFF ...
-            shadows.push(`${x}px ${y}px #FFF`);
+            // 添加 blur 和 spread 讓星星更明顯：xpx ypx blur spread color
+            // 移動星星稍微大一點：2px spread
+            shadows.push(`${x}px ${y}px 1px 2px rgba(255, 255, 255, 0.95)`);
         }
         
-        // 參考代碼格式：逗號後有空格 "xpx ypx #FFF , xpx ypx #FFF"
         const result = shadows.join(' , ');
         console.log(`生成 ${actualCount} 顆移動星星，box-shadow 長度: ${result.length} 字符`);
         return result;

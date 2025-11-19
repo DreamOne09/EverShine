@@ -4002,19 +4002,21 @@ body::after {
     background: var(--glass-bg-medium) !important;
     backdrop-filter: var(--glass-blur-strong) !important;
     -webkit-backdrop-filter: var(--glass-blur-strong) !important;
-    border: 2px solid var(--glass-border) !important;
+    border: 3px solid var(--glass-border) !important;
     border-radius: 20px !important;
     padding: 0 !important;
-    transition: var(--transition);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
-                0 0 0 1px rgba(76, 168, 223, 0.1),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5),
+                0 0 0 2px rgba(76, 168, 223, 0.2),
+                inset 0 2px 0 rgba(255, 255, 255, 0.15),
+                0 0 50px rgba(76, 168, 223, 0.1) !important;
     overflow: hidden !important;
     position: relative !important;
     display: flex !important;
     flex-direction: column !important;
     height: 100% !important;
     max-width: 100% !important;
+    min-height: 500px !important;
 }
 
 .success-card-individual::before {
@@ -4023,38 +4025,42 @@ body::after {
     top: 0;
     left: 0;
     right: 0;
-    height: 4px;
+    height: 5px;
     background: linear-gradient(90deg, transparent, var(--gold), transparent);
-    opacity: 0.6;
+    opacity: 0.8;
+    z-index: 2;
 }
 
 .success-card-individual:hover {
-    transform: translateY(-8px);
-    border-color: var(--gold);
-    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4),
-                0 0 0 1px rgba(76, 168, 223, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2),
-                0 0 30px rgba(76, 168, 223, 0.2);
+    transform: translateY(-10px) scale(1.02) !important;
+    border-color: var(--gold) !important;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6),
+                0 0 0 3px rgba(218, 165, 32, 0.5),
+                inset 0 2px 0 rgba(255, 255, 255, 0.3),
+                0 0 60px rgba(76, 168, 223, 0.4),
+                0 0 100px rgba(218, 165, 32, 0.2) !important;
 }
 
 .success-card-individual:hover::before {
     opacity: 1;
-    height: 6px;
+    height: 8px;
+    box-shadow: 0 0 20px rgba(218, 165, 32, 0.6);
 }
 
 .success-card-individual .success-card-image-wrapper,
 .success-card-image-wrapper {
     width: 100% !important;
-    height: 240px !important;
-    max-height: 240px !important;
+    height: 280px !important;
+    max-height: 280px !important;
     overflow: hidden !important;
     position: relative !important;
-    background: linear-gradient(135deg, rgba(76, 168, 223, 0.1), rgba(76, 168, 223, 0.05)) !important;
-    border-radius: 20px 20px 0 0 !important;
+    background: linear-gradient(135deg, rgba(76, 168, 223, 0.15), rgba(76, 168, 223, 0.08)) !important;
+    border-radius: 17px 17px 0 0 !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    flex-shrink: 0;
+    flex-shrink: 0 !important;
+    border-bottom: 2px solid var(--glass-border) !important;
 }
 
 .success-card-image-wrapper .success-card-image,
@@ -4063,10 +4069,11 @@ body::after {
     height: 100% !important;
     object-fit: cover !important;
     object-position: center top !important;
-    transition: var(--transition);
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
     display: block !important;
-    border-radius: 20px 20px 0 0;
-    max-width: 100%;
+    border-radius: 17px 17px 0 0 !important;
+    max-width: 100% !important;
+    filter: brightness(1.05) contrast(1.1) !important;
 }
 
 /* 如果圖片載入失敗，顯示佔位符 */
@@ -4094,18 +4101,20 @@ body::after {
 }
 
 .success-card-individual:hover .success-card-image {
-    transform: scale(1.05);
+    transform: scale(1.08) !important;
+    filter: brightness(1.1) contrast(1.15) !important;
 }
 
 .success-card-individual .success-card-body,
 .success-card-body {
-    padding: 1.5rem !important;
+    padding: 2rem !important;
     display: flex !important;
     flex-direction: column !important;
     flex: 1 !important;
     min-height: 0 !important;
     width: 100% !important;
     box-sizing: border-box !important;
+    background: rgba(0, 0, 0, 0.2) !important;
 }
 
 .success-card-body .success-member-info,
