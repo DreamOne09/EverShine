@@ -5448,29 +5448,109 @@ body::after {
     }
 }
 
-@media (max-width: 480px) {
+/* ============================================
+   響應式設計 - 統一斷點系統
+   ============================================ */
+
+/* 平板 (768px - 1024px) */
+@media (max-width: 1024px) {
     .success-stories-grid {
-        grid-template-columns: 1fr !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: var(--space-lg) !important;
     }
     
     .join-benefits-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+    
+    .process-steps {
+        padding-left: var(--space-lg);
+    }
+    
+    .process-steps::before {
+        left: 20px;
+    }
+    
+    .process-step {
+        margin-left: calc(var(--space-lg) - 20px);
+    }
+    
+    .step-number {
+        left: calc(-20px - var(--space-lg));
+    }
+}
+
+/* 手機 (480px - 768px) */
+@media (max-width: 768px) {
+    .success-stories-grid {
+        grid-template-columns: 1fr !important;
+        gap: var(--space-lg) !important;
+    }
+    
+    .join-benefits-grid {
+        grid-template-columns: 1fr !important;
     }
     
     .meeting-info-content {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
+    }
+    
+    .process-steps {
+        padding-left: var(--space-md);
+    }
+    
+    .process-steps::before {
+        left: 16px;
+    }
+    
+    .process-step {
+        flex-direction: column;
+        text-align: left;
+        margin-left: calc(var(--space-md) - 16px);
+        padding: var(--space-md);
+    }
+    
+    .step-number {
+        position: relative;
+        left: 0;
+        top: 0;
+        margin-bottom: var(--space-sm);
+    }
+    
+    .step-content {
+        padding-left: 0;
     }
     
     .faq-question {
-        padding: 1rem 1.5rem;
+        padding: var(--space-md) var(--space-lg) !important;
     }
     
     .faq-question h3 {
-        font-size: 1rem;
+        font-size: var(--font-size-body) !important;
     }
 
     .cta-text {
-        font-size: 1.3rem;
+        font-size: 1.2rem;
+    }
+    
+    .section-title {
+        font-size: 2rem;
+    }
+}
+
+/* 小手機 (< 480px) */
+@media (max-width: 480px) {
+    .section-title {
+        font-size: 1.75rem;
+    }
+    
+    .process-step {
+        padding: var(--space-sm);
+    }
+    
+    .btn-primary {
+        padding: 1rem 2rem;
+        font-size: 1rem;
     }
 }
 
