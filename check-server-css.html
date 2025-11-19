@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>檢查伺服器 CSS 文件</title>
+    <style>
+        body {
+            background: #000;
+            color: #fff;
+            padding: 2rem;
+            font-family: monospace;
+        }
+        
+        .result {
+            background: rgba(0, 100, 200, 0.2);
+            border: 2px solid #4ca8df;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 10px;
+        }
+        
+        .pass { color: #00ff00; }
+        .fail { color: #ff0000; }
+        .warning { color: #ffaa00; }
+        
+        button {
+            background: #4ca8df;
+            color: #fff;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 1rem 0.5rem 1rem 0;
+            font-size: 16px;
+        }
+        
+        button:hover {
+            background: #78c6fb;
+        }
+        
+        pre {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 5px;
+            overflow-x: auto;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="color: #daa520;">🔍 檢查伺服器 CSS 文件</h1>
+    
+    <button onclick="checkServerCSS()">📡 檢查伺服器 CSS</button>
+    <button onclick="downloadAndCheck()">⬇️ 下載並檢查</button>
+    
+    <div class="result">
+        <h3>檢查結果：</h3>
+        <div id="result">點擊按鈕開始檢查...</div>
+    </div>
+    
+    <div class="result">
+        <h3>CSS 文件內容預覽：</h3>
+        <pre id="preview">等待檢查...</pre>
+    </div>
+    
+    <script>
+        async function checkServerCSS() {
+            const resultDiv = document.getElementById('result');
+            const previewDiv = document.getElementById('preview');
+            
+            resultDiv.innerHTML = '正在檢查伺服器 CSS...';
+            
+            try {
+                const response = await fetch('css/style.css?v=20251119-CRITICAL-FIX&nocache=' + Date.now());
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const cssText = await response.text();
+                const fileSize = cssText.length;
+                const lines = cssText.split('\n').length;
+                
+                // 檢查關鍵內容
+                const hasSuccessGrid = cssText.includes('.success-stories-grid');
+                const hasSuccessCard = cssText.includes('.success-card-individual');
+                const hasGridTemplate = cssText.includes('grid-template-columns: repeat(4, 1fr)');
+                const hasBorder3px = cssText.includes('border: 3px solid var(--glass-border)');
+                
+                // 計算 CSS 規則數量（粗略估計）
+                const ruleCount = (cssText.match(/\{/g) || []).length;
+                
+                let html = '<h4>伺服器 CSS 文件檢查：</h4>';
+                html += `<p><strong>文件大小：</strong> ${fileSize.toLocaleString()} 字符 (${(fileSize/1024).toFixed(2)} KB)</p>`;
+                html += `<p><strong>行數：</strong> ${lines.toLocaleString()}</p>`;
+                html += `<p><strong>估計規則數：</strong> ${ruleCount.toLocaleString()}</p>`;
+                
+                html += '<hr style="border-color: #4ca8df; margin: 1rem 0;">';
+                
+                html += '<h4>關鍵內容檢查：</h4>';
+                html += `<p class="${hasSuccessGrid ? 'pass' : 'fail'}">${hasSuccessGrid ? '✓' : '✗'} .success-stories-grid</p>`;
+                html += `<p class="${hasSuccessCard ? 'pass' : 'fail'}">${hasSuccessCard ? '✓' : '✗'} .success-card-individual</p>`;
+                html += `<p class="${hasGridTemplate ? 'pass' : 'fail'}">${hasGridTemplate ? '✓' : '✗'} grid-template-columns: repeat(4, 1fr)</p>`;
+                html += `<p class="${hasBorder3px ? 'pass' : 'fail'}">${hasBorder3px ? '✓' : '✗'} border: 3px solid var(--glass-border)</p>`;
+                
+                html += '<hr style="border-color: #4ca8df; margin: 1rem 0;">';
+                
+                if (fileSize < 50000) {
+                    html += '<p class="fail"><strong>❌ 警告：文件太小！</strong><br>正常應該約 110-120 KB，但只有 ' + (fileSize/1024).toFixed(2) + ' KB</p>';
+                    html += '<p class="fail">文件可能被截斷或損壞！</p>';
+                } else if (ruleCount < 1000) {
+                    html += '<p class="warning"><strong>⚠️ 警告：CSS 規則太少！</strong><br>正常應該約 3000-5000 條規則，但只檢測到 ' + ruleCount + ' 條</p>';
+                } else {
+                    html += '<p class="pass"><strong>✓ 文件大小正常</strong></p>';
+                }
+                
+                if (hasSuccessGrid && hasSuccessCard && hasGridTemplate && hasBorder3px) {
+                    html += '<p class="pass"><strong>✓ 所有關鍵樣式都存在</strong></p>';
+                    html += '<p class="pass">CSS 文件內容完整！問題可能在瀏覽器端。</p>';
+                } else {
+                    html += '<p class="fail"><strong>✗ 缺少關鍵樣式</strong></p>';
+                    html += '<p class="fail">CSS 文件不完整或損壞！</p>';
+                }
+                
+                resultDiv.innerHTML = html;
+                
+                // 顯示文件開頭和關鍵部分
+                const successGridIndex = cssText.indexOf('.success-stories-grid');
+                let preview = '=== 文件開頭 (前 500 字符) ===\n\n';
+                preview += cssText.substring(0, 500);
+                preview += '\n\n...\n\n';
+                
+                if (successGridIndex > 0) {
+                    preview += '=== .success-stories-grid 附近 ===\n\n';
+                    preview += cssText.substring(Math.max(0, successGridIndex - 100), successGridIndex + 500);
+                } else {
+                    preview += '=== ❌ 未找到 .success-stories-grid ===';
+                }
+                
+                previewDiv.textContent = preview;
+                
+            } catch (error) {
+                resultDiv.innerHTML = `<p class="fail"><strong>❌ 錯誤：</strong>${error.message}</p>`;
+                console.error('Error fetching CSS:', error);
+            }
+        }
+        
+        async function downloadAndCheck() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '正在下載並分析 CSS 文件...';
+            
+            try {
+                const response = await fetch('css/style.css?v=20251119-CRITICAL-FIX&download=' + Date.now());
+                const cssText = await response.text();
+                
+                // 創建下載連結
+                const blob = new Blob([cssText], { type: 'text/css' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'style-downloaded.css';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                
+                resultDiv.innerHTML = '<p class="pass">✓ 文件已下載到本地！</p><p>請檢查下載的文件大小是否約 110-120 KB</p>';
+                
+            } catch (error) {
+                resultDiv.innerHTML = `<p class="fail"><strong>❌ 錯誤：</strong>${error.message}</p>`;
+            }
+        }
+        
+        // 自動執行檢查
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(checkServerCSS, 500);
+        });
+    </script>
+</body>
+</html>
+
