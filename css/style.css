@@ -118,6 +118,73 @@
     box-shadow: var(--glass-shadow-light);
 }
 
+/* ============================================
+   統一卡片系統 (Unified Card System)
+   ============================================ */
+
+/* 主要卡片 - 用於重要內容區塊 */
+.unified-card-primary {
+    background: var(--glass-bg-medium) !important;
+    backdrop-filter: var(--glass-blur-strong) !important;
+    -webkit-backdrop-filter: var(--glass-blur-strong) !important;
+    border: 3px solid var(--glass-border-strong) !important;
+    border-radius: 24px !important;
+    padding: 3rem !important;
+    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5), 
+                0 0 0 2px rgba(76, 168, 223, 0.3),
+                inset 0 2px 0 rgba(255, 255, 255, 0.2) !important;
+    position: relative !important;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    overflow: hidden !important;
+}
+
+.unified-card-primary::before {
+    content: '' !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 5px !important;
+    background: linear-gradient(90deg, transparent, #4ca8df, transparent) !important;
+    opacity: 0.8 !important;
+    z-index: 2 !important;
+}
+
+.unified-card-primary:hover {
+    transform: translateY(-5px);
+    border-color: var(--gold);
+    box-shadow: 0 16px 64px rgba(0, 0, 0, 0.6),
+                0 0 0 3px rgba(76, 168, 223, 0.5),
+                inset 0 2px 0 rgba(255, 255, 255, 0.3);
+}
+
+.unified-card-primary:hover::before {
+    height: 6px;
+    box-shadow: 0 0 20px rgba(76, 168, 223, 0.6);
+}
+
+/* 次要卡片 - 用於內部小卡片 */
+.unified-card-secondary {
+    background: var(--glass-bg-medium) !important;
+    backdrop-filter: var(--glass-blur-medium) !important;
+    -webkit-backdrop-filter: var(--glass-blur-medium) !important;
+    border: 2px solid var(--glass-border) !important;
+    border-radius: 20px !important;
+    padding: 2rem !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4),
+                0 0 0 1px rgba(76, 168, 223, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
+    position: relative !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.unified-card-secondary:hover {
+    transform: translateY(-3px);
+    border-color: var(--gold-light);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5),
+                0 0 0 2px rgba(76, 168, 223, 0.3);
+}
+
 html {
     scroll-behavior: smooth;
     background-color: #000000;
@@ -135,6 +202,17 @@ body {
     min-height: 100vh;
 }
 
+/* ============================================
+   Z-INDEX 系統 (統一管理)
+   ============================================
+   -10  → 星雲背景 (body::after)
+   -9   → Galaxy 背景
+   -5   → Canvas 星空
+   -3   → 星空容器
+   -2   → 星星層 (靜態、移動)
+   -1   → 流星
+   ------------------------------------------- */
+
 /* Canvas 星空背景 - Hero section */
 #starrySkyCanvas {
     position: fixed;
@@ -143,7 +221,7 @@ body {
     width: 100%;
     height: 100%;
     min-height: 100vh;
-    z-index: -3;
+    z-index: -5 !important;
     pointer-events: none;
     background: transparent;
 }
@@ -156,7 +234,7 @@ body {
     width: 100%;
     height: 100%;
     min-height: 100vh;
-    z-index: -1 !important;
+    z-index: -3 !important;
     pointer-events: none;
     overflow: visible;
     background: transparent !important;
@@ -180,7 +258,7 @@ body {
     min-height: 100vh;
     /* 確保覆蓋整個頁面高度 */
     min-height: 100%;
-    z-index: 1 !important;
+    z-index: -2 !important;
     overflow: visible !important;
     background: transparent !important;
 }
@@ -194,7 +272,7 @@ body {
     height: 1px;
     border-radius: 50%;
     background: transparent !important;
-    z-index: 10 !important;
+    z-index: -2 !important;
     opacity: 1 !important;
     visibility: visible !important;
     display: block !important;
@@ -242,7 +320,7 @@ body {
     left: 0;
     border-radius: 50%;
     background: transparent !important;
-    z-index: 10 !important;
+    z-index: -2 !important;
     opacity: 1 !important;
     visibility: visible !important;
     display: block !important;
@@ -309,7 +387,7 @@ body {
 
 /* 流星效果（參考代碼風格） */
 .shooting-star {
-    z-index: 2 !important;
+    z-index: -1 !important;
     width: 5px;
     height: 85px;
     border-top-left-radius: 50%;
@@ -346,10 +424,10 @@ body {
     background: transparent;
 }
 
-/* 其他 section 使用新的星空背景 - 確保星空可見 */
+/* 統一所有 section 的 z-index - 確保星空可見 */
 section:not(.hero):not(.page-hero) {
     position: relative;
-    z-index: 10;
+    z-index: 10 !important;
     background: transparent !important;
     /* 確保不遮擋星空背景 */
     background-color: transparent !important;
@@ -363,6 +441,7 @@ body::after {
     position: fixed;
     inset: 0;
     min-height: 100vh;
+    z-index: -10 !important;
     background:
         /* 長條形星雲帶 - 橫向銀河效果 */
         linear-gradient(90deg,
@@ -399,7 +478,7 @@ body::after {
         radial-gradient(ellipse 900px 700px at 60% 80%, rgba(135, 206, 250, 0.03) 0%, transparent 55%);
     mix-blend-mode: screen;
     opacity: 0.25;
-    z-index: -5;
+    z-index: -9 !important;
     pointer-events: none;
     /* 移除動畫，保持靜態星雲效果 */
     background-size: 200% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%;
@@ -413,7 +492,7 @@ body::after {
     width: 100%;
     height: 100%;
     min-height: 100vh;
-    z-index: -3;
+    z-index: -9 !important;
     pointer-events: none;
     opacity: 0.25;
     background:
@@ -1946,7 +2025,6 @@ body::after {
     padding: 8rem 0 !important;
     background: transparent;
     position: relative;
-    z-index: 100 !important;
     overflow: visible;
     border: none;
 }
@@ -2139,59 +2217,77 @@ body::after {
 
 /* BNI簡介連結區塊（首頁） */
 .bni-intro-link {
-    padding: 5rem 0;
+    padding: 8rem 0;
     background: transparent;
     position: relative;
 }
 
+/* 使用統一卡片系統 */
 .bni-intro-link-content {
     text-align: center;
-    max-width: 800px;
+    max-width: 900px;
     margin: 0 auto;
-    background: var(--glass-bg-medium);
-    backdrop-filter: var(--glass-blur-strong);
-    -webkit-backdrop-filter: var(--glass-blur-strong);
-    border: 2px solid var(--glass-border);
-    border-radius: 20px;
-    padding: 3rem 2.5rem;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 
-                0 0 0 1px rgba(76, 168, 223, 0.1),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-    transition: var(--transition);
-    position: relative;
-    overflow: hidden;
+    background: var(--glass-bg-medium) !important;
+    backdrop-filter: var(--glass-blur-strong) !important;
+    -webkit-backdrop-filter: var(--glass-blur-strong) !important;
+    border: 3px solid var(--glass-border-strong) !important;
+    border-radius: 24px !important;
+    padding: 4rem 3rem !important;
+    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5), 
+                0 0 0 2px rgba(76, 168, 223, 0.3),
+                inset 0 2px 0 rgba(255, 255, 255, 0.2) !important;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    position: relative !important;
+    overflow: hidden !important;
 }
 
+/* 頂部金色線 */
 .bni-intro-link-content::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, transparent, var(--gold), transparent);
-    opacity: 0.6;
+    height: 5px;
+    background: linear-gradient(90deg, transparent, #4ca8df, transparent);
+    opacity: 0.8;
+    z-index: 2;
 }
 
 .bni-intro-link-content:hover {
     transform: translateY(-5px);
     border-color: var(--gold);
-    box-shadow: 0 12px 40px rgba(76, 168, 223, 0.3);
+    box-shadow: 0 16px 64px rgba(0, 0, 0, 0.6),
+                0 0 0 3px rgba(76, 168, 223, 0.5),
+                inset 0 2px 0 rgba(255, 255, 255, 0.3);
 }
 
 .bni-intro-link-content:hover::before {
-    opacity: 1;
     height: 6px;
+    box-shadow: 0 0 20px rgba(76, 168, 223, 0.6);
+}
+
+.bni-intro-link-content .section-title {
+    font-size: 3rem;
+    margin-bottom: 2rem;
+    color: var(--gold);
+    text-shadow: 0 2px 10px rgba(76, 168, 223, 0.3);
 }
 
 .bni-intro-link-text {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     color: var(--text-gray);
-    line-height: 1.8;
-    margin: 2rem 0 3rem;
+    line-height: 2;
+    margin: 2.5rem 0 3rem;
     word-wrap: break-word;
     overflow-wrap: break-word;
-    padding: 0;
+    padding: 0 1rem;
+}
+
+.bni-intro-link-content .btn-primary {
+    margin-top: 1rem;
+    padding: 1.2rem 3rem;
+    font-size: 1.1rem;
 }
 
 /* 回到首頁連結 */
@@ -5049,7 +5145,6 @@ body::after {
     padding: 8rem 0 !important;
     background: transparent;
     position: relative;
-    z-index: 100 !important;
     border: none;
     overflow: visible;
 }
