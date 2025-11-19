@@ -325,14 +325,14 @@ body {
     width: 1px;
     height: 1px;
     border-radius: 50%;
-    background: transparent !important;
+    background: white !important;
     z-index: -2 !important;
     opacity: 1 !important;
     visibility: visible !important;
     display: block !important;
     overflow: visible !important;
     pointer-events: none;
-    filter: brightness(2) contrast(1.5) drop-shadow(0 0 2px rgba(255, 255, 255, 0.8)) !important;
+    box-shadow: 0 0 4px 2px rgba(255, 255, 255, 0.9) !important;
 }
 
 /* 參考代碼：使用 :after 偽元素增加星星數量 */
@@ -374,14 +374,14 @@ body {
     top: 0;
     left: 0;
     border-radius: 50%;
-    background: transparent !important;
+    background: white !important;
     z-index: -2 !important;
     opacity: 1 !important;
     visibility: visible !important;
     display: block !important;
     overflow: visible !important;
     pointer-events: none;
-    filter: brightness(2) contrast(1.5) drop-shadow(0 0 3px rgba(255, 255, 255, 0.8)) !important;
+    box-shadow: 0 0 6px 3px rgba(255, 255, 255, 0.9) !important;
 }
 
 .moving-stars-layer.moving-stars0 {

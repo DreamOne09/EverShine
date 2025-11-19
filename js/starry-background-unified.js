@@ -288,8 +288,9 @@ class StarrySkyManager {
         this.config.css.movingStars.forEach((layer, i) => {
             const div = document.createElement('div');
             div.className = `moving-stars-layer moving-stars${i}`;
-            div.style.cssText = `position:absolute!important;top:0!important;left:0!important;width:${layer.size}!important;height:${layer.size}!important;border-radius:50%!important;background:transparent!important;z-index:-2!important;opacity:1!important;visibility:visible!important;display:block!important;overflow:visible!important;pointer-events:none!important;filter:brightness(1.5) contrast(1.3)!important;`;
+            div.style.cssText = `position:absolute!important;top:0!important;left:0!important;width:${layer.size}!important;height:${layer.size}!important;border-radius:50%!important;background:white!important;z-index:-2!important;opacity:1!important;visibility:visible!important;display:block!important;overflow:visible!important;pointer-events:none!important;`;
             sky.appendChild(div);
+            console.log(`✅ 創建移動星星層 ${i}`);
         });
         
         container.appendChild(sky);
@@ -409,12 +410,12 @@ class StarrySkyManager {
         for (let i = 0; i < actualCount; i++) {
             const x = Math.floor(Math.random() * maxX);
             const y = Math.floor(Math.random() * maxY);
-            // 使用純白色星星，加大發光效果確保可見
-            shadows.push(`${x}px ${y}px 0 2px rgba(255, 255, 255, 1), ${x}px ${y}px 0 4px rgba(255, 255, 255, 0.5)`);
+            // 使用簡單格式，確保星星可見：xpx ypx 2px 2px white
+            shadows.push(`${x}px ${y}px 0 2px white`);
         }
         
         const result = shadows.join(' , ');
-        console.log(`生成 ${actualCount} 顆靜態星星，box-shadow 長度: ${result.length} 字符`);
+        console.log(`✅ 生成 ${actualCount} 顆靜態星星，box-shadow 長度: ${result.length} 字符`);
         return result;
     }
     
@@ -425,12 +426,12 @@ class StarrySkyManager {
         for (let i = 0; i < actualCount; i++) {
             const x = Math.floor(Math.random() * maxX);
             const y = Math.floor(Math.random() * maxY);
-            // 使用純白色星星，加大發光效果確保可見
-            shadows.push(`${x}px ${y}px 0 3px rgba(255, 255, 255, 1), ${x}px ${y}px 0 6px rgba(255, 255, 255, 0.4)`);
+            // 使用簡單格式，確保星星可見：xpx ypx 0 3px white
+            shadows.push(`${x}px ${y}px 0 3px white`);
         }
         
         const result = shadows.join(' , ');
-        console.log(`生成 ${actualCount} 顆移動星星，box-shadow 長度: ${result.length} 字符`);
+        console.log(`✅ 生成 ${actualCount} 顆移動星星，box-shadow 長度: ${result.length} 字符`);
         return result;
     }
     
