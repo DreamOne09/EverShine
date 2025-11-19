@@ -1125,9 +1125,24 @@ body::after {
 /* 新的關於長輝白金分會佈局 - 3欄：左側標題+圖形，中間內容，右側核心價值 */
 /* 關於長輝白金分會 - 統一卡片樣式 */
 .about-purpose-card {
-    max-width: 900px;
-    margin: 2rem auto 3rem;
-    text-align: center;
+    background: var(--glass-bg-medium) !important;
+    backdrop-filter: var(--glass-blur-strong) !important;
+    -webkit-backdrop-filter: var(--glass-blur-strong) !important;
+    border: 1px solid var(--glass-border) !important;
+    border-radius: 10px !important;
+    padding: 2.5rem !important;
+    max-width: 900px !important;
+    margin: 2rem auto 3rem !important;
+    text-align: center !important;
+    transition: var(--transition) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
+    position: relative !important;
+}
+
+.about-purpose-card:hover {
+    transform: translateY(-5px) !important;
+    border-color: var(--gold) !important;
+    box-shadow: 0 10px 30px rgba(76, 168, 223, 0.28) !important;
 }
 
 .about-logo-container {
@@ -1197,8 +1212,23 @@ body::after {
 
 /* 核心價值統一卡片 */
 .values-card {
-    max-width: 900px;
-    margin: 0 auto;
+    background: var(--glass-bg-medium) !important;
+    backdrop-filter: var(--glass-blur-strong) !important;
+    -webkit-backdrop-filter: var(--glass-blur-strong) !important;
+    border: 1px solid var(--glass-border) !important;
+    border-radius: 10px !important;
+    padding: 2.5rem !important;
+    max-width: 900px !important;
+    margin: 0 auto !important;
+    transition: var(--transition) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
+    position: relative !important;
+}
+
+.values-card:hover {
+    transform: translateY(-5px) !important;
+    border-color: var(--gold) !important;
+    box-shadow: 0 10px 30px rgba(76, 168, 223, 0.28) !important;
 }
 
 .values-card-title {
@@ -4433,18 +4463,6 @@ body::after {
     transform: translateY(-5px) !important;
     border-color: var(--gold) !important;
     box-shadow: 0 10px 30px rgba(76, 168, 223, 0.28) !important;
-}
-
-.success-card-individual::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 5px;
-    background: linear-gradient(90deg, transparent, var(--gold), transparent);
-    opacity: 0.8;
-    z-index: 2;
 }
 
 
