@@ -1087,10 +1087,10 @@ body::after {
    關於我們
    ============================================ */
 .about {
-    padding: 8rem 0;
+    padding: var(--section-padding-y) 0;
     background: transparent;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
     border: none;
     border-bottom: none;
 }
@@ -1501,7 +1501,7 @@ body::after {
    大事記
    ============================================ */
 .timeline {
-    padding: 7rem 0;
+    padding: var(--section-padding-y) 0;
     background: transparent;
     position: relative;
     overflow: hidden;
@@ -3316,20 +3316,34 @@ body::after {
 }
 
 .requirements-section,
-.meeting-features {
-    margin-bottom: 3rem;
-    padding: 3rem;
-    background: var(--glass-bg-medium);
-    backdrop-filter: var(--glass-blur-medium);
-    -webkit-backdrop-filter: var(--glass-blur-medium);
-    border-radius: 15px;
-    border: 1px solid var(--glass-border);
+.meeting-features,
+.offline-section {
+    padding: var(--space-xl) var(--space-lg);
+    background: var(--color-bg-elevated);
+    backdrop-filter: var(--glass-blur-strong);
+    -webkit-backdrop-filter: var(--glass-blur-strong);
+    border-radius: 24px;
+    border: 3px solid var(--glass-border-strong);
     position: relative;
-    box-shadow: var(--glass-shadow-light);
+    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5), 
+                0 0 0 2px rgba(76, 168, 223, 0.3),
+                inset 0 2px 0 rgba(255, 255, 255, 0.2);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .requirements-section::before,
-.meeting-features::before {
+.meeting-features::before,
+.offline-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, transparent, #4ca8df, transparent);
+    opacity: 0.8;
+    z-index: 2;
+}
     content: '';
     position: absolute;
     top: 0;
