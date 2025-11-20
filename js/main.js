@@ -692,11 +692,13 @@ function initMemberToggles() {
     const toggleButtons = document.querySelectorAll('.member-toggle-btn');
     toggleButtons.forEach(btn => {
         btn.addEventListener('click', (e) => {
+            e.stopPropagation();
             const targetId = btn.getAttribute('data-target');
             const detailsElement = document.getElementById(`${targetId}-details`);
             const icon = btn.querySelector('.toggle-icon');
             const card = btn.closest('.member-card');
             const shortDesc = card?.querySelector('.member-short-description');
+            const membersGrid = card?.closest('.category-members-grid');
             
             if (detailsElement) {
                 const isExpanded = detailsElement.classList.toggle('expanded');
@@ -708,9 +710,29 @@ function initMemberToggles() {
                     if (isExpanded) {
                         shortDesc.style.display = 'none';
                         card.classList.remove('collapsed');
+                        card.classList.add('expanded-full');
+                        
+                        // 隱藏旁邊的會員卡片
+                        if (membersGrid) {
+                            const allCards = membersGrid.querySelectorAll('.member-card');
+                            allCards.forEach(otherCard => {
+                                if (otherCard !== card && !otherCard.classList.contains('expanded-full')) {
+                                    otherCard.style.display = 'none';
+                                }
+                            });
+                        }
                     } else {
                         shortDesc.style.display = 'block';
                         card.classList.add('collapsed');
+                        card.classList.remove('expanded-full');
+                        
+                        // 顯示所有會員卡片
+                        if (membersGrid) {
+                            const allCards = membersGrid.querySelectorAll('.member-card');
+                            allCards.forEach(otherCard => {
+                                otherCard.style.display = '';
+                            });
+                        }
                     }
                 }
             }
