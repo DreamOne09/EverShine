@@ -325,7 +325,17 @@ class StarrySkyManager {
             sky.style.height = `${newHeight}px`;
         };
         
-        window.addEventListener('scroll', updateHeight);
+        // 只在頁面高度變化時更新容器高度，不重新生成星星
+        let lastHeight = Math.max(document.documentElement.scrollHeight, window.innerHeight);
+        window.addEventListener('scroll', () => {
+            const currentHeight = Math.max(document.documentElement.scrollHeight, window.innerHeight);
+            if (Math.abs(currentHeight - lastHeight) > 100) { // 只有高度變化超過100px才更新
+                updateHeight();
+                lastHeight = currentHeight;
+            }
+        });
+        
+        // 視窗大小改變時才重新生成星星
         window.addEventListener('resize', () => {
             clearTimeout(resizeTimeout);
             resizeTimeout = setTimeout(() => {
@@ -339,11 +349,23 @@ class StarrySkyManager {
     generateAllStars(sky, container) {
         if (!sky || !container) return;
         
+        // 檢查是否已經生成過星星（避免重複生成）
+        if (sky.dataset.starsGenerated === 'true') {
+            // 只更新高度，不重新生成星星
+            const h = Math.max(document.documentElement.scrollHeight, window.innerHeight, 5000);
+            container.style.height = `${h}px`;
+            sky.style.height = `${h}px`;
+            return;
+        }
+        
         const w = Math.max(window.innerWidth, 2560);
         const h = Math.max(document.documentElement.scrollHeight, window.innerHeight, 5000);
         
         container.style.height = `${h}px`;
         sky.style.height = `${h}px`;
+        
+        // 標記已生成星星
+        sky.dataset.starsGenerated = 'true';
         
         // 生成靜態星星
         const staticLayers = sky.querySelectorAll('.static-stars-layer');
