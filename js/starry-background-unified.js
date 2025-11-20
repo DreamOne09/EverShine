@@ -503,10 +503,30 @@ class StarrySkyManager {
 // ============================================
 const starrySkyManager = new StarrySkyManager();
 
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
+// 確保在DOM準備好後立即初始化
+function initStarrySky() {
+    if (document.body) {
         starrySkyManager.init();
-    });
-} else {
-    starrySkyManager.init();
+    } else {
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                starrySkyManager.init();
+            });
+        } else {
+            // DOM已經準備好
+            setTimeout(() => {
+                starrySkyManager.init();
+            }, 0);
+        }
+    }
 }
+
+// 立即嘗試初始化
+initStarrySky();
+
+// 如果還沒初始化，在window.load時再試一次
+window.addEventListener('load', () => {
+    if (!starrySkyManager.isInitialized) {
+        starrySkyManager.init();
+    }
+});

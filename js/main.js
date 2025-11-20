@@ -36,8 +36,36 @@ document.addEventListener('DOMContentLoaded', () => {
     // 初始化 FAQ 互動功能
     initFAQ();
     
-    // 隱藏載入畫面
+    // 隱藏載入畫面 - 確保LOGO有時間顯示
     window.addEventListener('load', () => {
+        // 診斷：檢查LOGO是否載入
+        const logo = document.querySelector('.loader-logo');
+        if (logo) {
+            console.log('🔍 LOGO診斷:', {
+                complete: logo.complete,
+                naturalWidth: logo.naturalWidth,
+                naturalHeight: logo.naturalHeight,
+                src: logo.src,
+                currentSrc: logo.currentSrc,
+                style: {
+                    display: window.getComputedStyle(logo).display,
+                    opacity: window.getComputedStyle(logo).opacity,
+                    visibility: window.getComputedStyle(logo).visibility
+                }
+            });
+            
+            if (!logo.complete) {
+                logo.addEventListener('load', () => {
+                    console.log('✅ LOGO載入完成');
+                });
+                logo.addEventListener('error', () => {
+                    console.error('❌ LOGO載入失敗');
+                });
+            }
+        } else {
+            console.error('❌ 找不到LOGO元素');
+        }
+        
         setTimeout(() => {
             const loader = document.getElementById('pageLoader');
             if (loader) {
@@ -46,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     loader.style.display = 'none';
                 }, 500);
             }
-        }, 1500); // 顯示1.5秒後隱藏
+        }, 2000); // 增加到2秒，確保LOGO有時間顯示
     });
 });
 
@@ -56,28 +84,64 @@ document.addEventListener('DOMContentLoaded', () => {
 function initFAQ() {
     const faqItems = document.querySelectorAll('.faq-item');
     
-    faqItems.forEach(item => {
+    if (faqItems.length === 0) {
+        console.warn('FAQ: 找不到任何 FAQ 項目');
+        return;
+    }
+    
+    faqItems.forEach((item, index) => {
         const question = item.querySelector('.faq-question');
-        if (question) {
-            question.addEventListener('click', () => {
-                const isActive = item.classList.contains('active');
-                
-                // 關閉其他 FAQ
-                faqItems.forEach(otherItem => {
-                    if (otherItem !== item) {
-                        otherItem.classList.remove('active');
-                    }
-                });
-                
-                // 切換當前 FAQ
-                if (isActive) {
-                    item.classList.remove('active');
-                } else {
-                    item.classList.add('active');
+        const toggle = item.querySelector('.faq-toggle');
+        
+        if (!question) {
+            console.warn(`FAQ: 項目 ${index} 找不到 .faq-question`);
+            return;
+        }
+        
+        if (!toggle) {
+            console.warn(`FAQ: 項目 ${index} 找不到 .faq-toggle`);
+        }
+        
+        // 確保初始狀態正確
+        if (!item.classList.contains('active')) {
+            item.classList.remove('active');
+        }
+        
+        question.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const isActive = item.classList.contains('active');
+            
+            // 關閉其他 FAQ
+            faqItems.forEach(otherItem => {
+                if (otherItem !== item) {
+                    otherItem.classList.remove('active');
                 }
             });
-        }
+            
+            // 切換當前 FAQ
+            if (isActive) {
+                item.classList.remove('active');
+            } else {
+                item.classList.add('active');
+            }
+        });
+        
+        // 添加鍵盤支援
+        question.setAttribute('tabindex', '0');
+        question.setAttribute('role', 'button');
+        question.setAttribute('aria-expanded', 'false');
+        
+        question.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                question.click();
+            }
+        });
     });
+    
+    console.log(`FAQ: 已初始化 ${faqItems.length} 個 FAQ 項目`);
 }
 
 // ============================================

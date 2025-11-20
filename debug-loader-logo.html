@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>LOGO載入診斷</title>
+    <style>
+        body { background: #000; color: #fff; padding: 20px; font-family: monospace; }
+        .test { margin: 20px 0; padding: 10px; border: 1px solid #fff; }
+        img { border: 2px solid red; }
+    </style>
+</head>
+<body>
+    <h1>LOGO載入診斷</h1>
+    
+    <div class="test">
+        <h2>測試1: 直接路徑</h2>
+        <img src="images/assets/logo/白色正方形logo.png" alt="測試1" style="width: 200px; height: 200px;" onload="console.log('測試1載入成功')" onerror="console.error('測試1載入失敗')">
+    </div>
+    
+    <div class="test">
+        <h2>測試2: 相對路徑</h2>
+        <img src="./images/assets/logo/白色正方形logo.png" alt="測試2" style="width: 200px; height: 200px;" onload="console.log('測試2載入成功')" onerror="console.error('測試2載入失敗')">
+    </div>
+    
+    <div class="test">
+        <h2>測試3: 絕對路徑</h2>
+        <img src="/images/assets/logo/白色正方形logo.png" alt="測試3" style="width: 200px; height: 200px;" onload="console.log('測試3載入成功')" onerror="console.error('測試3載入失敗')">
+    </div>
+    
+    <script>
+        const img = new Image();
+        img.onload = () => console.log('JavaScript載入成功:', img.width, 'x', img.height);
+        img.onerror = () => console.error('JavaScript載入失敗');
+        img.src = 'images/assets/logo/白色正方形logo.png';
+    </script>
+</body>
+</html>
+

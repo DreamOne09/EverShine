@@ -60,29 +60,27 @@
     .success-member-info-header .success-member-industry{font-size:1.5rem!important;color:#f4f9ff!important;font-weight:600!important;margin:0!important;padding:.75rem 1.25rem!important;background:rgba(76,168,223,.2)!important;border-radius:12px!important;border:1px solid rgba(76,168,223,.4)!important;display:inline-block!important;width:fit-content!important}
     .success-member-bubble{display:none!important}
     
-    /* 載入畫面 */
+    /* 載入畫面 - 修復LOGO顯示問題 */
     .page-loader{position:fixed!important;top:0!important;left:0!important;width:100%!important;height:100%!important;background:#000!important;z-index:9999!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;transition:opacity .5s ease!important}
     .page-loader.hidden{opacity:0!important;pointer-events:none!important}
     .loader-text{font-family:'Noto Sans TC',sans-serif!important;font-size:2rem!important;color:#4ca8df!important;margin-bottom:2rem!important;font-weight:700!important;animation:fadeIn 1s ease!important}
-    .loader-logo{width:200px!important;height:200px!important;object-fit:contain!important;animation:logoFadeIn 1.5s ease!important;opacity:0!important;animation-fill-mode:forwards!important;display:block!important;margin-top:1rem!important;visibility:visible!important}
+    .loader-logo{max-width:400px!important;width:auto!important;height:auto!important;max-height:150px!important;object-fit:contain!important;display:block!important;margin-top:1rem!important;visibility:visible!important;opacity:1!important;filter:drop-shadow(0 0 20px rgba(76,168,223,0.5))!important;animation:none!important}
     @keyframes fadeIn{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
-    @keyframes logoFadeIn{0%{opacity:0;transform:scale(0.8)}30%{opacity:0.5;transform:scale(0.9)}100%{opacity:1;transform:scale(1)}}
+    /* 移除logoFadeIn動畫，直接顯示LOGO */
     
     /* 響應式：手機版改回垂直佈局 */
     @media (max-width:1024px){.success-card-individual{flex-direction:column!important}.success-card-image-wrapper{width:100%!important;height:300px!important;min-height:300px!important;border-radius:10px 10px 0 0!important;border-right:none!important;border-bottom:2px solid rgba(76,168,223,.3)!important}.success-card-image{border-radius:10px 10px 0 0!important;min-height:300px!important}.success-card-body{width:100%!important;border-radius:0 0 10px 10px!important}.success-member-info-header .success-member-name{font-size:2rem!important}.success-member-info-header .success-member-industry{font-size:1.3rem!important}}
     @media (max-width:768px){.success-card-image-wrapper{height:280px!important;min-height:280px!important}.success-card-image{min-height:280px!important}.success-member-info-header .success-member-name{font-size:1.8rem!important}.success-member-info-header .success-member-industry{font-size:1.2rem!important}}
     </style>
     
-    <!-- 預載入關鍵資源 -->
-    <link rel="preload" href="js/starry-background-unified.js" as="script">
-    
     <!-- 字體預連接 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
     <!-- 樣式和腳本 -->
-    <link rel="stylesheet" href="css/style.css?v=20250131-STARS-LOADER-FIX">
-    <script src="js/starry-background-unified.js?v=20250131-STARS-FIX"></script>
+    <link rel="stylesheet" href="css/style.css?v=20250201-FINAL-FIX">
+    <!-- 星空背景腳本在head中立即載入，不需要preload -->
+    <script src="js/starry-background-unified.js?v=20250201-FINAL-FIX"></script>
     
     <!-- 字體載入（使用 display=swap 避免阻塞） -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -96,7 +94,7 @@
     <!-- 載入畫面 -->
     <div class="page-loader" id="pageLoader">
         <div class="loader-text">歡迎來到長輝白金分會</div>
-        <img src="images/assets/logo/白色正方形logo.png" alt="長輝白金分會" class="loader-logo" onerror="this.style.display='none';">
+        <img src="images/assets/logo/透明底白字長條logo.png" alt="長輝白金分會" class="loader-logo" style="display: block !important; opacity: 1 !important; visibility: visible !important; max-width: 400px !important; height: auto !important; width: auto !important;" onload="console.log('✅ LOGO載入成功'); this.style.opacity='1';" onerror="console.error('❌ LOGO載入失敗，路徑:', this.src); const testImg = new Image(); testImg.onerror = () => console.error('❌ 圖片路徑驗證失敗'); testImg.src = 'images/assets/logo/透明底白字長條logo.png';">
     </div>
     
     <!-- Skip to main content -->
@@ -128,6 +126,53 @@
                 <h2 class="section-title" id="bni-intro-title">什麼是BNI？</h2>
                 <p class="bni-intro-link-text">BNI（Business Network International）是全球最大商務引薦平台，成立40年，遍及76+國家，擁有11,300+分會和34萬+會員。透過專業的引薦機制，協助企業家建立強而有力的商業網絡。</p>
                 <a href="/what-is-bni" class="btn-primary">了解更多關於BNI</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 成交數據區段 -->
+    <section id="results" class="results-section">
+        <div class="container">
+            <div class="results-card unified-card-simple">
+                <div class="results-header">
+                    <h2 class="section-title">我們不是聊理想，而是在聊「成交」</h2>
+                    <p class="results-intro">很多人對商務社群有誤解，覺得只是打打招呼、曬曬名片</p>
+                    <p class="results-intro highlight">氣氛很好但沒有成果</p>
+                    <p class="results-main-text">但在 BNI 長輝白金分會，我們每一週都在創造真實的成交數據</p>
+                </div>
+                
+                <div class="results-data">
+                    <div class="data-item">
+                        <div class="data-label">上月引薦單數</div>
+                        <div class="data-value">470 <span class="data-unit">張</span></div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-label">引薦金額</div>
+                        <div class="data-value">NT$ <span class="data-number">12,731,112</span></div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-label">已建立商務夥伴連結</div>
+                        <div class="data-value">60+ <span class="data-unit">不同產業</span></div>
+                    </div>
+                </div>
+                
+                <div class="results-note">
+                    <p class="note-text">※ 以上數據為 2025年5月 整理</p>
+                </div>
+                
+                <div class="results-reasons">
+                    <p class="reasons-title">這些數字不是偶然，而是因為我們每週：</p>
+                    <ul class="reasons-list">
+                        <li>✔ 進行結構清晰的交流流程（會員專業精準的25秒介紹、5分鐘專業主講介紹、分組交流）</li>
+                        <li>✔ 每一位會員都扮演角色，協助彼此精準曝光、引薦</li>
+                        <li>✔ 邀請來賓參與、接觸全新客群，產生更多合作可能</li>
+                    </ul>
+                </div>
+                
+                <div class="results-footer">
+                    <p class="footer-text">你不需要等生意上門，這裡的每一個人都在為彼此開門</p>
+                    <p class="footer-highlight">我們不是聊理想，而是在聊「成交」</p>
+                </div>
             </div>
         </div>
     </section>
@@ -192,52 +237,54 @@
     <!-- 關於我們 -->
     <section id="about" class="about">
         <div class="container">
-            <h2 class="section-title">關於長輝白金分會</h2>
-            
-            <!-- 3欄佈局：Core Purpose, Mission, Vision -->
-            <div class="about-grid-3col">
-                <div class="about-card unified-card-simple">
-                    <div class="about-card-icon">🎯</div>
-                    <h3 class="about-card-title">Core Purpose</h3>
-                    <p class="about-card-text">精進會員的個人成長、壯大夥伴彼此的事業</p>
+            <div class="about-section-wrapper">
+                <!-- 左邊：標題 -->
+                <div class="about-title-column">
+                    <h2 class="section-title">關於長輝白金分會</h2>
                 </div>
                 
-                <div class="about-card unified-card-simple">
-                    <div class="about-card-icon">🚀</div>
-                    <h3 class="about-card-title">Mission</h3>
-                    <ul class="about-card-list">
-                        <li>強化產業合作</li>
-                        <li>發展強而有力的夥伴關係</li>
-                        <li>創造持續不斷的引薦</li>
-                    </ul>
+                <!-- 中間：Core Purpose, Mission, Vision -->
+                <div class="about-grid-3col">
+                    <div class="about-card unified-card-simple">
+                        <h3 class="about-card-title">Core Purpose</h3>
+                        <p class="about-card-text">精進會員的個人成長、壯大夥伴彼此的事業</p>
+                    </div>
+                    
+                    <div class="about-card unified-card-simple">
+                        <h3 class="about-card-title">Mission</h3>
+                        <ul class="about-card-list">
+                            <li>強化產業合作</li>
+                            <li>發展強而有力的夥伴關係</li>
+                            <li>創造持續不斷的引薦</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="about-card unified-card-simple">
+                        <h3 class="about-card-title">Vision</h3>
+                        <p class="about-card-text">成為企業家首選的商務合作平台</p>
+                    </div>
                 </div>
                 
-                <div class="about-card unified-card-simple">
-                    <div class="about-card-icon">🌟</div>
-                    <h3 class="about-card-title">Vision</h3>
-                    <p class="about-card-text">成為企業家首選的商務合作平台</p>
-                </div>
-            </div>
-            
-            <!-- 核心價值統一卡片 -->
-            <div class="values-card unified-card-simple">
-                <h3 class="values-card-title">核心價值</h3>
-                <div class="values-grid">
-                    <div class="value-item">
-                        <strong>專業</strong>
-                        <p>以專業的態度與服務，為每位會員提供最優質的商務引薦與支援</p>
-                    </div>
-                    <div class="value-item">
-                        <strong>誠信</strong>
-                        <p>以誠信為本，建立互信互重的合作關係，打造可靠的商務平台</p>
-                    </div>
-                    <div class="value-item">
-                        <strong>熱情</strong>
-                        <p>懷抱熱忱與積極態度，持續推動商會發展與會員成長</p>
-                    </div>
-                    <div class="value-item">
-                        <strong>實踐</strong>
-                        <p>將理念化為行動，透過實際的引薦與合作，創造實質的商業價值</p>
+                <!-- 右邊：核心價值 -->
+                <div class="values-card unified-card-simple">
+                    <h3 class="values-card-title">核心價值</h3>
+                    <div class="values-grid">
+                        <div class="value-item">
+                            <strong>專業</strong>
+                            <p>以專業的態度與服務，為每位會員提供最優質的商務引薦與支援</p>
+                        </div>
+                        <div class="value-item">
+                            <strong>誠信</strong>
+                            <p>以誠信為本，建立互信互重的合作關係，打造可靠的商務平台</p>
+                        </div>
+                        <div class="value-item">
+                            <strong>熱情</strong>
+                            <p>懷抱熱忱與積極態度，持續推動商會發展與會員成長</p>
+                        </div>
+                        <div class="value-item">
+                            <strong>實踐</strong>
+                            <p>將理念化為行動，透過實際的引薦與合作，創造實質的商業價值</p>
+                        </div>
                     </div>
                 </div>
             </div>
