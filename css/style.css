@@ -2009,12 +2009,13 @@ body::after {
     -webkit-backdrop-filter: var(--glass-blur-strong);
     border: 1px solid var(--glass-border);
     border-radius: 15px;
-    padding: 1.25rem;
+    padding: 1rem;
     transition: var(--transition);
     position: relative;
     overflow: hidden;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    gap: 1.25rem;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
 }
 
@@ -2042,9 +2043,11 @@ body::after {
 
 .member-header {
     display: flex;
+    flex-direction: row;
     align-items: flex-start;
     gap: 1.25rem;
     margin-bottom: 0;
+    flex: 1;
 }
 
 .member-photo-container {
@@ -2053,8 +2056,8 @@ body::after {
 }
 
 .member-photo {
-    width: 120px;
-    height: 120px;
+    width: 160px;
+    height: 160px;
     border-radius: 12px;
     object-fit: cover;
     object-position: center top;
@@ -2072,17 +2075,19 @@ body::after {
     justify-content: flex-start;
     min-width: 0;
     gap: 0.5rem;
+    padding-top: 0;
 }
 
 .member-name-industry {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 0.8rem;
+    gap: 0.75rem;
     flex-wrap: wrap;
     flex: 1;
     min-width: 0;
     width: 100%;
+    margin-bottom: 0.5rem;
 }
 
 .member-industry {
@@ -4122,37 +4127,57 @@ body::after {
         margin-top: 1.5rem !important;
     }
 
-    /* 手機版：會員卡片優化 */
+    /* 手機版：會員卡片優化 - 保持水平佈局 */
     .member-card {
-        padding: 1rem !important;
+        padding: 0.875rem !important;
+        flex-direction: row !important;
+        gap: 1rem !important;
     }
 
     .member-header {
         gap: 1rem !important;
+        flex-direction: row !important;
     }
 
     .member-photo {
-        width: 100px !important;
-        height: 100px !important;
+        width: 120px !important;
+        height: 120px !important;
     }
 
     .member-basic-info {
         gap: 0.4rem !important;
+        flex: 1 !important;
     }
 
     .member-name-industry {
         flex-direction: row !important;
         align-items: center !important;
         gap: 0.6rem !important;
+        margin-bottom: 0.4rem !important;
     }
 
     .member-name {
-        font-size: 1.2rem !important;
+        font-size: 1.15rem !important;
     }
 
     .member-industry {
-        font-size: 0.9rem !important;
+        font-size: 0.85rem !important;
         padding: 0.3rem 0.7rem !important;
+    }
+
+    .member-short-description {
+        margin-top: 0.4rem !important;
+        padding: 0 !important;
+    }
+
+    .member-short-description p {
+        font-size: 0.9rem !important;
+        line-height: 1.5 !important;
+    }
+
+    .member-toggle-btn {
+        top: 0.875rem !important;
+        right: 0.875rem !important;
     }
 
     .metrics-grid {
