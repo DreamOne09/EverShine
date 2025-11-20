@@ -1733,41 +1733,24 @@ body::after {
 }
 
 .timeline-event {
-    background: var(--glass-bg-dark);
-    backdrop-filter: var(--glass-blur-strong);
-    -webkit-backdrop-filter: var(--glass-blur-strong);
-    border: 1.5px solid rgba(76, 168, 223, 0.3);
-    border-radius: 12px;
-    padding: 1.8rem;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background: var(--glass-bg-medium) !important;
+    backdrop-filter: var(--glass-blur-strong) !important;
+    -webkit-backdrop-filter: var(--glass-blur-strong) !important;
+    border: 1px solid var(--glass-border) !important;
+    border-radius: 10px !important;
+    padding: 2.5rem !important;
+    transition: var(--transition) !important;
     position: relative;
-    overflow: hidden;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-}
-
-.timeline-event::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 4px;
-    height: 100%;
-    background: linear-gradient(180deg, var(--gold), rgba(76, 168, 223, 0.5));
-    transform: scaleY(0);
-    transform-origin: top;
-    transition: transform 0.3s ease;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
 }
 
 .timeline-event:hover {
-    border-color: var(--gold);
-    box-shadow: 0 8px 24px rgba(76, 168, 223, 0.35);
-    transform: translateY(-5px);
-    background: rgba(0, 83, 145, 0.45);
+    transform: translateY(-5px) !important;
+    border-color: var(--gold) !important;
+    box-shadow: 0 10px 30px rgba(76, 168, 223, 0.28) !important;
 }
 
-.timeline-event:hover::before {
-    transform: scaleY(1);
-}
+/* hover效果已在上方統一 */
 
 .event-date {
     font-size: 0.85rem;
@@ -2413,11 +2396,14 @@ body::after {
 
 .contact-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(2, 1fr); /* 電腦版固定2欄 */
     gap: 2rem;
     margin-top: 3rem;
     position: relative;
     z-index: 1;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* ============================================
@@ -2562,41 +2548,18 @@ body::after {
     background: var(--glass-bg-medium) !important;
     backdrop-filter: var(--glass-blur-strong) !important;
     -webkit-backdrop-filter: var(--glass-blur-strong) !important;
-    border: 3px solid var(--glass-border-strong) !important;
-    border-radius: 24px !important;
-    padding: 4rem 3rem !important;
-    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5), 
-                0 0 0 2px rgba(76, 168, 223, 0.3),
-                inset 0 2px 0 rgba(255, 255, 255, 0.2) !important;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    border: 1px solid var(--glass-border) !important;
+    border-radius: 10px !important;
+    padding: 2.5rem !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
+    transition: var(--transition) !important;
     position: relative !important;
-    overflow: hidden !important;
-}
-
-/* 頂部金色線 */
-.bni-intro-link-content::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 5px;
-    background: linear-gradient(90deg, transparent, #4ca8df, transparent);
-    opacity: 0.8;
-    z-index: 2;
 }
 
 .bni-intro-link-content:hover {
-    transform: translateY(-5px);
-    border-color: var(--gold);
-    box-shadow: 0 16px 64px rgba(0, 0, 0, 0.6),
-                0 0 0 3px rgba(76, 168, 223, 0.5),
-                inset 0 2px 0 rgba(255, 255, 255, 0.3);
-}
-
-.bni-intro-link-content:hover::before {
-    height: 6px;
-    box-shadow: 0 0 20px rgba(76, 168, 223, 0.6);
+    transform: translateY(-5px) !important;
+    border-color: var(--gold) !important;
+    box-shadow: 0 10px 30px rgba(76, 168, 223, 0.28) !important;
 }
 
 .bni-intro-link-content .section-title {
@@ -3452,29 +3415,21 @@ body::after {
 
 .features-intro {
     text-align: center;
-    padding: var(--space-xl) var(--space-lg);
-    background: var(--color-bg-elevated);
-    backdrop-filter: var(--glass-blur-strong);
-    -webkit-backdrop-filter: var(--glass-blur-strong);
-    border-radius: 24px;
-    border: 3px solid var(--glass-border-strong);
+    padding: 2.5rem;
+    background: var(--glass-bg-medium) !important;
+    backdrop-filter: var(--glass-blur-strong) !important;
+    -webkit-backdrop-filter: var(--glass-blur-strong) !important;
+    border-radius: 10px !important;
+    border: 1px solid var(--glass-border) !important;
     position: relative;
-    overflow: hidden;
-    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5), 
-                0 0 0 2px rgba(76, 168, 223, 0.3),
-                inset 0 2px 0 rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
+    transition: var(--transition) !important;
 }
 
-.features-intro::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 5px;
-    background: linear-gradient(90deg, transparent, #4ca8df, transparent);
-    opacity: 0.8;
-    z-index: 2;
+.features-intro:hover {
+    transform: translateY(-5px) !important;
+    border-color: var(--gold) !important;
+    box-shadow: 0 10px 30px rgba(76, 168, 223, 0.28) !important;
 }
 
 .intro-text {
@@ -3494,29 +3449,21 @@ body::after {
 
 .feature-main {
     text-align: center;
-    padding: var(--space-2xl) var(--space-xl);
-    background: var(--color-bg-elevated);
-    backdrop-filter: var(--glass-blur-strong);
-    -webkit-backdrop-filter: var(--glass-blur-strong);
-    border-radius: 24px;
-    border: 3px solid var(--glass-border-strong);
+    padding: 2.5rem;
+    background: var(--glass-bg-medium) !important;
+    backdrop-filter: var(--glass-blur-strong) !important;
+    -webkit-backdrop-filter: var(--glass-blur-strong) !important;
+    border-radius: 10px !important;
+    border: 1px solid var(--glass-border) !important;
     position: relative;
-    box-shadow: 0 16px 64px rgba(0, 0, 0, 0.6), 
-                0 0 0 2px rgba(76, 168, 223, 0.3),
-                inset 0 2px 0 rgba(255, 255, 255, 0.2);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
+    transition: var(--transition) !important;
 }
 
-.feature-main::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 5px;
-    background: linear-gradient(90deg, transparent, #4ca8df, transparent);
-    opacity: 0.8;
-    z-index: 2;
+.feature-main:hover {
+    transform: translateY(-5px) !important;
+    border-color: var(--gold) !important;
+    box-shadow: 0 10px 30px rgba(76, 168, 223, 0.28) !important;
 }
 
 .feature-badge {
@@ -3551,35 +3498,8 @@ body::after {
     margin-right: auto;
 }
 
-.requirements-section,
-.meeting-features,
-.offline-section {
-    padding: var(--space-xl) var(--space-lg);
-    background: var(--color-bg-elevated);
-    backdrop-filter: var(--glass-blur-strong);
-    -webkit-backdrop-filter: var(--glass-blur-strong);
-    border-radius: 24px;
-    border: 3px solid var(--glass-border-strong);
-    position: relative;
-    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5), 
-                0 0 0 2px rgba(76, 168, 223, 0.3),
-                inset 0 2px 0 rgba(255, 255, 255, 0.2);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
+/* 這些樣式已在上方統一為簡潔風格 */
 
-.requirements-section::before,
-.meeting-features::before,
-.offline-section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 5px;
-    background: linear-gradient(90deg, transparent, #4ca8df, transparent);
-    opacity: 0.8;
-    z-index: 2;
-}
 
 .requirements-title,
 .meeting-title {
@@ -3620,13 +3540,20 @@ body::after {
 
 .offline-section {
     margin-bottom: 4rem;
-    padding: 3rem;
-    background: var(--glass-bg-medium);
-    backdrop-filter: var(--glass-blur-medium);
-    -webkit-backdrop-filter: var(--glass-blur-medium);
-    border-radius: 15px;
-    border: 1px solid var(--glass-border);
-    box-shadow: var(--glass-shadow-light);
+    padding: 2.5rem !important;
+    background: var(--glass-bg-medium) !important;
+    backdrop-filter: var(--glass-blur-strong) !important;
+    -webkit-backdrop-filter: var(--glass-blur-strong) !important;
+    border-radius: 10px !important;
+    border: 1px solid var(--glass-border) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
+    transition: var(--transition) !important;
+}
+
+.offline-section:hover {
+    transform: translateY(-5px) !important;
+    border-color: var(--gold) !important;
+    box-shadow: 0 10px 30px rgba(76, 168, 223, 0.28) !important;
 }
 
 .offline-title {
@@ -3679,30 +3606,23 @@ body::after {
 .cta-section {
     text-align: center;
     margin-top: var(--space-xl);
-    padding: var(--space-2xl) var(--space-xl);
-    background: var(--color-bg-elevated);
-    backdrop-filter: var(--glass-blur-strong);
-    -webkit-backdrop-filter: var(--glass-blur-strong);
-    border-radius: 24px;
-    border: 3px solid var(--glass-border-strong);
-    box-shadow: 0 16px 64px rgba(0, 0, 0, 0.6), 
-                0 0 0 2px rgba(76, 168, 223, 0.3),
-                inset 0 2px 0 rgba(255, 255, 255, 0.2);
+    padding: 2.5rem !important;
+    background: var(--glass-bg-medium) !important;
+    backdrop-filter: var(--glass-blur-strong) !important;
+    -webkit-backdrop-filter: var(--glass-blur-strong) !important;
+    border-radius: 10px !important;
+    border: 1px solid var(--glass-border) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
+    transition: var(--transition) !important;
     position: relative;
-    overflow: hidden;
 }
 
-.cta-section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 5px;
-    background: linear-gradient(90deg, transparent, #4ca8df, transparent);
-    opacity: 0.8;
-    z-index: 2;
+.cta-section:hover {
+    transform: translateY(-5px) !important;
+    border-color: var(--gold) !important;
+    box-shadow: 0 10px 30px rgba(76, 168, 223, 0.28) !important;
 }
+
 
 @keyframes pulse {
     0%, 100% { transform: scale(1); opacity: 0.5; }
@@ -3738,7 +3658,7 @@ body::after {
    會員展示預覽
    ============================================ */
 .members-preview {
-    padding: 5rem 0;
+    padding: var(--section-padding-y) 0; /* 8rem = 128px */
     background: transparent;
     text-align: center;
     position: relative;
@@ -4125,7 +4045,8 @@ body::after {
     }
 
     .contact-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
+        max-width: 100%;
     }
 
     .values-grid {
@@ -4364,22 +4285,23 @@ body::after {
    區塊標題卡片（通用樣式）
    ============================================ */
 .section-header-card {
-    background: var(--glass-bg-medium);
-    backdrop-filter: var(--glass-blur-strong);
-    -webkit-backdrop-filter: var(--glass-blur-strong);
-    border: 1px solid var(--glass-border);
-    border-radius: 20px;
-    padding: 3rem 2.5rem;
-    text-align: center;
-    margin-bottom: 4rem;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-    transition: var(--transition);
+    background: var(--glass-bg-medium) !important;
+    backdrop-filter: var(--glass-blur-strong) !important;
+    -webkit-backdrop-filter: var(--glass-blur-strong) !important;
+    border: 1px solid var(--glass-border) !important;
+    border-radius: 10px !important;
+    padding: 2.5rem !important;
+    text-align: center !important;
+    margin-bottom: 2rem !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
+    transition: var(--transition) !important;
+    position: relative !important;
 }
 
 .section-header-card:hover {
-    transform: translateY(-5px);
-    border-color: var(--gold);
-    box-shadow: 0 12px 40px rgba(76, 168, 223, 0.3);
+    transform: translateY(-5px) !important;
+    border-color: var(--gold) !important;
+    box-shadow: 0 10px 30px rgba(76, 168, 223, 0.28) !important;
 }
 
 .section-header-icon {
@@ -4411,7 +4333,7 @@ body::after {
    ============================================ */
 /* 會員成功案例 */
 .success-stories {
-    padding: 7rem 0;
+    padding: var(--section-padding-y) 0; /* 8rem = 128px */
     background: transparent;
     position: relative;
     z-index: 1;
@@ -4439,7 +4361,7 @@ body::after {
     width: 100% !important;
     max-width: 1200px !important;
     margin: 0 auto !important;
-    padding: 0 3rem !important;
+    padding: 0 2rem !important; /* 統一為2rem */
     box-sizing: border-box !important;
 }
 
