@@ -4015,6 +4015,18 @@ body::after {
     overflow: hidden;
 }
 
+.referrals .container {
+    max-width: 1400px !important;
+}
+
+/* 引薦卡片網格佈局 - 3欄 */
+.referrals-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 2rem !important;
+    margin-top: 3rem !important;
+}
+
 .referrals::before {
     content: '';
     position: absolute;
@@ -4034,18 +4046,30 @@ body::after {
 }
 
 .referral-card {
-    /* 使用統一的 glass-card 樣式 */
-    background: var(--glass-bg-dark);
-    backdrop-filter: var(--glass-blur-strong);
-    -webkit-backdrop-filter: var(--glass-blur-strong);
-    border: 2px solid var(--glass-border);
-    border-radius: 15px;
-    padding: 3rem;
-    margin-bottom: 3rem;
-    transition: var(--transition);
-    position: relative;
-    overflow: hidden;
-    box-shadow: var(--glass-shadow-light);
+    /* 方形卡片樣式 */
+    background: rgba(0, 27, 54, 0.7) !important;
+    backdrop-filter: blur(16px) saturate(160%) !important;
+    -webkit-backdrop-filter: blur(16px) saturate(160%) !important;
+    border: 2px solid rgba(76, 168, 223, 0.4) !important;
+    border-radius: 12px !important;
+    padding: 0 !important;
+    margin-bottom: 0 !important;
+    transition: all 0.3s ease !important;
+    position: relative !important;
+    overflow: hidden !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(76, 168, 223, 0.2) !important;
+    aspect-ratio: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    cursor: pointer !important;
+}
+
+/* 展開時變成全幅 */
+.referral-card.expanded {
+    grid-column: 1 / -1 !important;
+    aspect-ratio: auto !important;
+    min-height: auto !important;
+    max-width: 100% !important;
 }
 
 .referral-card::before {
@@ -4065,13 +4089,18 @@ body::after {
 }
 
 .referral-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-    padding-bottom: 1.5rem;
-    border-bottom: 1px solid var(--border-gold);
+    display: flex !important;
+    flex-direction: column !important;
+    padding: 1.5rem !important;
+    border-bottom: 1px solid rgba(76, 168, 223, 0.3) !important;
+    position: relative !important;
+}
+
+.referral-header-top {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: flex-start !important;
+    margin-bottom: 1rem !important;
 }
 
 .referral-toggle-btn {
@@ -4107,28 +4136,60 @@ body::after {
 }
 
 .referral-preview {
-    padding: 1rem 0;
-    color: var(--text-gray);
-    line-height: 1.8;
-    font-size: 1.05rem;
-    margin-bottom: 1rem;
+    padding: 1.5rem !important;
+    color: var(--text-gray) !important;
+    line-height: 1.8 !important;
+    font-size: 1rem !important;
+    margin: 0 !important;
+    flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+}
+
+/* 預覽區域的圖片顯示 */
+.referral-preview-photos {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 1rem !important;
+    margin-top: 1rem !important;
+    padding-top: 1rem !important;
+    border-top: 1px solid rgba(76, 168, 223, 0.2) !important;
+}
+
+.referral-preview-photo {
+    width: 80px !important;
+    height: 80px !important;
+    border-radius: 50% !important;
+    border: 2px solid var(--gold) !important;
+    object-fit: cover !important;
+    object-position: center !important;
+    box-shadow: 0 4px 12px rgba(76, 168, 223, 0.3) !important;
+}
+
+.referral-preview-photo-label {
+    font-size: 0.75rem !important;
+    color: var(--text-gray) !important;
+    text-align: center !important;
+    margin-top: 0.5rem !important;
 }
 
 .referral-content {
-    display: flex;
-    flex-direction: column;
-    gap: 2.5rem;
-    max-height: 0;
-    overflow: hidden;
-    opacity: 0;
-    transition: max-height 0.5s ease, opacity 0.5s ease, margin-top 0.5s ease;
-    margin-top: 0;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 2.5rem !important;
+    max-height: 0 !important;
+    overflow: hidden !important;
+    opacity: 0 !important;
+    transition: max-height 0.5s ease, opacity 0.5s ease, padding 0.5s ease !important;
+    padding: 0 1.5rem !important;
 }
 
-.referral-content.expanded {
-    max-height: 10000px;
-    opacity: 1;
-    margin-top: 1.5rem;
+.referral-card.expanded .referral-content {
+    max-height: 10000px !important;
+    opacity: 1 !important;
+    padding: 2rem 1.5rem !important;
 }
 
 .referral-badge {
@@ -4237,25 +4298,35 @@ body::after {
 }
 
 .referral-footer {
-    margin-top: 2rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--border-gold);
+    margin-top: 0 !important;
+    padding: 1.5rem !important;
+    border-top: 1px solid rgba(76, 168, 223, 0.3) !important;
+    display: none !important;
+}
+
+.referral-card.expanded .referral-footer {
+    display: block !important;
 }
 
 .referral-metrics {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1.5rem;
-    justify-content: center;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 1rem !important;
+    justify-content: center !important;
 }
 
 .metric-item {
-    padding: 0.5rem 1rem;
-    background: rgba(76, 168, 223, 0.18);
-    border: 1px solid var(--border-gold);
-    border-radius: 20px;
-    color: var(--text-white);
-    font-size: 0.9rem;
+    padding: 0.5rem 1rem !important;
+    background: rgba(76, 168, 223, 0.18) !important;
+    border: 1px solid rgba(76, 168, 223, 0.4) !important;
+    border-radius: 20px !important;
+    color: var(--text-white) !important;
+    font-size: 0.9rem !important;
+}
+
+/* 移除引薦狀態標籤 */
+.metric-item:contains("引薦狀態") {
+    display: none !important;
 }
 
 /* ============================================
