@@ -5118,9 +5118,9 @@ body::after {
 .success-card-individual .success-card-image-wrapper,
 .success-card-image-wrapper {
     width: 45% !important; /* 照片佔45% */
-    height: auto !important;
+    align-self: stretch !important; /* 讓容器與卡片同高 */
     min-height: 350px !important;
-    max-height: none !important;
+    max-height: 100% !important; /* 限制最大高度 */
     overflow: hidden !important;
     position: relative !important;
     background: linear-gradient(135deg, rgba(76, 168, 223, 0.15), rgba(76, 168, 223, 0.08)) !important;
@@ -5138,6 +5138,7 @@ body::after {
     width: 100% !important;
     height: 100% !important;
     min-height: 350px !important;
+    max-height: 100% !important; /* 確保圖片不會溢出 */
     object-fit: cover !important;
     object-position: center center !important;
     transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;

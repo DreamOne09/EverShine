@@ -36,9 +36,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // 初始化 FAQ 互動功能
     initFAQ();
     
-    // 隱藏載入畫面 - 確保LOGO有時間顯示
+    // 隱藏載入畫面 - 確保LOGO有時間顯示（只在有載入畫面的頁面執行）
     window.addEventListener('load', () => {
-        // 診斷：檢查LOGO是否載入
+        const loader = document.getElementById('pageLoader');
+        if (!loader) {
+            // 如果頁面沒有載入畫面，直接返回（這是正常的，不是所有頁面都有載入畫面）
+            return;
+        }
+        
+        // 診斷：檢查LOGO是否載入（只在有LOGO元素時執行）
         const logo = document.querySelector('.loader-logo');
         if (logo) {
             console.log('🔍 LOGO診斷:', {
@@ -62,18 +68,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     console.error('❌ LOGO載入失敗');
                 });
             }
-        } else {
-            console.error('❌ 找不到LOGO元素');
         }
         
         setTimeout(() => {
-            const loader = document.getElementById('pageLoader');
-            if (loader) {
-                loader.classList.add('hidden');
-                setTimeout(() => {
-                    loader.style.display = 'none';
-                }, 500);
-            }
+            loader.classList.add('hidden');
+            setTimeout(() => {
+                loader.style.display = 'none';
+            }, 500);
         }, 2000); // 增加到2秒，確保LOGO有時間顯示
     });
 });
@@ -84,8 +85,8 @@ document.addEventListener('DOMContentLoaded', () => {
 function initFAQ() {
     const faqItems = document.querySelectorAll('.faq-item');
     
+    // 如果頁面沒有 FAQ 區塊，靜默返回（這是正常的，不是所有頁面都有 FAQ）
     if (faqItems.length === 0) {
-        console.warn('FAQ: 找不到任何 FAQ 項目');
         return;
     }
     
