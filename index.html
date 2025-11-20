@@ -64,7 +64,7 @@
     .page-loader{position:fixed!important;top:0!important;left:0!important;width:100%!important;height:100%!important;background:#000!important;z-index:9999!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;transition:opacity .5s ease!important}
     .page-loader.hidden{opacity:0!important;pointer-events:none!important}
     .loader-text{font-family:'Noto Sans TC',sans-serif!important;font-size:2rem!important;color:#4ca8df!important;margin-bottom:2rem!important;font-weight:700!important;animation:fadeIn 1s ease!important}
-    .loader-logo{width:150px!important;height:150px!important;object-fit:contain!important;animation:logoFadeIn 1.5s ease!important;opacity:0!important;animation-fill-mode:forwards!important}
+    .loader-logo{width:200px!important;height:200px!important;object-fit:contain!important;animation:logoFadeIn 1.5s ease!important;opacity:0!important;animation-fill-mode:forwards!important;display:block!important;margin-top:1rem!important}
     @keyframes fadeIn{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
     @keyframes logoFadeIn{0%{opacity:0;transform:scale(0.5)}50%{opacity:0}100%{opacity:1;transform:scale(1)}}
     
@@ -81,7 +81,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
     <!-- 樣式和腳本 -->
-    <link rel="stylesheet" href="css/style.css?v=20251119-STARS-FIX">
+    <link rel="stylesheet" href="css/style.css?v=20251120-LOADER-FIX">
     <script src="js/starry-background-unified.js?v=20251119-STARS-FIX" defer></script>
     
     <!-- 字體載入（使用 display=swap 避免阻塞） -->
@@ -390,7 +390,7 @@
         <div class="container">
             <h2 class="section-title">加入我們</h2>
             <div class="join-content">
-                <div class="join-intro-card">
+                <div class="join-intro-card unified-card-simple">
                     <h3>為什麼要加入 BNI 長輝白金分會？</h3>
                     <p class="join-intro-text">加入我們，您將獲得專業的商務引薦網絡，與60+行業代表建立長期合作關係。</p>
                     <ul class="join-benefits-list">
@@ -401,7 +401,7 @@
                     </ul>
                 </div>
                 
-                <div class="join-process-card">
+                <div class="join-process-card unified-card-simple">
                     <h3>加入流程</h3>
                     <ol class="join-process-list">
                         <li><strong>成為來賓</strong> - 免費參與一次線上例會，體驗實際運作模式</li>
