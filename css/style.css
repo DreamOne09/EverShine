@@ -6158,16 +6158,18 @@ body::after {
 .faq-answer {
     max-height: 0 !important;
     overflow: hidden !important;
-    transition: max-height 0.3s ease, padding 0.3s ease !important;
+    transition: max-height 0.3s ease, padding 0.3s ease, opacity 0.3s ease !important;
     padding: 0 2rem !important;
     background: rgba(0, 0, 0, 0.2) !important;
     margin: 0 !important;
+    opacity: 0 !important;
 }
 
 .faq-item.active .faq-answer {
     max-height: 500px !important;
     padding: 1.5rem 2rem !important;
     margin: 0 !important;
+    opacity: 1 !important;
 }
 
 .faq-answer p {

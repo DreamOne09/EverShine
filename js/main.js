@@ -123,8 +123,10 @@ function initFAQ() {
             // 切換當前 FAQ
             if (isActive) {
                 item.classList.remove('active');
+                question.setAttribute('aria-expanded', 'false');
             } else {
                 item.classList.add('active');
+                question.setAttribute('aria-expanded', 'true');
             }
         });
         
