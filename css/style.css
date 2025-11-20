@@ -4391,74 +4391,80 @@ body::after {
 }
 
 
+/* 會員卡片改為橫向佈局 */
+.success-card-individual {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: stretch !important;
+    gap: 0 !important;
+}
+
 .success-card-individual .success-card-image-wrapper,
 .success-card-image-wrapper {
-    width: 100% !important;
-    height: 400px !important;
-    max-height: 400px !important;
+    width: 45% !important; /* 照片佔45% */
+    height: auto !important;
+    min-height: 350px !important;
+    max-height: none !important;
     overflow: hidden !important;
     position: relative !important;
     background: linear-gradient(135deg, rgba(76, 168, 223, 0.15), rgba(76, 168, 223, 0.08)) !important;
-    border-radius: 10px 10px 0 0 !important;
+    border-radius: 10px 0 0 10px !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
     flex-shrink: 0 !important;
-    border-bottom: 2px solid var(--glass-border) !important;
+    border-right: 2px solid var(--glass-border) !important;
+    border-bottom: none !important;
 }
 
 .success-card-image-wrapper .success-card-image,
 .success-card-image {
     width: 100% !important;
     height: 100% !important;
+    min-height: 350px !important;
     object-fit: cover !important;
-    object-position: center top !important;
+    object-position: center center !important;
     transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
     display: block !important;
-    border-radius: 10px 10px 0 0 !important;
+    border-radius: 10px 0 0 10px !important;
     max-width: 100% !important;
     filter: brightness(1.05) contrast(1.1) !important;
 }
 
-/* 會員資訊 Bubble - 左上角 */
-.success-member-bubble {
-    position: absolute !important;
-    top: 1.5rem !important;
-    left: 1.5rem !important;
-    background: rgba(0, 27, 54, 0.85) !important;
-    backdrop-filter: blur(12px) saturate(150%) !important;
-    -webkit-backdrop-filter: blur(12px) saturate(150%) !important;
-    border: 2px solid var(--gold) !important;
-    border-radius: 16px !important;
-    padding: 1rem 1.5rem !important;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 
-                0 0 0 1px rgba(76, 168, 223, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
-    z-index: 10 !important;
+/* 會員資訊 Header - 右邊 */
+.success-member-info-header {
     display: flex !important;
     flex-direction: column !important;
-    gap: 0.5rem !important;
+    gap: 0.75rem !important;
+    margin-bottom: 1.5rem !important;
+    padding-bottom: 1.5rem !important;
+    border-bottom: 2px solid var(--glass-border) !important;
 }
 
-.success-member-bubble .success-member-name {
-    font-size: 1.8rem !important;
+.success-member-info-header .success-member-name {
+    font-size: 2.5rem !important; /* 放大名字 */
     color: var(--gold) !important;
     font-weight: 700 !important;
     margin: 0 !important;
     line-height: 1.2 !important;
 }
 
-.success-member-bubble .success-member-industry {
-    font-size: 1.2rem !important;
+.success-member-info-header .success-member-industry {
+    font-size: 1.5rem !important; /* 放大行業別 */
     color: var(--text-white) !important;
     font-weight: 600 !important;
     margin: 0 !important;
-    padding: 0.5rem 1rem !important;
+    padding: 0.75rem 1.25rem !important;
     background: rgba(76, 168, 223, 0.2) !important;
     border-radius: 12px !important;
     border: 1px solid rgba(76, 168, 223, 0.4) !important;
     display: inline-block !important;
     width: fit-content !important;
+}
+
+/* 隱藏舊的bubble */
+.success-member-bubble {
+    display: none !important;
 }
 
 /* 如果圖片載入失敗，顯示佔位符 */
@@ -4497,9 +4503,10 @@ body::after {
     flex-direction: column !important;
     flex: 1 !important;
     min-height: 0 !important;
-    width: 100% !important;
+    width: 55% !important; /* 文字區域佔55% */
     box-sizing: border-box !important;
     background: rgba(0, 0, 0, 0.2) !important;
+    border-radius: 0 10px 10px 0 !important;
 }
 
 .success-card-body .success-member-info,
@@ -4532,13 +4539,12 @@ body::after {
 
 .success-card-body .success-quote,
 .success-quote {
-    font-size: 0.95rem !important;
+    font-size: 1rem !important;
     color: var(--text-gray) !important;
     line-height: 1.7 !important;
     word-wrap: break-word !important;
     overflow-wrap: break-word !important;
     margin: 0 !important;
-    margin-top: 1rem !important;
     padding: 0 !important;
     flex: 1 !important;
     text-align: left !important;
@@ -4554,24 +4560,35 @@ body::after {
         gap: 1.5rem !important;
     }
     
+    .success-card-individual {
+        flex-direction: column !important;
+    }
+    
     .success-card-image-wrapper {
-        height: 320px !important;
-        max-height: 320px !important;
+        width: 100% !important;
+        height: 300px !important;
+        min-height: 300px !important;
+        border-radius: 10px 10px 0 0 !important;
+        border-right: none !important;
+        border-bottom: 2px solid var(--glass-border) !important;
     }
     
-    .success-member-bubble {
-        top: 1rem !important;
-        left: 1rem !important;
-        padding: 0.75rem 1.25rem !important;
+    .success-card-image {
+        border-radius: 10px 10px 0 0 !important;
+        min-height: 300px !important;
     }
     
-    .success-member-bubble .success-member-name {
-        font-size: 1.5rem !important;
+    .success-card-body {
+        width: 100% !important;
+        border-radius: 0 0 10px 10px !important;
     }
     
-    .success-member-bubble .success-member-industry {
-        font-size: 1rem !important;
-        padding: 0.4rem 0.8rem !important;
+    .success-member-info-header .success-member-name {
+        font-size: 2rem !important;
+    }
+    
+    .success-member-info-header .success-member-industry {
+        font-size: 1.3rem !important;
     }
 }
 

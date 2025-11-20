@@ -46,10 +46,10 @@ class StarrySkyConfig {
                 { count: 120, size: '2px', duration: '125s' },   // stars1: 2px, 125s, 120顆
                 { count: 100, size: '3px', duration: '175s' },   // stars2: 3px, 175s, 100顆
             ],
-            // 流星配置（減少數量，間隔更長）
+            // 流星配置（一次一條）
             shootingStars: {
-                minCount: 2,     // 減少為 2-3 顆流星
-                maxCount: 3,
+                minCount: 1,     // 一次一條流星
+                maxCount: 1,
                 minSpeed: 10,    // 增加速度（讓流星快一點消失）
                 maxSpeed: 18,
                 minTailLength: 85,

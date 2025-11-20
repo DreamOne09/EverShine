@@ -10,7 +10,7 @@
     progressBar.id = 'scroll-progress';
     progressBar.style.cssText = `
         position: fixed;
-        top: 0;
+        bottom: 0;
         left: 0;
         width: 0%;
         height: 3px;
@@ -20,7 +20,7 @@
             var(--color-primary-light));
         z-index: 9999;
         transition: width 0.1s ease-out;
-        box-shadow: 0 2px 8px rgba(76, 168, 223, 0.5);
+        box-shadow: 0 -2px 8px rgba(76, 168, 223, 0.5);
     `;
     document.body.appendChild(progressBar);
     
