@@ -6159,31 +6159,42 @@ body::after {
 }
 
 .results-header .section-title {
-    font-size: 2.5rem;
+    font-size: 2.8rem;
     color: var(--gold);
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
     font-weight: 700;
+    letter-spacing: 0.5px;
+    line-height: 1.3;
+}
+
+.results-intro-wrapper {
+    max-width: 800px;
+    margin: 0 auto 2rem;
 }
 
 .results-intro {
-    font-size: 1.2rem;
+    font-size: 1.15rem;
     color: var(--text-gray);
-    line-height: 1.8;
-    margin-bottom: 0.5rem;
+    line-height: 1.9;
+    margin-bottom: 0.8rem;
+    font-weight: 400;
 }
 
 .results-intro.highlight {
     color: var(--gold);
     font-weight: 600;
-    font-size: 1.3rem;
-    margin-bottom: 1.5rem;
+    font-size: 1.25rem;
+    margin-bottom: 0;
+    line-height: 1.9;
 }
 
 .results-main-text {
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     color: var(--text-white);
-    font-weight: 600;
-    margin-top: 1.5rem;
+    font-weight: 500;
+    margin-top: 2rem;
+    font-style: italic;
+    opacity: 0.9;
 }
 
 .results-data {
@@ -6248,11 +6259,12 @@ body::after {
 }
 
 .reasons-title {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     color: var(--text-white);
     font-weight: 600;
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
     text-align: center;
+    line-height: 1.7;
 }
 
 .reasons-list {
@@ -6262,12 +6274,13 @@ body::after {
 }
 
 .reasons-list li {
-    font-size: 1.05rem;
-    color: var(--text-gray);
-    line-height: 1.8;
-    padding: 0.75rem 0;
-    padding-left: 2rem;
+    font-size: 1.1rem;
+    color: var(--text-white);
+    line-height: 1.9;
+    padding: 1rem 0;
+    padding-left: 2.5rem;
     position: relative;
+    font-weight: 400;
 }
 
 .reasons-list li::before {
@@ -6289,16 +6302,29 @@ body::after {
 }
 
 .footer-text {
-    font-size: 1.2rem;
+    font-size: 1.25rem;
+    color: var(--text-white);
+    line-height: 1.9;
+    margin-bottom: 0.8rem;
+    font-weight: 500;
+}
+
+.footer-text-secondary {
+    font-size: 1.15rem;
     color: var(--text-gray);
-    line-height: 1.8;
-    margin-bottom: 1rem;
+    line-height: 1.9;
+    margin-bottom: 2rem;
+    font-weight: 400;
 }
 
 .footer-highlight {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     color: var(--gold);
     font-weight: 700;
+    letter-spacing: 0.5px;
+    margin-top: 1rem;
+    padding-top: 2rem;
+    border-top: 2px solid rgba(76, 168, 223, 0.3);
 }
 
 /* 小手機 (< 480px) */
