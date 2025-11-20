@@ -329,15 +329,15 @@ function createMemberCard(member) {
     const memberId = `member-${member.name.replace(/\s+/g, '-').toLowerCase()}`;
     
     return `
-        <div class="member-card" data-member-id="${memberId}">
+        <div class="member-card collapsed" data-member-id="${memberId}">
             <div class="member-header">
                 <div class="member-photo-container">
                     <img src="${photoPath || placeholderSvg}" alt="${member.name}" class="member-photo" onerror="this.src='${placeholderSvg}';">
                 </div>
                 <div class="member-basic-info">
                     <div class="member-name-industry">
-                        <span class="member-industry">${member.industry || ''}</span>
                         <h3 class="member-name">${member.name}</h3>
+                        <span class="member-industry">${member.industry || ''}</span>
                     </div>
                     <button class="member-toggle-btn" aria-label="展開/摺疊會員資訊" data-target="${memberId}">
                         <span class="toggle-icon">▼</span>
@@ -641,8 +641,10 @@ function initMemberToggles() {
                 if (shortDesc) {
                     if (isExpanded) {
                         shortDesc.style.display = 'none';
+                        card.classList.remove('collapsed');
                     } else {
                         shortDesc.style.display = 'block';
+                        card.classList.add('collapsed');
                     }
                 }
             }

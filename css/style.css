@@ -297,6 +297,7 @@ body {
     opacity: 0 !important;
     animation-fill-mode: forwards !important;
     display: block !important;
+    visibility: visible !important;
     margin-top: 1rem !important;
     filter: drop-shadow(0 0 20px rgba(76, 168, 223, 0.5)) !important;
 }
@@ -315,10 +316,11 @@ body {
 @keyframes logoFadeIn {
     0% {
         opacity: 0;
-        transform: scale(0.5);
+        transform: scale(0.8);
     }
-    50% {
-        opacity: 0;
+    30% {
+        opacity: 0.5;
+        transform: scale(0.9);
     }
     100% {
         opacity: 1;
@@ -513,7 +515,7 @@ body {
 
 /* 流星效果（參考代碼風格） */
 .shooting-star {
-    z-index: 100 !important;
+    z-index: -1 !important;
     width: 2px;
     height: 100px;
     border-top-left-radius: 50%;
@@ -1195,145 +1197,119 @@ body::after {
     display: none;
 }
 
-/* 新的關於長輝白金分會佈局 - 3欄：左側標題+圖形，中間內容，右側核心價值 */
-/* 關於長輝白金分會 - 統一卡片樣式 */
-.about-purpose-card {
-    background: var(--glass-bg-medium) !important;
-    backdrop-filter: var(--glass-blur-strong) !important;
-    -webkit-backdrop-filter: var(--glass-blur-strong) !important;
-    border: 1px solid var(--glass-border) !important;
-    border-radius: 10px !important;
-    padding: 2.5rem !important;
-    max-width: 900px !important;
-    margin: 2rem auto 3rem !important;
-    text-align: center !important;
+/* 關於長輝白金分會 - 3欄佈局 */
+.about-grid-3col {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin: 3rem 0;
+    position: relative;
+    z-index: 1;
+}
+
+.about-card {
+    text-align: center;
+    padding: 2.5rem 2rem !important;
     transition: var(--transition) !important;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
-    position: relative !important;
 }
 
-.about-purpose-card:hover {
-    transform: translateY(-5px) !important;
-    border-color: var(--gold) !important;
-    box-shadow: 0 10px 30px rgba(76, 168, 223, 0.28) !important;
+.about-card:hover {
+    transform: translateY(-8px) !important;
 }
 
-.about-logo-container {
-    margin-bottom: 2.5rem;
+.about-card-icon {
+    font-size: 3.5rem;
+    margin-bottom: 1.5rem;
+    display: block;
+    line-height: 1;
 }
 
-.about-logo {
-    width: 120px;
-    height: 120px;
-    object-fit: contain;
-}
-
-.about-purpose-content {
-    display: flex;
-    flex-direction: column;
-    gap: 2.5rem;
-    text-align: left;
-}
-
-.purpose-section {
-    padding-bottom: 2rem;
-    border-bottom: 1px solid rgba(76, 168, 223, 0.2);
-}
-
-.purpose-section:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
-}
-
-.purpose-title {
-    font-size: 1.8rem;
+.about-card-title {
+    font-size: 1.6rem;
     color: var(--gold);
-    margin-bottom: 1rem;
-    font-weight: 600;
+    margin-bottom: 1.25rem;
+    font-weight: 700;
 }
 
-.purpose-text {
-    font-size: 1.1rem;
+.about-card-text {
+    font-size: 1.05rem;
     color: var(--text-gray);
     line-height: 1.8;
     margin: 0;
 }
 
-.purpose-list {
+.about-card-list {
     list-style: none;
     padding: 0;
     margin: 0;
+    text-align: left;
 }
 
-.purpose-list li {
-    font-size: 1.1rem;
+.about-card-list li {
+    font-size: 1.05rem;
     color: var(--text-gray);
     line-height: 1.8;
-    padding: 0.5rem 0;
+    padding: 0.6rem 0;
     padding-left: 1.5rem;
     position: relative;
 }
 
-.purpose-list li::before {
-    content: '•';
+.about-card-list li::before {
+    content: '✓';
     position: absolute;
     left: 0;
     color: var(--gold);
     font-weight: bold;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
 }
 
 /* 核心價值統一卡片 */
 .values-card {
-    background: var(--glass-bg-medium) !important;
-    backdrop-filter: var(--glass-blur-strong) !important;
-    -webkit-backdrop-filter: var(--glass-blur-strong) !important;
-    border: 1px solid var(--glass-border) !important;
-    border-radius: 10px !important;
+    margin-top: 3rem !important;
     padding: 2.5rem !important;
-    max-width: 900px !important;
-    margin: 0 auto !important;
-    transition: var(--transition) !important;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
-    position: relative !important;
-}
-
-.values-card:hover {
-    transform: translateY(-5px) !important;
-    border-color: var(--gold) !important;
-    box-shadow: 0 10px 30px rgba(76, 168, 223, 0.28) !important;
 }
 
 .values-card-title {
     font-size: 1.8rem;
     color: var(--gold);
     margin-bottom: 2rem;
-    font-weight: 600;
+    font-weight: 700;
     text-align: center;
 }
 
-.values-content {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
+.values-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
 }
 
-.value-text-item {
-    font-size: 1.05rem;
-    color: var(--text-gray);
-    line-height: 1.8;
-    padding: 1rem 0;
-    border-bottom: 1px solid rgba(76, 168, 223, 0.1);
+.value-item {
+    padding: 1.5rem;
+    background: rgba(76, 168, 223, 0.05);
+    border-radius: 8px;
+    border: 1px solid rgba(76, 168, 223, 0.15);
+    transition: var(--transition);
 }
 
-.value-text-item:last-child {
-    border-bottom: none;
+.value-item:hover {
+    background: rgba(76, 168, 223, 0.1);
+    border-color: var(--gold);
+    transform: translateY(-3px);
 }
 
-.value-text-item strong {
+.value-item strong {
+    display: block;
+    font-size: 1.2rem;
     color: var(--gold);
-    font-weight: 600;
-    margin-right: 0.5rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+}
+
+.value-item p {
+    font-size: 1rem;
+    color: var(--text-gray);
+    line-height: 1.7;
+    margin: 0;
 }
 
 .about-content-new {
@@ -2019,6 +1995,10 @@ body::after {
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
 }
 
+.member-card.collapsed {
+    padding-bottom: 0.75rem !important;
+}
+
 .member-card::before {
     content: '';
     position: absolute;
@@ -2056,8 +2036,8 @@ body::after {
 }
 
 .member-photo {
-    width: 160px;
-    height: 160px;
+    width: 200px;
+    height: 200px;
     border-radius: 12px;
     object-fit: cover;
     object-position: center top;
@@ -2080,14 +2060,22 @@ body::after {
 
 .member-name-industry {
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 0.75rem;
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
     flex: 1;
     min-width: 0;
     width: 100%;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0;
+}
+
+.member-name {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--gold);
+    margin: 0;
+    line-height: 1.3;
+    width: 100%;
 }
 
 .member-industry {
@@ -2100,18 +2088,6 @@ body::after {
     font-weight: 500;
     white-space: nowrap;
     flex-shrink: 0;
-}
-
-.member-name {
-    font-size: 1.3rem;
-    font-weight: 700;
-    color: var(--gold);
-    margin: 0;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    flex-shrink: 1;
-    min-width: 0;
 }
 
 .member-toggle-btn {
@@ -2149,9 +2125,13 @@ body::after {
 
 /* 簡短介紹 - 摺疊時顯示 */
 .member-short-description {
-    padding: 0.75rem 0;
-    margin-top: 0.75rem;
+    padding: 0.5rem 0 0.25rem 0;
+    margin-top: 0.5rem;
     transition: opacity 0.3s ease, max-height 0.3s ease;
+}
+
+.member-card.collapsed {
+    padding-bottom: 0.75rem !important;
 }
 
 .member-card .member-details.expanded ~ .member-short-description,
@@ -2359,6 +2339,118 @@ body::after {
     max-width: 1200px !important;
     margin: 0 auto !important;
     padding: 0 2rem !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 2rem !important;
+    margin-top: 3rem !important;
+}
+
+.join-cta-section {
+    grid-column: 1 / -1;
+    margin-top: 1rem;
+}
+
+.join-cta-card {
+    text-align: center;
+    padding: 2.5rem !important;
+}
+
+.join-cta-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 1.5rem;
+    color: var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.join-cta-card h3 {
+    font-size: 1.6rem;
+    color: var(--gold);
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+.guest-invite-text {
+    font-size: 1.05rem;
+    color: var(--text-gray);
+    line-height: 1.8;
+    margin-bottom: 2rem;
+}
+
+.join-benefits-list {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0 0;
+    text-align: left;
+}
+
+.join-benefits-list li {
+    font-size: 1.05rem;
+    color: var(--text-gray);
+    line-height: 1.8;
+    padding: 0.75rem 0;
+    padding-left: 1.75rem;
+    position: relative;
+}
+
+.join-benefits-list li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: var(--gold);
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.join-process-list {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0 0;
+    counter-reset: step-counter;
+}
+
+.join-process-list li {
+    counter-increment: step-counter;
+    font-size: 1.05rem;
+    color: var(--text-gray);
+    line-height: 1.8;
+    padding: 1rem 0 1rem 3rem;
+    position: relative;
+    margin-bottom: 0.5rem;
+}
+
+.join-process-list li::before {
+    content: counter(step-counter);
+    position: absolute;
+    left: 0;
+    top: 1rem;
+    width: 32px;
+    height: 32px;
+    background: var(--gold);
+    color: var(--bg-darker);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.join-intro-card h3,
+.join-process-card h3 {
+    font-size: 1.6rem;
+    color: var(--gold);
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+.join-intro-text {
+    font-size: 1.05rem;
+    color: var(--text-gray);
+    line-height: 1.8;
+    margin-bottom: 1rem;
 }
 
 /* 手機版響應式 */
@@ -3924,9 +4016,70 @@ body::after {
 }
 
 .referral-header {
-    margin-bottom: 2.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
     padding-bottom: 1.5rem;
     border-bottom: 1px solid var(--border-gold);
+}
+
+.referral-toggle-btn {
+    background: transparent;
+    border: none;
+    color: var(--gold);
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.referral-toggle-btn:hover {
+    background: rgba(76, 168, 223, 0.2);
+    transform: scale(1.1);
+}
+
+.referral-toggle-btn .toggle-icon {
+    transition: transform 0.3s ease;
+    display: inline-block;
+    font-size: 0.9rem;
+}
+
+.referral-toggle-btn.expanded .toggle-icon {
+    transform: rotate(180deg);
+}
+
+.referral-preview {
+    padding: 1rem 0;
+    color: var(--text-gray);
+    line-height: 1.8;
+    font-size: 1.05rem;
+    margin-bottom: 1rem;
+}
+
+.referral-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.5s ease, opacity 0.5s ease, margin-top 0.5s ease;
+    margin-top: 0;
+}
+
+.referral-content.expanded {
+    max-height: 10000px;
+    opacity: 1;
+    margin-top: 1.5rem;
 }
 
 .referral-badge {
@@ -3947,11 +4100,6 @@ body::after {
     margin: 0;
 }
 
-.referral-content {
-    display: flex;
-    flex-direction: column;
-    gap: 2.5rem;
-}
 
 .referral-section {
     background: rgba(0, 27, 54, 0.35);
@@ -3970,6 +4118,33 @@ body::after {
     margin-bottom: 1.5rem;
     padding-bottom: 1rem;
     border-bottom: 1px solid var(--border-gold);
+}
+
+.referral-photo-wrapper {
+    flex-shrink: 0;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid var(--gold);
+    background: rgba(76, 168, 223, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.referral-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.section-header-text {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex: 1;
 }
 
 .section-icon {
@@ -4525,9 +4700,13 @@ body::after {
 }
 
 .success-card-individual:hover {
-    transform: translateY(-5px) !important;
+    transform: translateY(-8px) scale(1.02) !important;
     border-color: var(--gold) !important;
-    box-shadow: 0 10px 30px rgba(76, 168, 223, 0.28) !important;
+    box-shadow: 0 15px 40px rgba(76, 168, 223, 0.4) !important;
+}
+
+.success-card-individual:hover .success-card-body {
+    background: rgba(0, 0, 0, 0.3) !important;
 }
 
 
@@ -4809,12 +4988,14 @@ body::after {
     border-radius: 10px !important;
     padding: 2.5rem !important;
     margin-top: 2rem !important;
+    width: 100% !important;
     max-width: 900px !important;
     margin-left: auto !important;
     margin-right: auto !important;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
     transition: var(--transition) !important;
     position: relative !important;
+    display: block !important;
 }
 
 .meeting-info-card:hover {
@@ -5584,12 +5765,11 @@ body::after {
     -webkit-backdrop-filter: var(--glass-blur-strong) !important;
     border: 1px solid var(--glass-border) !important;
     border-radius: 10px !important;
-    margin-bottom: 2rem !important;
+    margin-bottom: 1.5rem !important;
     overflow: hidden !important;
-    transition: var(--transition) !important;
+    padding: 0 !important;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
-    position: relative !important;
-    display: block !important;
+    transition: var(--transition) !important;
 }
 
 .faq-item:hover {
@@ -5772,6 +5952,4 @@ body::after {
         padding: 1rem 2rem;
         font-size: 1rem;
     }
-}
-
 }

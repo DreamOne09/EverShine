@@ -64,9 +64,9 @@
     .page-loader{position:fixed!important;top:0!important;left:0!important;width:100%!important;height:100%!important;background:#000!important;z-index:9999!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;transition:opacity .5s ease!important}
     .page-loader.hidden{opacity:0!important;pointer-events:none!important}
     .loader-text{font-family:'Noto Sans TC',sans-serif!important;font-size:2rem!important;color:#4ca8df!important;margin-bottom:2rem!important;font-weight:700!important;animation:fadeIn 1s ease!important}
-    .loader-logo{width:200px!important;height:200px!important;object-fit:contain!important;animation:logoFadeIn 1.5s ease!important;opacity:0!important;animation-fill-mode:forwards!important;display:block!important;margin-top:1rem!important}
+    .loader-logo{width:200px!important;height:200px!important;object-fit:contain!important;animation:logoFadeIn 1.5s ease!important;opacity:0!important;animation-fill-mode:forwards!important;display:block!important;margin-top:1rem!important;visibility:visible!important}
     @keyframes fadeIn{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
-    @keyframes logoFadeIn{0%{opacity:0;transform:scale(0.5)}50%{opacity:0}100%{opacity:1;transform:scale(1)}}
+    @keyframes logoFadeIn{0%{opacity:0;transform:scale(0.8)}30%{opacity:0.5;transform:scale(0.9)}100%{opacity:1;transform:scale(1)}}
     
     /* 響應式：手機版改回垂直佈局 */
     @media (max-width:1024px){.success-card-individual{flex-direction:column!important}.success-card-image-wrapper{width:100%!important;height:300px!important;min-height:300px!important;border-radius:10px 10px 0 0!important;border-right:none!important;border-bottom:2px solid rgba(76,168,223,.3)!important}.success-card-image{border-radius:10px 10px 0 0!important;min-height:300px!important}.success-card-body{width:100%!important;border-radius:0 0 10px 10px!important}.success-member-info-header .success-member-name{font-size:2rem!important}.success-member-info-header .success-member-industry{font-size:1.3rem!important}}
@@ -81,8 +81,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
     <!-- 樣式和腳本 -->
-    <link rel="stylesheet" href="css/style.css?v=20251120-LOADER-FIX">
-    <script src="js/starry-background-unified.js?v=20251119-STARS-FIX" defer></script>
+    <link rel="stylesheet" href="css/style.css?v=20250131-STARS-LOADER-FIX">
+    <script src="js/starry-background-unified.js?v=20250131-STARS-FIX"></script>
     
     <!-- 字體載入（使用 display=swap 避免阻塞） -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -136,7 +136,6 @@
     <section id="success-stories" class="success-stories">
         <div class="container">
             <h2 class="section-title">會員成功案例</h2>
-            <p class="section-description">真實見證，見證真實的商業成長</p>
             <div class="success-stories-grid">
                 <div class="success-card-individual">
                     <div class="success-card-image-wrapper">
@@ -190,75 +189,55 @@
         </div>
     </section>
 
-    <!-- 活動資訊與會議時間 -->
-    <section id="meeting-info" class="meeting-info">
-        <div class="container">
-            <h2 class="section-title">會議資訊</h2>
-            <div class="meeting-info-card unified-card-primary">
-                <div class="meeting-time-section">
-                    <div class="schedule-day">每週三</div>
-                    <div class="schedule-time-range">早上 6:30 - 8:30</div>
-                    <p class="schedule-note">全程支援線上與會 · 不需舟車勞頓，在家或辦公室即可參與</p>
-                </div>
-                <div class="meeting-features-section">
-                    <h3 class="features-title">會議內容包含</h3>
-                    <ul class="features-list">
-                        <li>專業分工（會議主持人、教育、主題簡報）</li>
-                        <li>分組交流時間</li>
-                        <li>主講行銷影片</li>
-                        <li>引薦見證環節</li>
-                        <li>60+ 行業代表參與</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- 關於我們 -->
     <section id="about" class="about">
         <div class="container">
             <h2 class="section-title">關於長輝白金分會</h2>
             
-            <!-- Core Purpose, Mission, Vision 統一卡片 -->
-            <div class="about-purpose-card unified-card-simple">
-                <div class="about-logo-container">
-                    <img src="images/assets/logo/白色正方形logo.png" alt="長輝白金分會" class="about-logo" onerror="this.style.display='none';">
+            <!-- 3欄佈局：Core Purpose, Mission, Vision -->
+            <div class="about-grid-3col">
+                <div class="about-card unified-card-simple">
+                    <div class="about-card-icon">🎯</div>
+                    <h3 class="about-card-title">Core Purpose</h3>
+                    <p class="about-card-text">精進會員的個人成長、壯大夥伴彼此的事業</p>
                 </div>
-                <div class="about-purpose-content">
-                    <div class="purpose-section">
-                        <h3 class="purpose-title">Core Purpose</h3>
-                        <p class="purpose-text">精進會員的個人成長、壯大夥伴彼此的事業</p>
-                    </div>
-                    <div class="purpose-section">
-                        <h3 class="purpose-title">Mission</h3>
-                        <ul class="purpose-list">
-                            <li>強化產業合作</li>
-                            <li>發展強而有力的夥伴關係</li>
-                            <li>創造持續不斷的引薦</li>
-                        </ul>
-                    </div>
-                    <div class="purpose-section">
-                        <h3 class="purpose-title">Vision</h3>
-                        <p class="purpose-text">成為企業家首選的商務合作平台</p>
-                    </div>
+                
+                <div class="about-card unified-card-simple">
+                    <div class="about-card-icon">🚀</div>
+                    <h3 class="about-card-title">Mission</h3>
+                    <ul class="about-card-list">
+                        <li>強化產業合作</li>
+                        <li>發展強而有力的夥伴關係</li>
+                        <li>創造持續不斷的引薦</li>
+                    </ul>
+                </div>
+                
+                <div class="about-card unified-card-simple">
+                    <div class="about-card-icon">🌟</div>
+                    <h3 class="about-card-title">Vision</h3>
+                    <p class="about-card-text">成為企業家首選的商務合作平台</p>
                 </div>
             </div>
             
             <!-- 核心價值統一卡片 -->
             <div class="values-card unified-card-simple">
                 <h3 class="values-card-title">核心價值</h3>
-                <div class="values-content">
-                    <div class="value-text-item">
-                        <strong>專業</strong> - 以專業的態度與服務，為每位會員提供最優質的商務引薦與支援
+                <div class="values-grid">
+                    <div class="value-item">
+                        <strong>專業</strong>
+                        <p>以專業的態度與服務，為每位會員提供最優質的商務引薦與支援</p>
                     </div>
-                    <div class="value-text-item">
-                        <strong>誠信</strong> - 以誠信為本，建立互信互重的合作關係，打造可靠的商務平台
+                    <div class="value-item">
+                        <strong>誠信</strong>
+                        <p>以誠信為本，建立互信互重的合作關係，打造可靠的商務平台</p>
                     </div>
-                    <div class="value-text-item">
-                        <strong>熱情</strong> - 懷抱熱忱與積極態度，持續推動商會發展與會員成長
+                    <div class="value-item">
+                        <strong>熱情</strong>
+                        <p>懷抱熱忱與積極態度，持續推動商會發展與會員成長</p>
                     </div>
-                    <div class="value-text-item">
-                        <strong>實踐</strong> - 將理念化為行動，透過實際的引薦與合作，創造實質的商業價值
+                    <div class="value-item">
+                        <strong>實踐</strong>
+                        <p>將理念化為行動，透過實際的引薦與合作，創造實質的商業價值</p>
                     </div>
                 </div>
             </div>
@@ -342,24 +321,6 @@
                     </ul>
                 </div>
 
-                <div class="offline-section">
-                    <h3 class="offline-title">除了每週線上會議之外，有實體與夥伴見面的機會嗎?</h3>
-                    <p class="offline-answer"><strong>A：</strong>是的，我們除了提供每週固定的線上會議外，也會根據會員需求與本地市場環境，安排以下幾種實體活動：</p>
-                    <ol class="offline-list">
-                        <li>定期實體聚會</li>
-                        <li>分會專屬活動</li>
-                        <li>自發線下交流</li>
-                        <li>總會實體培訓、商務工作坊</li>
-                    </ol>
-                </div>
-
-                <div class="cta-section">
-                    <p class="cta-text">📩 留言「線上參訪」或私訊我們，安排一次免費線上與會參訪</p>
-                    <p class="cta-subtext">不需任何費用，即刻認識60位以上不同的產業代表</p>
-                    <div class="cta-buttons">
-                        <a href="#contact" class="btn-primary">聯繫我們</a>
-                    </div>
-                </div>
             </div>
         </div>
     </section>
@@ -438,7 +399,7 @@
         <div class="container">
             <h2 class="section-title">常見問題</h2>
             <div class="faq-content">
-                <div class="faq-item">
+                <div class="faq-item unified-card-simple">
                     <div class="faq-question">
                         <h3>加入BNI需要什麼條件？</h3>
                         <span class="faq-toggle">+</span>
@@ -447,7 +408,7 @@
                         <p>您需要有一個穩健的商業模式，願意對引薦的生意負責，並承諾每週參與例會。我們歡迎各行各業的專業人士加入。</p>
                     </div>
                 </div>
-                <div class="faq-item">
+                <div class="faq-item unified-card-simple">
                     <div class="faq-question">
                         <h3>線上會議與實體會議有什麼不同？</h3>
                         <span class="faq-toggle">+</span>
@@ -456,7 +417,7 @@
                         <p>線上會議提供與實體會議相同的功能，包括專業分工、分組交流、主講行銷影片和引薦見證環節。您可以在家或辦公室參與，節省通勤時間。</p>
                     </div>
                 </div>
-                <div class="faq-item">
+                <div class="faq-item unified-card-simple">
                     <div class="faq-question">
                         <h3>加入需要費用嗎？</h3>
                         <span class="faq-toggle">+</span>
@@ -465,7 +426,7 @@
                         <p>來賓參訪是完全免費的。正式加入會員後，需要繳交會費，詳細費用請聯繫我們了解。</p>
                     </div>
                 </div>
-                <div class="faq-item">
+                <div class="faq-item unified-card-simple">
                     <div class="faq-question">
                         <h3>如果我的行業已經有會員了怎麼辦？</h3>
                         <span class="faq-toggle">+</span>
@@ -474,7 +435,7 @@
                         <p>BNI採用「一個行業一個會員」的原則。如果您的行業已有會員，我們可以協助您了解其他分會的機會，或將您列入候補名單。</p>
                     </div>
                 </div>
-                <div class="faq-item">
+                <div class="faq-item unified-card-simple">
                     <div class="faq-question">
                         <h3>每週都需要參加會議嗎？</h3>
                         <span class="faq-toggle">+</span>
@@ -482,6 +443,45 @@
                     <div class="faq-answer">
                         <p>是的，每週參與例會是BNI會員的基本責任。這確保了持續的引薦機會和與其他會員的關係建立。線上會議讓參與更加便利。</p>
                     </div>
+                </div>
+                <div class="faq-item unified-card-simple">
+                    <div class="faq-question">
+                        <h3>除了每週線上會議之外，有實體與夥伴見面的機會嗎？</h3>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p><strong>A：</strong>是的，我們除了提供每週固定的線上會議外，也會根據會員需求與本地市場環境，安排以下幾種實體活動：</p>
+                        <ol style="margin-top: 1rem; padding-left: 1.5rem; color: var(--text-gray);">
+                            <li>定期實體聚會</li>
+                            <li>分會專屬活動</li>
+                            <li>自發線下交流</li>
+                            <li>總會實體培訓、商務工作坊</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 活動資訊與會議時間 -->
+    <section id="meeting-info" class="meeting-info">
+        <div class="container">
+            <h2 class="section-title">會議資訊</h2>
+            <div class="meeting-info-card unified-card-simple">
+                <div class="meeting-time-section">
+                    <div class="schedule-day">每週三</div>
+                    <div class="schedule-time-range">早上 6:30 - 8:30</div>
+                    <p class="schedule-note">全程支援線上與會 · 不需舟車勞頓，在家或辦公室即可參與</p>
+                </div>
+                <div class="meeting-features-section">
+                    <h3 class="features-title">會議內容包含</h3>
+                    <ul class="features-list">
+                        <li>專業分工（會議主持人、教育、主題簡報）</li>
+                        <li>分組交流時間</li>
+                        <li>主講行銷影片</li>
+                        <li>引薦見證環節</li>
+                        <li>60+ 行業代表參與</li>
+                    </ul>
                 </div>
             </div>
         </div>
