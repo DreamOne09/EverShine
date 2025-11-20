@@ -18,9 +18,9 @@
     --font-size-body: 1.125rem;    /* 正文 */
     --font-size-small: 0.95rem;    /* 輔助文字 */
     
-    --line-height-tight: 1.2;
-    --line-height-normal: 1.6;
-    --line-height-relaxed: 1.9;
+    --line-height-tight: 1.2;      /* 標題行高（緊湊） */
+    --line-height-normal: 1.6;     /* 內文行高（1.5-1.6倍原則） */
+    --line-height-relaxed: 1.8;    /* 寬鬆行高（調整為1.8，更符合韻律） */
     
     /* ============================================
        設計系統 - Spacing System (8px base)
@@ -34,9 +34,9 @@
     --space-3xl: 6rem;     /* 96px */
     --space-4xl: 8rem;     /* 128px */
     
-    --section-padding-y: var(--space-4xl);  /* 8rem */
-    --section-padding-x: var(--space-lg);    /* 2rem */
-    --section-gap: var(--space-3xl);         /* 6rem */
+    --section-padding-y: var(--space-4xl);  /* 8rem = 128px（符合120-160px原則） */
+    --section-padding-x: var(--space-lg);    /* 2rem = 32px（8px倍數） */
+    --section-gap: var(--space-4xl);        /* 8rem = 128px（區塊間距，符合120-160px原則） */
     
     /* ============================================
        設計系統 - Color System
@@ -66,7 +66,7 @@
     --bg-dark: #1d2f38;
     --bg-darker: #001b36;
     --bg-primary: #005391;
-    --bg-black: #000000;
+    --bg-black: #111111; /* 拒絕純黑，使用深灰 */
     --gold: var(--color-primary);
     --gold-light: var(--color-primary-light);
     --gold-dark: var(--color-primary-dark);
@@ -75,7 +75,7 @@
     --text-gray-dark: var(--color-text-muted);
     --border-gold: rgba(76, 168, 223, 0.35);
     --shadow-soft: 0 12px 32px rgba(1, 27, 54, 0.35);
-    --transition: all 0.3s ease;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* 物理慣性緩動 */
     
     /* 星雲顏色 - DRY 原則 */
     --nebula-purple: rgba(120, 87, 255, 0.5);
@@ -241,18 +241,18 @@
 
 html {
     scroll-behavior: smooth;
-    background-color: #000000;
+    background-color: #111111; /* 拒絕純黑，使用深灰 */
     min-height: 100%;
 }
 
 body {
     font-family: 'Noto Sans TC', sans-serif;
-    background-color: #000;
+    background-color: #111111; /* 拒絕純黑，使用深灰 */
     color: var(--text-white);
-    line-height: 1.6;
+    line-height: 1.6; /* 1.6 = 符合1.5-1.6倍原則 */
     overflow-x: hidden;
     position: relative;
-    padding-bottom: 60px;
+    padding-bottom: 64px; /* 8px倍數：64px */
     min-height: 100vh;
 }
 
@@ -596,9 +596,9 @@ body::after {
 
 
 .container {
-    max-width: 1200px;
+    max-width: 1200px; /* 統一容器最大寬度 */
     margin: 0 auto;
-    padding: 0 3rem;
+    padding: 0 2rem; /* 8px倍數：32px */
 }
 
 /* 手機版增加寬度 */
@@ -632,6 +632,7 @@ body::after {
     position: relative;
     padding-bottom: var(--space-sm);
     line-height: var(--line-height-tight);
+    letter-spacing: -0.01em; /* 大標題微幅減少字距 */
 }
 
 .section-title::after {
@@ -895,7 +896,8 @@ body::after {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 1.25rem 2.5rem;
+    padding: 1rem 2rem; /* 16px 32px = 至少44px高（16px*2 + 字體高度） */
+    min-height: 44px; /* 確保觸控目標至少44px */
     background: linear-gradient(135deg, var(--color-primary-dark), var(--color-primary));
     color: white;
     border: 2px solid var(--color-primary);
@@ -930,7 +932,8 @@ body::after {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 1rem 2rem;
+    padding: 1rem 2rem; /* 16px 32px */
+    min-height: 44px; /* 確保觸控目標至少44px */
     background: transparent;
     color: var(--color-primary);
     border: 2px solid var(--color-primary);
@@ -2280,7 +2283,7 @@ body::after {
    加入我們
    ============================================ */
 .join {
-    padding: 10rem 0 !important;
+    padding: var(--section-padding-y) 0 !important; /* 8rem = 128px */
     background: transparent;
     position: relative;
     overflow: visible;
@@ -5483,7 +5486,7 @@ body::after {
    常見問題 FAQ
    ============================================ */
 .faq {
-    padding: 10rem 0 !important;
+    padding: var(--section-padding-y) 0 !important; /* 8rem = 128px */
     background: transparent;
     position: relative;
     border: none;
