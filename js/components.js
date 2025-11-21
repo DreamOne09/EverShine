@@ -113,6 +113,17 @@ function getFooterHTML() {
 
 // 初始化共用元件 - 自動載入所有組件
 function initComponents() {
+    // 確保 DOM 已準備好
+    if (!document.body) {
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initComponents);
+            return;
+        } else {
+            setTimeout(initComponents, 100);
+            return;
+        }
+    }
+    
     // 載入流星動畫容器（如果不存在）
     if (!document.querySelector('.meteor-shower')) {
         document.body.insertAdjacentHTML('afterbegin', getMeteorShowerHTML());
@@ -139,5 +150,13 @@ function initComponents() {
             document.body.insertAdjacentHTML('beforeend', getFooterHTML());
         }
     }
+}
+
+// 自動執行初始化（當 components.js 載入時）
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initComponents);
+} else {
+    // DOM 已經準備好，立即執行
+    initComponents();
 }
 

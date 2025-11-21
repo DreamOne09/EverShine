@@ -658,29 +658,65 @@
         });
     }
     
-    // Load non-critical scripts after page is interactive
-    if ('requestIdleCallback' in window) {
-        requestIdleCallback(() => {
-            Promise.all([
-                loadScript('js/debug-stars.js'),
-                loadScript('js/components.js'),
-                loadScript('js/category-mapping.js'),
-                loadScript('js/main.js'),
-                loadScript('js/scroll-progress.js')
-            ]).catch(err => console.warn('Non-critical script load failed:', err));
-        }, { timeout: 2000 });
+    // 優先載入 components.js（header 和 footer 需要）
+    function loadComponentsFirst() {
+        return loadScript('js/components.js').then(() => {
+            // components.js 載入後，確保 initComponents 執行
+            if (typeof initComponents === 'function') {
+                initComponents();
+            }
+        });
+    }
+    
+    // Load components.js first, then other scripts
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => {
+            loadComponentsFirst().then(() => {
+                // 載入其他非關鍵腳本
+                if ('requestIdleCallback' in window) {
+                    requestIdleCallback(() => {
+                        Promise.all([
+                            loadScript('js/debug-stars.js'),
+                            loadScript('js/category-mapping.js'),
+                            loadScript('js/main.js'),
+                            loadScript('js/scroll-progress.js')
+                        ]).catch(err => console.warn('Non-critical script load failed:', err));
+                    }, { timeout: 2000 });
+                } else {
+                    setTimeout(() => {
+                        Promise.all([
+                            loadScript('js/debug-stars.js'),
+                            loadScript('js/category-mapping.js'),
+                            loadScript('js/main.js'),
+                            loadScript('js/scroll-progress.js')
+                        ]).catch(err => console.warn('Non-critical script load failed:', err));
+                    }, 100);
+                }
+            });
+        });
     } else {
-        // Fallback: Load after DOMContentLoaded
-        window.addEventListener('DOMContentLoaded', () => {
-            setTimeout(() => {
-                Promise.all([
-                    loadScript('js/debug-stars.js'),
-                    loadScript('js/components.js'),
-                    loadScript('js/category-mapping.js'),
-                    loadScript('js/main.js'),
-                    loadScript('js/scroll-progress.js')
-                ]).catch(err => console.warn('Non-critical script load failed:', err));
-            }, 100);
+        // DOM 已經準備好，立即載入 components.js
+        loadComponentsFirst().then(() => {
+            // 載入其他非關鍵腳本
+            if ('requestIdleCallback' in window) {
+                requestIdleCallback(() => {
+                    Promise.all([
+                        loadScript('js/debug-stars.js'),
+                        loadScript('js/category-mapping.js'),
+                        loadScript('js/main.js'),
+                        loadScript('js/scroll-progress.js')
+                    ]).catch(err => console.warn('Non-critical script load failed:', err));
+                }, { timeout: 2000 });
+            } else {
+                setTimeout(() => {
+                    Promise.all([
+                        loadScript('js/debug-stars.js'),
+                        loadScript('js/category-mapping.js'),
+                        loadScript('js/main.js'),
+                        loadScript('js/scroll-progress.js')
+                    ]).catch(err => console.warn('Non-critical script load failed:', err));
+                }, 100);
+            }
         });
     }
     </script>
