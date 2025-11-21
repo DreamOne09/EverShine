@@ -36,6 +36,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // 初始化 FAQ 互動功能
     initFAQ();
     
+    // 初始化滾動動畫
+    initScrollAnimations();
+    
     // 載入畫面隱藏邏輯已移至 index.html 內聯腳本，確保一定會執行
     // 此處保留診斷功能（可選）
     const loader = document.getElementById('pageLoader');
@@ -49,6 +52,58 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 1000);
     }
 });
+
+// ============================================
+// 滾動動畫功能 (Intersection Observer)
+// ============================================
+function initScrollAnimations() {
+    // 檢查瀏覽器是否支援 Intersection Observer
+    if (!('IntersectionObserver' in window)) {
+        // 不支援時，直接顯示所有元素
+        const animatedElements = document.querySelectorAll('.fade-in-on-scroll');
+        animatedElements.forEach(el => {
+            el.style.opacity = '1';
+            el.style.transform = 'translateY(0)';
+        });
+        return;
+    }
+    
+    // 設定動畫選項
+    const animationOptions = {
+        root: null,
+        rootMargin: '0px 0px -100px 0px', // 提前 100px 觸發動畫
+        threshold: 0.1
+    };
+    
+    // 創建 Intersection Observer
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animated');
+                // 觀察一次後就停止觀察
+                observer.unobserve(entry.target);
+            }
+        });
+    }, animationOptions);
+    
+    // 為需要動畫的元素添加類別和初始樣式
+    const sections = document.querySelectorAll('section');
+    const cards = document.querySelectorAll('.glass-card, .unified-card-primary, .unified-card-secondary, .success-card-individual, .member-card, .referral-card, .faq-item');
+    
+    // 合併所有需要動畫的元素
+    const elementsToAnimate = [...sections, ...cards];
+    
+    elementsToAnimate.forEach((el, index) => {
+        // 添加動畫類別
+        el.classList.add('fade-in-on-scroll');
+        
+        // 設定初始狀態（透過 CSS 變數控制延遲）
+        el.style.setProperty('--animation-delay', `${index * 0.1}s`);
+        
+        // 開始觀察
+        observer.observe(el);
+    });
+}
 
 // ============================================
 // FAQ 互動功能

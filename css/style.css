@@ -75,7 +75,19 @@
     --text-gray-dark: var(--color-text-muted);
     --border-gold: rgba(76, 168, 223, 0.35);
     --shadow-soft: 0 12px 32px rgba(1, 27, 54, 0.35);
-    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* 物理慣性緩動 */
+    
+    /* ============================================
+       設計系統 - Transition System
+       ============================================ */
+    --transition-fast: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* 物理慣性緩動 - 標準 */
+    --transition-slow: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-ease: all 0.3s ease;
+    
+    /* Focus 狀態樣式 */
+    --focus-outline: 3px solid var(--color-primary);
+    --focus-outline-offset: 2px;
+    --focus-ring: 0 0 0 3px rgba(76, 168, 223, 0.5);
     
     /* 星雲顏色 - DRY 原則 */
     --nebula-purple: rgba(120, 87, 255, 0.5);
@@ -122,6 +134,19 @@
     --glass-border-strong: rgba(76, 168, 223, 0.5);
     --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
     --glass-shadow-light: 0 8px 32px rgba(0, 0, 0, 0.3);
+    
+    /* ============================================
+       設計系統 - 響應式斷點系統
+       ============================================ */
+    --breakpoint-xs: 480px;   /* 小手機 */
+    --breakpoint-sm: 640px;   /* 大手機 */
+    --breakpoint-md: 768px;   /* 平板 */
+    --breakpoint-lg: 1024px;  /* 小桌面 */
+    --breakpoint-xl: 1200px;  /* 桌面 */
+    --breakpoint-2xl: 1400px; /* 大桌面 */
+    
+    /* 觸控目標最小尺寸 */
+    --touch-target-min: 44px; /* WCAG 2.5.5 標準 */
 }
 
 /* ============================================
@@ -223,7 +248,7 @@ body::before {
                 0 0 0 2px rgba(76, 168, 223, 0.3),
                 inset 0 2px 0 rgba(255, 255, 255, 0.2);
     position: relative;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: var(--transition-slow);
     overflow: hidden;
 }
 
@@ -264,7 +289,7 @@ body::before {
                 0 0 0 1px rgba(76, 168, 223, 0.2),
                 inset 0 1px 0 rgba(255, 255, 255, 0.15);
     position: relative;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: var(--transition);
 }
 
 .unified-card-secondary:hover {
@@ -306,7 +331,7 @@ body {
     flex-direction: column !important;
     align-items: center !important;
     justify-content: center !important;
-    transition: opacity 0.5s ease !important;
+    transition: opacity var(--transition-slow) !important;
 }
 
 .page-loader.hidden {
@@ -734,6 +759,34 @@ body::after {
 
 
 
+/* ============================================
+   Skip to Main Content (可訪問性)
+   ============================================ */
+.skip-to-main {
+    position: absolute;
+    top: -100px;
+    left: 0;
+    background: var(--color-primary);
+    color: white;
+    padding: 1rem 2rem;
+    text-decoration: none;
+    font-weight: 600;
+    z-index: 10000;
+    border-radius: 0 0 8px 0;
+    transition: top 0.3s ease;
+}
+
+.skip-to-main:focus {
+    top: 0;
+    outline: var(--focus-outline);
+    outline-offset: -2px;
+    box-shadow: var(--focus-ring);
+}
+
+.skip-to-main:focus-visible {
+    top: 0;
+}
+
 .container {
     max-width: 1200px; /* 統一容器最大寬度 */
     margin: 0 auto;
@@ -761,17 +814,87 @@ body::after {
     }
 }
 
-.section-title {
+/* ============================================
+   滾動動畫樣式
+   ============================================ */
+.fade-in-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transition-delay: var(--animation-delay, 0s);
+}
+
+.fade-in-on-scroll.animated {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 減少動畫對性能的影響 */
+@media (prefers-reduced-motion: reduce) {
+    .fade-in-on-scroll {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+}
+
+/* ============================================
+   統一標題層級系統
+   ============================================ */
+h1, .h1 {
+    font-size: var(--font-size-h1);
+    font-weight: 900;
+    line-height: var(--line-height-tight);
+    margin-bottom: var(--space-lg);
+    letter-spacing: -0.02em;
+}
+
+h2, .h2, .section-title {
     font-size: var(--font-size-h2);
     font-weight: 700;
+    line-height: var(--line-height-tight);
+    margin-bottom: var(--space-xl);
+    letter-spacing: -0.01em;
+}
+
+h3, .h3 {
+    font-size: var(--font-size-h3);
+    font-weight: 700;
+    line-height: var(--line-height-tight);
+    margin-bottom: var(--space-md);
+    letter-spacing: 0;
+}
+
+h4, .h4 {
+    font-size: var(--font-size-h4);
+    font-weight: 600;
+    line-height: var(--line-height-normal);
+    margin-bottom: var(--space-sm);
+    letter-spacing: 0;
+}
+
+h5, .h5 {
+    font-size: var(--font-size-body);
+    font-weight: 600;
+    line-height: var(--line-height-normal);
+    margin-bottom: var(--space-xs);
+}
+
+h6, .h6 {
+    font-size: var(--font-size-small);
+    font-weight: 600;
+    line-height: var(--line-height-normal);
+    margin-bottom: var(--space-xs);
+}
+
+.section-title {
     text-align: center;
     margin-bottom: var(--space-2xl);
     margin-top: var(--space-lg);
     color: var(--color-primary);
     position: relative;
     padding-bottom: var(--space-sm);
-    line-height: var(--line-height-tight);
-    letter-spacing: -0.01em; /* 大標題微幅減少字距 */
 }
 
 .section-title::after {
@@ -853,7 +976,7 @@ body::after {
     border: none;
     color: var(--gold);
     text-decoration: none;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: var(--transition);
     position: relative;
     overflow: visible;
 }
@@ -870,13 +993,25 @@ body::after {
     height: 18px;
     position: relative;
     z-index: 1;
-    transition: all 0.3s ease;
+    transition: var(--transition-ease);
     filter: drop-shadow(0 2px 4px rgba(76, 168, 223, 0.3));
 }
 
 .nav-social-link:hover svg {
     transform: scale(1.15) rotate(5deg);
     filter: drop-shadow(0 4px 12px rgba(76, 168, 223, 0.6));
+}
+
+.nav-social-link:focus {
+    outline: var(--focus-outline);
+    outline-offset: 4px;
+    border-radius: 4px;
+    box-shadow: var(--focus-ring);
+}
+
+.nav-social-link:focus-visible {
+    outline: var(--focus-outline);
+    outline-offset: 4px;
 }
 
 
@@ -907,13 +1042,28 @@ body::after {
     width: 100%;
 }
 
+.nav-link:focus {
+    outline: var(--focus-outline);
+    outline-offset: 4px;
+    color: var(--gold);
+    border-radius: 4px;
+}
+
+.nav-link:focus::after {
+    width: 100%;
+}
+
 .nav-toggle {
     display: none;
     flex-direction: column;
     background: transparent;
     border: none;
     cursor: pointer;
-    padding: 5px;
+    padding: 10px; /* 增加 padding 確保觸控目標至少 44px */
+    min-width: var(--touch-target-min);
+    min-height: var(--touch-target-min);
+    align-items: center;
+    justify-content: center;
 }
 
 .nav-toggle span {
@@ -922,6 +1072,17 @@ body::after {
     background: var(--gold);
     margin: 3px 0;
     transition: var(--transition);
+}
+
+.nav-toggle:focus {
+    outline: var(--focus-outline);
+    outline-offset: 4px;
+    border-radius: 4px;
+}
+
+.nav-toggle:focus-visible {
+    outline: var(--focus-outline);
+    outline-offset: 4px;
 }
 
 /* ============================================
@@ -1052,7 +1213,7 @@ body::after {
     font-weight: 700;
     font-size: 1.125rem;
     border-radius: 12px;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: var(--transition-slow);
     position: relative;
     overflow: visible;
     z-index: 1;
@@ -1088,13 +1249,30 @@ body::after {
     font-weight: 600;
     font-size: 1rem;
     border-radius: 12px;
-    transition: all 0.3s ease;
+    transition: var(--transition-ease);
 }
 
 .btn-secondary:hover {
     background: rgba(76, 168, 223, 0.1);
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(76, 168, 223, 0.3);
+}
+
+.btn-secondary:focus {
+    outline: var(--focus-outline);
+    outline-offset: var(--focus-outline-offset);
+    box-shadow: var(--focus-ring), 0 4px 12px rgba(76, 168, 223, 0.3);
+}
+
+.btn-secondary:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(76, 168, 223, 0.2);
+}
+
+.btn-secondary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
 }
 
 /* Hero 區塊的按鈕額外加強光暈 */
@@ -1115,6 +1293,23 @@ body::after {
     border-color: var(--color-primary-light);
     background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
     box-shadow: 0 12px 32px rgba(76, 168, 223, 0.5);
+}
+
+.btn-primary:focus {
+    outline: var(--focus-outline);
+    outline-offset: var(--focus-outline-offset);
+    box-shadow: var(--focus-ring), 0 8px 24px rgba(76, 168, 223, 0.4);
+}
+
+.btn-primary:active {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(76, 168, 223, 0.4);
+}
+
+.btn-primary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
 }
 
 .scroll-indicator {
@@ -1241,7 +1436,7 @@ body::after {
 
 .metric-card:hover::before {
     left: 100%;
-    transition: 0.5s;
+    transition: var(--transition-slow);
 }
 
 .metric-icon {
@@ -1335,7 +1530,7 @@ body::after {
 .floating-option {
     position: relative;
     cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: var(--transition-slow);
 }
 
 .floating-text {
@@ -1354,7 +1549,7 @@ body::after {
     background: rgba(0, 27, 54, 0.3);
     backdrop-filter: blur(10px);
     border: 2px solid rgba(76, 168, 223, 0.3);
-    transition: all 0.4s ease;
+    transition: var(--transition-slow);
     position: relative;
     overflow: hidden;
     white-space: nowrap;
@@ -1369,7 +1564,7 @@ body::after {
     height: 200%;
     background: radial-gradient(circle, rgba(76, 168, 223, 0.3) 0%, transparent 70%);
     opacity: 0;
-    transition: opacity 0.4s ease;
+    transition: opacity var(--transition-slow);
     animation: starryGlow 4s ease-in-out infinite;
 }
 
@@ -1416,7 +1611,7 @@ body::after {
     padding: 2rem;
     opacity: 0;
     visibility: hidden;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: var(--transition-slow);
     z-index: 100;
     box-shadow: 
         0 20px 60px rgba(0, 0, 0, 0.5),
@@ -1684,7 +1879,7 @@ body::after {
                 0 0 0 2px rgba(76, 168, 223, 0.3),
                 inset 0 2px 0 rgba(255, 255, 255, 0.2);
     position: relative;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: var(--transition-slow);
 }
 
 .about-block::before {
@@ -1757,7 +1952,7 @@ body::after {
                 0 0 0 2px rgba(76, 168, 223, 0.3),
                 inset 0 2px 0 rgba(255, 255, 255, 0.2);
     position: relative;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: var(--transition-slow);
 }
 
 .values-section-new::before {
@@ -1981,7 +2176,7 @@ body::after {
 
 .value-card:hover::before {
     left: 100%;
-    transition: 0.5s;
+    transition: var(--transition-slow);
 }
 
 .value-icon {
@@ -2218,6 +2413,8 @@ body::after {
     font-size: 1.2rem;
     cursor: pointer;
     padding: 0.5rem;
+    min-width: var(--touch-target-min);
+    min-height: var(--touch-target-min);
     transition: var(--transition);
     display: flex;
     align-items: center;
@@ -2257,7 +2454,7 @@ body::after {
     min-height: 280px;
     display: flex;
     flex-direction: column;
-    transition: all 0.4s ease;
+    transition: var(--transition-slow);
 }
 
 .member-card.expanded-full {
@@ -2410,7 +2607,9 @@ body::after {
     color: var(--gold);
     font-size: 1rem;
     cursor: pointer;
-    padding: 0.3rem;
+    padding: 0.5rem; /* 增加 padding 確保觸控目標至少 44px */
+    min-width: var(--touch-target-min);
+    min-height: var(--touch-target-min);
     transition: var(--transition);
     display: flex;
     align-items: center;
@@ -2425,6 +2624,17 @@ body::after {
 .member-toggle-btn:hover {
     background: rgba(76, 168, 223, 0.2);
     transform: scale(1.1);
+}
+
+.member-toggle-btn:focus {
+    outline: var(--focus-outline);
+    outline-offset: var(--focus-outline-offset);
+    background: rgba(76, 168, 223, 0.25);
+    box-shadow: var(--focus-ring);
+}
+
+.member-toggle-btn:active {
+    transform: scale(0.95);
 }
 
 .member-toggle-btn .toggle-icon {
@@ -3734,7 +3944,7 @@ body::after {
     width: 100%;
     padding: 0.9rem 1.2rem;
     text-decoration: none;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: var(--transition);
     border-radius: 0;
     border: none;
     background: transparent;
@@ -3758,7 +3968,7 @@ body::after {
     height: 24px;
     position: relative;
     z-index: 2;
-    transition: all 0.3s ease;
+    transition: var(--transition-ease);
     filter: drop-shadow(0 2px 4px rgba(76, 168, 223, 0.3));
 }
 
@@ -4352,7 +4562,7 @@ body::after {
     border-radius: 12px !important;
     padding: 0 !important;
     margin-bottom: 0 !important;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    transition: var(--transition-slow) !important;
     position: relative !important;
     overflow: hidden !important;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(76, 168, 223, 0.2) !important;
@@ -4425,6 +4635,8 @@ body::after {
     font-size: 1rem;
     cursor: pointer;
     padding: 0.5rem;
+    min-width: var(--touch-target-min);
+    min-height: var(--touch-target-min);
     transition: var(--transition);
     display: flex;
     align-items: center;
@@ -4438,6 +4650,17 @@ body::after {
 .referral-toggle-btn:hover {
     background: rgba(76, 168, 223, 0.2);
     transform: scale(1.1);
+}
+
+.referral-toggle-btn:focus {
+    outline: var(--focus-outline);
+    outline-offset: var(--focus-outline-offset);
+    background: rgba(76, 168, 223, 0.25);
+    box-shadow: var(--focus-ring);
+}
+
+.referral-toggle-btn:active {
+    transform: scale(0.95);
 }
 
 .referral-toggle-btn .toggle-icon {
@@ -4572,7 +4795,7 @@ body::after {
     max-height: 0 !important;
     overflow: hidden !important;
     opacity: 0 !important;
-    transition: max-height 0.5s ease, opacity 0.5s ease, padding 0.5s ease !important;
+    transition: max-height var(--transition-slow), opacity var(--transition-slow), padding var(--transition-slow) !important;
     padding: 0 1.5rem !important;
 }
 
@@ -5273,7 +5496,7 @@ body::after {
     max-height: 100% !important; /* 確保圖片不會溢出 */
     object-fit: cover !important;
     object-position: center center !important; /* 照片置中 */
-    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    transition: transform var(--transition-slow) !important;
     display: block !important;
     border-radius: 10px 0 0 10px !important;
     max-width: 100% !important;
@@ -5573,7 +5796,7 @@ body::after {
     box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5), 
                 0 0 0 2px rgba(76, 168, 223, 0.3),
                 inset 0 2px 0 rgba(255, 255, 255, 0.1) !important;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    transition: var(--transition-slow) !important;
     position: relative !important;
     display: block !important;
     overflow: hidden;
@@ -5736,7 +5959,7 @@ body::after {
     background: linear-gradient(135deg, rgba(76, 168, 223, 0.12), rgba(76, 168, 223, 0.06)) !important;
     border: 2px solid rgba(76, 168, 223, 0.4) !important;
     border-radius: 12px !important;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    transition: var(--transition-slow) !important;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
@@ -6103,7 +6326,7 @@ body::after {
     border-radius: 24px !important;
     padding: 3rem 2rem !important;
     text-align: center !important;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    transition: var(--transition-slow) !important;
     box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5), 
                 0 0 0 2px rgba(76, 168, 223, 0.3),
                 inset 0 2px 0 rgba(255, 255, 255, 0.2) !important;
@@ -6257,7 +6480,7 @@ body::after {
     border-radius: 16px;
     padding: var(--space-lg);
     margin-left: calc(var(--space-xl) - 24px);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: var(--transition-slow);
     position: relative;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4),
                 0 0 0 1px rgba(76, 168, 223, 0.2),
@@ -6391,7 +6614,7 @@ body::after {
     box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5), 
                 0 0 0 2px rgba(76, 168, 223, 0.3),
                 inset 0 2px 0 rgba(255, 255, 255, 0.1) !important;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    transition: var(--transition-slow) !important;
     display: flex !important;
     flex-direction: column !important;
     /* 確保卡片之間有間距 */
@@ -6431,6 +6654,18 @@ body::after {
 
 .faq-item:hover .faq-question {
     background: rgba(76, 168, 223, 0.1);
+}
+
+.faq-question:focus {
+    outline: var(--focus-outline);
+    outline-offset: -2px;
+    background: rgba(76, 168, 223, 0.15) !important;
+    box-shadow: var(--focus-ring);
+}
+
+.faq-question:focus-visible {
+    outline: var(--focus-outline);
+    outline-offset: -2px;
 }
 
 .faq-question h3 {
@@ -6826,7 +7061,7 @@ body::after {
     background: rgba(0, 0, 0, 0.2);
     border-radius: 10px;
     border-left: 4px solid rgba(76, 168, 223, 0.5);
-    transition: all 0.3s ease;
+    transition: var(--transition-ease);
 }
 
 .results-section .reasons-list li:hover {

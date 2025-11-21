@@ -5,14 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     
-    <title>BNI 長輝白金分會 - 專業商務引薦平台</title>
-    <meta name="description" content="BNI 長輝白金分會，全台少數支援完整線上與會的BNI分會。">
+    <title>BNI 長輝白金分會 - 專業商務引薦平台 | 線上會議 | 商務引薦</title>
+    <meta name="description" content="BNI 長輝白金分會，全台少數支援完整線上與會的BNI分會。每週三早上6:30線上例會，60+行業代表，專業商務引薦平台，連結優秀企業家創造無限商機。">
     
-    <link rel="stylesheet" href="css/style.css?v=FIX_RED_ERROR">
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <!-- Resource Hints for Performance -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Critical CSS - Inline for faster FCP -->
     <style>
         /* 基礎重置，防止 CSS 載入前畫面全白 */
         html, body { background: #0a0a0a; margin: 0; padding: 0; }
@@ -27,11 +29,6 @@
         .page-loader.hidden { opacity: 0; pointer-events: none; }
         .loader-logo { width: 300px; max-width: 80%; height: auto; }
     </style>
-    <script src="js/starry-background-unified.js?v=20250202" defer></script>
-    
-    <!-- Title and Meta Description -->
-    <title>BNI 長輝白金分會 - 專業商務引薦平台 | 線上會議 | 商務引薦</title>
-    <meta name="description" content="BNI 長輝白金分會，全台少數支援完整線上與會的BNI分會。每週三早上6:30線上例會，60+行業代表，專業商務引薦平台，連結優秀企業家創造無限商機。">
     <meta name="keywords" content="BNI, 長輝白金分會, 商務引薦, 商業網絡, 企業家, 線上會議, 商業合作, 引薦行銷, BNI台灣, 商業交流">
     
     <!-- Open Graph / Facebook -->
@@ -78,44 +75,32 @@
     }
     </script>
     
-    <!-- Inline Critical Styles - Placed AFTER external CSS link -->
+    <!-- Critical Inline Styles - Minimal above-the-fold CSS -->
     <style>
-    /* 會員成功案例 - 橫向佈局 */
-    .success-stories-grid{display:grid!important;grid-template-columns:repeat(2,1fr)!important;gap:3rem!important;margin-top:4rem!important}
-    .success-card-individual{background:rgba(0,27,54,.5)!important;backdrop-filter:blur(12px) saturate(150%)!important;-webkit-backdrop-filter:blur(12px) saturate(150%)!important;border:1px solid rgba(76,168,223,.3)!important;border-radius:10px!important;padding:0!important;box-shadow:0 8px 32px rgba(0,0,0,.2)!important;position:relative!important;overflow:hidden!important;display:flex!important;flex-direction:row!important;align-items:stretch!important}
-    .success-card-image-wrapper{width:40%!important;min-height:400px!important;overflow:hidden!important;border-radius:10px 0 0 10px!important;flex-shrink:0!important;position:relative!important;border-right:2px solid rgba(76,168,223,.3)!important;display:flex!important;align-items:center!important;justify-content:center!important}
-    .success-card-image{width:100%!important;height:100%!important;min-height:400px!important;object-fit:cover!important;object-position:center center!important;border-radius:10px 0 0 10px!important}
-    .success-card-body{width:60%!important;padding:2rem!important;display:flex!important;flex-direction:column!important;gap:1rem!important;flex-grow:1!important;border-radius:0 10px 10px 0!important;overflow:hidden!important;max-width:100%!important}
-    .success-member-info-header{display:flex!important;flex-direction:column!important;gap:.75rem!important;margin-bottom:1.5rem!important;padding-bottom:1.5rem!important;border-bottom:2px solid rgba(76,168,223,.3)!important}
-    .success-member-info-header .success-member-name{font-size:2.5rem!important;color:#4ca8df!important;font-weight:700!important;margin:0!important;line-height:1.2!important}
-    .success-member-info-header .success-member-industry{font-size:1.5rem!important;color:#f4f9ff!important;font-weight:600!important;margin:0!important;padding:.75rem 1.25rem!important;background:rgba(76,168,223,.2)!important;border-radius:12px!important;border:1px solid rgba(76,168,223,.4)!important;display:inline-block!important;width:fit-content!important}
-    .success-member-bubble{display:none!important}
-    
-    /* 載入畫面 - 修復LOGO顯示問題 */
+    /* 基礎重置 - 防止 FOUC */
+    html,body{background:#0a0a0a;margin:0;padding:0;color:#f4f9ff;font-family:'Noto Sans TC',sans-serif}
+    /* 載入畫面 - 完整關鍵樣式 */
     .page-loader{position:fixed!important;top:0!important;left:0!important;width:100%!important;height:100%!important;background:#000!important;z-index:9999!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;transition:opacity .5s ease!important}
     .page-loader.hidden{opacity:0!important;pointer-events:none!important}
-    .loader-text{font-family:'Noto Sans TC',sans-serif!important;font-size:2rem!important;color:#4ca8df!important;margin-bottom:2rem!important;font-weight:700!important;animation:fadeIn 1s ease!important}
-    .loader-logo{max-width:400px!important;width:auto!important;height:auto!important;max-height:150px!important;object-fit:contain!important;display:block!important;margin-top:1rem!important;visibility:visible!important;opacity:1!important;filter:drop-shadow(0 0 20px rgba(76,168,223,0.5))!important;animation:none!important}
-    @keyframes fadeIn{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
-    /* 移除logoFadeIn動畫，直接顯示LOGO */
-    
-    /* 響應式：手機版改回垂直佈局 */
-    @media (max-width:1024px){.success-card-individual{flex-direction:column!important}.success-card-image-wrapper{width:100%!important;height:300px!important;min-height:300px!important;border-radius:10px 10px 0 0!important;border-right:none!important;border-bottom:2px solid rgba(76,168,223,.3)!important}.success-card-image{border-radius:10px 10px 0 0!important;min-height:300px!important}.success-card-body{width:100%!important;border-radius:0 0 10px 10px!important}.success-member-info-header .success-member-name{font-size:2rem!important}.success-member-info-header .success-member-industry{font-size:1.3rem!important}}
-    @media (max-width:768px){.success-card-image-wrapper{height:280px!important;min-height:280px!important}.success-card-image{min-height:280px!important}.success-member-info-header .success-member-name{font-size:1.8rem!important}.success-member-info-header .success-member-industry{font-size:1.2rem!important}}
+    .page-loader[style*="display: none"]{display:none!important}
+    .loader-text{font-family:'Noto Sans TC',sans-serif!important;font-size:2rem!important;color:#4ca8df!important;margin-bottom:2rem!important;font-weight:700!important}
+    .loader-logo{max-width:400px!important;width:auto!important;height:auto!important;max-height:150px!important;object-fit:contain!important;display:block!important;opacity:1!important;visibility:visible!important}
     </style>
     
-    <!-- Fonts - Optimized: Only load essential weights, use font-display swap -->
+    <!-- Main Stylesheet - Load immediately to ensure styles are available -->
+    <link rel="stylesheet" href="css/style.css?v=20250202-LIGHTHOUSE">
+    
+    <!-- Fonts - Optimized: Only load essential weights (400, 700), use font-display swap -->
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet"></noscript>
     
     <!-- Critical Scripts - Only essential scripts in head, rest deferred -->
-    <!-- Cache-Control: max-age=31536000, immutable (set via server headers) -->
-    <script src="js/starry-background-unified.js?v=20250202-PERF-FINAL" defer></script>
+    <script src="js/starry-background-unified.js?v=20250202-LIGHTHOUSE" defer></script>
 </head>
 <body>
     <!-- 載入畫面 -->
     <div class="page-loader" id="pageLoader">
-        <img src="images/assets/logo/透明底白字長條logo.png" alt="長輝白金分會" class="loader-logo" loading="eager" fetchpriority="high">
+        <img src="images/assets/logo/透明底白字長條logo.png" alt="長輝白金分會" class="loader-logo" loading="eager" fetchpriority="high" width="400" height="150">
         <div class="loader-text">歡迎來到長輝白金分會</div>
     </div>
     
@@ -159,7 +144,7 @@
             <div class="about-section-wrapper">
                 <!-- Logo -->
                 <div class="about-logo-wrapper">
-                    <img src="images/assets/logo/透明底白字長條logo.png" alt="長輝白金分會" class="about-logo" loading="lazy">
+                    <img src="images/assets/logo/透明底白字長條logo.png" alt="長輝白金分會" class="about-logo" loading="lazy" width="400" height="150">
                 </div>
                 
                 <!-- 漂浮文字選項 -->
@@ -269,7 +254,7 @@
             <div class="success-stories-grid">
                 <div class="success-card-individual">
                     <div class="success-card-image-wrapper">
-                        <img src="images/members/何昇軒.jpg" alt="何昇軒" class="success-card-image" loading="lazy" onerror="this.style.display='none'; this.parentElement.classList.add('image-error');">
+                        <img src="images/members/何昇軒.jpg" alt="何昇軒" class="success-card-image" loading="lazy" width="400" height="400" onerror="this.style.display='none'; this.parentElement.classList.add('image-error');">
                         <div class="success-member-bubble">
                             <h3 class="success-member-name">何昇軒</h3>
                             <p class="success-member-industry">律師</p>
@@ -281,7 +266,7 @@
                 </div>
                 <div class="success-card-individual">
                     <div class="success-card-image-wrapper">
-                        <img src="images/members/劉弼凱.jpg" alt="劉弼凱" class="success-card-image" loading="lazy" onerror="this.style.display='none'; this.parentElement.classList.add('image-error');">
+                        <img src="images/members/劉弼凱.jpg" alt="劉弼凱" class="success-card-image" loading="lazy" width="400" height="400" onerror="this.style.display='none'; this.parentElement.classList.add('image-error');">
                         <div class="success-member-bubble">
                             <h3 class="success-member-name">劉弼凱</h3>
                             <p class="success-member-industry">水電工程</p>
@@ -293,7 +278,7 @@
                 </div>
                 <div class="success-card-individual">
                     <div class="success-card-image-wrapper">
-                        <img src="images/members/吳介輝.jpg" alt="吳介輝" class="success-card-image" loading="lazy" onerror="this.style.display='none'; this.parentElement.classList.add('image-error');">
+                        <img src="images/members/吳介輝.jpg" alt="吳介輝" class="success-card-image" loading="lazy" width="400" height="400" onerror="this.style.display='none'; this.parentElement.classList.add('image-error');">
                         <div class="success-member-bubble">
                             <h3 class="success-member-name">吳介輝</h3>
                             <p class="success-member-industry">人壽保險</p>
@@ -305,7 +290,7 @@
                 </div>
                 <div class="success-card-individual">
                     <div class="success-card-image-wrapper">
-                        <img src="images/members/孫成育.jpg" alt="孫成育" class="success-card-image" loading="lazy" onerror="this.style.display='none'; this.parentElement.classList.add('image-error');">
+                        <img src="images/members/孫成育.jpg" alt="孫成育" class="success-card-image" loading="lazy" width="400" height="400" onerror="this.style.display='none'; this.parentElement.classList.add('image-error');">
                         <div class="success-member-bubble">
                             <h3 class="success-member-name">孫成育</h3>
                             <p class="success-member-industry">禮贈品</p>
@@ -461,56 +446,56 @@
             <h2 class="section-title">常見問題</h2>
             <div class="faq-content">
                 <div class="faq-item unified-card-simple">
-                    <div class="faq-question">
+                    <div class="faq-question" role="button" tabindex="0" aria-expanded="false" aria-controls="faq-answer-1">
                         <h3>加入BNI需要什麼條件？</h3>
-                        <span class="faq-toggle">+</span>
+                        <span class="faq-toggle" aria-hidden="true">+</span>
                     </div>
-                    <div class="faq-answer">
+                    <div class="faq-answer" id="faq-answer-1" role="region">
                         <p>您需要有一個穩健的商業模式，願意對引薦的生意負責，並承諾每週參與例會。我們歡迎各行各業的專業人士加入。</p>
                     </div>
                 </div>
                 <div class="faq-item unified-card-simple">
-                    <div class="faq-question">
+                    <div class="faq-question" role="button" tabindex="0" aria-expanded="false" aria-controls="faq-answer-2">
                         <h3>線上會議與實體會議有什麼不同？</h3>
-                        <span class="faq-toggle">+</span>
+                        <span class="faq-toggle" aria-hidden="true">+</span>
                     </div>
-                    <div class="faq-answer">
+                    <div class="faq-answer" id="faq-answer-2" role="region">
                         <p>線上會議提供與實體會議相同的功能，包括專業分工、分組交流、主講行銷影片和引薦見證環節。您可以在家或辦公室參與，節省通勤時間。</p>
                     </div>
                 </div>
                 <div class="faq-item unified-card-simple">
-                    <div class="faq-question">
+                    <div class="faq-question" role="button" tabindex="0" aria-expanded="false" aria-controls="faq-answer-3">
                         <h3>加入需要費用嗎？</h3>
-                        <span class="faq-toggle">+</span>
+                        <span class="faq-toggle" aria-hidden="true">+</span>
                     </div>
-                    <div class="faq-answer">
+                    <div class="faq-answer" id="faq-answer-3" role="region">
                         <p>來賓參訪是完全免費的。正式加入會員後，需要繳交會費，詳細費用請聯繫我們了解。</p>
                     </div>
                 </div>
                 <div class="faq-item unified-card-simple">
-                    <div class="faq-question">
+                    <div class="faq-question" role="button" tabindex="0" aria-expanded="false" aria-controls="faq-answer-4">
                         <h3>如果我的行業已經有會員了怎麼辦？</h3>
-                        <span class="faq-toggle">+</span>
+                        <span class="faq-toggle" aria-hidden="true">+</span>
                     </div>
-                    <div class="faq-answer">
+                    <div class="faq-answer" id="faq-answer-4" role="region">
                         <p>BNI採用「一個行業一個會員」的原則。如果您的行業已有會員，我們可以協助您了解其他分會的機會，或將您列入候補名單。</p>
                     </div>
                 </div>
                 <div class="faq-item unified-card-simple">
-                    <div class="faq-question">
+                    <div class="faq-question" role="button" tabindex="0" aria-expanded="false" aria-controls="faq-answer-5">
                         <h3>每週都需要參加會議嗎？</h3>
-                        <span class="faq-toggle">+</span>
+                        <span class="faq-toggle" aria-hidden="true">+</span>
                     </div>
-                    <div class="faq-answer">
+                    <div class="faq-answer" id="faq-answer-5" role="region">
                         <p>是的，每週參與例會是BNI會員的基本責任。這確保了持續的引薦機會和與其他會員的關係建立。線上會議讓參與更加便利。</p>
                     </div>
                 </div>
                 <div class="faq-item unified-card-simple">
-                    <div class="faq-question">
+                    <div class="faq-question" role="button" tabindex="0" aria-expanded="false" aria-controls="faq-answer-6">
                         <h3>除了每週線上會議之外，有實體與夥伴見面的機會嗎？</h3>
-                        <span class="faq-toggle">+</span>
+                        <span class="faq-toggle" aria-hidden="true">+</span>
                     </div>
-                    <div class="faq-answer">
+                    <div class="faq-answer" id="faq-answer-6" role="region">
                         <p><strong>A：</strong>是的，我們除了提供每週固定的線上會議外，也會根據會員需求與本地市場環境，安排以下幾種實體活動：</p>
                         <ol style="margin-top: 1rem; padding-left: 1.5rem; color: var(--text-gray);">
                             <li>定期實體聚會</li>
@@ -556,7 +541,7 @@
                 <div class="contact-grid">
                     <div class="contact-card">
                         <div class="contact-photo-container">
-                            <img src="images/members/王年煜.jpg" alt="王年煜" class="contact-photo" loading="lazy" onerror="this.style.display='none';">
+                            <img src="images/members/王年煜.jpg" alt="王年煜" class="contact-photo" loading="lazy" width="200" height="200" onerror="this.style.display='none';">
                         </div>
                         <h3>現任主席</h3>
                         <div class="contact-info">
@@ -570,7 +555,7 @@
                     </div>
                     <div class="contact-card">
                         <div class="contact-photo-container">
-                            <img src="images/members/王祈.jpg" alt="王祈" class="contact-photo" loading="lazy" onerror="this.style.display='none';">
+                            <img src="images/members/王祈.jpg" alt="王祈" class="contact-photo" loading="lazy" width="200" height="200" onerror="this.style.display='none';">
                         </div>
                         <h3>現任副主席</h3>
                         <div class="contact-info">
@@ -605,7 +590,10 @@
         function hidePageLoader(immediate) {
             if (loaderHidden) return;
             const loader = document.getElementById('pageLoader');
-            if (!loader) return;
+            if (!loader) {
+                loaderHidden = true;
+                return;
+            }
             
             loaderHidden = true;
             const loadTime = performance.now() - loadStartTime;
@@ -613,14 +601,18 @@
             // 如果載入很快或要求立即隱藏，直接隱藏（不顯示動畫）
             if (immediate === true || loadTime < FAST_LOAD_THRESHOLD) {
                 loader.style.display = 'none';
+                loader.style.opacity = '0';
+                loader.style.visibility = 'hidden';
                 return;
             }
             
             // 否則顯示淡出動畫
             loader.classList.add('hidden');
+            loader.style.opacity = '0';
             setTimeout(() => {
                 if (loader) {
                     loader.style.display = 'none';
+                    loader.style.visibility = 'hidden';
                 }
             }, 500);
         }
@@ -651,12 +643,16 @@
             }
         });
         
-        // 方法3: 安全機制 - 最多 3 秒後強制隱藏（確保一定會隱藏）
+        // 方法3: 安全機制 - 最多 2 秒後強制隱藏（確保一定會隱藏）
         setTimeout(function() {
-            if (!loaderHidden) {
-                hidePageLoader(false);
+            const loader = document.getElementById('pageLoader');
+            if (loader && !loaderHidden) {
+                loaderHidden = true;
+                loader.style.display = 'none';
+                loader.style.opacity = '0';
+                loader.style.visibility = 'hidden';
             }
-        }, 3000);
+        }, 2000);
         
         // 方法4: 圖片載入完成後隱藏
         const logo = document.querySelector('.loader-logo');
@@ -721,7 +717,6 @@
                 if ('requestIdleCallback' in window) {
                     requestIdleCallback(() => {
                         Promise.all([
-                            loadScript('js/debug-stars.js'),
                             loadScript('js/category-mapping.js'),
                             loadScript('js/main.js'),
                             loadScript('js/scroll-progress.js')
@@ -730,7 +725,6 @@
                 } else {
                     setTimeout(() => {
                         Promise.all([
-                            loadScript('js/debug-stars.js'),
                             loadScript('js/category-mapping.js'),
                             loadScript('js/main.js'),
                             loadScript('js/scroll-progress.js')
@@ -766,33 +760,6 @@
     }
     </script>
     
-    <!-- CSS Load Detection Script - Optimized -->
-    <script>
-    // Use requestIdleCallback for non-critical checks
-    if ('requestIdleCallback' in window) {
-        requestIdleCallback(function() {
-            const test = getComputedStyle(document.body).backgroundColor;
-            console.log('Computed Body Background:', test);
-            if(test === 'rgba(0, 0, 0, 0)' || test === 'transparent') {
-                console.warn('⚠️ DESKTOP CSS LOAD FAILED! Please check Network Tab.');
-            }
-        });
-    } else {
-        // Fallback for browsers without requestIdleCallback
-        setTimeout(function() {
-            const test = getComputedStyle(document.body).backgroundColor;
-            console.log('Computed Body Background:', test);
-            if(test === 'rgba(0, 0, 0, 0)' || test === 'transparent') {
-                console.warn('⚠️ DESKTOP CSS LOAD FAILED! Please check Network Tab.');
-            }
-        }, 1000);
-    }
-    </script>
-    
-    <!-- LoadCSS polyfill for browsers that don't support preload -->
-    <script>
-    !function(e){"use strict";var t=function(t,n,r){var o,i=e.document,a=i.createElement("link");if(n)o=n;else{var l=(i.body||i.getElementsByTagName("head")[0]).childNodes;o=l[l.length-1]}var d=i.styleSheets;a.rel="stylesheet",a.href=t,a.media="only x",function e(t){if(i.body)return t();setTimeout(function(){e(t)})}(function(){o.parentNode.insertBefore(a,n?o:o.nextSibling)});var f=function(e){for(var t=a.href,n=d.length;n--;)if(d[n].href===t)return e();setTimeout(function(){f(e)})};return a.addEventListener&&a.addEventListener("load",function(){this.media=r||"all"}),a.onloadcssdefined=f,f(function(){a.media!==r&&(a.media=r||"all")}),a};"undefined"!=typeof exports?exports.loadCSS=t:e.loadCSS=t}("undefined"!=typeof global?global:this);
-    </script>
 </body>
 </html>
 

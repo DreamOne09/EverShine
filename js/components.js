@@ -21,7 +21,7 @@ function getNavigationHTML() {
         <div class="nav-container">
             <div class="nav-logo">
                 <a href="/">
-                    <img src="images/assets/logo/透明底白字長條logo.png" alt="長輝白金分會" class="logo-image">
+                    <img src="images/assets/logo/透明底白字長條logo.png" alt="長輝白金分會" class="logo-image" width="320" height="80" loading="eager">
                 </a>
             </div>
             <button class="nav-toggle" id="navToggle" aria-label="選單開關">
