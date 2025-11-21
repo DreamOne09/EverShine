@@ -584,34 +584,31 @@ body {
     }
 }
 
-/* 流星效果（參考代碼風格） */
+/* 流星效果 - 精簡但漂亮的流星 */
 .shooting-star {
     z-index: -1 !important;
-    width: 3px;
+    width: 2px;
     height: 120px;
-    border-top-left-radius: 50%;
-    border-top-right-radius: 50%;
     position: fixed !important;
-    background: linear-gradient(to top, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 1));
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.9), 0 0 30px rgba(76, 168, 223, 0.6);
-    animation: animShootingStar var(--duration, 10s) linear infinite;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.9), rgba(135, 206, 250, 0.6), rgba(255, 255, 255, 0));
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(135, 206, 250, 0.4);
+    animation: animShootingStar var(--duration, 10s) linear forwards;
     pointer-events: none;
     opacity: 1 !important;
     visibility: visible !important;
-    filter: blur(0.5px);
+    border-radius: 50%;
+    transform-origin: top center;
 }
 
-/* 流星動畫（參考代碼風格） */
+/* 流星動畫 - 精簡但漂亮的流星動畫 */
 @keyframes animShootingStar {
     from {
         transform: translateY(0px) translateX(0px) rotate(-45deg);
         opacity: 1;
-        height: 100px;
     }
     to {
-        transform: translateY(calc(-100vh - 200px)) translateX(calc(-100vw - 200px)) rotate(-45deg);
+        transform: translateY(calc(-100vh - 300px)) translateX(calc(-100vw - 300px)) rotate(-45deg);
         opacity: 0;
-        height: 300px;
     }
 }
 

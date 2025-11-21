@@ -36,47 +36,18 @@ document.addEventListener('DOMContentLoaded', () => {
     // 初始化 FAQ 互動功能
     initFAQ();
     
-    // 隱藏載入畫面 - 確保LOGO有時間顯示（只在有載入畫面的頁面執行）
-    window.addEventListener('load', () => {
-        const loader = document.getElementById('pageLoader');
-        if (!loader) {
-            // 如果頁面沒有載入畫面，直接返回（這是正常的，不是所有頁面都有載入畫面）
-            return;
-        }
-        
-        // 診斷：檢查LOGO是否載入（只在有LOGO元素時執行）
-        const logo = document.querySelector('.loader-logo');
-        if (logo) {
-            console.log('🔍 LOGO診斷:', {
-                complete: logo.complete,
-                naturalWidth: logo.naturalWidth,
-                naturalHeight: logo.naturalHeight,
-                src: logo.src,
-                currentSrc: logo.currentSrc,
-                style: {
-                    display: window.getComputedStyle(logo).display,
-                    opacity: window.getComputedStyle(logo).opacity,
-                    visibility: window.getComputedStyle(logo).visibility
-                }
-            });
-            
-            if (!logo.complete) {
-                logo.addEventListener('load', () => {
-                    console.log('✅ LOGO載入完成');
-                });
-                logo.addEventListener('error', () => {
-                    console.error('❌ LOGO載入失敗');
-                });
-            }
-        }
-        
+    // 載入畫面隱藏邏輯已移至 index.html 內聯腳本，確保一定會執行
+    // 此處保留診斷功能（可選）
+    const loader = document.getElementById('pageLoader');
+    if (loader && !loader.classList.contains('hidden')) {
+        // 如果載入畫面還在顯示，可能是內聯腳本未執行，這裡作為備用
         setTimeout(() => {
             loader.classList.add('hidden');
             setTimeout(() => {
                 loader.style.display = 'none';
             }, 500);
-        }, 2000); // 增加到2秒，確保LOGO有時間顯示
-    });
+        }, 1000);
+    }
 });
 
 // ============================================

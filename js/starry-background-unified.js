@@ -33,29 +33,28 @@ class StarrySkyConfig {
         };
         
         this.css = {
-            // 靜態小星星層 - 增加數量確保滿天星效果
-            // 使用純白色 #FFF，格式：xpx ypx #FFF
+            // 靜態小星星層 - 精簡但漂亮的星星效果
             staticStars: [
-                { count: 200, size: '1px', animationDuration: '100s' },  // 第一層：200顆
-                { count: 180, size: '1px', animationDuration: '125s' },  // 第二層：180顆（:after 會再增加）
-                { count: 160, size: '1px', animationDuration: '175s' },  // 第三層：160顆
-                { count: 140, size: '1px', animationDuration: '200s' },  // 第四層：140顆（:after 會再增加）
+                { count: 150, size: '1px', animationDuration: '100s' },  // 第一層：150顆
+                { count: 120, size: '1px', animationDuration: '125s' },  // 第二層：120顆
+                { count: 100, size: '1px', animationDuration: '175s' },  // 第三層：100顆
             ],
-            // 移動的星星層（增加數量）
+            // 移動的星星層（精簡）
             movingStars: [
-                { count: 120, size: '2px', duration: '125s' },   // stars1: 2px, 125s, 120顆
-                { count: 100, size: '3px', duration: '175s' },   // stars2: 3px, 175s, 100顆
+                { count: 80, size: '2px', duration: '125s' },   // stars1: 2px, 125s
+                { count: 60, size: '3px', duration: '175s' },   // stars2: 3px, 175s
             ],
-            // 流星配置（一次一條）
+            // 流星配置 - 精簡但漂亮的流星效果
             shootingStars: {
                 minCount: 1,     // 一次一條流星
-                maxCount: 1,
-                minSpeed: 10,    // 增加速度（讓流星快一點消失）
-                maxSpeed: 18,
-                minTailLength: 85,
-                maxTailLength: 150,
-                glowIntensity: 1.0,
-                tailFadeSteps: 20
+                maxCount: 2,     // 最多兩條（更自然）
+                minSpeed: 8,     // 適中的速度
+                maxSpeed: 15,
+                minTailLength: 100,
+                maxTailLength: 180,
+                glowIntensity: 0.8,
+                tailFadeSteps: 25,
+                spawnInterval: 3000  // 每3秒生成一次流星
             }
         };
         
@@ -101,9 +100,10 @@ class ShootingStar {
         this.element = document.createElement('div');
         this.element.className = 'shooting-star';
         
-        // 流星從視窗外隨機位置開始（右下角區域）
-        const startX = Math.random() * 50 + 50; // 50-100%
-        const startY = Math.random() * 50 + 50; // 50-100%
+        // 流星從視窗外隨機位置開始（更自然的起始位置）
+        // 從右上角到左下角的方向更自然
+        const startX = Math.random() * 30 + 70; // 70-100%（從右側開始）
+        const startY = Math.random() * 30; // 0-30%（從上方開始）
         
         this.element.style.left = `${startX}%`;
         this.element.style.top = `${startY}%`;
@@ -113,12 +113,25 @@ class ShootingStar {
         this.element.style.animationDuration = `${this.duration}s`;
         this.element.style.setProperty('--duration', `${this.duration}s`);
         
-        // 參考代碼：使用 linear-gradient 創建尾巴
-        this.element.style.background = 'linear-gradient(to top, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1))';
+        // 精簡但漂亮的流星效果：使用漸變創建尾巴
+        const config = this.config.css?.shootingStars || {};
+        const tailLength = config.minTailLength + Math.random() * (config.maxTailLength - config.minTailLength);
+        
+        this.element.style.width = '2px';
+        this.element.style.height = `${tailLength}px`;
+        this.element.style.background = 'linear-gradient(to bottom, rgba(255, 255, 255, 0.9), rgba(135, 206, 250, 0.6), rgba(255, 255, 255, 0))';
         this.element.style.transform = 'rotate(-45deg)';
+        this.element.style.transformOrigin = 'top center';
+        this.element.style.borderRadius = '50%';
+        this.element.style.boxShadow = '0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(135, 206, 250, 0.4)';
         
         // 添加到 body（讓流星保持在固定的 z-index 層級）
         document.body.appendChild(this.element);
+        
+        // 動畫結束後自動移除
+        this.element.addEventListener('animationend', () => {
+            this.destroy();
+        });
     }
     
     destroy() {
@@ -465,19 +478,48 @@ class StarrySkyManager {
     }
     
     createShootingStars() {
+        // 清除舊的流星
         this.shootingStars.forEach(star => star.destroy());
         this.shootingStars = [];
         
+        // 清除舊的定時器
+        if (this.shootingStarInterval) {
+            clearInterval(this.shootingStarInterval);
+        }
+        
         const viewportWidth = window.innerWidth;
         const viewportHeight = window.innerHeight;
+        const config = this.config.css.shootingStars;
         
-        const count = this.config.css.shootingStars.minCount + 
-                     Math.floor(Math.random() * (this.config.css.shootingStars.maxCount - this.config.css.shootingStars.minCount + 1));
+        // 立即生成第一顆流星
+        const initialCount = config.minCount + 
+                           Math.floor(Math.random() * (config.maxCount - config.minCount + 1));
         
-        for (let i = 0; i < count; i++) {
+        for (let i = 0; i < initialCount; i++) {
             const star = new ShootingStar(this.config, viewportWidth, viewportHeight);
             this.shootingStars.push(star);
         }
+        
+        // 定期生成新流星（精簡但漂亮的流星效果）
+        const spawnInterval = config.spawnInterval || 3000;
+        this.shootingStarInterval = setInterval(() => {
+            // 移除已完成的流星（動畫結束後）
+            this.shootingStars = this.shootingStars.filter(star => {
+                if (star.element && star.element.parentNode) {
+                    return true;
+                }
+                return false;
+            });
+            
+            // 生成新流星
+            const count = config.minCount + 
+                         Math.floor(Math.random() * (config.maxCount - config.minCount + 1));
+            
+            for (let i = 0; i < count; i++) {
+                const star = new ShootingStar(this.config, viewportWidth, viewportHeight);
+                this.shootingStars.push(star);
+            }
+        }, spawnInterval);
     }
     
     // 統一初始化

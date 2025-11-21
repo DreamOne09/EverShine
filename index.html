@@ -606,6 +606,58 @@
     <!-- Non-Critical Scripts - Loaded with defer to prevent blocking -->
     <!-- Cache-Control: max-age=31536000, immutable (set via server headers) -->
     <!-- Optimized: Load non-critical scripts after page load using requestIdleCallback -->
+    <!-- 載入畫面隱藏邏輯 - 多重保障確保一定會執行 -->
+    <script>
+    (function() {
+        'use strict';
+        let loaderHidden = false;
+        
+        function hidePageLoader() {
+            if (loaderHidden) return;
+            const loader = document.getElementById('pageLoader');
+            if (loader && !loader.classList.contains('hidden')) {
+                loaderHidden = true;
+                loader.classList.add('hidden');
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                }, 500);
+            }
+        }
+        
+        // 方法1: DOMContentLoaded 後立即檢查
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                setTimeout(hidePageLoader, 1500);
+            });
+        } else {
+            setTimeout(hidePageLoader, 1500);
+        }
+        
+        // 方法2: window.load 事件
+        window.addEventListener('load', () => {
+            setTimeout(hidePageLoader, 1000);
+        });
+        
+        // 方法3: 安全機制 - 最多 3 秒後強制隱藏
+        setTimeout(hidePageLoader, 3000);
+        
+        // 方法4: 圖片載入完成後隱藏
+        const logo = document.querySelector('.loader-logo');
+        if (logo) {
+            if (logo.complete) {
+                setTimeout(hidePageLoader, 1000);
+            } else {
+                logo.addEventListener('load', () => {
+                    setTimeout(hidePageLoader, 800);
+                }, { once: true });
+                logo.addEventListener('error', () => {
+                    setTimeout(hidePageLoader, 500);
+                }, { once: true });
+            }
+        }
+    })();
+    </script>
+    
     <script>
     // Defer non-critical scripts to reduce initial JavaScript execution time
     function loadScript(src) {
