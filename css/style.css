@@ -1134,11 +1134,34 @@ body::after {
 }
 
 .scroll-arrow {
-    width: 2px;
-    height: 30px;
+    width: 4px;
+    height: 40px;
     background: var(--gold);
     margin: 0 auto;
     position: relative;
+    box-shadow: 
+        0 0 10px rgba(76, 168, 223, 0.8),
+        0 0 20px rgba(76, 168, 223, 0.6),
+        0 0 30px rgba(76, 168, 223, 0.4),
+        0 0 40px rgba(76, 168, 223, 0.2);
+    border-radius: 2px;
+}
+
+.scroll-arrow::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 6px;
+    background: var(--gold);
+    border-radius: 50%;
+    box-shadow: 
+        0 0 15px rgba(76, 168, 223, 1),
+        0 0 30px rgba(76, 168, 223, 0.8),
+        0 0 45px rgba(76, 168, 223, 0.6);
+    animation: arrowGlow 2s ease-in-out infinite;
 }
 
 .scroll-arrow::after {
@@ -1147,10 +1170,34 @@ body::after {
     bottom: 0;
     left: 50%;
     transform: translateX(-50%) rotate(45deg);
-    width: 10px;
-    height: 10px;
-    border-right: 2px solid var(--gold);
-    border-bottom: 2px solid var(--gold);
+    width: 14px;
+    height: 14px;
+    border-right: 4px solid var(--gold);
+    border-bottom: 4px solid var(--gold);
+    box-shadow: 
+        0 0 10px rgba(76, 168, 223, 0.8),
+        0 0 20px rgba(76, 168, 223, 0.6),
+        0 0 30px rgba(76, 168, 223, 0.4);
+    filter: drop-shadow(0 0 8px rgba(76, 168, 223, 0.8));
+}
+
+@keyframes arrowGlow {
+    0%, 100% {
+        opacity: 1;
+        transform: translateX(-50%) scale(1);
+        box-shadow: 
+            0 0 15px rgba(76, 168, 223, 1),
+            0 0 30px rgba(76, 168, 223, 0.8),
+            0 0 45px rgba(76, 168, 223, 0.6);
+    }
+    50% {
+        opacity: 0.8;
+        transform: translateX(-50%) scale(1.2);
+        box-shadow: 
+            0 0 20px rgba(76, 168, 223, 1),
+            0 0 40px rgba(76, 168, 223, 0.9),
+            0 0 60px rgba(76, 168, 223, 0.7);
+    }
 }
 
 @keyframes bounce {
@@ -5162,7 +5209,7 @@ body::after {
 
 .success-card-individual .success-card-image-wrapper,
 .success-card-image-wrapper {
-    width: 40% !important; /* 照片佔40%（減少留白） */
+    width: 35% !important; /* 照片佔35%（進一步減少留白） */
     align-self: stretch !important; /* 讓容器與卡片同高 */
     min-height: 350px !important;
     max-height: 100% !important; /* 限制最大高度 */
@@ -5265,10 +5312,12 @@ body::after {
     flex-direction: column !important;
     flex: 1 !important;
     min-height: 0 !important;
-    width: 60% !important; /* 文字區域佔60%（增加文字區域，減少留白） */
+    width: 65% !important; /* 文字區域佔65%（增加文字區域，減少留白） */
     box-sizing: border-box !important;
     background: rgba(0, 0, 0, 0.2) !important;
     border-radius: 0 10px 10px 0 !important;
+    overflow: hidden !important;
+    max-width: 100% !important;
 }
 
 .success-card-body .success-member-info,
@@ -5313,6 +5362,7 @@ body::after {
     display: block !important;
     width: 100% !important;
     box-sizing: border-box !important;
+    max-width: 100% !important;
 }
 
 /* 響應式設計 */
