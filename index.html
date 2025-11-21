@@ -83,9 +83,9 @@
     /* 會員成功案例 - 橫向佈局 */
     .success-stories-grid{display:grid!important;grid-template-columns:repeat(2,1fr)!important;gap:3rem!important;margin-top:4rem!important}
     .success-card-individual{background:rgba(0,27,54,.5)!important;backdrop-filter:blur(12px) saturate(150%)!important;-webkit-backdrop-filter:blur(12px) saturate(150%)!important;border:1px solid rgba(76,168,223,.3)!important;border-radius:10px!important;padding:0!important;box-shadow:0 8px 32px rgba(0,0,0,.2)!important;position:relative!important;overflow:hidden!important;display:flex!important;flex-direction:row!important;align-items:stretch!important}
-    .success-card-image-wrapper{width:35%!important;min-height:350px!important;overflow:hidden!important;border-radius:10px 0 0 10px!important;flex-shrink:0!important;position:relative!important;border-right:2px solid rgba(76,168,223,.3)!important}
-    .success-card-image{width:100%!important;height:100%!important;min-height:350px!important;object-fit:cover!important;object-position:center center!important;border-radius:10px 0 0 10px!important}
-    .success-card-body{width:65%!important;padding:2rem!important;display:flex!important;flex-direction:column!important;gap:1rem!important;flex-grow:1!important;border-radius:0 10px 10px 0!important;overflow:hidden!important;max-width:100%!important}
+    .success-card-image-wrapper{width:40%!important;min-height:400px!important;overflow:hidden!important;border-radius:10px 0 0 10px!important;flex-shrink:0!important;position:relative!important;border-right:2px solid rgba(76,168,223,.3)!important;display:flex!important;align-items:center!important;justify-content:center!important}
+    .success-card-image{width:100%!important;height:100%!important;min-height:400px!important;object-fit:cover!important;object-position:center center!important;border-radius:10px 0 0 10px!important}
+    .success-card-body{width:60%!important;padding:2rem!important;display:flex!important;flex-direction:column!important;gap:1rem!important;flex-grow:1!important;border-radius:0 10px 10px 0!important;overflow:hidden!important;max-width:100%!important}
     .success-member-info-header{display:flex!important;flex-direction:column!important;gap:.75rem!important;margin-bottom:1.5rem!important;padding-bottom:1.5rem!important;border-bottom:2px solid rgba(76,168,223,.3)!important}
     .success-member-info-header .success-member-name{font-size:2.5rem!important;color:#4ca8df!important;font-weight:700!important;margin:0!important;line-height:1.2!important}
     .success-member-info-header .success-member-industry{font-size:1.5rem!important;color:#f4f9ff!important;font-weight:600!important;margin:0!important;padding:.75rem 1.25rem!important;background:rgba(76,168,223,.2)!important;border-radius:12px!important;border:1px solid rgba(76,168,223,.4)!important;display:inline-block!important;width:fit-content!important}
@@ -115,8 +115,8 @@
 <body>
     <!-- 載入畫面 -->
     <div class="page-loader" id="pageLoader">
-        <div class="loader-text">歡迎來到長輝白金分會</div>
         <img src="images/assets/logo/透明底白字長條logo.png" alt="長輝白金分會" class="loader-logo" loading="eager" fetchpriority="high">
+        <div class="loader-text">歡迎來到長輝白金分會</div> 
     </div>
     
     <!-- Skip to main content -->
@@ -152,108 +152,7 @@
         </div>
     </section>
 
-    <!-- 成交數據區段 -->
-    <section id="results" class="results-section">
-        <div class="container">
-            <div class="results-card unified-card-simple">
-                <div class="results-header">
-                    <h2 class="section-title">我們專注於成果，而非空談</h2>
-                    <div class="results-intro-wrapper">
-                        <p class="results-intro">或許您曾聽聞，商務社群不過是交換名片、建立人脈的場合</p>
-                        <p class="results-intro highlight">然而，在 BNI 長輝白金分會，我們每週都在創造實際的商業成果</p>
-                    </div>
-                    <p class="results-main-text">以下數據，是我們近期真實的引薦成果</p>
-                </div>
-                
-                <div class="results-data">
-                    <div class="data-item">
-                        <div class="data-label">上月引薦單數</div>
-                        <div class="data-value">470 <span class="data-unit">張</span></div>
-                    </div>
-                    <div class="data-item">
-                        <div class="data-label">引薦金額</div>
-                        <div class="data-value">NT$ <span class="data-number">12,731,112</span></div>
-                    </div>
-                    <div class="data-item">
-                        <div class="data-label">已建立商務夥伴連結</div>
-                        <div class="data-value">60+ <span class="data-unit">不同產業</span></div>
-                    </div>
-                </div>
-                
-                <div class="results-note">
-                    <p class="note-text">※ 以上數據為 2025年5月 整理</p>
-                </div>
-                
-                <div class="results-reasons">
-                    <p class="reasons-title">這些成果的背後，是我們每週執行的系統化流程：</p>
-                    <ul class="reasons-list">
-                        <li>結構化的專業交流：每位會員進行精準的 25 秒專業介紹，配合 5 分鐘深度主講，以及分組深度交流</li>
-                        <li>協同引薦機制：每位會員都積極扮演引薦角色，協助夥伴精準曝光，創造商業機會</li>
-                        <li>持續擴展網絡：定期邀請來賓參與，拓展全新客群，發掘更多潛在合作夥伴</li>
-                    </ul>
-                </div>
-                
-            </div>
-        </div>
-    </section>
-
-    <!-- 會員成功案例 -->
-    <section id="success-stories" class="success-stories">
-        <div class="container">
-            <h2 class="section-title">會員成功案例</h2>
-            <div class="success-stories-grid">
-                <div class="success-card-individual">
-                    <div class="success-card-image-wrapper">
-                        <img src="images/members/何昇軒.jpg" alt="何昇軒" class="success-card-image" loading="lazy" onerror="this.style.display='none'; this.parentElement.classList.add('image-error');">
-                    </div>
-                    <div class="success-card-body">
-                        <div class="success-member-info-header">
-                            <h3 class="success-member-name">何昇軒</h3>
-                            <p class="success-member-industry">律師</p>
-                        </div>
-                        <blockquote class="success-quote">「加入BNI長輝白金分會後，我的法律事務所業務量在一年內成長了250%。透過會員的引薦，我獲得了許多優質的企業客戶，包括契約審閱、商業法律顧問等服務。每週的線上例會讓我能夠與各行各業的專業人士建立深厚的合作關係，不僅拓展了業務範圍，更提升了服務品質。BNI的引薦機制讓我能夠專注於提供專業的法律服務，而業務開發則透過會員網絡自然產生。」</blockquote>
-                    </div>
-                </div>
-                <div class="success-card-individual">
-                    <div class="success-card-image-wrapper">
-                        <img src="images/members/劉弼凱.jpg" alt="劉弼凱" class="success-card-image" loading="lazy" onerror="this.style.display='none'; this.parentElement.classList.add('image-error');">
-                    </div>
-                    <div class="success-card-body">
-                        <div class="success-member-info-header">
-                            <h3 class="success-member-name">劉弼凱</h3>
-                            <p class="success-member-industry">水電工程</p>
-                        </div>
-                        <blockquote class="success-quote">「作為水電工程專業人士，加入BNI讓我認識了許多建築、裝潢、統包等相關行業的會員。透過每週例會的交流，我不僅獲得了穩定的工程引薦，更建立了可靠的合作夥伴網絡。線上會議的便利性讓我在忙碌的工程期間也能持續參與，保持與商業社群的連結。這一年來，我的工程案量增加了180%，而且都是透過會員引薦的高品質客戶。」</blockquote>
-                    </div>
-                </div>
-                <div class="success-card-individual">
-                    <div class="success-card-image-wrapper">
-                        <img src="images/members/吳介輝.jpg" alt="吳介輝" class="success-card-image" loading="lazy" onerror="this.style.display='none'; this.parentElement.classList.add('image-error');">
-                    </div>
-                    <div class="success-card-body">
-                        <div class="success-member-info-header">
-                            <h3 class="success-member-name">吳介輝</h3>
-                            <p class="success-member-industry">人壽保險</p>
-                        </div>
-                        <blockquote class="success-quote">「BNI長輝白金分會的線上會議模式非常適合我的工作型態。每週三早上的例會讓我能夠在開始一天工作前就與60多位不同行業的專業人士交流，這為我的保險業務帶來了巨大的成長。透過會員的引薦，我不僅獲得了個人客戶，更接觸到許多企業團體保險的機會。加入BNI後，我的業務量成長了220%，而且客戶品質都非常優質。」</blockquote>
-                    </div>
-                </div>
-                <div class="success-card-individual">
-                    <div class="success-card-image-wrapper">
-                        <img src="images/members/孫成育.jpg" alt="孫成育" class="success-card-image" loading="lazy" onerror="this.style.display='none'; this.parentElement.classList.add('image-error');">
-                    </div>
-                    <div class="success-card-body">
-                        <div class="success-member-info-header">
-                            <h3 class="success-member-name">孫成育</h3>
-                            <p class="success-member-industry">禮贈品</p>
-                        </div>
-                        <blockquote class="success-quote">「禮贈品業務需要與各行各業建立合作關係，BNI正是我尋找的理想平台。透過每週例會，我認識了許多企業主和採購決策者，他們在需要企業禮品、活動贈品時都會優先想到我。線上會議的便利性讓我即使出差也能參與，不會錯過任何引薦機會。這一年來，我的業務量成長了200%，而且都是透過會員引薦的長期合作客戶。」</blockquote>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
+    
     <!-- 關於我們 -->
     <section id="about" class="about">
         <div class="container">
@@ -312,6 +211,108 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 成交數據區段 -->
+    <section id="results" class="results-section">
+        <div class="container">
+            <div class="results-card unified-card-simple">
+                <div class="results-header">
+                    <h2 class="section-title">我們專注於成果，而非空談</h2>
+                    <div class="results-intro-wrapper">
+                        <p class="results-intro">或許您曾聽聞，商務社群不過是交換名片、建立人脈的場合</p>
+                        <p class="results-intro highlight">然而，在 BNI 長輝白金分會，我們每週都在創造實際的商業成果</p>
+                    </div>
+                    <p class="results-main-text">以下數據，是我們近期真實的引薦成果</p>
+                </div>
+                
+                <div class="results-data">
+                    <div class="data-item">
+                        <div class="data-label">上月引薦單數</div>
+                        <div class="data-value">470 <span class="data-unit">張</span></div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-label">引薦金額</div>
+                        <div class="data-value">NT$ <span class="data-number">12,731,112</span></div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-label">已建立商務夥伴連結</div>
+                        <div class="data-value">60+ <span class="data-unit">不同產業</span></div>
+                    </div>
+                </div>
+                
+                <div class="results-note">
+                    <p class="note-text">※ 以上數據為 2025年5月 整理</p>
+                </div>
+                
+                <div class="results-reasons">
+                    <p class="reasons-title">這些成果的背後，是我們每週執行的系統化流程：</p>
+                    <ul class="reasons-list">
+                        <li>結構化的專業交流：每位會員進行精準的 25 秒專業介紹，配合 5 分鐘深度主講，以及分組深度交流</li>
+                        <li>協同引薦機制：每位會員都積極扮演引薦角色，協助夥伴精準曝光，創造商業機會</li>
+                        <li>持續擴展網絡：定期邀請來賓參與，拓展全新客群，發掘更多潛在合作夥伴</li>
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- 會員成功案例 -->
+    <section id="success-stories" class="success-stories">
+        <div class="container">
+            <h2 class="section-title">會員成功案例</h2>
+            <div class="success-stories-grid">
+                <div class="success-card-individual">
+                    <div class="success-card-image-wrapper">
+                        <img src="images/members/何昇軒.jpg" alt="何昇軒" class="success-card-image" loading="lazy" onerror="this.style.display='none'; this.parentElement.classList.add('image-error');">
+                        <div class="success-member-bubble">
+                            <h3 class="success-member-name">何昇軒</h3>
+                            <p class="success-member-industry">律師</p>
+                        </div>
+                    </div>
+                    <div class="success-card-body">
+                        <blockquote class="success-quote">「加入BNI長輝白金分會後，我的法律事務所業務量在一年內成長了250%。透過會員的引薦，我獲得了許多優質的企業客戶，包括契約審閱、商業法律顧問等服務。每週的線上例會讓我能夠與各行各業的專業人士建立深厚的合作關係，不僅拓展了業務範圍，更提升了服務品質。BNI的引薦機制讓我能夠專注於提供專業的法律服務，而業務開發則透過會員網絡自然產生。」</blockquote>
+                    </div>
+                </div>
+                <div class="success-card-individual">
+                    <div class="success-card-image-wrapper">
+                        <img src="images/members/劉弼凱.jpg" alt="劉弼凱" class="success-card-image" loading="lazy" onerror="this.style.display='none'; this.parentElement.classList.add('image-error');">
+                        <div class="success-member-bubble">
+                            <h3 class="success-member-name">劉弼凱</h3>
+                            <p class="success-member-industry">水電工程</p>
+                        </div>
+                    </div>
+                    <div class="success-card-body">
+                        <blockquote class="success-quote">「作為水電工程專業人士，加入BNI讓我認識了許多建築、裝潢、統包等相關行業的會員。透過每週例會的交流，我不僅獲得了穩定的工程引薦，更建立了可靠的合作夥伴網絡。線上會議的便利性讓我在忙碌的工程期間也能持續參與，保持與商業社群的連結。這一年來，我的工程案量增加了180%，而且都是透過會員引薦的高品質客戶。」</blockquote>
+                    </div>
+                </div>
+                <div class="success-card-individual">
+                    <div class="success-card-image-wrapper">
+                        <img src="images/members/吳介輝.jpg" alt="吳介輝" class="success-card-image" loading="lazy" onerror="this.style.display='none'; this.parentElement.classList.add('image-error');">
+                        <div class="success-member-bubble">
+                            <h3 class="success-member-name">吳介輝</h3>
+                            <p class="success-member-industry">人壽保險</p>
+                        </div>
+                    </div>
+                    <div class="success-card-body">
+                        <blockquote class="success-quote">「BNI長輝白金分會的線上會議模式非常適合我的工作型態。每週三早上的例會讓我能夠在開始一天工作前就與60多位不同行業的專業人士交流，這為我的保險業務帶來了巨大的成長。透過會員的引薦，我不僅獲得了個人客戶，更接觸到許多企業團體保險的機會。加入BNI後，我的業務量成長了220%，而且客戶品質都非常優質。」</blockquote>
+                    </div>
+                </div>
+                <div class="success-card-individual">
+                    <div class="success-card-image-wrapper">
+                        <img src="images/members/孫成育.jpg" alt="孫成育" class="success-card-image" loading="lazy" onerror="this.style.display='none'; this.parentElement.classList.add('image-error');">
+                        <div class="success-member-bubble">
+                            <h3 class="success-member-name">孫成育</h3>
+                            <p class="success-member-industry">禮贈品</p>
+                        </div>
+                    </div>
+                    <div class="success-card-body">
+                        <blockquote class="success-quote">「禮贈品業務需要與各行各業建立合作關係，BNI正是我尋找的理想平台。透過每週例會，我認識了許多企業主和採購決策者，他們在需要企業禮品、活動贈品時都會優先想到我。線上會議的便利性讓我即使出差也能參與，不會錯過任何引薦機會。這一年來，我的業務量成長了200%，而且都是透過會員引薦的長期合作客戶。」</blockquote>
                     </div>
                 </div>
             </div>
@@ -593,17 +594,28 @@
     <!-- Non-Critical Scripts - Loaded with defer to prevent blocking -->
     <!-- Cache-Control: max-age=31536000, immutable (set via server headers) -->
     <!-- Optimized: Load non-critical scripts after page load using requestIdleCallback -->
-    <!-- 載入畫面隱藏邏輯 - 多重保障確保一定會執行 -->
+    <!-- 智能載入動畫：如果載入很快就不顯示動畫 -->
     <script>
     (function() {
         'use strict';
         let loaderHidden = false;
+        const loadStartTime = performance.now();
+        const FAST_LOAD_THRESHOLD = 500; // 500ms 內載入完成視為快速載入
         
-        function hidePageLoader() {
+        function hidePageLoader(immediate) {
             if (loaderHidden) return;
             const loader = document.getElementById('pageLoader');
             if (loader && !loader.classList.contains('hidden')) {
                 loaderHidden = true;
+                const loadTime = performance.now() - loadStartTime;
+                
+                // 如果載入很快，立即隱藏（不顯示動畫）
+                if (immediate || loadTime < FAST_LOAD_THRESHOLD) {
+                    loader.style.display = 'none';
+                    return;
+                }
+                
+                // 否則顯示淡出動畫
                 loader.classList.add('hidden');
                 setTimeout(() => {
                     loader.style.display = 'none';
@@ -611,34 +623,60 @@
             }
         }
         
-        // 方法1: DOMContentLoaded 後立即檢查
+        // 方法1: DOMContentLoaded 後檢查載入時間
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', () => {
-                setTimeout(hidePageLoader, 1500);
+                const loadTime = performance.now() - loadStartTime;
+                if (loadTime < FAST_LOAD_THRESHOLD) {
+                    hidePageLoader(true);
+                } else {
+                    setTimeout(hidePageLoader, 1500);
+                }
             });
         } else {
-            setTimeout(hidePageLoader, 1500);
+            // DOM 已經準備好，檢查是否快速載入
+            const loadTime = performance.now() - loadStartTime;
+            if (loadTime < FAST_LOAD_THRESHOLD) {
+                hidePageLoader(true);
+            } else {
+                setTimeout(hidePageLoader, 1500);
+            }
         }
         
         // 方法2: window.load 事件
         window.addEventListener('load', () => {
-            setTimeout(hidePageLoader, 1000);
+            const loadTime = performance.now() - loadStartTime;
+            if (loadTime < FAST_LOAD_THRESHOLD) {
+                hidePageLoader(true);
+            } else {
+                setTimeout(hidePageLoader, 1000);
+            }
         });
         
         // 方法3: 安全機制 - 最多 3 秒後強制隱藏
-        setTimeout(hidePageLoader, 3000);
+        setTimeout(() => hidePageLoader(false), 3000);
         
         // 方法4: 圖片載入完成後隱藏
         const logo = document.querySelector('.loader-logo');
         if (logo) {
             if (logo.complete) {
-                setTimeout(hidePageLoader, 1000);
+                const loadTime = performance.now() - loadStartTime;
+                if (loadTime < FAST_LOAD_THRESHOLD) {
+                    hidePageLoader(true);
+                } else {
+                    setTimeout(hidePageLoader, 1000);
+                }
             } else {
                 logo.addEventListener('load', () => {
-                    setTimeout(hidePageLoader, 800);
+                    const loadTime = performance.now() - loadStartTime;
+                    if (loadTime < FAST_LOAD_THRESHOLD) {
+                        hidePageLoader(true);
+                    } else {
+                        setTimeout(hidePageLoader, 800);
+                    }
                 }, { once: true });
                 logo.addEventListener('error', () => {
-                    setTimeout(hidePageLoader, 500);
+                    hidePageLoader(true);
                 }, { once: true });
             }
         }
