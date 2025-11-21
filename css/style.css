@@ -7166,10 +7166,12 @@ h6, .h6 {
     background: transparent;
 }
 
-.results-card.unified-card-simple {
+.results-card-unified {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0;
     background: transparent;
     border: none;
-    padding: 0;
     box-shadow: none;
 }
 
@@ -7251,16 +7253,13 @@ h6, .h6 {
     position: relative;
 }
 
-.results-section .results-card {
+.results-section .results-card.unified-card-simple {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 4rem 3.5rem;
-    background: var(--glass-bg-medium);
-    backdrop-filter: var(--glass-blur-strong);
-    -webkit-backdrop-filter: var(--glass-blur-strong);
-    border: 1px solid var(--glass-border);
-    border-radius: 10px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    padding: 0;
+    background: transparent;
+    border: none;
+    box-shadow: none;
 }
 
 .results-section .results-header {
