@@ -142,24 +142,31 @@
     <section id="about" class="about">
         <div class="container">
             <div class="about-section-wrapper">
-                <!-- Logo -->
-                <div class="about-logo-wrapper">
-                    <img src="images/assets/logo/透明底白字長條logo.png" alt="長輝白金分會" class="about-logo" loading="lazy" width="400" height="150">
+                <!-- Logo 和標題 -->
+                <div class="about-header">
+                    <div class="about-logo-wrapper">
+                        <img src="images/assets/logo/透明底白字長條logo.png" alt="長輝白金分會" class="about-logo" loading="lazy" width="400" height="150">
+                    </div>
+                    <h2 class="section-title">關於我們</h2>
                 </div>
                 
-                <!-- 漂浮文字選項 -->
-                <div class="about-floating-options">
-                    <div class="floating-option" data-option="core-purpose">
-                        <span class="floating-text">Core Purpose</span>
-                        <div class="floating-description">
+                <!-- 核心內容卡片 -->
+                <div class="about-cards-grid">
+                    <div class="about-card-item" data-option="core-purpose">
+                        <div class="about-card-header">
+                            <h3 class="about-card-title">Core Purpose</h3>
+                        </div>
+                        <div class="about-card-content">
                             <p>精進會員的個人成長、壯大夥伴彼此的事業</p>
                         </div>
                     </div>
                     
-                    <div class="floating-option" data-option="mission">
-                        <span class="floating-text">Mission</span>
-                        <div class="floating-description">
-                            <ul>
+                    <div class="about-card-item" data-option="mission">
+                        <div class="about-card-header">
+                            <h3 class="about-card-title">Mission</h3>
+                        </div>
+                        <div class="about-card-content">
+                            <ul class="about-card-list">
                                 <li>強化產業合作</li>
                                 <li>發展強而有力的夥伴關係</li>
                                 <li>創造持續不斷的引薦</li>
@@ -167,32 +174,36 @@
                         </div>
                     </div>
                     
-                    <div class="floating-option" data-option="vision">
-                        <span class="floating-text">Vision</span>
-                        <div class="floating-description">
+                    <div class="about-card-item" data-option="vision">
+                        <div class="about-card-header">
+                            <h3 class="about-card-title">Vision</h3>
+                        </div>
+                        <div class="about-card-content">
                             <p>成為企業家首選的商務合作平台</p>
                         </div>
                     </div>
                     
-                    <div class="floating-option" data-option="values">
-                        <span class="floating-text">核心價值</span>
-                        <div class="floating-description">
-                            <div class="values-content">
-                                <div class="value-item-hover">
-                                    <strong>專業</strong>
-                                    <p>以專業的態度與服務，為每位會員提供最優質的商務引薦與支援</p>
+                    <div class="about-card-item about-card-fullwidth" data-option="values">
+                        <div class="about-card-header">
+                            <h3 class="about-card-title">核心價值</h3>
+                        </div>
+                        <div class="about-card-content">
+                            <div class="values-grid">
+                                <div class="value-card">
+                                    <strong class="value-title">專業</strong>
+                                    <p class="value-description">以專業的態度與服務，為每位會員提供最優質的商務引薦與支援</p>
                                 </div>
-                                <div class="value-item-hover">
-                                    <strong>誠信</strong>
-                                    <p>以誠信為本，建立互信互重的合作關係，打造可靠的商務平台</p>
+                                <div class="value-card">
+                                    <strong class="value-title">誠信</strong>
+                                    <p class="value-description">以誠信為本，建立互信互重的合作關係，打造可靠的商務平台</p>
                                 </div>
-                                <div class="value-item-hover">
-                                    <strong>熱情</strong>
-                                    <p>懷抱熱忱與積極態度，持續推動商會發展與會員成長</p>
+                                <div class="value-card">
+                                    <strong class="value-title">熱情</strong>
+                                    <p class="value-description">懷抱熱忱與積極態度，持續推動商會發展與會員成長</p>
                                 </div>
-                                <div class="value-item-hover">
-                                    <strong>實踐</strong>
-                                    <p>將理念化為行動，透過實際的引薦與合作，創造實質的商業價值</p>
+                                <div class="value-card">
+                                    <strong class="value-title">實踐</strong>
+                                    <p class="value-description">將理念化為行動，透過實際的引薦與合作，創造實質的商業價值</p>
                                 </div>
                             </div>
                         </div>
@@ -554,24 +565,25 @@
     </section>
 
     <!-- 活動資訊與會議時間 -->
-    <section id="meeting-info" class="meeting-info">
+    <section id="meeting-info" class="meeting-info-minimal">
         <div class="container">
-            <h2 class="section-title">會議資訊</h2>
-            <div class="meeting-info-card unified-card-simple">
-                <div class="meeting-time-section">
-                    <div class="schedule-day">每週三</div>
-                    <div class="schedule-time-range">早上 6:30 - 8:30</div>
-                    <p class="schedule-note">全程支援線上與會 · 不需舟車勞頓，在家或辦公室即可參與</p>
+            <h2 class="meeting-info-title">我們幫助企業家建立專業商務網絡，<span class="highlight-text">成果會說話</span></h2>
+            <div class="meeting-features-minimal">
+                <div class="feature-item-minimal">
+                    <div class="feature-line"></div>
+                    <div class="feature-text">每週線上跟超過五十位企業家一起遠端交流，互相分享商業機會，建立人脈網絡</div>
                 </div>
-                <div class="meeting-features-section">
-                    <h3 class="features-title">會議內容包含</h3>
-                    <ul class="features-list">
-                        <li>專業分工（會議主持人、教育、主題簡報）</li>
-                        <li>分組交流時間</li>
-                        <li>主講行銷影片</li>
-                        <li>引薦見證環節</li>
-                        <li>60+ 行業代表參與</li>
-                    </ul>
+                <div class="feature-item-minimal">
+                    <div class="feature-line"></div>
+                    <div class="feature-text">我們提升會員的業務成功率和引薦品質</div>
+                </div>
+                <div class="feature-item-minimal">
+                    <div class="feature-line"></div>
+                    <div class="feature-text">我們為會員提供強大的商務網絡優勢</div>
+                </div>
+                <div class="feature-item-minimal">
+                    <div class="feature-line"></div>
+                    <div class="feature-text">我們的會員擁有持續成長和建立長期合作關係的優良記錄</div>
                 </div>
             </div>
         </div>
