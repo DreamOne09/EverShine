@@ -1145,12 +1145,12 @@ body::after {
     content: '';
     position: absolute;
     bottom: 0;
-    left: -4px;
+    left: 50%;
+    transform: translateX(-50%) rotate(45deg);
     width: 10px;
     height: 10px;
     border-right: 2px solid var(--gold);
     border-bottom: 2px solid var(--gold);
-    transform: rotate(45deg);
 }
 
 @keyframes bounce {
@@ -5162,7 +5162,7 @@ body::after {
 
 .success-card-individual .success-card-image-wrapper,
 .success-card-image-wrapper {
-    width: 45% !important; /* 照片佔45% */
+    width: 40% !important; /* 照片佔40%（減少留白） */
     align-self: stretch !important; /* 讓容器與卡片同高 */
     min-height: 350px !important;
     max-height: 100% !important; /* 限制最大高度 */
@@ -5265,7 +5265,7 @@ body::after {
     flex-direction: column !important;
     flex: 1 !important;
     min-height: 0 !important;
-    width: 55% !important; /* 文字區域佔55% */
+    width: 60% !important; /* 文字區域佔60%（增加文字區域，減少留白） */
     box-sizing: border-box !important;
     background: rgba(0, 0, 0, 0.2) !important;
     border-radius: 0 10px 10px 0 !important;
@@ -6716,7 +6716,7 @@ body::after {
     font-size: 1.1rem;
     color: var(--text-white);
     line-height: 1.9;
-    padding: 1.25rem 1.5rem 1.25rem 3rem;
+    padding: 1.25rem 1.5rem;
     position: relative;
     font-weight: 400;
     background: rgba(0, 0, 0, 0.2);
@@ -6733,15 +6733,7 @@ body::after {
 }
 
 .results-section .reasons-list li::before {
-    content: '';
-    position: absolute;
-    left: 1rem;
-    top: 1.4rem;
-    width: 8px;
-    height: 8px;
-    background: var(--gold);
-    border-radius: 50%;
-    box-shadow: 0 0 8px rgba(212, 175, 55, 0.5);
+    display: none;
 }
 
 /* 手機版：移除勾勾符號，調整排版 */

@@ -83,9 +83,9 @@
     /* 會員成功案例 - 橫向佈局 */
     .success-stories-grid{display:grid!important;grid-template-columns:repeat(2,1fr)!important;gap:3rem!important;margin-top:4rem!important}
     .success-card-individual{background:rgba(0,27,54,.5)!important;backdrop-filter:blur(12px) saturate(150%)!important;-webkit-backdrop-filter:blur(12px) saturate(150%)!important;border:1px solid rgba(76,168,223,.3)!important;border-radius:10px!important;padding:0!important;box-shadow:0 8px 32px rgba(0,0,0,.2)!important;position:relative!important;overflow:hidden!important;display:flex!important;flex-direction:row!important;align-items:stretch!important}
-    .success-card-image-wrapper{width:45%!important;min-height:350px!important;overflow:hidden!important;border-radius:10px 0 0 10px!important;flex-shrink:0!important;position:relative!important;border-right:2px solid rgba(76,168,223,.3)!important}
+    .success-card-image-wrapper{width:40%!important;min-height:350px!important;overflow:hidden!important;border-radius:10px 0 0 10px!important;flex-shrink:0!important;position:relative!important;border-right:2px solid rgba(76,168,223,.3)!important}
     .success-card-image{width:100%!important;height:100%!important;min-height:350px!important;object-fit:cover!important;object-position:center center!important;border-radius:10px 0 0 10px!important}
-    .success-card-body{width:55%!important;padding:2rem!important;display:flex!important;flex-direction:column!important;gap:1rem!important;flex-grow:1!important;border-radius:0 10px 10px 0!important}
+    .success-card-body{width:60%!important;padding:2rem!important;display:flex!important;flex-direction:column!important;gap:1rem!important;flex-grow:1!important;border-radius:0 10px 10px 0!important}
     .success-member-info-header{display:flex!important;flex-direction:column!important;gap:.75rem!important;margin-bottom:1.5rem!important;padding-bottom:1.5rem!important;border-bottom:2px solid rgba(76,168,223,.3)!important}
     .success-member-info-header .success-member-name{font-size:2.5rem!important;color:#4ca8df!important;font-weight:700!important;margin:0!important;line-height:1.2!important}
     .success-member-info-header .success-member-industry{font-size:1.5rem!important;color:#f4f9ff!important;font-weight:600!important;margin:0!important;padding:.75rem 1.25rem!important;background:rgba(76,168,223,.2)!important;border-radius:12px!important;border:1px solid rgba(76,168,223,.4)!important;display:inline-block!important;width:fit-content!important}
@@ -116,7 +116,7 @@
     <!-- 載入畫面 -->
     <div class="page-loader" id="pageLoader">
         <div class="loader-text">歡迎來到長輝白金分會</div>
-        <img src="images/assets/logo/透明底白字長條logo.png" alt="長輝白金分會" class="loader-logo" style="display: block !important; opacity: 1 !important; visibility: visible !important; max-width: 400px !important; height: auto !important; width: auto !important;" loading="eager" fetchpriority="high" onload="console.log('✅ LOGO載入成功'); this.style.opacity='1';" onerror="console.error('❌ LOGO載入失敗，路徑:', this.src); const testImg = new Image(); testImg.onerror = () => console.error('❌ 圖片路徑驗證失敗'); testImg.src = 'images/assets/logo/透明底白字長條logo.png';">
+        <img src="images/assets/logo/透明底白字長條logo.png" alt="長輝白金分會" class="loader-logo" loading="eager" fetchpriority="high">
     </div>
     
     <!-- Skip to main content -->
@@ -187,17 +187,12 @@
                 <div class="results-reasons">
                     <p class="reasons-title">這些成果的背後，是我們每週執行的系統化流程：</p>
                     <ul class="reasons-list">
-                        <li>✓ 結構化的專業交流：每位會員進行精準的 25 秒專業介紹，配合 5 分鐘深度主講，以及分組深度交流</li>
-                        <li>✓ 協同引薦機制：每位會員都積極扮演引薦角色，協助夥伴精準曝光，創造商業機會</li>
-                        <li>✓ 持續擴展網絡：定期邀請來賓參與，拓展全新客群，發掘更多潛在合作夥伴</li>
+                        <li>結構化的專業交流：每位會員進行精準的 25 秒專業介紹，配合 5 分鐘深度主講，以及分組深度交流</li>
+                        <li>協同引薦機制：每位會員都積極扮演引薦角色，協助夥伴精準曝光，創造商業機會</li>
+                        <li>持續擴展網絡：定期邀請來賓參與，拓展全新客群，發掘更多潛在合作夥伴</li>
                     </ul>
                 </div>
                 
-                <div class="results-footer">
-                    <p class="footer-text">在這裡，您無需被動等待機會</p>
-                    <p class="footer-text-secondary">每一位會員都在主動為彼此創造價值，開啟合作大門</p>
-                    <p class="footer-highlight">我們專注於成果，而非空談</p>
-                </div>
             </div>
         </div>
     </section>
@@ -385,14 +380,6 @@
                     </ul>
                 </div>
 
-                <div class="meeting-features">
-                    <h3 class="meeting-title">我們的線上會議一樣有：</h3>
-                    <ul class="meeting-list">
-                        <li>✅ 專業分工（會議主持人、教育、主題簡報）</li>
-                        <li>✅ 分組交流、主講行銷影片、引薦見證環節</li>
-                        <li>✅ 每週固定 60+ 行業代表一起參與、對接合作機會</li>
-                    </ul>
-                </div>
 
             </div>
         </div>
