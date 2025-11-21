@@ -128,20 +128,19 @@
    基礎HTML和Body樣式
    ============================================ */
 html {
-    background: #0a0a0a !important;
-    background-color: #0a0a0a !important;
+    background: #0a0a0a;
+    background-color: #0a0a0a;
 }
 
 body {
-    background: #0a0a0a !important;
-    background-color: #0a0a0a !important;
+    background: #0a0a0a;
+    background-color: #0a0a0a;
     color: var(--text-white);
     font-family: 'Noto Sans TC', sans-serif;
     line-height: var(--line-height-normal);
     overflow-x: hidden;
     position: relative;
     min-height: 100vh;
-    /* Performance optimizations */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
@@ -214,30 +213,30 @@ body::before {
 
 /* 主要卡片 - 用於重要內容區塊 */
 .unified-card-primary {
-    background: var(--glass-bg-medium) !important;
-    backdrop-filter: var(--glass-blur-strong) !important;
-    -webkit-backdrop-filter: var(--glass-blur-strong) !important;
-    border: 3px solid var(--glass-border-strong) !important;
-    border-radius: 24px !important;
-    padding: 3rem !important;
+    background: var(--glass-bg-medium);
+    backdrop-filter: var(--glass-blur-strong);
+    -webkit-backdrop-filter: var(--glass-blur-strong);
+    border: 3px solid var(--glass-border-strong);
+    border-radius: 24px;
+    padding: 3rem;
     box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5), 
                 0 0 0 2px rgba(76, 168, 223, 0.3),
-                inset 0 2px 0 rgba(255, 255, 255, 0.2) !important;
-    position: relative !important;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    overflow: hidden !important;
+                inset 0 2px 0 rgba(255, 255, 255, 0.2);
+    position: relative;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
 }
 
 .unified-card-primary::before {
-    content: '' !important;
-    position: absolute !important;
-    top: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    height: 5px !important;
-    background: linear-gradient(90deg, transparent, #4ca8df, transparent) !important;
-    opacity: 0.8 !important;
-    z-index: 2 !important;
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, transparent, #4ca8df, transparent);
+    opacity: 0.8;
+    z-index: 2;
 }
 
 .unified-card-primary:hover {
@@ -255,17 +254,17 @@ body::before {
 
 /* 次要卡片 - 用於內部小卡片 */
 .unified-card-secondary {
-    background: var(--glass-bg-medium) !important;
-    backdrop-filter: var(--glass-blur-medium) !important;
-    -webkit-backdrop-filter: var(--glass-blur-medium) !important;
-    border: 2px solid var(--glass-border) !important;
-    border-radius: 20px !important;
-    padding: 2rem !important;
+    background: var(--glass-bg-medium);
+    backdrop-filter: var(--glass-blur-medium);
+    -webkit-backdrop-filter: var(--glass-blur-medium);
+    border: 2px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 2rem;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4),
                 0 0 0 1px rgba(76, 168, 223, 0.2),
-                inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
-    position: relative !important;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    position: relative;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .unified-card-secondary:hover {
@@ -277,19 +276,18 @@ body::before {
 
 html {
     scroll-behavior: smooth;
-    background-color: #0a0a0a !important; /* 更深的背景，讓星星更明顯 */
+    background-color: #0a0a0a;
     min-height: 100%;
 }
 
 body {
-    background-color: #0a0a0a !important; /* 更深的背景，讓星星更明顯 */
+    background-color: #0a0a0a;
     font-family: 'Noto Sans TC', sans-serif;
-    background-color: #111111; /* 拒絕純黑，使用深灰 */
     color: var(--text-white);
-    line-height: 1.6; /* 1.6 = 符合1.5-1.6倍原則 */
+    line-height: 1.6;
     overflow-x: hidden;
     position: relative;
-    padding-bottom: 64px; /* 8px倍數：64px */
+    padding-bottom: 64px;
     min-height: 100vh;
 }
 
@@ -5044,23 +5042,23 @@ body::after {
    區塊標題卡片（通用樣式）
    ============================================ */
 .section-header-card {
-    background: var(--glass-bg-medium) !important;
-    backdrop-filter: var(--glass-blur-strong) !important;
-    -webkit-backdrop-filter: var(--glass-blur-strong) !important;
-    border: 1px solid var(--glass-border) !important;
-    border-radius: 10px !important;
-    padding: 2.5rem !important;
-    text-align: center !important;
-    margin-bottom: 2rem !important;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
-    transition: var(--transition) !important;
-    position: relative !important;
+    background: var(--glass-bg-medium);
+    backdrop-filter: var(--glass-blur-strong);
+    -webkit-backdrop-filter: var(--glass-blur-strong);
+    border: 1px solid var(--glass-border);
+    border-radius: 10px;
+    padding: 2.5rem;
+    text-align: center;
+    margin-bottom: 2rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    transition: var(--transition);
+    position: relative;
 }
 
 .section-header-card:hover {
-    transform: translateY(-5px) !important;
-    border-color: var(--gold) !important;
-    box-shadow: 0 10px 30px rgba(76, 168, 223, 0.28) !important;
+    transform: translateY(-5px);
+    border-color: var(--gold);
+    box-shadow: 0 10px 30px rgba(76, 168, 223, 0.28);
 }
 
 .section-header-icon {
@@ -6036,16 +6034,8 @@ body::after {
                 inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
-/* 重複定義已移除 - 使用上方的 !important 版本 */
-
 .benefit-card:hover::before {
     opacity: 1;
-}
-
-.benefit-card:hover {
-    transform: translateY(-5px);
-    border-color: var(--gold);
-    box-shadow: 0 10px 30px rgba(76, 168, 223, 0.38);
 }
 
 .benefit-icon {
@@ -6564,7 +6554,6 @@ body::after {
         font-size: 2rem;
     }
     
-    .results-section .results-header .section-title,
     .results-section .section-title {
         font-size: 2rem;
     }
@@ -6579,8 +6568,6 @@ body::after {
     position: relative;
 }
 
-/* 使用更具體的選擇器，確保優先級高於 .unified-card-simple */
-.results-section .results-card.unified-card-simple,
 .results-section .results-card {
     max-width: 1200px;
     margin: 0 auto;
@@ -6598,8 +6585,6 @@ body::after {
     margin-bottom: 4rem;
 }
 
-/* 使用更具體的選擇器，確保優先級高於 .section-title */
-.results-section .results-header .section-title,
 .results-section .section-title {
     font-size: 2.8rem;
     color: var(--gold);
