@@ -3278,40 +3278,38 @@ h6, .h6 {
 /* 使用統一卡片系統 */
 .bni-intro-link-content {
     text-align: center;
-    max-width: 900px;
+    max-width: 1000px;
     margin: 0 auto;
-    background: var(--glass-bg-medium) !important;
-    backdrop-filter: var(--glass-blur-strong) !important;
-    -webkit-backdrop-filter: var(--glass-blur-strong) !important;
-    border: 1px solid var(--glass-border) !important;
-    border-radius: 10px !important;
-    padding: 2.5rem !important;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
-    transition: var(--transition) !important;
-    position: relative !important;
+    background: transparent;
+    padding: 4rem 2rem;
+    transition: var(--transition);
+    position: relative;
 }
 
 .bni-intro-link-content:hover {
-    transform: translateY(-5px) !important;
-    border-color: var(--gold) !important;
-    box-shadow: 0 10px 30px rgba(76, 168, 223, 0.28) !important;
+    transform: none;
 }
 
 .bni-intro-link-content .section-title {
-    font-size: 3rem;
+    font-size: 2.5rem;
     margin-bottom: 2rem;
-    color: var(--gold);
-    text-shadow: 0 2px 10px rgba(76, 168, 223, 0.3);
+    color: var(--color-primary);
+    text-shadow: none;
+    font-weight: 600;
+    letter-spacing: -0.02em;
 }
 
 .bni-intro-link-text {
-    font-size: 1.2rem;
-    color: var(--text-gray);
-    line-height: 2;
-    margin: 2.5rem 0 3rem;
+    font-size: 1.125rem;
+    color: var(--text-white);
+    line-height: 1.8;
+    margin: 2rem 0 3rem;
     word-wrap: break-word;
     overflow-wrap: break-word;
-    padding: 0 1rem;
+    padding: 0;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .bni-intro-link-content .btn-primary {
@@ -6432,53 +6430,276 @@ h6, .h6 {
     line-height: 1.6;
 }
 
-.join-process-card {
-    background: var(--glass-bg-medium) !important;
-    backdrop-filter: var(--glass-blur-strong) !important;
-    -webkit-backdrop-filter: var(--glass-blur-strong) !important;
-    border: 1px solid var(--glass-border) !important;
-    border-radius: 10px !important;
-    padding: 2.5rem !important;
-    margin-bottom: 3rem !important;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
-    max-width: 900px !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-    transition: var(--transition) !important;
-    position: relative !important;
+/* ============================================
+   加入流程 - 簡潔風格（Tesla風格）
+   ============================================ */
+.join-process-card-minimal {
+    background: transparent;
+    padding: 3rem 0;
+    max-width: 900px;
+    margin: 0 auto 3rem;
 }
 
-.join-process-card:hover {
-    transform: translateY(-5px) !important;
-    border-color: var(--gold) !important;
-    box-shadow: 0 10px 30px rgba(76, 168, 223, 0.28) !important;
-}
-
-.join-process-card h3 {
-    font-size: 1.8rem;
-    color: var(--gold);
-    margin-bottom: 2rem;
+.join-process-title {
+    font-size: 2rem;
+    color: var(--color-primary);
     font-weight: 600;
     text-align: center;
+    margin-bottom: 3rem;
+    letter-spacing: -0.02em;
 }
 
-.join-process-list {
-    list-style: decimal;
-    padding-left: 2rem;
-    margin: 0;
+.process-steps-minimal {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.process-step-minimal {
+    display: flex;
+    align-items: flex-start;
+    gap: 2rem;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid rgba(76, 168, 223, 0.2);
+    transition: var(--transition);
+}
+
+.process-step-minimal:last-child {
+    border-bottom: none;
+}
+
+.process-step-minimal:hover {
+    padding-left: 1rem;
+}
+
+.step-number-minimal {
+    width: 56px;
+    height: 56px;
+    min-width: 56px;
+    border-radius: 50%;
+    background: rgba(76, 168, 223, 0.15);
+    border: 2px solid var(--color-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    flex-shrink: 0;
+}
+
+.step-content-minimal {
+    flex: 1;
+    padding-top: 0.5rem;
+}
+
+.step-title-minimal {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-white);
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.01em;
+}
+
+.step-desc-minimal {
+    font-size: 1rem;
     color: var(--text-gray);
+    line-height: 1.6;
 }
 
-.join-process-list li {
-    font-size: 1.05rem;
-    line-height: 1.8;
-    padding: 0.75rem 0;
+/* ============================================
+   加入我們好處 - 簡潔網格風格
+   ============================================ */
+.join-benefits-minimal {
+    background: transparent;
+    padding: 3rem 0;
+    max-width: 1000px;
+    margin: 0 auto 3rem;
+}
+
+.join-benefits-title {
+    font-size: 2rem;
+    color: var(--color-primary);
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.02em;
+}
+
+.join-benefits-intro {
+    font-size: 1.125rem;
+    color: var(--text-gray);
+    text-align: center;
+    margin-bottom: 3rem;
+    line-height: 1.7;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.benefits-grid-minimal {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+}
+
+.benefit-item-minimal {
+    padding: 2rem;
+    background: rgba(0, 27, 54, 0.3);
+    border: 1px solid rgba(76, 168, 223, 0.2);
+    border-radius: 12px;
+    transition: var(--transition);
+}
+
+.benefit-item-minimal:hover {
+    border-color: var(--color-primary);
+    background: rgba(0, 27, 54, 0.4);
+    transform: translateY(-2px);
+}
+
+.benefit-label-minimal {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-white);
     margin-bottom: 0.5rem;
 }
 
-.join-process-list li strong {
-    color: var(--gold);
-    font-weight: 600;
+.benefit-desc-minimal {
+    font-size: 1rem;
+    color: var(--text-gray);
+    line-height: 1.6;
+}
+
+/* ============================================
+   成交數據 - 橫向簡潔風格
+   ============================================ */
+.results-data-horizontal {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin: 3rem 0;
+    padding: 2rem 0;
+}
+
+.data-item-horizontal {
+    text-align: center;
+    padding: 2rem;
+    background: rgba(0, 27, 54, 0.3);
+    border: 1px solid rgba(76, 168, 223, 0.2);
+    border-radius: 12px;
+    transition: var(--transition);
+}
+
+.data-item-horizontal:hover {
+    border-color: var(--color-primary);
+    background: rgba(0, 27, 54, 0.4);
+    transform: translateY(-4px);
+}
+
+.data-value-horizontal {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+}
+
+.data-unit-horizontal {
+    font-size: 1.25rem;
+    color: var(--text-gray);
+    font-weight: 500;
+    display: block;
+    margin-top: 0.25rem;
+}
+
+.data-label-horizontal {
+    font-size: 1rem;
+    color: var(--text-gray);
+    margin-top: 0.75rem;
+    font-weight: 500;
+}
+
+/* 響應式設計 - 簡潔風格 */
+@media (max-width: 768px) {
+    .join-process-card-minimal {
+        padding: 2rem 0;
+    }
+    
+    .join-process-title {
+        font-size: 1.75rem;
+        margin-bottom: 2rem;
+    }
+    
+    .process-steps-minimal {
+        gap: 1.5rem;
+    }
+    
+    .process-step-minimal {
+        gap: 1.5rem;
+        padding: 1.25rem 0;
+    }
+    
+    .step-number-minimal {
+        width: 48px;
+        height: 48px;
+        min-width: 48px;
+        font-size: 1.25rem;
+    }
+    
+    .step-title-minimal {
+        font-size: 1.25rem;
+    }
+    
+    .step-desc-minimal {
+        font-size: 0.95rem;
+    }
+    
+    .join-benefits-minimal {
+        padding: 2rem 0;
+    }
+    
+    .join-benefits-title {
+        font-size: 1.75rem;
+    }
+    
+    .benefits-grid-minimal {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .benefit-item-minimal {
+        padding: 1.5rem;
+    }
+    
+    .results-data-horizontal {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .data-value-horizontal {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .step-number-minimal {
+        width: 40px;
+        height: 40px;
+        min-width: 40px;
+        font-size: 1.1rem;
+    }
+    
+    .step-title-minimal {
+        font-size: 1.1rem;
+    }
+    
+    .step-desc-minimal {
+        font-size: 0.9rem;
+    }
+    
+    .data-value-horizontal {
+        font-size: 1.75rem;
+    }
 }
 
 /* ============================================
@@ -6940,6 +7161,90 @@ h6, .h6 {
 /* ============================================
    成交數據區段
    ============================================ */
+.results-section {
+    padding: var(--section-padding-y) 0;
+    background: transparent;
+}
+
+.results-card.unified-card-simple {
+    background: transparent;
+    border: none;
+    padding: 0;
+    box-shadow: none;
+}
+
+.results-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.results-intro-wrapper {
+    margin: 2rem 0;
+}
+
+.results-intro {
+    font-size: 1.125rem;
+    color: var(--text-gray);
+    line-height: 1.8;
+    margin-bottom: 1rem;
+}
+
+.results-intro.highlight {
+    color: var(--text-white);
+    font-weight: 600;
+    font-size: 1.25rem;
+}
+
+.results-main-text {
+    font-size: 1rem;
+    color: var(--text-gray);
+    margin-top: 1.5rem;
+}
+
+.results-note {
+    text-align: center;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(76, 168, 223, 0.2);
+}
+
+.note-text {
+    font-size: 0.9rem;
+    color: var(--text-gray);
+}
+
+.results-reasons {
+    margin-top: 4rem;
+    padding-top: 3rem;
+    border-top: 1px solid rgba(76, 168, 223, 0.2);
+}
+
+.reasons-title {
+    font-size: 1.25rem;
+    color: var(--text-white);
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.reasons-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.reasons-list li {
+    font-size: 1.05rem;
+    color: var(--text-gray);
+    line-height: 1.8;
+    padding: 1rem 0;
+    padding-left: 0;
+    position: relative;
+}
+
 .results-section {
     padding: var(--section-padding-y) 0;
     background: transparent;
