@@ -3,6 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <title>BNI 長輝白金分會 - 專業商務引薦平台</title>
+    <meta name="description" content="BNI 長輝白金分會，全台少數支援完整線上與會的BNI分會。">
+    
+    <link rel="stylesheet" href="css/style.css?v=FIX_RED_ERROR">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* 基礎重置，防止 CSS 載入前畫面全白 */
+        html, body { background: #0a0a0a; margin: 0; padding: 0; }
+        
+        /* 載入畫面樣式 */
+        .page-loader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; z-index: 9999;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            transition: opacity .5s ease;
+        }
+        .page-loader.hidden { opacity: 0; pointer-events: none; }
+        .loader-logo { width: 300px; max-width: 80%; height: auto; }
+    </style>
+    <script src="js/starry-background-unified.js?v=20250202" defer></script>
+    
+    <!-- Title and Meta Description -->
     <title>BNI 長輝白金分會 - 專業商務引薦平台 | 線上會議 | 商務引薦</title>
     <meta name="description" content="BNI 長輝白金分會，全台少數支援完整線上與會的BNI分會。每週三早上6:30線上例會，60+行業代表，專業商務引薦平台，連結優秀企業家創造無限商機。">
     <meta name="keywords" content="BNI, 長輝白金分會, 商務引薦, 商業網絡, 企業家, 線上會議, 商業合作, 引薦行銷, BNI台灣, 商業交流">
@@ -20,6 +47,16 @@
     <meta property="twitter:title" content="BNI 長輝白金分會 - 專業商務引薦平台">
     <meta property="twitter:description" content="全台少數支援完整線上與會的BNI分會，每週三早上6:30線上例會，60+行業代表，專業商務引薦平台。">
     <meta property="twitter:image" content="images/assets/logo/BNI紅色商標.png">
+    
+    <!-- Security and Performance -->
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://evershine.tw/">
+    
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" href="images/assets/logo/白色正方形logo.png">
+    <link rel="apple-touch-icon" href="images/assets/logo/白色正方形logo.png">
     
     <!-- Schema.org 結構化資料 -->
     <script type="application/ld+json">
@@ -41,13 +78,7 @@
     }
     </script>
     
-    <!-- Canonical URL -->
-    <link rel="canonical" href="https://evershine.tw/">
-    
-    <link rel="icon" type="image/png" href="images/assets/logo/白色正方形logo.png">
-    <link rel="apple-touch-icon" href="images/assets/logo/白色正方形logo.png">
-    
-    <!-- 關鍵內嵌樣式 - 確保卡片立即顯示 -->
+    <!-- Inline Critical Styles - Placed AFTER external CSS link -->
     <style>
     /* 會員成功案例 - 橫向佈局 */
     .success-stories-grid{display:grid!important;grid-template-columns:repeat(2,1fr)!important;gap:3rem!important;margin-top:4rem!important}
@@ -73,27 +104,19 @@
     @media (max-width:768px){.success-card-image-wrapper{height:280px!important;min-height:280px!important}.success-card-image{min-height:280px!important}.success-member-info-header .success-member-name{font-size:1.8rem!important}.success-member-info-header .success-member-industry{font-size:1.2rem!important}}
     </style>
     
-    <!-- 字體預連接 -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Fonts - Optimized: Only load essential weights, use font-display swap -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet"></noscript>
     
-    <!-- 樣式和腳本 -->
-    <link rel="stylesheet" href="css/style.css?v=20250202-DESKTOP-FIX">
-    <!-- 星空背景腳本在head中立即載入，不需要preload -->
-    <script src="js/starry-background-unified.js?v=20250201-FINAL-FIX"></script>
-    
-    <!-- 字體載入（使用 display=swap 避免阻塞） -->
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
-    
-    <!-- Security and Performance -->
-    <meta name="referrer" content="strict-origin-when-cross-origin">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Critical Scripts - Only essential scripts in head, rest deferred -->
+    <!-- Cache-Control: max-age=31536000, immutable (set via server headers) -->
+    <script src="js/starry-background-unified.js?v=20250202-PERF-FINAL" defer></script>
 </head>
 <body>
     <!-- 載入畫面 -->
     <div class="page-loader" id="pageLoader">
         <div class="loader-text">歡迎來到長輝白金分會</div>
-        <img src="images/assets/logo/透明底白字長條logo.png" alt="長輝白金分會" class="loader-logo" style="display: block !important; opacity: 1 !important; visibility: visible !important; max-width: 400px !important; height: auto !important; width: auto !important;" onload="console.log('✅ LOGO載入成功'); this.style.opacity='1';" onerror="console.error('❌ LOGO載入失敗，路徑:', this.src); const testImg = new Image(); testImg.onerror = () => console.error('❌ 圖片路徑驗證失敗'); testImg.src = 'images/assets/logo/透明底白字長條logo.png';">
+        <img src="images/assets/logo/透明底白字長條logo.png" alt="長輝白金分會" class="loader-logo" style="display: block !important; opacity: 1 !important; visibility: visible !important; max-width: 400px !important; height: auto !important; width: auto !important;" loading="eager" fetchpriority="high" onload="console.log('✅ LOGO載入成功'); this.style.opacity='1';" onerror="console.error('❌ LOGO載入失敗，路徑:', this.src); const testImg = new Image(); testImg.onerror = () => console.error('❌ 圖片路徑驗證失敗'); testImg.src = 'images/assets/logo/透明底白字長條logo.png';">
     </div>
     
     <!-- Skip to main content -->
@@ -242,7 +265,7 @@
             <div class="about-section-wrapper">
                 <!-- Logo -->
                 <div class="about-logo-wrapper">
-                    <img src="images/assets/logo/透明底白字長條logo.png" alt="長輝白金分會" class="about-logo">
+                    <img src="images/assets/logo/透明底白字長條logo.png" alt="長輝白金分會" class="about-logo" loading="lazy">
                 </div>
                 
                 <!-- 漂浮文字選項 -->
@@ -545,7 +568,7 @@
                 <div class="contact-grid">
                     <div class="contact-card">
                         <div class="contact-photo-container">
-                            <img src="images/members/王年煜.jpg" alt="王年煜" class="contact-photo" onerror="this.style.display='none';">
+                            <img src="images/members/王年煜.jpg" alt="王年煜" class="contact-photo" loading="lazy" onerror="this.style.display='none';">
                         </div>
                         <h3>現任主席</h3>
                         <div class="contact-info">
@@ -559,7 +582,7 @@
                     </div>
                     <div class="contact-card">
                         <div class="contact-photo-container">
-                            <img src="images/members/王祈.jpg" alt="王祈" class="contact-photo" onerror="this.style.display='none';">
+                            <img src="images/members/王祈.jpg" alt="王祈" class="contact-photo" loading="lazy" onerror="this.style.display='none';">
                         </div>
                         <h3>現任副主席</h3>
                         <div class="contact-info">
@@ -580,11 +603,76 @@
 
     <!-- 共用組件（頁尾、固定橫幅）將由 components.js 自動載入 -->
 
-    <script src="js/debug-stars.js?v=20250131"></script>
-    <script src="js/components.js"></script>
-    <script src="js/category-mapping.js"></script>
-    <script src="js/main.js"></script>
-    <script src="js/scroll-progress.js"></script>
+    <!-- Non-Critical Scripts - Loaded with defer to prevent blocking -->
+    <!-- Cache-Control: max-age=31536000, immutable (set via server headers) -->
+    <!-- Optimized: Load non-critical scripts after page load using requestIdleCallback -->
+    <script>
+    // Defer non-critical scripts to reduce initial JavaScript execution time
+    function loadScript(src) {
+        return new Promise((resolve, reject) => {
+            const script = document.createElement('script');
+            script.src = src + '?v=20250202-PERF-FINAL';
+            script.defer = true;
+            script.onload = resolve;
+            script.onerror = reject;
+            document.body.appendChild(script);
+        });
+    }
+    
+    // Load non-critical scripts after page is interactive
+    if ('requestIdleCallback' in window) {
+        requestIdleCallback(() => {
+            Promise.all([
+                loadScript('js/debug-stars.js'),
+                loadScript('js/components.js'),
+                loadScript('js/category-mapping.js'),
+                loadScript('js/main.js'),
+                loadScript('js/scroll-progress.js')
+            ]).catch(err => console.warn('Non-critical script load failed:', err));
+        }, { timeout: 2000 });
+    } else {
+        // Fallback: Load after DOMContentLoaded
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                Promise.all([
+                    loadScript('js/debug-stars.js'),
+                    loadScript('js/components.js'),
+                    loadScript('js/category-mapping.js'),
+                    loadScript('js/main.js'),
+                    loadScript('js/scroll-progress.js')
+                ]).catch(err => console.warn('Non-critical script load failed:', err));
+            }, 100);
+        });
+    }
+    </script>
+    
+    <!-- CSS Load Detection Script - Optimized -->
+    <script>
+    // Use requestIdleCallback for non-critical checks
+    if ('requestIdleCallback' in window) {
+        requestIdleCallback(function() {
+            const test = getComputedStyle(document.body).backgroundColor;
+            console.log('Computed Body Background:', test);
+            if(test === 'rgba(0, 0, 0, 0)' || test === 'transparent') {
+                console.warn('⚠️ DESKTOP CSS LOAD FAILED! Please check Network Tab.');
+            }
+        });
+    } else {
+        // Fallback for browsers without requestIdleCallback
+        setTimeout(function() {
+            const test = getComputedStyle(document.body).backgroundColor;
+            console.log('Computed Body Background:', test);
+            if(test === 'rgba(0, 0, 0, 0)' || test === 'transparent') {
+                console.warn('⚠️ DESKTOP CSS LOAD FAILED! Please check Network Tab.');
+            }
+        }, 1000);
+    }
+    </script>
+    
+    <!-- LoadCSS polyfill for browsers that don't support preload -->
+    <script>
+    !function(e){"use strict";var t=function(t,n,r){var o,i=e.document,a=i.createElement("link");if(n)o=n;else{var l=(i.body||i.getElementsByTagName("head")[0]).childNodes;o=l[l.length-1]}var d=i.styleSheets;a.rel="stylesheet",a.href=t,a.media="only x",function e(t){if(i.body)return t();setTimeout(function(){e(t)})}(function(){o.parentNode.insertBefore(a,n?o:o.nextSibling)});var f=function(e){for(var t=a.href,n=d.length;n--;)if(d[n].href===t)return e();setTimeout(function(){f(e)})};return a.addEventListener&&a.addEventListener("load",function(){this.media=r||"all"}),a.onloadcssdefined=f,f(function(){a.media!==r&&(a.media=r||"all")}),a};"undefined"!=typeof exports?exports.loadCSS=t:e.loadCSS=t}("undefined"!=typeof global?global:this);
+    </script>
 </body>
 </html>
 
