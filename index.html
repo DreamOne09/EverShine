@@ -1,113 +1,240 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    
-    <title>BNI 長輝白金分會 - 專業商務引薦平台 | 線上會議 | 商務引薦</title>
-    <meta name="description" content="BNI 長輝白金分會，全台少數支援完整線上與會的BNI分會。每週三早上6:30線上例會，60+行業代表，專業商務引薦平台，連結優秀企業家創造無限商機。">
-    
+
+    <title>BNI 長輝白金分會 | 專業商務引薦平台 | 擴展人脈首選</title>
+    <meta name="description" content="BNI 長輝白金分會是全台領先的商務引薦平台，匯聚60+產業菁英。每週三線上例會，提供高效商務交流與引薦機會。加入我們，與優秀企業家共同成長，創造無限商機。">
+    <meta name="keywords" content="BNI, 長輝白金分會, 商務引薦, 商業網絡, 企業家, 線上會議, 商業合作, 人脈拓展, BNI台灣, 業務成長">
+
     <!-- Resource Hints for Performance -->
     <link rel="dns-prefetch" href="https://fonts.googleapis.com">
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    
+
     <!-- Critical CSS - Inline for faster FCP -->
     <style>
         /* 基礎重置，防止 CSS 載入前畫面全白 */
-        html, body { background: #0a0a0a; margin: 0; padding: 0; }
-        
+        html,
+        body {
+            background: #0a0a0a;
+            margin: 0;
+            padding: 0;
+        }
+
         /* 載入畫面樣式 */
         .page-loader {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #000; z-index: 9999;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             transition: opacity .5s ease;
         }
-        .page-loader.hidden { opacity: 0; pointer-events: none; }
-        .loader-logo { width: 300px; max-width: 80%; height: auto; }
+
+        .page-loader.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loader-logo {
+            width: 300px;
+            max-width: 80%;
+            height: auto;
+        }
     </style>
     <meta name="keywords" content="BNI, 長輝白金分會, 商務引薦, 商業網絡, 企業家, 線上會議, 商業合作, 引薦行銷, BNI台灣, 商業交流">
-    
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://dreamone09.github.io/EverShine/">
-    <meta property="og:title" content="BNI 長輝白金分會 - 專業商務引薦平台">
-    <meta property="og:description" content="全台少數支援完整線上與會的BNI分會，每週三早上6:30線上例會，60+行業代表，專業商務引薦平台。">
+    <meta property="og:url" content="https://evershine.tw/">
+    <meta property="og:title" content="BNI 長輝白金分會 | 打造您的夢幻商務團隊">
+    <meta property="og:description" content="尋找可靠的生意夥伴？BNI 長輝白金分會匯聚60+產業菁英，透過專業引薦機制，為您的事業注入強大動能。立即報名參訪！">
     <meta property="og:image" content="images/assets/logo/BNI紅色商標.png">
-    
+    <meta property="og:locale" content="zh_TW">
+    <meta property="og:site_name" content="BNI 長輝白金分會">
+
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://dreamone09.github.io/EverShine/">
     <meta property="twitter:title" content="BNI 長輝白金分會 - 專業商務引薦平台">
     <meta property="twitter:description" content="全台少數支援完整線上與會的BNI分會，每週三早上6:30線上例會，60+行業代表，專業商務引薦平台。">
     <meta property="twitter:image" content="images/assets/logo/BNI紅色商標.png">
-    
+
     <!-- Security and Performance -->
     <meta name="referrer" content="strict-origin-when-cross-origin">
-    
+
     <!-- Canonical URL -->
     <link rel="canonical" href="https://evershine.tw/">
-    
+
     <!-- Favicons -->
     <link rel="icon" type="image/png" href="images/assets/logo/白色正方形logo.png">
     <link rel="apple-touch-icon" href="images/assets/logo/白色正方形logo.png">
-    
+
+    <!-- Schema.org 結構化資料 -->
     <!-- Schema.org 結構化資料 -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
         "@type": "Organization",
         "name": "BNI 長輝白金分會",
+        "alternateName": "BNI EverShine Chapter",
+        "url": "https://evershine.tw/",
+        "logo": "https://evershine.tw/images/assets/logo/BNI紅色商標.png",
         "description": "全台少數支援完整線上與會的BNI分會，專業商務引薦平台",
-        "url": "https://dreamone09.github.io/EverShine/",
-        "logo": "images/assets/logo/BNI紅色商標.png",
+        "foundingDate": "2015",
         "memberOf": {
             "@type": "Organization",
             "name": "BNI (Business Network International)"
         },
         "address": {
             "@type": "PostalAddress",
-            "addressCountry": "TW"
+            "addressCountry": "TW",
+            "addressRegion": "Taipei"
+        },
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "contactType": "customer service",
+            "areaServed": "TW",
+            "availableLanguage": "Chinese"
+        },
+        "sameAs": [
+            "https://www.facebook.com/BNIEverShine"
+        ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Event",
+        "name": "BNI 長輝白金分會 線上例會",
+        "description": "每週一次的專業商務交流會議，匯聚各行各業菁英。",
+        "eventAttendanceMode": "https://schema.org/OnlineEventAttendanceMode",
+        "eventStatus": "https://schema.org/EventScheduled",
+        "startDate": "2025-11-26T06:30:00+08:00",
+        "endDate": "2025-11-26T08:30:00+08:00",
+        "location": {
+            "@type": "VirtualLocation",
+            "url": "https://evershine.tw/join"
+        },
+        "organizer": {
+            "@type": "Organization",
+            "name": "BNI 長輝白金分會",
+            "url": "https://evershine.tw"
         }
     }
     </script>
-    
+
     <!-- Critical Inline Styles - Minimal above-the-fold CSS -->
     <style>
-    /* 基礎重置 - 防止 FOUC */
-    html,body{background:#0a0a0a;margin:0;padding:0;color:#f4f9ff;font-family:'Noto Sans TC',sans-serif}
-    /* 載入畫面 - 完整關鍵樣式 */
-    .page-loader{position:fixed!important;top:0!important;left:0!important;width:100%!important;height:100%!important;background:#000!important;z-index:9999!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;transition:opacity .5s ease!important}
-    .page-loader.hidden{opacity:0!important;pointer-events:none!important}
-    .page-loader[style*="display: none"]{display:none!important}
-    .loader-text{font-family:'Noto Sans TC',sans-serif!important;font-size:2rem!important;color:#4ca8df!important;margin-bottom:2rem!important;font-weight:700!important}
-    .loader-logo{max-width:400px!important;width:auto!important;height:auto!important;max-height:150px!important;object-fit:contain!important;display:block!important;opacity:1!important;visibility:visible!important}
+        /* 基礎重置 - 防止 FOUC */
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            color: #f4f9ff;
+            font-family: 'Noto Sans TC', sans-serif;
+            background: transparent;
+            /* 關鍵：讓背景透明，以便顯示下層的星空 */
+            overflow-x: hidden;
+            /* 防止水平滾動 */
+        }
+
+        /* 全局背景層 - 最底層 */
+        .global-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #050505;
+            /* 深邃宇宙黑 */
+            z-index: -10;
+            pointer-events: none;
+        }
+
+        /* 載入畫面 - 完整關鍵樣式 */
+        .page-loader {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            background: #000 !important;
+            z-index: 9999 !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: center !important;
+            transition: opacity .5s ease !important
+        }
+
+        .page-loader.hidden {
+            opacity: 0 !important;
+            pointer-events: none !important
+        }
+
+        .page-loader[style*="display: none"] {
+            display: none !important
+        }
+
+        .loader-text {
+            font-family: 'Noto Sans TC', sans-serif !important;
+            font-size: 2rem !important;
+            color: #4ca8df !important;
+            margin-bottom: 2rem !important;
+            font-weight: 700 !important
+        }
+
+        .loader-logo {
+            max-width: 400px !important;
+            width: auto !important;
+            height: auto !important;
+            max-height: 150px !important;
+            object-fit: contain !important;
+            display: block !important;
+            opacity: 1 !important;
+            visibility: visible !important
+        }
     </style>
-    
+
     <!-- Main Stylesheet - Load immediately to ensure styles are available -->
     <link rel="stylesheet" href="css/style.css?v=20250202-LIGHTHOUSE">
-    
+
     <!-- Fonts - Optimized: Only load essential weights (400, 700), use font-display swap -->
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet"></noscript>
-    
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap"
+        as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+    </noscript>
+
     <!-- Critical Scripts - Only essential scripts in head, rest deferred -->
     <script src="js/starry-background-unified.js?v=20250202-LIGHTHOUSE" defer></script>
 </head>
+
 <body>
     <!-- 載入畫面 -->
     <div class="page-loader" id="pageLoader">
-        <img src="images/assets/logo/透明底白字長條logo.png" alt="長輝白金分會" class="loader-logo" loading="eager" fetchpriority="high" width="400" height="150">
+        <img src="images/assets/logo/透明底白字長條logo.png" alt="長輝白金分會" class="loader-logo" loading="eager"
+            fetchpriority="high" width="400" height="150">
         <div class="loader-text">歡迎來到長輝白金分會</div>
     </div>
-    
+
     <!-- Skip to main content -->
     <a href="#main-content" class="skip-to-main">跳到主要內容</a>
-    
+
     <!-- Canvas 星空背景 -->
+    <div class="global-background"></div>
     <canvas id="starrySkyCanvas" aria-hidden="true"></canvas>
     <!-- 共用組件將由 components.js 自動載入 -->
 
@@ -117,7 +244,7 @@
         <div class="hero-content">
             <h1 class="hero-title">長輝白金分會</h1>
             <p class="hero-subtitle">我們一起，打造你的夢幻team</p>
-            <p class="hero-description">Stand by we!  We are one team.</p>
+            <p class="hero-description">Stand by we! We are one team.</p>
             <a href="#join" class="btn-primary">加入我們</a>
         </div>
         <div class="scroll-indicator">
@@ -127,506 +254,476 @@
 
     <!-- BNI簡介連結 -->
     <main id="main-content">
-    <section id="bni-intro-link" class="bni-intro-link" aria-labelledby="bni-intro-title">
-        <div class="container">
-            <div class="bni-intro-link-content">
-                <h2 class="section-title" id="bni-intro-title">什麼是BNI？</h2>
-                <p class="bni-intro-link-text">BNI（Business Network International）是全球最大商務引薦平台，成立40年，遍及76+國家，擁有11,300+分會和34萬+會員。透過專業的引薦機制，協助企業家建立強而有力的商業網絡。</p>
-                <a href="/what-is-bni" class="btn-primary">了解更多關於BNI</a>
-            </div>
-        </div>
-    </section>
-
-
-    <!-- 關於我們 -->
-    <section id="about" class="about">
-        <div class="container">
-            <div class="about-section-wrapper">
-                <!-- Logo 和標題 -->
-                <div class="about-header">
-                    <div class="about-logo-wrapper">
-                        <img src="images/assets/logo/透明底白字長條logo.png" alt="長輝白金分會" class="about-logo" loading="lazy" width="400" height="150">
+        <!-- 活動資訊與會議時間 (Moved Up & Styled Blue) -->
+        <section id="meeting-info" class="meeting-info-blue-theme">
+            <div class="container">
+                <h2 class="meeting-info-title text-white">我們幫助企業家建立專業商務網絡，<span
+                        class="highlight-text-white">成果會說話</span></h2>
+                <div class="meeting-features-modern">
+                    <div class="feature-item-modern">
+                        <div class="feature-icon-modern">🤝</div>
+                        <div class="feature-text-modern">每週線上跟超過五十位企業家一起遠端交流，互相分享商業機會，建立人脈網絡</div>
                     </div>
+                    <div class="feature-item-modern">
+                        <div class="feature-icon-modern">📈</div>
+                        <div class="feature-text-modern">我們提升會員的業務成功率和引薦品質</div>
+                    </div>
+                    <div class="feature-item-modern">
+                        <div class="feature-icon-modern">💎</div>
+                        <div class="feature-text-modern">我們為會員提供強大的商務網絡優勢</div>
+                    </div>
+                    <div class="feature-item-modern">
+                        <div class="feature-icon-modern">🚀</div>
+                        <div class="feature-text-modern">我們的會員擁有持續成長和建立長期合作關係的優良記錄</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 成交數據區段 -->
+        <section id="results" class="results-section">
+            <div class="container">
+                <div class="results-card unified-card-simple">
+                    <div class="results-header">
+                        <h2 class="section-title">我們專注於成果，而非空談</h2>
+                        <div class="results-intro-wrapper">
+                            <p class="results-intro">或許您曾聽聞，商務社群不過是交換名片、建立人脈的場合</p>
+                            <p class="results-intro highlight">然而，在 BNI 長輝白金分會，我們每週都在創造實際的商業成果</p>
+                        </div>
+                        <p class="results-main-text">以下數據，是我們近期真實的引薦成果</p>
+                    </div>
+
+                    <div class="results-data-horizontal">
+                        <div class="data-item-horizontal">
+                            <div class="data-value-horizontal">470</div>
+                            <div class="data-unit-horizontal">張</div>
+                            <div class="data-label-horizontal">上月引薦單數</div>
+                        </div>
+                        <div class="data-item-horizontal">
+                            <div class="data-value-horizontal">NT$ 12,731,112</div>
+                            <div class="data-label-horizontal">引薦金額</div>
+                        </div>
+                        <div class="data-item-horizontal">
+                            <div class="data-value-horizontal">60+</div>
+                            <div class="data-unit-horizontal">不同產業</div>
+                            <div class="data-label-horizontal">已建立商務夥伴連結</div>
+                        </div>
+                    </div>
+
+                    <div class="results-note">
+                        <p class="note-text">※ 以上數據為 2025年5月 整理</p>
+                    </div>
+
+                    <div class="results-reasons">
+                        <p class="reasons-title">這些成果的背後，是我們每週執行的系統化流程：</p>
+                        <ul class="reasons-list">
+                            <li>結構化的專業交流：每位會員進行精準的 25 秒專業介紹，配合 5 分鐘深度主講，以及分組深度交流</li>
+                            <li>協同引薦機制：每位會員都積極扮演引薦角色，協助夥伴精準曝光，創造商業機會</li>
+                            <li>持續擴展網絡：定期邀請來賓參與，拓展全新客群，發掘更多潛在合作夥伴</li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- 長輝白金分會特色 -->
+        <section id="unique-features" class="unique-features">
+            <div class="container">
+                <h2 class="section-title">長輝白金分會有什麼不一樣？</h2>
+
+                <div class="features-content">
+                    <div class="feature-main">
+                        <div class="feature-badge">📍 長輝白金分會</div>
+                        <h3 class="feature-title">全台少數支援「完整線上與會」的分會</h3>
+                        <p class="feature-description">我們每週早上 6:30 舉辦例會，全程可線上參與</p>
+                        <p class="feature-description">不需舟車勞頓，甚至出差途中也能照常與會、照常曝光、照常經營商務合作。</p>
+                    </div>
+
+                    <div class="requirements-section">
+                        <h3 class="requirements-title">你只需要：</h3>
+                        <ul class="requirements-list">
+                            <li>✔ 一部能開鏡頭的設備、穩定的網路連線</li>
+                            <li>✔ 一個穩健的商業模式，對別人引薦的生意負責</li>
+                            <li>✔ 一顆想認識生意夥伴的心</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 會員成功案例 (Refactored) -->
+        <section id="success-stories" class="success-stories-modern">
+            <div class="container">
+                <h2 class="section-title">會員成功案例</h2>
+                <div class="success-modern-grid">
+                    <div class="success-modern-card">
+                        <div class="success-modern-header">
+                            <div class="success-modern-image-wrapper">
+                                <img src="images/members/何昇軒.jpg" alt="何昇軒" class="success-modern-image" loading="lazy"
+                                    onerror="this.style.display='none';">
+                            </div>
+                            <div class="success-modern-info">
+                                <h3 class="success-modern-name">何昇軒</h3>
+                                <p class="success-modern-industry">律師</p>
+                            </div>
+                        </div>
+                        <div class="success-modern-body">
+                            <p class="success-modern-quote">
+                                「加入BNI長輝白金分會後，我的法律事務所業務量在一年內成長了250%。透過會員的引薦，我獲得了許多優質的企業客戶。每週的線上例會讓我能夠與各行各業的專業人士建立深厚的合作關係。」
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="success-modern-card">
+                        <div class="success-modern-header">
+                            <div class="success-modern-image-wrapper">
+                                <img src="images/members/劉弼凱.jpg" alt="劉弼凱" class="success-modern-image" loading="lazy"
+                                    onerror="this.style.display='none';">
+                            </div>
+                            <div class="success-modern-info">
+                                <h3 class="success-modern-name">劉弼凱</h3>
+                                <p class="success-modern-industry">水電工程</p>
+                            </div>
+                        </div>
+                        <div class="success-modern-body">
+                            <p class="success-modern-quote">
+                                「透過每週例會的交流，我不僅獲得了穩定的工程引薦，更建立了可靠的合作夥伴網絡。線上會議的便利性讓我在忙碌的工程期間也能持續參與。這一年來，我的工程案量增加了180%。」
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="success-modern-card">
+                        <div class="success-modern-header">
+                            <div class="success-modern-image-wrapper">
+                                <img src="images/members/吳介輝.jpg" alt="吳介輝" class="success-modern-image" loading="lazy"
+                                    onerror="this.style.display='none';">
+                            </div>
+                            <div class="success-modern-info">
+                                <h3 class="success-modern-name">吳介輝</h3>
+                                <p class="success-modern-industry">人壽保險</p>
+                            </div>
+                        </div>
+                        <div class="success-modern-body">
+                            <p class="success-modern-quote">
+                                「每週三早上的例會讓我能夠在開始一天工作前就與60多位不同行業的專業人士交流。透過會員的引薦，我不僅獲得了個人客戶，更接觸到許多企業團體保險的機會。業務量成長了220%。」
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="success-modern-card">
+                        <div class="success-modern-header">
+                            <div class="success-modern-image-wrapper">
+                                <img src="images/members/孫成育.jpg" alt="孫成育" class="success-modern-image" loading="lazy"
+                                    onerror="this.style.display='none';">
+                            </div>
+                            <div class="success-modern-info">
+                                <h3 class="success-modern-name">孫成育</h3>
+                                <p class="success-modern-industry">禮贈品</p>
+                            </div>
+                        </div>
+                        <div class="success-modern-body">
+                            <p class="success-modern-quote">
+                                「透過每週例會，我認識了許多企業主和採購決策者。線上會議的便利性讓我即使出差也能參與。這一年來，我的業務量成長了200%，而且都是透過會員引薦的長期合作客戶。」
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 關於我們 (Refactored & Moved) -->
+        <section id="about" class="about-modern">
+            <div class="container">
+                <div class="about-modern-header">
+                    <img src="images/assets/logo/透明底白字長條logo.png" alt="長輝白金分會" class="about-modern-logo" loading="lazy">
                     <h2 class="section-title">關於我們</h2>
                 </div>
-                
-                <!-- 核心內容卡片 -->
-                <div class="about-cards-grid">
-                    <div class="about-card-item" data-option="core-purpose">
-                        <div class="about-card-header">
-                            <h3 class="about-card-title">Core Purpose</h3>
+
+                <div class="about-modern-content">
+                    <div class="about-modern-item" data-aos="fade-up">
+                        <div class="about-modern-icon">🎯</div>
+                        <h3>Core Purpose</h3>
+                        <p>精進會員的個人成長<br>壯大夥伴彼此的事業</p>
+                    </div>
+
+                    <div class="about-modern-item" data-aos="fade-up" data-aos-delay="100">
+                        <div class="about-modern-icon">🚀</div>
+                        <h3>Mission</h3>
+                        <p>強化產業合作<br>發展強而有力的夥伴關係<br>創造持續不斷的引薦</p>
+                    </div>
+
+                    <div class="about-modern-item" data-aos="fade-up" data-aos-delay="200">
+                        <div class="about-modern-icon">👁️</div>
+                        <h3>Vision</h3>
+                        <p>成為企業家首選的<br>商務合作平台</p>
+                    </div>
+
+                    <div class="about-modern-item wide" data-aos="fade-up" data-aos-delay="300">
+                        <div class="about-modern-icon">💎</div>
+                        <h3>核心價值</h3>
+                        <div class="about-values-inline">
+                            <span><strong>專業</strong></span>
+                            <span class="divider">|</span>
+                            <span><strong>誠信</strong></span>
+                            <span class="divider">|</span>
+                            <span><strong>熱情</strong></span>
+                            <span class="divider">|</span>
+                            <span><strong>實踐</strong></span>
                         </div>
-                        <div class="about-card-content">
-                            <p>精進會員的個人成長、壯大夥伴彼此的事業</p>
+                        <p class="about-values-desc">以專業態度與誠信為本，懷抱熱忱，將理念化為實際行動</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 會員展示預覽 -->
+        <section id="members-preview" class="members-preview">
+            <div class="container">
+                <div class="section-header-card unified-card-simple">
+                    <div class="section-header-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M17 21V19C17 17.9391 16.5786 16.9217 15.8284 16.1716C15.0783 15.4214 14.0609 15 13 15H5C3.93913 15 2.92172 15.4214 2.17157 16.1716C1.42143 16.9217 1 17.9391 1 19V21"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            <path
+                                d="M9 11C11.2091 11 13 9.20914 13 7C13 4.79086 11.2091 3 9 3C6.79086 3 5 4.79086 5 7C5 9.20914 6.79086 11 9 11Z"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            <path
+                                d="M23 21V19C22.9993 18.1137 22.7044 17.2528 22.1614 16.5523C21.6184 15.8519 20.8581 15.3516 20 15.13"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            <path
+                                d="M16 3.13C16.8604 3.35031 17.623 3.85071 18.1676 4.55232C18.7122 5.25392 19.0078 6.11683 19.0078 7.005C19.0078 7.89318 18.7122 8.75608 18.1676 9.45769C17.623 10.1593 16.8604 10.6597 16 10.88"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                    <h2 class="section-title">會員介紹</h2>
+                    <p class="section-description">我們擁有60位來自各行各業的專業會員，涵蓋企業顧問、企業行銷、資訊系統、工程裝修、健康美麗、休閒教育、投資理財、美食餐飲等領域。</p>
+                </div>
+                <div class="preview-cta">
+                    <a href="/members" class="btn-primary">查看完整會員名單</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 加入我們 -->
+        <section id="join" class="join">
+            <div class="container">
+                <h2 class="section-title">加入我們</h2>
+                <div class="join-content">
+                    <div class="join-benefits-minimal">
+                        <h3 class="join-benefits-title">為什麼要加入 BNI 長輝白金分會？</h3>
+                        <p class="join-benefits-intro">加入我們，您將獲得專業的商務引薦網絡，與60+行業代表建立長期合作關係。</p>
+                        <div class="benefits-grid-minimal">
+                            <div class="benefit-item-minimal">
+                                <div class="benefit-label-minimal">拓展人脈網絡</div>
+                                <div class="benefit-desc-minimal">連結各行各業專業人才</div>
+                            </div>
+                            <div class="benefit-item-minimal">
+                                <div class="benefit-label-minimal">優質引薦機會</div>
+                                <div class="benefit-desc-minimal">獲得高品質的商務引薦</div>
+                            </div>
+                            <div class="benefit-item-minimal">
+                                <div class="benefit-label-minimal">品牌曝光</div>
+                                <div class="benefit-desc-minimal">提升個人品牌與業務曝光度</div>
+                            </div>
+                            <div class="benefit-item-minimal">
+                                <div class="benefit-label-minimal">持續成長</div>
+                                <div class="benefit-desc-minimal">與優秀企業家交流學習</div>
+                            </div>
                         </div>
                     </div>
-                    
-                    <div class="about-card-item" data-option="mission">
-                        <div class="about-card-header">
-                            <h3 class="about-card-title">Mission</h3>
-                        </div>
-                        <div class="about-card-content">
-                            <ul class="about-card-list">
-                                <li>強化產業合作</li>
-                                <li>發展強而有力的夥伴關係</li>
-                                <li>創造持續不斷的引薦</li>
-                            </ul>
-                        </div>
-                    </div>
-                    
-                    <div class="about-card-item" data-option="vision">
-                        <div class="about-card-header">
-                            <h3 class="about-card-title">Vision</h3>
-                        </div>
-                        <div class="about-card-content">
-                            <p>成為企業家首選的商務合作平台</p>
-                        </div>
-                    </div>
-                    
-                    <div class="about-card-item about-card-fullwidth" data-option="values">
-                        <div class="about-card-header">
-                            <h3 class="about-card-title">核心價值</h3>
-                        </div>
-                        <div class="about-card-content">
-                            <div class="values-grid">
-                                <div class="value-card">
-                                    <strong class="value-title">專業</strong>
-                                    <p class="value-description">以專業的態度與服務，為每位會員提供最優質的商務引薦與支援</p>
+
+                    <div class="join-process-card-minimal">
+                        <h3 class="join-process-title">加入流程</h3>
+                        <div class="process-steps-minimal">
+                            <div class="process-step-minimal">
+                                <div class="step-number-minimal">1</div>
+                                <div class="step-content-minimal">
+                                    <div class="step-title-minimal">成為來賓</div>
+                                    <div class="step-desc-minimal">免費參與一次線上例會，體驗實際運作模式</div>
                                 </div>
-                                <div class="value-card">
-                                    <strong class="value-title">誠信</strong>
-                                    <p class="value-description">以誠信為本，建立互信互重的合作關係，打造可靠的商務平台</p>
-                                </div>
-                                <div class="value-card">
-                                    <strong class="value-title">熱情</strong>
-                                    <p class="value-description">懷抱熱忱與積極態度，持續推動商會發展與會員成長</p>
-                                </div>
-                                <div class="value-card">
-                                    <strong class="value-title">實踐</strong>
-                                    <p class="value-description">將理念化為行動，透過實際的引薦與合作，創造實質的商業價值</p>
+                            </div>
+                            <div class="process-step-minimal">
+                                <div class="step-number-minimal">2</div>
+                                <div class="step-content-minimal">
+                                    <div class="step-title-minimal">評估適合度</div>
+                                    <div class="step-desc-minimal">與現有會員交流，了解會員權益與責任</div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 成交數據區段 -->
-    <section id="results" class="results-section">
-        <div class="container">
-            <div class="results-card unified-card-simple">
-                <div class="results-header">
-                    <h2 class="section-title">我們專注於成果，而非空談</h2>
-                    <div class="results-intro-wrapper">
-                        <p class="results-intro">或許您曾聽聞，商務社群不過是交換名片、建立人脈的場合</p>
-                        <p class="results-intro highlight">然而，在 BNI 長輝白金分會，我們每週都在創造實際的商業成果</p>
-                    </div>
-                    <p class="results-main-text">以下數據，是我們近期真實的引薦成果</p>
-                </div>
-                
-                <div class="results-data-horizontal">
-                    <div class="data-item-horizontal">
-                        <div class="data-value-horizontal">470</div>
-                        <div class="data-unit-horizontal">張</div>
-                        <div class="data-label-horizontal">上月引薦單數</div>
-                    </div>
-                    <div class="data-item-horizontal">
-                        <div class="data-value-horizontal">NT$ 12,731,112</div>
-                        <div class="data-label-horizontal">引薦金額</div>
-                    </div>
-                    <div class="data-item-horizontal">
-                        <div class="data-value-horizontal">60+</div>
-                        <div class="data-unit-horizontal">不同產業</div>
-                        <div class="data-label-horizontal">已建立商務夥伴連結</div>
-                    </div>
-                </div>
-                
-                <div class="results-note">
-                    <p class="note-text">※ 以上數據為 2025年5月 整理</p>
-                </div>
-                
-                <div class="results-reasons">
-                    <p class="reasons-title">這些成果的背後，是我們每週執行的系統化流程：</p>
-                    <ul class="reasons-list">
-                        <li>結構化的專業交流：每位會員進行精準的 25 秒專業介紹，配合 5 分鐘深度主講，以及分組深度交流</li>
-                        <li>協同引薦機制：每位會員都積極扮演引薦角色，協助夥伴精準曝光，創造商業機會</li>
-                        <li>持續擴展網絡：定期邀請來賓參與，拓展全新客群，發掘更多潛在合作夥伴</li>
-                    </ul>
-                </div>
-                
-            </div>
-        </div>
-    </section>
-
-    <!-- 會員成功案例 -->
-    <section id="success-stories" class="success-stories">
-        <div class="container">
-            <h2 class="section-title">會員成功案例</h2>
-            <div class="success-stories-grid">
-                <div class="success-card-individual">
-                    <div class="success-card-image-wrapper">
-                        <img src="images/members/何昇軒.jpg" alt="何昇軒" class="success-card-image" loading="lazy" width="400" height="400" onerror="this.style.display='none'; this.parentElement.classList.add('image-error');">
-                        <div class="success-member-bubble">
-                            <h3 class="success-member-name">何昇軒</h3>
-                            <p class="success-member-industry">律師</p>
-                        </div>
-                    </div>
-                    <div class="success-card-body">
-                        <blockquote class="success-quote">「加入BNI長輝白金分會後，我的法律事務所業務量在一年內成長了250%。透過會員的引薦，我獲得了許多優質的企業客戶，包括契約審閱、商業法律顧問等服務。每週的線上例會讓我能夠與各行各業的專業人士建立深厚的合作關係，不僅拓展了業務範圍，更提升了服務品質。BNI的引薦機制讓我能夠專注於提供專業的法律服務，而業務開發則透過會員網絡自然產生。」</blockquote>
-                    </div>
-                </div>
-                <div class="success-card-individual">
-                    <div class="success-card-image-wrapper">
-                        <img src="images/members/劉弼凱.jpg" alt="劉弼凱" class="success-card-image" loading="lazy" width="400" height="400" onerror="this.style.display='none'; this.parentElement.classList.add('image-error');">
-                        <div class="success-member-bubble">
-                            <h3 class="success-member-name">劉弼凱</h3>
-                            <p class="success-member-industry">水電工程</p>
-                        </div>
-                    </div>
-                    <div class="success-card-body">
-                        <blockquote class="success-quote">「作為水電工程專業人士，加入BNI讓我認識了許多建築、裝潢、統包等相關行業的會員。透過每週例會的交流，我不僅獲得了穩定的工程引薦，更建立了可靠的合作夥伴網絡。線上會議的便利性讓我在忙碌的工程期間也能持續參與，保持與商業社群的連結。這一年來，我的工程案量增加了180%，而且都是透過會員引薦的高品質客戶。」</blockquote>
-                    </div>
-                </div>
-                <div class="success-card-individual">
-                    <div class="success-card-image-wrapper">
-                        <img src="images/members/吳介輝.jpg" alt="吳介輝" class="success-card-image" loading="lazy" width="400" height="400" onerror="this.style.display='none'; this.parentElement.classList.add('image-error');">
-                        <div class="success-member-bubble">
-                            <h3 class="success-member-name">吳介輝</h3>
-                            <p class="success-member-industry">人壽保險</p>
-                        </div>
-                    </div>
-                    <div class="success-card-body">
-                        <blockquote class="success-quote">「BNI長輝白金分會的線上會議模式非常適合我的工作型態。每週三早上的例會讓我能夠在開始一天工作前就與60多位不同行業的專業人士交流，這為我的保險業務帶來了巨大的成長。透過會員的引薦，我不僅獲得了個人客戶，更接觸到許多企業團體保險的機會。加入BNI後，我的業務量成長了220%，而且客戶品質都非常優質。」</blockquote>
-                    </div>
-                </div>
-                <div class="success-card-individual">
-                    <div class="success-card-image-wrapper">
-                        <img src="images/members/孫成育.jpg" alt="孫成育" class="success-card-image" loading="lazy" width="400" height="400" onerror="this.style.display='none'; this.parentElement.classList.add('image-error');">
-                        <div class="success-member-bubble">
-                            <h3 class="success-member-name">孫成育</h3>
-                            <p class="success-member-industry">禮贈品</p>
-                        </div>
-                    </div>
-                    <div class="success-card-body">
-                        <blockquote class="success-quote">「禮贈品業務需要與各行各業建立合作關係，BNI正是我尋找的理想平台。透過每週例會，我認識了許多企業主和採購決策者，他們在需要企業禮品、活動贈品時都會優先想到我。線上會議的便利性讓我即使出差也能參與，不會錯過任何引薦機會。這一年來，我的業務量成長了200%，而且都是透過會員引薦的長期合作客戶。」</blockquote>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 大事記 -->
-    <section id="timeline" class="timeline">
-        <div class="container">
-            <h2 class="section-title">大事記</h2>
-            <div class="timeline-content">
-                <div class="timeline-year-group">
-                    <div class="timeline-year-header">2025</div>
-                    <div class="timeline-events-grid">
-                        <div class="timeline-event">
-                            <div class="event-date">待新增</div>
-                            <div class="event-title">重要里程碑</div>
-                            <div class="event-description">活動或重要事件描述</div>
-                        </div>
-                        <div class="timeline-event">
-                            <div class="event-date">待新增</div>
-                            <div class="event-title">重要里程碑</div>
-                            <div class="event-description">活動或重要事件描述</div>
-                        </div>
-                        <div class="timeline-event">
-                            <div class="event-date">待新增</div>
-                            <div class="event-title">重要里程碑</div>
-                            <div class="event-description">活動或重要事件描述</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="timeline-year-group">
-                    <div class="timeline-year-header">2024</div>
-                    <div class="timeline-events-grid">
-                        <div class="timeline-event">
-                            <div class="event-date">待新增</div>
-                            <div class="event-title">重要里程碑</div>
-                            <div class="event-description">活動或重要事件描述</div>
-                        </div>
-                    </div>
-                </div>
-                <!-- 更多年份組可以在此添加 -->
-            </div>
-        </div>
-    </section>
-
-    <!-- 長輝白金分會特色 -->
-    <section id="unique-features" class="unique-features">
-        <div class="container">
-            <h2 class="section-title">長輝白金分會有什麼不一樣？</h2>
-            
-            <div class="features-content">
-                <div class="feature-main">
-                    <div class="feature-badge">📍 長輝白金分會</div>
-                    <h3 class="feature-title">全台少數支援「完整線上與會」的分會</h3>
-                    <p class="feature-description">我們每週早上 6:30 舉辦例會，全程可線上參與</p>
-                    <p class="feature-description">不需舟車勞頓，甚至出差途中也能照常與會、照常曝光、照常經營商務合作。</p>
-                </div>
-
-                <div class="requirements-section">
-                    <h3 class="requirements-title">你只需要：</h3>
-                    <ul class="requirements-list">
-                        <li>✔ 一部能開鏡頭的設備、穩定的網路連線</li>
-                        <li>✔ 一個穩健的商業模式，對別人引薦的生意負責</li>
-                        <li>✔ 一顆想認識生意夥伴的心</li>
-                    </ul>
-                </div>
-
-
-            </div>
-        </div>
-    </section>
-
-    <!-- 會員展示預覽 -->
-    <section id="members-preview" class="members-preview">
-        <div class="container">
-            <div class="section-header-card unified-card-simple">
-                <div class="section-header-icon">
-                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M17 21V19C17 17.9391 16.5786 16.9217 15.8284 16.1716C15.0783 15.4214 14.0609 15 13 15H5C3.93913 15 2.92172 15.4214 2.17157 16.1716C1.42143 16.9217 1 17.9391 1 19V21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M9 11C11.2091 11 13 9.20914 13 7C13 4.79086 11.2091 3 9 3C6.79086 3 5 4.79086 5 7C5 9.20914 6.79086 11 9 11Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M23 21V19C22.9993 18.1137 22.7044 17.2528 22.1614 16.5523C21.6184 15.8519 20.8581 15.3516 20 15.13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M16 3.13C16.8604 3.35031 17.623 3.85071 18.1676 4.55232C18.7122 5.25392 19.0078 6.11683 19.0078 7.005C19.0078 7.89318 18.7122 8.75608 18.1676 9.45769C17.623 10.1593 16.8604 10.6597 16 10.88" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </div>
-                <h2 class="section-title">會員介紹</h2>
-                <p class="section-description">我們擁有60位來自各行各業的專業會員，涵蓋企業顧問、企業行銷、資訊系統、工程裝修、健康美麗、休閒教育、投資理財、美食餐飲等領域。</p>
-            </div>
-            <div class="preview-cta">
-                <a href="/members" class="btn-primary">查看完整會員名單</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- 加入我們 -->
-    <section id="join" class="join">
-        <div class="container">
-            <h2 class="section-title">加入我們</h2>
-            <div class="join-content">
-                <div class="join-benefits-minimal">
-                    <h3 class="join-benefits-title">為什麼要加入 BNI 長輝白金分會？</h3>
-                    <p class="join-benefits-intro">加入我們，您將獲得專業的商務引薦網絡，與60+行業代表建立長期合作關係。</p>
-                    <div class="benefits-grid-minimal">
-                        <div class="benefit-item-minimal">
-                            <div class="benefit-label-minimal">拓展人脈網絡</div>
-                            <div class="benefit-desc-minimal">連結各行各業專業人才</div>
-                        </div>
-                        <div class="benefit-item-minimal">
-                            <div class="benefit-label-minimal">優質引薦機會</div>
-                            <div class="benefit-desc-minimal">獲得高品質的商務引薦</div>
-                        </div>
-                        <div class="benefit-item-minimal">
-                            <div class="benefit-label-minimal">品牌曝光</div>
-                            <div class="benefit-desc-minimal">提升個人品牌與業務曝光度</div>
-                        </div>
-                        <div class="benefit-item-minimal">
-                            <div class="benefit-label-minimal">持續成長</div>
-                            <div class="benefit-desc-minimal">與優秀企業家交流學習</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="join-process-card-minimal">
-                    <h3 class="join-process-title">加入流程</h3>
-                    <div class="process-steps-minimal">
-                        <div class="process-step-minimal">
-                            <div class="step-number-minimal">1</div>
-                            <div class="step-content-minimal">
-                                <div class="step-title-minimal">成為來賓</div>
-                                <div class="step-desc-minimal">免費參與一次線上例會，體驗實際運作模式</div>
+                            <div class="process-step-minimal">
+                                <div class="step-number-minimal">3</div>
+                                <div class="step-content-minimal">
+                                    <div class="step-title-minimal">提交申請</div>
+                                    <div class="step-desc-minimal">確認適合後，提交正式加入申請</div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="process-step-minimal">
-                            <div class="step-number-minimal">2</div>
-                            <div class="step-content-minimal">
-                                <div class="step-title-minimal">評估適合度</div>
-                                <div class="step-desc-minimal">與現有會員交流，了解會員權益與責任</div>
+                            <div class="process-step-minimal">
+                                <div class="step-number-minimal">4</div>
+                                <div class="step-content-minimal">
+                                    <div class="step-title-minimal">完成培訓</div>
+                                    <div class="step-desc-minimal">參加新會員MSP培訓，熟悉BNI運作方式</div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="process-step-minimal">
-                            <div class="step-number-minimal">3</div>
-                            <div class="step-content-minimal">
-                                <div class="step-title-minimal">提交申請</div>
-                                <div class="step-desc-minimal">確認適合後，提交正式加入申請</div>
-                            </div>
-                        </div>
-                        <div class="process-step-minimal">
-                            <div class="step-number-minimal">4</div>
-                            <div class="step-content-minimal">
-                                <div class="step-title-minimal">完成培訓</div>
-                                <div class="step-desc-minimal">參加新會員MSP培訓，熟悉BNI運作方式</div>
-                            </div>
-                        </div>
-                        <div class="process-step-minimal">
-                            <div class="step-number-minimal">5</div>
-                            <div class="step-content-minimal">
-                                <div class="step-title-minimal">正式加入</div>
-                                <div class="step-desc-minimal">開始享受專業的商務引薦服務</div>
+                            <div class="process-step-minimal">
+                                <div class="step-number-minimal">5</div>
+                                <div class="step-content-minimal">
+                                    <div class="step-title-minimal">正式加入</div>
+                                    <div class="step-desc-minimal">開始享受專業的商務引薦服務</div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                
-                <div class="join-cta-section">
-                    <div class="join-cta-card">
-                        <div class="join-cta-icon">
-                            <svg width="56" height="56" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M17 21V19C17 17.9391 16.5786 16.9217 15.8284 16.1716C15.0783 15.4214 14.0609 15 13 15H5C3.93913 15 2.92172 15.4214 2.17157 16.1716C1.42143 16.9217 1 17.9391 1 19V21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M9 11C11.2091 11 13 9.20914 13 7C13 4.79086 11.2091 3 9 3C6.79086 3 5 4.79086 5 7C5 9.20914 6.79086 11 9 11Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M23 21V19C22.9993 18.1137 22.7044 17.2528 22.1614 16.5523C21.6184 15.8519 20.8581 15.3516 20 15.13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M16 3.13C16.8604 3.35031 17.623 3.85071 18.1676 4.55232C18.7122 5.25392 19.0078 6.11683 19.0078 7.005C19.0078 7.89318 18.7122 8.75608 18.1676 9.45769C17.623 10.1593 16.8604 10.6597 16 10.88" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </div>
-                    <h3>邀請來賓參與</h3>
-                        <p class="guest-invite-text">我們誠摯邀請對商務引薦平台有興趣的企業家、業務與經理人，前來體驗我們的聚會活動。</p>
-                    <div class="join-cta">
-                        <a href="#contact" class="btn-primary">聯繫我們成為來賓</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- 常見問題 FAQ -->
-    <section id="faq" class="faq">
-        <div class="container">
-            <h2 class="section-title">常見問題</h2>
-            <div class="faq-content">
-                <div class="faq-item unified-card-simple">
-                    <div class="faq-question" role="button" tabindex="0" aria-expanded="false" aria-controls="faq-answer-1">
-                        <h3>加入BNI需要什麼條件？</h3>
-                        <span class="faq-toggle" aria-hidden="true">+</span>
-                    </div>
-                    <div class="faq-answer" id="faq-answer-1" role="region">
-                        <p>您需要有一個穩健的商業模式，願意對引薦的生意負責，並承諾每週參與例會。我們歡迎各行各業的專業人士加入。</p>
-                    </div>
-                </div>
-                <div class="faq-item unified-card-simple">
-                    <div class="faq-question" role="button" tabindex="0" aria-expanded="false" aria-controls="faq-answer-2">
-                        <h3>線上會議與實體會議有什麼不同？</h3>
-                        <span class="faq-toggle" aria-hidden="true">+</span>
-                    </div>
-                    <div class="faq-answer" id="faq-answer-2" role="region">
-                        <p>線上會議提供與實體會議相同的功能，包括專業分工、分組交流、主講行銷影片和引薦見證環節。您可以在家或辦公室參與，節省通勤時間。</p>
-                    </div>
-                </div>
-                <div class="faq-item unified-card-simple">
-                    <div class="faq-question" role="button" tabindex="0" aria-expanded="false" aria-controls="faq-answer-3">
-                        <h3>加入需要費用嗎？</h3>
-                        <span class="faq-toggle" aria-hidden="true">+</span>
-                    </div>
-                    <div class="faq-answer" id="faq-answer-3" role="region">
-                        <p>來賓參訪是完全免費的。正式加入會員後，需要繳交會費，詳細費用請聯繫我們了解。</p>
-                    </div>
-                </div>
-                <div class="faq-item unified-card-simple">
-                    <div class="faq-question" role="button" tabindex="0" aria-expanded="false" aria-controls="faq-answer-4">
-                        <h3>如果我的行業已經有會員了怎麼辦？</h3>
-                        <span class="faq-toggle" aria-hidden="true">+</span>
-                    </div>
-                    <div class="faq-answer" id="faq-answer-4" role="region">
-                        <p>BNI採用「一個行業一個會員」的原則。如果您的行業已有會員，我們可以協助您了解其他分會的機會，或將您列入候補名單。</p>
-                    </div>
-                </div>
-                <div class="faq-item unified-card-simple">
-                    <div class="faq-question" role="button" tabindex="0" aria-expanded="false" aria-controls="faq-answer-5">
-                        <h3>每週都需要參加會議嗎？</h3>
-                        <span class="faq-toggle" aria-hidden="true">+</span>
-                    </div>
-                    <div class="faq-answer" id="faq-answer-5" role="region">
-                        <p>是的，每週參與例會是BNI會員的基本責任。這確保了持續的引薦機會和與其他會員的關係建立。線上會議讓參與更加便利。</p>
-                    </div>
-                </div>
-                <div class="faq-item unified-card-simple">
-                    <div class="faq-question" role="button" tabindex="0" aria-expanded="false" aria-controls="faq-answer-6">
-                        <h3>除了每週線上會議之外，有實體與夥伴見面的機會嗎？</h3>
-                        <span class="faq-toggle" aria-hidden="true">+</span>
-                    </div>
-                    <div class="faq-answer" id="faq-answer-6" role="region">
-                        <p><strong>A：</strong>是的，我們除了提供每週固定的線上會議外，也會根據會員需求與本地市場環境，安排以下幾種實體活動：</p>
-                        <ol style="margin-top: 1rem; padding-left: 1.5rem; color: var(--text-gray);">
-                            <li>定期實體聚會</li>
-                            <li>分會專屬活動</li>
-                            <li>自發線下交流</li>
-                            <li>總會實體培訓、商務工作坊</li>
-                        </ol>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 活動資訊與會議時間 -->
-    <section id="meeting-info" class="meeting-info-minimal">
-        <div class="container">
-            <h2 class="meeting-info-title">我們幫助企業家建立專業商務網絡，<span class="highlight-text">成果會說話</span></h2>
-            <div class="meeting-features-minimal">
-                <div class="feature-item-minimal">
-                    <div class="feature-line"></div>
-                    <div class="feature-text">每週線上跟超過五十位企業家一起遠端交流，互相分享商業機會，建立人脈網絡</div>
-                </div>
-                <div class="feature-item-minimal">
-                    <div class="feature-line"></div>
-                    <div class="feature-text">我們提升會員的業務成功率和引薦品質</div>
-                </div>
-                <div class="feature-item-minimal">
-                    <div class="feature-line"></div>
-                    <div class="feature-text">我們為會員提供強大的商務網絡優勢</div>
-                </div>
-                <div class="feature-item-minimal">
-                    <div class="feature-line"></div>
-                    <div class="feature-text">我們的會員擁有持續成長和建立長期合作關係的優良記錄</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 聯絡資訊 -->
-    <section id="contact" class="contact">
-        <div class="container">
-            <h2 class="section-title">聯絡我們</h2>
-            <div class="contact-content">
-                <div class="contact-grid">
-                    <div class="contact-card">
-                        <div class="contact-photo-container">
-                            <img src="images/members/王年煜.jpg" alt="王年煜" class="contact-photo" loading="lazy" width="200" height="200" onerror="this.style.display='none';">
-                        </div>
-                        <h3>現任主席</h3>
-                        <div class="contact-info">
-                            <p class="contact-name"><strong>王年煜</strong></p>
-                            <p class="contact-industry">AI程式交易</p>
-                            <div class="contact-details">
-                            <p><strong>職位：</strong>主席</p>
-                                <p><strong>聯絡方式：</strong>待確認</p>
+                    <div class="join-cta-section">
+                        <div class="join-cta-card">
+                            <div class="join-cta-icon">
+                                <svg width="56" height="56" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M17 21V19C17 17.9391 16.5786 16.9217 15.8284 16.1716C15.0783 15.4214 14.0609 15 13 15H5C3.93913 15 2.92172 15.4214 2.17157 16.1716C1.42143 16.9217 1 17.9391 1 19V21"
+                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path
+                                        d="M9 11C11.2091 11 13 9.20914 13 7C13 4.79086 11.2091 3 9 3C6.79086 3 5 4.79086 5 7C5 9.20914 6.79086 11 9 11Z"
+                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path
+                                        d="M23 21V19C22.9993 18.1137 22.7044 17.2528 22.1614 16.5523C21.6184 15.8519 20.8581 15.3516 20 15.13"
+                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path
+                                        d="M16 3.13C16.8604 3.35031 17.623 3.85071 18.1676 4.55232C18.7122 5.25392 19.0078 6.11683 19.0078 7.005C19.0078 7.89318 18.7122 8.75608 18.1676 9.45769C17.623 10.1593 16.8604 10.6597 16 10.88"
+                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg>
                             </div>
-                        </div>
-                    </div>
-                    <div class="contact-card">
-                        <div class="contact-photo-container">
-                            <img src="images/members/王祈.jpg" alt="王祈" class="contact-photo" loading="lazy" width="200" height="200" onerror="this.style.display='none';">
-                        </div>
-                        <h3>現任副主席</h3>
-                        <div class="contact-info">
-                            <p class="contact-name"><strong>王祈</strong></p>
-                            <p class="contact-industry">升學輔導顧問</p>
-                            <div class="contact-details">
-                            <p><strong>職位：</strong>副主席</p>
-                                <p><strong>聯絡方式：</strong>待確認</p>
+                            <h3>邀請來賓參與</h3>
+                            <p class="guest-invite-text">我們誠摯邀請對商務引薦平台有興趣的企業家、業務與經理人，前來體驗我們的聚會活動。</p>
+                            <div class="join-cta">
+                                <a href="#contact" class="btn-primary">聯繫我們成為來賓</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+
+        <!-- 常見問題 FAQ -->
+        <section id="faq" class="faq">
+            <div class="container">
+                <h2 class="section-title">常見問題</h2>
+                <div class="faq-content">
+                    <div class="faq-item unified-card-simple">
+                        <div class="faq-question" role="button" tabindex="0" aria-expanded="false"
+                            aria-controls="faq-answer-1">
+                            <h3>加入BNI需要什麼條件？</h3>
+                            <span class="faq-toggle" aria-hidden="true">+</span>
+                        </div>
+                        <div class="faq-answer" id="faq-answer-1" role="region">
+                            <p>您需要有一個穩健的商業模式，願意對引薦的生意負責，並承諾每週參與例會。我們歡迎各行各業的專業人士加入。</p>
+                        </div>
+                    </div>
+                    <div class="faq-item unified-card-simple">
+                        <div class="faq-question" role="button" tabindex="0" aria-expanded="false"
+                            aria-controls="faq-answer-2">
+                            <h3>線上會議與實體會議有什麼不同？</h3>
+                            <span class="faq-toggle" aria-hidden="true">+</span>
+                        </div>
+                        <div class="faq-answer" id="faq-answer-2" role="region">
+                            <p>線上會議提供與實體會議相同的功能，包括專業分工、分組交流、主講行銷影片和引薦見證環節。您可以在家或辦公室參與，節省通勤時間。</p>
+                        </div>
+                    </div>
+                    <div class="faq-item unified-card-simple">
+                        <div class="faq-question" role="button" tabindex="0" aria-expanded="false"
+                            aria-controls="faq-answer-3">
+                            <h3>加入需要費用嗎？</h3>
+                            <span class="faq-toggle" aria-hidden="true">+</span>
+                        </div>
+                        <div class="faq-answer" id="faq-answer-3" role="region">
+                            <p>來賓參訪是完全免費的。正式加入會員後，需要繳交會費，詳細費用請聯繫我們了解。</p>
+                        </div>
+                    </div>
+                    <div class="faq-item unified-card-simple">
+                        <div class="faq-question" role="button" tabindex="0" aria-expanded="false"
+                            aria-controls="faq-answer-4">
+                            <h3>如果我的行業已經有會員了怎麼辦？</h3>
+                            <span class="faq-toggle" aria-hidden="true">+</span>
+                        </div>
+                        <div class="faq-answer" id="faq-answer-4" role="region">
+                            <p>BNI採用「一個行業一個會員」的原則。如果您的行業已有會員，我們可以協助您了解其他分會的機會，或將您列入候補名單。</p>
+                        </div>
+                    </div>
+                    <div class="faq-item unified-card-simple">
+                        <div class="faq-question" role="button" tabindex="0" aria-expanded="false"
+                            aria-controls="faq-answer-5">
+                            <h3>每週都需要參加會議嗎？</h3>
+                            <span class="faq-toggle" aria-hidden="true">+</span>
+                        </div>
+                        <div class="faq-answer" id="faq-answer-5" role="region">
+                            <p>是的，每週參與例會是BNI會員的基本責任。這確保了持續的引薦機會和與其他會員的關係建立。線上會議讓參與更加便利。</p>
+                        </div>
+                    </div>
+                    <div class="faq-item unified-card-simple">
+                        <div class="faq-question" role="button" tabindex="0" aria-expanded="false"
+                            aria-controls="faq-answer-6">
+                            <h3>除了每週線上會議之外，有實體與夥伴見面的機會嗎？</h3>
+                            <span class="faq-toggle" aria-hidden="true">+</span>
+                        </div>
+                        <div class="faq-answer" id="faq-answer-6" role="region">
+                            <p><strong>A：</strong>是的，我們除了提供每週固定的線上會議外，也會根據會員需求與本地市場環境，安排以下幾種實體活動：</p>
+                            <ol style="margin-top: 1rem; padding-left: 1.5rem; color: var(--text-gray);">
+                                <li>定期實體聚會</li>
+                                <li>分會專屬活動</li>
+                                <li>自發線下交流</li>
+                                <li>總會實體培訓、商務工作坊</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 聯絡資訊 -->
+        <section id="contact" class="contact">
+            <div class="container">
+                <h2 class="section-title">聯絡我們</h2>
+                <div class="contact-content">
+                    <div class="contact-grid">
+                        <div class="contact-card">
+                            <div class="contact-photo-container">
+                                <img src="images/members/王年煜.jpg" alt="王年煜" class="contact-photo" loading="lazy"
+                                    width="200" height="200" onerror="this.style.display='none';">
+                            </div>
+                            <h3>現任主席</h3>
+                            <div class="contact-info">
+                                <p class="contact-name"><strong>王年煜</strong></p>
+                                <p class="contact-industry">AI程式交易</p>
+                                <div class="contact-details">
+                                    <p><strong>職位：</strong>主席</p>
+                                    <p><strong>聯絡方式：</strong>待確認</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="contact-card">
+                            <div class="contact-photo-container">
+                                <img src="images/members/王祈.jpg" alt="王祈" class="contact-photo" loading="lazy"
+                                    width="200" height="200" onerror="this.style.display='none';">
+                            </div>
+                            <h3>現任副主席</h3>
+                            <div class="contact-info">
+                                <p class="contact-name"><strong>王祈</strong></p>
+                                <p class="contact-industry">升學輔導顧問</p>
+                                <div class="contact-details">
+                                    <p><strong>職位：</strong>副主席</p>
+                                    <p><strong>聯絡方式：</strong>待確認</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
     </main>
 
@@ -637,142 +734,166 @@
     <!-- Optimized: Load non-critical scripts after page load using requestIdleCallback -->
     <!-- 智能載入動畫：如果載入很快就不顯示動畫 -->
     <script>
-    (function() {
-        'use strict';
-        let loaderHidden = false;
-        const loadStartTime = performance.now();
-        const FAST_LOAD_THRESHOLD = 500; // 500ms 內載入完成視為快速載入
-        
-        function hidePageLoader(immediate) {
-            if (loaderHidden) return;
-            const loader = document.getElementById('pageLoader');
-            if (!loader) {
+        (function () {
+            'use strict';
+            let loaderHidden = false;
+            const loadStartTime = performance.now();
+            const FAST_LOAD_THRESHOLD = 500; // 500ms 內載入完成視為快速載入
+
+            function hidePageLoader(immediate) {
+                if (loaderHidden) return;
+                const loader = document.getElementById('pageLoader');
+                if (!loader) {
+                    loaderHidden = true;
+                    return;
+                }
+
                 loaderHidden = true;
-                return;
-            }
-            
-            loaderHidden = true;
-            const loadTime = performance.now() - loadStartTime;
-            
-            // 如果載入很快或要求立即隱藏，直接隱藏（不顯示動畫）
-            if (immediate === true || loadTime < FAST_LOAD_THRESHOLD) {
-                loader.style.display = 'none';
-                loader.style.opacity = '0';
-                loader.style.visibility = 'hidden';
-                return;
-            }
-            
-            // 否則顯示淡出動畫
-            loader.classList.add('hidden');
-            loader.style.opacity = '0';
-            setTimeout(() => {
-                if (loader) {
+                const loadTime = performance.now() - loadStartTime;
+
+                // 如果載入很快或要求立即隱藏，直接隱藏（不顯示動畫）
+                if (immediate === true || loadTime < FAST_LOAD_THRESHOLD) {
                     loader.style.display = 'none';
+                    loader.style.opacity = '0';
+                    loader.style.visibility = 'hidden';
+                    return;
+                }
+
+                // 否則顯示淡出動畫
+                loader.classList.add('hidden');
+                loader.style.opacity = '0';
+                setTimeout(() => {
+                    if (loader) {
+                        loader.style.display = 'none';
+                        loader.style.visibility = 'hidden';
+                    }
+                }, 500);
+            }
+
+            // 方法1: DOMContentLoaded 後檢查載入時間
+            function handleDOMReady() {
+                const loadTime = performance.now() - loadStartTime;
+                if (loadTime < FAST_LOAD_THRESHOLD) {
+                    hidePageLoader(true);
+                } else {
+                    setTimeout(() => hidePageLoader(false), 1500);
+                }
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', handleDOMReady);
+            } else {
+                handleDOMReady();
+            }
+
+            // 方法2: window.load 事件（最可靠）
+            window.addEventListener('load', function () {
+                const loadTime = performance.now() - loadStartTime;
+                if (loadTime < FAST_LOAD_THRESHOLD) {
+                    hidePageLoader(true);
+                } else {
+                    setTimeout(() => hidePageLoader(false), 1000);
+                }
+            });
+
+            // 方法3: 安全機制 - 最多 2 秒後強制隱藏（確保一定會隱藏）
+            setTimeout(function () {
+                const loader = document.getElementById('pageLoader');
+                if (loader && !loaderHidden) {
+                    loaderHidden = true;
+                    loader.style.display = 'none';
+                    loader.style.opacity = '0';
                     loader.style.visibility = 'hidden';
                 }
-            }, 500);
-        }
-        
-        // 方法1: DOMContentLoaded 後檢查載入時間
-        function handleDOMReady() {
-            const loadTime = performance.now() - loadStartTime;
-            if (loadTime < FAST_LOAD_THRESHOLD) {
-                hidePageLoader(true);
-            } else {
-                setTimeout(() => hidePageLoader(false), 1500);
-            }
-        }
-        
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', handleDOMReady);
-        } else {
-            handleDOMReady();
-        }
-        
-        // 方法2: window.load 事件（最可靠）
-        window.addEventListener('load', function() {
-            const loadTime = performance.now() - loadStartTime;
-            if (loadTime < FAST_LOAD_THRESHOLD) {
-                hidePageLoader(true);
-            } else {
-                setTimeout(() => hidePageLoader(false), 1000);
-            }
-        });
-        
-        // 方法3: 安全機制 - 最多 2 秒後強制隱藏（確保一定會隱藏）
-        setTimeout(function() {
-            const loader = document.getElementById('pageLoader');
-            if (loader && !loaderHidden) {
-                loaderHidden = true;
-                loader.style.display = 'none';
-                loader.style.opacity = '0';
-                loader.style.visibility = 'hidden';
-            }
-        }, 2000);
-        
-        // 方法4: 圖片載入完成後隱藏
-        const logo = document.querySelector('.loader-logo');
-        if (logo) {
-            if (logo.complete && logo.naturalHeight !== 0) {
-                // 圖片已經載入完成
-                const loadTime = performance.now() - loadStartTime;
-                setTimeout(function() {
-                    if (loadTime < FAST_LOAD_THRESHOLD) {
-                        hidePageLoader(true);
-                    } else {
-                        hidePageLoader(false);
-                    }
-                }, 800);
-            } else {
-                logo.addEventListener('load', function() {
+            }, 2000);
+
+            // 方法4: 圖片載入完成後隱藏
+            const logo = document.querySelector('.loader-logo');
+            if (logo) {
+                if (logo.complete && logo.naturalHeight !== 0) {
+                    // 圖片已經載入完成
                     const loadTime = performance.now() - loadStartTime;
-                    setTimeout(function() {
+                    setTimeout(function () {
                         if (loadTime < FAST_LOAD_THRESHOLD) {
                             hidePageLoader(true);
                         } else {
                             hidePageLoader(false);
                         }
                     }, 800);
-                }, { once: true });
-                logo.addEventListener('error', function() {
-                    hidePageLoader(true);
-                }, { once: true });
+                } else {
+                    logo.addEventListener('load', function () {
+                        const loadTime = performance.now() - loadStartTime;
+                        setTimeout(function () {
+                            if (loadTime < FAST_LOAD_THRESHOLD) {
+                                hidePageLoader(true);
+                            } else {
+                                hidePageLoader(false);
+                            }
+                        }, 800);
+                    }, { once: true });
+                    logo.addEventListener('error', function () {
+                        hidePageLoader(true);
+                    }, { once: true });
+                }
             }
-        }
-    })();
+        })();
     </script>
-    
+
     <script>
-    // Defer non-critical scripts to reduce initial JavaScript execution time
-    function loadScript(src) {
-        return new Promise((resolve, reject) => {
-            const script = document.createElement('script');
-            script.src = src + '?v=20250202-PERF-FINAL';
-            script.defer = true;
-            script.onload = resolve;
-            script.onerror = reject;
-            document.body.appendChild(script);
-        });
-    }
-    
-    // 優先載入 components.js（header 和 footer 需要）
-    function loadComponentsFirst() {
-        return loadScript('js/components.js').then(() => {
-            // components.js 載入後，確保 initComponents 執行
-            if (typeof initComponents === 'function') {
-                initComponents();
-            }
-        });
-    }
-    
-    // Load components.js first, then other scripts
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', () => {
+        // Defer non-critical scripts to reduce initial JavaScript execution time
+        function loadScript(src) {
+            return new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+                script.src = src + '?v=20250202-PERF-FINAL';
+                script.defer = true;
+                script.onload = resolve;
+                script.onerror = reject;
+                document.body.appendChild(script);
+            });
+        }
+
+        // 優先載入 components.js（header 和 footer 需要）
+        function loadComponentsFirst() {
+            return loadScript('js/components.js').then(() => {
+                // components.js 載入後，確保 initComponents 執行
+                if (typeof initComponents === 'function') {
+                    initComponents();
+                }
+            });
+        }
+
+        // Load components.js first, then other scripts
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                loadComponentsFirst().then(() => {
+                    // 載入其他非關鍵腳本
+                    if ('requestIdleCallback' in window) {
+                        requestIdleCallback(() => {
+                            Promise.all([
+                                loadScript('js/category-mapping.js'),
+                                loadScript('js/main.js'),
+                                loadScript('js/scroll-progress.js')
+                            ]).catch(err => console.warn('Non-critical script load failed:', err));
+                        }, { timeout: 2000 });
+                    } else {
+                        setTimeout(() => {
+                            Promise.all([
+                                loadScript('js/category-mapping.js'),
+                                loadScript('js/main.js'),
+                                loadScript('js/scroll-progress.js')
+                            ]).catch(err => console.warn('Non-critical script load failed:', err));
+                        }, 100);
+                    }
+                });
+            });
+        } else {
+            // DOM 已經準備好，立即載入 components.js
             loadComponentsFirst().then(() => {
                 // 載入其他非關鍵腳本
                 if ('requestIdleCallback' in window) {
                     requestIdleCallback(() => {
                         Promise.all([
+                            loadScript('js/debug-stars.js'),
                             loadScript('js/category-mapping.js'),
                             loadScript('js/main.js'),
                             loadScript('js/scroll-progress.js')
@@ -781,6 +902,7 @@
                 } else {
                     setTimeout(() => {
                         Promise.all([
+                            loadScript('js/debug-stars.js'),
                             loadScript('js/category-mapping.js'),
                             loadScript('js/main.js'),
                             loadScript('js/scroll-progress.js')
@@ -788,34 +910,9 @@
                     }, 100);
                 }
             });
-        });
-    } else {
-        // DOM 已經準備好，立即載入 components.js
-        loadComponentsFirst().then(() => {
-            // 載入其他非關鍵腳本
-            if ('requestIdleCallback' in window) {
-                requestIdleCallback(() => {
-                    Promise.all([
-                        loadScript('js/debug-stars.js'),
-                        loadScript('js/category-mapping.js'),
-                        loadScript('js/main.js'),
-                        loadScript('js/scroll-progress.js')
-                    ]).catch(err => console.warn('Non-critical script load failed:', err));
-                }, { timeout: 2000 });
-            } else {
-                setTimeout(() => {
-                    Promise.all([
-                        loadScript('js/debug-stars.js'),
-                        loadScript('js/category-mapping.js'),
-                        loadScript('js/main.js'),
-                        loadScript('js/scroll-progress.js')
-                    ]).catch(err => console.warn('Non-critical script load failed:', err));
-                }, 100);
-            }
-        });
-    }
+        }
     </script>
-    
-</body>
-</html>
 
+</body>
+
+</html>
