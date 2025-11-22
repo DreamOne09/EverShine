@@ -173,10 +173,15 @@ class StarrySkyManager {
         this.createNebulas();
         this.draw();
 
+        // Debounced resize handler
+        let resizeTimeout;
         window.addEventListener('resize', () => {
-            this.resize();
-            this.createStars();
-            this.createNebulas();
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                this.resize();
+                this.createStars();
+                this.createNebulas();
+            }, 200);
         });
     }
 
@@ -326,8 +331,8 @@ class StarrySkyManager {
             });
         }, 100);
 
-        // 創建流星
-        this.createShootingStars();
+        // 創建流星 (已停用)
+        // this.createShootingStars();
 
         // 監聽滾動和視窗大小變化
         let resizeTimeout;
@@ -451,12 +456,12 @@ class StarrySkyManager {
         for (let i = 0; i < actualCount; i++) {
             const x = Math.floor(Math.random() * maxX);
             const y = Math.floor(Math.random() * maxY);
-            // 正確格式：需要加上spread radius才能顯示，格式為 xpx ypx 0 spread color
-            shadows.push(`${x}px ${y}px 0 1px white`);
+            // 提升星星品質:增加spread radius和清晰度
+            shadows.push(`${x}px ${y}px 0 1.5px rgba(255, 255, 255, 0.95)`);
         }
 
         const result = shadows.join(', ');
-        console.log(`✅ 生成 ${actualCount} 顆靜態星星，box-shadow 長度: ${result.length} 字符`);
+        console.log(`✅ 生成 ${actualCount} 顆靜態星星, box-shadow 長度: ${result.length} 字符`);
         return result;
     }
 
@@ -467,12 +472,12 @@ class StarrySkyManager {
         for (let i = 0; i < actualCount; i++) {
             const x = Math.floor(Math.random() * maxX);
             const y = Math.floor(Math.random() * maxY);
-            // 正確格式：需要加上spread radius才能顯示，格式為 xpx ypx 0 spread color
-            shadows.push(`${x}px ${y}px 0 2px white`);
+            // 提升星星品質:增加spread radius和清晰度
+            shadows.push(`${x}px ${y}px 0 2.5px rgba(255, 255, 255, 0.95)`);
         }
 
         const result = shadows.join(', ');
-        console.log(`✅ 生成 ${actualCount} 顆移動星星，box-shadow 長度: ${result.length} 字符`);
+        console.log(`✅ 生成 ${actualCount} 顆移動星星, box-shadow 長度: ${result.length} 字符`);
         return result;
     }
 

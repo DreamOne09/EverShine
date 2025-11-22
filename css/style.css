@@ -1749,7 +1749,7 @@ h4,
     display: none;
 }
 
-/* 關於長輝白金分會 - 新設計：卡片式佈局 */
+/* 關於長輝白金分會 - 新設計：卡片式佈局 (Unused)
 .about-section-wrapper {
     display: flex;
     flex-direction: column;
@@ -1757,7 +1757,7 @@ h4,
     gap: 4rem;
     margin: 4rem 0;
     position: relative;
-}
+} */
 
 /* 標題區域 */
 .about-header {
@@ -1810,7 +1810,7 @@ h4,
 }
 
 /* 單個卡片 */
-.about-card-item {
+/* .about-card-item {
     background: rgba(0, 27, 54, 0.6);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
@@ -1823,7 +1823,7 @@ h4,
     box-shadow:
         0 8px 32px rgba(0, 0, 0, 0.3),
         0 0 0 1px rgba(76, 168, 223, 0.2) inset;
-}
+} */
 
 .about-card-item::before {
     content: '';
@@ -6197,13 +6197,13 @@ h4,
 }
 
 /* ============================================
-   會議資訊 - 簡潔白色風格
-   ============================================ */
+   會議資訊 - 簡潔白色風格 (Unused)
+   ============================================
 .meeting-info-minimal {
     padding: 6rem 0;
     background: #ffffff;
     color: #000000;
-}
+} */
 
 .meeting-info-title {
     font-size: 2.5rem;
@@ -8024,6 +8024,7 @@ h4,
         font-size: 1rem;
     }
 }
+
 /* ============================================
    New Styles for Refined Design (2025-02-02)
    ============================================ */
@@ -8066,7 +8067,8 @@ h4,
 
 /* Meeting Info - Blue Theme */
 .meeting-info-blue-theme {
-    background: linear-gradient(135deg, #003366 0%, #005599 100%); /* Deep Blue Gradient */
+    background: linear-gradient(135deg, #003366 0%, #005599 100%);
+    /* Deep Blue Gradient */
     padding: 4rem 0;
     color: #ffffff;
     position: relative;
@@ -8093,7 +8095,8 @@ h4,
 }
 
 .highlight-text-white {
-    color: #ffd700; /* Gold highlight for contrast */
+    color: #ffd700;
+    /* Gold highlight for contrast */
     position: relative;
     display: inline-block;
 }
@@ -8264,6 +8267,7 @@ h4,
     .about-modern-content {
         grid-template-columns: 1fr;
     }
+
     .about-modern-item.wide {
         grid-column: auto;
     }
@@ -8446,5 +8450,259 @@ h4,
 .requirements-list li {
     margin-bottom: 0.75rem;
     font-size: 1.1rem;
+}/* ============================================
+   什麼是BNI連結區塊
+   ============================================ */
+.what-is-bni-link-section {
+    padding: 4rem 0;
+    background: transparent;
 }
 
+.bni-link-card {
+    background: var(--glass-bg-medium);
+    backdrop-filter: var(--glass-blur-strong);
+    -webkit-backdrop-filter: var(--glass-blur-strong);
+    border: 2px solid var(--glass-border-strong);
+    border-radius: 24px;
+    padding: 3rem;
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), var(--glass-glow);
+    transition: var(--transition-slow);
+}
+
+.bni-link-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--color-primary);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8), 0 0 30px rgba(76, 168, 223, 0.2);
+}
+
+.bni-link-icon {
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
+}
+
+.bni-link-title {
+    font-size: 2.5rem;
+    color: var(--color-primary);
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+.bni-link-description {
+    font-size: 1.1rem;
+    color: var(--text-gray);
+    margin-bottom: 2rem;
+    line-height: 1.8;
+}
+
+/* ============================================
+   成果會說話 - 整合區塊
+   ============================================ */
+.results-unified-section {
+    padding: 6rem 0;
+    background: transparent;
+}
+
+.results-unified-card {
+    background: var(--glass-bg-dark);
+    backdrop-filter: var(--glass-blur-strong);
+    -webkit-backdrop-filter: var(--glass-blur-strong);
+    border: 2px solid var(--glass-border-strong);
+    border-radius: 24px;
+    padding: 4rem 3rem;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), var(--glass-glow);
+    position: relative;
+}
+
+.results-unified-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--color-primary), transparent);
+    opacity: 0.8;
+}
+
+.results-unified-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.results-unified-intro {
+    font-size: 1.2rem;
+    color: var(--text-gray);
+    margin-top: 1rem;
+}
+
+/* 數據卡片 */
+.results-unified-data {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.data-card-unified {
+    background: rgba(76, 168, 223, 0.05);
+    border: 1px solid rgba(76, 168, 223, 0.2);
+    border-radius: 16px;
+    padding: 2rem;
+    text-align: center;
+    transition: var(--transition);
+}
+
+.data-card-unified:hover {
+    transform: translateY(-5px);
+    border-color: var(--color-primary);
+    background: rgba(76, 168, 223, 0.1);
+}
+
+.data-icon-unified {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.data-value-unified {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+}
+
+.data-unit-small {
+    font-size: 1.5rem;
+    font-weight: 400;
+    margin-left: 0.25rem;
+}
+
+.data-label-unified {
+    font-size: 1rem;
+    color: var(--text-gray);
+}
+
+.results-unified-note {
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--text-gray-dark);
+    margin-bottom: 3rem;
+}
+
+/* 系統化流程 */
+.results-unified-process {
+    margin: 3rem 0;
+    padding: 2rem 0;
+    border-top: 1px solid rgba(76, 168, 223, 0.2);
+}
+
+.process-title {
+    font-size: 1.5rem;
+    color: var(--color-primary);
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.process-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+.process-item {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+}
+
+.process-icon {
+    font-size: 2rem;
+    flex-shrink: 0;
+}
+
+.process-content h4 {
+    font-size: 1.1rem;
+    color: var(--text-white);
+    margin-bottom: 0.5rem;
+}
+
+.process-content p {
+    font-size: 0.95rem;
+    color: var(--text-gray);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* 會員優勢 */
+.results-unified-benefits {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-top: 3rem;
+    padding-top: 3rem;
+    border-top: 1px solid rgba(76, 168, 223, 0.2);
+}
+
+.benefit-item-unified {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    padding: 1rem;
+    background: rgba(76, 168, 223, 0.03);
+    border-radius: 12px;
+    transition: var(--transition);
+}
+
+.benefit-item-unified:hover {
+    background: rgba(76, 168, 223, 0.08);
+    transform: translateX(5px);
+}
+
+.benefit-icon-unified {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.benefit-item-unified p {
+    font-size: 1rem;
+    color: var(--text-gray);
+    margin: 0;
+    line-height: 1.6;
+}
+
+/* 響應式設計 */
+@media (max-width: 968px) {
+    .results-unified-data {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .process-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .results-unified-benefits {
+        grid-template-columns: 1fr;
+    }
+
+    .results-unified-card {
+        padding: 3rem 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .bni-link-card {
+        padding: 2rem 1.5rem;
+    }
+
+    .bni-link-title {
+        font-size: 2rem;
+    }
+
+    .data-value-unified {
+        font-size: 2rem;
+    }
+}
