@@ -153,7 +153,7 @@ body {
     text-rendering: optimizeLegibility;
 }
 
-/* 確保body背景不會遮擋星星 */
+/* Clean dark background - no overlay */
 body::before {
     content: '';
     position: fixed;
@@ -161,7 +161,7 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background: radial-gradient(ellipse at center, rgba(76, 168, 223, 0.05) 0%, transparent 70%);
+    background: transparent;
     z-index: -10;
     pointer-events: none;
 }
@@ -426,8 +426,8 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: #050505;
-    /* 深邃宇宙黑 */
+    background: #0a0d1a;
+    /* Clean deep blue-black */
     z-index: -100;
     /* 最底層 */
     pointer-events: none;
@@ -714,96 +714,11 @@ body::after {
     inset: 0;
     min-height: 100vh;
     z-index: -10 !important;
-    background:
-        /* 長條形星雲帶 - 橫向銀河效果 */
-        linear-gradient(90deg,
-            transparent 0%,
-            rgba(76, 168, 223, 0.08) 5%,
-            rgba(110, 84, 255, 0.1) 10%,
-            rgba(35, 150, 255, 0.09) 15%,
-            rgba(120, 87, 255, 0.08) 20%,
-            rgba(76, 168, 223, 0.07) 25%,
-            rgba(110, 84, 255, 0.08) 30%,
-            rgba(35, 150, 255, 0.09) 35%,
-            rgba(120, 87, 255, 0.1) 40%,
-            rgba(76, 168, 223, 0.08) 45%,
-            transparent 50%,
-            rgba(76, 168, 223, 0.08) 55%,
-            rgba(110, 84, 255, 0.1) 60%,
-            rgba(35, 150, 255, 0.09) 65%,
-            rgba(120, 87, 255, 0.08) 70%,
-            rgba(76, 168, 223, 0.07) 75%,
-            rgba(110, 84, 255, 0.08) 80%,
-            rgba(35, 150, 255, 0.09) 85%,
-            rgba(120, 87, 255, 0.1) 90%,
-            rgba(76, 168, 223, 0.08) 95%,
-            transparent 100%),
-        /* 增強星雲效果 - 更明顯但保持深空感 */
-        radial-gradient(ellipse 1800px 1200px at 20% 30%, rgba(76, 168, 223, 0.05) 0%, rgba(76, 168, 223, 0.02) 30%, transparent 70%),
-        radial-gradient(ellipse 1500px 1100px at 75% 25%, rgba(110, 84, 255, 0.04) 0%, rgba(110, 84, 255, 0.02) 30%, transparent 65%),
-        radial-gradient(ellipse 2000px 1400px at 50% 70%, rgba(35, 150, 255, 0.03) 0%, rgba(35, 150, 255, 0.01) 35%, transparent 75%),
-        radial-gradient(ellipse 1200px 1000px at 10% 60%, rgba(76, 168, 223, 0.04) 0%, rgba(76, 168, 223, 0.02) 25%, transparent 60%),
-        radial-gradient(ellipse 1600px 1150px at 85% 75%, rgba(120, 87, 255, 0.04) 0%, rgba(120, 87, 255, 0.02) 30%, transparent 65%),
-        /* 新增星雲細節 */
-        radial-gradient(ellipse 800px 600px at 40% 20%, rgba(255, 120, 196, 0.03) 0%, transparent 50%),
-        radial-gradient(ellipse 900px 700px at 60% 80%, rgba(135, 206, 250, 0.03) 0%, transparent 55%);
-    mix-blend-mode: screen;
-    opacity: 0.25;
-    z-index: -9 !important;
+    background: transparent;
     pointer-events: none;
-    /* 移除動畫，保持靜態星雲效果 */
-    background-size: 200% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%;
 }
 
-/* 星系背景層 - 螺旋星系效果 */
-.galaxy-background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    min-height: 100vh;
-    z-index: -9 !important;
-    pointer-events: none;
-    opacity: 0.25;
-    background:
-        /* 星系螺旋結構 - 使用 conic-gradient 創建，保持微妙 */
-        conic-gradient(from 0deg at 30% 40%,
-            transparent 0deg,
-            rgba(110, 84, 255, 0.12) 30deg,
-            transparent 60deg,
-            rgba(76, 168, 223, 0.1) 90deg,
-            transparent 120deg,
-            rgba(35, 150, 255, 0.08) 150deg,
-            transparent 180deg,
-            rgba(120, 87, 255, 0.1) 210deg,
-            transparent 240deg,
-            rgba(135, 206, 250, 0.08) 270deg,
-            transparent 300deg,
-            rgba(110, 84, 255, 0.12) 330deg,
-            transparent 360deg),
-        /* 第二個螺旋星系 */
-        conic-gradient(from 180deg at 70% 60%,
-            transparent 0deg,
-            rgba(76, 168, 223, 0.08) 45deg,
-            transparent 90deg,
-            rgba(255, 120, 196, 0.06) 135deg,
-            transparent 180deg,
-            rgba(35, 150, 255, 0.08) 225deg,
-            transparent 270deg,
-            rgba(110, 84, 255, 0.1) 315deg,
-            transparent 360deg),
-        /* 星系核心光暈 - 更柔和 */
-        radial-gradient(ellipse 600px 400px at 30% 40%, rgba(76, 168, 223, 0.15) 0%, rgba(110, 84, 255, 0.12) 20%, transparent 50%),
-        radial-gradient(ellipse 500px 350px at 70% 60%, rgba(35, 150, 255, 0.14) 0%, rgba(120, 87, 255, 0.1) 25%, transparent 55%),
-        /* 深空背景 */
-        radial-gradient(ellipse 3000px 2000px at 50% 50%, rgba(0, 0, 0, 0.2) 0%, transparent 70%);
-    background-size: 200% 200%, 180% 180%, 100% 100%, 100% 100%, 100% 100%;
-    background-position: center center;
-    mix-blend-mode: screen;
-    /* 移除動畫，保持靜態星系效果 */
-}
-
+/* 星系背景層已移除 - 保持乾淨的深色背景 */
 /* 星雲飄移動畫 - 已停用 */
 /* 星系旋轉動畫 - 已停用 */
 

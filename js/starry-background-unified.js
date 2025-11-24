@@ -258,15 +258,15 @@ class StarrySkyManager {
             this.ctx.fill();
         });
 
-        // 繪製星星（帶光暈效果）
+        // 繪製星星（清晰銳利，minimal glow）
         this.stars.forEach(s => {
             s.twinklePhase += s.twinkleSpeed;
             const opacity = s.opacity * (Math.sin(s.twinklePhase) * 0.3 + 0.7);
 
-            const glowSize = s.size * 3;
+            // Minimal subtle glow for depth
+            const glowSize = s.size * 1.5;
             const glowGradient = this.ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, glowSize);
-            glowGradient.addColorStop(0, `${s.color}, ${opacity * 0.8})`);
-            glowGradient.addColorStop(0.5, `${s.color}, ${opacity * 0.4})`);
+            glowGradient.addColorStop(0, `${s.color}, ${opacity})`);
             glowGradient.addColorStop(1, `${s.color}, 0)`);
 
             this.ctx.fillStyle = glowGradient;
@@ -274,6 +274,7 @@ class StarrySkyManager {
             this.ctx.arc(s.x, s.y, glowSize, 0, Math.PI * 2);
             this.ctx.fill();
 
+            // Sharp star core
             this.ctx.beginPath();
             this.ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
             this.ctx.fillStyle = `${s.color}, ${opacity})`;
@@ -456,8 +457,8 @@ class StarrySkyManager {
         for (let i = 0; i < actualCount; i++) {
             const x = Math.floor(Math.random() * maxX);
             const y = Math.floor(Math.random() * maxY);
-            // 提升星星品質:增加spread radius和清晰度
-            shadows.push(`${x}px ${y}px 0 1.5px rgba(255, 255, 255, 0.95)`);
+            // Sharp, clean stars - no blur radius, just spread for crisp points
+            shadows.push(`${x}px ${y}px 0px 0px rgba(255, 255, 255, 1)`);
         }
 
         const result = shadows.join(', ');
@@ -472,8 +473,8 @@ class StarrySkyManager {
         for (let i = 0; i < actualCount; i++) {
             const x = Math.floor(Math.random() * maxX);
             const y = Math.floor(Math.random() * maxY);
-            // 提升星星品質:增加spread radius和清晰度
-            shadows.push(`${x}px ${y}px 0 2.5px rgba(255, 255, 255, 0.95)`);
+            // Sharp, clean stars - no blur radius for crisp appearance
+            shadows.push(`${x}px ${y}px 0px 0px rgba(255, 255, 255, 1)`);
         }
 
         const result = shadows.join(', ');
