@@ -5889,8 +5889,8 @@ h4,
     max-height: 100% !important;
     /* 確保圖片不會溢出 */
     object-fit: cover !important;
-    object-position: center center !important;
-    /* 照片置中 */
+    object-position: center 20% !important;
+    /* 照片往上抓20%，避免臉被截掉 */
     transition: transform var(--transition-slow) !important;
     display: block !important;
     border-radius: 10px 0 0 10px !important;
@@ -8450,7 +8450,9 @@ h4,
 .requirements-list li {
     margin-bottom: 0.75rem;
     font-size: 1.1rem;
-}/* ============================================
+}
+
+/* ============================================
    什麼是BNI連結區塊
    ============================================ */
 .what-is-bni-link-section {
