@@ -29,7 +29,7 @@ class StarrySkyConfig {
         this.canvas = {
             starDensity: 2500, // 減少星星數量 (Higher value = fewer stars)
             maxStars: 400, // 限制最大數量
-            nebulaCount: 3 // 減少星雲數量
+            nebulaCount: 0 // 移除星雲光暈
         };
 
         this.css = {
