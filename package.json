@@ -1,0 +1,27 @@
+{
+    "name": "evershine-api",
+    "version": "1.0.0",
+    "description": "BNI長輝白金分會會員資料API",
+    "main": "api/server.js",
+    "scripts": {
+        "start": "node api/server.js",
+        "dev": "nodemon api/server.js"
+    },
+    "keywords": [
+        "bni",
+        "members",
+        "api"
+    ],
+    "author": "BNI EverShine",
+    "license": "MIT",
+    "dependencies": {
+        "express": "^4.18.2",
+        "cors": "^2.8.5"
+    },
+    "devDependencies": {
+        "nodemon": "^3.0.1"
+    },
+    "engines": {
+        "node": ">=18.0.0"
+    }
+}

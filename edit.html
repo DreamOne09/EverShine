@@ -381,56 +381,6 @@
         function updateCharCounter(id, max) {
             const textarea = document.getElementById(id);
             const counter = document.getElementById(id + '-counter');
-            const current = textarea.value.length;
-            counter.textContent = `${current} / ${max}`;
-            counter.style.color = current > max ? '#ff6b6b' : 'var(--text-gray)';
-        }
-
-        // 預覽資料
-        function previewData() {
-            const data = collectFormData();
-            console.log('預覽資料：', data);
-            alert('資料預覽請查看瀏覽器控制台（F12）');
-        }
-
-        // 儲存資料
-        function saveData() {
-            const data = collectFormData();
-
-            // 驗證
-            const errors = validateData(data);
-            if (errors.length > 0) {
-                showMessage('請修正以下錯誤：\n' + errors.join('\n'), 'error');
-                return;
-            }
-
-            // 生成 JSON 檔案供下載
-            const jsonData = {
-                ...currentMember,
-                ...data,
-                updatedAt: new Date().toISOString()
-            };
-
-            const blob = new Blob([JSON.stringify(jsonData, null, 2)], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `${currentMember.name}-profile.json`;
-            a.click();
-
-            showMessage('資料已儲存！請將下載的 JSON 檔案傳送給管理員更新', 'success');
-        }
-
-        // 收集表單資料
-        function collectFormData() {
-            const links = [];
-
-            const link1Type = document.getElementById('link1-type').value;
-            const link1Url = document.getElementById('link1-url').value;
-            if (link1Type && link1Url) {
-                links.push({ type: link1Type, url: link1Url, icon: link1Type });
-            }
-
             const link2Type = document.getElementById('link2-type').value;
             const link2Url = document.getElementById('link2-url').value;
             if (link2Type && link2Url) {
