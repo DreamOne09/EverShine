@@ -73,17 +73,370 @@
             <!-- 會員網格 -->
             <div class="members-grid" id="membersGrid">
                 <!-- 會員卡片將由 JavaScript 動態生成 -->
-            </div>
-        </div>
-    </section>
+                <!DOCTYPE html>
+                <html lang="zh-TW">
 
-    <!-- 共用組件（頁尾、固定橫幅）將由 components.js 自動載入 -->
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>會員介紹 - BNI 長輝白金分會</title>
+                    <meta name="description" content="BNI 長輝白金分會會員介紹，60位來自各行各業的專業會員，涵蓋企業顧問、數位行銷、資訊系統等領域。">
+                    <!-- Canonical URL -->
+                    <link rel="canonical" href="https://evershine.tw/members">
 
-    <script src="js/components.js?v=20250125" defer></script>
-    <script src="js/starry-background-unified.js?v=20250125" defer></script>
-    <script src="js/category-mapping.js?v=20250125" defer></script>
-    <script src="js/main.js?v=20250125" defer></script>
-    <script src="js/scroll-progress.js?v=20250125" defer></script>
-</body>
+                    <link rel="icon" type="image/png" href="images/assets/logo/白色正方形logo.png">
+                    <link rel="apple-touch-icon" href="images/assets/logo/白色正方形logo.png">
+                    <link rel="stylesheet" href="css/style.css?v=20251119-HOMEPAGE-REFACTOR">
+                    <link rel="preconnect" href="https://fonts.googleapis.com">
+                    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+                    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap"
+                        rel="stylesheet">
+                </head>
 
-</html>
+                <body>
+                    <!-- 全局背景層 -->
+                    <div class="global-background"></div>
+                    <!-- Canvas 星空背景 -->
+                    <canvas id="starrySkyCanvas" aria-hidden="true"></canvas>
+                    <!-- 共用組件將由 components.js 自動載入 -->
+
+                    <!-- Hero區塊 -->
+                    <section class="page-hero">
+                        <div class="hero-background"></div>
+                        <div class="hero-content">
+                            <h1 class="hero-title">會員介紹</h1>
+                            <p class="hero-subtitle">專業人才，多元產業</p>
+                            <p class="hero-description">我們擁有60位來自各行各業的專業會員，為您提供全方位的專業服務</p>
+                        </div>
+                        <div class="scroll-indicator">
+                            <div class="scroll-arrow"></div>
+                        </div>
+                    </section>
+
+                    <!-- 會員宣誓 -->
+                    <section class="member-pledge">
+                        <div class="container">
+                            <h2 class="section-title">會員宣誓</h2>
+                            <div class="pledge-content">
+                                <p class="pledge-intro">每一位會員都有經過宣誓，必須要：</p>
+                                <ul class="pledge-list">
+                                    <li>我將按照我的報價提供服務</li>
+                                    <li>我願意以誠信的態度，對待會員及他們所引薦的人士</li>
+                                    <li>我願意在會員及他們所引薦的人士之間，建立良好的商譽與信任</li>
+                                    <li>我願意對我所接收到的引薦承擔跟進之責任</li>
+                                    <li>我願意遵守我所屬行業之職業道德規範</li>
+                                    <li>我願意以積極的態度全力支持 BNI 會員</li>
+                                    <li>任何商務活動成功之關鍵就在於良好的培訓，因此我願意在加入的六周內參加新會員 MSP 培訓</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- 會員展示區 -->
+                    <section class="members">
+                        <div class="container">
+                            <h2 class="section-title">會員名單</h2>
+
+                            <!-- 篩選器 -->
+                            <div class="filter-section">
+                                <div class="filter-buttons" id="filterButtons">
+                                    <button class="filter-btn active" data-category="all">全部顯示</button>
+                                    <!-- 篩選按鈕將由 JavaScript 動態生成 -->
+                                </div>
+                            </div>
+
+                            <!-- 會員網格 -->
+                            <div class="members-grid" id="membersGrid">
+                                <!-- 會員卡片將由 JavaScript 動態生成 -->
+                            </div>
+                            <!DOCTYPE html>
+                            <html lang="zh-TW">
+
+                            <head>
+                                <meta charset="UTF-8">
+                                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                                <title>會員介紹 - BNI 長輝白金分會</title>
+                                <meta name="description" content="BNI 長輝白金分會會員介紹，60位來自各行各業的專業會員，涵蓋企業顧問、數位行銷、資訊系統等領域。">
+                                <!-- Canonical URL -->
+                                <link rel="canonical" href="https://evershine.tw/members">
+
+                                <link rel="icon" type="image/png" href="images/assets/logo/白色正方形logo.png">
+                                <link rel="apple-touch-icon" href="images/assets/logo/白色正方形logo.png">
+                                <link rel="stylesheet" href="css/style.css?v=20251119-HOMEPAGE-REFACTOR">
+                                <link rel="preconnect" href="https://fonts.googleapis.com">
+                                <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+                                <link
+                                    href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap"
+                                    rel="stylesheet">
+                            </head>
+
+                            <body>
+                                <!-- 全局背景層 -->
+                                <div class="global-background"></div>
+                                <!-- Canvas 星空背景 -->
+                                <canvas id="starrySkyCanvas" aria-hidden="true"></canvas>
+                                <!-- 共用組件將由 components.js 自動載入 -->
+
+                                <!-- Hero區塊 -->
+                                <section class="page-hero">
+                                    <div class="hero-background"></div>
+                                    <div class="hero-content">
+                                        <h1 class="hero-title">會員介紹</h1>
+                                        <p class="hero-subtitle">專業人才，多元產業</p>
+                                        <p class="hero-description">我們擁有60位來自各行各業的專業會員，為您提供全方位的專業服務</p>
+                                    </div>
+                                    <div class="scroll-indicator">
+                                        <div class="scroll-arrow"></div>
+                                    </div>
+                                </section>
+
+                                <!-- 會員宣誓 -->
+                                <section class="member-pledge">
+                                    <div class="container">
+                                        <h2 class="section-title">會員宣誓</h2>
+                                        <div class="pledge-content">
+                                            <p class="pledge-intro">每一位會員都有經過宣誓，必須要：</p>
+                                            <ul class="pledge-list">
+                                                <li>我將按照我的報價提供服務</li>
+                                                <li>我願意以誠信的態度，對待會員及他們所引薦的人士</li>
+                                                <li>我願意在會員及他們所引薦的人士之間，建立良好的商譽與信任</li>
+                                                <li>我願意對我所接收到的引薦承擔跟進之責任</li>
+                                                <li>我願意遵守我所屬行業之職業道德規範</li>
+                                                <li>我願意以積極的態度全力支持 BNI 會員</li>
+                                                <li>任何商務活動成功之關鍵就在於良好的培訓，因此我願意在加入的六周內參加新會員 MSP 培訓</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </section>
+
+                                <!-- 會員展示區 -->
+                                <section class="members">
+                                    <div class="container">
+                                        <h2 class="section-title">會員名單</h2>
+
+                                        <!-- 篩選器 -->
+                                        <div class="filter-section">
+                                            <div class="filter-buttons" id="filterButtons">
+                                                <button class="filter-btn active" data-category="all">全部顯示</button>
+                                                <!-- 篩選按鈕將由 JavaScript 動態生成 -->
+                                            </div>
+                                        </div>
+
+                                        <!-- 會員網格 -->
+                                        <div class="members-grid" id="membersGrid">
+                                            <!-- 會員卡片將由 JavaScript 動態生成 -->
+                                        </div>
+                                    </div>
+                        </div>
+                        <div class="scroll-indicator">
+                            <div class="scroll-arrow"></div>
+                        </div>
+                    </section>
+
+                    <!-- 會員宣誓 -->
+                    <section class="member-pledge">
+                        <div class="container">
+                            <h2 class="section-title">會員宣誓</h2>
+                            <div class="pledge-content">
+                                <p class="pledge-intro">每一位會員都有經過宣誓，必須要：</p>
+                                <ul class="pledge-list">
+                                    <li>我將按照我的報價提供服務</li>
+                                    <li>我願意以誠信的態度，對待會員及他們所引薦的人士</li>
+                                    <li>我願意在會員及他們所引薦的人士之間，建立良好的商譽與信任</li>
+                                    <li>我願意對我所接收到的引薦承擔跟進之責任</li>
+                                    <li>我願意遵守我所屬行業之職業道德規範</li>
+                                    <li>我願意以積極的態度全力支持 BNI 會員</li>
+                                    <li>任何商務活動成功之關鍵就在於良好的培訓，因此我願意在加入的六周內參加新會員 MSP 培訓</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- 會員展示區 -->
+                    <section class="members">
+                        <div class="container">
+                            <h2 class="section-title">會員名單</h2>
+
+                            <!-- 篩選器 -->
+                            <div class="filter-section">
+                                <div class="filter-buttons" id="filterButtons">
+                                    <button class="filter-btn active" data-category="all">全部顯示</button>
+                                    <!-- 篩選按鈕將由 JavaScript 動態生成 -->
+                                </div>
+                            </div>
+
+                            <!-- 會員網格 -->
+                            <div class="members-grid" id="membersGrid">
+                                <!-- 會員卡片將由 JavaScript 動態生成 -->
+                                <!DOCTYPE html>
+                                <html lang="zh-TW">
+
+                                <head>
+                                    <meta charset="UTF-8">
+                                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                                    <title>會員介紹 - BNI 長輝白金分會</title>
+                                    <meta name="description"
+                                        content="BNI 長輝白金分會會員介紹，60位來自各行各業的專業會員，涵蓋企業顧問、數位行銷、資訊系統等領域。">
+                                    <!-- Canonical URL -->
+                                    <link rel="canonical" href="https://evershine.tw/members">
+
+                                    <link rel="icon" type="image/png" href="images/assets/logo/白色正方形logo.png">
+                                    <link rel="apple-touch-icon" href="images/assets/logo/白色正方形logo.png">
+                                    <link rel="stylesheet" href="css/style.css?v=20251119-HOMEPAGE-REFACTOR">
+                                    <link rel="preconnect" href="https://fonts.googleapis.com">
+                                    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+                                    <link
+                                        href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap"
+                                        rel="stylesheet">
+                                </head>
+
+                                <body>
+                                    <!-- 全局背景層 -->
+                                    <div class="global-background"></div>
+                                    <!-- Canvas 星空背景 -->
+                                    <canvas id="starrySkyCanvas" aria-hidden="true"></canvas>
+                                    <!-- 共用組件將由 components.js 自動載入 -->
+
+                                    <!-- Hero區塊 -->
+                                    <section class="page-hero">
+                                        <div class="hero-background"></div>
+                                        <div class="hero-content">
+                                            <h1 class="hero-title">會員介紹</h1>
+                                            <p class="hero-subtitle">專業人才，多元產業</p>
+                                            <p class="hero-description">我們擁有60位來自各行各業的專業會員，為您提供全方位的專業服務</p>
+                                        </div>
+                                        <div class="scroll-indicator">
+                                            <div class="scroll-arrow"></div>
+                                        </div>
+                                    </section>
+
+                                    <!-- 會員宣誓 -->
+                                    <section class="member-pledge">
+                                        <div class="container">
+                                            <h2 class="section-title">會員宣誓</h2>
+                                            <div class="pledge-content">
+                                                <p class="pledge-intro">每一位會員都有經過宣誓，必須要：</p>
+                                                <ul class="pledge-list">
+                                                    <li>我將按照我的報價提供服務</li>
+                                                    <li>我願意以誠信的態度，對待會員及他們所引薦的人士</li>
+                                                    <li>我願意在會員及他們所引薦的人士之間，建立良好的商譽與信任</li>
+                                                    <li>我願意對我所接收到的引薦承擔跟進之責任</li>
+                                                    <li>我願意遵守我所屬行業之職業道德規範</li>
+                                                    <li>我願意以積極的態度全力支持 BNI 會員</li>
+                                                    <li>任何商務活動成功之關鍵就在於良好的培訓，因此我願意在加入的六周內參加新會員 MSP 培訓</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </section>
+
+                                    <!-- 會員展示區 -->
+                                    <section class="members">
+                                        <div class="container">
+                                            <h2 class="section-title">會員名單</h2>
+
+                                            <!-- 篩選器 -->
+                                            <div class="filter-section">
+                                                <div class="filter-buttons" id="filterButtons">
+                                                    <button class="filter-btn active" data-category="all">全部顯示</button>
+                                                    <!-- 篩選按鈕將由 JavaScript 動態生成 -->
+                                                </div>
+                                            </div>
+
+                                            <!-- 會員網格 -->
+                                            <div class="members-grid" id="membersGrid">
+                                                <!-- 會員卡片將由 JavaScript 動態生成 -->
+                                            </div>
+                                            <!DOCTYPE html>
+                                            <html lang="zh-TW">
+
+                                            <head>
+                                                <meta charset="UTF-8">
+                                                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                                                <title>會員介紹 - BNI 長輝白金分會</title>
+                                                <meta name="description"
+                                                    content="BNI 長輝白金分會會員介紹，60位來自各行各業的專業會員，涵蓋企業顧問、數位行銷、資訊系統等領域。">
+                                                <!-- Canonical URL -->
+                                                <link rel="canonical" href="https://evershine.tw/members">
+
+                                                <link rel="icon" type="image/png"
+                                                    href="images/assets/logo/白色正方形logo.png">
+                                                <link rel="apple-touch-icon" href="images/assets/logo/白色正方形logo.png">
+                                                <link rel="stylesheet"
+                                                    href="css/style.css?v=20251119-HOMEPAGE-REFACTOR">
+                                                <link rel="preconnect" href="https://fonts.googleapis.com">
+                                                <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+                                                <link
+                                                    href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap"
+                                                    rel="stylesheet">
+                                            </head>
+
+                                            <body>
+                                                <!-- 全局背景層 -->
+                                                <div class="global-background"></div>
+                                                <!-- Canvas 星空背景 -->
+                                                <canvas id="starrySkyCanvas" aria-hidden="true"></canvas>
+                                                <!-- 共用組件將由 components.js 自動載入 -->
+
+                                                <!-- Hero區塊 -->
+                                                <section class="page-hero">
+                                                    <div class="hero-background"></div>
+                                                    <div class="hero-content">
+                                                        <h1 class="hero-title">會員介紹</h1>
+                                                        <p class="hero-subtitle">專業人才，多元產業</p>
+                                                        <p class="hero-description">我們擁有60位來自各行各業的專業會員，為您提供全方位的專業服務</p>
+                                                    </div>
+                                                    <div class="scroll-indicator">
+                                                        <div class="scroll-arrow"></div>
+                                                    </div>
+                                                </section>
+
+                                                <!-- 會員宣誓 -->
+                                                <section class="member-pledge">
+                                                    <div class="container">
+                                                        <h2 class="section-title">會員宣誓</h2>
+                                                        <div class="pledge-content">
+                                                            <p class="pledge-intro">每一位會員都有經過宣誓，必須要：</p>
+                                                            <ul class="pledge-list">
+                                                                <li>我將按照我的報價提供服務</li>
+                                                                <li>我願意以誠信的態度，對待會員及他們所引薦的人士</li>
+                                                                <li>我願意在會員及他們所引薦的人士之間，建立良好的商譽與信任</li>
+                                                                <li>我願意對我所接收到的引薦承擔跟進之責任</li>
+                                                                <li>我願意遵守我所屬行業之職業道德規範</li>
+                                                                <li>我願意以積極的態度全力支持 BNI 會員</li>
+                                                                <li>任何商務活動成功之關鍵就在於良好的培訓，因此我願意在加入的六周內參加新會員 MSP 培訓</li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </section>
+
+                                                <!-- 會員展示區 -->
+                                                <section class="members">
+                                                    <div class="container">
+                                                        <h2 class="section-title">會員名單</h2>
+
+                                                        <!-- 篩選器 -->
+                                                        <div class="filter-section">
+                                                            <div class="filter-buttons" id="filterButtons">
+                                                                <button class="filter-btn active"
+                                                                    data-category="all">全部顯示</button>
+                                                                <!-- 篩選按鈕將由 JavaScript 動態生成 -->
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- 會員網格 -->
+                                                        <div class="members-grid" id="membersGrid">
+                                                            <!-- 會員卡片將由 JavaScript 動態生成 -->
+                                                        </div>
+                                                    </div>
+                                                </section>
+
+                                                <!-- 共用組件（頁尾、固定橫幅）將由 components.js 自動載入 -->
+
+                                                <script src="js/components.js?v=20250125" defer></script>
+                                                <script src="js/starry-background-unified.js?v=20250125" defer></script>
+                                                <script src="js/category-mapping.js?v=20250125" defer></script>
+                                                <script src="js/main.js?v=20250125" defer></script>
+                                                <script src="js/scroll-progress.js?v=20250125" defer></script>
+                                            </body>
+
+                                            </html>

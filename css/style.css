@@ -8239,6 +8239,8 @@ h4,
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center top;
+    /* 顯示上半身和臉部 */
 }
 
 .success-modern-info h3 {
@@ -8253,6 +8255,13 @@ h4,
     margin: 0;
     text-transform: uppercase;
     letter-spacing: 1px;
+}
+
+.success-modern-title {
+    color: var(--color-primary);
+    font-size: 0.9rem;
+    margin: 0;
+    font-weight: 500;
 }
 
 .success-modern-body {
