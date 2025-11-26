@@ -43,6 +43,7 @@ function createMemberCard(member) {
                 <img src="${member.photo}" 
                      alt="${member.name}" 
                      class="member-photo"
+                     loading="lazy"
                      onerror="this.style.display='none';">
             </div>
             <div class="member-basic-info">

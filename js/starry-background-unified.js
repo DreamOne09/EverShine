@@ -43,7 +43,7 @@ class StarrySkyConfig {
                 { count: 50, size: '2px', duration: '150s' },
                 { count: 30, size: '3px', duration: '200s' },
             ],
-            // 流星配置 - 減少數量，全螢幕
+            // 流星配置 - 優化性能
             shootingStars: {
                 minCount: 1,
                 maxCount: 1, // 一次最多一顆
@@ -53,7 +53,8 @@ class StarrySkyConfig {
                 maxTailLength: 200,
                 glowIntensity: 1.5,
                 tailFadeSteps: 20,
-                spawnInterval: 5000  // 降低頻率 (5s)
+                spawnInterval: 10000,  // 進一步降低頻率 (10s)
+                enableOnMobile: false  // 手機版禁用流星
             }
         };
 
