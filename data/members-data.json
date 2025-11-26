@@ -349,7 +349,18 @@
       "title": "李孟有限公司 董事長",
       "shortIntro": "專業的禮贈品服務，致力於為客戶創造價值",
       "fullIntro": "我是李孟一，擁有多年的禮贈品產業經驗。專注於提供優質的專業服務，協助客戶達成商業目標。透過 BNI 長輝白金分會，我建立了廣泛的商務網絡，並持續為會員創造引薦機會。我相信透過專業服務與誠信合作，能夠為每一位客戶帶來實質的商業成長。期待與您合作，共同創造更大的商業價值。",
-      "links": [],
+      "links": [
+        {
+          "type": "website",
+          "url": "https://dreamcube.tw",
+          "icon": "website"
+        },
+        {
+          "type": "facebook",
+          "url": "https://www.facebook.com/DreamOneCubeAcademy",
+          "icon": "facebook"
+        }
+      ],
       "services": [
         "禮贈品諮詢",
         "專業顧問服務",
