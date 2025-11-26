@@ -175,7 +175,7 @@
     </style>
 
     <!-- Main Stylesheet - Load immediately to ensure styles are available -->
-    <link rel="stylesheet" href="css/style.css?v=20250202-LIGHTHOUSE">
+    <link rel="stylesheet" href="css/style.min.css?v=20250202-PERF">
 
     <!-- Fonts - Optimized: Only load essential weights (400, 700), use font-display swap -->
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap"
@@ -185,7 +185,7 @@
     </noscript>
 
     <!-- Critical Scripts - Only essential scripts in head, rest deferred -->
-    <script src="js/starry-background-unified.js?v=20250125" defer></script>
+    <script src="js/starry-background-unified.min.js?v=20250125" defer></script>
 </head>
 
 <body>
@@ -878,7 +878,7 @@
         function loadScript(src) {
             return new Promise((resolve, reject) => {
                 const script = document.createElement('script');
-                script.src = src + '?v=20250202-PERF-FINAL';
+                script.src = src.replace('.js', '.min.js') + '?v=20250202-PERF-FINAL';
                 script.defer = true;
                 script.onload = resolve;
                 script.onerror = reject;
