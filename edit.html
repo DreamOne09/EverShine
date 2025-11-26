@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>會員資料編輯 - BNI 長輝白金分會</title>
+    <meta name="description" content="BNI 長輝白金分會會員資料編輯介面">
+
+    <link rel="icon" type="image/png" href="images/assets/logo/白色正方形logo.png">
+    <link rel="stylesheet" href="css/style.css?v=20250125">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Cropper.js for image cropping -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
+
+    <!-- Browser Image Compression -->
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/browser-image-compression/2.0.2/browser-image-compression.min.js"></script>
+
+    <style>
+        .edit-container {
+            max-width: 800px;
+            margin: 100px auto 50px;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(76, 168, 223, 0.3);
+        }
+
+        .edit-section {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 15px;
+            border: 1px solid rgba(76, 168, 223, 0.2);
+        }
+
+        .edit-section h2 {
+            color: var(--color-primary);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            color: #fff;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(76, 168, 223, 0.3);
+            border-radius: 8px;
+            color: #fff;
+            font-family: 'Noto Sans TC', sans-serif;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-group small {
+            display: block;
+            color: var(--text-gray);
+            margin-top: 0.25rem;
+            font-size: 0.875rem;
+        }
+
+        .photo-upload-area {
+            border: 2px dashed rgba(76, 168, 223, 0.5);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .photo-upload-area:hover {
+            border-color: var(--color-primary);
+            background: rgba(76, 168, 223, 0.1);
+        }
+
+        .photo-preview {
+            max-width: 300px;
+            margin: 1rem auto;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .photo-preview img {
+            width: 100%;
+            display: block;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(76, 168, 223, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: 1px solid rgba(76, 168, 223, 0.3);
+        }
+
+        .link-inputs {
+            display: grid;
+            grid-template-columns: 150px 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .char-counter {
+            text-align: right;
+            color: var(--text-gray);
+            font-size: 0.875rem;
+        }
+
+        .error-message {
+            color: #ff6b6b;
+            background: rgba(255, 107, 107, 0.1);
+            padding: 0.75rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        .success-message {
+            color: #51cf66;
+            background: rgba(81, 207, 102, 0.1);
+            padding: 0.75rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 全局背景層 -->
+    <div class="global-background"></div>
+    <!-- Canvas 星空背景 -->
+    <canvas id="starrySkyCanvas" aria-hidden="true"></canvas>
+
+    <div class="edit-container">
+        <h1 style="color: var(--color-primary); text-align: center; margin-bottom: 2rem;">會員資料編輯</h1>
+
+        <!-- 身份驗證 -->
+        <div class="edit-section" id="auth-section">
+            <h2>身份驗證</h2>
+            <div class="form-group">
+                <label for="member-name">請輸入您的姓名</label>
+                <input type="text" id="member-name" placeholder="例如：何昇軒">
+                <small>請輸入與會員照片檔名相同的姓名</small>
+            </div>
+            <button class="btn btn-primary" onclick="loadMemberData()">載入我的資料</button>
+        </div>
+
+        <!-- 編輯表單（初始隱藏） -->
+        <div id="edit-form" style="display: none;">
+            <!-- 照片編輯 -->
+            <div class="edit-section">
+                <h2>📸 會員照片</h2>
+                <div class="photo-upload-area" onclick="document.getElementById('photo-input').click()">
+                    <p>點擊上傳新照片</p>
+                    <small>支援 JPG、PNG 格式，將自動壓縮至 200KB</small>
+                </div>
+                <input type="file" id="photo-input" accept="image/*" style="display: none;"
+                    onchange="handlePhotoUpload(event)">
+                <div class="photo-preview" id="photo-preview"></div>
+            </div>
+
+            <!-- 基本資料 -->
+            <div class="edit-section">
+                <h2>💼 基本資料</h2>
+                <div class="form-group">
+                    <label for="company">公司名稱 *</label>
+                    <input type="text" id="company" maxlength="50" required>
+                    <small>最多 50 字</small>
+                </div>
+                <div class="form-group">
+                    <label for="position">職稱 *</label>
+                    <input type="text" id="position" maxlength="30" required>
+                    <small>最多 30 字</small>
+                </div>
+            </div>
+
+            <!-- 自我介紹 -->
+            <div class="edit-section">
+                <h2>✍️ 自我介紹</h2>
+                <div class="form-group">
+                    <label for="short-intro">簡短介紹 *</label>
+                    <textarea id="short-intro" maxlength="30" required
+                        oninput="updateCharCounter('short-intro', 30)"></textarea>
+                    <div class="char-counter" id="short-intro-counter">0 / 30</div>
+                </div>
+                <div class="form-group">
+                    <label for="full-intro">完整介紹 *</label>
+                    <textarea id="full-intro" maxlength="500" required
+                        oninput="updateCharCounter('full-intro', 500)"></textarea>
+                    <small>300-500 字</small>
+                    <div class="char-counter" id="full-intro-counter">0 / 500</div>
+                </div>
+            </div>
+
+            <!-- 公司連結 -->
+            <div class="edit-section">
+                <h2>🔗 公司連結</h2>
+                <div class="link-inputs">
+                    <select id="link1-type">
+                        <option value="">選擇類型</option>
+                        <option value="website">官方網站</option>
+                        <option value="facebook">Facebook</option>
+                        <option value="instagram">Instagram</option>
+                        <option value="linkedin">LinkedIn</option>
+                        <option value="line">LINE</option>
+                        <option value="youtube">YouTube</option>
+                    </select>
+                    <input type="url" id="link1-url" placeholder="https://...">
+                </div>
+                <div class="link-inputs">
+                    <select id="link2-type">
+                        <option value="">選擇類型</option>
+                        <option value="website">官方網站</option>
+                        <option value="facebook">Facebook</option>
+                        <option value="instagram">Instagram</option>
+                        <option value="linkedin">LinkedIn</option>
+                        <option value="line">LINE</option>
+                        <option value="youtube">YouTube</option>
+                    </select>
+                    <input type="url" id="link2-url" placeholder="https://...">
+                </div>
+            </div>
+
+            <!-- 預覽與儲存 -->
+            <div class="btn-group">
+                <button class="btn btn-secondary" onclick="previewData()">預覽</button>
+                <button class="btn btn-primary" onclick="saveData()">儲存資料</button>
+            </div>
+
+            <div id="message-area"></div>
+        </div>
+    </div>
+
+    <script>
+        let currentMember = null;
+        let croppedPhoto = null;
+
+        // 載入會員資料
+        async function loadMemberData() {
+            const name = document.getElementById('member-name').value.trim();
+            if (!name) {
+                showMessage('請輸入姓名', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch('data/members-data.json');
+                const data = await response.json();
+                const member = data.members.find(m => m.name === name);
+
+                if (!member) {
+                    showMessage('找不到此會員，請確認姓名是否正確', 'error');
+                    return;
+                }
+
+                currentMember = member;
+                populateForm(member);
+                document.getElementById('auth-section').style.display = 'none';
+                document.getElementById('edit-form').style.display = 'block';
+                showMessage('資料載入成功！', 'success');
+            } catch (error) {
+                showMessage('載入資料失敗：' + error.message, 'error');
+            }
+        }
+
+        // 填充表單
+        function populateForm(member) {
+            document.getElementById('company').value = member.company || '';
+            document.getElementById('position').value = member.position || '';
+            document.getElementById('short-intro').value = member.shortIntro || '';
+            document.getElementById('full-intro').value = member.fullIntro || '';
+
+            updateCharCounter('short-intro', 30);
+            updateCharCounter('full-intro', 500);
+
+            // 顯示現有照片
+            if (member.photo) {
+                const preview = document.getElementById('photo-preview');
+                preview.innerHTML = `<img src="${member.photo}" alt="${member.name}">`;
+            }
+
+            // 填充連結
+            if (member.links && member.links.length > 0) {
+                if (member.links[0]) {
+                    document.getElementById('link1-type').value = member.links[0].type || '';
+                    document.getElementById('link1-url').value = member.links[0].url || '';
+                }
+                if (member.links[1]) {
+                    document.getElementById('link2-type').value = member.links[1].type || '';
+                    document.getElementById('link2-url').value = member.links[1].url || '';
+                }
+            }
+        }
+
+        // 處理照片上傳
+        async function handlePhotoUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            try {
+                // 壓縮照片
+                const options = {
+                    maxSizeMB: 0.2,
+                    maxWidthOrHeight: 800,
+                    useWebWorker: true
+                };
+                const compressedFile = await imageCompression(file, options);
+
+                // 顯示預覽
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const preview = document.getElementById('photo-preview');
+                    preview.innerHTML = `<img src="${e.target.result}" alt="預覽" id="crop-image">`;
+
+                    // 初始化裁切工具
+                    const image = document.getElementById('crop-image');
+                    const cropper = new Cropper(image, {
+                        aspectRatio: 1,
+                        viewMode: 1,
+                        crop(event) {
+                            croppedPhoto = cropper.getCroppedCanvas().toDataURL('image/jpeg');
+                        }
+                    });
+                };
+                reader.readAsDataURL(compressedFile);
+
+                showMessage('照片上傳成功，請調整裁切範圍', 'success');
+            } catch (error) {
+                showMessage('照片處理失敗：' + error.message, 'error');
+            }
+        }
+
+        // 更新字數計數器
+        function updateCharCounter(id, max) {
+            const textarea = document.getElementById(id);
+            const counter = document.getElementById(id + '-counter');
+            const current = textarea.value.length;
+            counter.textContent = `${current} / ${max}`;
+            counter.style.color = current > max ? '#ff6b6b' : 'var(--text-gray)';
+        }
+
+        // 預覽資料
+        function previewData() {
+            const data = collectFormData();
+            console.log('預覽資料：', data);
+            alert('資料預覽請查看瀏覽器控制台（F12）');
+        }
+
+        // 儲存資料
+        function saveData() {
+            const data = collectFormData();
+
+            // 驗證
+            const errors = validateData(data);
+            if (errors.length > 0) {
+                showMessage('請修正以下錯誤：\n' + errors.join('\n'), 'error');
+                return;
+            }
+
+            // 生成 JSON 檔案供下載
+            const jsonData = {
+                ...currentMember,
+                ...data,
+                updatedAt: new Date().toISOString()
+            };
+
+            const blob = new Blob([JSON.stringify(jsonData, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${currentMember.name}-profile.json`;
+            a.click();
+
+            showMessage('資料已儲存！請將下載的 JSON 檔案傳送給管理員更新', 'success');
+        }
+
+        // 收集表單資料
+        function collectFormData() {
+            const links = [];
+
+            const link1Type = document.getElementById('link1-type').value;
+            const link1Url = document.getElementById('link1-url').value;
+            if (link1Type && link1Url) {
+                links.push({ type: link1Type, url: link1Url, icon: link1Type });
+            }
+
+            const link2Type = document.getElementById('link2-type').value;
+            const link2Url = document.getElementById('link2-url').value;
+            if (link2Type && link2Url) {
+                links.push({ type: link2Type, url: link2Url, icon: link2Type });
+            }
+
+            return {
+                company: document.getElementById('company').value,
+                position: document.getElementById('position').value,
+                title: `${document.getElementById('company').value} ${document.getElementById('position').value}`,
+                shortIntro: document.getElementById('short-intro').value,
+                fullIntro: document.getElementById('full-intro').value,
+                links: links,
+                photo: croppedPhoto || currentMember.photo
+            };
+        }
+
+        // 驗證資料
+        function validateData(data) {
+            const errors = [];
+
+            if (!data.company) errors.push('- 公司名稱為必填');
+            if (!data.position) errors.push('- 職稱為必填');
+            if (!data.shortIntro) errors.push('- 簡短介紹為必填');
+            if (data.shortIntro && data.shortIntro.length > 30) errors.push('- 簡短介紹不可超過30字');
+            if (!data.fullIntro) errors.push('- 完整介紹為必填');
+            if (data.fullIntro && (data.fullIntro.length < 300 || data.fullIntro.length > 500)) {
+                errors.push('- 完整介紹必須在300-500字之間');
+            }
+
+            return errors;
+        }
+
+        // 顯示訊息
+        function showMessage(message, type) {
+            const messageArea = document.getElementById('message-area');
+            messageArea.className = type === 'error' ? 'error-message' : 'success-message';
+            messageArea.textContent = message;
+            messageArea.style.display = 'block';
+
+            setTimeout(() => {
+                messageArea.style.display = 'none';
+            }, 5000);
+        }
+    </script>
+
+    <script src="js/components.js?v=20250125" defer></script>
+    <script src="js/starry-background-unified.js?v=20250125" defer></script>
+</body>
+
+</html>
