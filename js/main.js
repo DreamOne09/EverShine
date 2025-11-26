@@ -12,33 +12,33 @@ document.addEventListener('DOMContentLoaded', () => {
     if (typeof initComponents === 'function') {
         initComponents();
     }
-    
+
     // 星空背景已由 starry-sky.js 處理
     // initStarfield(); // 改用 Canvas 星空背景
-    
+
     // 檢查是否有會員展示區，才載入會員資料
     if (document.getElementById('membersGrid')) {
         loadMembersData();
     }
-    
+
     initNavigation();
-    
+
     // 檢查是否有關鍵數字區塊
     if (document.querySelector('.metric-value')) {
         initMetricsAnimation();
     }
-    
+
     initBackToTop();
-    
+
     // 處理頁面載入時的錨點定位
     handleAnchorNavigation();
-    
+
     // 初始化 FAQ 互動功能
     initFAQ();
-    
+
     // 初始化滾動動畫
     initScrollAnimations();
-    
+
     // 載入畫面隱藏邏輯已移至 index.html 內聯腳本，確保一定會執行
     // 此處保留診斷功能（可選）
     const loader = document.getElementById('pageLoader');
@@ -67,14 +67,14 @@ function initScrollAnimations() {
         });
         return;
     }
-    
+
     // 設定動畫選項
     const animationOptions = {
         root: null,
         rootMargin: '0px 0px -100px 0px', // 提前 100px 觸發動畫
         threshold: 0.1
     };
-    
+
     // 創建 Intersection Observer
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -85,21 +85,21 @@ function initScrollAnimations() {
             }
         });
     }, animationOptions);
-    
+
     // 為需要動畫的元素添加類別和初始樣式
     const sections = document.querySelectorAll('section');
     const cards = document.querySelectorAll('.glass-card, .unified-card-primary, .unified-card-secondary, .success-card-individual, .member-card, .referral-card, .faq-item');
-    
+
     // 合併所有需要動畫的元素
     const elementsToAnimate = [...sections, ...cards];
-    
+
     elementsToAnimate.forEach((el, index) => {
         // 添加動畫類別
         el.classList.add('fade-in-on-scroll');
-        
+
         // 設定初始狀態（透過 CSS 變數控制延遲）
         el.style.setProperty('--animation-delay', `${index * 0.1}s`);
-        
+
         // 開始觀察
         observer.observe(el);
     });
@@ -110,43 +110,43 @@ function initScrollAnimations() {
 // ============================================
 function initFAQ() {
     const faqItems = document.querySelectorAll('.faq-item');
-    
+
     // 如果頁面沒有 FAQ 區塊，靜默返回（這是正常的，不是所有頁面都有 FAQ）
     if (faqItems.length === 0) {
         return;
     }
-    
+
     faqItems.forEach((item, index) => {
         const question = item.querySelector('.faq-question');
         const toggle = item.querySelector('.faq-toggle');
-        
+
         if (!question) {
             console.warn(`FAQ: 項目 ${index} 找不到 .faq-question`);
             return;
         }
-        
+
         if (!toggle) {
             console.warn(`FAQ: 項目 ${index} 找不到 .faq-toggle`);
         }
-        
+
         // 確保初始狀態正確
         if (!item.classList.contains('active')) {
             item.classList.remove('active');
         }
-        
+
         question.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
-            
+
             const isActive = item.classList.contains('active');
-            
+
             // 關閉其他 FAQ
             faqItems.forEach(otherItem => {
                 if (otherItem !== item) {
                     otherItem.classList.remove('active');
                 }
             });
-            
+
             // 切換當前 FAQ
             if (isActive) {
                 item.classList.remove('active');
@@ -156,12 +156,12 @@ function initFAQ() {
                 question.setAttribute('aria-expanded', 'true');
             }
         });
-        
+
         // 添加鍵盤支援
         question.setAttribute('tabindex', '0');
         question.setAttribute('role', 'button');
         question.setAttribute('aria-expanded', 'false');
-        
+
         question.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
@@ -169,7 +169,7 @@ function initFAQ() {
             }
         });
     });
-    
+
     console.log(`FAQ: 已初始化 ${faqItems.length} 個 FAQ 項目`);
 }
 
@@ -202,19 +202,19 @@ async function loadMembersData() {
         // 簡化：只嘗試最常見的路徑
         const dataPath = 'data/members.json';
         const response = await fetch(dataPath);
-        
+
         if (!response.ok) {
             throw new Error(`無法載入會員資料檔案。請確認檔案存在於 ${dataPath}，或使用 HTTP 伺服器開啟網站（避免 CORS 限制）。`);
         }
-        
+
         const data = await response.json();
-        
+
         if (!data || !data.members || !Array.isArray(data.members)) {
             throw new Error('會員資料格式錯誤：找不到 members 陣列');
         }
-        
+
         membersData = data.members;
-        
+
         // 為每個會員添加分類（如果沒有）並修正照片路徑
         membersData.forEach(member => {
             if (!member.category) {
@@ -234,31 +234,31 @@ async function loadMembersData() {
                 }
             }
         });
-        
+
         // 提取所有分類並統計人數
         const categoryCounts = {};
         membersData.forEach(member => {
             const cat = member.category;
             categoryCounts[cat] = (categoryCounts[cat] || 0) + 1;
         });
-        
+
         // 按會員人數排序分類（從多到少），並過濾掉「其他」分類
         allCategories = Object.keys(categoryCounts)
             .filter(cat => cat !== "其他")
             .sort((a, b) => categoryCounts[b] - categoryCounts[a]);
-        
+
         // 儲存分類統計資訊
         window.categoryCounts = categoryCounts;
-        
+
         // 初始化篩選器
         initFilterButtons();
-        
+
         // 顯示所有會員（按分類分組）
         displayMembersByCategory(membersData);
     } catch (error) {
         console.error('載入會員資料失敗:', error);
         console.error('錯誤詳情:', error.message);
-        
+
         // 顯示錯誤訊息
         const membersGrid = document.getElementById('membersGrid');
         if (membersGrid) {
@@ -281,10 +281,10 @@ async function loadMembersData() {
 function initFilterButtons() {
     const filterButtonsContainer = document.getElementById('filterButtons');
     if (!filterButtonsContainer) return;
-    
+
     // 清空現有按鈕
     filterButtonsContainer.innerHTML = '';
-    
+
     // 加入「全部顯示」按鈕
     const allBtn = document.createElement('button');
     allBtn.className = 'filter-btn active';
@@ -292,7 +292,7 @@ function initFilterButtons() {
     allBtn.textContent = '全部顯示';
     allBtn.addEventListener('click', () => filterMembersByCategory('all'));
     filterButtonsContainer.appendChild(allBtn);
-    
+
     // 為每個分類建立按鈕
     allCategories.forEach(category => {
         const btn = document.createElement('button');
@@ -316,7 +316,7 @@ function filterMembersByCategory(category) {
             btn.classList.add('active');
         }
     });
-    
+
     // 篩選會員
     let filteredMembers;
     if (category === 'all') {
@@ -336,14 +336,14 @@ function filterMembersByCategory(category) {
 function displayMembers(members) {
     const membersGrid = document.getElementById('membersGrid');
     if (!membersGrid) return;
-    
+
     if (members.length === 0) {
         membersGrid.innerHTML = '<p style="text-align: center; color: #888; grid-column: 1 / -1;">目前沒有符合條件的會員。</p>';
         return;
     }
-    
+
     membersGrid.innerHTML = members.map(member => createMemberCard(member)).join('');
-    
+
     // 初始化摺疊功能
     initMemberToggles();
 }
@@ -354,7 +354,7 @@ function displayMembers(members) {
 function displayMembersByCategory(members) {
     const membersGrid = document.getElementById('membersGrid');
     if (!membersGrid) return;
-    
+
     // 按分類分組會員
     const membersByCategory = {};
     members.forEach(member => {
@@ -364,18 +364,18 @@ function displayMembersByCategory(members) {
         }
         membersByCategory[cat].push(member);
     });
-    
-        // 按分類人數排序（從多到少），並過濾掉「其他」分類
-        const sortedCategories = Object.keys(membersByCategory)
-            .filter(cat => cat !== "其他")
-            .sort((a, b) => membersByCategory[b].length - membersByCategory[a].length);
-    
+
+    // 按分類人數排序（從多到少），並過濾掉「其他」分類
+    const sortedCategories = Object.keys(membersByCategory)
+        .filter(cat => cat !== "其他")
+        .sort((a, b) => membersByCategory[b].length - membersByCategory[a].length);
+
     // 生成 HTML
     let html = '';
     sortedCategories.forEach(category => {
         const categoryMembers = membersByCategory[category];
         const count = categoryMembers.length;
-        
+
         const categoryId = `category-${category.replace(/\s+/g, '-').toLowerCase()}`;
         html += `
             <div class="category-section" data-category="${category}">
@@ -394,9 +394,9 @@ function displayMembersByCategory(members) {
             </div>
         `;
     });
-    
+
     membersGrid.innerHTML = html;
-    
+
     // 初始化摺疊功能
     initMemberToggles();
     initCategoryToggles();
@@ -409,18 +409,18 @@ function createMemberCard(member) {
     // 處理照片路徑 - 使用 JSON 中的照片路徑，如果沒有則使用占位圖
     const photoPath = member.photo || '';
     const placeholderSvg = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Crect width='150' height='150' rx='12' fill='%23001933'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' fill='%234ca8df' font-family='Arial' font-size='50'%3E${encodeURIComponent(member.name.charAt(0))}%3C/text%3E%3C/svg%3E`;
-    
+
     const servicesHtml = buildServicesHtml(member.services);
     const hashtagsHtml = buildHashtagsHtml(member.hashtags);
     const socialHtml = buildSocialLinks(member.social);
     const contactHtml = buildContactHtml(member.contact);
-    
+
     // 使用簡短介紹（摺疊時顯示，30字）和詳細介紹（展開時顯示，200字）
     const shortDescription = member.shortDescription || (member.description ? member.description.substring(0, 30) + '...' : '專業服務提供商');
     const fullDescription = member.fullDescription || member.description || '專業服務提供商';
-    
+
     const memberId = `member-${member.name.replace(/\s+/g, '-').toLowerCase()}`;
-    
+
     return `
         <div class="member-card collapsed" data-member-id="${memberId}">
             <div class="member-header">
@@ -430,6 +430,7 @@ function createMemberCard(member) {
                 <div class="member-basic-info">
                     <div class="member-name-industry">
                         <h3 class="member-name">${member.name}</h3>
+                        <span class="member-title">${member.title || member.company + ' ' + member.position || ''}</span>
                         <span class="member-industry">${member.industry || ''}</span>
                     </div>
                     <button class="member-toggle-btn" aria-label="展開/摺疊會員資訊" data-target="${memberId}">
@@ -469,7 +470,7 @@ function getMemberPhotoPath(name) {
 // ============================================
 function buildContactHtml(contact) {
     if (!contact) return '';
-    
+
     let html = '';
     if (contact.email) {
         html += `<p><strong>Email</strong><a class="contact-link" href="mailto:${contact.email}">${contact.email}</a></p>`;
@@ -480,7 +481,7 @@ function buildContactHtml(contact) {
     if (contact.line) {
         html += `<p><strong>Line</strong><span>${contact.line}</span></p>`;
     }
-    
+
     return html;
 }
 
@@ -576,13 +577,13 @@ function initNavigation() {
     navLinks.forEach(link => {
         link.addEventListener('click', (e) => {
             const href = link.getAttribute('href');
-            
+
             // 如果是頁面連結（包含 .html），讓瀏覽器正常處理
             if (href && href.includes('.html')) {
                 // 如果是跨頁面錨點（例如 index.html#join），讓瀏覽器正常跳轉
                 return; // 不阻止預設行為
             }
-            
+
             // 如果是同頁面的錨點連結，處理平滑滾動
             if (href && href.startsWith('#')) {
                 e.preventDefault();
@@ -596,7 +597,7 @@ function initNavigation() {
                     });
                 }
             }
-            
+
             // 關閉行動選單
             const navMenu = document.getElementById('navMenu');
             const navToggle = document.getElementById('navToggle');
@@ -606,18 +607,32 @@ function initNavigation() {
             }
         });
     });
-    
-    // 響應式選單切換
-    const navToggle = document.getElementById('navToggle');
-    const navMenu = document.getElementById('navMenu');
-    
-    if (navToggle && navMenu) {
-        navToggle.addEventListener('click', () => {
-            navMenu.classList.toggle('active');
-            navToggle.classList.toggle('active');
-        });
-    }
-    
+
+    // 響應式選單切換 - 使用延遲確保元素已載入
+    setTimeout(() => {
+        const navToggle = document.getElementById('navToggle');
+        const navMenu = document.getElementById('navMenu');
+
+        if (navToggle && navMenu) {
+            // 移除舊的事件監聽器（如果有）
+            const newToggle = navToggle.cloneNode(true);
+            navToggle.parentNode.replaceChild(newToggle, navToggle);
+
+            // 添加新的事件監聽器
+            newToggle.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('Mobile menu toggle clicked');
+                navMenu.classList.toggle('active');
+                newToggle.classList.toggle('active');
+            });
+
+            console.log('Mobile navigation initialized successfully');
+        } else {
+            console.warn('Navigation elements not found:', { navToggle: !!navToggle, navMenu: !!navMenu });
+        }
+    }, 100);
+
     // 滾動時導航欄樣式變化
     const navbar = document.getElementById('navbar');
     if (navbar) {
@@ -638,7 +653,7 @@ function initNavigation() {
 // ============================================
 function initMetricsAnimation() {
     const metricValues = document.querySelectorAll('.metric-value');
-    
+
     // 建立 Intersection Observer 來觸發動畫
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -650,7 +665,7 @@ function initMetricsAnimation() {
     }, {
         threshold: 0.5
     });
-    
+
     metricValues.forEach(value => {
         observer.observe(value);
     });
@@ -665,7 +680,7 @@ function animateValue(element) {
     const start = 0;
     const increment = target / (duration / 16); // 60fps
     let current = start;
-    
+
     const timer = setInterval(() => {
         current += increment;
         if (current >= target) {
@@ -695,7 +710,7 @@ function formatNumber(num) {
 function initBackToTop() {
     const backToTopBtn = document.getElementById('backToTop');
     if (!backToTopBtn) return;
-    
+
     window.addEventListener('scroll', () => {
         if (window.scrollY > 300) {
             backToTopBtn.classList.add('visible');
@@ -703,7 +718,7 @@ function initBackToTop() {
             backToTopBtn.classList.remove('visible');
         }
     });
-    
+
     backToTopBtn.addEventListener('click', () => {
         window.scrollTo({
             top: 0,
@@ -726,19 +741,19 @@ function initMemberToggles() {
             const card = btn.closest('.member-card');
             const shortDesc = card?.querySelector('.member-short-description');
             const membersGrid = card?.closest('.category-members-grid');
-            
+
             if (detailsElement) {
                 const isExpanded = detailsElement.classList.toggle('expanded');
                 btn.classList.toggle('expanded', isExpanded);
                 icon.textContent = isExpanded ? '▲' : '▼';
-                
+
                 // 控制簡短介紹的顯示/隱藏
                 if (shortDesc) {
                     if (isExpanded) {
                         shortDesc.style.display = 'none';
                         card.classList.remove('collapsed');
                         card.classList.add('expanded-full');
-                        
+
                         // 隱藏旁邊的會員卡片
                         if (membersGrid) {
                             const allCards = membersGrid.querySelectorAll('.member-card');
@@ -752,7 +767,7 @@ function initMemberToggles() {
                         shortDesc.style.display = 'block';
                         card.classList.add('collapsed');
                         card.classList.remove('expanded-full');
-                        
+
                         // 顯示所有會員卡片
                         if (membersGrid) {
                             const allCards = membersGrid.querySelectorAll('.member-card');
@@ -777,7 +792,7 @@ function initCategoryToggles() {
             const targetId = btn.getAttribute('data-target');
             const membersGrid = document.getElementById(`${targetId}-members`);
             const icon = btn.querySelector('.toggle-icon');
-            
+
             if (membersGrid) {
                 const isExpanded = membersGrid.classList.toggle('expanded');
                 btn.classList.toggle('expanded', isExpanded);
@@ -793,12 +808,12 @@ function initCategoryToggles() {
 function initStarfield() {
     const starfield = document.getElementById('starfield');
     if (!starfield) return;
-    
+
     // 根據螢幕大小計算星點數量（響應式）
     const width = window.innerWidth;
     const height = Math.max(document.documentElement.scrollHeight, window.innerHeight);
     const starCount = Math.floor((width * height) / 8000); // 每 8000 像素一個星點
-    
+
     // 星點顏色配置（使用現有的 CSS 變數顏色）
     const starColors = [
         'rgba(255, 255, 255, 0.9)',      // 白色亮星
@@ -811,31 +826,31 @@ function initStarfield() {
         'rgba(115, 188, 255, 0.75)',    // 天藍色
         'rgba(115, 188, 255, 0.65)',    // 天藍色暗
     ];
-    
+
     // 清空現有星點
     starfield.innerHTML = '';
-    
+
     // 生成星點
     for (let i = 0; i < starCount; i++) {
         const star = document.createElement('div');
         star.className = 'star';
-        
+
         // 隨機位置
         const x = Math.random() * 100;
         const y = Math.random() * 100;
-        
+
         // 隨機大小（0.5px 到 2px）
         const size = Math.random() * 1.5 + 0.5;
-        
+
         // 隨機顏色
         const color = starColors[Math.floor(Math.random() * starColors.length)];
-        
+
         // 隨機動畫延遲（創造閃爍效果）
         const delay = Math.random() * 3;
-        
+
         // 隨機動畫持續時間
         const duration = Math.random() * 2 + 2;
-        
+
         star.style.cssText = `
             position: absolute;
             left: ${x}%;
@@ -849,10 +864,10 @@ function initStarfield() {
             animation-delay: ${delay}s;
             pointer-events: none;
         `;
-        
+
         starfield.appendChild(star);
     }
-    
+
     // 視窗大小改變時重新生成星點
     let resizeTimer;
     window.addEventListener('resize', () => {
