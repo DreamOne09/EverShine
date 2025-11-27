@@ -1,0 +1,165 @@
+/* FAQ Answer Styling */
+.faq-answer ul {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+}
+
+.faq-answer ul li {
+    margin-bottom: 0.6rem;
+    line-height: 1.7;
+    position: relative;
+    padding-left: 1rem;
+}
+
+.faq-answer ul li::before {
+    content: '✓';
+    position: absolute;
+    left: -1rem;
+    color: var(--gold);
+    font-weight: bold;
+}
+
+.faq-stats {
+    background: rgba(76, 168, 223, 0.1);
+    border-left: 3px solid var(--gold);
+    padding: 1rem 1.5rem;
+    margin: 1rem 0;
+    list-style: none !important;
+    border-radius: 8px;
+}
+
+.faq-stats li {
+    padding-left: 0 !important;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--text-white);
+}
+
+.faq-stats li::before {
+    content: '📊' !important;
+    margin-right: 0.7rem;
+    left: 0 !important;
+}
+
+.faq-highlight {
+    background: rgba(76, 168, 223, 0.1);
+    border-left: 3px solid var(--gold);
+    padding: 1rem 1.5rem;
+    margin-top: 1rem;
+    border-radius: 8px;
+}
+
+/* Success Stories Modern Style */
+.success-stories-modern {
+    padding: var(--section-padding-y) 0;
+    background: transparent;
+}
+
+.success-modern-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.success-modern-card {
+    background: var(--glass-bg-medium);
+    backdrop-filter: var(--glass-blur-strong);
+    -webkit-backdrop-filter: var(--glass-blur-strong);
+    border: 2px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 1.5rem;
+    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+    min-height: 400px;
+}
+
+.success-modern-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--gold);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+}
+
+.success-modern-header {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 2px solid var(--glass-border);
+}
+
+.success-modern-image-wrapper {
+    flex-shrink: 0;
+}
+
+.success-modern-image {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--gold);
+    box-shadow: 0 4px 16px rgba(76, 168, 223, 0.3);
+}
+
+.success-modern-info {
+    flex: 1;
+}
+
+.success-modern-name {
+    font-size: 1.8rem;
+    color: var(--gold);
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.success-modern-title {
+    font-size: 1rem;
+    color: var(--text-gray);
+    margin: 0;
+}
+
+.success-modern-body {
+    flex: 1;
+}
+
+.success-modern-quote {
+    font-size: 1.05rem;
+    color: var(--text-gray);
+    line-height: 1.8;
+    font-style: normal !important;
+}
+
+@media (max-width: 1024px) {
+    .success-modern-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .success-modern-card {
+        min-height: auto;
+        padding: 1.25rem;
+    }
+
+    .success-modern-header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .success-modern-image {
+        width: 100px;
+        height: 100px;
+    }
+
+    .success-modern-name {
+        font-size: 1.5rem;
+    }
+
+    .faq-content {
+        grid-template-columns: 1fr !important;
+        gap: 1.5rem !important;
+    }
+}
