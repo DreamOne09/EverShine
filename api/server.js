@@ -102,6 +102,29 @@ app.get('/api/members/:name', async (req, res) => {
     }
 });
 
+// 處理 Clean URLs (例如 /members -> /members.html)
+app.get('/:page', (req, res, next) => {
+    const page = req.params.page;
+
+    // 忽略 API 請求和有副檔名的檔案
+    if (page.startsWith('api') || page.includes('.')) {
+        return next();
+    }
+
+    // 嘗試尋找對應的 .html 檔案
+    const filePath = path.join(__dirname, '../', `${page}.html`);
+
+    // 檢查檔案是否存在
+    fs.access(filePath)
+        .then(() => {
+            res.sendFile(filePath);
+        })
+        .catch(() => {
+            // 如果找不到 .html 檔案，交給下一個處理程序（可能會是 404）
+            next();
+        });
+});
+
 app.listen(PORT, () => {
     console.log(`🚀 API服務運行在 http://localhost:${PORT}`);
     console.log(`📝 健康檢查: http://localhost:${PORT}/api/health`);

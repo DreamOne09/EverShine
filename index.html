@@ -225,8 +225,8 @@
             <div class="container">
                 <div class="bni-link-card">
                     <div class="bni-link-icon">
-                        <img src="images/assets/logo/bni-logo-new.png" alt="BNI Logo" class="bni-logo-icon" width="140"
-                            height="140" loading="lazy">
+                        <img src="images/assets/logo/bni-logo-red-transparent.png" alt="BNI Logo" class="bni-logo"
+                            onerror="this.style.display='none';">
                     </div>
                     <h2 class="bni-link-title">什麼是BNI?</h2>
                     <p class="bni-link-description">了解全球最大商務引薦平台，成立40年，遍及76+國家，34萬+會員</p>
@@ -275,22 +275,8 @@
                         </div>
                         <p class="about-values-desc">以專業態度與誠信為本，懷抱熱忱，將理念化為實際行動</p>
                     </div>
-
-                    <div class="about-modern-item wide" data-aos="fade-up" data-aos-delay="400">
-                        <div class="about-modern-icon">
-                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <rect x="2" y="4" width="20" height="14" rx="2" stroke="currentColor"
-                                    stroke-width="2" />
-                                <path d="M6 8H10V12H6V8Z" fill="currentColor" opacity="0.5" />
-                                <path d="M14 8H18V12H14V8Z" fill="currentColor" opacity="0.5" />
-                                <path d="M6 14H10V18H6V14Z" fill="currentColor" opacity="0.3" />
-                                <path d="M14 14H18V18H14V14Z" fill="currentColor" opacity="0.3" />
-                                <circle cx="12" cy="20" r="2" fill="currentColor" />
-                            </svg>
-
-                        </div>
-                    </div>
+                </div>
+            </div>
         </section>
 
         <!-- 成果會說話 - 整合區塊 -->
@@ -947,6 +933,35 @@
         }
     </script>
 
+    <script>
+        // FAQ Fallback Script
+        document.addEventListener('DOMContentLoaded', function () {
+            const faqQuestions = document.querySelectorAll('.faq-question');
+            faqQuestions.forEach(question => {
+                // Remove old listeners to avoid duplicates if main.js also runs
+                const newQuestion = question.cloneNode(true);
+                question.parentNode.replaceChild(newQuestion, question);
+
+                newQuestion.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const item = this.closest('.faq-item');
+                    const isActive = item.classList.contains('active');
+
+                    // Close all others
+                    document.querySelectorAll('.faq-item').forEach(other => {
+                        if (other !== item) other.classList.remove('active');
+                    });
+
+                    // Toggle current
+                    if (!isActive) {
+                        item.classList.add('active');
+                    } else {
+                        item.classList.remove('active');
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>

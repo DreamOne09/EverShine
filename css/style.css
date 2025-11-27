@@ -5976,6 +5976,7 @@ h4,
     font-weight: 400 !important;
     position: relative !important;
     padding-left: 1.5rem !important;
+    font-style: normal !important;
 }
 
 .success-quote::before {
