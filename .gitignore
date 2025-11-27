@@ -35,3 +35,8 @@ Thumbs.db
 # 原始會員照片目錄（已優化至 images/members/）
 會員照片/正式會員-20251105T073702Z-1-001/
 
+
+# Scripts
+*.ps1
+*.py
+*.sh

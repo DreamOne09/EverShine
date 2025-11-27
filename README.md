@@ -27,7 +27,7 @@
 
 ### 主要頁面
 - **首頁** (`/`) - 包含所有核心內容區塊
-- **什麼是BNI** (`/what-is-bni`) - BNI 組織介紹、全球統計
+- **什麼是BNI** (`/bni`) - BNI 組織介紹、全球統計
 - **會員介紹** (`/members`) - 完整會員名單與產業分類
 - **會員引薦報告** (`/referrals`) - 引薦成果展示
 
@@ -194,7 +194,7 @@ shadows.push(`${x}px ${y}px #FFF`);
 
 #### 🌟 背景渲染修復
 - **修復非首頁白色背景問題**：
-  - 為 `members.html`, `referrals.html`, `what-is-bni.html` 添加缺失的 `.global-background` 和 `#starrySkyCanvas` 元素
+  - 為 `members.html`, `referrals.html`, `bni.html` 添加缺失的 `.global-background` 和 `#starrySkyCanvas` 元素
   - 所有頁面現在都有完整的星空背景
 
 #### ✨ 星空品質提升
@@ -340,7 +340,7 @@ shadows.push(`${x}px ${y}px #FFF`);
 ### 🎯 URL 優化詳情
 所有鏈接現在使用 clean URL：
 - ✅ `https://evershine.tw/` (首頁)
-- ✅ `https://evershine.tw/what-is-bni` (什麼是BNI)
+- ✅ `https://evershine.tw/bni` (什麼是BNI)
 - ✅ `https://evershine.tw/members` (會員介紹)
 - ✅ `https://evershine.tw/referrals` (會員引薦報告)
 

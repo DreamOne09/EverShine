@@ -11,6 +11,9 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
+// 靜態文件服務
+app.use(express.static(path.join(__dirname, '../')));
+
 // 簡單的驗證碼系統（可以改為更安全的方式）
 const VALID_CODES = {
     'EVERSHINE2025': true  // 可以定期更換
