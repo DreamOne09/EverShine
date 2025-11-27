@@ -189,6 +189,10 @@
                 <input type="text" id="member-name" placeholder="例如：何昇軒">
                 <small>請輸入與會員照片檔名相同的姓名</small>
             </div>
+            <div class="form-group">
+                <label for="verification-code">驗證碼</label>
+                <input type="password" id="verification-code" placeholder="請輸入驗證碼">
+            </div>
             <button class="btn btn-primary" onclick="loadMemberData()">載入我的資料</button>
         </div>
 
@@ -281,32 +285,62 @@
     <script>
         let currentMember = null;
         let croppedPhoto = null;
+        const API_BASE_URL = 'http://localhost:3000/api';
 
         // 載入會員資料
         async function loadMemberData() {
             const name = document.getElementById('member-name').value.trim();
+            const code = document.getElementById('verification-code').value.trim();
+
             if (!name) {
                 showMessage('請輸入姓名', 'error');
                 return;
             }
 
             try {
-                const response = await fetch('data/members-data.json');
-                const data = await response.json();
-                const member = data.members.find(m => m.name === name);
+                // 嘗試從 API 載入
+                const response = await fetch(`${API_BASE_URL}/members/${encodeURIComponent(name)}`);
 
-                if (!member) {
-                    showMessage('找不到此會員，請確認姓名是否正確', 'error');
-                    return;
+                if (!response.ok) {
+                    if (response.status === 404) {
+                        throw new Error('找不到此會員，請確認姓名是否正確');
+                    }
+                    throw new Error('連線失敗');
                 }
 
+                const member = await response.json();
                 currentMember = member;
                 populateForm(member);
+
+                // 儲存驗證碼供後續使用
+                sessionStorage.setItem('verificationCode', code);
+
                 document.getElementById('auth-section').style.display = 'none';
                 document.getElementById('edit-form').style.display = 'block';
                 showMessage('資料載入成功！', 'success');
             } catch (error) {
-                showMessage('載入資料失敗：' + error.message, 'error');
+                console.error(error);
+                // 如果 API 失敗，嘗試讀取靜態 JSON (備用方案，但無法儲存)
+                try {
+                    const response = await fetch('data/members-data.json');
+                    const data = await response.json();
+                    const member = data.members.find(m => m.name === name);
+
+                    if (!member) {
+                        showMessage('找不到此會員，請確認姓名是否正確', 'error');
+                        return;
+                    }
+
+                    currentMember = member;
+                    populateForm(member);
+                    sessionStorage.setItem('verificationCode', code);
+
+                    document.getElementById('auth-section').style.display = 'none';
+                    document.getElementById('edit-form').style.display = 'block';
+                    showMessage('資料載入成功 (離線模式)', 'success');
+                } catch (e) {
+                    showMessage('載入資料失敗：' + error.message, 'error');
+                }
             }
         }
 
@@ -381,6 +415,20 @@
         function updateCharCounter(id, max) {
             const textarea = document.getElementById(id);
             const counter = document.getElementById(id + '-counter');
+            if (textarea && counter) {
+                counter.textContent = `${textarea.value.length} / ${max}`;
+            }
+        }
+
+        // 收集表單資料
+        function collectData() {
+            const links = [];
+            const link1Type = document.getElementById('link1-type').value;
+            const link1Url = document.getElementById('link1-url').value;
+            if (link1Type && link1Url) {
+                links.push({ type: link1Type, url: link1Url, icon: link1Type });
+            }
+
             const link2Type = document.getElementById('link2-type').value;
             const link2Url = document.getElementById('link2-url').value;
             if (link2Type && link2Url) {
@@ -396,6 +444,56 @@
                 links: links,
                 photo: croppedPhoto || currentMember.photo
             };
+        }
+
+        // 預覽資料
+        function previewData() {
+            const data = collectData();
+            console.log('Preview Data:', data);
+            alert('預覽功能尚未實作，請查看控制台日誌');
+        }
+
+        // 儲存資料
+        async function saveData() {
+            const data = collectData();
+            const errors = validateData(data);
+
+            if (errors.length > 0) {
+                showMessage(errors.join('\n'), 'error');
+                return;
+            }
+
+            const verificationCode = sessionStorage.getItem('verificationCode') ||
+                document.getElementById('verification-code').value;
+
+            if (!verificationCode) {
+                showMessage('請輸入驗證碼', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/members/update`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        memberName: currentMember.name,
+                        memberData: data,
+                        verificationCode: verificationCode
+                    })
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    showMessage('資料更新成功！', 'success');
+                } else {
+                    throw new Error(result.error || '更新失敗');
+                }
+            } catch (error) {
+                showMessage('儲存失敗：' + error.message, 'error');
+            }
         }
 
         // 驗證資料
