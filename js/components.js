@@ -20,7 +20,7 @@ function getNavigationHTML() {
     <nav class="navbar" id="navbar">
         <div class="container nav-container">
             <a href="/" class="logo">
-                <img src="images/assets/logo/白色長方形logo.png" alt="長輝白金分會" class="logo-image" width="180" height="45" loading="eager">
+                <img src="images/assets/logo/透明底白字長條logo.png" alt="長輝白金分會" class="logo-image" width="180" height="45" loading="eager">
             </a>
             <button class="nav-toggle" id="navToggle" aria-label="切換導航選單" aria-expanded="false">
                 <span></span>
