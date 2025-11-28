@@ -163,3 +163,81 @@
         gap: 1.5rem !important;
     }
 }
+
+/* Monthly Performance Table Styling */
+.monthly-performance-section {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.monthly-title {
+    font-size: 1.5rem;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+    text-align: center;
+    font-weight: 700;
+}
+
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 12px;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.performance-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px;
+    /* Ensure table doesn't squish too much on mobile */
+}
+
+.performance-table th,
+.performance-table td {
+    padding: 1rem;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    color: var(--text-white);
+}
+
+.performance-table th {
+    background: rgba(76, 168, 223, 0.15);
+    color: var(--gold);
+    font-weight: 700;
+    font-size: 1.1rem;
+    white-space: nowrap;
+}
+
+.performance-table tr:last-child td {
+    border-bottom: none;
+}
+
+.performance-table tr:hover td {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.data-subtext {
+    font-size: 0.9rem;
+    color: var(--text-gray);
+    margin-top: 0.25rem;
+    font-weight: 400;
+}
+
+.data-icon-unified {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+@media (max-width: 768px) {
+
+    .performance-table th,
+    .performance-table td {
+        padding: 0.75rem 0.5rem;
+        font-size: 0.95rem;
+    }
+
+    .data-value-unified {
+        font-size: 2rem;
+    }
+}
