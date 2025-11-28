@@ -28,7 +28,9 @@
         rel="stylesheet">
 
     <!-- Critical Scripts -->
-    <script src="js/starry-background-unified.min.js?v=20250125" defer></script>
+    <script src="js/starry-background-unified.js?v=20250125" defer></script>
+    <!-- components.js 預載入，確保 header 盡快顯示 -->
+    <link rel="preload" href="js/components.js?v=20250125" as="script">
 </head>
 
 <body>

@@ -160,7 +160,9 @@ function initComponents() {
 function initNavigation() {
     const navToggle = document.getElementById('navToggle');
     const navMenu = document.getElementById('navMenu');
+    const navbar = document.getElementById('navbar');
 
+    // 選單切換功能
     if (navToggle && navMenu) {
         navToggle.addEventListener('click', () => {
             const isExpanded = navToggle.getAttribute('aria-expanded') === 'true';
@@ -168,6 +170,43 @@ function initNavigation() {
             navMenu.classList.toggle('active');
         });
     }
+
+    // 導航欄滾動效果（優化性能：使用節流）
+    if (navbar) {
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    if (window.scrollY > 50) {
+                        navbar.style.background = 'rgba(6, 32, 58, 0.95)';
+                        navbar.style.boxShadow = '0 12px 24px rgba(1, 27, 54, 0.35)';
+                    } else {
+                        navbar.style.background = 'rgba(8, 38, 68, 0.9)';
+                        navbar.style.boxShadow = '0 8px 18px rgba(1, 27, 54, 0.25)';
+                    }
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
+    }
+
+    // 標記當前頁面的導航連結
+    const currentPath = window.location.pathname;
+    const navLinks = document.querySelectorAll('.nav-link');
+    navLinks.forEach(link => {
+        const linkPath = new URL(link.href).pathname;
+        // 處理根路徑和 index.html
+        if (linkPath === '/' || linkPath === '/index.html') {
+            if (currentPath === '/' || currentPath === '/index.html' || currentPath === '') {
+                link.classList.add('active');
+                link.setAttribute('aria-current', 'page');
+            }
+        } else if (currentPath.includes(linkPath.replace(/^\//, '').replace(/\.html$/, ''))) {
+            link.classList.add('active');
+            link.setAttribute('aria-current', 'page');
+        }
+    });
 }
 
 // 返回頂部按鈕功能

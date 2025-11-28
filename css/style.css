@@ -129,6 +129,14 @@
     /* 觸控目標最小尺寸 */
     --touch-target-min: 44px;
     /* WCAG 2.5.5 標準 */
+
+    /* ============================================
+       設計系統 - 可訪問性 (Accessibility)
+       ============================================ */
+    --focus-outline: 2px solid var(--color-primary);
+    --focus-outline-offset: 2px;
+    --focus-ring: 0 0 0 4px rgba(76, 168, 223, 0.3);
+    /* WCAG 2.1 AA 標準：對比度至少 3:1 */
 }
 
 /* ============================================
@@ -433,19 +441,22 @@ body {
     pointer-events: none;
 }
 
-/* Canvas 星空 - 位於背景之上，內容之下 */
+/* Canvas 星空 - 位於背景之上，內容之下（統一定義） */
 #starrySkyCanvas {
     position: fixed !important;
     top: 0 !important;
     left: 0 !important;
     width: 100% !important;
     height: 100% !important;
-    z-index: -50 !important;
-    /* 確保在背景之上 */
+    min-height: 100vh !important;
+    z-index: -5 !important;
+    /* 確保在背景之上，內容之下 */
     pointer-events: none !important;
+    background: transparent !important;
+    background-color: transparent !important;
+    overflow: visible !important;
 }
 
-/* 主要內容區域 - 位於星空之上 */
 /* 主要內容區域 - 位於星空之上 */
 main,
 section,
@@ -460,22 +471,7 @@ header {
     z-index: 1001;
 }
 
-/* Canvas 星空背景 - Hero section */
-#starrySkyCanvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    min-height: 100vh;
-    z-index: -5 !important;
-    pointer-events: none;
-    background: transparent;
-    overflow: visible;
-    background: transparent !important;
-    /* 確保容器不會遮擋星星 */
-    background-color: transparent !important;
-}
+/* Navbar 已在下方定義，這裡只確保 z-index 正確 */
 
 /* 星空背景容器 - 覆蓋整個頁面 */
 .starry-background-container {
@@ -885,7 +881,7 @@ h4,
     background: rgba(8, 38, 68, 0.9);
     backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--border-gold);
-    z-index: 1000;
+    z-index: 1001; /* 確保在內容之上 */
     transition: var(--transition);
 }
 
@@ -1015,6 +1011,18 @@ h4,
 
 .nav-link:focus::after {
     width: 100%;
+}
+
+/* 當前頁面導航連結樣式 */
+.nav-link.active {
+    color: var(--gold);
+    font-weight: 600;
+}
+
+.nav-link.active::after {
+    width: 100%;
+    background: var(--gold);
+    box-shadow: 0 0 8px rgba(197, 160, 89, 0.5);
 }
 
 .nav-toggle {

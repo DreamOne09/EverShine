@@ -29,7 +29,7 @@
     // 頁面載入完成後初始化
     // ============================================
     document.addEventListener('DOMContentLoaded', () => {
-        // 載入共用組件
+        // 載入共用組件（包含 header/footer 和導航功能）
         if (typeof initComponents === 'function') {
             initComponents();
         }
@@ -40,18 +40,17 @@
             loadMembersData();
         }
 
-        initNavigation();
-
         // 檢查是否有關鍵數字區塊
         if (document.querySelector('.metric-value')) {
             initMetricsAnimation();
         }
 
-        initBackToTop();
+        // 注意：initNavigation()（包含滾動效果）和 initBackToTop() 已由 components.js 處理，無需重複呼叫
         handleAnchorNavigation();
         initFAQ();
         initScrollAnimations();
         initGlobalImageErrorHandler();
+        initReferralCardToggles();
 
         // 確保載入畫面隱藏
         const loader = document.getElementById('pageLoader');
@@ -374,36 +373,7 @@
         return html ? `<div class="member-contact">${html}</div>` : '';
     }
 
-    // ============================================
-    // 初始化導航功能 (Throttled Scroll)
-    // ============================================
-    function initNavigation() {
-        const navbar = document.getElementById('navbar');
-
-        // 使用 Throttle 優化滾動監聽
-        if (navbar) {
-            window.addEventListener('scroll', throttle(() => {
-                if (window.scrollY > 50) {
-                    navbar.style.background = 'rgba(6, 32, 58, 0.95)';
-                    navbar.style.boxShadow = '0 12px 24px rgba(1, 27, 54, 0.35)';
-                } else {
-                    navbar.style.background = 'rgba(8, 38, 68, 0.9)';
-                    navbar.style.boxShadow = '0 8px 18px rgba(1, 27, 54, 0.25)';
-                }
-            }, 100));
-        }
-
-        // 響應式選單
-        const navToggle = document.getElementById('navToggle');
-        const navMenu = document.getElementById('navMenu');
-        if (navToggle && navMenu) {
-            navToggle.addEventListener('click', (e) => {
-                e.preventDefault();
-                navMenu.classList.toggle('active');
-                navToggle.classList.toggle('active');
-            });
-        }
-    }
+    // 注意：導航欄滾動效果已整合到 components.js 的 initNavigation() 中，無需重複實作
 
     function initMetricsAnimation() {
         const observer = new IntersectionObserver((entries) => {
@@ -442,18 +412,7 @@
         return num.toLocaleString('zh-TW');
     }
 
-    function initBackToTop() {
-        const btn = document.getElementById('backToTop');
-        if (!btn) return;
-
-        window.addEventListener('scroll', throttle(() => {
-            btn.classList.toggle('visible', window.scrollY > 300);
-        }, 200));
-
-        btn.addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-    }
+    // 注意：initBackToTop() 已由 components.js 處理，此函數已移除以避免重複
 
     function initMemberToggles() {
         // 使用事件委派
@@ -494,6 +453,36 @@
             }
         });
     }
+
+    // ============================================
+    // 初始化引薦卡片展開功能
+    // ============================================
+    function initReferralCardToggles() {
+        document.body.addEventListener('click', (e) => {
+            const card = e.target.closest('.referral-card');
+            if (!card) return;
+
+            // 如果點擊的是連結，不觸發展開
+            if (e.target.closest('a')) return;
+
+            // 切換展開狀態
+            const isExpanded = card.classList.toggle('expanded');
+            
+            // 可選：關閉其他已展開的卡片（只保留一個展開）
+            if (isExpanded) {
+                document.querySelectorAll('.referral-card.expanded').forEach(otherCard => {
+                    if (otherCard !== card) {
+                        otherCard.classList.remove('expanded');
+                    }
+                });
+            }
+        });
+    }
+
+    // 在初始化時調用
+    document.addEventListener('DOMContentLoaded', () => {
+        initReferralCardToggles();
+    });
 
 })();
 

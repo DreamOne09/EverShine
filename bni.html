@@ -4,24 +4,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>什麼是BNI？全球最大商務引薦平台 | BNI台灣 | 商務引薦</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>什麼是BNI？全球最大商務引薦平台 | BNI台灣 | BNI 長輝白金分會</title>
     <meta name="description"
         content="了解BNI（Business Network International），全球最大商務引薦平台。成立40年，遍及76+國家，11,300+分會，34萬+會員。台灣BNI卓越表現：245分會，9,932會員，72萬+引薦單數，253億成交金額。">
     <meta name="keywords" content="BNI, 什麼是BNI, Business Network International, 商務引薦, 商業網絡, BNI台灣, 全球商務平台, 引薦行銷, 商業合作">
 
+    <!-- Resource Hints for Performance -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://dreamone09.github.io/EverShine/bni">
+    <meta property="og:url" content="https://evershine.tw/bni">
     <meta property="og:title" content="什麼是BNI？全球最大商務引薦平台">
     <meta property="og:description" content="BNI成立40年，是全球最具影響力的商務引薦組織。遍及76+國家，11,300+分會，34萬+會員，全球引薦金額達7,500億新台幣。">
     <meta property="og:image" content="images/assets/logo/BNI紅色商標.png">
+    <meta property="og:locale" content="zh_TW">
+    <meta property="og:site_name" content="BNI 長輝白金分會">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://dreamone09.github.io/EverShine/bni">
+    <meta property="twitter:url" content="https://evershine.tw/bni">
     <meta property="twitter:title" content="什麼是BNI？全球最大商務引薦平台">
     <meta property="twitter:description" content="BNI成立40年，是全球最具影響力的商務引薦組織。遍及76+國家，11,300+分會，34萬+會員，全球引薦金額達7,500億新台幣。">
     <meta property="twitter:image" content="images/assets/logo/BNI紅色商標.png">
+
+    <!-- Security and Performance -->
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://evershine.tw/bni">
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" href="images/assets/logo/白色正方形logo.png">
+    <link rel="apple-touch-icon" href="images/assets/logo/白色正方形logo.png">
 
     <!-- Schema.org 結構化資料 -->
     <script type="application/ld+json">
@@ -39,7 +59,7 @@
             "name": "BNI 長輝白金分會",
             "logo": {
                 "@type": "ImageObject",
-                "url": "images/assets/logo/BNI紅色商標.png"
+                "url": "https://evershine.tw/images/assets/logo/BNI紅色商標.png"
             }
         },
         "datePublished": "2025-01-01",
@@ -47,16 +67,48 @@
     }
     </script>
 
-    <!-- Canonical URL -->
-    <link rel="canonical" href="https://evershine.tw/bni">
+    <!-- Critical Inline Styles - Minimal above-the-fold CSS -->
+    <style>
+        /* 基礎重置 - 防止 FOUC */
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            color: #f4f9ff;
+            font-family: 'Noto Sans TC', sans-serif;
+            background: transparent;
+            overflow-x: hidden;
+        }
 
-    <link rel="icon" type="image/png" href="images/assets/logo/白色正方形logo.png">
-    <link rel="apple-touch-icon" href="images/assets/logo/白色正方形logo.png">
-    <link rel="stylesheet" href="css/style.css?v=20251119-HOMEPAGE-REFACTOR">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap"
-        rel="stylesheet">
+        /* 全局背景層 - 最底層 */
+        .global-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #050505;
+            z-index: -10;
+            pointer-events: none;
+        }
+    </style>
+
+    <!-- Main Stylesheet - Load immediately to ensure styles -->
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="css/style.css?v=20251128">
+    <link rel="stylesheet" href="css/custom-additions.css?v=20251128">
+
+    <!-- Fonts - Optimized: Only load essential weights (400, 700), use font-display swap -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap"
+        as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+    </noscript>
+
+    <!-- Critical Scripts - Only essential scripts in head, rest deferred -->
+    <script src="js/starry-background-unified.min.js?v=20250125" defer></script>
+    <!-- components.js 預載入，確保 header 盡快顯示 -->
+    <link rel="preload" href="js/components.js?v=20250125" as="script">
 </head>
 
 <body>
@@ -275,7 +327,7 @@
     <!-- 共用組件（頁尾、固定橫幅）將由 components.js 自動載入 -->
 
     <script src="js/components.js?v=20250125" defer></script>
-    <script src="js/starry-background-unified.js?v=20250125" defer></script>
+    <!-- starry-background-unified.min.js 已在 head 中載入，無需重複 -->
     <script src="js/main.js?v=20250125" defer></script>
     <script src="js/scroll-progress.js?v=20250125" defer></script>
     <script>

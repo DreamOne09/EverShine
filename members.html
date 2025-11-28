@@ -26,6 +26,8 @@
 
     <!-- Critical Scripts -->
     <script src="js/starry-background-unified.min.js?v=20250125" defer></script>
+    <!-- components.js 預載入，確保 header 盡快顯示 -->
+    <link rel="preload" href="js/components.js?v=20250125" as="script">
 </head>
 
 <body>
@@ -75,12 +77,25 @@
 
             <!-- 篩選器 -->
             <div class="filter-section">
-                <!-- Scripts -->
-                <script src="js/components.js?v=20250125" defer></script> <!-- 負責 Header/Footer -->
-                <script src="js/members-renderer.js?v=20251128" defer></script> <!-- 負責會員名單 -->
-                <script src="js/scroll-progress.js?v=20250125" defer></script>
-                <!-- 移除 main.js 對會員部分的干擾，如果 main.js 有其他功能，確保它不會重複執行會員載入 -->
-                <script src="js/main.js?v=20250125" defer></script>
+                <div id="filterButtons" class="filter-buttons">
+                    <!-- 篩選按鈕將由 members-renderer.js 動態載入 -->
+                </div>
+            </div>
+
+            <!-- 會員列表 -->
+            <div id="membersGrid" class="members-grid">
+                <!-- 會員卡片將由 members-renderer.js 動態載入 -->
+            </div>
+        </div>
+    </section>
+
+    <!-- 共用組件 (Footer) -->
+
+    <!-- Scripts -->
+    <script src="js/components.js?v=20250125" defer></script> <!-- 負責 Header/Footer -->
+    <script src="js/scroll-progress.js?v=20250125" defer></script>
+    <!-- 會員名單渲染 - 必須在 main.js 之前載入，避免衝突 -->
+    <script src="js/members-renderer.js?v=20251128" defer></script> <!-- 負責會員名單 -->
 </body>
 
 </html>

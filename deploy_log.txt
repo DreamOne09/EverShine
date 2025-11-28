@@ -1,0 +1,29 @@
+========================================== 
+[STEP 1] Checking Git Status... 
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   404.html
+	modified:   bni.html
+	modified:   css/style.css
+	modified:   ebook-download.html
+	modified:   edit.html
+	modified:   index.html
+	modified:   js/components.js
+	modified:   js/main.js
+	modified:   js/starry-background-unified.js
+	modified:   members.html
+	modified:   referrals.html
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	debug_deploy.bat
+	deploy_log.txt
+	images/assets/performance-table-2025.svg
+
+no changes added to commit (use "git add" and/or "git commit -a")
+ 
+[STEP 2] Adding files... 
