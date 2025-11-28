@@ -34,8 +34,9 @@
             initComponents();
         }
 
-        // 檢查是否有會員展示區
-        if (document.getElementById('membersGrid')) {
+        // 檢查是否有會員展示區，且沒有使用自定義渲染器
+        const membersGrid = document.getElementById('membersGrid');
+        if (membersGrid && !membersGrid.hasAttribute('data-custom-render')) {
             loadMembersData();
         }
 

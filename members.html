@@ -6,17 +6,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>會員介紹 - BNI 長輝白金分會</title>
     <meta name="description" content="BNI 長輝白金分會會員介紹，60位來自各行各業的專業會員，涵蓋企業顧問、數位行銷、資訊系統等領域。">
+
     <!-- Canonical URL -->
     <link rel="canonical" href="https://evershine.tw/members">
 
+    <!-- Favicon -->
     <link rel="icon" type="image/png" href="images/assets/logo/白色正方形logo.png">
     <link rel="apple-touch-icon" href="images/assets/logo/白色正方形logo.png">
+
+    <!-- CSS -->
     <link rel="stylesheet" href="css/style.css?v=20251128">
     <link rel="stylesheet" href="css/custom-additions.css?v=20251128">
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap"
         rel="stylesheet">
+
+    <!-- Critical Scripts -->
+    <script src="js/starry-background-unified.min.js?v=20250125" defer></script>
 </head>
 
 <body>
@@ -24,7 +33,8 @@
     <div class="global-background"></div>
     <!-- Canvas 星空背景 -->
     <canvas id="starrySkyCanvas" aria-hidden="true"></canvas>
-    <!-- 共用組件將由 components.js 自動載入 -->
+
+    <!-- 共用組件將由 components.js 自動載入 (Header) -->
 
     <!-- Hero區塊 -->
     <section class="page-hero">
@@ -65,27 +75,12 @@
 
             <!-- 篩選器 -->
             <div class="filter-section">
-                <div class="filter-buttons" id="filterButtons">
-                    <button class="filter-btn active" data-category="all">全部顯示</button>
-                    <!-- 篩選按鈕將由 JavaScript 動態生成 -->
-                </div>
-            </div>
-
-            <!-- 會員網格 -->
-            <div class="members-grid" id="membersGrid">
-                <!-- 會員卡片將由 JavaScript 動態生成 -->
-            </div>
-        </div>
-    </section>
-
-    <!-- 共用組件（頁尾、固定橫幅）將由 components.js 自動載入 -->
-
-    <script src="js/components.js?v=20250125" defer></script>
-    <script src="js/starry-background-unified.js?v=20250125" defer></script>
-    <script src="js/category-mapping.js?v=20250125" defer></script>
-
-    <script src="js/main.js?v=20250125" defer></script>
-    <script src="js/scroll-progress.js?v=20250125" defer></script>
+                <!-- Scripts -->
+                <script src="js/components.js?v=20250125" defer></script> <!-- 負責 Header/Footer -->
+                <script src="js/members-renderer.js?v=20251128" defer></script> <!-- 負責會員名單 -->
+                <script src="js/scroll-progress.js?v=20250125" defer></script>
+                <!-- 移除 main.js 對會員部分的干擾，如果 main.js 有其他功能，確保它不會重複執行會員載入 -->
+                <script src="js/main.js?v=20250125" defer></script>
 </body>
 
 </html>
