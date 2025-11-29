@@ -4872,7 +4872,8 @@ h4,
     position: relative !important;
     overflow: hidden !important;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(76, 168, 223, 0.2) !important;
-    aspect-ratio: 1 !important;
+    height: auto !important;
+    min-height: 420px;
     display: flex !important;
     flex-direction: column !important;
     cursor: pointer !important;
@@ -5022,30 +5023,37 @@ h4,
 /* 會員引薦報告 - Header 區域的照片預覽 */
 .referral-preview-photos-header {
     display: flex !important;
-    justify-content: space-between !important;
-    align-items: flex-start !important;
-    gap: 1.5rem !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
     margin-top: 1rem !important;
     padding-top: 1rem !important;
     border-top: 1px solid rgba(76, 168, 223, 0.2) !important;
-    flex-wrap: wrap !important;
+    flex-wrap: nowrap !important;
 }
 
 .referral-preview-photo-item {
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
-    gap: 0.75rem !important;
+    gap: 0.5rem !important;
     flex: 1 !important;
-    min-width: 140px !important;
-    max-width: 200px !important;
+    min-width: 0 !important; /* 允許縮小 */
+}
+
+.referral-arrow {
+    font-size: 1.5rem;
+    color: var(--gold);
+    margin: 0 0.5rem;
+    align-self: center;
+    flex-shrink: 0;
 }
 
 .referral-preview-photo-header {
-    width: 100px !important;
-    height: 100px !important;
+    width: 70px !important;
+    height: 70px !important;
     border-radius: 50% !important;
-    border: 3px solid var(--gold) !important;
+    border: 2px solid var(--gold) !important;
     object-fit: cover !important;
     object-position: center !important;
     box-shadow: 0 4px 16px rgba(76, 168, 223, 0.4) !important;
@@ -5056,9 +5064,33 @@ h4,
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
-    gap: 0.4rem !important;
+    gap: 0.2rem !important;
     text-align: center !important;
     width: 100% !important;
+}
+
+.referral-preview-photo-label-header {
+    font-size: 0.75rem !important;
+    color: var(--text-gray) !important;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 2px 8px;
+    border-radius: 10px;
+    margin-bottom: 2px;
+}
+
+.referral-preview-photo-name {
+    font-size: 1rem !important;
+    font-weight: 700 !important;
+    color: var(--text-white) !important;
+}
+
+.referral-preview-photo-industry {
+    font-size: 0.8rem !important;
+    color: var(--text-gray-light) !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
 }
 
 .referral-preview-photo-label-header {
@@ -8498,7 +8530,7 @@ h4,
 /* 數據卡片 */
 .results-unified-data {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 2rem;
     margin-bottom: 2rem;
 }
