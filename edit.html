@@ -23,9 +23,8 @@
     <link rel="icon" type="image/png" href="images/assets/logo/白色正方形logo.png">
     <link rel="apple-touch-icon" href="images/assets/logo/白色正方形logo.png">
 
-    <!-- Critical Inline Styles - Minimal above-the-fold CSS -->
+    <!-- Critical Inline Styles -->
     <style>
-        /* 基礎重置 - 防止 FOUC */
         html,
         body {
             margin: 0;
@@ -36,7 +35,6 @@
             overflow-x: hidden;
         }
 
-        /* 全局背景層 - 最底層 */
         .global-background {
             position: fixed;
             top: 0;
@@ -49,25 +47,16 @@
         }
     </style>
 
-    <!-- Main Stylesheet - Load immediately to ensure styles -->
-    <!-- CSS Files -->
-    <link rel="stylesheet" href="css/style.css?v=20251128">
-    <link rel="stylesheet" href="css/custom-additions.css?v=20251128">
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="css/style.css?v=20251130">
+    <link rel="stylesheet" href="css/custom-additions.css?v=20251130">
 
-    <!-- Fonts - Optimized: Only load essential weights (400, 700), use font-display swap -->
+    <!-- Fonts -->
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap"
         as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript>
         <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
     </noscript>
-
-    <!-- Cropper.js for image cropping -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
-
-    <!-- Browser Image Compression -->
-    <script
-        src="https://cdnjs.cloudflare.com/ajax/libs/browser-image-compression/2.0.2/browser-image-compression.min.js"></script>
 
     <style>
         .edit-container {
@@ -129,32 +118,6 @@
             font-size: 0.875rem;
         }
 
-        .photo-upload-area {
-            border: 2px dashed rgba(76, 168, 223, 0.5);
-            border-radius: 15px;
-            padding: 2rem;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .photo-upload-area:hover {
-            border-color: var(--color-primary);
-            background: rgba(76, 168, 223, 0.1);
-        }
-
-        .photo-preview {
-            max-width: 300px;
-            margin: 1rem auto;
-            border-radius: 12px;
-            overflow: hidden;
-        }
-
-        .photo-preview img {
-            width: 100%;
-            display: block;
-        }
-
         .btn-group {
             display: flex;
             gap: 1rem;
@@ -182,17 +145,10 @@
             box-shadow: 0 5px 20px rgba(76, 168, 223, 0.4);
         }
 
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.1);
-            color: #fff;
-            border: 1px solid rgba(76, 168, 223, 0.3);
-        }
-
-        .link-inputs {
-            display: grid;
-            grid-template-columns: 150px 1fr;
-            gap: 1rem;
-            margin-bottom: 1rem;
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
         }
 
         .char-counter {
@@ -216,6 +172,34 @@
             border-radius: 8px;
             margin-top: 1rem;
         }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .link-inputs {
+            display: grid;
+            grid-template-columns: 150px 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .readonly-field {
+            background: rgba(255, 255, 255, 0.05) !important;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 
@@ -230,36 +214,38 @@
 
         <!-- 身份驗證 -->
         <div class="edit-section" id="auth-section">
-            <h2>身份驗證</h2>
+            <h2>🔐 身份驗證</h2>
             <div class="form-group">
-                <label for="member-name">請輸入您的姓名</label>
-                <input type="text" id="member-name" placeholder="例如：何昇軒">
-                <small>請輸入與會員照片檔名相同的姓名</small>
+                <label for="member-name">請輸入您的姓名 *</label>
+                <input type="text" id="member-name" placeholder="例如：李孟亦" required>
+                <small>請輸入您在會員名單中的姓名</small>
             </div>
             <div class="form-group">
-                <label for="verification-code">驗證碼</label>
-                <input type="password" id="verification-code" placeholder="請輸入驗證碼">
+                <label for="verification-code">PIN 碼 *</label>
+                <input type="password" id="verification-code" placeholder="請輸入 PIN 碼" required>
+                <small>預設 PIN 碼：追求夢想得第一</small>
             </div>
-            <button class="btn btn-primary" onclick="loadMemberData()">載入我的資料</button>
+            <button class="btn btn-primary" onclick="loadMemberData()" id="load-btn">
+                載入我的資料
+            </button>
+            <div id="auth-message"></div>
         </div>
 
         <!-- 編輯表單（初始隱藏） -->
         <div id="edit-form" style="display: none;">
-            <!-- 照片編輯 -->
-            <div class="edit-section">
-                <h2>📸 會員照片</h2>
-                <div class="photo-upload-area" onclick="document.getElementById('photo-input').click()">
-                    <p>點擊上傳新照片</p>
-                    <small>支援 JPG、PNG 格式，將自動壓縮至 200KB</small>
-                </div>
-                <input type="file" id="photo-input" accept="image/*" style="display: none;"
-                    onchange="handlePhotoUpload(event)">
-                <div class="photo-preview" id="photo-preview"></div>
-            </div>
-
             <!-- 基本資料 -->
             <div class="edit-section">
                 <h2>💼 基本資料</h2>
+                <div class="form-group">
+                    <label for="name">姓名</label>
+                    <input type="text" id="name" class="readonly-field" readonly>
+                    <small>姓名無法修改</small>
+                </div>
+                <div class="form-group">
+                    <label for="industry">行業別</label>
+                    <input type="text" id="industry" class="readonly-field" readonly>
+                    <small>行業別無法修改</small>
+                </div>
                 <div class="form-group">
                     <label for="company">公司名稱 *</label>
                     <input type="text" id="company" maxlength="50" required>
@@ -277,15 +263,15 @@
                 <h2>✍️ 自我介紹</h2>
                 <div class="form-group">
                     <label for="short-intro">簡短介紹 *</label>
-                    <textarea id="short-intro" maxlength="30" required
-                        oninput="updateCharCounter('short-intro', 30)"></textarea>
-                    <div class="char-counter" id="short-intro-counter">0 / 30</div>
+                    <textarea id="short-intro" maxlength="100" required
+                        oninput="updateCharCounter('short-intro', 100)"></textarea>
+                    <div class="char-counter" id="short-intro-counter">0 / 100</div>
                 </div>
                 <div class="form-group">
                     <label for="full-intro">完整介紹 *</label>
                     <textarea id="full-intro" maxlength="500" required
                         oninput="updateCharCounter('full-intro', 500)"></textarea>
-                    <small>300-500 字</small>
+                    <small>建議 200-500 字</small>
                     <div class="char-counter" id="full-intro-counter">0 / 500</div>
                 </div>
             </div>
@@ -317,144 +303,119 @@
                     </select>
                     <input type="url" id="link2-url" placeholder="https://...">
                 </div>
+                <div class="link-inputs">
+                    <select id="link3-type">
+                        <option value="">選擇類型</option>
+                        <option value="website">官方網站</option>
+                        <option value="facebook">Facebook</option>
+                        <option value="instagram">Instagram</option>
+                        <option value="linkedin">LinkedIn</option>
+                        <option value="line">LINE</option>
+                        <option value="youtube">YouTube</option>
+                    </select>
+                    <input type="url" id="link3-url" placeholder="https://...">
+                </div>
             </div>
 
-            <!-- 預覽與儲存 -->
+            <!-- 儲存按鈕 -->
             <div class="btn-group">
-                <button class="btn btn-secondary" onclick="previewData()">預覽</button>
-                <button class="btn btn-primary" onclick="saveData()">儲存資料</button>
+                <button class="btn btn-primary" onclick="saveData()" id="save-btn">
+                    💾 儲存資料
+                </button>
             </div>
 
             <div id="message-area"></div>
         </div>
     </div>
 
+    <!-- GitHub API 相關腳本 -->
+    <script src="js/github-config.js"></script>
+    <script src="js/github-api.js"></script>
+
     <script>
         let currentMember = null;
-        let croppedPhoto = null;
-        const API_BASE_URL = 'http://localhost:3000/api';
+        let githubAPI = null;
+
+        // 初始化 GitHub API
+        function initGitHubAPI() {
+            if (typeof GITHUB_CONFIG === 'undefined') {
+                showMessage('GitHub 配置未載入', 'error', 'auth-message');
+                return false;
+            }
+
+            if (GITHUB_CONFIG.token === 'YOUR_GITHUB_TOKEN_HERE') {
+                showMessage('請先設定 GitHub Token（請聯絡管理員）', 'error', 'auth-message');
+                return false;
+            }
+
+            githubAPI = new GitHubAPI(GITHUB_CONFIG);
+            return true;
+        }
 
         // 載入會員資料
         async function loadMemberData() {
             const name = document.getElementById('member-name').value.trim();
-            const code = document.getElementById('verification-code').value.trim();
+            const pin = document.getElementById('verification-code').value.trim();
+            const loadBtn = document.getElementById('load-btn');
 
-            if (!name) {
-                showMessage('請輸入姓名', 'error');
+            if (!name || !pin) {
+                showMessage('請輸入姓名和 PIN 碼', 'error', 'auth-message');
+                return;
+            }
+
+            if (!initGitHubAPI()) {
                 return;
             }
 
             try {
-                // 嘗試從 API 載入
-                const response = await fetch(`${API_BASE_URL}/members/${encodeURIComponent(name)}`);
+                loadBtn.disabled = true;
+                loadBtn.innerHTML = '<span class="loading"></span> 驗證中...';
 
-                if (!response.ok) {
-                    if (response.status === 404) {
-                        throw new Error('找不到此會員，請確認姓名是否正確');
-                    }
-                    throw new Error('連線失敗');
-                }
-
-                const member = await response.json();
+                // 驗證 PIN 碼並載入資料
+                const member = await githubAPI.verifyPin(name, pin);
                 currentMember = member;
+
+                // 儲存 PIN 碼供後續使用
+                sessionStorage.setItem('memberName', name);
+                sessionStorage.setItem('memberPin', pin);
+
+                // 填充表單
                 populateForm(member);
 
-                // 儲存驗證碼供後續使用
-                sessionStorage.setItem('verificationCode', code);
-
+                // 顯示編輯表單
                 document.getElementById('auth-section').style.display = 'none';
                 document.getElementById('edit-form').style.display = 'block';
-                showMessage('資料載入成功！', 'success');
+
+                showMessage('資料載入成功！', 'success', 'message-area');
             } catch (error) {
-                console.error(error);
-                // 如果 API 失敗，嘗試讀取靜態 JSON (備用方案，但無法儲存)
-                try {
-                    const response = await fetch('data/members-data.json');
-                    const data = await response.json();
-                    const member = data.members.find(m => m.name === name);
-
-                    if (!member) {
-                        showMessage('找不到此會員，請確認姓名是否正確', 'error');
-                        return;
-                    }
-
-                    currentMember = member;
-                    populateForm(member);
-                    sessionStorage.setItem('verificationCode', code);
-
-                    document.getElementById('auth-section').style.display = 'none';
-                    document.getElementById('edit-form').style.display = 'block';
-                    showMessage('資料載入成功 (離線模式)', 'success');
-                } catch (e) {
-                    showMessage('載入資料失敗：' + error.message, 'error');
-                }
+                console.error('載入失敗:', error);
+                showMessage(error.message || '載入失敗，請檢查姓名和 PIN 碼是否正確', 'error', 'auth-message');
+            } finally {
+                loadBtn.disabled = false;
+                loadBtn.textContent = '載入我的資料';
             }
         }
 
         // 填充表單
         function populateForm(member) {
+            document.getElementById('name').value = member.name || '';
+            document.getElementById('industry').value = member.industry || '';
             document.getElementById('company').value = member.company || '';
             document.getElementById('position').value = member.position || '';
             document.getElementById('short-intro').value = member.shortIntro || '';
             document.getElementById('full-intro').value = member.fullIntro || '';
 
-            updateCharCounter('short-intro', 30);
+            updateCharCounter('short-intro', 100);
             updateCharCounter('full-intro', 500);
-
-            // 顯示現有照片
-            if (member.photo) {
-                const preview = document.getElementById('photo-preview');
-                preview.innerHTML = `<img src="${member.photo}" alt="${member.name}">`;
-            }
 
             // 填充連結
             if (member.links && member.links.length > 0) {
-                if (member.links[0]) {
-                    document.getElementById('link1-type').value = member.links[0].type || '';
-                    document.getElementById('link1-url').value = member.links[0].url || '';
-                }
-                if (member.links[1]) {
-                    document.getElementById('link2-type').value = member.links[1].type || '';
-                    document.getElementById('link2-url').value = member.links[1].url || '';
-                }
-            }
-        }
-
-        // 處理照片上傳
-        async function handlePhotoUpload(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            try {
-                // 壓縮照片
-                const options = {
-                    maxSizeMB: 0.2,
-                    maxWidthOrHeight: 800,
-                    useWebWorker: true
-                };
-                const compressedFile = await imageCompression(file, options);
-
-                // 顯示預覽
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    const preview = document.getElementById('photo-preview');
-                    preview.innerHTML = `<img src="${e.target.result}" alt="預覽" id="crop-image">`;
-
-                    // 初始化裁切工具
-                    const image = document.getElementById('crop-image');
-                    const cropper = new Cropper(image, {
-                        aspectRatio: 1,
-                        viewMode: 1,
-                        crop(event) {
-                            croppedPhoto = cropper.getCroppedCanvas().toDataURL('image/jpeg');
-                        }
-                    });
-                };
-                reader.readAsDataURL(compressedFile);
-
-                showMessage('照片上傳成功，請調整裁切範圍', 'success');
-            } catch (error) {
-                showMessage('照片處理失敗：' + error.message, 'error');
+                member.links.forEach((link, index) => {
+                    if (index < 3) {
+                        document.getElementById(`link${index + 1}-type`).value = link.type || '';
+                        document.getElementById(`link${index + 1}-url`).value = link.url || '';
+                    }
+                });
             }
         }
 
@@ -463,41 +424,32 @@
             const textarea = document.getElementById(id);
             const counter = document.getElementById(id + '-counter');
             if (textarea && counter) {
-                counter.textContent = `${textarea.value.length} / ${max}`;
+                const length = textarea.value.length;
+                counter.textContent = `${length} / ${max}`;
+                counter.style.color = length > max * 0.9 ? '#ff6b6b' : 'var(--text-gray)';
             }
         }
 
         // 收集表單資料
         function collectData() {
             const links = [];
-            const link1Type = document.getElementById('link1-type').value;
-            const link1Url = document.getElementById('link1-url').value;
-            if (link1Type && link1Url) {
-                links.push({ type: link1Type, url: link1Url, icon: link1Type });
-            }
 
-            const link2Type = document.getElementById('link2-type').value;
-            const link2Url = document.getElementById('link2-url').value;
-            if (link2Type && link2Url) {
-                links.push({ type: link2Type, url: link2Url, icon: link2Type });
+            for (let i = 1; i <= 3; i++) {
+                const type = document.getElementById(`link${i}-type`).value;
+                const url = document.getElementById(`link${i}-url`).value;
+                if (type && url) {
+                    links.push({ type, url, icon: type });
+                }
             }
 
             return {
-                company: document.getElementById('company').value,
-                position: document.getElementById('position').value,
-                title: `${document.getElementById('company').value} ${document.getElementById('position').value}`,
-                shortIntro: document.getElementById('short-intro').value,
-                fullIntro: document.getElementById('full-intro').value,
-                links: links,
-                photo: croppedPhoto || currentMember.photo
+                company: document.getElementById('company').value.trim(),
+                position: document.getElementById('position').value.trim(),
+                title: `${document.getElementById('position').value.trim()} - ${document.getElementById('company').value.trim()}`,
+                shortIntro: document.getElementById('short-intro').value.trim(),
+                fullIntro: document.getElementById('full-intro').value.trim(),
+                links: links
             };
-        }
-
-        // 預覽資料
-        function previewData() {
-            const data = collectData();
-            console.log('Preview Data:', data);
-            alert('預覽功能尚未實作，請查看控制台日誌');
         }
 
         // 儲存資料
@@ -506,40 +458,40 @@
             const errors = validateData(data);
 
             if (errors.length > 0) {
-                showMessage(errors.join('\n'), 'error');
+                showMessage('請修正以下錯誤：\n' + errors.join('\n'), 'error', 'message-area');
                 return;
             }
 
-            const verificationCode = sessionStorage.getItem('verificationCode') ||
-                document.getElementById('verification-code').value;
+            const memberName = sessionStorage.getItem('memberName');
+            const memberPin = sessionStorage.getItem('memberPin');
 
-            if (!verificationCode) {
-                showMessage('請輸入驗證碼', 'error');
+            if (!memberName || !memberPin) {
+                showMessage('請重新登入', 'error', 'message-area');
                 return;
             }
+
+            const saveBtn = document.getElementById('save-btn');
 
             try {
-                const response = await fetch(`${API_BASE_URL}/members/update`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        memberName: currentMember.name,
-                        memberData: data,
-                        verificationCode: verificationCode
-                    })
-                });
+                saveBtn.disabled = true;
+                saveBtn.innerHTML = '<span class="loading"></span> 儲存中...';
 
-                const result = await response.json();
+                // 更新資料
+                await githubAPI.updateMemberData(memberName, memberPin, data);
 
-                if (response.ok) {
-                    showMessage('資料更新成功！', 'success');
-                } else {
-                    throw new Error(result.error || '更新失敗');
-                }
+                showMessage('✅ 資料更新成功！網站將在幾分鐘內自動更新。', 'success', 'message-area');
+
+                // 3秒後重新整理頁面
+                setTimeout(() => {
+                    location.reload();
+                }, 3000);
+
             } catch (error) {
-                showMessage('儲存失敗：' + error.message, 'error');
+                console.error('儲存失敗:', error);
+                showMessage('儲存失敗：' + (error.message || '未知錯誤'), 'error', 'message-area');
+            } finally {
+                saveBtn.disabled = false;
+                saveBtn.innerHTML = '💾 儲存資料';
             }
         }
 
@@ -550,30 +502,35 @@
             if (!data.company) errors.push('- 公司名稱為必填');
             if (!data.position) errors.push('- 職稱為必填');
             if (!data.shortIntro) errors.push('- 簡短介紹為必填');
-            if (data.shortIntro && data.shortIntro.length > 30) errors.push('- 簡短介紹不可超過30字');
+            if (data.shortIntro && data.shortIntro.length > 100) errors.push('- 簡短介紹不可超過100字');
             if (!data.fullIntro) errors.push('- 完整介紹為必填');
-            if (data.fullIntro && (data.fullIntro.length < 300 || data.fullIntro.length > 500)) {
-                errors.push('- 完整介紹必須在300-500字之間');
+            if (data.fullIntro && data.fullIntro.length < 50) {
+                errors.push('- 完整介紹至少需要50字');
+            }
+            if (data.fullIntro && data.fullIntro.length > 500) {
+                errors.push('- 完整介紹不可超過500字');
             }
 
             return errors;
         }
 
         // 顯示訊息
-        function showMessage(message, type) {
-            const messageArea = document.getElementById('message-area');
+        function showMessage(message, type, targetId = 'message-area') {
+            const messageArea = document.getElementById(targetId);
             messageArea.className = type === 'error' ? 'error-message' : 'success-message';
             messageArea.textContent = message;
             messageArea.style.display = 'block';
 
-            setTimeout(() => {
-                messageArea.style.display = 'none';
-            }, 5000);
+            if (type === 'success') {
+                setTimeout(() => {
+                    messageArea.style.display = 'none';
+                }, 5000);
+            }
         }
     </script>
 
-    <script src="js/components.js?v=20250125" defer></script>
-    <script src="js/starry-background-unified.js?v=20250125" defer></script>
+    <script src="js/components.js?v=20251130" defer></script>
+    <script src="js/starry-background-unified.js?v=20251130" defer></script>
 </body>
 
 </html>
