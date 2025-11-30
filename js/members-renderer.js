@@ -93,6 +93,7 @@ function renderMembers(members, container) {
                     <div class="member-basic-info">
                         <h3 class="member-name">${member.name}</h3>
                         <p class="member-position">${member.position || member.title || '專業顧問'}</p>
+                        <p class="member-company">${member.company || ''}</p>
                         <p class="member-industry">${member.industry}</p>
                         <div class="member-tags">
                             <span class="member-category-pill">${member.category}</span>

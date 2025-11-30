@@ -139,6 +139,13 @@
     font-weight: 500;
 }
 
+.member-company {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 0.3rem;
+    font-weight: 400;
+}
+
 .member-tags {
     margin: 0.5rem 0;
 }
@@ -204,6 +211,16 @@
     margin-bottom: 1rem !important;
     line-height: 1.4 !important;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Referral Member Photo - Square Style */
+.referral-member-photo {
+    width: 80px;
+    height: 80px;
+    border-radius: 8px !important;
+    object-fit: cover;
+    border: 2px solid var(--gold);
+    margin-bottom: 0.5rem;
 }
 
 /* Preview Section */
