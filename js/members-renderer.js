@@ -70,6 +70,16 @@ function renderMembers(members, container) {
                </div>`
             : '';
 
+        // 處理服務項目 (顯示前3項)
+        const servicesHtml = member.services && member.services.length > 0
+            ? `<div class="member-services-preview">
+                <ul class="services-list">
+                    ${member.services.slice(0, 3).map(service => `<li>${service}</li>`).join('')}
+                    ${member.services.length > 3 ? `<li class="more-services">+${member.services.length - 3} 更多</li>` : ''}
+                </ul>
+               </div>`
+            : '';
+
         return `
             <div class="member-card" data-category="${member.category || ''}">
                 <div class="member-header">
@@ -82,14 +92,29 @@ function renderMembers(members, container) {
                     </div>
                     <div class="member-basic-info">
                         <h3 class="member-name">${member.name}</h3>
-                        <p class="member-title">${member.title || member.industry}</p>
+                        <p class="member-position">${member.position || member.title || '專業顧問'}</p>
                         <p class="member-industry">${member.industry}</p>
-                        <span class="member-category-tag">${member.category}</span>
+                        <div class="member-tags">
+                            <span class="member-category-pill">${member.category}</span>
+                        </div>
+                        ${linksHtml}
                     </div>
                 </div>
                 <div class="member-body">
-                    <p class="member-short-intro">${member.shortIntro || ''}</p>
-                    ${linksHtml}
+                    <div class="member-intro-section">
+                        <p class="member-short-intro">${member.shortIntro || ''}</p>
+                        <div class="member-full-intro hidden">
+                            <p>${member.fullIntro || ''}</p>
+                            <div class="member-full-services">
+                                <h4>服務項目：</h4>
+                                <ul>
+                                    ${member.services ? member.services.map(s => `<li>${s}</li>`).join('') : ''}
+                                </ul>
+                            </div>
+                        </div>
+                        <button class="read-more-btn" onclick="this.parentElement.querySelector('.member-full-intro').classList.toggle('hidden'); this.textContent = this.parentElement.querySelector('.member-full-intro').classList.contains('hidden') ? '查看更多' : '收起內容';">查看更多</button>
+                    </div>
+                    ${servicesHtml}
                 </div>
             </div>
         `;

@@ -460,20 +460,31 @@
     // ============================================
     function initReferralCardToggles() {
         document.body.addEventListener('click', (e) => {
+            // Check if the click is on the new button or the card itself (for backward compatibility/UX)
+            const btn = e.target.closest('.read-more-btn-referral');
             const card = e.target.closest('.referral-card');
+
             if (!card) return;
 
-            // 如果點擊的是連結，不觸發展開
-            if (e.target.closest('a')) return;
+            // If clicking a link inside (other than our button), ignore
+            if (e.target.tagName === 'A') return;
 
-            // 切換展開狀態
+            // Toggle expansion
             const isExpanded = card.classList.toggle('expanded');
-            
-            // 可選：關閉其他已展開的卡片（只保留一個展開）
+
+            // Update button text if the button was clicked or exists
+            const toggleBtn = card.querySelector('.read-more-btn-referral');
+            if (toggleBtn) {
+                toggleBtn.textContent = isExpanded ? '收起故事' : '查看完整故事';
+            }
+
+            // Close other cards
             if (isExpanded) {
                 document.querySelectorAll('.referral-card.expanded').forEach(otherCard => {
                     if (otherCard !== card) {
                         otherCard.classList.remove('expanded');
+                        const otherBtn = otherCard.querySelector('.read-more-btn-referral');
+                        if (otherBtn) otherBtn.textContent = '查看完整故事';
                     }
                 });
             }
@@ -546,7 +557,7 @@
 
                 <div class="referral-preview">
                     <p>${ref.description}</p>
-                    <span class="read-more-hint">點擊查看完整故事</span>
+                    <button class="read-more-btn-referral">查看完整故事</button>
                 </div>
 
                 <div class="referral-content">

@@ -1,133 +1,295 @@
-.success-modern-name {
-    font-size: 1.8rem;
-    color: var(--gold);
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-}
-
-.success-modern-title {
-    font-size: 1rem;
-    color: var(--text-gray);
-    margin: 0;
-}
-
-.success-modern-body {
-    flex: 1;
-}
-
-.success-modern-quote {
-    font-size: 1.05rem;
-    color: var(--text-gray);
-    line-height: 1.8;
-    font-style: normal !important;
-}
-
-@media (max-width: 1024px) {
-    .success-modern-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-@media (max-width: 768px) {
-    .success-modern-card {
-        min-height: auto;
-        padding: 1.25rem;
-    }
-
-    .success-modern-header {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .success-modern-image {
-        width: 100px;
-        height: 100px;
-    }
-
-    .success-modern-name {
-        font-size: 1.5rem;
-    }
-
-    .faq-content {
-        grid-template-columns: 1fr !important;
-        gap: 1.5rem !important;
-    }
-}
-
-/* Monthly Performance Table Styling */
-.monthly-performance-section {
-    margin-top: 3rem;
-    padding-top: 2rem;
+/* Member Card Enhancements */
+.member-services-preview {
+    margin-top: 1rem;
+    padding-top: 1rem;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.monthly-title {
-    font-size: 1.5rem;
-    color: var(--gold);
-    margin-bottom: 1.5rem;
-    text-align: center;
-    font-weight: 700;
+.services-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
 }
 
-.table-responsive {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    border-radius: 12px;
-    background: rgba(0, 0, 0, 0.2);
-}
-
-.performance-table {
-    width: 100%;
-    border-collapse: collapse;
-    min-width: 600px;
-    /* Ensure table doesn't squish too much on mobile */
-}
-
-.performance-table th,
-.performance-table td {
-    padding: 1rem;
-    text-align: center;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    color: var(--text-white);
-}
-
-.performance-table th {
-    background: rgba(76, 168, 223, 0.15);
-    color: var(--gold);
-    font-weight: 700;
-    font-size: 1.1rem;
-    white-space: nowrap;
-}
-
-.performance-table tr:last-child td {
-    border-bottom: none;
-}
-
-.performance-table tr:hover td {
-    background: rgba(255, 255, 255, 0.05);
-}
-
-.data-subtext {
-    font-size: 0.9rem;
+.services-list li {
+    font-size: 0.85rem;
     color: var(--text-gray);
-    margin-top: 0.25rem;
-    font-weight: 400;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
 }
 
-.data-icon-unified {
-    font-size: 2.5rem;
+.services-list li.more-services {
+    background: transparent;
+    color: var(--gold);
+    font-weight: 600;
+}
+
+.member-intro-section {
+    position: relative;
+}
+
+.member-full-intro {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text-gray-light);
+}
+
+.member-full-intro.hidden {
+    display: none;
+}
+
+.member-full-services {
+    margin-top: 1rem;
+}
+
+.member-full-services h4 {
+    font-size: 1rem;
+    color: var(--gold);
     margin-bottom: 0.5rem;
 }
 
-@media (max-width: 768px) {
+.member-full-services ul {
+    list-style: disc;
+    padding-left: 1.5rem;
+    color: var(--text-gray);
+}
 
-    .performance-table th,
-    .performance-table td {
-        padding: 0.75rem 0.5rem;
-        font-size: 0.95rem;
+.read-more-btn {
+    display: block;
+    width: 100%;
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+    background: transparent;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.read-more-btn:hover {
+    background: var(--gold);
+    color: #000;
+}
+
+/* Social Links Styling Update */
+.member-links {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.member-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    color: var(--text-white);
+    transition: all 0.3s ease;
+}
+
+.member-link:hover {
+    background: var(--gold);
+    color: #000;
+    transform: translateY(-2px);
+}
+
+/* Icon placeholders if font awesome not loaded */
+.icon-facebook::before {
+    content: 'f';
+    font-family: sans-serif;
+    font-weight: bold;
+}
+
+.icon-line::before {
+    content: 'L';
+    font-family: sans-serif;
+    font-weight: bold;
+}
+
+.icon-website::before {
+    content: 'W';
+    font-family: sans-serif;
+    font-weight: bold;
+}
+
+.icon-instagram::before {
+    content: 'I';
+    font-family: sans-serif;
+    font-weight: bold;
+}
+
+/* New Member Card Elements */
+.member-position {
+    font-size: 0.95rem;
+    color: var(--gold);
+    margin-bottom: 0.2rem;
+    font-weight: 500;
+}
+
+.member-tags {
+    margin: 0.5rem 0;
+}
+
+.member-category-pill {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background: linear-gradient(135deg, rgba(76, 168, 223, 0.2), rgba(76, 168, 223, 0.1));
+    border: 1px solid rgba(76, 168, 223, 0.3);
+    border-radius: 20px;
+    font-size: 0.8rem;
+    color: var(--text-white);
+    letter-spacing: 0.5px;
+}
+
+/* Referral Page Improvements */
+
+/* Grid Layout for Referrals */
+#referralsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2.5rem;
+    padding-bottom: 4rem;
+}
+
+/* Enhanced Referral Card Styling */
+.referral-card {
+    background: rgba(255, 255, 255, 0.03) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 16px !important;
+    padding: 0 !important;
+    /* Inner content handles padding */
+    margin-bottom: 0 !important;
+    /* Grid handles spacing */
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
+    height: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+    position: relative !important;
+}
+
+.referral-card:hover {
+    transform: translateY(-8px) scale(1.01) !important;
+    border-color: var(--gold) !important;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 20px rgba(197, 160, 89, 0.2) !important;
+    background: rgba(255, 255, 255, 0.06) !important;
+}
+
+/* Header Styling */
+.referral-header {
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.05), transparent) !important;
+    padding: 1.5rem !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+.referral-title {
+    font-size: 1.4rem !important;
+    color: var(--gold) !important;
+    margin-bottom: 1rem !important;
+    line-height: 1.4 !important;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Preview Section */
+.referral-preview {
+    padding: 1.5rem !important;
+    color: var(--text-gray-light) !important;
+    font-size: 1rem !important;
+    line-height: 1.6 !important;
+    flex-grow: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+}
+
+/* Read More Button */
+.read-more-btn-referral {
+    display: block;
+    width: 100%;
+    margin-top: 1.5rem;
+    padding: 0.8rem;
+    background: transparent;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+.read-more-btn-referral:hover {
+    background: var(--gold);
+    color: #000;
+    box-shadow: 0 0 15px rgba(197, 160, 89, 0.4);
+}
+
+/* Expanded State */
+.referral-card.expanded {
+    grid-column: span 1 !important;
+    /* Keep it in grid flow, or span 2 if needed */
+    z-index: 10 !important;
+    background: rgba(10, 20, 40, 0.95) !important;
+    border-color: var(--gold) !important;
+}
+
+@media (min-width: 1024px) {
+    .referral-card.expanded {
+        grid-column: span 2 !important;
+        /* Expand to 2 columns on large screens */
+    }
+}
+
+.referral-card.expanded .read-more-btn-referral {
+    background: var(--gold);
+    color: #000;
+    /* content: "收起故事";  This won't work on button text content directly via CSS, handled in JS or just keep as is */
+}
+
+/* Content Section Animation */
+.referral-content {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.6s ease-in-out, opacity 0.4s ease-in-out, padding 0.4s ease !important;
+    padding: 0 1.5rem !important;
+    background: rgba(0, 0, 0, 0.2) !important;
+}
+
+.referral-card.expanded .referral-content {
+    max-height: 2000px !important;
+    /* Sufficiently large */
+    opacity: 1 !important;
+    padding: 2rem 1.5rem !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+    #referralsGrid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
     }
 
-    .data-value-unified {
-        font-size: 2rem;
+    .referral-card.expanded {
+        grid-column: span 1 !important;
     }
 }
