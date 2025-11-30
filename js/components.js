@@ -19,9 +19,11 @@ function getNavigationHTML() {
     return `
     <nav class="navbar" id="navbar">
         <div class="container nav-container">
-            <a href="/" class="logo">
-                <img src="images/assets/logo/透明底白字長條logo.png" alt="長輝白金分會" class="logo-image" width="240" height="60" loading="eager">
-            </a>
+            <div class="nav-logo">
+                <a href="/">
+                    <img src="images/assets/logo/透明底白字長條logo.png" alt="長輝白金分會" class="logo-image" width="240" height="60" loading="eager">
+                </a>
+            </div>
             <button class="nav-toggle" id="navToggle" aria-label="切換導航選單" aria-expanded="false">
                 <span></span>
                 <span></span>
