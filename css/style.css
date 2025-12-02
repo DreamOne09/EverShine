@@ -5174,11 +5174,12 @@ h4,
 }
 
 .referral-card.expanded .referral-content {
-    max-height: 2000px !important;
     /* 增加最大高度確保內容顯示 */
+    max-height: 3000px !important;
     opacity: 1 !important;
     padding: 2rem 1.5rem !important;
     visibility: visible !important;
+    display: flex !important;
 }
 
 /* 移除 referral-badge 樣式，因為已不再使用 */

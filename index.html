@@ -318,6 +318,24 @@
                     <!-- 近期表現圖表 -->
                     <div class="monthly-performance-section">
                         <h3 class="monthly-title">近期表現 (2025)</h3>
+
+                        <!-- 數據切換按鈕 -->
+                        <div class="chart-toggle-buttons"
+                            style="display: flex; justify-content: center; gap: 1rem; margin-top: 1.5rem; flex-wrap: wrap;">
+                            <button class="chart-btn active" data-type="referrals"
+                                style="padding: 0.6rem 1.2rem; background: linear-gradient(135deg, #4CA8DF, #358cbf); color: #fff; border: none; border-radius: 8px; cursor: pointer; font-size: 0.95rem; font-weight: 600; transition: all 0.3s ease; font-family: 'Noto Sans TC', sans-serif;">
+                                引薦單數
+                            </button>
+                            <button class="chart-btn" data-type="amounts"
+                                style="padding: 0.6rem 1.2rem; background: rgba(255, 255, 255, 0.1); color: #87CEFA; border: 1.5px solid #87CEFA; border-radius: 8px; cursor: pointer; font-size: 0.95rem; font-weight: 600; transition: all 0.3s ease; font-family: 'Noto Sans TC', sans-serif;">
+                                引薦金額
+                            </button>
+                            <button class="chart-btn" data-type="guests"
+                                style="padding: 0.6rem 1.2rem; background: rgba(255, 255, 255, 0.1); color: #6495ED; border: 1.5px solid #6495ED; border-radius: 8px; cursor: pointer; font-size: 0.95rem; font-weight: 600; transition: all 0.3s ease; font-family: 'Noto Sans TC', sans-serif;">
+                                來賓人數
+                            </button>
+                        </div>
+
                         <div class="chart-container" style="position: relative; height: 400px; margin-top: 2rem;">
                             <canvas id="performanceChart"></canvas>
                         </div>
