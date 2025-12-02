@@ -1,0 +1,145 @@
+name: 會員資料修改審核
+
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  process-member-edit:
+    # 只處理帶有 member-edit 標籤的 Issue
+    if: contains(github.event.issue.labels.*.name, 'member-edit')
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 檢查審核權限
+        id: check-permission
+        run: |
+          # 只有儲存庫擁有者或協作者可以審核
+          if [[ "${{ github.event.comment.author_association }}" == "OWNER" ]] || [[ "${{ github.event.comment.author_association }}" == "COLLABORATOR" ]]; then
+            echo "authorized=true" >> $GITHUB_OUTPUT
+          else
+            echo "authorized=false" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: 處理審核結果
+        if: steps.check-permission.outputs.authorized == 'true'
+        uses: actions/checkout@v3
+        
+      - name: 設定 Node.js
+        if: steps.check-permission.outputs.authorized == 'true'
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      
+      - name: 解析並應用修改
+        if: steps.check-permission.outputs.authorized == 'true'
+        env:
+          COMMENT_BODY: ${{ github.event.comment.body }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
+        run: |
+          # 檢查是否為核准
+          if echo "$COMMENT_BODY" | grep -qi "approve"; then
+            echo "✅ 審核通過，開始處理修改..."
+            
+            # 從 Issue 內容中提取 JSON 資料
+            node -e "
+            const fs = require('fs');
+            const issueBody = process.env.ISSUE_BODY;
+            
+            // 提取 JSON 區塊
+            const jsonMatch = issueBody.match(/\`\`\`json\n([\s\S]*?)\n\`\`\`/);
+            if (!jsonMatch) {
+              console.error('無法找到修改資料');
+              process.exit(1);
+            }
+            
+            const newData = JSON.parse(jsonMatch[1]);
+            const memberNameMatch = issueBody.match(/\*\*會員姓名：\*\* (.+)/);
+            if (!memberNameMatch) {
+              console.error('無法找到會員姓名');
+              process.exit(1);
+            }
+            
+            const memberName = memberNameMatch[1];
+            
+            // 讀取現有資料
+            const membersData = JSON.parse(fs.readFileSync('data/members.json', 'utf8'));
+            const memberIndex = membersData.members.findIndex(m => m.name === memberName);
+            
+            if (memberIndex === -1) {
+              console.error('找不到會員：' + memberName);
+              process.exit(1);
+            }
+            
+            // 更新資料（保護特定欄位）
+            const currentMember = membersData.members[memberIndex];
+            membersData.members[memberIndex] = {
+              ...currentMember,
+              ...newData,
+              // 保護欄位
+              name: currentMember.name,
+              industry: currentMember.industry,
+              category: currentMember.category,
+              pinHash: currentMember.pinHash,
+              id: currentMember.id,
+              // 更新時間
+              updatedAt: new Date().toISOString()
+            };
+            
+            // 儲存更新
+            fs.writeFileSync('data/members.json', JSON.stringify(membersData, null, 2));
+            console.log('✅ 會員資料已更新：' + memberName);
+            "
+            
+          elif echo "$COMMENT_BODY" | grep -qi "reject"; then
+            echo "❌ 審核拒絕"
+            exit 0
+          else
+            echo "⚠️ 無效的審核指令（請使用 approve 或 reject）"
+            exit 0
+          fi
+      
+      - name: 提交變更
+        if: steps.check-permission.outputs.authorized == 'true' && contains(github.event.comment.body, 'approve')
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add data/members.json
+          git commit -m "Update member data via Issue #${{ github.event.issue.number }}" || exit 0
+          git push
+      
+      - name: 關閉 Issue
+        if: steps.check-permission.outputs.authorized == 'true'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const comment = context.payload.comment.body.toLowerCase();
+            if (comment.includes('approve')) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: '✅ 會員資料已成功更新！網站將在幾分鐘內自動部署新內容。'
+              });
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                state: 'closed',
+                labels: ['member-edit', 'approved']
+              });
+            } else if (comment.includes('reject')) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: '❌ 此修改請求已被拒絕。'
+              });
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                state: 'closed',
+                labels: ['member-edit', 'rejected']
+              });
+            }
