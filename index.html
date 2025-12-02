@@ -315,15 +315,15 @@
                         </div>
                     </div>
 
-                    <!-- 近期表現表格 -->
+                    <!-- 近期表現圖表 -->
                     <div class="monthly-performance-section">
                         <h3 class="monthly-title">近期表現 (2025)</h3>
-                        <div class="table-responsive" style="text-align: center; margin-top: 2rem;">
-                            <img src="images/assets/performance-table-2025.svg" 
-                                 alt="2025年近期表現數據表格：5-10月的引薦單數、引薦金額和來賓人數統計" 
-                                 style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 20px rgba(76, 168, 223, 0.3);"
-                                 loading="lazy">
+                        <div class="chart-container" style="position: relative; height: 400px; margin-top: 2rem;">
+                            <canvas id="performanceChart"></canvas>
                         </div>
+                        <p style="text-align: center; color: var(--text-gray); margin-top: 1.5rem; font-size: 0.9rem;">
+                            💡 將滑鼠移到圖表上查看詳細數據
+                        </p>
                     </div>
                 </div>
             </div>
@@ -904,12 +904,16 @@
     </script>
 
     <!-- Scripts - 簡化載入邏輯，使用 defer 確保順序 -->
+    <!-- Chart.js for performance chart -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
     <!-- components.js 必須最先載入（負責 Header/Footer） -->
     <script src="js/components.js?v=20250125" defer></script>
     <!-- 其他腳本按依賴順序載入 -->
     <script src="js/category-mapping.js?v=20250125" defer></script>
     <script src="js/main.js?v=20250125" defer></script>
     <script src="js/scroll-progress.js?v=20250125" defer></script>
+    <script src="js/performance-chart.js?v=20251202" defer></script>
 
     <!-- FAQ 功能已由 main.js 的 initFAQ() 處理，無需重複腳本 -->
 </body>
