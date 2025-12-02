@@ -23,7 +23,7 @@ Thumbs.db
 .env.local
 
 # GitHub API Token (for member edit feature)
-js/github-config.js
+# js/github-config.js (Uncommented to allow deployment of public config)
 
 # 參考資料夾（不推送到 GitHub）
 參考資料/

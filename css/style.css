@@ -4850,11 +4850,28 @@ h4,
 }
 
 /* 引薦卡片網格佈局 - 3欄 */
-.referrals-grid {
+.referrals-grid,
+#referralsGrid {
     display: grid !important;
     grid-template-columns: repeat(3, 1fr) !important;
-    gap: 2rem !important;
+    gap: 1.5rem !important;
     margin-top: 3rem !important;
+}
+
+@media (max-width: 992px) {
+
+    .referrals-grid,
+    #referralsGrid {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .referrals-grid,
+    #referralsGrid {
+        grid-template-columns: 1fr !important;
+    }
 }
 
 .referrals::before {
@@ -4889,7 +4906,7 @@ h4,
     overflow: hidden !important;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(76, 168, 223, 0.2) !important;
     height: auto !important;
-    min-height: 420px;
+    min-height: 380px;
     display: flex !important;
     flex-direction: column !important;
     cursor: pointer !important;
@@ -5025,7 +5042,8 @@ h4,
     border-radius: 50% !important;
     border: 2px solid var(--gold) !important;
     object-fit: cover !important;
-    object-position: center !important;
+    object-position: top center !important;
+    /* 修正：對齊上方，避免切到臉 */
     box-shadow: 0 4px 12px rgba(76, 168, 223, 0.3) !important;
 }
 
@@ -5072,7 +5090,8 @@ h4,
     border-radius: 50% !important;
     border: 2px solid var(--gold) !important;
     object-fit: cover !important;
-    object-position: center !important;
+    object-position: top center !important;
+    /* 修正：對齊上方，避免切到臉 */
     box-shadow: 0 4px 16px rgba(76, 168, 223, 0.4) !important;
     background: rgba(76, 168, 223, 0.1) !important;
 }
@@ -5150,14 +5169,16 @@ h4,
     max-height: 0 !important;
     overflow: hidden !important;
     opacity: 0 !important;
-    transition: max-height var(--transition-slow), opacity var(--transition-slow), padding var(--transition-slow) !important;
+    transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out, padding 0.5s ease-in-out !important;
     padding: 0 1.5rem !important;
 }
 
 .referral-card.expanded .referral-content {
-    max-height: 10000px !important;
+    max-height: 2000px !important;
+    /* 增加最大高度確保內容顯示 */
     opacity: 1 !important;
     padding: 2rem 1.5rem !important;
+    visibility: visible !important;
 }
 
 /* 移除 referral-badge 樣式，因為已不再使用 */
@@ -5230,7 +5251,8 @@ h4,
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center;
+    object-position: top center;
+    /* 修正：對齊上方，避免切到臉 */
 }
 
 .section-header-text {

@@ -41,21 +41,29 @@
 
     <!-- 共用組件將由 components.js 自動載入 (Header) -->
 
+    <!-- Hero區塊 -->
+    <section class="page-hero">
+        <div class="hero-background"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">會員引薦報告</h1>
+            <p class="hero-subtitle">真實案例，實質成果</p>
+            <p class="hero-description">探索我們會員間成功的商務引薦故事，見證專業引薦為雙方帶來的實質價值</p>
+        </div>
+        <div class="scroll-indicator">
+            <div class="scroll-arrow"></div>
+        </div>
+    </section>
+
     <!-- 主要內容 -->
     <main id="main-content">
-        <!-- 頁面標題 -->
-        <section class="page-header">
-            <div class="container">
-                <h1 class="page-title">會員引薦報告</h1>
-                <p class="page-subtitle">真實案例,見證 BNI 引薦系統的力量</p>
-            </div>
-        </section>
-
         <!-- 引薦案例列表 -->
-        <section class="referrals-section">
-            <div class="container" id="referralsGrid">
-                <!-- 案例將由 JS 動態載入 -->
-                <div class="loading-placeholder">載入中...</div>
+        <section class="referrals">
+            <div class="container">
+                <h2 class="section-title">成功案例</h2>
+                <div id="referralsGrid">
+                    <!-- 案例將由 JS 動態載入 -->
+                    <div class="loading-placeholder">載入中...</div>
+                </div>
             </div>
         </section>
     </main>

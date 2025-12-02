@@ -343,11 +343,6 @@
                 return false;
             }
 
-            if (GITHUB_CONFIG.token === 'YOUR_GITHUB_TOKEN_HERE') {
-                showMessage('請先設定 GitHub Token（請聯絡管理員）', 'error', 'auth-message');
-                return false;
-            }
-
             githubAPI = new GitHubAPI(GITHUB_CONFIG);
             return true;
         }
@@ -375,7 +370,7 @@
                 const member = await githubAPI.verifyPin(name, pin);
                 currentMember = member;
 
-                // 儲存 PIN 碼供後續使用
+                // 儲存資訊供後續使用
                 sessionStorage.setItem('memberName', name);
                 sessionStorage.setItem('memberPin', pin);
 
@@ -474,21 +469,19 @@
 
             try {
                 saveBtn.disabled = true;
-                saveBtn.innerHTML = '<span class="loading"></span> 儲存中...';
+                saveBtn.innerHTML = '<span class="loading"></span> 準備提交...';
 
-                // 更新資料
-                await githubAPI.updateMemberData(memberName, memberPin, data);
+                // 生成 Issue URL
+                const issueUrl = await githubAPI.generateUpdateIssueUrl(memberName, memberPin, data);
 
-                showMessage('✅ 資料更新成功！網站將在幾分鐘內自動更新。', 'success', 'message-area');
+                // 開啟新視窗
+                window.open(issueUrl, '_blank');
 
-                // 3秒後重新整理頁面
-                setTimeout(() => {
-                    location.reload();
-                }, 3000);
+                showMessage('✅ 已開啟 GitHub Issue 頁面。請在該頁面點擊 "Submit new issue" 完成提交。管理員審核後將自動更新網站。', 'success', 'message-area');
 
             } catch (error) {
-                console.error('儲存失敗:', error);
-                showMessage('儲存失敗：' + (error.message || '未知錯誤'), 'error', 'message-area');
+                console.error('準備提交失敗:', error);
+                showMessage('準備提交失敗：' + (error.message || '未知錯誤'), 'error', 'message-area');
             } finally {
                 saveBtn.disabled = false;
                 saveBtn.innerHTML = '💾 儲存資料';

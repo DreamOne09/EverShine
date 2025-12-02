@@ -623,22 +623,16 @@ function initStarfield() {
     if (!starfield) return;
 
     // 根據螢幕大小計算星點數量（響應式）
+    // 根據螢幕大小計算星點數量（響應式）
     const width = window.innerWidth;
     const height = Math.max(document.documentElement.scrollHeight, window.innerHeight);
-    const starCount = Math.floor((width * height) / 8000); // 每 8000 像素一個星點
+    const isMobile = width < 768;
+    // 手機版每 20000 像素一個星點，桌面版每 8000 像素一個
+    const density = isMobile ? 20000 : 8000;
+    const starCount = Math.floor((width * height) / density);
 
     // 星點顏色配置（使用現有的 CSS 變數顏色）
-    const starColors = [
-        'rgba(255, 255, 255, 0.9)',      // 白色亮星
-        'rgba(255, 255, 255, 0.8)',      // 白色中等
-        'rgba(255, 255, 255, 0.7)',      // 白色暗星
-        'rgba(169, 214, 255, 0.85)',    // 藍色亮星
-        'rgba(169, 214, 255, 0.75)',    // 藍色中等
-        'rgba(200, 230, 255, 0.8)',     // 青色亮星
-        'rgba(200, 230, 255, 0.7)',     // 青色中等
-        'rgba(115, 188, 255, 0.75)',    // 天藍色
-        'rgba(115, 188, 255, 0.65)',    // 天藍色暗
-    ];
+    const colors = ['#4ca8df', '#ffffff', '#8ecae6'];
 
     // 清空現有星點
     starfield.innerHTML = '';
@@ -653,16 +647,14 @@ function initStarfield() {
         const y = Math.random() * 100;
 
         // 隨機大小（0.5px 到 2px）
-        const size = Math.random() * 1.5 + 0.5;
+        const size = Math.random() * 2 + 1;
 
         // 隨機顏色
-        const color = starColors[Math.floor(Math.random() * starColors.length)];
+        const color = colors[Math.floor(Math.random() * colors.length)];
 
-        // 隨機動畫延遲（創造閃爍效果）
-        const delay = Math.random() * 3;
-
-        // 隨機動畫持續時間
-        const duration = Math.random() * 2 + 2;
+        // 手機版動畫時間加長，減少重繪負擔
+        const duration = (Math.random() * 3 + 2) * (isMobile ? 1.5 : 1);
+        const delay = Math.random() * 5;
 
         star.style.cssText = `
             position: absolute;
