@@ -33,6 +33,7 @@
             font-family: 'Noto Sans TC', sans-serif;
             background: transparent;
             overflow-x: hidden;
+            min-height: 100vh;
         }
 
         .global-background {
@@ -52,76 +53,146 @@
     <link rel="stylesheet" href="css/custom-additions.css?v=20251130">
 
     <!-- Fonts -->
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap"
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap"
         as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript>
-        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap"
+            rel="stylesheet">
     </noscript>
 
     <style>
-        .edit-container {
-            max-width: 800px;
-            margin: 100px auto 50px;
-            padding: 2rem;
-            background: rgba(255, 255, 255, 0.05);
+        /* Page Header */
+        .simple-header {
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(5, 5, 5, 0.8);
             backdrop-filter: blur(10px);
-            border-radius: 20px;
-            border: 1px solid rgba(76, 168, 223, 0.3);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
+        .header-logo {
+            height: 40px;
+            width: auto;
+        }
+
+        .back-link {
+            color: var(--text-gray);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: var(--color-primary);
+        }
+
+        /* Container */
+        .edit-container {
+            max-width: 800px;
+            margin: 3rem auto 5rem;
+            padding: 0 1.5rem;
+        }
+
+        .page-title {
+            color: #fff;
+            text-align: center;
+            margin-bottom: 2.5rem;
+            font-size: 2rem;
+            font-weight: 700;
+            text-shadow: 0 2px 10px rgba(76, 168, 223, 0.3);
+        }
+
+        /* Sections */
         .edit-section {
             margin-bottom: 2rem;
-            padding: 1.5rem;
+            padding: 2rem;
             background: rgba(255, 255, 255, 0.03);
-            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
             border: 1px solid rgba(76, 168, 223, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .edit-section:hover {
+            border-color: rgba(76, 168, 223, 0.4);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
         }
 
         .edit-section h2 {
             color: var(--color-primary);
-            margin-bottom: 1rem;
-            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            border-bottom: 1px solid rgba(76, 168, 223, 0.2);
+            padding-bottom: 1rem;
         }
 
+        /* Form Elements */
         .form-group {
             margin-bottom: 1.5rem;
         }
 
         .form-group label {
             display: block;
-            color: #fff;
-            margin-bottom: 0.5rem;
+            color: #e0e0e0;
+            margin-bottom: 0.6rem;
             font-weight: 500;
+            font-size: 0.95rem;
         }
 
         .form-group input,
         .form-group textarea,
         .form-group select {
             width: 100%;
-            padding: 0.75rem;
-            background: rgba(255, 255, 255, 0.1);
+            padding: 0.85rem 1rem;
+            background: rgba(0, 0, 0, 0.3);
             border: 1px solid rgba(76, 168, 223, 0.3);
-            border-radius: 8px;
+            border-radius: 10px;
             color: #fff;
             font-family: 'Noto Sans TC', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(76, 168, 223, 0.2);
+            background: rgba(0, 0, 0, 0.5);
         }
 
         .form-group textarea {
-            min-height: 100px;
+            min-height: 120px;
             resize: vertical;
+            line-height: 1.6;
         }
 
         .form-group small {
             display: block;
             color: var(--text-gray);
-            margin-top: 0.25rem;
-            font-size: 0.875rem;
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+            line-height: 1.4;
         }
 
+        /* Buttons */
         .btn-group {
             display: flex;
             gap: 1rem;
-            margin-top: 2rem;
+            margin-top: 2.5rem;
         }
 
         .btn {
@@ -130,54 +201,68 @@
             border: none;
             border-radius: 10px;
             font-size: 1rem;
-            font-weight: 500;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+            background: linear-gradient(135deg, var(--color-primary), #2980b9);
             color: #fff;
+            box-shadow: 0 4px 15px rgba(76, 168, 223, 0.3);
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(76, 168, 223, 0.4);
+            box-shadow: 0 6px 20px rgba(76, 168, 223, 0.5);
+            background: linear-gradient(135deg, #5db5e8, #3498db);
         }
 
         .btn-primary:disabled {
-            opacity: 0.5;
+            opacity: 0.6;
             cursor: not-allowed;
             transform: none;
+            box-shadow: none;
         }
 
+        /* Utilities */
         .char-counter {
             text-align: right;
             color: var(--text-gray);
-            font-size: 0.875rem;
+            font-size: 0.85rem;
+            margin-top: 0.4rem;
         }
 
         .error-message {
             color: #ff6b6b;
             background: rgba(255, 107, 107, 0.1);
-            padding: 0.75rem;
-            border-radius: 8px;
-            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-top: 1.5rem;
+            border: 1px solid rgba(255, 107, 107, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .success-message {
             color: #51cf66;
             background: rgba(81, 207, 102, 0.1);
-            padding: 0.75rem;
-            border-radius: 8px;
-            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-top: 1.5rem;
+            border: 1px solid rgba(81, 207, 102, 0.2);
         }
 
         .loading {
             display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255, 255, 255, 0.3);
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
             border-radius: 50%;
             border-top-color: #fff;
             animation: spin 1s ease-in-out infinite;
@@ -191,7 +276,7 @@
 
         .link-inputs {
             display: grid;
-            grid-template-columns: 150px 1fr;
+            grid-template-columns: 140px 1fr;
             gap: 1rem;
             margin-bottom: 1rem;
         }
@@ -199,6 +284,29 @@
         .readonly-field {
             background: rgba(255, 255, 255, 0.05) !important;
             cursor: not-allowed;
+            color: var(--text-gray) !important;
+            border-color: rgba(255, 255, 255, 0.1) !important;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .edit-container {
+                margin: 2rem auto;
+                padding: 0 1rem;
+            }
+
+            .edit-section {
+                padding: 1.5rem;
+            }
+
+            .link-inputs {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+            }
+
+            .page-title {
+                font-size: 1.75rem;
+            }
         }
     </style>
 </head>
@@ -209,15 +317,30 @@
     <!-- Canvas 星空背景 -->
     <canvas id="starrySkyCanvas" aria-hidden="true"></canvas>
 
+    <!-- 簡易 Header -->
+    <header class="simple-header">
+        <a href="/" title="回首頁">
+            <img src="images/assets/logo/透明底白字長條logo.png" alt="BNI EverShine" class="header-logo">
+        </a>
+        <a href="/" class="back-link">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path
+                    d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+            </svg>
+            回首頁
+        </a>
+    </header>
+
     <div class="edit-container">
-        <h1 style="color: var(--color-primary); text-align: center; margin-bottom: 2rem;">會員資料編輯</h1>
+        <h1 class="page-title">會員資料編輯</h1>
 
         <!-- 身份驗證 -->
         <div class="edit-section" id="auth-section">
             <h2>🔐 身份驗證</h2>
             <div class="form-group">
                 <label for="member-name">請輸入您的姓名 *</label>
-                <input type="text" id="member-name" placeholder="例如：李孟亦" required>
+                <input type="text" id="member-name" placeholder="例如：李孟亦" required autocomplete="name">
                 <small>請輸入您在會員名單中的姓名</small>
             </div>
             <div class="form-group">
@@ -239,21 +362,21 @@
                 <div class="form-group">
                     <label for="name">姓名</label>
                     <input type="text" id="name" class="readonly-field" readonly>
-                    <small>姓名無法修改</small>
+                    <small>姓名無法修改，如需修改請聯繫管理員</small>
                 </div>
                 <div class="form-group">
                     <label for="industry">行業別</label>
                     <input type="text" id="industry" class="readonly-field" readonly>
-                    <small>行業別無法修改</small>
+                    <small>行業別無法修改，如需修改請聯繫管理員</small>
                 </div>
                 <div class="form-group">
                     <label for="company">公司名稱 *</label>
-                    <input type="text" id="company" maxlength="50" required>
+                    <input type="text" id="company" maxlength="50" required placeholder="請輸入完整公司名稱">
                     <small>最多 50 字</small>
                 </div>
                 <div class="form-group">
                     <label for="position">職稱 *</label>
-                    <input type="text" id="position" maxlength="30" required>
+                    <input type="text" id="position" maxlength="30" required placeholder="例如：總經理、創辦人">
                     <small>最多 30 字</small>
                 </div>
             </div>
@@ -263,15 +386,15 @@
                 <h2>✍️ 自我介紹</h2>
                 <div class="form-group">
                     <label for="short-intro">簡短介紹 *</label>
-                    <textarea id="short-intro" maxlength="100" required
+                    <textarea id="short-intro" maxlength="100" required placeholder="請用一句話介紹您的專業（顯示於列表卡片）"
                         oninput="updateCharCounter('short-intro', 100)"></textarea>
                     <div class="char-counter" id="short-intro-counter">0 / 100</div>
                 </div>
                 <div class="form-group">
                     <label for="full-intro">完整介紹 *</label>
-                    <textarea id="full-intro" maxlength="500" required
-                        oninput="updateCharCounter('full-intro', 500)"></textarea>
-                    <small>建議 200-500 字</small>
+                    <textarea id="full-intro" maxlength="500" required placeholder="請詳細介紹您的服務內容、優勢與目標客戶（顯示於詳細頁面）"
+                        oninput="updateCharCounter('full-intro', 500)" style="min-height: 200px;"></textarea>
+                    <small>建議 200-500 字，越詳細越有助於引薦</small>
                     <div class="char-counter" id="full-intro-counter">0 / 500</div>
                 </div>
             </div>
@@ -279,6 +402,9 @@
             <!-- 公司連結 -->
             <div class="edit-section">
                 <h2>🔗 公司連結</h2>
+                <p style="color: var(--text-gray); font-size: 0.9rem; margin-bottom: 1.5rem;">
+                    請提供您的網站或社群媒體連結，增加曝光機會（最多3個）
+                </p>
                 <div class="link-inputs">
                     <select id="link1-type">
                         <option value="">選擇類型</option>
@@ -320,9 +446,13 @@
             <!-- 儲存按鈕 -->
             <div class="btn-group">
                 <button class="btn btn-primary" onclick="saveData()" id="save-btn">
-                    💾 儲存資料
+                    💾 提交更新申請
                 </button>
             </div>
+
+            <p style="text-align: center; color: var(--text-gray); margin-top: 1rem; font-size: 0.9rem;">
+                點擊提交後將開啟 GitHub Issue 頁面，請確認內容無誤後點擊 "Submit new issue"
+            </p>
 
             <div id="message-area"></div>
         </div>
@@ -379,7 +509,11 @@
 
                 // 顯示編輯表單
                 document.getElementById('auth-section').style.display = 'none';
-                document.getElementById('edit-form').style.display = 'block';
+                const editForm = document.getElementById('edit-form');
+                editForm.style.display = 'block';
+
+                // 平滑滾動到頂部
+                window.scrollTo({ top: 0, behavior: 'smooth' });
 
                 showMessage('資料載入成功！', 'success', 'message-area');
             } catch (error) {
@@ -484,7 +618,7 @@
                 showMessage('準備提交失敗：' + (error.message || '未知錯誤'), 'error', 'message-area');
             } finally {
                 saveBtn.disabled = false;
-                saveBtn.innerHTML = '💾 儲存資料';
+                saveBtn.innerHTML = '💾 提交更新申請';
             }
         }
 
