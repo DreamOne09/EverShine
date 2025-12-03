@@ -11,33 +11,40 @@ class GitHubAPI {
     }
 
     /**
-     * 獲取檔案內容 (公開讀取)
+     * 獲取檔案內容
+     * 改為直接從網站路徑讀取，避免 GitHub API 的權限問題 (404)
      */
     async getFileContent() {
         try {
-            const headers = {
-                'Accept': 'application/vnd.github.v3+json'
-            };
-
-            // 如果有 Token 且不是預設值，才使用 Token (用於測試或私有 Repo)
-            if (this.config.token && this.config.token !== 'YOUR_GITHUB_TOKEN_HERE') {
-                headers['Authorization'] = `token ${this.config.token}`;
-            }
-
-            const response = await fetch(this.apiUrl, { headers });
+            // 直接讀取網站上的 JSON 檔案
+            // 加上時間戳記避免快取
+            const response = await fetch(`data/members.json?t=${new Date().getTime()}`);
 
             if (!response.ok) {
-                throw new Error(`GitHub API 錯誤: ${response.status}`);
+                throw new Error(`無法讀取會員資料: ${response.status}`);
             }
 
-            const data = await response.json();
-            const content = decodeURIComponent(escape(atob(data.content))); // 正確處理 UTF-8
+            const content = await response.json();
+
             return {
-                content: JSON.parse(content),
-                sha: data.sha
+                content: content,
+                sha: null // 本地讀取沒有 SHA，但此場景不需要
             };
         } catch (error) {
             console.error('獲取檔案失敗:', error);
+
+            // 如果本地讀取失敗，嘗試從 GitHub Raw Content 讀取 (作為備案)
+            try {
+                const rawUrl = `https://raw.githubusercontent.com/${this.config.owner}/${this.config.repo}/${this.config.branch}/${this.config.filePath}`;
+                const response = await fetch(rawUrl);
+                if (response.ok) {
+                    const content = await response.json();
+                    return { content, sha: null };
+                }
+            } catch (e) {
+                console.error('GitHub Raw 讀取也失敗:', e);
+            }
+
             throw error;
         }
     }
