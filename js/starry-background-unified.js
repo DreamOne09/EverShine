@@ -26,22 +26,24 @@
 // ============================================
 class StarrySkyConfig {
     constructor() {
+        const isMobile = window.innerWidth < 768;
+
         this.canvas = {
-            starDensity: 2500, // 減少星星數量 (Higher value = fewer stars)
-            maxStars: 400, // 限制最大數量
+            starDensity: isMobile ? 5000 : 3000, // 減少星星密度 (Higher value = fewer stars)
+            maxStars: isMobile ? 150 : 300, // 限制最大數量
             nebulaCount: 0 // 移除星雲光暈
         };
 
         this.css = {
-            // 靜態小星星層 - 減少數量但增加清晰度
+            // 靜態小星星層 - 減少數量以優化效能
             staticStars: [
-                { count: 150, size: '1.5px', animationDuration: '100s' },
-                { count: 100, size: '2px', animationDuration: '125s' },
+                { count: isMobile ? 60 : 100, size: '1.5px', animationDuration: '100s' },
+                { count: isMobile ? 40 : 80, size: '2px', animationDuration: '125s' },
             ],
             // 移動的星星層
             movingStars: [
-                { count: 50, size: '2px', duration: '150s' },
-                { count: 30, size: '3px', duration: '200s' },
+                { count: isMobile ? 20 : 40, size: '2px', duration: '150s' },
+                { count: isMobile ? 10 : 20, size: '3px', duration: '200s' },
             ],
             // 流星配置 - 優化性能
             shootingStars: {
@@ -53,7 +55,7 @@ class StarrySkyConfig {
                 maxTailLength: 200,
                 glowIntensity: 1.5,
                 tailFadeSteps: 20,
-                spawnInterval: 10000,  // 進一步降低頻率 (10s)
+                spawnInterval: 12000,  // 進一步降低頻率 (12s)
                 enableOnMobile: false  // 手機版禁用流星
             }
         };
@@ -316,13 +318,13 @@ class StarrySkyManager {
             div.className = `moving-stars-layer moving-stars${i}`;
             div.style.cssText = `position:absolute!important;top:0!important;left:0!important;width:${layer.size}!important;height:${layer.size}!important;border-radius:50%!important;background:transparent!important;z-index:-2!important;opacity:1!important;visibility:visible!important;display:block!important;overflow:visible!important;pointer-events:none!important;`;
             sky.appendChild(div);
-            // console.log(`✅ 創建移動星星層 ${i}`);
+
         });
 
         container.appendChild(sky);
         document.body.insertBefore(container, document.body.firstChild);
 
-        // console.log('✅ 星空容器已創建，準備生成星星...');
+
 
         // 確保DOM已插入後再生成星星 - 使用多重延遲確保DOM完全準備好
         setTimeout(() => {
@@ -389,7 +391,7 @@ class StarrySkyManager {
         // 生成靜態星星
         const staticLayers = sky.querySelectorAll('.static-stars-layer');
         if (staticLayers.length === 0) {
-            console.warn('星空背景：找不到靜態星星層');
+
             return;
         }
 
@@ -412,9 +414,9 @@ class StarrySkyManager {
                     layer.style.height = '1px';
                     layer.style.borderRadius = '50%';
                     layer.style.background = 'transparent';
-                    // console.log(`靜態星星層 ${i}: box-shadow 已設置，長度 ${shadow.length} 字符，前50字符: ${shadow.substring(0, 50)}`);
+
                 } else {
-                    console.error(`靜態星星層 ${i}: 無法生成 box-shadow，shadow: ${shadow}`);
+
                 }
             }
         });
@@ -422,7 +424,7 @@ class StarrySkyManager {
         // 生成移動星星
         const movingLayers = sky.querySelectorAll('.moving-stars-layer');
         if (movingLayers.length === 0) {
-            console.warn('星空背景：找不到移動星星層');
+
             return;
         }
 
@@ -441,14 +443,14 @@ class StarrySkyManager {
                     layer.style.opacity = '1';
                     layer.style.visibility = 'visible';
                     layer.style.display = 'block';
-                    // console.log(`移動星星層 ${i}: box-shadow 已設置，長度 ${shadow.length} 字符，前50字符: ${shadow.substring(0, 50)}`);
+
                 } else {
-                    console.error(`移動星星層 ${i}: 無法生成 box-shadow，shadow: ${shadow}`);
+
                 }
             }
         });
 
-        // console.log('星空背景：已生成', staticLayers.length, '層靜態星星和', movingLayers.length, '層移動星星');
+
     }
 
     generateStaticStarsShadow(count, maxX, maxY) {
@@ -463,7 +465,7 @@ class StarrySkyManager {
         }
 
         const result = shadows.join(', ');
-        // console.log(`✅ 生成 ${actualCount} 顆靜態星星, box-shadow 長度: ${result.length} 字符`);
+
         return result;
     }
 
@@ -479,7 +481,7 @@ class StarrySkyManager {
         }
 
         const result = shadows.join(', ');
-        // console.log(`✅ 生成 ${actualCount} 顆移動星星, box-shadow 長度: ${result.length} 字符`);
+
         return result;
     }
 
@@ -531,7 +533,7 @@ class StarrySkyManager {
     // 統一初始化
     init() {
         if (this.isInitialized) {
-            console.warn('星空背景：已經初始化，跳過重複初始化');
+
             return;
         }
 
@@ -539,9 +541,9 @@ class StarrySkyManager {
             this.initCanvasSky();
             this.initCSSSky();
             this.isInitialized = true;
-            // console.log('星空背景：初始化完成');
+
         } catch (error) {
-            console.error('星空背景：初始化失敗', error);
+
         }
     }
 }
