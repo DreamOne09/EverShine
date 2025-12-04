@@ -1,131 +1,136 @@
-// 簡單的會員資料更新API - 部署到Zeabur
+// 會員資料更新API - 整合 GitHub API
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const fs = require('fs').promises;
 const path = require('path');
+const { Octokit } = require('@octokit/rest');
+const crypto = require('crypto');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// GitHub 配置
+const GITHUB_OWNER = process.env.GITHUB_OWNER || 'DreamOne09';
+const GITHUB_REPO = process.env.GITHUB_REPO || 'EverShine';
+const GITHUB_BRANCH = process.env.GITHUB_BRANCH || 'main';
+const FILE_PATH = 'data/members.json';
+
+// 初始化 Octokit
+const octokit = new Octokit({
+    auth: process.env.GITHUB_TOKEN
+});
+
 // 中間件
 app.use(cors());
 app.use(express.json());
-
-// 靜態文件服務
 app.use(express.static(path.join(__dirname, '../')));
 
-// 簡單的驗證碼系統（可以改為更安全的方式）
-const VALID_CODES = {
-    'EVERSHINE2025': true  // 可以定期更換
-};
+// 輔助函數：計算 SHA-256
+function hashPin(pin) {
+    return crypto.createHash('sha256').update(pin).digest('hex');
+}
 
 // 健康檢查
 app.get('/api/health', (req, res) => {
-    res.json({ status: 'ok', message: '會員資料API運行中' });
+    res.json({ status: 'ok', message: 'API Service Running' });
 });
 
-// 獲取會員資料
-app.get('/api/members', async (req, res) => {
+// 更新會員資料 API
+app.post('/api/update-member', async (req, res) => {
     try {
-        const dataPath = path.join(__dirname, '../data/members-data.json');
-        const data = await fs.readFile(dataPath, 'utf-8');
-        res.json(JSON.parse(data));
-    } catch (error) {
-        res.status(500).json({ error: '讀取資料失敗' });
-    }
-});
+        const { name, pin, data } = req.body;
 
-// 更新會員資料
-app.post('/api/members/update', async (req, res) => {
-    try {
-        const { memberName, memberData, verificationCode } = req.body;
-
-        // 驗證碼檢查
-        if (!VALID_CODES[verificationCode]) {
-            return res.status(401).json({ error: '驗證碼錯誤' });
+        if (!name || !pin || !data) {
+            return res.status(400).json({ error: '缺少必要參數' });
         }
 
-        // 讀取現有資料
-        const dataPath = path.join(__dirname, '../data/members-data.json');
-        const fileContent = await fs.readFile(dataPath, 'utf-8');
-        const jsonData = JSON.parse(fileContent);
+        console.log(`收到更新請求: ${name}`);
 
-        // 找到並更新會員
-        const memberIndex = jsonData.members.findIndex(m => m.name === memberName);
+        // 1. 從 GitHub 獲取目前的 members.json
+        let fileData;
+        try {
+            const { data: githubData } = await octokit.repos.getContent({
+                owner: GITHUB_OWNER,
+                repo: GITHUB_REPO,
+                path: FILE_PATH,
+                ref: GITHUB_BRANCH
+            });
+            fileData = githubData;
+        } catch (error) {
+            console.error('GitHub 讀取失敗:', error);
+            return res.status(500).json({ error: '無法讀取會員資料庫' });
+        }
 
+        // 解碼內容 (GitHub 回傳的是 base64)
+        const content = Buffer.from(fileData.content, 'base64').toString('utf-8');
+        const jsonContent = JSON.parse(content);
+
+        // 2. 驗證會員與 PIN 碼
+        const memberIndex = jsonContent.members.findIndex(m => m.name === name);
         if (memberIndex === -1) {
-            return res.status(404).json({ error: '找不到會員' });
+            return res.status(404).json({ error: '找不到此會員' });
         }
 
-        // 更新資料
-        jsonData.members[memberIndex] = {
-            ...jsonData.members[memberIndex],
-            ...memberData,
+        const member = jsonContent.members[memberIndex];
+        const inputPinHash = hashPin(pin);
+
+        // 比對 PIN 碼 (假設 members.json 裡存的是 hash)
+        // 如果 members.json 裡沒有 pinHash，則暫時允許通過 (為了遷移方便)，或者拒絕
+        if (member.pinHash && member.pinHash !== inputPinHash) {
+            return res.status(403).json({ error: 'PIN 碼錯誤' });
+        }
+
+        // 3. 更新資料
+        // 只更新允許的欄位，避免覆蓋關鍵資訊
+        const updatedMember = {
+            ...member,
+            ...data, // 覆蓋傳入的欄位
             updatedAt: new Date().toISOString()
         };
 
-        // 寫回檔案
-        await fs.writeFile(
-            dataPath,
-            JSON.stringify(jsonData, null, 2),
-            'utf-8'
-        );
+        // 確保不被修改的關鍵欄位
+        updatedMember.name = member.name;
+        updatedMember.pinHash = member.pinHash;
 
-        res.json({
-            success: true,
-            message: '資料更新成功',
-            member: jsonData.members[memberIndex]
+        jsonContent.members[memberIndex] = updatedMember;
+
+        // 4. 寫回 GitHub
+        const newContent = Buffer.from(JSON.stringify(jsonContent, null, 2)).toString('base64');
+
+        await octokit.repos.createOrUpdateFileContents({
+            owner: GITHUB_OWNER,
+            repo: GITHUB_REPO,
+            path: FILE_PATH,
+            message: `Update member profile: ${name} (via API)`,
+            content: newContent,
+            sha: fileData.sha, // 必須提供原本的 SHA 才能更新
+            branch: GITHUB_BRANCH,
+            committer: {
+                name: 'EverShine Bot',
+                email: 'bot@evershine.tw'
+            }
         });
 
+        console.log(`更新成功: ${name}`);
+        res.json({ success: true, message: '更新成功！網站將在幾分鐘內自動更新。' });
+
     } catch (error) {
-        console.error('更新失敗:', error);
-        res.status(500).json({ error: '更新失敗: ' + error.message });
+        console.error('API 處理失敗:', error);
+        res.status(500).json({ error: '伺服器內部錯誤: ' + error.message });
     }
 });
 
-// 獲取單一會員資料
-app.get('/api/members/:name', async (req, res) => {
-    try {
-        const dataPath = path.join(__dirname, '../data/members-data.json');
-        const data = await fs.readFile(dataPath, 'utf-8');
-        const jsonData = JSON.parse(data);
-
-        const member = jsonData.members.find(m => m.name === req.params.name);
-
-        if (!member) {
-            return res.status(404).json({ error: '找不到會員' });
-        }
-
-        res.json(member);
-    } catch (error) {
-        res.status(500).json({ error: '讀取資料失敗' });
-    }
-});
-
-// 處理 Clean URLs (例如 /members -> /members.html)
+// 處理 Clean URLs
 app.get('/:page', (req, res, next) => {
     const page = req.params.page;
+    if (page.startsWith('api') || page.includes('.')) return next();
 
-    // 忽略 API 請求和有副檔名的檔案
-    if (page.startsWith('api') || page.includes('.')) {
-        return next();
-    }
-
-    // 嘗試尋找對應的 .html 檔案
     const filePath = path.join(__dirname, '../', `${page}.html`);
-
-    // 檢查檔案是否存在
-    fs.access(filePath)
-        .then(() => {
-            res.sendFile(filePath);
-        })
-        .catch(() => {
-            // 如果找不到 .html 檔案，交給下一個處理程序（可能會是 404）
-            next();
-        });
+    res.sendFile(filePath, (err) => {
+        if (err) next();
+    });
 });
 
 app.listen(PORT, () => {
-    console.log(`🚀 API服務運行在 http://localhost:${PORT}`);
-    console.log(`📝 健康檢查: http://localhost:${PORT}/api/health`);
+    console.log(`Server running on port ${PORT}`);
 });

@@ -446,12 +446,12 @@
             <!-- 儲存按鈕 -->
             <div class="btn-group">
                 <button class="btn btn-primary" onclick="saveData()" id="save-btn">
-                    📧 產生更新郵件
+                    💾 儲存並更新
                 </button>
             </div>
 
             <p style="text-align: center; color: var(--text-gray); margin-top: 1rem; font-size: 0.9rem;">
-                點擊後將開啟您的郵件軟體，請直接發送給管理員即可完成申請。
+                點擊後將直接更新網站資料，更新過程約需 1-2 分鐘。
             </p>
 
             <div id="message-area"></div>
@@ -592,8 +592,9 @@
             }
 
             const memberName = sessionStorage.getItem('memberName');
+            const memberPin = sessionStorage.getItem('memberPin');
 
-            if (!memberName) {
+            if (!memberName || !memberPin) {
                 showMessage('請重新登入', 'error', 'message-area');
                 return;
             }
@@ -602,35 +603,35 @@
 
             try {
                 saveBtn.disabled = true;
-                saveBtn.innerHTML = '<span class="loading"></span> 準備郵件...';
+                saveBtn.innerHTML = '<span class="loading"></span> 更新中...';
 
-                // 準備郵件內容
-                const subject = `[會員資料更新] ${memberName}`;
-                const body = `親愛的管理員您好，
+                // 呼叫後端 API
+                const response = await fetch('/api/update-member', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: memberName,
+                        pin: memberPin,
+                        data: data
+                    })
+                });
 
-我是 ${memberName}，我想要更新我的會員資料。
-以下是更新後的資料內容（JSON格式）：
+                const result = await response.json();
 
-${JSON.stringify(data, null, 2)}
+                if (!response.ok) {
+                    throw new Error(result.error || '更新失敗');
+                }
 
-請協助更新網站，謝謝！`;
-
-                // 生成 mailto 連結
-                // 請填入管理員的 Email
-                const adminEmail = 'service@evershine.tw';
-                const mailtoUrl = `mailto:${adminEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-
-                // 開啟郵件軟體
-                window.location.href = mailtoUrl;
-
-                showMessage('✅ 已開啟您的郵件軟體。請確認內容後發送郵件給管理員。', 'success', 'message-area');
+                showMessage('✅ ' + result.message, 'success', 'message-area');
 
             } catch (error) {
-                console.error('準備提交失敗:', error);
-                showMessage('準備提交失敗：' + (error.message || '未知錯誤'), 'error', 'message-area');
+                console.error('提交失敗:', error);
+                showMessage('提交失敗：' + (error.message || '未知錯誤'), 'error', 'message-area');
             } finally {
                 saveBtn.disabled = false;
-                saveBtn.innerHTML = '📧 產生更新郵件';
+                saveBtn.innerHTML = '💾 儲存並更新';
             }
         }
 
@@ -663,7 +664,7 @@ ${JSON.stringify(data, null, 2)}
             if (type === 'success') {
                 setTimeout(() => {
                     messageArea.style.display = 'none';
-                }, 5000);
+                }, 10000); // 成功訊息顯示久一點
             }
         }
     </script>

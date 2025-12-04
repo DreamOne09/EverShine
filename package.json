@@ -15,13 +15,25 @@
     "author": "BNI EverShine",
     "license": "MIT",
     "dependencies": {
-        "express": "^4.18.2",
-        "cors": "^2.8.5"
+        "@octokit/rest": "^22.0.1",
+        "body-parser": "^2.2.1",
+        "cors": "^2.8.5",
+        "dotenv": "^17.2.3",
+        "express": "^4.18.2"
     },
     "devDependencies": {
         "nodemon": "^3.0.1"
     },
     "engines": {
         "node": ">=18.0.0"
-    }
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/DreamOne09/EverShine.git"
+    },
+    "type": "commonjs",
+    "bugs": {
+        "url": "https://github.com/DreamOne09/EverShine/issues"
+    },
+    "homepage": "https://github.com/DreamOne09/EverShine#readme"
 }
