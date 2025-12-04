@@ -446,12 +446,12 @@
             <!-- 儲存按鈕 -->
             <div class="btn-group">
                 <button class="btn btn-primary" onclick="saveData()" id="save-btn">
-                    💾 提交更新申請
+                    📧 產生更新郵件
                 </button>
             </div>
 
             <p style="text-align: center; color: var(--text-gray); margin-top: 1rem; font-size: 0.9rem;">
-                點擊提交後將開啟 GitHub Issue 頁面，請確認內容無誤後點擊 "Submit new issue"
+                點擊後將開啟您的郵件軟體，請直接發送給管理員即可完成申請。
             </p>
 
             <div id="message-area"></div>
@@ -592,9 +592,8 @@
             }
 
             const memberName = sessionStorage.getItem('memberName');
-            const memberPin = sessionStorage.getItem('memberPin');
 
-            if (!memberName || !memberPin) {
+            if (!memberName) {
                 showMessage('請重新登入', 'error', 'message-area');
                 return;
             }
@@ -603,22 +602,35 @@
 
             try {
                 saveBtn.disabled = true;
-                saveBtn.innerHTML = '<span class="loading"></span> 準備提交...';
+                saveBtn.innerHTML = '<span class="loading"></span> 準備郵件...';
 
-                // 生成 Issue URL
-                const issueUrl = await githubAPI.generateUpdateIssueUrl(memberName, memberPin, data);
+                // 準備郵件內容
+                const subject = `[會員資料更新] ${memberName}`;
+                const body = `親愛的管理員您好，
 
-                // 開啟新視窗
-                window.open(issueUrl, '_blank');
+我是 ${memberName}，我想要更新我的會員資料。
+以下是更新後的資料內容（JSON格式）：
 
-                showMessage('✅ 已開啟 GitHub Issue 頁面。請在該頁面點擊 "Submit new issue" 完成提交。管理員審核後將自動更新網站。', 'success', 'message-area');
+${JSON.stringify(data, null, 2)}
+
+請協助更新網站，謝謝！`;
+
+                // 生成 mailto 連結
+                // 請填入管理員的 Email
+                const adminEmail = 'service@evershine.tw';
+                const mailtoUrl = `mailto:${adminEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+                // 開啟郵件軟體
+                window.location.href = mailtoUrl;
+
+                showMessage('✅ 已開啟您的郵件軟體。請確認內容後發送郵件給管理員。', 'success', 'message-area');
 
             } catch (error) {
                 console.error('準備提交失敗:', error);
                 showMessage('準備提交失敗：' + (error.message || '未知錯誤'), 'error', 'message-area');
             } finally {
                 saveBtn.disabled = false;
-                saveBtn.innerHTML = '💾 提交更新申請';
+                saveBtn.innerHTML = '📧 產生更新郵件';
             }
         }
 
