@@ -3,6 +3,23 @@
  * 負責讀取 data/members-data.json 並渲染會員卡片與篩選器
  */
 
+// 全域函數：切換會員資訊展開/收起
+window.toggleMemberInfo = function (button) {
+    const introSection = button.parentElement;
+    const shortIntro = introSection.querySelector('.member-short-intro');
+    const fullIntro = introSection.querySelector('.member-full-intro');
+
+    fullIntro.classList.toggle('hidden');
+
+    if (fullIntro.classList.contains('hidden')) {
+        button.textContent = '查看更多';
+        shortIntro.style.display = 'block';
+    } else {
+        button.textContent = '收起內容';
+        shortIntro.style.display = 'none';
+    }
+};
+
 document.addEventListener('DOMContentLoaded', async () => {
     console.log('Members Renderer: Initializing...');
 
@@ -115,23 +132,6 @@ function renderMembers(members, container) {
             </div>
         `;
     }).join('');
-}
-
-// 新增切換函數，隱藏簡短介紹當展開時
-function toggleMemberInfo(button) {
-    const introSection = button.parentElement;
-    const shortIntro = introSection.querySelector('.member-short-intro');
-    const fullIntro = introSection.querySelector('.member-full-intro');
-
-    fullIntro.classList.toggle('hidden');
-
-    if (fullIntro.classList.contains('hidden')) {
-        button.textContent = '查看更多';
-        shortIntro.style.display = 'block';
-    } else {
-        button.textContent = '收起內容';
-        shortIntro.style.display = 'none';
-    }
 }
 
 function setupFilterEvents(allMembers, container) {

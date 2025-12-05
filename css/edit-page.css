@@ -1,0 +1,50 @@
+/* Category Selector Styles */
+.category-selector {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 0.8rem;
+    margin-top: 0.8rem;
+}
+
+.category-checkbox {
+    display: flex;
+    align-items: center;
+    padding: 0.6rem 1rem;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(76, 168, 223, 0.3);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    user-select: none;
+}
+
+.category-checkbox:hover {
+    background: rgba(76, 168, 223, 0.1);
+    border-color: rgba(76, 168, 223, 0.5);
+}
+
+.category-checkbox input[type="checkbox"] {
+    width: auto;
+    margin-right: 0.5rem;
+    cursor: pointer;
+}
+
+.category-checkbox input[type="checkbox"]:checked+span {
+    color: var(--color-primary);
+    font-weight: 600;
+}
+
+.category-checkbox.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.category-checkbox.disabled input[type="checkbox"]:not(:checked) {
+    pointer-events: none;
+}
+
+@media (max-width: 768px) {
+    .category-selector {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
