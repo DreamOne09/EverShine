@@ -85,7 +85,8 @@ app.post('/api/update-member', async (req, res) => {
         const updatedMember = {
             ...member,
             ...data, // 覆蓋傳入的欄位
-            updatedAt: new Date().toISOString()
+            updatedAt: new Date().toISOString(),
+            updateCount: (member.updateCount || 0) + 1  // 增加更新次數
         };
 
         // 確保不被修改的關鍵欄位
@@ -117,6 +118,36 @@ app.post('/api/update-member', async (req, res) => {
     } catch (error) {
         console.error('API 處理失敗:', error);
         res.status(500).json({ error: '伺服器內部錯誤: ' + error.message });
+    }
+});
+
+// 獲取更新過的會員（用於滾動牆）
+app.get('/api/updated-members', async (req, res) => {
+    try {
+        const fs = require('fs').promises;
+        const dataPath = path.join(__dirname, '../data/members.json');
+        const content = await fs.readFile(dataPath, 'utf-8');
+        const jsonData = JSON.parse(content);
+
+        // 篩選有更新過的會員 (updateCount > 0)
+        let updatedMembers = jsonData.members.filter(m => m.updateCount && m.updateCount > 0);
+
+        // 如果少於 5 人，重複複製直到至少有 10 個
+        const minCount = 10;
+        if (updatedMembers.length > 0 && updatedMembers.length < minCount) {
+            const original = [...updatedMembers];
+            while (updatedMembers.length < minCount) {
+                updatedMembers = updatedMembers.concat(original);
+            }
+        }
+
+        // 複製一份並串接（用於無限滾動）
+        const doubled = [...updatedMembers, ...updatedMembers];
+
+        res.json({ members: doubled });
+    } catch (error) {
+        console.error('獲取更新會員失敗:', error);
+        res.status(500).json({ error: '伺服器錯誤' });
     }
 });
 

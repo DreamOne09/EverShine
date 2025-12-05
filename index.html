@@ -176,6 +176,7 @@
     <!-- CSS Files -->
     <link rel="stylesheet" href="css/style.css?v=20251128">
     <link rel="stylesheet" href="css/custom-additions.css?v=20251128">
+    <link rel="stylesheet" href="css/member-wall.css?v=20251205">
 
     <!-- Fonts - Optimized: Only load essential weights (400, 700), use font-display swap -->
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap"
@@ -278,6 +279,15 @@
                         <p class="about-values-desc">以專業態度與誠信為本，懷抱熱忱，將理念化為實際行動</p>
                     </div>
                 </div>
+            </div>
+        </section>
+
+        <!-- 雙向無限滾動會員牆 -->
+        <section class="member-wall">
+            <h2 class="member-wall-title">活躍會員動態</h2>
+            <p class="member-wall-subtitle">這些會員最近更新了他們的資料</p>
+            <div class="scroll-container" id="memberWallContainer">
+                <!-- 會員卡片將由 JavaScript 動態載入 -->
             </div>
         </section>
 
@@ -902,6 +912,7 @@
     <script src="js/main.js?v=20250125" defer></script>
     <script src="js/scroll-progress.js?v=20250125" defer></script>
     <script src="js/performance-chart.js?v=20251202" defer></script>
+    <script src="js/member-wall.js?v=20251205" defer></script>
 
     <!-- FAQ 功能已由 main.js 的 initFAQ() 處理，無需重複腳本 -->
 </body>

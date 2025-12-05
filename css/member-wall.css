@@ -1,0 +1,207 @@
+/* ========================================
+   雙向無限滾動會員牆 - Glassmorphism Style
+   ======================================== */
+
+.member-wall {
+    padding: 4rem 0;
+    background: linear-gradient(180deg, rgba(5, 5, 5, 0.95) 0%, rgba(10, 15, 25, 0.98) 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.member-wall::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(76, 168, 223, 0.05) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.member-wall-title {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 1rem;
+    text-shadow: 0 2px 10px rgba(76, 168, 223, 0.3);
+}
+
+.member-wall-subtitle {
+    text-align: center;
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 3rem;
+}
+
+.scroll-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+/* 漸層遮罩 - 左右淡入淡出 */
+.scroll-container::before,
+.scroll-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 150px;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.scroll-container::before {
+    left: 0;
+    background: linear-gradient(90deg, rgba(5, 5, 5, 1) 0%, transparent 100%);
+}
+
+.scroll-container::after {
+    right: 0;
+    background: linear-gradient(270deg, rgba(5, 5, 5, 1) 0%, transparent 100%);
+}
+
+.scroll-row {
+    display: flex;
+    gap: 2rem;
+    padding: 1rem 0;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+.scroll-left {
+    animation-name: scrollLeft;
+    animation-duration: 40s;
+}
+
+.scroll-right {
+    animation-name: scrollRight;
+    animation-duration: 45s;
+}
+
+/* Hover 暫停 */
+.scroll-row:hover {
+    animation-play-state: paused;
+}
+
+@keyframes scrollLeft {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+@keyframes scrollRight {
+    0% {
+        transform: translateX(-50%);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+/* 會員卡片 - Glassmorphism */
+.wall-member-card {
+    flex-shrink: 0;
+    width: 280px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(76, 168, 223, 0.2);
+    border-radius: 16px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.wall-member-card:hover {
+    transform: translateY(-8px) scale(1.05);
+    border-color: rgba(76, 168, 223, 0.5);
+    box-shadow: 0 12px 40px rgba(76, 168, 223, 0.4);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.wall-member-photo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid rgba(76, 168, 223, 0.5);
+    margin: 0 auto 1rem;
+    display: block;
+    box-shadow: 0 4px 12px rgba(76, 168, 223, 0.3);
+}
+
+.wall-member-name {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #4CA8DF;
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+.wall-member-title {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.8);
+    text-align: center;
+    margin-bottom: 0.8rem;
+    line-height: 1.4;
+}
+
+.wall-member-badge {
+    display: inline-block;
+    padding: 0.3rem 0.8rem;
+    background: rgba(76, 168, 223, 0.2);
+    border: 1px solid rgba(76, 168, 223, 0.4);
+    border-radius: 20px;
+    font-size: 0.75rem;
+    color: #4CA8DF;
+    font-weight: 600;
+    margin: 0 auto;
+    display: block;
+    width: fit-content;
+}
+
+/* 手機版調整 */
+@media (max-width: 768px) {
+    .member-wall {
+        padding: 3rem 0;
+    }
+
+    .member-wall-title {
+        font-size: 1.8rem;
+    }
+
+    .member-wall-subtitle {
+        font-size: 0.95rem;
+        padding: 0 1rem;
+    }
+
+    .scroll-container::before,
+    .scroll-container::after {
+        width: 50px;
+    }
+
+    .wall-member-card {
+        width: 220px;
+    }
+
+    .scroll-row {
+        gap: 1.5rem;
+    }
+
+    .scroll-left {
+        animation-duration: 30s;
+    }
+
+    .scroll-right {
+        animation-duration: 35s;
+    }
+}
