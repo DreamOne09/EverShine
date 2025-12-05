@@ -46,7 +46,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 function renderMemberCard(member) {
     const photoUrl = member.photo || 'images/members/default.jpg';
-    const updateBadge = member.updateCount > 1 ? `已更新 ${member.updateCount} 次` : '最近更新';
+    const company = member.company || '';
+    const position = member.position || member.title || '';
+    const industry = member.industry || '';
 
     return `
         <div class="wall-member-card">
@@ -56,8 +58,9 @@ function renderMemberCard(member) {
                  loading="lazy"
                  onerror="this.src='images/members/default.jpg'">
             <h3 class="wall-member-name">${member.name}</h3>
-            <p class="wall-member-title">${member.position || member.title || ''}</p>
-            <span class="wall-member-badge">${updateBadge}</span>
+            <p class="wall-member-industry">${industry}</p>
+            <p class="wall-member-title">${position}</p>
+            <p class="wall-member-company">${company}</p>
         </div>
     `;
 }
