@@ -59,8 +59,8 @@ function renderMemberCard(member) {
                  onerror="this.src='images/members/default.jpg'">
             <h3 class="wall-member-name">${member.name}</h3>
             <p class="wall-member-industry">${industry}</p>
-            <p class="wall-member-title">${position}</p>
             <p class="wall-member-company">${company}</p>
+            <p class="wall-member-title">${position}</p>
         </div>
     `;
 }

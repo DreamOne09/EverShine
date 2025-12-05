@@ -1,16 +1,42 @@
 // 類別選擇器功能
 (function () {
-    // 等待 DOM 載入
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initCategorySelector);
-    } else {
-        initCategorySelector();
+    // 使用 MutationObserver 監聽表單顯示
+    function waitForEditForm() {
+        const editForm = document.getElementById('edit-form');
+        if (editForm && editForm.style.display !== 'none') {
+            initCategorySelector();
+        } else {
+            // 如果表單還沒顯示，等待它顯示
+            const observer = new MutationObserver((mutations) => {
+                const editForm = document.getElementById('edit-form');
+                if (editForm && editForm.style.display !== 'none') {
+                    observer.disconnect();
+                    initCategorySelector();
+                }
+            });
+
+            // 監聽整個 body 的變化
+            observer.observe(document.body, {
+                attributes: true,
+                childList: true,
+                subtree: true,
+                attributeFilter: ['style']
+            });
+        }
     }
 
     function initCategorySelector() {
+        // 檢查是否已經插入過
+        if (document.getElementById('categoryGroup')) {
+            return;
+        }
+
         // 在行業別欄位後插入類別選擇器
         const industryGroup = document.querySelector('label[for="industry"]')?.closest('.form-group');
-        if (!industryGroup) return;
+        if (!industryGroup) {
+            console.log('找不到行業別欄位');
+            return;
+        }
 
         const categoryHTML = `
             <div class="form-group" id="categoryGroup">
@@ -54,6 +80,7 @@
         `;
 
         industryGroup.insertAdjacentHTML('afterend', categoryHTML);
+        console.log('類別選擇器已插入');
 
         // 限制最多選擇 2 個
         const checkboxes = document.querySelectorAll('.category-checkbox input[type="checkbox"]');
@@ -77,39 +104,50 @@
         });
 
         // 修改原有的 collectData 函數以包含類別
-        const originalCollectData = window.collectData;
-        window.collectData = function () {
-            const data = originalCollectData();
-            const selectedCategories = Array.from(document.querySelectorAll('.category-checkbox input[type="checkbox"]:checked'))
-                .map(cb => cb.value);
-            data.categories = selectedCategories;
-            return data;
-        };
+        if (window.collectData) {
+            const originalCollectData = window.collectData;
+            window.collectData = function () {
+                const data = originalCollectData();
+                const selectedCategories = Array.from(document.querySelectorAll('.category-checkbox input[type="checkbox"]:checked'))
+                    .map(cb => cb.value);
+                data.categories = selectedCategories;
+                return data;
+            };
+        }
 
-        // 修改 loadData 函數以載入類別
-        const originalLoadData = window.loadData;
-        if (originalLoadData) {
-            window.loadData = function (memberData) {
-                originalLoadData(memberData);
+        // 修改 populateForm 函數以載入類別
+        if (window.populateForm) {
+            const originalPopulateForm = window.populateForm;
+            window.populateForm = function (memberData) {
+                originalPopulateForm(memberData);
 
                 // 載入類別
-                if (memberData.categories && Array.isArray(memberData.categories)) {
-                    memberData.categories.forEach(cat => {
-                        const checkbox = document.querySelector(`.category-checkbox input[value="${cat}"]`);
+                setTimeout(() => {
+                    if (memberData.categories && Array.isArray(memberData.categories)) {
+                        memberData.categories.forEach(cat => {
+                            const checkbox = document.querySelector(`.category-checkbox input[value="${cat}"]`);
+                            if (checkbox) {
+                                checkbox.checked = true;
+                                checkbox.dispatchEvent(new Event('change'));
+                            }
+                        });
+                    } else if (memberData.category) {
+                        // 向後兼容：如果是字串，轉換為陣列
+                        const checkbox = document.querySelector(`.category-checkbox input[value="${memberData.category}"]`);
                         if (checkbox) {
                             checkbox.checked = true;
                             checkbox.dispatchEvent(new Event('change'));
                         }
-                    });
-                } else if (memberData.category) {
-                    // 向後兼容：如果是字串，轉換為陣列
-                    const checkbox = document.querySelector(`.category-checkbox input[value="${memberData.category}"]`);
-                    if (checkbox) {
-                        checkbox.checked = true;
-                        checkbox.dispatchEvent(new Event('change'));
                     }
-                }
+                }, 100);
             };
         }
+    }
+
+    // 等待 DOM 載入後開始監聽
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', waitForEditForm);
+    } else {
+        waitForEditForm();
     }
 })();
