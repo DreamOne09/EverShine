@@ -1,10 +1,12 @@
+import { CONFIG } from './config.js';
+
 /**
  * 引薦案例渲染腳本
  * 負責讀取 data/referrals.json 並渲染引薦卡片
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-    const referralsGrid = document.getElementById('referralsGrid');
+    const referralsGrid = document.getElementById(CONFIG.SELECTORS.REFERRALS_GRID);
     if (referralsGrid) {
         loadReferralsData();
         initReferralCardToggles();
@@ -13,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function loadReferralsData() {
     try {
-        const response = await fetch('data/referrals.json');
+        const response = await fetch(CONFIG.API.REFERRALS);
         if (!response.ok) throw new Error('無法載入引薦資料');
 
         const data = await response.json();
@@ -21,7 +23,7 @@ async function loadReferralsData() {
 
         displayReferrals(data.referrals);
     } catch (error) {
-        const grid = document.getElementById('referralsGrid');
+        const grid = document.getElementById(CONFIG.SELECTORS.REFERRALS_GRID);
         if (grid) {
             grid.innerHTML = `<div class="error-message">載入失敗: ${error.message}</div>`;
         }
@@ -29,7 +31,7 @@ async function loadReferralsData() {
 }
 
 function displayReferrals(referrals) {
-    const grid = document.getElementById('referralsGrid');
+    const grid = document.getElementById(CONFIG.SELECTORS.REFERRALS_GRID);
     if (!grid) return;
 
     if (referrals.length === 0) {

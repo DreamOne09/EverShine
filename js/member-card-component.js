@@ -1,4 +1,5 @@
 import { iconMap, normalizePhotoPath } from './utils.js';
+import { CONFIG } from './config.js';
 
 /**
  * Generates the HTML for a member card.
@@ -6,7 +7,8 @@ import { iconMap, normalizePhotoPath } from './utils.js';
  * @returns {string} - The HTML string for the member card.
  */
 export function createMemberCard(member) {
-    const photoUrl = normalizePhotoPath(member.photo) || 'images/members/default.jpg';
+    const photoUrl = normalizePhotoPath(member.photo) || CONFIG.PATHS.DEFAULT_MEMBER_PHOTO;
+    // Placeholder SVG for loading state or missing image
     const placeholderSvg = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Crect width='150' height='150' rx='12' fill='%23001933'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' fill='%234ca8df' font-family='Arial' font-size='50'%3E${encodeURIComponent(member.name.charAt(0))}%3C/text%3E%3C/svg%3E`;
 
     const memberId = `member-${member.name.replace(/\s+/g, '-').toLowerCase()}`;

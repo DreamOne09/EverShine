@@ -1,4 +1,5 @@
 import { createMemberCard } from './member-card-component.js';
+import { CONFIG } from './config.js';
 
 /**
  * 會員名單渲染腳本 (模組化版)
@@ -8,8 +9,8 @@ import { createMemberCard } from './member-card-component.js';
 document.addEventListener('DOMContentLoaded', async () => {
     console.log('Members Renderer: Initializing...');
 
-    const membersGrid = document.getElementById('membersGrid');
-    const filterButtonsContainer = document.getElementById('filterButtons');
+    const membersGrid = document.getElementById(CONFIG.SELECTORS.MEMBERS_GRID);
+    const filterButtonsContainer = document.getElementById(CONFIG.SELECTORS.FILTER_BUTTONS);
 
     if (!membersGrid || !filterButtonsContainer) {
         console.error('Members Renderer: Required containers not found.');
@@ -18,7 +19,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     try {
         // 1. 載入數據
-        const response = await fetch('data/members.json');
+        const response = await fetch(CONFIG.API.MEMBERS);
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         const data = await response.json();
         const members = data.members;
