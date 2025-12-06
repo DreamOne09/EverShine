@@ -8730,11 +8730,13 @@ h4,
         font-size: 2rem;
     }
 }
+
 /* ============================================
    MOBILE LAYOUT FIXES (2025-12-06)
    ============================================ */
 
 @media screen and (max-width: 768px) {
+
     /* Success Stories - Vertical Layout */
     .success-modern-header {
         flex-direction: column;
@@ -8765,3 +8767,449 @@ h4,
     overflow: visible;
 }
 
+/* ==========================================================================
+   REFACTORED CUSTOM ADDITIONS (Merged from custom-additions.css)
+   Cleaned up to remove !important abuse and improve maintainability.
+   ========================================================================== */
+
+/* --- Member Card Enhancements --- */
+.member-services-preview {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.services-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.services-list li {
+    font-size: 0.85rem;
+    color: var(--text-gray);
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+}
+
+.services-list li.more-services {
+    background: transparent;
+    color: #4CA8DF;
+    font-weight: 600;
+}
+
+.member-intro-section {
+    position: relative;
+}
+
+.member-full-intro {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text-gray-light);
+}
+
+.member-full-intro.hidden {
+    display: none;
+}
+
+.member-full-services {
+    margin-top: 1rem;
+}
+
+.member-full-services h4 {
+    font-size: 1rem;
+    color: #4CA8DF;
+    margin-bottom: 0.5rem;
+}
+
+.member-full-services ul {
+    list-style: disc;
+    padding-left: 1.5rem;
+    color: var(--text-gray);
+}
+
+.read-more-btn {
+    display: block;
+    width: 100%;
+    padding: 0.6rem;
+    margin-top: 0.5rem;
+    background: transparent;
+    border: 1.5px solid #4CA8DF;
+    color: #4CA8DF;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.read-more-btn:hover {
+    background: #4CA8DF;
+    color: #000;
+    box-shadow: 0 4px 15px rgba(76, 168, 223, 0.4);
+}
+
+/* --- Social Links Styling --- */
+.member-links {
+    display: flex;
+    gap: 0.6rem;
+    margin-top: 0.6rem;
+}
+
+.member-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: rgba(76, 168, 223, 0.15);
+    border-radius: 50%;
+    color: #4CA8DF;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(76, 168, 223, 0.3);
+}
+
+.member-link:hover {
+    background: #4CA8DF;
+    color: #000;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(76, 168, 223, 0.4);
+}
+
+.member-link svg {
+    width: 20px;
+    height: 20px;
+}
+
+.member-link:hover svg {
+    color: #fff;
+    stroke: #fff;
+    fill: #fff;
+}
+
+/* --- Member Card Elements (Blue Theme) --- */
+.member-position {
+    font-size: 1rem;
+    color: #4CA8DF;
+    margin-bottom: 0.3rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+.member-company {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 0.4rem;
+    font-weight: 500;
+}
+
+.member-industry {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 0.5rem;
+}
+
+.member-tags {
+    margin: 0.6rem 0;
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.member-category-pill {
+    display: inline-block;
+    padding: 0.35rem 1rem;
+    background: linear-gradient(135deg, rgba(76, 168, 223, 0.3), rgba(76, 168, 223, 0.15));
+    border: 1.5px solid rgba(76, 168, 223, 0.5);
+    border-radius: 25px;
+    font-size: 0.85rem;
+    color: #87CEFA;
+    letter-spacing: 0.5px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.member-category-pill:hover {
+    background: linear-gradient(135deg, rgba(76, 168, 223, 0.4), rgba(76, 168, 223, 0.2));
+    border-color: #4CA8DF;
+    color: #fff;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(76, 168, 223, 0.3);
+}
+
+/* --- Referral Page Improvements --- */
+#referralsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2.5rem;
+    padding-bottom: 4rem;
+}
+
+/* Enhanced Referral Card Styling - Specificity increased to avoid !important */
+#referralsGrid .referral-card {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 0;
+    margin-bottom: 0;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+}
+
+#referralsGrid .referral-card:hover {
+    transform: translateY(-8px) scale(1.01);
+    border-color: #4CA8DF;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 20px rgba(76, 168, 223, 0.3);
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.referral-header {
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.05), transparent);
+    padding: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.referral-title {
+    font-size: 1.4rem;
+    color: #4CA8DF;
+    margin-bottom: 1rem;
+    line-height: 1.4;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.referral-member-photo {
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+    object-fit: cover;
+    border: 2px solid #4CA8DF;
+    margin-bottom: 0.5rem;
+}
+
+.referral-preview {
+    padding: 1.5rem;
+    color: var(--text-gray-light);
+    font-size: 1rem;
+    line-height: 1.6;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.read-more-btn-referral {
+    display: block;
+    width: 100%;
+    margin-top: 1.5rem;
+    padding: 0.8rem;
+    background: transparent;
+    border: 1.5px solid #4CA8DF;
+    color: #4CA8DF;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+.read-more-btn-referral:hover {
+    background: #4CA8DF;
+    color: #000;
+    box-shadow: 0 0 15px rgba(76, 168, 223, 0.4);
+}
+
+/* Expanded State for Referrals */
+#referralsGrid .referral-card.expanded {
+    grid-column: span 1;
+    z-index: 10;
+    background: rgba(10, 20, 40, 0.95);
+    border-color: #4CA8DF;
+}
+
+@media (min-width: 1024px) {
+    #referralsGrid .referral-card.expanded {
+        grid-column: span 2;
+    }
+}
+
+.referral-card.expanded .read-more-btn-referral {
+    background: #4CA8DF;
+    color: #000;
+}
+
+.referral-content {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    visibility: hidden;
+    transition: max-height 0.6s ease-in-out, opacity 0.4s ease-in-out, padding 0.4s ease, visibility 0s 0.6s;
+    padding: 0 1.5rem;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.referral-card.expanded .referral-content {
+    max-height: 3000px;
+    opacity: 1;
+    visibility: visible;
+    padding: 2rem 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    transition: max-height 0.6s ease-in-out, opacity 0.4s ease-in-out, padding 0.4s ease, visibility 0s 0s;
+}
+
+@media (max-width: 768px) {
+    #referralsGrid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    #referralsGrid .referral-card.expanded {
+        grid-column: span 1;
+    }
+}
+
+/* --- Edit Page Styling --- */
+.link-inputs {
+    grid-template-columns: 200px 1fr;
+    gap: 1rem;
+}
+
+.link-inputs select,
+.link-inputs input {
+    padding: 1rem;
+    font-size: 1.05rem;
+}
+
+@media (max-width: 768px) {
+    .link-inputs {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* --- Mobile Menu Fixes --- */
+@media (max-width: 768px) {
+    .nav-menu {
+        position: fixed;
+        top: 70px;
+        left: 0;
+        right: 0;
+        background: rgba(5, 5, 5, 0.98);
+        backdrop-filter: blur(10px);
+        flex-direction: column;
+        padding: 2rem 0;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        z-index: 999;
+        max-height: calc(100vh - 70px);
+        overflow-y: auto;
+    }
+
+    .nav-menu.active {
+        transform: translateX(0);
+    }
+
+    .nav-menu li {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+    }
+
+    .nav-menu a {
+        display: block;
+        padding: 1rem 2rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-toggle {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        width: 30px;
+        height: 25px;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        z-index: 1000;
+    }
+
+    .nav-toggle span {
+        width: 100%;
+        height: 3px;
+        background: #fff;
+        transition: all 0.3s ease;
+        border-radius: 2px;
+    }
+
+    .nav-toggle[aria-expanded="true"] span:nth-child(1) {
+        transform: rotate(45deg) translate(8px, 8px);
+    }
+
+    .nav-toggle[aria-expanded="true"] span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .nav-toggle[aria-expanded="true"] span:nth-child(3) {
+        transform: rotate(-45deg) translate(7px, -7px);
+    }
+}
+
+/* --- Members Page Mobile Layout --- */
+@media (max-width: 1024px) {
+    .members-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .members-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        padding: 0 1rem;
+    }
+
+    .member-card {
+        aspect-ratio: auto;
+        min-height: auto;
+    }
+
+    .member-photo {
+        width: 100px;
+        height: 100px;
+    }
+
+    .member-name {
+        font-size: 1.2rem;
+    }
+
+    .member-position,
+    .member-body {
+        font-size: 0.9rem;
+    }
+
+    .member-links {
+        gap: 0.5rem;
+    }
+
+    .member-link {
+        width: 32px;
+        height: 32px;
+    }
+}
