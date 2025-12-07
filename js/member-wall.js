@@ -1,6 +1,9 @@
+import { CONFIG } from './config.js';
+import { normalizePhotoPath } from './utils.js';
+
 /**
  * 雙向無限滾動會員牆
- * 載入更新過的會員並建立雙向滾動動畫
+ * 載入會員並建立雙向滾動動畫
  */
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -8,16 +11,22 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (!wallContainer) return;
 
     try {
-        // 從 API 獲取更新過的會員（已經是加倍的陣列）
-        const response = await fetch('/api/updated-members');
+        // 使用 CONFIG 中的路徑讀取靜態 JSON
+        const response = await fetch(CONFIG.API.MEMBERS);
         if (!response.ok) throw new Error('Failed to fetch members');
 
         const data = await response.json();
-        const members = data.members;
+        let members = data.members;
 
         if (!members || members.length === 0) {
-            wallContainer.innerHTML = '<p style="text-align: center; color: rgba(255,255,255,0.6);">目前沒有會員更新資料</p>';
+            wallContainer.innerHTML = '<p style="text-align: center; color: rgba(255,255,255,0.6);">目前沒有會員資料</p>';
             return;
+        }
+
+        // 為了無限滾動效果，我們需要足夠的會員數量
+        // 如果會員太少，複製幾份
+        if (members.length < 20) {
+            members = [...members, ...members, ...members];
         }
 
         // 分成兩排
@@ -45,7 +54,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 function renderMemberCard(member) {
-    const photoUrl = member.photo || 'images/members/default.jpg';
+    const photoUrl = normalizePhotoPath(member.photo) || CONFIG.PATHS.DEFAULT_MEMBER_PHOTO;
     const company = member.company || '';
     const position = member.position || member.title || '';
     const industry = member.industry || '';
@@ -56,7 +65,9 @@ function renderMemberCard(member) {
                  alt="${member.name}" 
                  class="wall-member-photo"
                  loading="lazy"
-                 onerror="this.src='images/members/default.jpg'">
+                 width="80"
+                 height="80"
+                 onerror="this.src='${CONFIG.PATHS.DEFAULT_MEMBER_PHOTO}'; this.onerror=null;">
             <h3 class="wall-member-name">${member.name}</h3>
             <p class="wall-member-industry">${industry}</p>
             <p class="wall-member-company">${company}</p>
