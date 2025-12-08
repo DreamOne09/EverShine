@@ -97,7 +97,8 @@ function createReferralCard(ref) {
                     </div>
                 </div>
 
-                <!-- 被引薦人說明 -->
+                <!-- 被引薦人說明 (若無內容則不顯示) -->
+                ${ref.referee.story && ref.referee.story.trim() ? `
                 <div class="referral-section">
                     <div class="section-header">
                         <div class="referral-photo-wrapper">
@@ -113,6 +114,7 @@ function createReferralCard(ref) {
                         ${ref.referee.value ? `<div class="testimonial-tag"><strong>BNI 系統價值：</strong>${ref.referee.value}</div>` : ''}
                     </div>
                 </div>
+                ` : ''}
             </div>
 
             <div class="referral-footer">
