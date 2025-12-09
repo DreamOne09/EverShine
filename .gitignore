@@ -1,45 +1,24 @@
-# Dependencies
-node_modules/
-
-# Build outputs
-dist/
-build/
-
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# OS
-.DS_Store
-Thumbs.db
-
 # Logs
+logs
 *.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
 
-# Environment variables
-.env
-.env.local
+node_modules
+dist
+dist-ssr
+*.local
 
-# GitHub API Token (for member edit feature)
-# js/github-config.js (Uncommented to allow deployment of public config)
-
-# 參考資料夾（不推送到 GitHub）
-參考資料/
-
-# 大型媒體檔案（不推送到 GitHub）
-*.mp4
-*.mov
-*.avi
-*.mkv
-**/BNI_個人短影片*.mp4
-
-# 原始會員照片目錄（已優化至 images/members/）
-會員照片/正式會員-20251105T073702Z-1-001/
-
-
-# Scripts
-*.ps1
-*.py
-*.sh
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
