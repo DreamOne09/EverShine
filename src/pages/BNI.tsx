@@ -1,14 +1,12 @@
-import React, { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import React from 'react';
+import { motion } from 'framer-motion';
 import { useCountUp } from '../hooks/useCountUp';
 
 const StatCard: React.FC<{ value: number, label: React.ReactNode, subtext?: string, isLarge?: boolean }> = ({ value, label, subtext, isLarge }) => {
-    const ref = useRef(null);
-    const isInView = useInView(ref, { once: true, margin: "-100px" });
-    const count = useCountUp(value, 2000, isInView);
+    const { count, elementRef } = useCountUp(value, 2000);
 
     return (
-        <div ref={ref} className={`bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 text-center ${isLarge ? 'md:col-span-2 md:row-span-2 flex flex-col justify-center items-center bg-[#cf2030]/10 border-[#cf2030]/30 shadow-[0_0_30px_rgba(207,32,48,0.1)]' : 'hover:bg-white/10 transition-colors'}`}>
+        <div ref={elementRef} className={`bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 text-center ${isLarge ? 'md:col-span-2 md:row-span-2 flex flex-col justify-center items-center bg-[#cf2030]/10 border-[#cf2030]/30 shadow-[0_0_30px_rgba(207,32,48,0.1)]' : 'hover:bg-white/10 transition-colors'}`}>
             <div className={`font-bold text-white mb-2 font-mono ${isLarge ? 'text-6xl md:text-7xl text-[#cf2030]' : 'text-4xl md:text-5xl'}`}>
                 {value >= 10000 ? (count / 10000).toFixed(0) + '萬' : count.toLocaleString()}
                 <span className="text-2xl ml-1 align-top">+</span>

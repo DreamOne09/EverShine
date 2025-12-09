@@ -1,7 +1,7 @@
 import React from 'react';
 import { useCountUp } from '../../hooks/useCountUp';
 import { FileText, TrendingUp, Users } from 'lucide-react';
-import clsx from 'clsx';
+
 
 const MetricCard: React.FC<{ icon: React.ReactNode, value: number, suffix: string, label: string, subtext?: string, isCurrency?: boolean }> = ({ icon, value, suffix, label, subtext, isCurrency }) => {
     const { count, elementRef } = useCountUp(value);
