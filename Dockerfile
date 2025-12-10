@@ -9,6 +9,7 @@ RUN npm run build
 # Serve Stage
 FROM nginx:alpine
 COPY --from=builder /app/dist /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+RUN rm -f /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/conf.d/app.conf
 EXPOSE 8080
 CMD ["nginx", "-g", "daemon off;"]
