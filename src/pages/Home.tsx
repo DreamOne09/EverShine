@@ -11,12 +11,26 @@ const Home: React.FC = () => {
     return (
         <div className="overflow-hidden">
             {/* Hero Section */}
-            <section className="min-h-screen flex flex-col justify-center items-center text-center relative z-10 pt-0">
+            <section className="min-h-screen flex flex-col justify-center items-center text-center relative z-10 pt-0 overflow-hidden">
+                {/* Hero Background Image */}
+                <div
+                    className="absolute inset-0 z-0"
+                    style={{
+                        backgroundImage: 'url(/images/assets/background.png)',
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center center',
+                        backgroundRepeat: 'no-repeat',
+                        backgroundAttachment: 'fixed',
+                        willChange: 'transform',
+                        imageRendering: '-webkit-optimize-contrast'
+                    }}
+                />
+
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-                    className="mt-[-5vh]"
+                    className="mt-[-5vh] relative z-10"
                 >
                     <h1 className="text-6xl md:text-8xl font-bold mb-8 tracking-tight font-sans px-4">
                         <span className="bg-clip-text text-transparent bg-gradient-to-br from-[#f0e6d2] via-[#c5a47e] to-[#8a6e4b] drop-shadow-2xl">

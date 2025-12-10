@@ -6,7 +6,7 @@ import clsx from 'clsx';
 
 const MemberCard: React.FC<{ member: Member }> = ({ member }) => {
     const [expanded, setExpanded] = useState(false);
-    const [imgSrc, setImgSrc] = useState(`/images/members/${member.name}.jpg`);
+    const [imgSrc, setImgSrc] = useState(`/${member.photo}`);
 
     return (
         <motion.div
@@ -27,8 +27,9 @@ const MemberCard: React.FC<{ member: Member }> = ({ member }) => {
                         <img
                             src={imgSrc}
                             alt={member.name}
+                            loading="lazy"
                             className="w-full h-full rounded-full object-cover bg-[#06203a]"
-                            onError={() => setImgSrc('/images/assets/logo/EverShine-logo.png')}
+                            onError={() => setImgSrc('/images/assets/logo/白色正方形logo.png')}
                         />
                     </div>
 

@@ -1,0 +1,518 @@
+{
+  "timestamp": "2025-12-10T11:18:46.958Z",
+  "summary": {
+    "total": 100,
+    "passed": 98,
+    "failed": 1,
+    "warnings": 1,
+    "passRate": "98.0%"
+  },
+  "results": {
+    "passed": [
+      {
+        "id": "001",
+        "description": "package.json 存在",
+        "passed": true
+      },
+      {
+        "id": "002",
+        "description": "vite.config.ts 存在",
+        "passed": true
+      },
+      {
+        "id": "003",
+        "description": "tsconfig.json 存在",
+        "passed": true
+      },
+      {
+        "id": "005",
+        "description": "Dockerfile 存在",
+        "passed": true
+      },
+      {
+        "id": "006",
+        "description": "React 依賴已安裝",
+        "passed": true
+      },
+      {
+        "id": "007",
+        "description": "TypeScript 依賴已安裝",
+        "passed": true
+      },
+      {
+        "id": "008",
+        "description": "Framer Motion 已安裝",
+        "passed": true
+      },
+      {
+        "id": "009",
+        "description": "React Router 已安裝",
+        "passed": true
+      },
+      {
+        "id": "010",
+        "description": "src 目錄存在",
+        "passed": true
+      },
+      {
+        "id": "011",
+        "description": "Home 頁面存在",
+        "passed": true
+      },
+      {
+        "id": "012",
+        "description": "Members 頁面存在",
+        "passed": true
+      },
+      {
+        "id": "013",
+        "description": "Referrals 頁面存在",
+        "passed": true
+      },
+      {
+        "id": "014",
+        "description": "BNI 頁面存在",
+        "passed": true
+      },
+      {
+        "id": "015",
+        "description": "Edit 頁面存在",
+        "passed": true
+      },
+      {
+        "id": "016",
+        "description": "Layout 組件存在",
+        "passed": true
+      },
+      {
+        "id": "017",
+        "description": "Navbar 組件存在",
+        "passed": true
+      },
+      {
+        "id": "018",
+        "description": "Footer 組件存在",
+        "passed": true
+      },
+      {
+        "id": "019",
+        "description": "StarryBackground 組件存在",
+        "passed": true
+      },
+      {
+        "id": "020",
+        "description": "About 組件存在",
+        "passed": true
+      },
+      {
+        "id": "021",
+        "description": "Results 組件存在",
+        "passed": true
+      },
+      {
+        "id": "022",
+        "description": "MemberWall 組件存在",
+        "passed": true
+      },
+      {
+        "id": "023",
+        "description": "FAQ 組件存在",
+        "passed": true
+      },
+      {
+        "id": "024",
+        "description": "Contact 組件存在",
+        "passed": true
+      },
+      {
+        "id": "025",
+        "description": "MemberCard 組件存在",
+        "passed": true
+      },
+      {
+        "id": "026",
+        "description": "CategoryFilter 組件存在",
+        "passed": true
+      },
+      {
+        "id": "027",
+        "description": "public 目錄存在",
+        "passed": true
+      },
+      {
+        "id": "028",
+        "description": "images 目錄存在",
+        "passed": true
+      },
+      {
+        "id": "029",
+        "description": "members 照片目錄存在",
+        "passed": true
+      },
+      {
+        "id": "030",
+        "description": "assets 目錄存在",
+        "passed": true
+      },
+      {
+        "id": "031",
+        "description": "logo 目錄存在",
+        "passed": true
+      },
+      {
+        "id": "032",
+        "description": "background.png 存在",
+        "passed": true
+      },
+      {
+        "id": "033",
+        "description": "EverShine logo 存在",
+        "passed": true
+      },
+      {
+        "id": "034",
+        "description": "BNI logo 存在",
+        "passed": true
+      },
+      {
+        "id": "035",
+        "description": "members.json 存在",
+        "passed": true
+      },
+      {
+        "id": "036",
+        "description": "referrals.json 存在",
+        "passed": true
+      },
+      {
+        "id": "037",
+        "description": "Home 頁面包含 Hero section",
+        "passed": true
+      },
+      {
+        "id": "038",
+        "description": "Home 頁面包含主標題",
+        "passed": true
+      },
+      {
+        "id": "039",
+        "description": "Home 頁面包含副標題",
+        "passed": true
+      },
+      {
+        "id": "040",
+        "description": "Home 頁面包含英文標語",
+        "passed": true
+      },
+      {
+        "id": "041",
+        "description": "Home 頁面包含加入我們按鈕",
+        "passed": true
+      },
+      {
+        "id": "042",
+        "description": "Home 頁面包含 BNI 介紹區塊",
+        "passed": true
+      },
+      {
+        "id": "043",
+        "description": "Home 頁面包含 About 組件",
+        "passed": true
+      },
+      {
+        "id": "044",
+        "description": "Home 頁面包含 MemberWall 組件",
+        "passed": true
+      },
+      {
+        "id": "045",
+        "description": "Home 頁面包含 Results 組件",
+        "passed": true
+      },
+      {
+        "id": "046",
+        "description": "Home 頁面包含 FAQ 組件",
+        "passed": true
+      },
+      {
+        "id": "047",
+        "description": "Home 頁面包含 Contact 組件",
+        "passed": true
+      },
+      {
+        "id": "048",
+        "description": "Home 頁面包含背景圖片",
+        "passed": true
+      },
+      {
+        "id": "049",
+        "description": "App.tsx 包含 BrowserRouter",
+        "passed": true
+      },
+      {
+        "id": "050",
+        "description": "App.tsx 包含 Routes",
+        "passed": true
+      },
+      {
+        "id": "051",
+        "description": "App.tsx 包含首頁路由",
+        "passed": true
+      },
+      {
+        "id": "052",
+        "description": "App.tsx 包含 Members 路由",
+        "passed": true
+      },
+      {
+        "id": "053",
+        "description": "App.tsx 包含 Referrals 路由",
+        "passed": true
+      },
+      {
+        "id": "054",
+        "description": "App.tsx 包含 BNI 路由",
+        "passed": true
+      },
+      {
+        "id": "055",
+        "description": "index.css 存在",
+        "passed": true
+      },
+      {
+        "id": "056",
+        "description": "legacy.css 存在",
+        "passed": true
+      },
+      {
+        "id": "057",
+        "description": "index.css 引入 Tailwind",
+        "passed": true
+      },
+      {
+        "id": "058",
+        "description": "index.css 引入 legacy.css",
+        "passed": true
+      },
+      {
+        "id": "059",
+        "description": "StarryBackground 使用 Canvas",
+        "passed": true
+      },
+      {
+        "id": "060",
+        "description": "StarryBackground 有粒子系統",
+        "passed": true
+      },
+      {
+        "id": "061",
+        "description": "StarryBackground 有動畫",
+        "passed": true
+      },
+      {
+        "id": "062",
+        "description": "Layout 包含 StarryBackground",
+        "passed": true
+      },
+      {
+        "id": "063",
+        "description": "Members 頁面有搜尋功能",
+        "passed": true
+      },
+      {
+        "id": "064",
+        "description": "Members 頁面有分類篩選",
+        "passed": true
+      },
+      {
+        "id": "065",
+        "description": "MemberCard 使用 member.photo",
+        "passed": true
+      },
+      {
+        "id": "066",
+        "description": "MemberCard 有 fallback 圖片",
+        "passed": true
+      },
+      {
+        "id": "067",
+        "description": "MemberCard 有展開功能",
+        "passed": true
+      },
+      {
+        "id": "068",
+        "description": "Home 使用 Framer Motion",
+        "passed": true
+      },
+      {
+        "id": "069",
+        "description": "Members 使用 Framer Motion",
+        "passed": true
+      },
+      {
+        "id": "070",
+        "description": "Home 有淡入動畫",
+        "passed": true
+      },
+      {
+        "id": "071",
+        "description": "index.html 有 title",
+        "passed": true
+      },
+      {
+        "id": "072",
+        "description": "index.html 有 description",
+        "passed": true
+      },
+      {
+        "id": "073",
+        "description": "index.html 有 Open Graph tags",
+        "passed": true
+      },
+      {
+        "id": "074",
+        "description": "index.html 有 favicon",
+        "passed": true
+      },
+      {
+        "id": "075",
+        "description": "index.html 引用正確的 favicon",
+        "passed": true
+      },
+      {
+        "id": "076",
+        "description": "hooks 目錄存在",
+        "passed": true
+      },
+      {
+        "id": "077",
+        "description": "useMembers hook 存在",
+        "passed": true
+      },
+      {
+        "id": "078",
+        "description": "types 目錄存在",
+        "passed": true
+      },
+      {
+        "id": "079",
+        "description": "Member type 定義存在",
+        "passed": true
+      },
+      {
+        "id": "080",
+        "description": "package.json 有 dev script",
+        "passed": true
+      },
+      {
+        "id": "081",
+        "description": "package.json 有 build script",
+        "passed": true
+      },
+      {
+        "id": "082",
+        "description": "package.json 有 start script",
+        "passed": true
+      },
+      {
+        "id": "083",
+        "description": "vite.config.ts 有 React plugin",
+        "passed": true
+      },
+      {
+        "id": "084",
+        "description": "Dockerfile 有 Node 20",
+        "passed": true
+      },
+      {
+        "id": "085",
+        "description": "App.tsx 有 ScrollToTop",
+        "passed": true
+      },
+      {
+        "id": "086",
+        "description": "Layout 有 Navbar",
+        "passed": true
+      },
+      {
+        "id": "087",
+        "description": "Layout 有 Footer",
+        "passed": true
+      },
+      {
+        "id": "088",
+        "description": "Layout 有 Outlet",
+        "passed": true
+      },
+      {
+        "id": "090",
+        "description": "Contact 組件有圖片",
+        "passed": true
+      },
+      {
+        "id": "091",
+        "description": "Home 有響應式 class",
+        "passed": true
+      },
+      {
+        "id": "092",
+        "description": "Members 有響應式 class",
+        "passed": true
+      },
+      {
+        "id": "093",
+        "description": "MemberCard 有響應式 grid",
+        "passed": true
+      },
+      {
+        "id": "094",
+        "description": "index.html 有 lang 屬性",
+        "passed": true
+      },
+      {
+        "id": "095",
+        "description": "MemberCard 圖片有 alt",
+        "passed": true
+      },
+      {
+        "id": "096",
+        "description": "StarryBackground 有 cleanup",
+        "passed": true
+      },
+      {
+        "id": "097",
+        "description": "Members 使用 useMemo",
+        "passed": true
+      },
+      {
+        "id": "098",
+        "description": "Home 背景有 willChange",
+        "passed": true
+      },
+      {
+        "id": "099",
+        "description": "useMembers 載入 JSON 資料",
+        "passed": true
+      },
+      {
+        "id": "100",
+        "description": "Members 有 loading 狀態",
+        "passed": true
+      }
+    ],
+    "failed": [
+      {
+        "id": "004",
+        "description": "tailwind.config.js 或 CSS 配置存在",
+        "passed": false
+      }
+    ],
+    "warnings": [
+      {
+        "id": "089",
+        "description": "MemberCard 有 lazy loading",
+        "passed": false
+      }
+    ]
+  }
+}
