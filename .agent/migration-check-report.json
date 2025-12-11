@@ -1,11 +1,11 @@
 {
-  "timestamp": "2025-12-10T11:18:46.958Z",
+  "timestamp": "2025-12-11T06:20:14.042Z",
   "summary": {
     "total": 100,
-    "passed": 98,
+    "passed": 99,
     "failed": 1,
-    "warnings": 1,
-    "passRate": "98.0%"
+    "warnings": 0,
+    "passRate": "99.0%"
   },
   "results": {
     "passed": [
@@ -445,6 +445,11 @@
         "passed": true
       },
       {
+        "id": "089",
+        "description": "MemberCard 有 lazy loading",
+        "passed": true
+      },
+      {
         "id": "090",
         "description": "Contact 組件有圖片",
         "passed": true
@@ -507,12 +512,6 @@
         "passed": false
       }
     ],
-    "warnings": [
-      {
-        "id": "089",
-        "description": "MemberCard 有 lazy loading",
-        "passed": false
-      }
-    ]
+    "warnings": []
   }
 }
