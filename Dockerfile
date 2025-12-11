@@ -1,11 +1,14 @@
-FROM node:20-alpine
+# Use standard node image instead of alpine to avoid musl compatibility issues with Rollup
+FROM node:20-slim
+
 WORKDIR /app
 
 # Copy package files
 COPY package*.json ./
 
 # Install ALL dependencies (including devDependencies for build)
-RUN npm ci
+# Use --legacy-peer-deps if needed
+RUN npm ci --legacy-peer-deps || npm ci
 
 # Copy source code
 COPY . .
@@ -14,7 +17,10 @@ COPY . .
 RUN npm run build
 
 # Verify build output
-RUN ls -la dist/
+RUN ls -la dist/ && ls -la dist/assets/
+
+# Remove devDependencies to reduce image size
+RUN npm prune --production
 
 # Set environment
 ENV PORT=8080
