@@ -1,3 +1,9 @@
 @import "tailwindcss";
 
+/* Tailwind v4 自定義顏色配置 */
+@theme {
+  --color-primary-blue: #06203a;
+  --color-primary-gold: #c5a47e;
+}
+
 @import "./styles/legacy.css";
