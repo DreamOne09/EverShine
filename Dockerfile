@@ -1,48 +1,23 @@
-# Stage 1: Build
-FROM node:20-slim AS builder
-
-WORKDIR /app
-
-# Copy package files
-COPY package*.json ./
-
-# Install dependencies
-RUN npm install
-
-# Copy source code
-COPY . .
-
-# Build the app
-RUN npm run build
-
-# Verify build output
-RUN echo "=== Build Output ===" && \
-    ls -la dist/ && \
-    echo "=== Assets ===" && \
-    ls -la dist/assets/ && \
-    echo "=== index.html ===" && \
-    head -20 dist/index.html
-
-# Stage 2: Production
+# Production image - serve pre-built dist folder
 FROM node:20-slim
 
 WORKDIR /app
 
-# Copy package files for production dependencies
+# Copy package files for production dependencies only
 COPY package*.json ./
 
-# Install only production dependencies
+# Install only production dependencies (for server.js)
 RUN npm install --production
 
-# Copy built files from builder stage
-COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/public ./public
+# Copy pre-built dist folder and other necessary files
+COPY dist ./dist
+COPY public ./public
 COPY server.js ./
 
-# Verify files are copied
-RUN echo "=== Final dist check ===" && \
-    ls -la dist/ && \
-    ls -la dist/assets/
+# Verify dist folder exists
+RUN ls -la dist/ && \
+    ls -la dist/assets/ && \
+    echo "Dist folder verified!"
 
 # Set environment
 ENV PORT=8080
