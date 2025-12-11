@@ -1,4 +1,4 @@
-# Use standard node image instead of alpine to avoid musl compatibility issues with Rollup
+# Use standard node image to avoid compatibility issues
 FROM node:20-slim
 
 WORKDIR /app
@@ -6,9 +6,11 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
-# Install ALL dependencies (including devDependencies for build)
-# Use --legacy-peer-deps if needed
-RUN npm ci --legacy-peer-deps || npm ci
+# CRITICAL FIX: Delete package-lock.json to avoid npm optional dependencies bug
+# Then do a fresh install
+RUN rm -f package-lock.json && \
+    npm install && \
+    npm install rollup --save-dev
 
 # Copy source code
 COPY . .
@@ -16,8 +18,10 @@ COPY . .
 # Build the React app
 RUN npm run build
 
-# Verify build output
-RUN ls -la dist/ && ls -la dist/assets/
+# Verify build output exists
+RUN ls -la dist/ && \
+    ls -la dist/assets/ && \
+    echo "Build successful!"
 
 # Remove devDependencies to reduce image size
 RUN npm prune --production
