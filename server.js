@@ -36,8 +36,8 @@ const mimeTypes = {
 const server = http.createServer((req, res) => {
     console.log(`Request: ${req.method} ${req.url}`);
 
-    // Normalize path
-    let requestPath = req.url.split('?')[0]; // Ignore query string
+    // Normalize path and decode URL to handle Chinese filenames
+    let requestPath = decodeURIComponent(req.url.split('?')[0]);
 
     // Default to index.html for root
     if (requestPath === '/') {
