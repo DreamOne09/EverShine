@@ -1,10 +1,11 @@
+```typescript
 import React from 'react';
 import { Facebook, Instagram } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const Footer: React.FC = () => {
     return (
-        <footer className="relative z-10 bg-[#06203a] border-t border-white/10 pt-16 pb-8 mt-auto">
+        <footer className="relative z-10 bg-bg-dark border-t border-white/10 pt-16 pb-8 mt-auto">
             <div className="container mx-auto px-4">
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12 text-center md:text-left">
                     <div className="md:col-span-2 space-y-4 flex flex-col items-center md:items-start">
@@ -19,21 +20,21 @@ const Footer: React.FC = () => {
                     <div>
                         <h4 className="text-white font-bold mb-6 text-lg tracking-wide">快速連結</h4>
                         <ul className="space-y-3">
-                            <li className="list-none"><Link to="/" className="text-gray-400 hover:text-[#c5a47e] transition-colors text-sm">首頁</Link></li>
-                            <li className="list-none"><Link to="/members" className="text-gray-400 hover:text-[#c5a47e] transition-colors text-sm">會員介紹</Link></li>
-                            <li className="list-none"><Link to="/referrals" className="text-gray-400 hover:text-[#c5a47e] transition-colors text-sm">引薦報告</Link></li>
-                            <li className="list-none"><Link to="/bni" className="text-gray-400 hover:text-[#c5a47e] transition-colors text-sm">什麼是 BNI</Link></li>
+                            <li className="list-none"><Link to="/" className="text-gray-400 hover:text-primary transition-colors text-sm">首頁</Link></li>
+                            <li className="list-none"><Link to="/members" className="text-gray-400 hover:text-primary transition-colors text-sm">會員介紹</Link></li>
+                            <li className="list-none"><Link to="/referrals" className="text-gray-400 hover:text-primary transition-colors text-sm">引薦報告</Link></li>
+                            <li className="list-none"><Link to="/bni" className="text-gray-400 hover:text-primary transition-colors text-sm">什麼是 BNI</Link></li>
                         </ul>
                     </div>
 
                     <div>
                         <h4 className="text-white font-bold mb-6 text-lg tracking-wide">聯繫我們</h4>
                         <div className="space-y-3 flex flex-col items-center md:items-start">
-                            <a href="https://www.facebook.com/BNlLongTermCare" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-gray-400 hover:text-[#c5a47e] transition-colors text-sm group">
-                                <span className="p-2 bg-white/5 rounded-full group-hover:bg-[#c5a47e] group-hover:text-[#06203a] transition-all"><Facebook size={16} /></span> Facebook
+                            <a href="https://www.facebook.com/BNlLongTermCare" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-gray-400 hover:text-primary transition-colors text-sm group">
+                                <span className="p-2 bg-white/5 rounded-full group-hover:bg-primary group-hover:text-bg-dark transition-all"><Facebook size={16} /></span> Facebook
                             </a>
-                            <a href="https://www.instagram.com/chhubni/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-gray-400 hover:text-[#c5a47e] transition-colors text-sm group">
-                                <span className="p-2 bg-white/5 rounded-full group-hover:bg-[#c5a47e] group-hover:text-[#06203a] transition-all"><Instagram size={16} /></span> Instagram
+                            <a href="https://www.instagram.com/chhubni/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-gray-400 hover:text-primary transition-colors text-sm group">
+                                <span className="p-2 bg-white/5 rounded-full group-hover:bg-primary group-hover:text-bg-dark transition-all"><Instagram size={16} /></span> Instagram
                             </a>
                         </div>
                     </div>
@@ -43,7 +44,7 @@ const Footer: React.FC = () => {
                     <p>&copy; {new Date().getFullYear()} BNI EverShine Chapter. All rights reserved.</p>
                     <p className="text-center">
                         本網站由琢奧科技有限公司開發與維護，網站與系統開發歡迎洽詢{' '}
-                        <a href="mailto:info@dropout.tw" className="text-[#c5a47e] hover:underline">
+                        <a href="mailto:info@dropout.tw" className="text-primary hover:underline">
                             info@dropout.tw
                         </a>
                     </p>
