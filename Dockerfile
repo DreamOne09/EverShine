@@ -1,23 +1,52 @@
-# Production image - serve pre-built dist folder
+# Build stage
+FROM node:20-slim AS builder
+
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+
+# Install all dependencies (including devDependencies for build)
+RUN npm install
+
+# Copy source code and public folder
+COPY src ./src
+COPY public ./public
+COPY index.html ./
+COPY vite.config.ts ./
+COPY tsconfig.json ./
+COPY tsconfig.node.json ./
+COPY tailwind.config.js ./
+
+# Build the application
+RUN npm run build
+
+# Verify build output
+RUN ls -la dist/ && \
+    ls -la dist/assets/ && \
+    test -f dist/index.html && \
+    echo "Build verified successfully!"
+
+# Production stage
 FROM node:20-slim
 
 WORKDIR /app
 
-# Copy package files for production dependencies only
+# Copy package files for production dependencies
 COPY package*.json ./
 
-# Install only production dependencies (for server.js)
+# Install only production dependencies
 RUN npm install --production
 
-# Copy pre-built dist folder and other necessary files
-COPY dist ./dist
-COPY public ./public
+# Copy built files from builder stage
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/public ./public
 COPY server.js ./
 
-# Verify dist folder exists
+# Verify files exist
 RUN ls -la dist/ && \
-    ls -la dist/assets/ && \
-    echo "Dist folder verified!"
+    ls -la dist/index.html && \
+    ls -la public/
 
 # Set environment
 ENV PORT=8080
