@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+/* Tailwind 基礎指令 - 必須存在 */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /* Tailwind v4 自定義顏色配置 */
 @theme {
   --color-primary-blue: #06203a;
