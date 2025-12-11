@@ -44,14 +44,20 @@ const server = http.createServer((req, res) => {
         requestPath = '/index.html';
     }
 
-    let filePath = path.join(DIST, requestPath);
-    let extname = path.extname(filePath);
+    let filePath;
+    let extname = path.extname(requestPath);
 
-    // If request has no extension (e.g. /about), treat as SPA route and serve index.html
-    // But check if file exists first (maybe it's a file without extension?) - unlikely for web assets
-    if (!extname) {
+    // Check if request is for public assets (images, data, etc.)
+    if (requestPath.startsWith('/images/') || requestPath.startsWith('/data/')) {
+        // Serve from public folder
+        filePath = path.join(__dirname, 'public', requestPath);
+    } else if (!extname) {
+        // If request has no extension (e.g. /about), treat as SPA route and serve index.html
         filePath = path.join(DIST, 'index.html');
         extname = '.html';
+    } else {
+        // Serve from dist folder (built assets)
+        filePath = path.join(DIST, requestPath);
     }
 
     fs.readFile(filePath, (err, content) => {
