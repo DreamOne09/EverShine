@@ -6,9 +6,22 @@
 @tailwind utilities;
 
 /* Tailwind v4 自定義顏色配置 */
+/* Tailwind v4 自定義顏色配置 - 藍色主題 (Blue Theme) */
 @theme {
-  --color-primary-blue: #06203a;
-  --color-primary-gold: #c5a47e;
+  /* 核心顏色 */
+  --color-primary: #4CA8DF;
+  /* Sky Blue */
+  --color-primary-dark: #2C88BE;
+  --color-primary-light: #7CD0FF;
+
+  /* 背景顏色 */
+  --color-bg-dark: #06203a;
+  /* 深藍背景 */
+  --color-bg-primary: #050505;
+  --color-bg-secondary: #0a0a0a;
+
+  /* 兼容性顏色 (將舊的 Gold 映射到 Primary Blue) */
+  --color-gold: #4CA8DF;
 }
 
 @import "./styles/legacy.css";

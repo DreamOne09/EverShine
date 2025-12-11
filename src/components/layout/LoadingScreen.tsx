@@ -20,13 +20,13 @@ const LoadingScreen: React.FC = () => {
                     initial={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.5 }}
-                    className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#06203a]"
+                    className="fixed inset-0 z-[9999] flex items-center justify-center bg-bg-dark"
                 >
                     {/* Animated background gradient */}
                     <div
                         className="absolute inset-0"
                         style={{
-                            background: 'radial-gradient(ellipse at center, #1B2735 0%, #06203a 100%)'
+                            background: 'radial-gradient(ellipse at center, #1B2735 0%, var(--color-bg-dark) 100%)'
                         }}
                     />
 
@@ -70,7 +70,7 @@ const LoadingScreen: React.FC = () => {
 
                             {/* Glow effect */}
                             <motion.div
-                                className="absolute inset-0 bg-[#c5a47e] rounded-full blur-3xl opacity-20"
+                                className="absolute inset-0 bg-primary rounded-full blur-3xl opacity-20"
                                 animate={{
                                     scale: [1, 1.2, 1],
                                     opacity: [0.2, 0.3, 0.2],
@@ -89,7 +89,7 @@ const LoadingScreen: React.FC = () => {
                             transition={{ duration: 0.6, delay: 0.3 }}
                             className="text-center"
                         >
-                            <h1 className="text-3xl md:text-4xl font-bold text-[#c5a47e] mb-2 tracking-wide">
+                            <h1 className="text-3xl md:text-4xl font-bold text-primary mb-2 tracking-wide">
                                 歡迎來到
                             </h1>
                             <h2 className="text-2xl md:text-3xl font-bold text-white tracking-wider">
@@ -107,7 +107,7 @@ const LoadingScreen: React.FC = () => {
                             {[0, 1, 2].map((i) => (
                                 <motion.div
                                     key={i}
-                                    className="w-2 h-2 bg-[#c5a47e] rounded-full"
+                                    className="w-2 h-2 bg-primary rounded-full"
                                     animate={{
                                         y: [-8, 0, -8],
                                         opacity: [0.5, 1, 0.5],
@@ -127,7 +127,7 @@ const LoadingScreen: React.FC = () => {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 0.3 }}
                         transition={{ delay: 0.8 }}
-                        className="absolute bottom-8 text-[#c5a47e]/50 text-sm tracking-widest"
+                        className="absolute bottom-8 text-primary/50 text-sm tracking-widest"
                     >
                         BNI EVERSHINE
                     </motion.div>
