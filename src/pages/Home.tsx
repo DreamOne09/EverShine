@@ -70,9 +70,14 @@ const Home: React.FC = () => {
                     transition={{ delay: 1.5, duration: 2, repeat: Infinity }}
                     className="absolute bottom-10 left-1/2 -translate-x-1/2 text-gray-400"
                 >
-                    <div className="w-6 h-10 border-2 border-gray-400/50 rounded-full flex justify-center p-1 backdrop-blur-sm">
-                        <div className="w-1 h-2 bg-[#c5a47e] rounded-full animate-bounce"></div>
-                    </div>
+                    <motion.div
+                        initial={{ opacity: 0, y: -20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 2, duration: 1 }}
+                        className="w-6 h-10 border-2 border-gray-400/50 rounded-full flex justify-center p-1 backdrop-blur-sm"
+                    >
+                        <div className="w-1 h-2 bg-primary rounded-full animate-bounce" />
+                    </motion.div>
                 </motion.div>
             </section>
 
