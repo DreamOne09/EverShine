@@ -6,8 +6,11 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
-# Install all dependencies (including devDependencies for build)
-RUN npm install
+# Fix npm optional dependencies bug with rollup
+# Remove package-lock.json and reinstall
+RUN rm -f package-lock.json && \
+    npm install && \
+    npm install rollup --save-dev
 
 # Copy source code and public folder
 COPY src ./src
