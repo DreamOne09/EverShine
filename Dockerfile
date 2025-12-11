@@ -12,14 +12,9 @@ RUN rm -f package-lock.json && \
     npm install && \
     npm install rollup --save-dev
 
-# Copy source code and public folder
-COPY src ./src
-COPY public ./public
-COPY index.html ./
-COPY vite.config.ts ./
-COPY tsconfig.json ./
-COPY tsconfig.app.json ./
-COPY tsconfig.node.json ./
+# Copy all source files
+# This ensures we don't miss any config files like tsconfig.app.json
+COPY . .
 
 # Build the application
 RUN npm run build
