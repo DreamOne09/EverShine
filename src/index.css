@@ -1,11 +1,6 @@
 @import "tailwindcss";
 
-/* Tailwind 基礎指令 - 必須存在 */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 
-/* Tailwind v4 自定義顏色配置 */
 /* Tailwind v4 自定義顏色配置 - 藍色主題 (Blue Theme) */
 @theme {
   /* 核心顏色 */
@@ -23,5 +18,3 @@
   /* 兼容性顏色 (將舊的 Gold 映射到 Primary Blue) */
   --color-gold: #4CA8DF;
 }
-
-@import "./styles/legacy.css";

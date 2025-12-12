@@ -37,7 +37,7 @@ const Members: React.FC = () => {
 
     if (loading) return (
         <div className="flex justify-center items-center min-h-[60vh]">
-            <div className="w-16 h-16 border-4 border-[#c5a47e] border-t-transparent rounded-full animate-spin"></div>
+            <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
         </div>
     );
 
@@ -51,7 +51,7 @@ const Members: React.FC = () => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
                 >
-                    <h1 className="text-4xl md:text-5xl font-bold mb-6 text-[#c5a47e]">白金會員介紹</h1>
+                    <h1 className="text-4xl md:text-5xl font-bold mb-6 text-primary">白金會員介紹</h1>
                     <p className="text-gray-300 text-lg max-w-2xl mx-auto mb-10">
                         我們匯聚了各行各業的菁英，透過彼此的專業協作，為客戶提供最值得信賴的服務。
                     </p>
@@ -64,14 +64,14 @@ const Members: React.FC = () => {
                     className="relative max-w-lg mx-auto mb-10 group"
                 >
                     <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
-                        <Search className="text-gray-400 group-focus-within:text-[#c5a47e] transition-colors" size={20} />
+                        <Search className="text-gray-400 group-focus-within:text-primary transition-colors" size={20} />
                     </div>
                     <input
                         type="text"
                         placeholder="搜尋會員名字、行業、公司或服務..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="w-full bg-[#06203a]/60 backdrop-blur-sm border border-gray-600 rounded-full py-3.5 pl-12 pr-6 text-white placeholder-gray-500 focus:outline-none focus:border-[#c5a47e] focus:ring-1 focus:ring-[#c5a47e] transition-all shadow-lg"
+                        className="w-full bg-bg-dark/60 backdrop-blur-sm border border-gray-600 rounded-full py-3.5 pl-12 pr-6 text-white placeholder-gray-500 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-lg"
                     />
                 </motion.div>
 
@@ -111,7 +111,7 @@ const Members: React.FC = () => {
                     <p className="text-xl">沒有找到符合條件的會員</p>
                     <button
                         onClick={() => { setSearchQuery(''); setActiveCategory('All'); }}
-                        className="mt-4 px-6 py-2 bg-[#c5a47e] text-[#06203a] rounded-full hover:bg-[#b08d55] transition-colors font-bold"
+                        className="mt-4 px-6 py-2 bg-primary text-bg-dark rounded-full hover:bg-[#b08d55] transition-colors font-bold"
                     >
                         清除搜尋條件
                     </button>

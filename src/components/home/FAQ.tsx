@@ -1,112 +1,88 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import clsx from 'clsx';
-import { Plus } from 'lucide-react';
+import { Plus, Minus, HelpCircle } from 'lucide-react';
 
-const FAQItem: React.FC<{ question: string, answer: React.ReactNode }> = ({ question, answer }) => {
-    const [isOpen, setIsOpen] = useState(false);
-
+const FAQItem: React.FC<{ question: string, answer: React.ReactNode, isOpen: boolean, toggle: () => void, index: number }> = ({ question, answer, isOpen, toggle, index }) => {
     return (
-        <div className="border border-white/10 rounded-2xl overflow-hidden bg-white/5 backdrop-blur-sm mb-4">
+        <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: index * 0.1 }}
+            className="border-b border-white/10 last:border-0"
+        >
             <button
-                onClick={() => setIsOpen(!isOpen)}
-                className="w-full flex items-center justify-between p-6 text-left hover:bg-white/5 transition-colors"
-                aria-expanded={isOpen}
+                onClick={toggle}
+                className="w-full py-6 flex items-center justify-between text-left group focus:outline-none"
             >
-                <div className="flex items-start gap-4 pr-6">
-                    <span className="text-[#c5a47e] font-bold text-lg pt-0.5 font-serif">Q</span>
-                    <h3 className="text-white font-medium text-lg leading-relaxed">{question}</h3>
-                </div>
-                <Plus
-                    className={clsx("text-[#c5a47e] transition-transform duration-300 flex-shrink-0", isOpen ? "rotate-45" : "")}
-                    size={24}
-                />
+                <span className={`text-lg md:text-xl font-medium transition-colors duration-300 pr-8 ${isOpen ? 'text-primary' : 'text-white group-hover:text-primary'}`}>
+                    {question}
+                </span>
+                <span className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center border transition-all duration-300 ${isOpen ? 'bg-primary border-primary text-bg-dark' : 'border-white/20 text-gray-400 group-hover:border-primary group-hover:text-primary'}`}>
+                    {isOpen ? <Minus size={18} /> : <Plus size={18} />}
+                </span>
             </button>
             <AnimatePresence>
                 {isOpen && (
                     <motion.div
                         initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
+                        animate={{ height: 'auto', opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.3 }}
                         className="overflow-hidden"
                     >
-                        <div className="p-6 pt-0 pl-16 pr-10 text-gray-300 leading-relaxed border-t border-white/5 mt-2">
-                            <div className="mb-2 font-bold text-white font-serif text-[#c5a47e]">A</div>
+                        <p className="text-gray-400 leading-relaxed pb-6 text-base md:text-lg">
                             {answer}
-                        </div>
+                        </p>
                     </motion.div>
                 )}
             </AnimatePresence>
-        </div>
+        </motion.div>
     );
 };
 
 const FAQ: React.FC = () => {
-    return (
-        <section className="py-24 relative z-10">
-            <div className="container mx-auto px-4 max-w-4xl">
-                <div className="text-center mb-16">
-                    <h2 className="text-3xl md:text-4xl font-bold mb-6 text-[#c5a47e]">您可能會有的顧慮</h2>
-                    <div className="w-16 h-1 bg-[#c5a47e] mx-auto rounded-full"></div>
-                </div>
+    const [openIndex, setOpenIndex] = useState<number | null>(null);
 
-                <div className="space-y-4">
+    const toggle = (index: number) => {
+        setOpenIndex(openIndex === index ? null : index);
+    };
+
+    return (
+        <section className="py-20 bg-bg-primary relative overflow-hidden" id="faq">
+            <div className="container mx-auto px-4 z-10 relative">
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    className="text-center mb-16"
+                >
+                    <h2 className="text-3xl md:text-5xl font-bold mb-4 text-white">常見問題</h2>
+                    <p className="text-gray-400 max-w-2xl mx-auto text-lg">
+                        關於加入 BNI 的長輝白金分會，我們整理了大家最關心的問題
+                    </p>
+                </motion.div>
+
+                <div className="max-w-3xl mx-auto space-y-4">
                     <FAQItem
-                        question="我很忙，每週都要參加會不會太花時間？"
+                        index={0}
+                        isOpen={openIndex === 0}
+                        toggle={() => toggle(0)}
+                        question="加入 BNI 需要什麼資格？"
                         answer={
                             <>
-                                <p className="mb-3 text-[#c5a47e] font-bold">我們的會員平均每投入1小時，獲得8小時的業務成果</p>
-                                <p className="mb-4">線上會議讓您在家或辦公室就能參與，省下通勤時間。每週三早上6:30-8:30，正好在開始一天工作前完成。</p>
+                                <p className="mb-3 text-[#c5a47e] font-bold">只要您是該專業領域的專家，並且該行業在分會中尚無代表</p>
+                                <p className="mb-4">BNI 採行「單一產業代表制」，確保會員獨佔該分會的產業資源。</p>
                                 <div className="p-4 bg-[#c5a47e]/10 rounded-lg border border-[#c5a47e]/20 text-sm">
-                                    <strong className="text-[#c5a47e]">實際案例：</strong>劉弼凱（水電工程）即使在忙碌的工程期間也能持續參與，這一年來工程案量增加了180%。
+                                    <strong className="text-[#c5a47e]">核心精神：</strong>我們尋找的不是為了做生意而來的人，而是願意「付出」與「分享」的長期合作夥伴。
                                 </div>
                             </>
                         }
                     />
                     <FAQItem
-                        question="我的產業比較特殊，BNI真的適合我嗎？"
-                        answer={
-                            <>
-                                <p className="mb-3 text-[#c5a47e] font-bold">我們有60+產業，涵蓋各種專業領域</p>
-                                <p className="mb-4">包括：法律服務、建築工程、保險理財、醫療健康、科技服務、行銷顧問、餐飲美食等。</p>
-                                <div className="p-4 bg-[#c5a47e]/10 rounded-lg border border-[#c5a47e]/20 text-sm">
-                                    <strong className="text-[#c5a47e]">實際案例：</strong>何昇軒律師原本也擔心法律服務太專業，現在80%的企業客戶都來自會員引薦，業務量成長250%。
-                                </div>
-                            </>
-                        }
-                    />
-                    <FAQItem
-                        question="會費值得嗎？投資報酬率如何？"
-                        answer={
-                            <>
-                                <p className="mb-3 text-[#c5a47e] font-bold">平均每位會員每月獲得NT$ 21.2萬引薦金額</p>
-                                <ul className="list-disc list-inside mb-4 space-y-1 ml-2">
-                                    <li>上月引薦單數：470張</li>
-                                    <li>上月引薦金額：NT$ 1,273萬</li>
-                                    <li>平均成交率：68%</li>
-                                </ul>
-                                <div className="p-4 bg-[#c5a47e]/10 rounded-lg border border-[#c5a47e]/20 text-sm">
-                                    <strong className="text-[#c5a47e]">重點：</strong>會費僅佔引薦金額的2.8%，投資報酬率達35倍以上。
-                                </div>
-                            </>
-                        }
-                    />
-                    <FAQItem
-                        question="如果我的行業已經有會員了怎麼辦？"
-                        answer={
-                            <>
-                                <p className="mb-3 text-[#c5a47e] font-bold">這正是BNI的獨特優勢！</p>
-                                <p className="mb-4">BNI採用「一個行業一個會員」的原則，確保您在分會內沒有直接競爭者。所有會員都會全力為您引薦客戶，而不是競爭對手。</p>
-                                <p className="mb-2">如果您的行業已有會員，我們可以：</p>
-                                <ul className="list-disc list-inside space-y-1 ml-2">
-                                    <li>協助您了解其他BNI分會的機會</li>
-                                    <li>將您列入候補名單（通常3-6個月內會有機會）</li>
-                                    <li>評估您的專業領域是否可以細分（例如：商業律師 vs 家事律師）</li>
-                                </ul>
-                            </>
-                        }
-                    />
-                    <FAQItem
+                        index={1}
+                        isOpen={openIndex === 1}
+                        toggle={() => toggle(1)}
                         question="我不擅長社交，會不會很尷尬？"
                         answer={
                             <>
@@ -119,6 +95,9 @@ const FAQ: React.FC = () => {
                         }
                     />
                     <FAQItem
+                        index={2}
+                        isOpen={openIndex === 2}
+                        toggle={() => toggle(2)}
                         question="線上會議效果會不會比實體差？"
                         answer={
                             <>
@@ -135,6 +114,9 @@ const FAQ: React.FC = () => {
                         }
                     />
                     <FAQItem
+                        index={3}
+                        isOpen={openIndex === 3}
+                        toggle={() => toggle(3)}
                         question="我需要準備什麼資料才能加入？"
                         answer={
                             <>
@@ -152,6 +134,9 @@ const FAQ: React.FC = () => {
                         }
                     />
                     <FAQItem
+                        index={4}
+                        isOpen={openIndex === 4}
+                        toggle={() => toggle(4)}
                         question="如果我暫時無法參加例會怎麼辦？"
                         answer={
                             <>
@@ -169,6 +154,9 @@ const FAQ: React.FC = () => {
                         }
                     />
                     <FAQItem
+                        index={5}
+                        isOpen={openIndex === 5}
+                        toggle={() => toggle(5)}
                         question="新創公司或個人工作者適合加入嗎？"
                         answer={
                             <>
@@ -186,6 +174,9 @@ const FAQ: React.FC = () => {
                         }
                     />
                     <FAQItem
+                        index={6}
+                        isOpen={openIndex === 6}
+                        toggle={() => toggle(6)}
                         question="長輝白金分會與其他BNI分會有什麼不同？"
                         answer={
                             <>

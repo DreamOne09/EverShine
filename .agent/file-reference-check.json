@@ -1,0 +1,272 @@
+{
+  "timestamp": "2025-12-11T07:33:17.732Z",
+  "summary": {
+    "total": 51,
+    "passed": 48,
+    "failed": 3,
+    "warnings": 0,
+    "passRate": "94.1%"
+  },
+  "results": {
+    "passed": [
+      {
+        "id": "D001",
+        "description": "dist/index.html 存在",
+        "passed": true
+      },
+      {
+        "id": "D002",
+        "description": "dist/index.html 包含 root div",
+        "passed": true
+      },
+      {
+        "id": "D003",
+        "description": "dist/index.html 引用 CSS",
+        "passed": true
+      },
+      {
+        "id": "D004",
+        "description": "dist/index.html 引用 JS",
+        "passed": true
+      },
+      {
+        "id": "D005",
+        "description": "dist/assets 資料夾存在",
+        "passed": true
+      },
+      {
+        "id": "P001",
+        "description": "public/images 存在",
+        "passed": true
+      },
+      {
+        "id": "P002",
+        "description": "public/images/assets 存在",
+        "passed": true
+      },
+      {
+        "id": "P003",
+        "description": "public/images/members 存在",
+        "passed": true
+      },
+      {
+        "id": "P004",
+        "description": "public/data 存在",
+        "passed": true
+      },
+      {
+        "id": "P005",
+        "description": "public/data/members.json 存在",
+        "passed": true
+      },
+      {
+        "id": "P006",
+        "description": "public/data/referrals.json 存在",
+        "passed": true
+      },
+      {
+        "id": "P007",
+        "description": "background.png 存在",
+        "passed": true
+      },
+      {
+        "id": "P009",
+        "description": "EverShine logo 存在",
+        "passed": true
+      },
+      {
+        "id": "S001",
+        "description": "main.tsx 存在",
+        "passed": true
+      },
+      {
+        "id": "S002",
+        "description": "App.tsx 存在",
+        "passed": true
+      },
+      {
+        "id": "S003",
+        "description": "main.tsx 引用 App",
+        "passed": true
+      },
+      {
+        "id": "S004",
+        "description": "main.tsx 引用 index.css",
+        "passed": true
+      },
+      {
+        "id": "S005",
+        "description": "App.tsx 引用 BrowserRouter",
+        "passed": true
+      },
+      {
+        "id": "C001",
+        "description": "Home.tsx 引用 About",
+        "passed": true
+      },
+      {
+        "id": "C002",
+        "description": "Home.tsx 引用 Results",
+        "passed": true
+      },
+      {
+        "id": "C003",
+        "description": "Home.tsx 引用 MemberWall",
+        "passed": true
+      },
+      {
+        "id": "C004",
+        "description": "Home.tsx 引用 FAQ",
+        "passed": true
+      },
+      {
+        "id": "C005",
+        "description": "Home.tsx 引用 Contact",
+        "passed": true
+      },
+      {
+        "id": "C006",
+        "description": "Members.tsx 引用 MemberCard",
+        "passed": true
+      },
+      {
+        "id": "C007",
+        "description": "Members.tsx 引用 CategoryFilter",
+        "passed": true
+      },
+      {
+        "id": "C008",
+        "description": "Layout.tsx 引用 Navbar",
+        "passed": true
+      },
+      {
+        "id": "C009",
+        "description": "Layout.tsx 引用 Footer",
+        "passed": true
+      },
+      {
+        "id": "C010",
+        "description": "Layout.tsx 引用 StarryBackground",
+        "passed": true
+      },
+      {
+        "id": "I001",
+        "description": "Home.tsx 引用 background.png",
+        "passed": true
+      },
+      {
+        "id": "I003",
+        "description": "BNI.tsx 引用 BNI logo",
+        "passed": true
+      },
+      {
+        "id": "I004",
+        "description": "Footer.tsx 引用 logo",
+        "passed": true
+      },
+      {
+        "id": "I005",
+        "description": "Navbar.tsx 引用 logo",
+        "passed": true
+      },
+      {
+        "id": "H001",
+        "description": "Members.tsx 引用 useMembers",
+        "passed": true
+      },
+      {
+        "id": "H002",
+        "description": "Referrals.tsx 引用 useReferrals",
+        "passed": true
+      },
+      {
+        "id": "H003",
+        "description": "Results.tsx 引用 useCountUp",
+        "passed": true
+      },
+      {
+        "id": "H004",
+        "description": "useMembers 引用 members.json",
+        "passed": true
+      },
+      {
+        "id": "DEP001",
+        "description": "Dockerfile 存在",
+        "passed": true
+      },
+      {
+        "id": "DEP002",
+        "description": "server.js 存在",
+        "passed": true
+      },
+      {
+        "id": "DEP003",
+        "description": "package.json 存在",
+        "passed": true
+      },
+      {
+        "id": "DEP004",
+        "description": "Dockerfile 複製 dist",
+        "passed": true
+      },
+      {
+        "id": "DEP005",
+        "description": "Dockerfile 複製 public",
+        "passed": true
+      },
+      {
+        "id": "DEP006",
+        "description": "Dockerfile 複製 server.js",
+        "passed": true
+      },
+      {
+        "id": "DEP007",
+        "description": "server.js 處理 /images/",
+        "passed": true
+      },
+      {
+        "id": "DEP008",
+        "description": "server.js 處理 /data/",
+        "passed": true
+      },
+      {
+        "id": "CFG001",
+        "description": "vite.config.ts 存在",
+        "passed": true
+      },
+      {
+        "id": "CFG002",
+        "description": "tsconfig.json 存在",
+        "passed": true
+      },
+      {
+        "id": "CFG004",
+        "description": "package.json 有 build script",
+        "passed": true
+      },
+      {
+        "id": "CFG005",
+        "description": "package.json 有 start script",
+        "passed": true
+      }
+    ],
+    "failed": [
+      {
+        "id": "P008",
+        "description": "BNI logo 存在",
+        "passed": false
+      },
+      {
+        "id": "I002",
+        "description": "Home.tsx 引用 BNI logo",
+        "passed": false
+      },
+      {
+        "id": "CFG003",
+        "description": "tailwind.config.js 存在",
+        "passed": false
+      }
+    ],
+    "warnings": []
+  }
+}

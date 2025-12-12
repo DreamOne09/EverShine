@@ -55,11 +55,11 @@ const MemberWall: React.FC = () => {
     return (
         <section className="py-24 relative overflow-hidden">
             {/* Background glow */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[500px] bg-[#c5a47e]/5 blur-[100px] -z-10 rounded-full"></div>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[500px] bg-primary/5 blur-[100px] -z-10 rounded-full"></div>
 
             <div className="text-center mb-12 relative z-10">
-                <h2 className="text-3xl md:text-4xl font-bold text-[#c5a47e] mb-3">我們的白金會員</h2>
-                <div className="w-16 h-1 bg-[#c5a47e] mx-auto rounded-full mb-3"></div>
+                <h2 className="text-3xl md:text-4xl font-bold text-primary mb-3">我們的白金會員</h2>
+                <div className="w-16 h-1 bg-primary mx-auto rounded-full mb-3"></div>
                 <p className="text-gray-400 text-lg tracking-wide">匯聚 {validMembers.length}+ 位各行各業的頂尖菁英</p>
             </div>
 
@@ -83,8 +83,8 @@ const MemberWall: React.FC = () => {
                 </MarqueeRow>
 
                 {/* Fade Mask */}
-                <div className="absolute inset-y-0 left-0 w-24 md:w-64 bg-gradient-to-r from-[#090A0F] to-transparent z-10 pointer-events-none"></div>
-                <div className="absolute inset-y-0 right-0 w-24 md:w-64 bg-gradient-to-l from-[#090A0F] to-transparent z-10 pointer-events-none"></div>
+                <div className="absolute inset-y-0 left-0 w-24 md:w-64 bg-gradient-to-r from-bg-dark to-transparent z-10 pointer-events-none"></div>
+                <div className="absolute inset-y-0 right-0 w-24 md:w-64 bg-gradient-to-l from-bg-dark to-transparent z-10 pointer-events-none"></div>
             </div>
         </section>
     );

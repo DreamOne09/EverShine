@@ -21,10 +21,10 @@ const StatCard: React.FC<{ value: number, label: React.ReactNode, subtext?: stri
 
 const BNIPage: React.FC = () => {
     return (
-        <div className="min-h-screen pt-0 bg-[#050505]">
+        <div className="min-h-screen pt-0 bg-bg-primary">
             {/* Hero */}
             <section className="relative min-h-[50vh] flex flex-col justify-center items-center text-center px-4 overflow-hidden pt-20">
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#06203a]/50 to-[#050505] z-0 pointer-events-none"></div>
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-bg-dark/50 to-bg-primary z-0 pointer-events-none"></div>
 
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
@@ -102,7 +102,7 @@ const BNIPage: React.FC = () => {
 
             {/* Culture */}
             <section className="py-24 container mx-auto px-4">
-                <div className="max-w-4xl mx-auto bg-gradient-to-br from-[#cf2030]/20 to-[#06203a] border border-[#cf2030]/30 rounded-3xl p-8 md:p-12 text-center shadow-[0_0_50px_rgba(207,32,48,0.2)] relative overflow-hidden group">
+                <div className="max-w-4xl mx-auto bg-gradient-to-br from-[#cf2030]/20 to-bg-dark border border-[#cf2030]/30 rounded-3xl p-8 md:p-12 text-center shadow-[0_0_50px_rgba(207,32,48,0.2)] relative overflow-hidden group">
                     {/* Decorative background circle */}
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#cf2030]/10 rounded-full blur-[100px] pointer-events-none group-hover:bg-[#cf2030]/20 transition-colors duration-500"></div>
 

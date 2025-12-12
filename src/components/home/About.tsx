@@ -11,11 +11,11 @@ const AboutCard: React.FC<{ icon: React.ReactNode, title: string, children: Reac
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.6, delay, ease: "easeOut" }}
             className={clsx(
-                "bg-[rgba(6,32,58,0.4)] backdrop-blur-md border border-white/10 rounded-2xl p-8 flex flex-col items-center text-center hover:bg-[rgba(6,32,58,0.6)] hover:border-[#c5a47e]/30 transition-all duration-300 group shadow-lg hover:shadow-xl hover:-translate-y-1",
+                "bg-bg-dark/40 backdrop-blur-md border border-white/10 rounded-2xl p-8 flex flex-col items-center text-center hover:bg-bg-dark/60 hover:border-primary/30 transition-all duration-300 group shadow-lg hover:shadow-xl hover:-translate-y-1",
                 fullWidth ? "md:col-span-3" : ""
             )}
         >
-            <div className="text-[#c5a47e] mb-6 p-4 bg-white/5 rounded-full group-hover:bg-[#c5a47e] group-hover:text-[#06203a] transition-all duration-300 transform group-hover:scale-110">
+            <div className="text-primary mb-6 p-4 bg-white/5 rounded-full group-hover:bg-primary group-hover:text-bg-dark transition-all duration-300 transform group-hover:scale-110">
                 {icon}
             </div>
             <h3 className="text-2xl font-bold text-white mb-4 font-serif tracking-wide">{title}</h3>
@@ -37,8 +37,8 @@ const About: React.FC = () => {
                         viewport={{ once: true }}
                         transition={{ duration: 0.6 }}
                     >
-                        <h2 className="text-4xl md:text-5xl font-bold mb-6 text-[#c5a47e]">關於我們</h2>
-                        <div className="w-24 h-1 bg-gradient-to-r from-transparent via-[#c5a47e] to-transparent mx-auto rounded-full opacity-80"></div>
+                        <h2 className="text-4xl md:text-5xl font-bold mb-6 text-primary">關於我們</h2>
+                        <div className="w-24 h-1 bg-gradient-to-r from-transparent via-primary to-transparent mx-auto rounded-full opacity-80"></div>
                     </motion.div>
                 </div>
 
@@ -54,7 +54,7 @@ const About: React.FC = () => {
                     </AboutCard>
 
                     <AboutCard icon={<Heart size={32} />} title="核心價值" delay={0.3} fullWidth>
-                        <div className="flex flex-wrap justify-center items-center gap-4 text-xl font-bold text-[#c5a47e] mb-4">
+                        <div className="flex flex-wrap justify-center items-center gap-4 text-xl font-bold text-primary mb-4">
                             <span>專業</span>
                             <span className="text-gray-600/50">|</span>
                             <span>誠信</span>
