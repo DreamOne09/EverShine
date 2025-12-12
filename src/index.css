@@ -18,3 +18,20 @@
   /* 兼容性顏色 (將舊的 Gold 映射到 Primary Blue) */
   --color-gold: #4CA8DF;
 }
+
+/* Global Reset & Base Styles */
+html,
+body {
+  background-color: var(--color-bg-primary);
+  color: #ffffff;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
