@@ -47,6 +47,60 @@ const server = http.createServer((req, res) => {
         return;
     }
 
+    // API: Upload Image
+    if (req.method === 'POST' && req.url === '/api/upload-image') {
+        let body = '';
+        req.on('data', chunk => {
+            body += chunk.toString();
+        });
+        req.on('end', () => {
+            try {
+                // Increase listener limit if needed or handle large body
+                const data = JSON.parse(body);
+                const { image, filename } = data;
+
+                if (!image || !filename) {
+                    res.writeHead(400, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ success: false, message: 'Missing image or filename' }));
+                    return;
+                }
+
+                const matches = image.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
+                if (!matches || matches.length !== 3) {
+                    res.writeHead(400, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ success: false, message: 'Invalid base64 data' }));
+                    return;
+                }
+
+                const buffer = Buffer.from(matches[2], 'base64');
+                const targetDir = path.join(__dirname, 'public', 'images', 'members');
+                if (!fs.existsSync(targetDir)) {
+                    fs.mkdirSync(targetDir, { recursive: true });
+                }
+
+                const filePath = path.join(targetDir, filename);
+
+                fs.writeFile(filePath, buffer, (err) => {
+                    if (err) {
+                        console.error('Write error:', err);
+                        res.writeHead(500, { 'Content-Type': 'application/json' });
+                        res.end(JSON.stringify({ success: false, message: 'Failed to write file' }));
+                    } else {
+                        console.log(`File uploaded: ${filename}`);
+                        res.writeHead(200, { 'Content-Type': 'application/json' });
+                        res.end(JSON.stringify({ success: true, url: `/images/members/${filename}` }));
+                    }
+                });
+
+            } catch (err) {
+                console.error('Upload handling error:', err);
+                res.writeHead(500, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ success: false, message: 'Server error' }));
+            }
+        });
+        return;
+    }
+
     // API: Save Member Data
     if (req.method === 'POST' && req.url === '/api/save-member') {
         let body = '';

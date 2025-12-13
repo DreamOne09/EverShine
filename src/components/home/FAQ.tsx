@@ -73,7 +73,7 @@ const FAQ: React.FC = () => {
                                 <p className="mb-3 text-primary font-bold">我們尋找遵守 321A 原則的優質夥伴：</p>
                                 <ul className="list-disc list-inside mb-4 space-y-2 text-gray-300">
                                     <li><strong className="text-white">3</strong>：三年以上行業經驗</li>
-                                    <li><strong className="text-white">2</strong>：兩項專業證照或具備專業能力</li>
+                                    <li><strong className="text-white">2</strong>：公司成立兩年以上</li>
                                     <li><strong className="text-white">1</strong>：專注於一項主要專業 (單一產業別)</li>
                                     <li><strong className="text-white">A</strong>：Attitude 態度良好，願意付出與學習</li>
                                 </ul>
@@ -110,6 +110,7 @@ const FAQ: React.FC = () => {
                                     <li>全台少數100%支援線上與會的分會</li>
                                     <li>專業的線上會議流程設計</li>
                                     <li>分組討論室功能，保持深度交流</li>
+                                    <li>加入後我們會提供完整的培訓，教您如何有效介紹自己的服務並進行引薦。<li></li>
                                 </ul>
                                 <div className="p-4 bg-primary/10 rounded-lg border border-primary/20 text-sm">
                                     <strong className="text-primary">關鍵優勢：</strong>線上會議讓您即使出差也能照常與會、照常曝光、照常經營商務合作。
@@ -121,10 +122,10 @@ const FAQ: React.FC = () => {
                         index={3}
                         isOpen={openIndex === 3}
                         toggle={() => toggle(3)}
-                        question="我需要準備什麼資料才能加入？"
+                        question="我需要準備什麼資料才能當來賓？"
                         answer={
                             <>
-                                <p className="mb-3 text-primary font-bold">加入流程簡單明確，無需複雜資料</p>
+                                <p className="mb-3 text-primary font-bold">當來賓免費，流程簡單明確，無需複雜資料</p>
                                 <p className="mb-2">您只需要準備：</p>
                                 <ul className="list-disc list-inside mb-4 space-y-1 ml-2">
                                     <li>個人或公司基本資料（名稱、聯絡方式、服務項目）</li>
@@ -132,7 +133,7 @@ const FAQ: React.FC = () => {
                                     <li>對引薦行銷的熱情與承諾</li>
                                 </ul>
                                 <div className="p-4 bg-primary/10 rounded-lg border border-primary/20 text-sm">
-                                    <strong className="text-primary">貼心提醒：</strong>加入後我們會提供完整的MSP培訓，教您如何有效介紹自己的服務並進行引薦。
+                                    <strong className="text-primary">貼心提醒：</strong>如果您確定要入會，我們將會進行資格審查，不保證一定能加入長輝
                                 </div>
                             </>
                         }
@@ -148,11 +149,11 @@ const FAQ: React.FC = () => {
                                 <p className="mb-2">如果您因故無法參加例會，可以：</p>
                                 <ul className="list-disc list-inside mb-4 space-y-1 ml-2">
                                     <li>安排代理人代表您出席（同事、合作夥伴或家人）</li>
-                                    <li>提前提供您的引薦單給代理人分享</li>
-                                    <li>透過線上會議錄影了解當週內容</li>
+                                    <li>提前提供您的自我介紹與引薦報告給代理人分享</li>
+                                    <li>無論再忙，盡可能每週早起商務不中斷</li>
                                 </ul>
                                 <div className="p-4 bg-primary/10 rounded-lg border border-primary/20 text-sm">
-                                    <strong className="text-primary">重要提醒：</strong>為了維護會員權益，每位會員的出席率需維持在60%以上。線上會議的便利性讓這個目標非常容易達成。
+                                    <strong className="text-primary">重要提醒：</strong>為了維護會員權益，每位會員半年內缺席超過三次將可能被踢出，這是我們對夥伴彼此間的基本承諾。
                                 </div>
                             </>
                         }
@@ -167,12 +168,12 @@ const FAQ: React.FC = () => {
                                 <p className="mb-3 text-primary font-bold">BNI特別適合新創與個人工作者快速建立人脈</p>
                                 <p className="mb-2">許多成功的新創企業都從BNI起步，因為：</p>
                                 <ul className="list-disc list-inside mb-4 space-y-1 ml-2">
-                                    <li>快速建立第一批客戶群</li>
+                                    <li>快速建立早期客戶群</li>
                                     <li>獲得各領域專業人士的建議與支援</li>
                                     <li>以合理成本接觸大量潛在客戶</li>
                                 </ul>
                                 <div className="p-4 bg-primary/10 rounded-lg border border-primary/20 text-sm">
-                                    <strong className="text-primary">成功案例：</strong>許雅婷在創業初期加入BNI，透過會員引薦快速打開市場知名度，第一年就達成業績目標的150%。
+                                    <strong className="text-primary">成功案例：</strong>李孟一在創業初期加入BNI，透過一對一快速鏈結教育產業鏈，並做為公司擴張基礎。
                                 </div>
                             </>
                         }
@@ -188,7 +189,7 @@ const FAQ: React.FC = () => {
                                 <p className="mb-2">長輝白金分會的獨特優勢：</p>
                                 <ul className="list-disc list-inside mb-4 space-y-1 ml-2">
                                     <li><strong>完整線上支援：</strong>所有會員都能全程線上參與，無需到場</li>
-                                    <li><strong>早晨時段：</strong>每週三早上6:30-8:30，不影響正常工作</li>
+                                    <li><strong>早晨時段：</strong>每週三中原時區早上6:30-8:30，不影響正常工作</li>
                                     <li><strong>產業多元：</strong>60+個不同產業，資源整合能力強</li>
                                 </ul>
                                 <div className="p-4 bg-primary/10 rounded-lg border border-primary/20 text-sm">
