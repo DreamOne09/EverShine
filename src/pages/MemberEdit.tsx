@@ -14,13 +14,13 @@ const MemberEdit: React.FC = () => {
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
     const CATEGORIES = [
-        "健康美麗",
-        "家庭服務",
-        "專業服務",
-        "建築工程",
-        "活動服務",
-        "行銷活動",
-        "金融財務"
+        "行銷聯盟",
+        "企業顧問",
+        "工廠改造",
+        "健足教育",
+        "工程裝修",
+        "甜點美食",
+        "健康產業"
     ];
 
     // Form states
@@ -231,8 +231,8 @@ const MemberEdit: React.FC = () => {
                                             type="button"
                                             onClick={() => toggleCategory(cat)}
                                             className={`px-3 py-2 rounded-lg text-sm transition-all border ${selectedCategories.includes(cat)
-                                                    ? 'bg-primary text-bg-dark border-primary font-bold'
-                                                    : 'bg-black/30 text-gray-400 border-white/10 hover:bg-white/5'
+                                                ? 'bg-primary text-bg-dark border-primary font-bold'
+                                                : 'bg-black/30 text-gray-400 border-white/10 hover:bg-white/5'
                                                 }`}
                                         >
                                             {cat}
