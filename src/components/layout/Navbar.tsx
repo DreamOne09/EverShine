@@ -70,7 +70,7 @@ const Navbar: React.FC = () => {
                 </Link>
 
                 {/* Desktop Menu */}
-                <div className="hidden lg:flex items-center gap-6">
+                <div className="hidden md:flex items-center gap-6">
                     {navLinks.map((link) => (
                         <a
                             key={link.name}
