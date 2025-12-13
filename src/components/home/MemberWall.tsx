@@ -2,20 +2,22 @@ import React, { useState } from 'react';
 import { useMembers } from '../../hooks/useMembers';
 import { motion } from 'framer-motion';
 
-const MemberThumbnail: React.FC<{ photo: string, name: string }> = ({ photo, name }) => {
+const MemberThumbnail: React.FC<{ photo: string, name: string, industry: string }> = ({ photo, name, industry }) => {
     const [imgSrc, setImgSrc] = useState(photo);
 
     return (
-        <div className="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden flex-shrink-0 mx-4 relative group cursor-pointer">
+        <div className="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden flex-shrink-0 mx-4 relative group cursor-pointer border-2 border-transparent hover:border-primary/50 transition-all duration-300">
+            <div className="absolute inset-0 bg-black/20 group-hover:bg-black/60 transition-colors duration-300 z-10" />
             <img
                 src={imgSrc}
                 alt={name}
-                className="w-full h-full object-cover object-[center_top] opacity-80 group-hover:opacity-100 transition-all duration-300 group-hover:scale-105"
+                className="w-full h-full object-cover object-[center_top] transition-transform duration-500 group-hover:scale-110"
                 onError={() => setImgSrc('/images/assets/logo/EverShine-logo.png')}
             />
-            {/* Subtle name overlay on hover */}
-            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent py-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex justify-center">
-                <span className="text-white text-xs font-bold tracking-widest">{name}</span>
+            {/* Name and Industry overlay on hover */}
+            <div className="absolute inset-x-0 bottom-0 top-0 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 p-2">
+                <span className="text-white text-sm md:text-base font-bold tracking-widest leading-tight drop-shadow-md text-center mb-1">{name}</span>
+                <span className="text-primary-300 text-[10px] md:text-xs font-medium tracking-wide bg-black/60 px-2 py-0.5 rounded-full backdrop-blur-sm border border-white/10">{industry}</span>
             </div>
         </div>
     );
@@ -61,25 +63,25 @@ const MemberWall: React.FC = () => {
             <div className="text-center mb-12 relative z-10">
                 <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">我們的會員</h2>
                 <div className="w-16 h-1 bg-primary mx-auto rounded-full mb-3"></div>
-                <p className="text-gray-400 text-lg tracking-wide">匯聚 {validMembers.length}+ 位各行各業的菁英</p>
+                <p className="text-gray-400 text-lg tracking-wide">匯聚 50+ 位各行各業的菁英</p>
             </div>
 
             <div className="relative w-full max-w-[1920px] mx-auto mask-linear-gradient">
                 <MarqueeRow speed={50}>
                     <div className="flex">
-                        {row1.map(m => <MemberThumbnail key={m.id} photo={`/images/members/${m.name}.jpg`} name={m.name} />)}
+                        {row1.map(m => <MemberThumbnail key={m.id} photo={`/images/members/${m.name}.jpg`} name={m.name} industry={m.industry} />)}
                     </div>
                 </MarqueeRow>
 
                 <MarqueeRow direction="right" speed={55}>
                     <div className="flex">
-                        {row2.map(m => <MemberThumbnail key={m.id} photo={`/images/members/${m.name}.jpg`} name={m.name} />)}
+                        {row2.map(m => <MemberThumbnail key={m.id} photo={`/images/members/${m.name}.jpg`} name={m.name} industry={m.industry} />)}
                     </div>
                 </MarqueeRow>
 
                 <MarqueeRow speed={45}>
                     <div className="flex">
-                        {row3.map(m => <MemberThumbnail key={m.id} photo={`/images/members/${m.name}.jpg`} name={m.name} />)}
+                        {row3.map(m => <MemberThumbnail key={m.id} photo={`/images/members/${m.name}.jpg`} name={m.name} industry={m.industry} />)}
                     </div>
                 </MarqueeRow>
             </div>
