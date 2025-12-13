@@ -22,46 +22,16 @@ const StatCard: React.FC<{ value: number, label: React.ReactNode, subtext?: stri
 
 const BNIPage: React.FC = () => {
     return (
-        <div className="min-h-screen pt-0 bg-bg-primary">
-            {/* Hero */}
-            <section className="relative min-h-[60vh] flex flex-col justify-center items-center text-center px-4 overflow-hidden pt-20">
-                {/* Hero Background Image */}
-                <div
-                    className="absolute inset-0 z-0 h-full"
-                    style={{
-                        backgroundImage: 'url(/images/assets/background.png)',
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center center',
-                        backgroundRepeat: 'no-repeat',
-                        backgroundAttachment: 'fixed',
-                        willChange: 'transform',
-                        imageRendering: '-webkit-optimize-contrast',
-                        maskImage: 'linear-gradient(to bottom, black 50%, transparent 100%)',
-                        WebkitMaskImage: 'linear-gradient(to bottom, black 50%, transparent 100%)'
-                    }}
-                />
-
-                {/* Dark Overlay for better text contrast */}
-                <div className="absolute inset-0 bg-black/40 z-0 pointer-events-none" />
-
-                <motion.div
-                    initial={{ opacity: 0, scale: 0.8, y: 30 }}
-                    animate={{ opacity: 1, scale: 1, y: 0 }}
-                    transition={{ duration: 0.8, type: "spring", bounce: 0.5 }}
-                    className="relative z-10 max-w-4xl mx-auto"
-                >
-                    <div className="mb-6 flex justify-center">
-                        <img src="/images/assets/logo/BNI紅色商標.png" alt="BNI" className="h-24 md:h-32 object-contain filter drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]" />
-                    </div>
-                    <h1 className="text-4xl md:text-6xl font-bold mb-6 tracking-tight font-sans">
-                        <span className="bg-clip-text text-transparent bg-gradient-to-br from-primary-light via-primary to-primary-dark drop-shadow-2xl">
-                            關於 BNI
-                        </span>
-                    </h1>
-                    <p className="text-xl md:text-3xl text-white font-bold mb-4">全球最大商務引薦平台</p>
-                    <p className="text-lg md:text-xl text-gray-300">成立40年，遍及76+國家，11,300+分會，34萬+會員</p>
-                </motion.div>
-            </section>
+        <div className="min-h-screen pt-0">
+            <PageHero
+                title="關於 BNI"
+                subtitle={
+                    <>
+                        全球最大商務引薦平台<br />
+                        成立40年，遍及76+國家，11,300+分會，34萬+會員
+                    </>
+                }
+            />
 
             {/* Data Notice */}
             <div className="bg-primary/10 border-y border-primary/20 py-3 text-center text-sm text-primary font-mono tracking-wide">

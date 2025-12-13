@@ -12,7 +12,7 @@ const PersonAvatar: React.FC<{ name: string, photo: string, industry: string, is
                     src={imgSrc}
                     alt={name}
                     className="w-full h-full rounded-full object-cover bg-[#06203a]"
-                    onError={() => setImgSrc('/images/assets/logo/EverShine-logo.png')}
+                    onError={() => setImgSrc('/images/assets/logo/白色正方形logo.png')}
                 />
             </div>
             <div className="text-sm font-bold text-white truncate max-w-[80px]">{name}</div>

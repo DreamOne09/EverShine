@@ -12,7 +12,7 @@ const MemberThumbnail: React.FC<{ photo: string, name: string, industry: string 
                 src={imgSrc}
                 alt={name}
                 className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 ${name === '王年煜' ? 'object-top' : 'object-center'}`}
-                onError={() => setImgSrc('/images/assets/logo/EverShine-logo.png')}
+                onError={() => setImgSrc('/images/assets/logo/白色正方形logo.png')}
             />
             {/* Name and Industry overlay on hover */}
             <div className="absolute inset-x-0 bottom-0 top-0 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 p-2">

@@ -4,6 +4,7 @@ import MemberCard from '../components/members/MemberCard';
 import CategoryFilter from '../components/members/CategoryFilter';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search } from 'lucide-react';
+import PageHero from '../components/common/PageHero';
 
 const Members: React.FC = () => {
     const { members, loading, error } = useMembers();

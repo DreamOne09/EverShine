@@ -49,7 +49,7 @@ const FAQ: React.FC = () => {
     };
 
     return (
-        <section className="py-20 bg-bg-primary relative overflow-hidden" id="faq">
+        <section className="py-20 relative overflow-hidden" id="faq">
             <div className="container mx-auto px-4 z-10 relative">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -66,15 +66,19 @@ const FAQ: React.FC = () => {
                 <div className="max-w-3xl mx-auto space-y-4">
                     <FAQItem
                         index={0}
-                        isOpen={openIndex === 0}
                         toggle={() => toggle(0)}
                         question="加入 BNI 需要什麼資格？"
                         answer={
                             <>
-                                <p className="mb-3 text-primary font-bold">只要您是該專業領域的專家，並且該行業在分會中尚無代表</p>
-                                <p className="mb-4">BNI 採行「單一產業代表制」，確保會員獨佔該分會的產業資源。</p>
+                                <p className="mb-3 text-primary font-bold">我們尋找遵守 321A 原則的優質夥伴：</p>
+                                <ul className="list-disc list-inside mb-4 space-y-2 text-gray-300">
+                                    <li><strong className="text-white">3</strong>：三年以上行業經驗</li>
+                                    <li><strong className="text-white">2</strong>：兩項專業證照或具備專業能力</li>
+                                    <li><strong className="text-white">1</strong>：專注於一項主要專業 (單一產業別)</li>
+                                    <li><strong className="text-white">A</strong>：Attitude 態度良好，願意付出與學習</li>
+                                </ul>
                                 <div className="p-4 bg-primary/10 rounded-lg border border-primary/20 text-sm">
-                                    <strong className="text-primary">核心精神：</strong>我們尋找的不是為了做生意而來的人，而是願意「付出」與「分享」的長期合作夥伴。
+                                    <strong className="text-primary">核心精神：</strong>確保每位會員都是該領域的專家，且在分會中尚無重複代表。
                                 </div>
                             </>
                         }
