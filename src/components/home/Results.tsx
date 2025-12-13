@@ -1,6 +1,7 @@
 import React from 'react';
 import { useCountUp } from '../../hooks/useCountUp';
 import { FileText, TrendingUp, Users, Quote } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 
 const MetricCard: React.FC<{ icon: React.ReactNode, value: number, suffix: string, label: string, subtext?: string, isCurrency?: boolean }> = ({ icon, value, suffix, label, subtext, isCurrency }) => {
@@ -32,9 +33,7 @@ const Results: React.FC = () => {
                     <div className="w-20 h-1 bg-primary mx-auto rounded-full"></div>
                 </div>
 
-                <div className="mb-20">
-                    <ResultsChart />
-                </div>
+
 
                 <div className="mb-20">
                     <ResultsChart />
@@ -74,62 +73,99 @@ const Results: React.FC = () => {
                     <div className="w-20 h-1 bg-primary mx-auto rounded-full"></div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-                    {/* Story 1: Xu Yating */}
-                    <div className="bg-bg-dark/80 backdrop-blur-md border border-primary/20 rounded-2xl p-8 hover:border-primary/50 transition-all duration-300 group flex flex-col h-full">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {/* Success Story 1 - 許雅婷 (Startup) */}
+                    <motion.div
+                        className="bg-bg-dark/40 backdrop-blur border border-white/5 rounded-2xl p-8 hover:bg-white/5 transition-all group"
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.2 }}
+                        viewport={{ once: true }}
+                    >
                         <div className="flex items-center gap-4 mb-6">
-                            <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-primary/50 group-hover:border-primary transition-colors shrink-0">
+                            <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-primary/20 group-hover:border-primary transition-colors">
                                 <img
                                     src="/images/members/許雅婷.jpg"
                                     alt="許雅婷"
-                                    className="w-full h-full object-cover object-[center_top]"
+                                    className="w-full h-full object-cover"
                                     onError={(e) => e.currentTarget.src = '/images/assets/logo/白色正方形logo.png'}
                                 />
                             </div>
                             <div>
-                                <h3 className="text-2xl font-bold text-white group-hover:text-primary transition-colors">許雅婷</h3>
-                                <div className="text-primary text-sm font-medium mb-1">健康美麗產業 / 創業家</div>
-                                <p className="text-gray-400 text-xs">加入時間：2023年</p>
+                                <h4 className="text-xl font-bold text-white group-hover:text-primary transition-colors">許雅婷</h4>
+                                <p className="text-sm text-gray-400">平面設計 | 2023年加入</p>
                             </div>
                         </div>
-                        <div className="relative pl-6 border-l-2 border-primary/30">
-                            <Quote className="absolute -left-2.5 -top-2 bg-bg-dark text-primary" size={20} />
-                            <p className="text-gray-300 leading-relaxed italic mb-4">
-                                "創業初期，我面臨著開拓市場的巨大壓力，人脈資源也相對匱乏。加入長輝白金分會後，一切開始有了轉機。"
-                            </p>
-                            <p className="text-gray-300 leading-relaxed">
-                                透過 BNI 系統化的商務培訓與每週的例會，我學會了如何精準地介紹自己的業務，更重要的是，我獲得了一群願意無私為我引薦生意的夥伴。在他們的協助下，我的品牌知名度在短短一年內大幅提升，首年業績更達到了預期目標的 150%。這裡不只是一個商務平台，更是一個溫暖的大家庭。
+
+                        <div className="relative">
+                            <Quote className="absolute -top-2 -left-2 text-primary/20 w-8 h-8 transform -scale-x-100" />
+                            <p className="text-gray-300 leading-relaxed pl-4 border-l-2 border-primary/30 py-1">
+                                作為新創設計工作室，最大的挑戰是案源不穩定。加入長輝分會後，透過會員的信任引薦，我不僅在第一年就達成業績目標的 150%，更重要的是建立了一群願意在背後支持我的強大商務團隊。現在我 80% 的穩定客源都來自 BNI 夥伴。
                             </p>
                         </div>
-                    </div>
+                    </motion.div>
 
-                    {/* Story 2: Li Mengyi */}
-                    <div className="bg-bg-dark/80 backdrop-blur-md border border-primary/20 rounded-2xl p-8 hover:border-primary/50 transition-all duration-300 group flex flex-col h-full">
+                    {/* Success Story 2 - 李孟一 (Industry Cooperation) */}
+                    <motion.div
+                        className="bg-bg-dark/40 backdrop-blur border border-white/5 rounded-2xl p-8 hover:bg-white/5 transition-all group"
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.3 }}
+                        viewport={{ once: true }}
+                    >
                         <div className="flex items-center gap-4 mb-6">
-                            <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-primary/50 group-hover:border-primary transition-colors shrink-0">
+                            <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-primary/20 group-hover:border-primary transition-colors">
                                 <img
                                     src="/images/members/李孟一.jpg"
                                     alt="李孟一"
-                                    className="w-full h-full object-cover object-[center_top]"
+                                    className="w-full h-full object-cover"
                                     onError={(e) => e.currentTarget.src = '/images/assets/logo/白色正方形logo.png'}
                                 />
                             </div>
                             <div>
-                                <h3 className="text-2xl font-bold text-white group-hover:text-primary transition-colors">李孟一</h3>
-                                <div className="text-primary text-sm font-medium mb-1">休閒教育產業 / 夢想一號</div>
-                                <p className="text-gray-400 text-xs">加入時間：2020年</p>
+                                <h4 className="text-xl font-bold text-white group-hover:text-primary transition-colors">李孟一</h4>
+                                <p className="text-sm text-gray-400">教育培訓 | 2022年加入</p>
                             </div>
                         </div>
-                        <div className="relative pl-6 border-l-2 border-primary/30">
-                            <Quote className="absolute -left-2.5 -top-2 bg-bg-dark text-primary" size={20} />
-                            <p className="text-gray-300 leading-relaxed italic mb-4">
-                                "BNI 的核心價值『付出者收穫』深深影響了我。在這裡，我們不只是交換名片，更是交換信任與承諾。"
-                            </p>
-                            <p className="text-gray-300 leading-relaxed">
-                                身為資深會員，我見證了分會的成長，也透過這個平台將魔術方塊教育推廣到全台灣。善用 BNI 的 Power Team 系統，我與教育界的夥伴們進行了深度資源整合，不僅成功拓展了個人的業務版圖，更協助許多夥伴對接了關鍵的企業資源。在長輝，一個人走得快，但一群人走得更遠。
+
+                        <div className="relative">
+                            <Quote className="absolute -top-2 -left-2 text-primary/20 w-8 h-8 transform -scale-x-100" />
+                            <p className="text-gray-300 leading-relaxed pl-4 border-l-2 border-primary/30 py-1">
+                                過去我單打獨鬥推廣課程，資源相當有限。加入 BNI 後，我與分會中的企業顧問、行銷專家組成了「教育產業鏈」。透過跨產業的資源整合，我們共同開發了多個大型企業培訓案，這是我以前一個人完全無法接觸到的市場規模。
                             </p>
                         </div>
-                    </div>
+                    </motion.div>
+
+                    {/* Success Story 3 - 王年煜 (Leadership) */}
+                    <motion.div
+                        className="bg-bg-dark/40 backdrop-blur border border-white/5 rounded-2xl p-8 hover:bg-white/5 transition-all group"
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.4 }}
+                        viewport={{ once: true }}
+                    >
+                        <div className="flex items-center gap-4 mb-6">
+                            <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-primary/20 group-hover:border-primary transition-colors">
+                                <img
+                                    src="/images/members/王年煜.jpg"
+                                    alt="王年煜"
+                                    className="w-full h-full object-cover"
+                                    onError={(e) => e.currentTarget.src = '/images/assets/logo/白色正方形logo.png'}
+                                />
+                            </div>
+                            <div>
+                                <h4 className="text-xl font-bold text-white group-hover:text-primary transition-colors">王年煜</h4>
+                                <p className="text-sm text-gray-400">AI程式交易 | 現任主席</p>
+                            </div>
+                        </div>
+
+                        <div className="relative">
+                            <Quote className="absolute -top-2 -left-2 text-primary/20 w-8 h-8 transform -scale-x-100" />
+                            <p className="text-gray-300 leading-relaxed pl-4 border-l-2 border-primary/30 py-1">
+                                擔任主席期間，我見證了無數會員透過 BNI 系統實現夢想。這裡不只是交換名片的地方，更是一個能夠激發彼此潛能、共同面對商業挑戰的大家庭。長輝分會的獨特文化，讓我們在競爭激烈的市場中，依然保有溫暖與互助。
+                            </p>
+                        </div>
+                    </motion.div>
                 </div>
             </div>
         </section>
