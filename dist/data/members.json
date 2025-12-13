@@ -2103,6 +2103,40 @@
       "createdAt": "2025-11-26T01:02:38.842Z",
       "updatedAt": "2025-11-26T01:02:38.842Z",
       "pinHash": "e286648cc9b96588da67f1b8100a650b96850881c79cb777dc88877a3ccfb96f"
+    },
+    {
+      "id": "member-58",
+      "name": "許雅婷",
+      "photo": "images/members/許雅婷.jpg",
+      "industry": "人力媒合平台",
+      "category": "企業顧問",
+      "company": "Worky 人力媒合平台",
+      "position": "行銷副總",
+      "title": "人力媒合 專家",
+      "shortIntro": "Worky - 為人才找到舞台，為企業找到將才",
+      "fullIntro": "我是許雅婷，擔任 Worky 人力媒合平台的行銷副總。Worky 致力於運用科技優化招募流程，精準匹配企業與人才需求。加入 BNI 長輝白金分會後，我積極推動跨產業的人才合作，協助會員解決缺工難題。如果您有招募需求或求職規劃，歡迎與我聯繫，讓我們一起創造雙贏的職場價值。",
+      "links": [
+        {
+          "type": "website",
+          "url": "#",
+          "icon": "website"
+        }
+      ],
+      "services": [
+        "人才招募諮詢",
+        "企業人力規劃",
+        "雇主品牌行銷",
+        "職場適性測驗"
+      ],
+      "hashtags": [
+        "#人力媒合",
+        "#Worky",
+        "#許雅婷",
+        "#BNI長輝白金分會"
+      ],
+      "createdAt": "2025-12-13T09:00:00.000Z",
+      "updatedAt": "2025-12-13T09:00:00.000Z",
+      "pinHash": "e286648cc9b96588da67f1b8100a650b96850881c79cb777dc88877a3ccfb96f"
     }
   ]
 }

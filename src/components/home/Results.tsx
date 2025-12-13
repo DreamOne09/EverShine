@@ -96,14 +96,14 @@ const Results: React.FC = () => {
                             </div>
                             <div>
                                 <h4 className="text-xl font-bold text-white group-hover:text-primary transition-colors">許雅婷</h4>
-                                <p className="text-sm text-gray-400">平面設計 | 2023年加入</p>
+                                <p className="text-sm text-gray-400">Worky 人力媒合平台 | 行銷副總</p>
                             </div>
                         </div>
 
                         <div className="relative">
                             <Quote className="absolute -top-2 -left-2 text-primary/20 w-8 h-8 transform -scale-x-100" />
-                            <p className="text-gray-300 leading-relaxed pl-4 border-l-2 border-primary/30 py-1">
-                                作為新創設計工作室，最大的挑戰是案源不穩定。加入長輝分會後，透過會員的信任引薦，我不僅在第一年就達成業績目標的 150%，更重要的是建立了一群願意在背後支持我的強大商務團隊。現在我 80% 的穩定客源都來自 BNI 夥伴。
+                            <p className="text-gray-300 leading-relaxed pl-4 border-l-2 border-primary/30 py-1 text-sm">
+                                半年前加入 BNI 對我來說是大突破。在忙著送小孩上學的早晨還要更早起，不斷走出舒適圈介紹業務。雖然辛苦，但我認識了很多好夥伴。我們互助合作，不只是做生意，更像一群專業顧問一起幫客戶解題。尤其長輝是線上分會，這份情感很難得。透過 BNI 全球系統，我有機會跟外分會連結，將生意延伸到更多產業與地方。
                             </p>
                         </div>
                     </motion.div>

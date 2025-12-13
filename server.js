@@ -36,6 +36,78 @@ const mimeTypes = {
 const server = http.createServer((req, res) => {
     console.log(`Request: ${req.method} ${req.url}`);
 
+    // Set CORS headers
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET, POST, PUT, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
+    if (req.method === 'OPTIONS') {
+        res.writeHead(204);
+        res.end();
+        return;
+    }
+
+    // API: Save Member Data
+    if (req.method === 'POST' && req.url === '/api/save-member') {
+        let body = '';
+        req.on('data', chunk => {
+            body += chunk.toString();
+        });
+        req.on('end', () => {
+            try {
+                const memberData = JSON.parse(body);
+                const membersPath = path.join(__dirname, 'public', 'data', 'members.json');
+
+                fs.readFile(membersPath, 'utf8', (err, data) => {
+                    if (err) {
+                        console.error('Error reading members.json:', err);
+                        res.writeHead(500, { 'Content-Type': 'application/json' });
+                        res.end(JSON.stringify({ success: false, message: 'Server error reading data' }));
+                        return;
+                    }
+
+                    try {
+                        let json = JSON.parse(data);
+                        let members = json.members;
+                        const index = members.findIndex(m => m.id === memberData.id);
+
+                        if (index !== -1) {
+                            // Update existing member (merge fields to be safe, but typically we replace the editable ones)
+                            // Note: In a real app, we should validate data here.
+                            members[index] = { ...members[index], ...memberData, updatedAt: new Date().toISOString() };
+
+                            json.members = members;
+
+                            fs.writeFile(membersPath, JSON.stringify(json, null, 2), (writeErr) => {
+                                if (writeErr) {
+                                    console.error('Error writing members.json:', writeErr);
+                                    res.writeHead(500, { 'Content-Type': 'application/json' });
+                                    res.end(JSON.stringify({ success: false, message: 'Server error saving data' }));
+                                } else {
+                                    console.log(`Member ${memberData.name} updated successfully.`);
+                                    res.writeHead(200, { 'Content-Type': 'application/json' });
+                                    res.end(JSON.stringify({ success: true, message: 'Member updated successfully' }));
+                                }
+                            });
+                        } else {
+                            res.writeHead(404, { 'Content-Type': 'application/json' });
+                            res.end(JSON.stringify({ success: false, message: 'Member not found' }));
+                        }
+
+                    } catch (parseErr) {
+                        console.error('Error parsing members.json:', parseErr);
+                        res.writeHead(500, { 'Content-Type': 'application/json' });
+                        res.end(JSON.stringify({ success: false, message: 'Server error parsing data' }));
+                    }
+                });
+            } catch (e) {
+                res.writeHead(400, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ success: false, message: 'Invalid JSON body' }));
+            }
+        });
+        return; // End request here for API
+    }
+
     // Normalize path and decode URL to handle Chinese filenames
     let requestPath = decodeURIComponent(req.url.split('?')[0]);
 
