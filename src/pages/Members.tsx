@@ -61,6 +61,8 @@ const Members: React.FC = () => {
                     WebkitMaskImage: 'linear-gradient(to bottom, black 50%, transparent 100%)'
                 }}
             />
+            {/* Dark Overlay for better text contrast */}
+            <div className="absolute inset-0 bg-black/40 z-0 pointer-events-none" />
 
             <div className="container mx-auto px-4 py-8 relative z-10 pt-10">
                 <div className="text-center mb-12 relative z-10">

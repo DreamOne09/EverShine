@@ -23,8 +23,25 @@ const BNIPage: React.FC = () => {
     return (
         <div className="min-h-screen pt-0 bg-bg-primary">
             {/* Hero */}
-            <section className="relative min-h-[50vh] flex flex-col justify-center items-center text-center px-4 overflow-hidden pt-20">
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-bg-dark/50 to-bg-primary z-0 pointer-events-none"></div>
+            <section className="relative min-h-[60vh] flex flex-col justify-center items-center text-center px-4 overflow-hidden pt-20">
+                {/* Hero Background Image */}
+                <div
+                    className="absolute inset-0 z-0 h-full"
+                    style={{
+                        backgroundImage: 'url(/images/assets/background.png)',
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center center',
+                        backgroundRepeat: 'no-repeat',
+                        backgroundAttachment: 'fixed',
+                        willChange: 'transform',
+                        imageRendering: '-webkit-optimize-contrast',
+                        maskImage: 'linear-gradient(to bottom, black 50%, transparent 100%)',
+                        WebkitMaskImage: 'linear-gradient(to bottom, black 50%, transparent 100%)'
+                    }}
+                />
+
+                {/* Dark Overlay for better text contrast */}
+                <div className="absolute inset-0 bg-black/40 z-0 pointer-events-none" />
 
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
