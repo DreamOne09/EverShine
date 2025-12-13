@@ -31,6 +31,7 @@ const MemberEdit: React.FC = () => {
     const [position, setPosition] = useState('');
     const [shortIntro, setShortIntro] = useState('');
     const [fullIntro, setFullIntro] = useState('');
+    const [services, setServices] = useState(''); // Added services state
     const [links, setLinks] = useState<any[]>([
         { type: '', url: '' }, { type: '', url: '' }, { type: '', url: '' }
     ]);
@@ -69,8 +70,8 @@ const MemberEdit: React.FC = () => {
             setCompany(member.company || '');
             setPosition(member.position || '');
             setShortIntro(member.shortIntro || '');
-            setShortIntro(member.shortIntro || '');
             setFullIntro(member.fullIntro || '');
+            setServices(member.services ? member.services.join('\n') : ''); // Updated handleAuth to set services
             setPhoto(member.photo || '');
             setPhotoPosition(member.photoPosition || 'center');
 
@@ -137,6 +138,7 @@ const MemberEdit: React.FC = () => {
             title: `${position} - ${company}`,
             shortIntro: shortIntro,
             fullIntro: fullIntro,
+            services: services.split('\n').map(s => s.trim()).filter(Boolean), // Updated handleSubmit for services
             photo: photo,
             photoPosition: photoPosition,
             links: links.filter(l => l.type && l.url).map(l => ({ ...l, icon: l.type }))

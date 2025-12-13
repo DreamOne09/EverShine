@@ -59,7 +59,9 @@ const MemberCard: React.FC<{ member: Member }> = ({ member }) => {
 
                                     <div className="mb-4">
                                         <h4 className="text-primary text-xs uppercase tracking-wider mb-2 font-bold">個人介紹</h4>
-                                        <p className="leading-relaxed text-gray-300 text-sm whitespace-pre-line">{member.fullIntro}</p>
+                                        <p className="leading-relaxed text-gray-300 text-sm whitespace-pre-line">
+                                            {member.fullIntro ? member.fullIntro.replace(/\\n/g, '\n') : ''}
+                                        </p>
                                     </div>
 
                                     {member.services && member.services.length > 0 && (
