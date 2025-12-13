@@ -12,9 +12,11 @@ const Members: React.FC = () => {
 
     // Extract unique categories (major categories)
     const categories = useMemo(() => {
-        const unique = Array.from(new Set(members.map(m => m.category || '').filter(Boolean)));
+        const unique = Array.from(new Set(members.flatMap(m =>
+            m.category ? m.category.split(/[,|、]/).map(c => c.trim()) : []
+        ).filter(Boolean)));
         // Custom sort order if needed, otherwise alphabetical
-        return unique.sort((a, b) => a.localeCompare(b, 'zh-TW'));
+        return ['All', ...unique.sort((a, b) => a.localeCompare(b, 'zh-TW'))];
     }, [members]);
 
     // Filter logic
@@ -22,7 +24,10 @@ const Members: React.FC = () => {
         return members.filter(member => {
             if (member.name === '人名') return false; // Filter out template placeholders if any
 
-            const matchesCategory = activeCategory === 'All' || member.category === activeCategory;
+            // Only show members who have edited their profile (editCount > 0)
+            if (!member.editCount || member.editCount <= 0) return false;
+
+            const matchesCategory = activeCategory === 'All' || (member.category && member.category.includes(activeCategory));
             const normalizedSearch = searchQuery.toLowerCase();
             const matchesSearch =
                 member.name.toLowerCase().includes(normalizedSearch) ||

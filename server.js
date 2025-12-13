@@ -72,9 +72,15 @@ const server = http.createServer((req, res) => {
                         const index = members.findIndex(m => m.id === memberData.id);
 
                         if (index !== -1) {
-                            // Update existing member (merge fields to be safe, but typically we replace the editable ones)
-                            // Note: In a real app, we should validate data here.
-                            members[index] = { ...members[index], ...memberData, updatedAt: new Date().toISOString() };
+                            // Update existing member
+                            // Increment editCount
+                            const currentEditCount = members[index].editCount || 0;
+                            members[index] = {
+                                ...members[index],
+                                ...memberData,
+                                editCount: currentEditCount + 1,
+                                updatedAt: new Date().toISOString()
+                            };
 
                             json.members = members;
 

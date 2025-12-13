@@ -11,6 +11,17 @@ const MemberEdit: React.FC = () => {
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState<{ text: string, type: 'error' | 'success' } | null>(null);
     const [memberData, setMemberData] = useState<any>(null);
+    const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+
+    const CATEGORIES = [
+        "健康美麗",
+        "家庭服務",
+        "專業服務",
+        "建築工程",
+        "活動服務",
+        "行銷活動",
+        "金融財務"
+    ];
 
     // Form states
     const [company, setCompany] = useState('');
@@ -57,6 +68,14 @@ const MemberEdit: React.FC = () => {
             setShortIntro(member.shortIntro || '');
             setFullIntro(member.fullIntro || '');
 
+            // Handle categories
+            if (member.category) {
+                const cats = member.category.split(/[,|、]/).map((c: string) => c.trim()).filter(Boolean);
+                setSelectedCategories(cats);
+            } else {
+                setSelectedCategories([]);
+            }
+
             const currentLinks = member.links || [];
             const newLinks = [...links];
             currentLinks.forEach((l: any, i: number) => {
@@ -71,6 +90,19 @@ const MemberEdit: React.FC = () => {
             setMessage({ text: err.message || '驗證失敗', type: 'error' });
         } finally {
             setLoading(false);
+        }
+    };
+
+    // Handling Category Toggle
+    const toggleCategory = (cat: string) => {
+        if (selectedCategories.includes(cat)) {
+            setSelectedCategories(prev => prev.filter(c => c !== cat));
+        } else {
+            if (selectedCategories.length < 2) {
+                setSelectedCategories(prev => [...prev, cat]);
+            } else {
+                alert('最多只能選擇兩個類別');
+            }
         }
     };
 
@@ -95,6 +127,7 @@ const MemberEdit: React.FC = () => {
             name: name,
             company: company,
             position: position,
+            category: selectedCategories.join(', '),
             title: `${position} - ${company}`,
             shortIntro: shortIntro,
             fullIntro: fullIntro,
@@ -189,6 +222,25 @@ const MemberEdit: React.FC = () => {
                                     className="w-full bg-black/30 border border-white/20 rounded-lg p-3 text-white focus:border-primary focus:outline-none"
                                 />
                             </div>
+                            <div>
+                                <label className="block text-gray-300 mb-2">產業類別 (最多選2項)</label>
+                                <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                                    {CATEGORIES.map(cat => (
+                                        <button
+                                            key={cat}
+                                            type="button"
+                                            onClick={() => toggleCategory(cat)}
+                                            className={`px-3 py-2 rounded-lg text-sm transition-all border ${selectedCategories.includes(cat)
+                                                    ? 'bg-primary text-bg-dark border-primary font-bold'
+                                                    : 'bg-black/30 text-gray-400 border-white/10 hover:bg-white/5'
+                                                }`}
+                                        >
+                                            {cat}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
                             <div>
                                 <label className="block text-gray-300 mb-2">職稱</label>
                                 <input
