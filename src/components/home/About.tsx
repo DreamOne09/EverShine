@@ -28,7 +28,7 @@ const AboutCard: React.FC<{ icon: React.ReactNode, title: string, children: Reac
 
 const About: React.FC = () => {
     return (
-        <section className="py-24 relative z-10">
+        <section className="py-24 relative z-10" id="about">
             <div className="container mx-auto px-4">
                 <div className="text-center mb-16">
                     <motion.div

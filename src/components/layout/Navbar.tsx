@@ -19,12 +19,24 @@ const Navbar: React.FC = () => {
 
     const navLinks = [
         { name: '首頁', path: '/' },
-        { name: '關於我們', path: '/about' }, // Changed to verify path
+        { name: '關於我們', path: '/#about' },
         { name: '白金會員', path: '/members' },
-        { name: '引薦單', path: '/referrals' }, // Changed to verify path
-        { name: '聯絡我們', path: '/contact' }, // Changed to verify path
+        { name: '引薦單', path: '/referrals' },
+        { name: '聯絡我們', path: '/#contact' },
         { name: '什麼是 BNI ?', path: '/bni' },
     ];
+
+    // Handle scroll to anchor when path contains hash
+    useEffect(() => {
+        if (location.hash) {
+            const element = document.getElementById(location.hash.substring(1));
+            if (element) {
+                setTimeout(() => {
+                    element.scrollIntoView({ behavior: 'smooth' });
+                }, 100);
+            }
+        }
+    }, [location]);
 
     const isActive = (path: string) => {
         if (path === '/' && location.pathname !== '/') return false;
@@ -105,8 +117,8 @@ const Navbar: React.FC = () => {
                                     key={link.path}
                                     to={link.path}
                                     className={`py-3 px-4 rounded-lg flex justify-between items-center ${isActive(link.path)
-                                            ? 'bg-primary/10 text-primary border border-primary/20'
-                                            : 'text-gray-300 hover:bg-white/5 hover:text-white'
+                                        ? 'bg-primary/10 text-primary border border-primary/20'
+                                        : 'text-gray-300 hover:bg-white/5 hover:text-white'
                                         }`}
                                     onClick={() => setIsMobileMenuOpen(false)}
                                 >
