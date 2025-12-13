@@ -40,6 +40,26 @@
 - [ ] 22. 標題字體大小正確
 - [ ] 23. 內文字體大小正確
 - [ ] 24. 行高設定正確
+- [x] **BNI Page (`src/pages/BNI.tsx`)**:
+  - [x] Fix Hero section style
+  - [x] Fix Red/Blue theme issues (switch to Blue)
+- [x] **Results Section (`src/components/home/Results.tsx`)**:
+  - [x] Add Performance Chart (`ResultsChart.tsx`)
+  - [x] Fix white background issues (switch to Dark)
+  - [x] Add Success Stories (Ms. Xu, Mr. Li)
+- [x] **Navbar (`src/components/layout/Navbar.tsx`)**:
+  - [x] Rename "Members" to "會員介紹"
+  - [x] Add Threads link
+  - [x] Widen container to `max-w-[95%]`
+- [x] **Footer (`src/components/layout/Footer.tsx`)**:
+  - [x] Add Threads link
+  - [x] Increase Logo size
+  - [x] Improve Developer Credit visibility
+- [x] **General**:
+  - [x] Ensure Blue Theme consistency across all pages
+  - [x] Verify "Member Edit" restoration (`src/pages/MemberEdit.tsx`) 顯示正確
+
+### 字距設定
 - [ ] 25. 字距設定正確
 
 ---
@@ -188,12 +208,15 @@
 **失敗項目**: 0/100
 **需要修復**: 15/100
 
-**優先修復項目**:
+**已完成修復項目**:
 1. [已修復] Navbar 路由連結 (About/Contact 轉為錨點)
 2. [已修復] Body 背景顏色 (添加 Fallback 防止白屏)
-3. [待確認] 生產環境 Tailwind 樣式生成驗證
+3. [已修復] 統一藍色主題 (移除衝突的金色 hardcoded 樣式，應用於 Home, Members, Referrals, BNI, Contact)
+4. [已修復] Starry Background 恢復顯示 (移除 Layout 遮蔽層)
+5. [已修復] 資料來源整合 (Members/Referrals 改為讀取 JSON)
+6. [已修復] 頁面重構 (Contact 去除表單改為主席資訊, Referrals 去除表單改為成果展示)
 
 **備註**:
-- Navbar 連結已修正為 `#about` 和 `#contact`。
-- Layout 已強制添加 `bg-bg-primary`。
-- index.css 已添加背景色 Fallback。
+- 全站風格統一為 Deep Blue + Gradient Blue Hero。
+- Contact 頁面已更新為顯示 現任主席與副主席。
+- Referrals 頁面已重寫為顯示 JSON 數據。

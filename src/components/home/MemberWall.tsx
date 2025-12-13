@@ -6,7 +6,7 @@ const MemberThumbnail: React.FC<{ photo: string, name: string }> = ({ photo, nam
     const [imgSrc, setImgSrc] = useState(photo);
 
     return (
-        <div className="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-2 border-[#c5a47e]/50 shadow-lg flex-shrink-0 mx-4 relative group cursor-pointer hover:border-[#c5a47e] transition-colors duration-300">
+        <div className="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-2 border-primary/50 shadow-lg flex-shrink-0 mx-4 relative group cursor-pointer hover:border-primary transition-colors duration-300">
             <img
                 src={imgSrc}
                 alt={name}

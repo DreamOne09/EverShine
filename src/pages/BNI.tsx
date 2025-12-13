@@ -6,8 +6,8 @@ const StatCard: React.FC<{ value: number, label: React.ReactNode, subtext?: stri
     const { count, elementRef } = useCountUp(value, 2000);
 
     return (
-        <div ref={elementRef} className={`bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 text-center ${isLarge ? 'md:col-span-2 md:row-span-2 flex flex-col justify-center items-center bg-[#cf2030]/10 border-[#cf2030]/30 shadow-[0_0_30px_rgba(207,32,48,0.1)]' : 'hover:bg-white/10 transition-colors'}`}>
-            <div className={`font-bold text-white mb-2 font-mono ${isLarge ? 'text-6xl md:text-7xl text-[#cf2030]' : 'text-4xl md:text-5xl'}`}>
+        <div ref={elementRef} className={`bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 text-center ${isLarge ? 'md:col-span-2 md:row-span-2 flex flex-col justify-center items-center bg-primary/10 border-primary/30 shadow-[0_0_30px_rgba(76,168,223,0.1)]' : 'hover:bg-white/10 transition-colors'}`}>
+            <div className={`font-bold text-white mb-2 font-mono ${isLarge ? 'text-6xl md:text-7xl text-primary' : 'text-4xl md:text-5xl'}`}>
                 {value >= 10000 ? (count / 10000).toFixed(0) + '萬' : count.toLocaleString()}
                 <span className="text-2xl ml-1 align-top">+</span>
             </div>
@@ -35,13 +35,17 @@ const BNIPage: React.FC = () => {
                     <div className="mb-6 flex justify-center">
                         <img src="/images/assets/logo/BNI紅色商標.png" alt="BNI" className="h-24 md:h-32 object-contain filter drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]" />
                     </div>
-                    <h1 className="text-4xl md:text-6xl font-bold mb-4 text-white">全球最大商務引薦平台</h1>
+                    <h1 className="text-4xl md:text-6xl font-bold mb-6 tracking-tight font-sans">
+                        <span className="bg-clip-text text-transparent bg-gradient-to-br from-primary-light via-primary to-primary-dark drop-shadow-2xl">
+                            全球最大商務引薦平台
+                        </span>
+                    </h1>
                     <p className="text-xl md:text-2xl text-gray-300">成立40年，遍及76+國家，11,300+分會，34萬+會員</p>
                 </motion.div>
             </section>
 
             {/* Data Notice */}
-            <div className="bg-[#cf2030]/10 border-y border-[#cf2030]/20 py-3 text-center text-sm text-[#cf2030] font-mono tracking-wide">
+            <div className="bg-primary/10 border-y border-primary/20 py-3 text-center text-sm text-primary font-mono tracking-wide">
                 <strong>資料截止日期：2025年10月25日</strong>
                 <span className="mx-2 opacity-50">|</span>
                 實際數據可能因時間推移而有所變化
@@ -51,7 +55,7 @@ const BNIPage: React.FC = () => {
             <section className="py-20 container mx-auto px-4">
                 <div className="text-center mb-16">
                     <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">全球影響力數據</h2>
-                    <div className="w-16 h-1 bg-[#cf2030] mx-auto rounded-full"></div>
+                    <div className="w-16 h-1 bg-primary mx-auto rounded-full"></div>
                 </div>
 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 max-w-5xl mx-auto">
@@ -73,27 +77,27 @@ const BNIPage: React.FC = () => {
 
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-8 max-w-4xl mx-auto text-center">
                         <div className="p-4 rounded-lg hover:bg-white/5 transition-colors">
-                            <div className="text-4xl md:text-5xl font-bold text-[#cf2030] mb-2 font-mono">245</div>
+                            <div className="text-4xl md:text-5xl font-bold text-primary mb-2 font-mono">245</div>
                             <div className="text-gray-300 font-medium">分會</div>
                         </div>
                         <div className="p-4 rounded-lg hover:bg-white/5 transition-colors">
-                            <div className="text-4xl md:text-5xl font-bold text-[#cf2030] mb-2 font-mono">9,932</div>
+                            <div className="text-4xl md:text-5xl font-bold text-primary mb-2 font-mono">9,932</div>
                             <div className="text-gray-300 font-medium">會員</div>
                         </div>
                         <div className="p-4 rounded-lg hover:bg-white/5 transition-colors">
-                            <div className="text-4xl md:text-5xl font-bold text-[#cf2030] mb-2 font-mono">72萬+</div>
+                            <div className="text-4xl md:text-5xl font-bold text-primary mb-2 font-mono">72萬+</div>
                             <div className="text-gray-300 font-medium">引薦單數<br /><span className="text-xs text-gray-500 font-normal">(過去12個月)</span></div>
                         </div>
                         <div className="p-4 rounded-lg hover:bg-white/5 transition-colors">
-                            <div className="text-4xl md:text-5xl font-bold text-[#cf2030] mb-2 font-mono">253</div>
+                            <div className="text-4xl md:text-5xl font-bold text-primary mb-2 font-mono">253</div>
                             <div className="text-gray-300 font-medium">成交金額<br /><span className="text-xs text-gray-500 font-normal">(億新台幣)</span></div>
                         </div>
                         <div className="p-4 rounded-lg hover:bg-white/5 transition-colors">
-                            <div className="text-4xl md:text-5xl font-bold text-[#cf2030] mb-2 font-mono">73</div>
+                            <div className="text-4xl md:text-5xl font-bold text-primary mb-2 font-mono">73</div>
                             <div className="text-gray-300 font-medium">平均每位會員<br /><span className="text-xs text-gray-500 font-normal">每年引薦數</span></div>
                         </div>
                         <div className="p-4 rounded-lg hover:bg-white/5 transition-colors">
-                            <div className="text-4xl md:text-5xl font-bold text-[#cf2030] mb-2 font-mono">255</div>
+                            <div className="text-4xl md:text-5xl font-bold text-primary mb-2 font-mono">255</div>
                             <div className="text-gray-300 font-medium">平均每位會員<br /><span className="text-xs text-gray-500 font-normal">每年成交價值 (萬)</span></div>
                         </div>
                     </div>

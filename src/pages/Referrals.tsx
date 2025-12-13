@@ -1,137 +1,115 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useReferrals } from '../hooks/useReferrals';
 import { motion } from 'framer-motion';
-import { FileText, Send, CheckCircle, AlertCircle } from 'lucide-react';
+import { ArrowRight, Quote } from 'lucide-react';
 
 const Referrals: React.FC = () => {
-    const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
-    const [formData, setFormData] = useState({
-        referrer: '',
-        referee: '',
-        notes: ''
-    });
+    const { referrals, loading, error } = useReferrals();
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setStatus('submitting');
+    if (loading) return (
+        <div className="flex justify-center items-center min-h-[60vh]">
+            <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+        </div>
+    );
 
-        // Simulate API call
-        setTimeout(() => {
-            setStatus('success');
-            // Reset after 3 seconds
-            setTimeout(() => {
-                setStatus('idle');
-                setFormData({ referrer: '', referee: '', notes: '' });
-            }, 3000);
-        }, 1500);
-    };
+    if (error) return <div className="text-center py-20 text-red-400">無法載入引薦資料: {error}</div>;
 
     return (
-        <div className="min-h-screen pt-24 pb-20 bg-bg-primary">
-            <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4 py-12 min-h-screen">
+            {/* Hero Section */}
+            <div className="text-center mb-16 relative z-10">
                 <motion.div
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="max-w-3xl mx-auto"
+                    transition={{ duration: 0.6 }}
                 >
-                    {/* Header */}
-                    <div className="text-center mb-12">
-                        <div className="inline-block p-4 rounded-full bg-primary/10 mb-6">
-                            <FileText className="w-12 h-12 text-primary" />
-                        </div>
-                        <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">引薦單填寫</h1>
-                        <p className="text-gray-400 text-lg">
-                            透過正式的引薦流程，為會員創造有價值的商務機會。每一張引薦單，都是一份信任的託付。
-                        </p>
-                    </div>
-
-                    {/* Form Card */}
-                    <div className="bg-bg-dark border border-white/10 rounded-2xl p-8 md:p-12 shadow-2xl relative overflow-hidden">
-                        {/* Decorative elements */}
-                        <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none"></div>
-                        <div className="absolute bottom-0 left-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -ml-32 -mb-32 pointer-events-none"></div>
-
-                        <form onSubmit={handleSubmit} className="relative z-10 space-y-8">
-                            <div className="grid md:grid-cols-2 gap-8">
-                                <div className="space-y-2">
-                                    <label className="text-sm font-bold text-primary tracking-wide uppercase">推薦人 (您)</label>
-                                    <input
-                                        type="text"
-                                        required
-                                        value={formData.referrer}
-                                        onChange={(e) => setFormData({ ...formData, referrer: e.target.value })}
-                                        className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all placeholder-gray-600"
-                                        placeholder="請輸入您的姓名"
-                                    />
-                                </div>
-                                <div className="space-y-2">
-                                    <label className="text-sm font-bold text-primary tracking-wide uppercase">引薦對象 (會員)</label>
-                                    <input
-                                        type="text"
-                                        required
-                                        value={formData.referee}
-                                        onChange={(e) => setFormData({ ...formData, referee: e.target.value })}
-                                        className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all placeholder-gray-600"
-                                        placeholder="請輸入會員姓名"
-                                    />
-                                </div>
-                            </div>
-
-                            <div className="space-y-2">
-                                <label className="text-sm font-bold text-primary tracking-wide uppercase">引薦內容與備註</label>
-                                <textarea
-                                    required
-                                    rows={5}
-                                    value={formData.notes}
-                                    onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-                                    className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all placeholder-gray-600 resize-none"
-                                    placeholder="請詳細描述引薦的業務機會或需求..."
-                                />
-                            </div>
-
-                            <div className="pt-4">
-                                <button
-                                    type="submit"
-                                    disabled={status === 'submitting' || status === 'success'}
-                                    className={`w-full py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-2 transition-all duration-300 ${status === 'success'
-                                            ? 'bg-green-600 text-white cursor-default'
-                                            : 'bg-gradient-to-r from-primary to-primary-dark text-white shadow-lg hover:shadow-primary/30 hover:scale-[1.02] active:scale-[0.98]'
-                                        }`}
-                                >
-                                    {status === 'idle' && (
-                                        <>
-                                            <Send size={20} />
-                                            送出引薦單
-                                        </>
-                                    )}
-                                    {status === 'submitting' && (
-                                        <>
-                                            <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                                            處理中...
-                                        </>
-                                    )}
-                                    {status === 'success' && (
-                                        <>
-                                            <CheckCircle size={20} />
-                                            發送成功
-                                        </>
-                                    )}
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-
-                    {/* Notice */}
-                    <div className="mt-8 flex items-start gap-4 p-4 bg-primary/10 rounded-lg border border-primary/20">
-                        <AlertCircle className="text-primary shrink-0 mt-0.5" size={20} />
-                        <div className="text-sm text-gray-300 leading-relaxed">
-                            <p className="mb-2 font-bold text-white">溫馨提醒：</p>
-                            <p>
-                                引薦單送出後，系統將自動通知相關會員。請確保填寫的資訊準確無誤，以便會員能夠及時跟進處理。
-                                若有緊急事項，建議直接透過電話或 Line 聯繫該會員。
-                            </p>
-                        </div>
-                    </div>
+                    <h1 className="text-4xl md:text-6xl font-bold mb-6 tracking-tight font-sans">
+                        <span className="bg-clip-text text-transparent bg-gradient-to-br from-primary-light via-primary to-primary-dark drop-shadow-2xl">
+                            商務引薦成果
+                        </span>
+                    </h1>
+                    <p className="text-gray-300 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
+                        真實的引薦案例，展現 BNI 的商業價值。<br />每一次的引薦，都是一份信任的傳遞。
+                    </p>
                 </motion.div>
+            </div>
+
+            {/* Referrals Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+                {referrals.map((referral, index) => (
+                    <motion.div
+                        key={referral.id}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: index * 0.1, duration: 0.5 }}
+                        className="bg-bg-dark/60 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden hover:border-primary/50 transition-all duration-300 hover:shadow-[0_8px_30px_rgba(0,0,0,0.3)] group flex flex-col"
+                    >
+                        {/* Header Gradient */}
+                        <div className="h-2 bg-gradient-to-r from-primary-light via-primary to-primary-dark opacity-70 group-hover:opacity-100 transition-opacity" />
+
+                        <div className="p-6 flex-grow flex flex-col">
+                            <h3 className="text-xl font-bold text-white mb-3 group-hover:text-primary transition-colors">
+                                {referral.title}
+                            </h3>
+
+                            <div className="flex items-start gap-3 mb-6">
+                                <Quote className="text-primary/40 shrink-0 transform rotate-180" size={24} />
+                                <p className="text-gray-300 text-sm leading-relaxed">
+                                    {referral.description}
+                                </p>
+                            </div>
+
+                            {/* Metrics Badge */}
+                            <div className="bg-primary/10 rounded-xl p-4 mb-6 border border-primary/20">
+                                <div className="text-xs text-primary-light uppercase tracking-wider mb-1">成效數據</div>
+                                <div className="font-bold text-white">{referral.metrics.amount}</div>
+                                <div className="text-sm text-gray-400">{referral.metrics.type}</div>
+                            </div>
+
+                            {/* Members Connection */}
+                            <div className="mt-auto border-t border-white/5 pt-4">
+                                <div className="flex items-center justify-between relative">
+                                    {/* Referrer */}
+                                    <div className="flex items-center gap-3 w-[45%]">
+                                        <div className="w-10 h-10 rounded-full overflow-hidden border border-white/20">
+                                            <img
+                                                src={referral.referrer.photo || '/images/assets/logo/白色正方形logo.png'}
+                                                alt={referral.referrer.name}
+                                                className="w-full h-full object-cover"
+                                                onError={(e) => e.currentTarget.src = '/images/assets/logo/白色正方形logo.png'}
+                                            />
+                                        </div>
+                                        <div className="overflow-hidden">
+                                            <div className="font-bold text-sm truncate text-white">{referral.referrer.name}</div>
+                                            <div className="text-xs text-gray-400 truncate">{referral.referrer.industry}</div>
+                                        </div>
+                                    </div>
+
+                                    {/* Arrow */}
+                                    <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-primary/50">
+                                        <ArrowRight size={16} />
+                                    </div>
+
+                                    {/* Referee */}
+                                    <div className="flex items-center gap-3 w-[45%] justify-end text-right">
+                                        <div className="overflow-hidden">
+                                            <div className="font-bold text-sm truncate text-white">{referral.referee.name}</div>
+                                            <div className="text-xs text-gray-400 truncate">{referral.referee.industry}</div>
+                                        </div>
+                                        <div className="w-10 h-10 rounded-full overflow-hidden border border-white/20">
+                                            <img
+                                                src={referral.referee.photo || '/images/assets/logo/白色正方形logo.png'}
+                                                alt={referral.referee.name}
+                                                className="w-full h-full object-cover"
+                                                onError={(e) => e.currentTarget.src = '/images/assets/logo/白色正方形logo.png'}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </motion.div>
+                ))}
             </div>
         </div>
     );

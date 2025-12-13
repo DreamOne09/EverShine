@@ -6,7 +6,7 @@ import Home from './pages/Home';
 import Members from './pages/Members';
 import Referrals from './pages/Referrals';
 import BNIPage from './pages/BNI';
-import EditPage from './pages/Edit';
+import MemberEdit from './pages/MemberEdit';
 
 // Scroll to top on route change
 const ScrollToTop = () => {
@@ -29,7 +29,7 @@ function App() {
             <Route path="bni" element={<BNIPage />} />
             <Route path="members" element={<Members />} />
             <Route path="referrals" element={<Referrals />} />
-            <Route path="edit" element={<EditPage />} />
+            <Route path="edit" element={<MemberEdit />} />
           </Route>
         </Routes>
       </BrowserRouter>

@@ -51,7 +51,11 @@ const Members: React.FC = () => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
                 >
-                    <h1 className="text-4xl md:text-5xl font-bold mb-6 text-primary">白金會員介紹</h1>
+                    <h1 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight font-sans">
+                        <span className="bg-clip-text text-transparent bg-gradient-to-br from-primary-light via-primary to-primary-dark drop-shadow-2xl">
+                            白金會員介紹
+                        </span>
+                    </h1>
                     <p className="text-gray-300 text-lg max-w-2xl mx-auto mb-10">
                         我們匯聚了各行各業的菁英，透過彼此的專業協作，為客戶提供最值得信賴的服務。
                     </p>

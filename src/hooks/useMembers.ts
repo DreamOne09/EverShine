@@ -12,7 +12,7 @@ export const useMembers = () => {
                 const response = await fetch('/data/members.json');
                 if (!response.ok) throw new Error('Failed to fetch members');
                 const data = await response.json();
-                setMembers(data);
+                setMembers(Array.isArray(data) ? data : data.members || []);
             } catch (err) {
                 console.error("Error fetching members:", err);
                 setError(err instanceof Error ? err.message : 'Unknown error');

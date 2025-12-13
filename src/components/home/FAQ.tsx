@@ -71,10 +71,10 @@ const FAQ: React.FC = () => {
                         question="加入 BNI 需要什麼資格？"
                         answer={
                             <>
-                                <p className="mb-3 text-[#c5a47e] font-bold">只要您是該專業領域的專家，並且該行業在分會中尚無代表</p>
+                                <p className="mb-3 text-primary font-bold">只要您是該專業領域的專家，並且該行業在分會中尚無代表</p>
                                 <p className="mb-4">BNI 採行「單一產業代表制」，確保會員獨佔該分會的產業資源。</p>
-                                <div className="p-4 bg-[#c5a47e]/10 rounded-lg border border-[#c5a47e]/20 text-sm">
-                                    <strong className="text-[#c5a47e]">核心精神：</strong>我們尋找的不是為了做生意而來的人，而是願意「付出」與「分享」的長期合作夥伴。
+                                <div className="p-4 bg-primary/10 rounded-lg border border-primary/20 text-sm">
+                                    <strong className="text-primary">核心精神：</strong>我們尋找的不是為了做生意而來的人，而是願意「付出」與「分享」的長期合作夥伴。
                                 </div>
                             </>
                         }
@@ -86,10 +86,10 @@ const FAQ: React.FC = () => {
                         question="我不擅長社交，會不會很尷尬？"
                         answer={
                             <>
-                                <p className="mb-3 text-[#c5a47e] font-bold">BNI有結構化的流程，不需要擔心社交技巧</p>
+                                <p className="mb-3 text-primary font-bold">BNI有結構化的流程，不需要擔心社交技巧</p>
                                 <p className="mb-4">每次例會都有固定流程：25秒專業介紹、5分鐘深度主講、分組交流。</p>
-                                <div className="p-4 bg-[#c5a47e]/10 rounded-lg border border-[#c5a47e]/20 text-sm">
-                                    <strong className="text-[#c5a47e]">實際經驗：</strong>許多內向型會員反而在BNI找到舒適的交流方式，因為有明確的架構和目標。
+                                <div className="p-4 bg-primary/10 rounded-lg border border-primary/20 text-sm">
+                                    <strong className="text-primary">實際經驗：</strong>許多內向型會員反而在BNI找到舒適的交流方式，因為有明確的架構和目標。
                                 </div>
                             </>
                         }
@@ -101,14 +101,14 @@ const FAQ: React.FC = () => {
                         question="線上會議效果會不會比實體差？"
                         answer={
                             <>
-                                <p className="mb-3 text-[#c5a47e] font-bold">長輝白金分會專注於線上會議優化，效果不輸實體</p>
+                                <p className="mb-3 text-primary font-bold">長輝白金分會專注於線上會議優化，效果不輸實體</p>
                                 <ul className="list-disc list-inside mb-4 space-y-1 ml-2">
                                     <li>全台少數100%支援線上與會的分會</li>
                                     <li>專業的線上會議流程設計</li>
                                     <li>分組討論室功能，保持深度交流</li>
                                 </ul>
-                                <div className="p-4 bg-[#c5a47e]/10 rounded-lg border border-[#c5a47e]/20 text-sm">
-                                    <strong className="text-[#c5a47e]">關鍵優勢：</strong>線上會議讓您即使出差也能照常與會、照常曝光、照常經營商務合作。
+                                <div className="p-4 bg-primary/10 rounded-lg border border-primary/20 text-sm">
+                                    <strong className="text-primary">關鍵優勢：</strong>線上會議讓您即使出差也能照常與會、照常曝光、照常經營商務合作。
                                 </div>
                             </>
                         }
@@ -120,15 +120,15 @@ const FAQ: React.FC = () => {
                         question="我需要準備什麼資料才能加入？"
                         answer={
                             <>
-                                <p className="mb-3 text-[#c5a47e] font-bold">加入流程簡單明確，無需複雜資料</p>
+                                <p className="mb-3 text-primary font-bold">加入流程簡單明確，無需複雜資料</p>
                                 <p className="mb-2">您只需要準備：</p>
                                 <ul className="list-disc list-inside mb-4 space-y-1 ml-2">
                                     <li>個人或公司基本資料（名稱、聯絡方式、服務項目）</li>
                                     <li>簡短的自我介紹（30秒即可）</li>
                                     <li>對引薦行銷的熱情與承諾</li>
                                 </ul>
-                                <div className="p-4 bg-[#c5a47e]/10 rounded-lg border border-[#c5a47e]/20 text-sm">
-                                    <strong className="text-[#c5a47e]">貼心提醒：</strong>加入後我們會提供完整的MSP培訓，教您如何有效介紹自己的服務並進行引薦。
+                                <div className="p-4 bg-primary/10 rounded-lg border border-primary/20 text-sm">
+                                    <strong className="text-primary">貼心提醒：</strong>加入後我們會提供完整的MSP培訓，教您如何有效介紹自己的服務並進行引薦。
                                 </div>
                             </>
                         }
@@ -140,15 +140,15 @@ const FAQ: React.FC = () => {
                         question="如果我暫時無法參加例會怎麼辦？"
                         answer={
                             <>
-                                <p className="mb-3 text-[#c5a47e] font-bold">BNI提供彈性的代理人制度</p>
+                                <p className="mb-3 text-primary font-bold">BNI提供彈性的代理人制度</p>
                                 <p className="mb-2">如果您因故無法參加例會，可以：</p>
                                 <ul className="list-disc list-inside mb-4 space-y-1 ml-2">
                                     <li>安排代理人代表您出席（同事、合作夥伴或家人）</li>
                                     <li>提前提供您的引薦單給代理人分享</li>
                                     <li>透過線上會議錄影了解當週內容</li>
                                 </ul>
-                                <div className="p-4 bg-[#c5a47e]/10 rounded-lg border border-[#c5a47e]/20 text-sm">
-                                    <strong className="text-[#c5a47e]">重要提醒：</strong>為了維護會員權益，每位會員的出席率需維持在60%以上。線上會議的便利性讓這個目標非常容易達成。
+                                <div className="p-4 bg-primary/10 rounded-lg border border-primary/20 text-sm">
+                                    <strong className="text-primary">重要提醒：</strong>為了維護會員權益，每位會員的出席率需維持在60%以上。線上會議的便利性讓這個目標非常容易達成。
                                 </div>
                             </>
                         }
@@ -160,15 +160,15 @@ const FAQ: React.FC = () => {
                         question="新創公司或個人工作者適合加入嗎？"
                         answer={
                             <>
-                                <p className="mb-3 text-[#c5a47e] font-bold">BNI特別適合新創與個人工作者快速建立人脈</p>
+                                <p className="mb-3 text-primary font-bold">BNI特別適合新創與個人工作者快速建立人脈</p>
                                 <p className="mb-2">許多成功的新創企業都從BNI起步，因為：</p>
                                 <ul className="list-disc list-inside mb-4 space-y-1 ml-2">
                                     <li>快速建立第一批客戶群</li>
                                     <li>獲得各領域專業人士的建議與支援</li>
                                     <li>以合理成本接觸大量潛在客戶</li>
                                 </ul>
-                                <div className="p-4 bg-[#c5a47e]/10 rounded-lg border border-[#c5a47e]/20 text-sm">
-                                    <strong className="text-[#c5a47e]">成功案例：</strong>許雅婷在創業初期加入BNI，透過會員引薦快速打開市場知名度，第一年就達成業績目標的150%。
+                                <div className="p-4 bg-primary/10 rounded-lg border border-primary/20 text-sm">
+                                    <strong className="text-primary">成功案例：</strong>許雅婷在創業初期加入BNI，透過會員引薦快速打開市場知名度，第一年就達成業績目標的150%。
                                 </div>
                             </>
                         }
@@ -180,15 +180,15 @@ const FAQ: React.FC = () => {
                         question="長輝白金分會與其他BNI分會有什麼不同？"
                         answer={
                             <>
-                                <p className="mb-3 text-[#c5a47e] font-bold">我們是全台少數100%支援線上與會的分會</p>
+                                <p className="mb-3 text-primary font-bold">我們是全台少數100%支援線上與會的分會</p>
                                 <p className="mb-2">長輝白金分會的獨特優勢：</p>
                                 <ul className="list-disc list-inside mb-4 space-y-1 ml-2">
                                     <li><strong>完整線上支援：</strong>所有會員都能全程線上參與，無需到場</li>
                                     <li><strong>早晨時段：</strong>每週三早上6:30-8:30，不影響正常工作</li>
                                     <li><strong>產業多元：</strong>60+個不同產業，資源整合能力強</li>
                                 </ul>
-                                <div className="p-4 bg-[#c5a47e]/10 rounded-lg border border-[#c5a47e]/20 text-sm">
-                                    <strong className="text-[#c5a47e]">特別適合：</strong>經常出差、時間彈性需求高、或偏好線上協作的專業人士。
+                                <div className="p-4 bg-primary/10 rounded-lg border border-primary/20 text-sm">
+                                    <strong className="text-primary">特別適合：</strong>經常出差、時間彈性需求高、或偏好線上協作的專業人士。
                                 </div>
                             </>
                         }

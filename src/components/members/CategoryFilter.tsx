@@ -18,8 +18,8 @@ const CategoryFilter: React.FC<CategoryFilterProps> = ({ categories, activeCateg
                 className={clsx(
                     "px-5 py-2 rounded-full border transition-all duration-300 backdrop-blur-sm",
                     activeCategory === 'All'
-                        ? "bg-[#c5a47e] text-[#06203a] border-[#c5a47e] font-bold shadow-[0_0_15px_rgba(197,164,126,0.3)]"
-                        : "bg-white/5 text-gray-300 border-white/10 hover:border-[#c5a47e] hover:text-[#c5a47e]"
+                        ? "bg-primary text-bg-dark border-primary font-bold shadow-[0_0_15px_rgba(76,168,223,0.3)]"
+                        : "bg-white/5 text-gray-300 border-white/10 hover:border-primary hover:text-primary"
                 )}
             >
                 全部
@@ -33,8 +33,8 @@ const CategoryFilter: React.FC<CategoryFilterProps> = ({ categories, activeCateg
                     className={clsx(
                         "px-5 py-2 rounded-full border transition-all duration-300 backdrop-blur-sm",
                         activeCategory === cat
-                            ? "bg-[#c5a47e] text-[#06203a] border-[#c5a47e] font-bold shadow-[0_0_15px_rgba(197,164,126,0.3)]"
-                            : "bg-white/5 text-gray-300 border-white/10 hover:border-[#c5a47e] hover:text-[#c5a47e]"
+                            ? "bg-primary text-bg-dark border-primary font-bold shadow-[0_0_15px_rgba(76,168,223,0.3)]"
+                            : "bg-white/5 text-gray-300 border-white/10 hover:border-primary hover:text-primary"
                     )}
                 >
                     {cat}

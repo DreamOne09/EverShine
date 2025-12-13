@@ -33,13 +33,13 @@ const Home: React.FC = () => {
                     className="mt-[-5vh] relative z-10"
                 >
                     <h1 className="text-6xl md:text-8xl font-bold mb-8 tracking-tight font-sans px-4">
-                        <span className="bg-clip-text text-transparent bg-gradient-to-br from-[#f0e6d2] via-[#c5a47e] to-[#8a6e4b] drop-shadow-2xl">
+                        <span className="bg-clip-text text-transparent bg-gradient-to-br from-primary-light via-primary to-primary-dark drop-shadow-2xl">
                             長輝白金分會
                         </span>
                     </h1>
                     <p className="text-xl md:text-3xl text-gray-200 mb-12 max-w-3xl mx-auto leading-relaxed font-light px-4">
                         我們一起，打造你的夢幻 Team<br />
-                        <span className="text-[#c5a47e] font-sans font-medium mt-4 block text-2xl tracking-wide opacity-90">Stand by we! We are one team.</span>
+                        <span className="text-primary-light font-sans font-medium mt-4 block text-2xl tracking-wide opacity-90">Stand by we! We are one team.</span>
                     </p>
 
                     <div className="flex flex-col md:flex-row gap-6 justify-center items-center px-4">
@@ -47,7 +47,7 @@ const Home: React.FC = () => {
                             href="#contact"
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
-                            className="px-10 py-4 bg-gradient-to-r from-[#c5a47e] to-[#b08d55] text-[#06203a] font-bold text-lg rounded-full shadow-[0_0_30px_rgba(197,164,126,0.4)] hover:shadow-[0_0_50px_rgba(197,164,126,0.6)] transition-all duration-300 transform border border-[#f0e6d2]/30 w-full md:w-auto"
+                            className="px-10 py-4 bg-gradient-to-r from-primary to-primary-dark text-bg-dark font-bold text-lg rounded-full shadow-[0_0_30px_rgba(76,168,223,0.4)] hover:shadow-[0_0_50px_rgba(76,168,223,0.6)] transition-all duration-300 transform border border-primary-light/30 w-full md:w-auto"
                         >
                             加入我們
                         </motion.a>
@@ -55,7 +55,7 @@ const Home: React.FC = () => {
                             <motion.button
                                 whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.05)" }}
                                 whileTap={{ scale: 0.95 }}
-                                className="px-10 py-4 bg-transparent border-2 border-[#c5a47e] text-[#c5a47e] font-bold text-lg rounded-full hover:bg-[#c5a47e]/10 transition-all duration-300 backdrop-blur-sm w-full md:w-auto"
+                                className="px-10 py-4 bg-transparent border-2 border-primary text-primary font-bold text-lg rounded-full hover:bg-primary/10 transition-all duration-300 backdrop-blur-sm w-full md:w-auto"
                             >
                                 什麼是 BNI ?
                             </motion.button>
