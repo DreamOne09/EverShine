@@ -19,6 +19,7 @@ const Navbar: React.FC = () => {
 
     const navLinks = [
         { name: '首頁', path: '/' },
+        { name: '關於 BNI', path: '/bni' },
         { name: '會員介紹', path: '/members' },
         { name: '引薦案例', path: '/referrals' },
     ];

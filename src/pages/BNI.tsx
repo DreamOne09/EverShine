@@ -54,10 +54,11 @@ const BNIPage: React.FC = () => {
                     </div>
                     <h1 className="text-4xl md:text-6xl font-bold mb-6 tracking-tight font-sans">
                         <span className="bg-clip-text text-transparent bg-gradient-to-br from-primary-light via-primary to-primary-dark drop-shadow-2xl">
-                            全球最大商務引薦平台
+                            關於 BNI
                         </span>
                     </h1>
-                    <p className="text-xl md:text-2xl text-gray-300">成立40年，遍及76+國家，11,300+分會，34萬+會員</p>
+                    <p className="text-xl md:text-3xl text-white font-bold mb-4">全球最大商務引薦平台</p>
+                    <p className="text-lg md:text-xl text-gray-300">成立40年，遍及76+國家，11,300+分會，34萬+會員</p>
                 </motion.div>
             </section>
 
