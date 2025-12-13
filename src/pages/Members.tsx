@@ -10,9 +10,9 @@ const Members: React.FC = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [activeCategory, setActiveCategory] = useState('All');
 
-    // Extract unique categories (industries)
+    // Extract unique categories (major categories)
     const categories = useMemo(() => {
-        const unique = Array.from(new Set(members.map(m => m.industry).filter(Boolean)));
+        const unique = Array.from(new Set(members.map(m => m.category || '').filter(Boolean)));
         // Custom sort order if needed, otherwise alphabetical
         return unique.sort((a, b) => a.localeCompare(b, 'zh-TW'));
     }, [members]);
@@ -22,10 +22,11 @@ const Members: React.FC = () => {
         return members.filter(member => {
             if (member.name === '人名') return false; // Filter out template placeholders if any
 
-            const matchesCategory = activeCategory === 'All' || member.industry === activeCategory;
+            const matchesCategory = activeCategory === 'All' || member.category === activeCategory;
             const normalizedSearch = searchQuery.toLowerCase();
             const matchesSearch =
                 member.name.toLowerCase().includes(normalizedSearch) ||
+                (member.category && member.category.toLowerCase().includes(normalizedSearch)) ||
                 (member.industry && member.industry.toLowerCase().includes(normalizedSearch)) ||
                 (member.company && member.company.toLowerCase().includes(normalizedSearch)) ||
                 (member.services && member.services.some(s => s.toLowerCase().includes(normalizedSearch))) ||
@@ -88,7 +89,7 @@ const Members: React.FC = () => {
 
             <motion.div
                 layout
-                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
             >
                 <AnimatePresence mode='popLayout'>
                     {filteredMembers.map(member => (

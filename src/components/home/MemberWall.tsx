@@ -6,15 +6,16 @@ const MemberThumbnail: React.FC<{ photo: string, name: string }> = ({ photo, nam
     const [imgSrc, setImgSrc] = useState(photo);
 
     return (
-        <div className="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-2 border-primary/50 shadow-lg flex-shrink-0 mx-4 relative group cursor-pointer hover:border-primary transition-colors duration-300">
+        <div className="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden flex-shrink-0 mx-4 relative group cursor-pointer">
             <img
                 src={imgSrc}
                 alt={name}
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 grayscale group-hover:grayscale-0"
-                onError={() => setImgSrc('/images/assets/logo/EverShine-logo.png')} // Fallback image
+                className="w-full h-full object-cover object-[center_top] opacity-80 group-hover:opacity-100 transition-all duration-300 group-hover:scale-105"
+                onError={() => setImgSrc('/images/assets/logo/EverShine-logo.png')}
             />
-            <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                <span className="text-white text-xs md:text-sm font-bold tracking-widest">{name}</span>
+            {/* Subtle name overlay on hover */}
+            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent py-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex justify-center">
+                <span className="text-white text-xs font-bold tracking-widest">{name}</span>
             </div>
         </div>
     );
@@ -22,7 +23,7 @@ const MemberThumbnail: React.FC<{ photo: string, name: string }> = ({ photo, nam
 
 const MarqueeRow: React.FC<{ children: React.ReactNode, direction?: 'left' | 'right', speed?: number }> = ({ children, direction = 'left', speed = 20 }) => {
     return (
-        <div className="flex overflow-hidden py-6 select-none">
+        <div className="flex overflow-hidden py-4 select-none">
             <motion.div
                 className="flex items-center"
                 initial={{ x: direction === 'left' ? '0%' : '-50%' }}
@@ -53,17 +54,17 @@ const MemberWall: React.FC = () => {
     const row3 = validMembers.slice(chunkSize * 2);
 
     return (
-        <section className="py-24 relative overflow-hidden">
+        <section className="py-16 relative overflow-hidden">
             {/* Background glow */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[500px] bg-primary/5 blur-[100px] -z-10 rounded-full"></div>
 
             <div className="text-center mb-12 relative z-10">
-                <h2 className="text-3xl md:text-4xl font-bold text-primary mb-3">我們的白金會員</h2>
+                <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">我們的會員</h2>
                 <div className="w-16 h-1 bg-primary mx-auto rounded-full mb-3"></div>
-                <p className="text-gray-400 text-lg tracking-wide">匯聚 {validMembers.length}+ 位各行各業的頂尖菁英</p>
+                <p className="text-gray-400 text-lg tracking-wide">匯聚 {validMembers.length}+ 位各行各業的菁英</p>
             </div>
 
-            <div className="relative w-full max-w-[1920px] mx-auto">
+            <div className="relative w-full max-w-[1920px] mx-auto mask-linear-gradient">
                 <MarqueeRow speed={50}>
                     <div className="flex">
                         {row1.map(m => <MemberThumbnail key={m.id} photo={`/images/members/${m.name}.jpg`} name={m.name} />)}
@@ -81,10 +82,6 @@ const MemberWall: React.FC = () => {
                         {row3.map(m => <MemberThumbnail key={m.id} photo={`/images/members/${m.name}.jpg`} name={m.name} />)}
                     </div>
                 </MarqueeRow>
-
-                {/* Fade Mask */}
-                <div className="absolute inset-y-0 left-0 w-24 md:w-64 bg-gradient-to-r from-bg-dark to-transparent z-10 pointer-events-none"></div>
-                <div className="absolute inset-y-0 right-0 w-24 md:w-64 bg-gradient-to-l from-bg-dark to-transparent z-10 pointer-events-none"></div>
             </div>
         </section>
     );

@@ -81,6 +81,12 @@ const Home: React.FC = () => {
                 </motion.div>
             </section>
 
+            <About />
+
+            <MemberWall />
+
+            <Results />
+
             {/* What is BNI Link Section */}
             <section className="py-12 relative z-10 px-4">
                 <div className="container mx-auto max-w-5xl">
@@ -98,28 +104,23 @@ const Home: React.FC = () => {
                                 <img src="/images/assets/logo/bni-logo-new.png" alt="BNI" className="w-full h-auto object-contain" />
                             </div>
                             <div>
-                                <h2 className="text-3xl font-bold text-white mb-3">什麼是 BNI?</h2>
-                                <p className="text-gray-300 text-lg max-w-lg leading-relaxed">了解全球最大商務引薦平台，成立40年，遍及76+國家，34萬+會員</p>
+                                <h3 className="text-2xl font-bold text-white mb-2">什麼是 BNI？</h3>
+                                <p className="text-gray-300 text-lg">全球最大的商務引薦機構，協助您拓展人脈與業務。</p>
                             </div>
                         </div>
-                        <Link to="/bni" className="shrink-0 w-full md:w-auto">
+
+                        <Link to="/bni">
                             <motion.button
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
-                                className="w-full md:w-auto px-8 py-3 bg-[#cf2030] text-white font-bold rounded-full shadow-lg hover:bg-[#a01825] transition-colors whitespace-nowrap text-lg"
+                                className="px-8 py-3 bg-white text-bg-dark font-bold rounded-full hover:bg-gray-100 transition-colors shadow-lg"
                             >
-                                深入了解 BNI
+                                了解更多
                             </motion.button>
                         </Link>
                     </motion.div>
                 </div>
             </section>
-
-            <About />
-
-            <MemberWall />
-
-            <Results />
 
             <FAQ />
 
