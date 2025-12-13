@@ -58,13 +58,13 @@ const MemberCard: React.FC<{ member: Member }> = ({ member }) => {
 
                                     <div className="mb-4">
                                         <h4 className="text-primary text-xs uppercase tracking-wider mb-2 font-bold">個人介紹</h4>
-                                        <p className="leading-relaxed text-gray-400 text-xs">{member.fullIntro}</p>
+                                        <p className="leading-relaxed text-gray-300 text-sm whitespace-pre-line">{member.fullIntro}</p>
                                     </div>
 
                                     {member.services && member.services.length > 0 && (
                                         <div className="mb-4">
                                             <h4 className="text-primary text-xs uppercase tracking-wider mb-2 font-bold">服務項目</h4>
-                                            <ul className="space-y-1 text-gray-400 text-xs">
+                                            <ul className="space-y-1 text-gray-300 text-sm">
                                                 {member.services.map((s, i) => (
                                                     <li key={i} className="flex items-start gap-2">
                                                         <span className="text-primary mt-0.5">•</span>
@@ -78,7 +78,7 @@ const MemberCard: React.FC<{ member: Member }> = ({ member }) => {
                                     {/* Social/Contact Links */}
                                     {member.links && member.links.length > 0 && (
                                         <div className="flex flex-wrap gap-2 mt-4 pt-4 border-t border-white/5">
-                                            {member.links.map((link, i) => (
+                                            {member.links.filter(link => link.url && link.url.trim() !== '').map((link, i) => (
                                                 <a
                                                     key={i}
                                                     href={link.url}
@@ -87,9 +87,9 @@ const MemberCard: React.FC<{ member: Member }> = ({ member }) => {
                                                     className="p-2 bg-white/5 rounded-full hover:bg-primary hover:text-bg-dark transition-colors text-gray-400"
                                                     title={link.type}
                                                 >
-                                                    {link.icon === 'globe' ? <Globe size={16} /> :
-                                                        link.icon === 'phone' ? <Phone size={16} /> :
-                                                            link.icon === 'mail' ? <Mail size={16} /> : <Globe size={16} />}
+                                                    {link.icon === 'globe' ? <Globe size={18} /> :
+                                                        link.icon === 'phone' ? <Phone size={18} /> :
+                                                            link.icon === 'mail' ? <Mail size={18} /> : <Globe size={18} />}
                                                 </a>
                                             ))}
                                         </div>

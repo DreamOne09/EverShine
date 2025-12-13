@@ -9,15 +9,21 @@ import PageHero from '../components/common/PageHero';
 const Members: React.FC = () => {
     const { members, loading, error } = useMembers();
     const [searchQuery, setSearchQuery] = useState('');
-    const [activeCategory, setActiveCategory] = useState('All');
+    const [activeCategory, setActiveCategory] = useState('全部');
 
     // Extract unique categories (major categories)
     const categories = useMemo(() => {
-        const unique = Array.from(new Set(members.flatMap(m =>
+        const unique = new Set(members.flatMap(m =>
             m.category ? m.category.split(/[,|、]/).map(c => c.trim()) : []
-        ).filter(Boolean)));
+        ).filter(Boolean));
+
+        // Remove 'All' or '全部' if they exist in data to avoid duplicates with our default
+        unique.delete('All');
+        unique.delete('all');
+        unique.delete('全部');
+
         // Custom sort order if needed, otherwise alphabetical
-        return ['All', ...unique.sort((a, b) => a.localeCompare(b, 'zh-TW'))];
+        return ['全部', ...Array.from(unique).sort((a, b) => a.localeCompare(b, 'zh-TW'))];
     }, [members]);
 
     // Filter logic
@@ -28,7 +34,7 @@ const Members: React.FC = () => {
             // Only show members who have edited their profile (editCount > 0)
             if (!member.editCount || member.editCount <= 0) return false;
 
-            const matchesCategory = activeCategory === 'All' || (member.category && member.category.includes(activeCategory));
+            const matchesCategory = activeCategory === '全部' || (member.category && member.category.includes(activeCategory));
             const normalizedSearch = searchQuery.toLowerCase();
             const matchesSearch =
                 member.name.toLowerCase().includes(normalizedSearch) ||

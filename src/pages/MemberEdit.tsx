@@ -12,6 +12,7 @@ const MemberEdit: React.FC = () => {
     const [message, setMessage] = useState<{ text: string, type: 'error' | 'success' } | null>(null);
     const [memberData, setMemberData] = useState<any>(null);
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+    const [photo, setPhoto] = useState('');
 
     const CATEGORIES = [
         "行銷聯盟",
@@ -66,7 +67,9 @@ const MemberEdit: React.FC = () => {
             setCompany(member.company || '');
             setPosition(member.position || '');
             setShortIntro(member.shortIntro || '');
+            setShortIntro(member.shortIntro || '');
             setFullIntro(member.fullIntro || '');
+            setPhoto(member.photo || '');
 
             // Handle categories
             if (member.category) {
@@ -131,6 +134,7 @@ const MemberEdit: React.FC = () => {
             title: `${position} - ${company}`,
             shortIntro: shortIntro,
             fullIntro: fullIntro,
+            photo: photo,
             links: links.filter(l => l.type && l.url).map(l => ({ ...l, icon: l.type }))
         };
 
@@ -212,6 +216,17 @@ const MemberEdit: React.FC = () => {
                             <div>
                                 <label className="block text-gray-400 text-sm mb-1">姓名 (唯讀)</label>
                                 <input type="text" value={name} disabled className="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-gray-400 cursor-not-allowed" />
+                            </div>
+                            <div>
+                                <label className="block text-gray-300 mb-2">照片路徑 / URL</label>
+                                <input
+                                    type="text"
+                                    value={photo}
+                                    onChange={(e) => setPhoto(e.target.value)}
+                                    placeholder="例如: images/members/您的名字.jpg"
+                                    className="w-full bg-black/30 border border-white/20 rounded-lg p-3 text-white focus:border-primary focus:outline-none"
+                                />
+                                <p className="text-xs text-gray-500 mt-1">若照片無法顯示，請確認檔案已上傳至正確路徑，或填寫有效的圖片網址。</p>
                             </div>
                             <div>
                                 <label className="block text-gray-300 mb-2">公司名稱</label>
