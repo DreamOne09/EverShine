@@ -32,7 +32,7 @@ const Results: React.FC = () => {
                     <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">成果會說話</h2>
                     <div className="w-20 h-1 bg-primary mx-auto rounded-full mb-4"></div>
                     <p className="text-gray-400 text-sm">
-                        資料更新時間：2025/12/13
+                        創會以來 - 資料更新時間：2025/12/13
                     </p>
                 </div>
 
@@ -55,7 +55,7 @@ const Results: React.FC = () => {
                         value={580} // 5.8億
                         suffix="億+"
                         label="總交易價值 (TWD)"
-                        subtext="NT$ 588,681,..."
+                        subtext="NT$ 588,681,643"
                         isCurrency
                     />
                     <div className="bg-bg-dark/60 backdrop-blur-md border border-primary/20 rounded-2xl shadow-xl p-8 flex flex-col items-center justify-center hover:-translate-y-2 transition-transform duration-300 text-center">
@@ -90,7 +90,7 @@ const Results: React.FC = () => {
                                 <img
                                     src="/images/members/許雅婷.jpg"
                                     alt="許雅婷"
-                                    className="w-full h-full object-cover"
+                                    className="w-full h-full object-cover object-top"
                                     onError={(e) => e.currentTarget.src = '/images/assets/logo/白色正方形logo.png'}
                                 />
                             </div>

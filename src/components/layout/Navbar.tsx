@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Facebook, Instagram, Youtube } from 'lucide-react';
 
 const Navbar: React.FC = () => {
     const [isScrolled, setIsScrolled] = useState(false);
@@ -72,9 +72,9 @@ const Navbar: React.FC = () => {
                 {/* Desktop Menu */}
                 <div className="hidden md:flex items-center gap-6">
                     {navLinks.map((link) => (
-                        <a
+                        <Link
                             key={link.name}
-                            href={link.path}
+                            to={link.path}
                             className={`relative px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 group overflow-hidden ${isActive(link.path)
                                 ? 'text-white bg-white/10 shadow-[0_0_15px_rgba(255,255,255,0.1)] ring-1 ring-white/20'
                                 : 'text-gray-300 hover:text-white hover:bg-white/5'
@@ -88,8 +88,15 @@ const Navbar: React.FC = () => {
                                     transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
                                 />
                             )}
-                        </a>
+                        </Link>
                     ))}
+
+                    {/* Social Icons */}
+                    <div className="flex items-center gap-3 pl-4 border-l border-white/10 ml-2">
+                        <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-[#1877F2] transition-colors"><Facebook size={20} /></a>
+                        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-[#E4405F] transition-colors"><Instagram size={20} /></a>
+                        <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-[#FF0000] transition-colors"><Youtube size={20} /></a>
+                    </div>
                 </div>
 
                 {/* Mobile Menu Button */}

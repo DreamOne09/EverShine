@@ -131,6 +131,7 @@ const ResultsChart: React.FC = () => {
                 }
             },
             y: {
+                beginAtZero: true,
                 grid: {
                     color: 'rgba(76, 168, 223, 0.1)',
                 },

@@ -91,7 +91,8 @@ const MemberEdit: React.FC = () => {
         }
 
         const formData = {
-            name: name, // Assuming 'name' is the identifier for the member
+            id: memberData.id,
+            name: name,
             company: company,
             position: position,
             title: `${position} - ${company}`,

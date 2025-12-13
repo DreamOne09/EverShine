@@ -47,9 +47,9 @@ const Referrals: React.FC = () => {
                 {/* Hero Section */}
                 <div className="text-center mb-16 pt-10">
                     <motion.div
-                        initial={{ opacity: 0, y: -20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6 }}
+                        initial={{ opacity: 0, scale: 0.8, y: -20 }}
+                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        transition={{ duration: 0.8, type: "spring", bounce: 0.5 }}
                     >
                         <h1 className="text-4xl md:text-6xl font-bold mb-6 tracking-tight font-sans">
                             <span className="bg-clip-text text-transparent bg-gradient-to-br from-primary-light via-primary to-primary-dark drop-shadow-2xl">

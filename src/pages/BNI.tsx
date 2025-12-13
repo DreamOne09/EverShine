@@ -44,9 +44,9 @@ const BNIPage: React.FC = () => {
                 <div className="absolute inset-0 bg-black/40 z-0 pointer-events-none" />
 
                 <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8 }}
+                    initial={{ opacity: 0, scale: 0.8, y: 30 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    transition={{ duration: 0.8, type: "spring", bounce: 0.5 }}
                     className="relative z-10 max-w-4xl mx-auto"
                 >
                     <div className="mb-6 flex justify-center">

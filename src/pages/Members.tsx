@@ -67,18 +67,54 @@ const Members: React.FC = () => {
             <div className="container mx-auto px-4 py-8 relative z-10 pt-10">
                 <div className="text-center mb-12 relative z-10">
                     <motion.div
-                        initial={{ opacity: 0, y: -20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6 }}
+                        initial={{ opacity: 0, scale: 0.8, y: -20 }}
+                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        transition={{ duration: 0.8, type: "spring", bounce: 0.5 }}
                     >
                         <h1 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight font-sans">
                             <span className="bg-clip-text text-transparent bg-gradient-to-br from-primary-light via-primary to-primary-dark drop-shadow-2xl">
-                                白金會員介紹
+                                會員介紹
                             </span>
                         </h1>
-                        <p className="text-gray-300 text-lg max-w-2xl mx-auto mb-10">
-                            我們匯聚了各行各業的菁英，透過彼此的專業協作，為客戶提供最值得信賴的服務。
+                        <p className="text-gray-300 text-lg max-w-2xl mx-auto mb-10 font-bold">
+                            我們為夥伴的生意著想
                         </p>
+                    </motion.div>
+
+                    {/* Member Pledge */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.3, duration: 0.6 }}
+                        className="bg-white/5 backdrop-blur-md rounded-2xl p-6 md:p-8 max-w-3xl mx-auto mb-12 border border-white/10 text-left"
+                    >
+                        <h3 className="text-xl md:text-2xl font-bold text-primary mb-4 text-center">BNI 會員宣示</h3>
+                        <div className="grid md:grid-cols-2 gap-4 text-gray-300 text-sm md:text-base">
+                            <div className="flex items-start gap-2">
+                                <span className="text-primary font-bold">1.</span>
+                                <p>我願意提供我所承諾的服務品質與價格</p>
+                            </div>
+                            <div className="flex items-start gap-2">
+                                <span className="text-primary font-bold">2.</span>
+                                <p>我願意對會員及其引薦對象誠實</p>
+                            </div>
+                            <div className="flex items-start gap-2">
+                                <span className="text-primary font-bold">3.</span>
+                                <p>我願意在會員及其引薦對象之間建立善意與信任</p>
+                            </div>
+                            <div className="flex items-start gap-2">
+                                <span className="text-primary font-bold">4.</span>
+                                <p>我願意對接收到的引薦負責並進行追蹤</p>
+                            </div>
+                            <div className="flex items-start gap-2">
+                                <span className="text-primary font-bold">5.</span>
+                                <p>我願意展現正向與支持的態度</p>
+                            </div>
+                            <div className="flex items-start gap-2">
+                                <span className="text-primary font-bold">6.</span>
+                                <p>我願意遵守我行業的道德標準</p>
+                            </div>
+                        </div>
                     </motion.div>
 
                     {/* Search Bar */}
