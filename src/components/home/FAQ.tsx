@@ -49,7 +49,7 @@ const FAQ: React.FC = () => {
     };
 
     return (
-        <section className="py-20 relative overflow-hidden" id="faq">
+        <section className="min-h-screen flex flex-col justify-center py-20 relative overflow-hidden" id="faq">
             <div className="container mx-auto px-4 z-10 relative">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -57,7 +57,7 @@ const FAQ: React.FC = () => {
                     viewport={{ once: true }}
                     className="text-center mb-16"
                 >
-                    <h2 className="text-3xl md:text-5xl font-bold mb-4 text-white">常見問題</h2>
+                    <h2 className="text-3xl md:text-5xl font-black mb-4 text-white">常見問題</h2>
                     <p className="text-gray-400 max-w-2xl mx-auto text-lg">
                         關於加入 BNI 的長輝白金分會，我們整理了大家最關心的問題
                     </p>

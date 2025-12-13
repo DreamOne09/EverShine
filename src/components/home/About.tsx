@@ -28,7 +28,7 @@ const AboutCard: React.FC<{ icon: React.ReactNode, title: string, children: Reac
 
 const About: React.FC = () => {
     return (
-        <section className="py-24 relative z-10" id="about">
+        <section className="min-h-screen flex flex-col justify-center py-24 relative z-10" id="about">
             <div className="container mx-auto px-4">
                 <div className="text-center mb-16">
                     <motion.div
@@ -37,7 +37,7 @@ const About: React.FC = () => {
                         viewport={{ once: true }}
                         transition={{ duration: 0.6 }}
                     >
-                        <h2 className="text-4xl md:text-5xl font-bold mb-6 text-primary">關於我們</h2>
+                        <h2 className="text-4xl md:text-5xl font-black mb-6 text-primary">關於我們</h2>
                         <div className="w-24 h-1 bg-gradient-to-r from-transparent via-primary to-transparent mx-auto rounded-full opacity-80"></div>
                     </motion.div>
                 </div>

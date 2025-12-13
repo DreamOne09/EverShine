@@ -42,7 +42,7 @@ const Home: React.FC = () => {
             {/* <Results /> */}
 
             {/* What is BNI Link Section */}
-            <section className="py-12 relative z-10 px-4">
+            <section className="min-h-screen flex flex-col justify-center py-12 relative z-10 px-4">
                 <div className="container mx-auto max-w-5xl">
                     <motion.div
                         initial={{ opacity: 0, scale: 0.95 }}

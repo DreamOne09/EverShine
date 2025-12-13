@@ -56,12 +56,12 @@ const MemberWall: React.FC = () => {
     const row3 = validMembers.slice(chunkSize * 2);
 
     return (
-        <section className="py-16 relative overflow-hidden">
+        <section className="min-h-screen flex flex-col justify-center py-16 relative overflow-hidden">
             {/* Background glow */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[500px] bg-primary/5 blur-[100px] -z-10 rounded-full"></div>
 
             <div className="text-center mb-12 relative z-10">
-                <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">我們的會員</h2>
+                <h2 className="text-3xl md:text-4xl font-black text-white mb-3">我們的會員</h2>
                 <div className="w-16 h-1 bg-primary mx-auto rounded-full mb-3"></div>
                 <p className="text-gray-400 text-lg tracking-wide">匯聚 50+ 位各行各業的菁英</p>
             </div>

@@ -4,7 +4,7 @@ import { Mail, Phone } from 'lucide-react';
 
 const Contact: React.FC = () => {
     return (
-        <section className="relative py-24 md:py-32 overflow-hidden" id="contact">
+        <section className="min-h-screen flex flex-col justify-center relative py-24 md:py-32 overflow-hidden" id="contact">
             {/* Background Elements */}
             <div className="absolute top-0 right-0 w-1/2 h-full bg-bg-dark/50 -skew-x-12 transform origin-top-right"></div>
             <div className="absolute bottom-0 left-0 w-96 h-96 bg-primary/5 rounded-full blur-[100px] z-0"></div>
@@ -15,7 +15,7 @@ const Contact: React.FC = () => {
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        className="text-4xl md:text-5xl font-bold text-white mb-6"
+                        className="text-4xl md:text-5xl font-black text-white mb-6"
                     >
                         聯繫 <span className="text-primary">EverShine</span>
                     </motion.h2>
