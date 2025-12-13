@@ -28,7 +28,8 @@ const MemberCard: React.FC<{ member: Member }> = ({ member }) => {
                             src={imgSrc}
                             alt={member.name}
                             loading="lazy"
-                            className="w-full h-full rounded-full object-cover object-[center_top] bg-bg-dark"
+                            className="w-full h-full rounded-full object-cover bg-bg-dark"
+                            style={{ objectPosition: member.photoPosition || 'center' }}
                             onError={() => setImgSrc('/images/assets/logo/白色正方形logo.png')}
                         />
                     </div>

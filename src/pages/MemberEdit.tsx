@@ -13,6 +13,7 @@ const MemberEdit: React.FC = () => {
     const [memberData, setMemberData] = useState<any>(null);
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
     const [photo, setPhoto] = useState('');
+    const [photoPosition, setPhotoPosition] = useState('center');
 
     const CATEGORIES = [
         "行銷聯盟",
@@ -21,7 +22,8 @@ const MemberEdit: React.FC = () => {
         "健足教育",
         "工程裝修",
         "甜點美食",
-        "健康產業"
+        "健康產業",
+        "財務金融"
     ];
 
     // Form states
@@ -70,6 +72,7 @@ const MemberEdit: React.FC = () => {
             setShortIntro(member.shortIntro || '');
             setFullIntro(member.fullIntro || '');
             setPhoto(member.photo || '');
+            setPhotoPosition(member.photoPosition || 'center');
 
             // Handle categories
             if (member.category) {
@@ -135,6 +138,7 @@ const MemberEdit: React.FC = () => {
             shortIntro: shortIntro,
             fullIntro: fullIntro,
             photo: photo,
+            photoPosition: photoPosition,
             links: links.filter(l => l.type && l.url).map(l => ({ ...l, icon: l.type }))
         };
 
@@ -227,6 +231,18 @@ const MemberEdit: React.FC = () => {
                                     className="w-full bg-black/30 border border-white/20 rounded-lg p-3 text-white focus:border-primary focus:outline-none"
                                 />
                                 <p className="text-xs text-gray-500 mt-1">若照片無法顯示，請確認檔案已上傳至正確路徑，或填寫有效的圖片網址。</p>
+                            </div>
+                            <div>
+                                <label className="block text-gray-300 mb-2">照片裁切對齊</label>
+                                <select
+                                    value={photoPosition}
+                                    onChange={(e) => setPhotoPosition(e.target.value)}
+                                    className="w-full bg-black/30 border border-white/20 rounded-lg p-3 text-white focus:border-primary focus:outline-none"
+                                >
+                                    <option value="top">上方 (Top) - 適合頭部特寫</option>
+                                    <option value="center">居中 (Center) - 預設</option>
+                                    <option value="bottom">下方 (Bottom)</option>
+                                </select>
                             </div>
                             <div>
                                 <label className="block text-gray-300 mb-2">公司名稱</label>
