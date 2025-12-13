@@ -51,40 +51,14 @@ const Members: React.FC = () => {
 
     return (
         <div className="min-h-screen relative">
-            {/* Hero Background Image - Same as Home */}
-            <div
-                className="absolute inset-0 z-0 h-[60vh] overflow-hidden"
-                style={{
-                    backgroundImage: 'url(/images/assets/background.png)',
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center center',
-                    backgroundRepeat: 'no-repeat',
-                    backgroundAttachment: 'fixed',
-                    willChange: 'transform',
-                    imageRendering: '-webkit-optimize-contrast',
-                    maskImage: 'linear-gradient(to bottom, black 50%, transparent 100%)',
-                    WebkitMaskImage: 'linear-gradient(to bottom, black 50%, transparent 100%)'
-                }}
+            <PageHero
+                title="會員介紹"
+                subtitle="我們為夥伴的生意著想，也為夥伴的生意做引薦"
             />
-            {/* Dark Overlay for better text contrast */}
-            <div className="absolute inset-0 bg-black/40 z-0 pointer-events-none" />
 
             <div className="container mx-auto px-4 py-8 relative z-10 pt-10">
                 <div className="text-center mb-12 relative z-10">
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.8, y: -20 }}
-                        animate={{ opacity: 1, scale: 1, y: 0 }}
-                        transition={{ duration: 0.8, type: "spring", bounce: 0.5 }}
-                    >
-                        <h1 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight font-sans">
-                            <span className="bg-clip-text text-transparent bg-gradient-to-br from-primary-light via-primary to-primary-dark drop-shadow-2xl">
-                                會員介紹
-                            </span>
-                        </h1>
-                        <p className="text-gray-300 text-lg max-w-2xl mx-auto mb-10 font-bold">
-                            我們為夥伴的生意著想
-                        </p>
-                    </motion.div>
+
 
                     {/* Member Pledge */}
                     <motion.div

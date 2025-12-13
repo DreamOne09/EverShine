@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useCountUp } from '../hooks/useCountUp';
+import PageHero from '../components/common/PageHero';
 
 const StatCard: React.FC<{ value: number, label: React.ReactNode, subtext?: string, isLarge?: boolean }> = ({ value, label, subtext, isLarge }) => {
     const { count, elementRef } = useCountUp(value, 2000);

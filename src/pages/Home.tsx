@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import PageHero from '../components/common/PageHero';
 import About from '../components/home/About';
 import Results from '../components/home/Results';
 import MemberWall from '../components/home/MemberWall';
@@ -11,81 +12,34 @@ const Home: React.FC = () => {
     return (
         <div className="overflow-hidden">
             {/* Hero Section */}
-            <section className="min-h-screen flex flex-col justify-center items-center text-center relative z-10 pt-0 overflow-hidden">
-                {/* Hero Background Image */}
-                <div
-                    className="absolute inset-0 z-0"
-                    style={{
-                        backgroundImage: 'url(/images/assets/background.png)',
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center center',
-                        backgroundRepeat: 'no-repeat',
-                        backgroundAttachment: 'fixed',
-                        willChange: 'transform',
-                        imageRendering: '-webkit-optimize-contrast'
-                    }}
-                />
-
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-                    className="mt-[-5vh] relative z-10"
-                >
-                    <h1 className="text-6xl md:text-8xl font-bold mb-8 tracking-tight font-sans px-4">
-                        <span className="bg-clip-text text-transparent bg-gradient-to-br from-primary-light via-primary to-primary-dark drop-shadow-2xl">
-                            長輝白金分會
-                        </span>
-                    </h1>
-                    <p className="text-xl md:text-3xl text-gray-200 mb-12 max-w-3xl mx-auto leading-relaxed font-light px-4">
+            <PageHero
+                title="BNI長輝白金分會"
+                subtitle={
+                    <>
                         我們一起，打造你的夢幻 Team<br />
-                        <span className="text-primary-light font-sans font-medium mt-4 block text-2xl tracking-wide opacity-90">Stand by we! We are one team.</span>
-                    </p>
-
-                    <div className="flex flex-col md:flex-row gap-6 justify-center items-center px-4">
-                        <motion.a
-                            href="#contact"
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            className="px-10 py-4 bg-gradient-to-r from-primary to-primary-dark text-bg-dark font-bold text-lg rounded-full shadow-[0_0_30px_rgba(76,168,223,0.4)] hover:shadow-[0_0_50px_rgba(76,168,223,0.6)] transition-all duration-300 transform border border-primary-light/30 w-full md:w-auto"
-                        >
-                            加入我們
-                        </motion.a>
-                        <Link to="/bni">
-                            <motion.button
-                                whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.05)" }}
-                                whileTap={{ scale: 0.95 }}
-                                className="px-10 py-4 bg-transparent border-2 border-primary text-primary font-bold text-lg rounded-full hover:bg-primary/10 transition-all duration-300 backdrop-blur-sm w-full md:w-auto"
-                            >
-                                什麼是 BNI ?
-                            </motion.button>
-                        </Link>
-                    </div>
-                </motion.div>
-
-                {/* Scroll Indicator */}
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1, y: [0, 10, 0] }}
-                    transition={{ delay: 1.5, duration: 2, repeat: Infinity }}
-                    className="absolute bottom-10 left-1/2 -translate-x-1/2 text-gray-400"
-                >
-                    <motion.div
-                        initial={{ opacity: 0, y: -20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 2, duration: 1 }}
-                        className="w-6 h-10 border-2 border-gray-400/50 rounded-full flex justify-center p-1 backdrop-blur-sm"
+                        <span className="text-[#38bdf8] font-sans font-medium mt-4 block text-2xl tracking-wide opacity-90">Stand by we! We are one team.</span>
+                    </>
+                }
+                showScrollIndicator
+            >
+                <div className="flex flex-col md:flex-row gap-6 justify-center items-center mt-8 px-4">
+                    <motion.a
+                        href="#contact"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="px-10 py-4 bg-gradient-to-r from-primary to-primary-dark text-bg-dark font-bold text-lg rounded-full shadow-[0_0_30px_rgba(76,168,223,0.4)] hover:shadow-[0_0_50px_rgba(76,168,223,0.6)] transition-all duration-300 transform border border-primary-light/30 w-full md:w-auto"
                     >
-                        <div className="w-1 h-2 bg-primary rounded-full animate-bounce" />
-                    </motion.div>
-                </motion.div>
-            </section>
+                        加入我們
+                    </motion.a>
+                </div>
+            </PageHero>
 
             <About />
 
             <MemberWall />
 
-            <Results />
+            {/* <Results /> - Removed per user request */}
+            {/* <Results /> */}
 
             {/* What is BNI Link Section */}
             <section className="py-12 relative z-10 px-4">

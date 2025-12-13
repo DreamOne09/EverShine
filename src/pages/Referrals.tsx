@@ -2,6 +2,7 @@ import React from 'react';
 import { useReferrals } from '../hooks/useReferrals';
 import { motion } from 'framer-motion';
 import { ArrowRight, Quote } from 'lucide-react';
+import PageHero from '../components/common/PageHero';
 
 const Referrals: React.FC = () => {
     const { referrals, loading, error } = useReferrals();
@@ -25,42 +26,16 @@ const Referrals: React.FC = () => {
 
     return (
         <div className="min-h-screen relative overflow-hidden">
-            {/* Hero Background Image - Same as Home */}
-            <div
-                className="absolute inset-0 z-0 h-[60vh]"
-                style={{
-                    backgroundImage: 'url(/images/assets/background.png)',
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center center',
-                    backgroundRepeat: 'no-repeat',
-                    backgroundAttachment: 'fixed', // Keep fixed for parallax-like feel
-                    willChange: 'transform',
-                    imageRendering: '-webkit-optimize-contrast',
-                    maskImage: 'linear-gradient(to bottom, black 50%, transparent 100%)',
-                    WebkitMaskImage: 'linear-gradient(to bottom, black 50%, transparent 100%)'
-                }}
+            <PageHero
+                title="引薦案例"
+                subtitle={
+                    <>
+                        真實的引薦案例，展現 BNI 的商業價值。<br />每一次的引薦，都是一份信任的傳遞。
+                    </>
+                }
             />
-            {/* Dark Overlay for better text contrast */}
-            <div className="absolute inset-0 bg-black/40 z-0 pointer-events-none" />
 
             <div className="container mx-auto px-4 py-12 relative z-10">
-                {/* Hero Section */}
-                <div className="text-center mb-16 pt-10">
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.8, y: -20 }}
-                        animate={{ opacity: 1, scale: 1, y: 0 }}
-                        transition={{ duration: 0.8, type: "spring", bounce: 0.5 }}
-                    >
-                        <h1 className="text-4xl md:text-6xl font-bold mb-6 tracking-tight font-sans">
-                            <span className="bg-clip-text text-transparent bg-gradient-to-br from-primary-light via-primary to-primary-dark drop-shadow-2xl">
-                                引薦案例
-                            </span>
-                        </h1>
-                        <p className="text-gray-300 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
-                            真實的引薦案例，展現 BNI 的商業價值。<br />每一次的引薦，都是一份信任的傳遞。
-                        </p>
-                    </motion.div>
-                </div>
 
                 {/* Referrals Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">

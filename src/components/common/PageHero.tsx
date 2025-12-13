@@ -1,0 +1,66 @@
+import React from 'react';
+import { motion } from 'framer-motion';
+
+interface PageHeroProps {
+    title: string;
+    subtitle?: React.ReactNode;
+    showScrollIndicator?: boolean;
+    children?: React.ReactNode;
+}
+
+const PageHero: React.FC<PageHeroProps> = ({ title, subtitle, showScrollIndicator = false, children }) => {
+    return (
+        <section className="min-h-[70vh] flex flex-col justify-center items-center text-center relative z-10 pt-20 overflow-hidden">
+            {/* Hero Background Image */}
+            <div
+                className="absolute inset-0 z-0"
+                style={{
+                    backgroundImage: 'url(/images/assets/background.png)',
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center center',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundAttachment: 'fixed',
+                    willChange: 'transform',
+                    imageRendering: '-webkit-optimize-contrast',
+                    mixBlendMode: 'screen',
+                    maskImage: 'linear-gradient(to bottom, black 60%, transparent 100%)',
+                    WebkitMaskImage: 'linear-gradient(to bottom, black 60%, transparent 100%)'
+                }}
+            />
+
+            <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+                className="relative z-10 px-4 mt-[-10vh]"
+            >
+                <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 tracking-tight font-sans">
+                    <span className="bg-clip-text text-transparent bg-gradient-to-b from-[#E0F2FE] via-[#7DD3FC] to-[#0284C7] drop-shadow-[0_0_15px_rgba(14,165,233,0.6)]">
+                        {title}
+                    </span>
+                </h1>
+                {subtitle && (
+                    <div className="text-xl md:text-2xl text-gray-200 max-w-3xl mx-auto leading-relaxed font-light">
+                        {subtitle}
+                    </div>
+                )}
+                {children}
+            </motion.div>
+
+            {showScrollIndicator && (
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1, y: [0, 10, 0] }}
+                    transition={{ delay: 1.5, duration: 2, repeat: Infinity }}
+                    className="absolute bottom-10 left-1/2 -translate-x-1/2 text-gray-400"
+                >
+                    <div className="w-6 h-10 border-2 border-gray-400/50 rounded-full flex justify-center p-1 backdrop-blur-sm">
+                        <div className="w-1 h-2 bg-primary rounded-full animate-bounce" />
+                    </div>
+                </motion.div>
+            )}
+        </section>
+    );
+};
+
+export default PageHero;
