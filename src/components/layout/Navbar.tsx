@@ -132,9 +132,7 @@ const Navbar: React.FC = () => {
                                     {isActive(link.path) && <div className="w-2 h-2 rounded-full bg-primary" />}
                                 </Link>
                             ))}
-                            <button className="w-full mt-4 py-3 bg-gradient-to-r from-primary to-primary-dark text-white font-bold rounded-lg shadow-lg">
-                                立即加入
-                            </button>
+
                         </div>
                     </motion.div>
                 )}

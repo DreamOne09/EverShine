@@ -13,6 +13,8 @@ export interface Member {
     services: string[];
     hashtags: string[];
     pinHash?: string;
+    editCount?: number;
+    photoPosition?: string;
 }
 
 export interface MemberLink {

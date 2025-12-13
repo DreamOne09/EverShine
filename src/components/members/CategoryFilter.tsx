@@ -11,19 +11,7 @@ interface CategoryFilterProps {
 const CategoryFilter: React.FC<CategoryFilterProps> = ({ categories, activeCategory, onSelect }) => {
     return (
         <div className="flex flex-wrap gap-3 justify-center mb-12">
-            <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => onSelect('All')}
-                className={clsx(
-                    "px-5 py-2 rounded-full border transition-all duration-300 backdrop-blur-sm",
-                    activeCategory === 'All'
-                        ? "bg-primary text-bg-dark border-primary font-bold shadow-[0_0_15px_rgba(76,168,223,0.3)]"
-                        : "bg-white/5 text-gray-300 border-white/10 hover:border-primary hover:text-primary"
-                )}
-            >
-                全部
-            </motion.button>
+
             {categories.map(cat => (
                 <motion.button
                     key={cat}
