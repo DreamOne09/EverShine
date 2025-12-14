@@ -302,6 +302,23 @@ const MemberEdit: React.FC = () => {
                                     <option value="center">居中 (Center) - 預設</option>
                                     <option value="bottom">下方 (Bottom)</option>
                                 </select>
+                                <div className="mt-4 p-4 bg-white/5 rounded-lg border border-white/10 flex flex-col items-center">
+                                    <label className="text-gray-400 text-sm mb-2">預覽效果 (請確認頭部是否完整顯示)</label>
+                                    <div className="w-32 h-32 rounded-full border-2 border-primary overflow-hidden relative shadow-lg">
+                                        {photo ? (
+                                            <img
+                                                src={photo}
+                                                alt="Preview"
+                                                className="w-full h-full object-cover bg-gray-800"
+                                                style={{ objectPosition: photoPosition }}
+                                                onError={(e) => (e.currentTarget.src = '/images/assets/logo/白色正方形logo.png')}
+                                            />
+                                        ) : (
+                                            <div className="w-full h-full bg-gray-700 flex items-center justify-center text-gray-500 text-xs text-center p-2">無照片</div>
+                                        )}
+                                    </div>
+                                    <p className="text-xs text-gray-500 mt-2">此預覽模擬在網站上的顯示圓框。</p>
+                                </div>
                             </div>
                             <div>
                                 <label className="block text-gray-300 mb-2">公司名稱</label>
@@ -365,6 +382,19 @@ const MemberEdit: React.FC = () => {
                                     className="w-full bg-black/30 border border-white/20 rounded-lg p-3 text-white focus:border-primary focus:outline-none h-48"
                                 />
                                 <div className="text-right text-xs text-gray-400">{fullIntro.length}/500</div>
+                            </div>
+                            <div>
+                                <label className="block text-gray-300 mb-2">服務項目 (每行一項，最多5項)</label>
+                                <textarea
+                                    value={services}
+                                    onChange={(e) => setServices(e.target.value)}
+                                    placeholder={`例如：\n房屋修繕\n水電工程`}
+                                    className="w-full bg-black/30 border border-white/20 rounded-lg p-3 text-white focus:border-primary focus:outline-none h-32"
+                                />
+                                <div className="text-right text-xs text-gray-400 flex justify-between">
+                                    <span>請按 Enter 換行輸入下一項</span>
+                                    <span>目前: {services.split('\n').filter(s => s.trim()).length} / 5 項</span>
+                                </div>
                             </div>
                         </div>
                     </div>
