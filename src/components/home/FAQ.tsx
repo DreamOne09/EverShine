@@ -110,7 +110,7 @@ const FAQ: React.FC = () => {
                                     <li>全台少數100%支援線上與會的分會</li>
                                     <li>專業的線上會議流程設計</li>
                                     <li>分組討論室功能，保持深度交流</li>
-                                    <li>加入後我們會提供完整的培訓，教您如何有效介紹自己的服務並進行引薦。<li></li>
+
                                 </ul>
                                 <div className="p-4 bg-primary/10 rounded-lg border border-primary/20 text-sm">
                                     <strong className="text-primary">關鍵優勢：</strong>線上會議讓您即使出差也能照常與會、照常曝光、照常經營商務合作。
