@@ -47,20 +47,20 @@ const BNIPage: React.FC = () => {
                     <div className="w-16 h-1 bg-primary mx-auto rounded-full"></div>
                 </div>
 
-                <div className="flex md:grid md:grid-cols-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory gap-4 md:gap-6 pb-6 md:pb-0 px-4 -mx-4 md:mx-0 no-scrollbar items-stretch">
-                    <div className="snap-center shrink-0 w-[70vw] md:w-auto md:col-span-2 md:row-span-2">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 pb-6 md:pb-0 px-4">
+                    <div className="col-span-2 md:col-span-2 md:row-span-2">
                         <StatCard isLarge value={7500} label={<>全球引薦金額<br />(億新台幣)</>} subtext="最近12個月" />
                     </div>
-                    <div className="snap-center shrink-0 w-[40vw] md:w-auto">
+                    <div className="">
                         <StatCard value={76} label="全球國家" />
                     </div>
-                    <div className="snap-center shrink-0 w-[40vw] md:w-auto">
+                    <div className="">
                         <StatCard value={11300} label="全球分會" />
                     </div>
-                    <div className="snap-center shrink-0 w-[40vw] md:w-auto">
+                    <div className="">
                         <StatCard value={340000} label="全球會員" />
                     </div>
-                    <div className="snap-center shrink-0 w-[40vw] md:w-auto">
+                    <div className="">
                         <StatCard value={16800000} label={<>全球引薦單<br />(最近12個月)</>} />
                     </div>
                 </div>
@@ -74,28 +74,28 @@ const BNIPage: React.FC = () => {
                         <div className="w-16 h-1 bg-white/20 mx-auto rounded-full"></div>
                     </div>
 
-                    <div className="flex md:grid md:grid-cols-3 overflow-x-auto md:overflow-visible snap-x snap-mandatory gap-4 md:gap-8 pb-6 md:pb-0 px-4 -mx-4 md:mx-0 no-scrollbar items-stretch max-w-4xl mx-auto text-center">
-                        <div className="snap-center shrink-0 w-[45vw] md:w-auto p-4 rounded-lg hover:bg-white/5 transition-colors">
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8 max-w-4xl mx-auto text-center">
+                        <div className="p-4 rounded-lg hover:bg-white/5 transition-colors">
                             <div className="text-4xl md:text-5xl font-bold text-primary mb-2 font-mono">245</div>
                             <div className="text-gray-300 font-medium">分會</div>
                         </div>
-                        <div className="snap-center shrink-0 w-[45vw] md:w-auto p-4 rounded-lg hover:bg-white/5 transition-colors">
+                        <div className="p-4 rounded-lg hover:bg-white/5 transition-colors">
                             <div className="text-4xl md:text-5xl font-bold text-primary mb-2 font-mono">9,932</div>
                             <div className="text-gray-300 font-medium">會員</div>
                         </div>
-                        <div className="snap-center shrink-0 w-[45vw] md:w-auto p-4 rounded-lg hover:bg-white/5 transition-colors">
+                        <div className="p-4 rounded-lg hover:bg-white/5 transition-colors">
                             <div className="text-4xl md:text-5xl font-bold text-primary mb-2 font-mono">72萬+</div>
                             <div className="text-gray-300 font-medium">引薦單數<br /><span className="text-xs text-gray-500 font-normal">(過去12個月)</span></div>
                         </div>
-                        <div className="snap-center shrink-0 w-[45vw] md:w-auto p-4 rounded-lg hover:bg-white/5 transition-colors">
+                        <div className="p-4 rounded-lg hover:bg-white/5 transition-colors">
                             <div className="text-4xl md:text-5xl font-bold text-primary mb-2 font-mono">253</div>
                             <div className="text-gray-300 font-medium">成交金額<br /><span className="text-xs text-gray-500 font-normal">(億新台幣)</span></div>
                         </div>
-                        <div className="snap-center shrink-0 w-[45vw] md:w-auto p-4 rounded-lg hover:bg-white/5 transition-colors">
+                        <div className="p-4 rounded-lg hover:bg-white/5 transition-colors">
                             <div className="text-4xl md:text-5xl font-bold text-primary mb-2 font-mono">73</div>
                             <div className="text-gray-300 font-medium">平均每位會員<br /><span className="text-xs text-gray-500 font-normal">每年引薦數</span></div>
                         </div>
-                        <div className="snap-center shrink-0 w-[45vw] md:w-auto p-4 rounded-lg hover:bg-white/5 transition-colors">
+                        <div className="p-4 rounded-lg hover:bg-white/5 transition-colors">
                             <div className="text-4xl md:text-5xl font-bold text-primary mb-2 font-mono">255</div>
                             <div className="text-gray-300 font-medium">平均每位會員<br /><span className="text-xs text-gray-500 font-normal">每年成交價值 (萬)</span></div>
                         </div>
@@ -110,7 +110,7 @@ const BNIPage: React.FC = () => {
                     <p className="text-gray-400 max-w-2xl mx-auto">這些核心價值是我們文化與成功的基石</p>
                     <div className="w-16 h-1 bg-primary mx-auto rounded-full mt-4"></div>
                 </div>
-                <div className="flex md:grid md:grid-cols-2 lg:grid-cols-3 overflow-x-auto md:overflow-visible snap-x snap-mandatory gap-4 md:gap-6 pb-6 md:pb-0 px-4 -mx-4 md:mx-0 no-scrollbar items-stretch max-w-6xl mx-auto">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
                     {[
                         { title: "Givers Gain® 付出者收穫", desc: "這是 BNI 的哲學。我們相信透過幫助他人，自己也將受益。當您願意為他人引薦業務時，他人也會樂意為您引薦。" },
                         { title: "Building Relationships 建立關係", desc: "我們不僅僅是交換名片，而是建立長期、信任的商務關係。良好的人脈建立在信任之上。" },
@@ -120,7 +120,7 @@ const BNIPage: React.FC = () => {
                         { title: "Accountability 當責", desc: "即使是志工性質的商務組織，我們也強調責任感。信守承諾是建立信任的基礎。" },
                         { title: "Recognition 認可與表揚", desc: "我們樂於表揚會員的付出與成就。認可是推動團隊前進的重要動力。" }
                     ].map((item, idx) => (
-                        <div key={idx} className="snap-center shrink-0 w-[85vw] md:w-auto h-full">
+                        <div key={idx} className="h-full">
                             <motion.div
                                 whileHover={{ y: -5 }}
                                 className="bg-white/5 border border-white/10 p-6 rounded-xl hover:bg-white/10 transition-all hover:border-primary/50 group h-full"

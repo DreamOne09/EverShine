@@ -42,29 +42,24 @@ const About: React.FC = () => {
                     </motion.div>
                 </div>
 
-                {/* Mobile Swipe Hint */}
-                <div className="md:hidden text-center text-gray-500 text-sm mb-2 animate-pulse">
-                    ← 左右滑動查看更多 →
-                </div>
-
-                <div className="flex md:grid md:grid-cols-3 overflow-x-auto md:overflow-visible snap-x snap-mandatory gap-4 md:gap-8 max-w-6xl mx-auto pb-6 md:pb-0 px-4 -mx-4 md:mx-0 no-scrollbar items-stretch mask-linear-gradient md:mask-none">
-                    <div className="snap-center shrink-0 w-[85vw] md:w-auto h-full">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 max-w-6xl mx-auto px-4">
+                    <div className="h-full">
                         <AboutCard icon={<Target size={32} />} title="Core Purpose" delay={0}>
                             <p>精進會員的個人成長<br />壯大夥伴彼此的事業</p>
                         </AboutCard>
                     </div>
-                    <div className="snap-center shrink-0 w-[85vw] md:w-auto h-full">
+                    <div className="h-full">
                         <AboutCard icon={<Compass size={32} />} title="Mission" delay={0.1}>
                             <p>強化產業合作<br />發展強而有力的夥伴關係<br />創造持續不斷的引薦</p>
                         </AboutCard>
                     </div>
-                    <div className="snap-center shrink-0 w-[85vw] md:w-auto h-full">
+                    <div className="h-full">
                         <AboutCard icon={<Flag size={32} />} title="Vision" delay={0.2}>
                             <p>成為企業家首選的<br />商務合作平台</p>
                         </AboutCard>
                     </div>
 
-                    <div className="snap-center shrink-0 w-[85vw] md:w-auto md:col-span-3 h-full">
+                    <div className="md:col-span-3 h-full">
                         <AboutCard icon={<Heart size={32} />} title="核心價值" delay={0.3} fullWidth>
                             <div className="flex flex-wrap justify-center items-center gap-4 text-xl font-bold text-primary mb-4">
                                 <span>專業</span>
@@ -73,6 +68,7 @@ const About: React.FC = () => {
                                 <span className="text-gray-600/50">|</span>
                                 <span>熱情</span>
                                 <span className="text-gray-600/50">|</span>
+                                <span>實踐</span>
                                 <span>實踐</span>
                             </div>
                             <p>以專業態度與誠信為本，懷抱熱忱，將理念化為實際行動</p>
