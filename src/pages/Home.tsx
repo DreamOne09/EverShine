@@ -38,8 +38,8 @@ const Home: React.FC = () => {
 
             <MemberWall />
 
-            {/* <Results /> - Removed per user request */}
-            {/* <Results /> */}
+            {/* Results Section */}
+            <Results />
 
             {/* What is BNI Link Section */}
             <section className="min-h-screen flex flex-col justify-center py-12 relative z-10 px-4">

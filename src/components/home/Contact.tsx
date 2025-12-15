@@ -30,7 +30,7 @@ const Contact: React.FC = () => {
                     </motion.p>
                 </div>
 
-                <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-6 max-w-6xl mx-auto">
                     {/* President Card */}
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}

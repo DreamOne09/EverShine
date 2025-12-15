@@ -43,7 +43,7 @@ const Results: React.FC = () => {
                 </div>
 
                 {/* Metrics Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-6 mb-20">
                     <MetricCard
                         icon={<FileText size={40} />}
                         value={25876}
