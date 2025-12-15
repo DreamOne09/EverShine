@@ -31,7 +31,7 @@ const Results: React.FC = () => {
                 <div className="text-center mb-16">
                     <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">成果會說話</h2>
                     <div className="w-20 h-1 bg-primary mx-auto rounded-full mb-4"></div>
-                    <p className="text-gray-400 text-sm">
+                    <p className="text-gray-300 text-base">
                         創會以來 - 資料更新時間：2025/12/13
                     </p>
                 </div>
@@ -63,7 +63,7 @@ const Results: React.FC = () => {
                             <Users size={40} />
                         </div>
                         <h3 className="text-2xl font-bold text-white mb-2">邀請來賓參與</h3>
-                        <p className="text-gray-400 mb-6 text-sm">誠摯邀請您前來體驗我們的聚會。</p>
+                        <p className="text-gray-400 mb-6 text-base">誠摯邀請您前來體驗我們的聚會。</p>
                         <a href="#contact" className="inline-block px-6 py-2 bg-primary text-white font-bold rounded-full hover:bg-primary-dark transition-colors shadow-md text-sm">
                             聯繫我們
                         </a>
@@ -96,13 +96,13 @@ const Results: React.FC = () => {
                             </div>
                             <div>
                                 <h4 className="text-xl font-bold text-white group-hover:text-primary transition-colors">許雅婷</h4>
-                                <p className="text-sm text-gray-400">Worky 人力媒合平台 | 行銷副總</p>
+                                <p className="text-base text-gray-300">Worky 人力媒合平台 | 行銷副總</p>
                             </div>
                         </div>
 
                         <div className="relative">
                             <Quote className="absolute -top-2 -left-2 text-primary/20 w-8 h-8 transform -scale-x-100" />
-                            <p className="text-gray-300 leading-relaxed pl-4 border-l-2 border-primary/30 py-1 text-sm">
+                            <p className="text-gray-200 leading-relaxed pl-4 border-l-2 border-primary/30 py-1 text-base md:text-lg">
                                 半年前加入 BNI 對我來說是大突破。在忙著送小孩上學的早晨還要更早起，不斷走出舒適圈介紹業務。雖然辛苦，但我認識了很多好夥伴。我們互助合作，不只是做生意，更像一群專業顧問一起幫客戶解題。尤其長輝是線上分會，這份情感很難得。透過 BNI 全球系統，我有機會跟外分會連結，將生意延伸到更多產業與地方。
                             </p>
                         </div>
@@ -127,13 +127,13 @@ const Results: React.FC = () => {
                             </div>
                             <div>
                                 <h4 className="text-xl font-bold text-white group-hover:text-primary transition-colors">李孟一</h4>
-                                <p className="text-sm text-gray-400">教育培訓 | 2022年加入</p>
+                                <p className="text-base text-gray-300">教育培訓 | 2022年加入</p>
                             </div>
                         </div>
 
                         <div className="relative">
                             <Quote className="absolute -top-2 -left-2 text-primary/20 w-8 h-8 transform -scale-x-100" />
-                            <p className="text-gray-300 leading-relaxed pl-4 border-l-2 border-primary/30 py-1">
+                            <p className="text-gray-200 leading-relaxed pl-4 border-l-2 border-primary/30 py-1 text-base md:text-lg">
                                 過去我單打獨鬥推廣課程，資源相當有限。加入 BNI 後，我與分會中的企業顧問、行銷專家組成了「教育產業鏈」。透過跨產業的資源整合，我們共同開發了多個大型企業培訓案，這是我以前一個人完全無法接觸到的市場規模。
                             </p>
                         </div>
@@ -158,13 +158,13 @@ const Results: React.FC = () => {
                             </div>
                             <div>
                                 <h4 className="text-xl font-bold text-white group-hover:text-primary transition-colors">王年煜</h4>
-                                <p className="text-sm text-gray-400">AI程式交易 | 現任主席</p>
+                                <p className="text-base text-gray-300">AI程式交易 | 現任主席</p>
                             </div>
                         </div>
 
                         <div className="relative">
                             <Quote className="absolute -top-2 -left-2 text-primary/20 w-8 h-8 transform -scale-x-100" />
-                            <p className="text-gray-300 leading-relaxed pl-4 border-l-2 border-primary/30 py-1">
+                            <p className="text-gray-200 leading-relaxed pl-4 border-l-2 border-primary/30 py-1 text-base md:text-lg">
                                 擔任主席期間，我見證了無數會員透過 BNI 系統實現夢想。這裡不只是交換名片的地方，更是一個能夠激發彼此潛能、共同面對商業挑戰的大家庭。長輝分會的獨特文化，讓我們在競爭激烈的市場中，依然保有溫暖與互助。
                             </p>
                         </div>

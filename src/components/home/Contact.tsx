@@ -49,19 +49,19 @@ const Contact: React.FC = () => {
                         </div>
                         <h3 className="text-lg font-bold text-white mb-1">現任主席</h3>
                         <div className="text-xl text-primary font-bold mb-1">王年煜</div>
-                        <div className="text-gray-400 text-sm mb-4">AI程式交易</div>
+                        <div className="text-gray-300 text-base mb-4">AI程式交易</div>
 
-                        <div className="border-t border-white/10 pt-4 space-y-2 text-left inline-block w-full text-sm">
+                        <div className="border-t border-white/10 pt-4 space-y-2 text-left inline-block w-full text-base">
                             <div className="flex flex-col items-center gap-1 text-gray-300 justify-center">
                                 <span className="font-medium text-white">創達智能技術股份有限公司 董事長</span>
                             </div>
                             <div className="flex items-center gap-2 text-gray-300 justify-center pt-2">
-                                <Phone size={14} className="text-primary shrink-0" />
+                                <Phone size={16} className="text-primary shrink-0" />
                                 <span>0938-767-768</span>
                             </div>
                             <div className="flex items-center gap-2 text-gray-300 justify-center">
-                                <Mail size={14} className="text-primary shrink-0" />
-                                <span className="text-xs break-all">wang.ian@investrontech.com</span>
+                                <Mail size={16} className="text-primary shrink-0" />
+                                <span className="text-sm break-all">wang.ian@investrontech.com</span>
                             </div>
                         </div>
                     </motion.div>
@@ -85,19 +85,19 @@ const Contact: React.FC = () => {
                         </div>
                         <h3 className="text-lg font-bold text-white mb-1">現任副主席</h3>
                         <div className="text-xl text-primary font-bold mb-1">王祈</div>
-                        <div className="text-gray-400 text-sm mb-4">AI學習整合</div>
+                        <div className="text-gray-300 text-base mb-4">AI學習整合</div>
 
-                        <div className="border-t border-white/10 pt-4 space-y-2 text-left inline-block w-full text-sm">
+                        <div className="border-t border-white/10 pt-4 space-y-2 text-left inline-block w-full text-base">
                             <div className="flex flex-col items-center gap-1 text-gray-300 justify-center">
                                 <span className="font-medium text-white">祈育教育實業坊 董事長</span>
                             </div>
                             <div className="flex items-center gap-2 text-gray-300 justify-center pt-2">
-                                <Phone size={14} className="text-primary shrink-0" />
+                                <Phone size={16} className="text-primary shrink-0" />
                                 <span>0956-522-350</span>
                             </div>
                             <div className="flex items-center gap-2 text-gray-300 justify-center">
-                                <Mail size={14} className="text-primary shrink-0" />
-                                <span className="text-xs break-all">samuel900731@gmail.com</span>
+                                <Mail size={16} className="text-primary shrink-0" />
+                                <span className="text-sm break-all">samuel900731@gmail.com</span>
                             </div>
                         </div>
                     </motion.div>
@@ -121,19 +121,19 @@ const Contact: React.FC = () => {
                         </div>
                         <h3 className="text-lg font-bold text-white mb-1">現任秘書財務</h3>
                         <div className="text-xl text-primary font-bold mb-1">劉懿德</div>
-                        <div className="text-gray-400 text-sm mb-4">策展規劃設計</div>
+                        <div className="text-gray-300 text-base mb-4">策展規劃設計</div>
 
-                        <div className="border-t border-white/10 pt-4 space-y-2 text-left inline-block w-full text-sm">
+                        <div className="border-t border-white/10 pt-4 space-y-2 text-left inline-block w-full text-base">
                             <div className="flex flex-col items-center gap-1 text-gray-300 justify-center">
                                 <span className="font-medium text-white">樂橙創作設計 董事長</span>
                             </div>
                             <div className="flex items-center gap-2 text-gray-300 justify-center pt-2">
-                                <Phone size={14} className="text-primary shrink-0" />
+                                <Phone size={16} className="text-primary shrink-0" />
                                 <span>0952-983-157</span>
                             </div>
                             <div className="flex items-center gap-2 text-gray-300 justify-center">
-                                <Mail size={14} className="text-primary shrink-0" />
-                                <span className="text-xs break-all">claire@allrange.tw</span>
+                                <Mail size={16} className="text-primary shrink-0" />
+                                <span className="text-sm break-all">claire@allrange.tw</span>
                             </div>
                         </div>
                     </motion.div>
