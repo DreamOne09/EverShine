@@ -46,20 +46,6 @@ const BottomNav: React.FC = () => {
                         </Link>
                     );
                 })}
-                <a
-                    href="/#contact"
-                    className="flex flex-col items-center justify-center w-full h-full py-1 gap-1 text-gray-400 hover:text-gray-200"
-                    onClick={(e) => {
-                        // Simple hash navigation fix if already on home
-                        if (location.pathname === '/') {
-                            e.preventDefault();
-                            document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
-                        }
-                    }}
-                >
-                    <MessageCircle size={22} />
-                    <span className="text-[10px] font-medium tracking-wide">合作</span>
-                </a>
             </div>
         </div>
     );

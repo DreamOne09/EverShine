@@ -37,13 +37,20 @@ const Referrals: React.FC = () => {
 
             <div className="container mx-auto px-4 py-12 relative z-10">
 
-                {/* Referrals Grid */}
-                {/* Referrals Grid */}
-                <div className="flex md:grid md:grid-cols-2 overflow-x-auto md:overflow-visible snap-x snap-mandatory gap-4 md:gap-8 pb-6 md:pb-0 px-4 -mx-4 md:mx-0 no-scrollbar items-stretch max-w-6xl mx-auto">
+                {/* Weekly Feature Note */}
+                <div className="bg-primary/10 border border-primary/20 rounded-xl p-4 mb-8 text-center max-w-2xl mx-auto">
+                    <p className="text-primary font-bold text-lg mb-1">每週精選案例</p>
+                    <p className="text-gray-400 text-sm">
+                        實際上門引薦單遠大於此，目前已累積 <span className="text-white font-mono font-bold">16,800+</span> 筆引薦商機，這裡僅展示每週精選的成功故事。
+                    </p>
+                </div>
+
+                {/* Referrals Grid - Waterfall/Vertical Stack on Mobile */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 pb-8 md:pb-0 max-w-6xl mx-auto">
                     {referrals.map((referral, index) => {
                         const isSelected = selectedReferralId === referral.id;
                         return (
-                            <div key={referral.id} className="snap-center shrink-0 w-[85vw] md:w-auto h-full">
+                            <div key={referral.id} className="h-full">
                                 <motion.div
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
