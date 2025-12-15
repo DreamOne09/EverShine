@@ -426,6 +426,7 @@
     {
       "id": "member-11",
       "name": "孫成育",
+      "photoPosition": "top",
       "photo": "images/members/孫成育.jpg",
       "industry": "禮贈品",
       "category": "企業行銷",
@@ -1193,6 +1194,7 @@
     {
       "id": "member-33",
       "name": "施秉辰",
+      "photoPosition": "top",
       "photo": "images/members/施秉辰.jpg",
       "industry": "資訊弱電系統整合",
       "category": "資訊系統",
