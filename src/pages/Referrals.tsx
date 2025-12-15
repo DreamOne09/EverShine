@@ -52,11 +52,10 @@ const Referrals: React.FC = () => {
                                     className={`bg-bg-dark/60 backdrop-blur-md border rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-[0_8px_30px_rgba(0,0,0,0.3)] group flex flex-col cursor-pointer h-full ${isSelected ? 'border-primary ring-1 ring-primary z-20 scale-[1.02]' : 'border-white/10 hover:border-primary/50'
                                         }`}
                                 >
-                                    {/* Header Gradient */}
-                                    <div className={`h-2 bg-gradient-to-r from-primary-light via-primary to-primary-dark transition-opacity ${isSelected ? 'opacity-100' : 'opacity-70 group-hover:opacity-100'}`} />
+                                    <div className="h-2 bg-gradient-to-r from-primary-light via-primary to-primary-dark transition-opacity" />
 
-                                    <div className="p-8 flex-grow flex flex-col">
-                                        <h3 className={`text-2xl font-bold mb-4 transition-colors ${isSelected ? 'text-primary' : 'text-white group-hover:text-primary'}`}>
+                                    <div className="p-6 md:p-8 flex-grow flex flex-col">
+                                        <h3 className={`text-xl md:text-2xl font-bold mb-4 transition-colors leading-snug ${isSelected ? 'text-primary' : 'text-white group-hover:text-primary'}`}>
                                             {referral.title}
                                         </h3>
 

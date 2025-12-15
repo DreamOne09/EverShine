@@ -134,6 +134,7 @@ const BNIPage: React.FC = () => {
             </section>
 
             {/* Meeting Agenda */}
+            {/* Meeting Agenda */}
             <section className="py-20 bg-white/5 border-y border-white/5">
                 <div className="container mx-auto px-4">
                     <div className="text-center mb-16">
@@ -142,7 +143,7 @@ const BNIPage: React.FC = () => {
                         <div className="w-16 h-1 bg-white/20 mx-auto rounded-full mt-4"></div>
                     </div>
 
-                    <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4">
+                    <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-3">
                         {[
                             "01. 自由聯誼 (Open Networking)",
                             "02. 歡迎會員與來賓",
@@ -163,9 +164,9 @@ const BNIPage: React.FC = () => {
                             "17. 本週金句",
                             "18. 會議結束與商務交流"
                         ].map((step, idx) => (
-                            <div key={idx} className="flex items-center gap-4 p-3 border-b border-white/5 hover:bg-white/5 transition-colors rounded-lg">
-                                <div className="w-2 h-2 rounded-full bg-primary shrink-0"></div>
-                                <span className="text-gray-300 font-mono text-sm md:text-base">{step}</span>
+                            <div key={idx} className="flex items-center gap-4 p-4 border-b border-white/5 hover:bg-white/5 transition-colors rounded-lg group">
+                                <div className="w-2 h-2 rounded-full bg-primary shrink-0 group-hover:scale-150 transition-transform"></div>
+                                <span className="text-gray-300 font-mono text-base group-hover:text-white transition-colors">{step}</span>
                             </div>
                         ))}
                     </div>
