@@ -20,7 +20,7 @@ const BottomNav: React.FC = () => {
 
     return (
         <div className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-[#06203a]/95 backdrop-blur-xl border-t border-white/10 pb-safe">
-            <div className="flex justify-around items-center h-16 max-w-md mx-auto px-2">
+            <div className="flex justify-around items-center h-20 max-w-md mx-auto px-2">
                 {navItems.map((item) => {
                     const active = isActive(item.path);
                     return (
