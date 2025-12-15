@@ -15,7 +15,7 @@ const FAQItem: React.FC<{ question: string, answer: React.ReactNode, isOpen: boo
                 onClick={toggle}
                 className="w-full py-6 flex items-center justify-between text-left group focus:outline-none"
             >
-                <span className={`text-lg md:text-xl font-medium transition-colors duration-300 pr-8 ${isOpen ? 'text-primary' : 'text-white group-hover:text-primary'}`}>
+                <span className={`text-xl md:text-2xl font-medium transition-colors duration-300 pr-8 ${isOpen ? 'text-primary' : 'text-white group-hover:text-primary'}`}>
                     {question}
                 </span>
                 <span className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center border transition-all duration-300 ${isOpen ? 'bg-primary border-primary text-bg-dark' : 'border-white/20 text-gray-400 group-hover:border-primary group-hover:text-primary'}`}>
