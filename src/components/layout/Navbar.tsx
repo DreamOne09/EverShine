@@ -103,9 +103,9 @@ const Navbar: React.FC = () => {
                     </div>
                 </div>
 
-                {/* Mobile Menu Button */}
+                {/* Mobile Menu Button - Hidden in favor of Bottom Nav */}
                 <button
-                    className="md:hidden text-white p-2 hover:bg-white/10 rounded-full transition-colors"
+                    className="hidden text-white p-2 hover:bg-white/10 rounded-full transition-colors"
                     onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 >
                     {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
