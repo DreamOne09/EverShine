@@ -164,15 +164,8 @@ const MemberEdit: React.FC = () => {
             setLoading(true);
 
             let base64 = '';
-            if (file.size > 1024 * 1024) {
-                base64 = await compressImage(file);
-            } else {
-                base64 = await new Promise((resolve) => {
-                    const reader = new FileReader();
-                    reader.onload = (e) => resolve(e.target?.result as string);
-                    reader.readAsDataURL(file);
-                });
-            }
+            // Always compress/standardize
+            base64 = await compressImage(file);
 
             const res = await fetch('/api/upload-image', {
                 method: 'POST',
