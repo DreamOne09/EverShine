@@ -227,8 +227,8 @@ const server = http.createServer((req, res) => {
             if (requestPath.startsWith('/images/')) {
                 res.setHeader('Cache-Control', 'public, max-age=604800, immutable');
             } else if (extname === '.css' || extname === '.js') {
-                // Cache CSS/JS for 24 hours
-                res.setHeader('Cache-Control', 'public, max-age=86400');
+                // Cache CSS/JS for 1 year (immutable) as they are hashed
+                res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
             } else {
                 // Default no-cache for HTML (to ensure updates are seen)
                 res.setHeader('Cache-Control', 'no-cache');
