@@ -66,6 +66,7 @@ const FAQ: React.FC = () => {
                 <div className="max-w-3xl mx-auto space-y-4">
                     <FAQItem
                         index={0}
+                        isOpen={openIndex === 0}
                         toggle={() => toggle(0)}
                         question="加入 BNI 需要什麼資格？"
                         answer={
