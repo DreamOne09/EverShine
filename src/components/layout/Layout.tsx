@@ -12,7 +12,7 @@ const Layout: React.FC = () => {
             <StarryBackground />
             <MeteorShower />
             <Navbar />
-            <main className="flex-grow pt-20 lg:pt-24 min-h-[calc(100vh-80px)] pb-20 md:pb-0">
+            <main className="flex-grow min-h-screen pb-20 md:pb-0">
                 <Outlet />
             </main>
             <Footer />
