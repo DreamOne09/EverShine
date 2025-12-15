@@ -10,7 +10,7 @@ interface CategoryFilterProps {
 
 const CategoryFilter: React.FC<CategoryFilterProps> = ({ categories, activeCategory, onSelect }) => {
     return (
-        <div className="flex overflow-x-auto no-scrollbar pb-2 items-center md:flex-wrap md:justify-center px-4 -mx-4 md:mx-0 mask-linear-gradient md:mask-none mb-8 md:mb-12">
+        <div className="flex overflow-x-auto no-scrollbar pb-2 items-center gap-3 md:flex-wrap md:justify-center px-4 -mx-4 md:mx-0 mask-linear-gradient md:mask-none mb-8 md:mb-12">
             {/* Mobile Hint */}
             <div className="md:hidden absolute right-4 text-gray-500 text-xs animate-pulse pointer-events-none">
                 →

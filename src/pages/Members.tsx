@@ -63,63 +63,28 @@ const Members: React.FC = () => {
                 subtitle="我們為夥伴的生意著想，也為夥伴的生意做引薦"
             />
 
-            <div className="container mx-auto px-4 py-8 relative z-10 pt-10">
-                <div className="text-center mb-12 relative z-10">
+            <div className="container mx-auto px-4 py-8 relative z-10 pt-4 md:pt-10">
+                <div className="text-center mb-8 relative z-10">
 
-
-                    {/* Member Pledge */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.3, duration: 0.6 }}
-                        className="bg-white/5 backdrop-blur-md rounded-2xl p-6 md:p-8 max-w-3xl mx-auto mb-12 border border-white/10 text-left"
-                    >
-                        <h3 className="text-xl md:text-2xl font-bold text-primary mb-4 text-center">BNI 會員宣示</h3>
-                        <div className="grid md:grid-cols-2 gap-4 text-gray-300 text-sm md:text-base">
-                            <div className="flex items-start gap-2">
-                                <span className="text-primary font-bold">1.</span>
-                                <p>我願意提供我所承諾的服務品質與價格</p>
+                    {/* Search Bar - Sticky on Mobile */}
+                    <div className="sticky top-[60px] md:top-[80px] z-30 bg-bg-primary/95 backdrop-blur-xl py-4 -mx-4 px-4 mb-2 transition-all shadow-sm md:shadow-none md:static md:bg-transparent md:p-0">
+                        <motion.div
+                            initial={{ opacity: 0, width: "80%" }}
+                            animate={{ opacity: 1, width: "100%" }}
+                            className="relative max-w-lg mx-auto group"
+                        >
+                            <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
+                                <Search className="text-gray-400 group-focus-within:text-primary transition-colors" size={20} />
                             </div>
-                            <div className="flex items-start gap-2">
-                                <span className="text-primary font-bold">2.</span>
-                                <p>我願意對會員及其引薦對象誠實</p>
-                            </div>
-                            <div className="flex items-start gap-2">
-                                <span className="text-primary font-bold">3.</span>
-                                <p>我願意在會員及其引薦對象之間建立善意與信任</p>
-                            </div>
-                            <div className="flex items-start gap-2">
-                                <span className="text-primary font-bold">4.</span>
-                                <p>我願意對接收到的引薦負責並進行追蹤</p>
-                            </div>
-                            <div className="flex items-start gap-2">
-                                <span className="text-primary font-bold">5.</span>
-                                <p>我願意展現正向與支持的態度</p>
-                            </div>
-                            <div className="flex items-start gap-2">
-                                <span className="text-primary font-bold">6.</span>
-                                <p>我願意遵守我行業的道德標準</p>
-                            </div>
-                        </div>
-                    </motion.div>
-
-                    {/* Search Bar */}
-                    <motion.div
-                        initial={{ opacity: 0, width: "80%" }}
-                        animate={{ opacity: 1, width: "100%" }}
-                        className="relative max-w-lg mx-auto mb-10 group"
-                    >
-                        <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
-                            <Search className="text-gray-400 group-focus-within:text-primary transition-colors" size={20} />
-                        </div>
-                        <input
-                            type="text"
-                            placeholder="搜尋會員名字、行業、公司或服務..."
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full bg-bg-dark/60 backdrop-blur-sm border border-gray-600 rounded-full py-3.5 pl-12 pr-6 text-white placeholder-gray-500 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-lg"
-                        />
-                    </motion.div>
+                            <input
+                                type="text"
+                                placeholder="搜尋會員名字、行業、公司..."
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                className="w-full bg-bg-dark/80 backdrop-blur-sm border border-gray-600 rounded-full py-3.5 pl-12 pr-6 text-white placeholder-gray-500 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-lg"
+                            />
+                        </motion.div>
+                    </div>
 
                     <CategoryFilter
                         categories={categories}
@@ -130,7 +95,7 @@ const Members: React.FC = () => {
 
                 <motion.div
                     layout
-                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 pb-12"
                 >
                     <AnimatePresence mode='popLayout'>
                         {filteredMembers.map(member => (
@@ -146,6 +111,35 @@ const Members: React.FC = () => {
                             </motion.div>
                         ))}
                     </AnimatePresence>
+                </motion.div>
+
+                {/* Member Pledge - Moved to Bottom */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.3, duration: 0.6 }}
+                    className="bg-white/5 backdrop-blur-md rounded-2xl p-6 md:p-8 max-w-3xl mx-auto mb-20 border border-white/10 text-left"
+                >
+                    <div className="text-center mb-6">
+                        <h3 className="text-xl md:text-2xl font-bold text-primary mb-2">BNI 會員宣示</h3>
+                        <div className="w-12 h-1 bg-primary/50 mx-auto rounded-full"></div>
+                    </div>
+                    <div className="grid md:grid-cols-2 gap-x-8 gap-y-4 text-gray-300 text-sm md:text-base">
+                        {[
+                            "我願意提供我所承諾的服務品質與價格",
+                            "我願意對會員及其引薦對象誠實",
+                            "我願意在會員及其引薦對象之間建立善意與信任",
+                            "我願意對接收到的引薦負責並進行追蹤",
+                            "我願意展現正向與支持的態度",
+                            "我願意遵守我行業的道德標準"
+                        ].map((text, idx) => (
+                            <div key={idx} className="flex items-start gap-3">
+                                <span className="text-primary font-bold font-mono text-lg">{idx + 1}.</span>
+                                <p>{text}</p>
+                            </div>
+                        ))}
+                    </div>
                 </motion.div>
 
                 {filteredMembers.length === 0 && (
