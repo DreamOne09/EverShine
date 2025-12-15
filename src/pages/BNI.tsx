@@ -194,34 +194,3 @@ const BNIPage: React.FC = () => {
 };
 
 export default BNIPage;
-
-                    <h3 className="text-3xl md:text-5xl font-bold text-white mb-2 relative z-10">Givers Gain</h3>
-                    <p className="text-xl text-[#cf2030] font-bold mb-8 tracking-[0.5em] uppercase relative z-10">付出者收穫</p>
-                    <p className="text-gray-300 leading-relaxed text-lg max-w-2xl mx-auto relative z-10">
-                        BNI 的核心價值觀，透過無私的付出與分享，建立互信互惠的商業關係，最終獲得更大的收穫與成長。
-                    </p>
-                </div >
-            </section >
-
-    {/* Three Results */ }
-    < section className = "py-20 pb-40 container mx-auto px-4" >
-                <h2 className="text-3xl md:text-4xl font-bold mb-16 text-center text-white">BNI 創造三個結果</h2>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-                    {[
-                        { title: "事業成長 200%~300%", desc: "透過 BNI 的引薦機制，會員事業獲得顯著成長，平均成長幅度達到 200% 至 300%。", icon: "📈", color: "from-green-500/20 to-green-900/20" },
-                        { title: "服務、產品 → 創新", desc: "與各領域專業人士交流，激發創新思維，持續優化服務與產品品質。", icon: "💡", color: "from-yellow-500/20 to-yellow-900/20" },
-                        { title: "事業在地全球化", desc: "透過 BNI 全球網絡，將本地事業擴展至國際市場，實現事業的全球化發展。", icon: "🌏", color: "from-blue-500/20 to-blue-900/20" }
-                    ].map((item, i) => (
-                        <div key={i} className={`bg-gradient-to-br ${item.color} backdrop-blur-md border border-white/10 p-8 rounded-2xl hover:border-white/30 transition-all hover:-translate-y-2 duration-300 flex flex-col h-full`}>
-                            <div className="text-5xl mb-6 bg-white/10 w-20 h-20 rounded-full flex items-center justify-center shadow-lg">{item.icon}</div>
-                            <h3 className="text-xl font-bold text-white mb-4">{item.title}</h3>
-                            <p className="text-gray-300 leading-relaxed flex-grow">{item.desc}</p>
-                        </div>
-                    ))}
-                </div>
-            </section >
-        </div >
-    );
-};
-
-export default BNIPage;
