@@ -13,7 +13,7 @@ const MemberEdit: React.FC = () => {
     const [memberData, setMemberData] = useState<any>(null);
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
     const [photo, setPhoto] = useState('');
-    const [photoPosition, setPhotoPosition] = useState('center');
+    const [photoPosition, setPhotoPosition] = useState('top');
 
     const CATEGORIES = [
         "工程裝修",
@@ -117,39 +117,84 @@ const MemberEdit: React.FC = () => {
         const file = e.target.files?.[0];
         if (!file) return;
 
-        if (file.size > 5 * 1024 * 1024) {
-            setMessage({ text: '檔案大小不能超過 5MB', type: 'error' });
-            return;
-        }
+        // Compression Helper
+        const compressImage = (file: File): Promise<string> => {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = (event) => {
+                    const img = new Image();
+                    img.src = event.target?.result as string;
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        if (!ctx) { resolve(img.src); return; }
 
-        const reader = new FileReader();
-        reader.onload = async (event) => {
-            const base64 = event.target?.result as string;
-            try {
-                setLoading(true);
-                const res = await fetch('/api/upload-image', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        image: base64,
-                        filename: `${name}_${Date.now()}.jpg`
-                    })
-                });
-                const data = await res.json();
-                if (data.success) {
-                    setPhoto(data.url);
-                    setMessage({ text: '照片上傳成功', type: 'success' });
-                } else {
-                    throw new Error(data.message);
-                }
-            } catch (err: any) {
-                console.error(err);
-                setMessage({ text: `上傳失敗: ${err.message}`, type: 'error' });
-            } finally {
-                setLoading(false);
-            }
+                        let width = img.width;
+                        let height = img.height;
+                        const MAX_WIDTH = 800;
+                        const MAX_HEIGHT = 800;
+
+                        if (width > height) {
+                            if (width > MAX_WIDTH) {
+                                height *= MAX_WIDTH / width;
+                                width = MAX_WIDTH;
+                            }
+                        } else {
+                            if (height > MAX_HEIGHT) {
+                                width *= MAX_HEIGHT / height;
+                                height = MAX_HEIGHT;
+                            }
+                        }
+
+                        canvas.width = width;
+                        canvas.height = height;
+                        ctx.drawImage(img, 0, 0, width, height);
+                        const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
+                        resolve(dataUrl);
+                    };
+                    img.onerror = error => reject(error);
+                };
+                reader.onerror = error => reject(error);
+            });
         };
-        reader.readAsDataURL(file);
+
+        try {
+            setMessage({ text: '處理中，請稍候...', type: 'success' });
+            setLoading(true);
+
+            let base64 = '';
+            if (file.size > 1024 * 1024) {
+                base64 = await compressImage(file);
+            } else {
+                base64 = await new Promise((resolve) => {
+                    const reader = new FileReader();
+                    reader.onload = (e) => resolve(e.target?.result as string);
+                    reader.readAsDataURL(file);
+                });
+            }
+
+            const res = await fetch('/api/upload-image', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    image: base64,
+                    filename: `${name}_${Date.now()}.jpg`
+                })
+            });
+            const data = await res.json();
+            if (data.success) {
+                setPhoto(data.url);
+                setMessage({ text: '照片上傳成功', type: 'success' });
+            } else {
+                throw new Error(data.message);
+            }
+        } catch (err: any) {
+            console.error(err);
+            setMessage({ text: `上傳失敗: ${err.message}`, type: 'error' });
+        } finally {
+            setLoading(false);
+        }
     };
 
     const handleSubmit = async () => {
