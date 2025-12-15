@@ -1,12 +1,14 @@
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, lazy, Suspense } from 'react';
 import Layout from './components/layout/Layout';
 import LoadingScreen from './components/layout/LoadingScreen';
-import Home from './pages/Home';
-import Members from './pages/Members';
-import Referrals from './pages/Referrals';
-import BNIPage from './pages/BNI';
-import MemberEdit from './pages/MemberEdit';
+
+// Lazy load pages to reduce initial bundle size
+const Home = lazy(() => import('./pages/Home'));
+const Members = lazy(() => import('./pages/Members'));
+const Referrals = lazy(() => import('./pages/Referrals'));
+const BNIPage = lazy(() => import('./pages/BNI'));
+const MemberEdit = lazy(() => import('./pages/MemberEdit'));
 
 // Scroll to top on route change
 const ScrollToTop = () => {
@@ -20,18 +22,19 @@ const ScrollToTop = () => {
 function App() {
   return (
     <>
-      <LoadingScreen />
       <BrowserRouter>
         <ScrollToTop />
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<Home />} />
-            <Route path="bni" element={<BNIPage />} />
-            <Route path="members" element={<Members />} />
-            <Route path="referrals" element={<Referrals />} />
-            <Route path="edit" element={<MemberEdit />} />
-          </Route>
-        </Routes>
+        <Suspense fallback={<LoadingScreen />}>
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route index element={<Home />} />
+              <Route path="bni" element={<BNIPage />} />
+              <Route path="members" element={<Members />} />
+              <Route path="referrals" element={<Referrals />} />
+              <Route path="edit" element={<MemberEdit />} />
+            </Route>
+          </Routes>
+        </Suspense>
       </BrowserRouter>
     </>
   );
