@@ -50,7 +50,7 @@ const Footer: React.FC = () => {
                 <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-500 text-sm gap-4">
                     <p>&copy; {new Date().getFullYear()} BNI EverShine Chapter. All rights reserved.</p>
                     <p className="text-center font-bold text-white/80">
-                        本網站由琢奧科技有限公司開發與維護，網站與系統開發歡迎洽詢{' '}
+                        本網站由 琢奧科技有限公司 DropOut Tech Consulting Co., Ltd. 開發與維護，網站與系統開發歡迎洽詢{' '}
                         <a href="mailto:info@dropout.tw" className="text-primary hover:underline hover:text-white transition-colors">
                             info@dropout.tw
                         </a>

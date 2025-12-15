@@ -552,49 +552,6 @@
       "editCount": 2
     },
     {
-      "id": "member-15",
-      "name": "李逸強",
-      "photo": "images/members/李逸強.jpg",
-      "industry": "地政士",
-      "category": "企業顧問",
-      "company": "逸強地政士事務所",
-      "position": "董事長",
-      "title": "董事長 - 逸強地政士事務所",
-      "shortIntro": "土地房屋 找逸強 產權處理 最保障",
-      "fullIntro": "我是李逸強，專注於地政士。\n土地房屋 找逸強 產權處理 最保障\n\n【理想引薦對象】\n房屋仲介、建設公司、銀行貸款部門、律師\n\n【聯絡方式】\n0920-333-666",
-      "links": [
-        {
-          "type": "facebook",
-          "url": "#",
-          "icon": "facebook"
-        },
-        {
-          "type": "line",
-          "url": "#",
-          "icon": "line"
-        },
-        {
-          "type": "website",
-          "url": "#",
-          "icon": "website"
-        }
-      ],
-      "services": [
-        "不動產買賣",
-        "繼承贈與",
-        "不動產移轉登記"
-      ],
-      "hashtags": [
-        "#地政士",
-        "#李逸強",
-        "#BNI長輝白金分會"
-      ],
-      "createdAt": "2025-11-26T01:02:38.842Z",
-      "updatedAt": "2025-12-13T16:42:16.101Z",
-      "pinHash": "e286648cc9b96588da67f1b8100a650b96850881c79cb777dc88877a3ccfb96f",
-      "editCount": 1
-    },
-    {
       "id": "member-17",
       "name": "陳育文",
       "photo": "images/members/陳育文.jpg",
