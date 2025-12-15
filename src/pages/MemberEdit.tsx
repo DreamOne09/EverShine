@@ -315,25 +315,25 @@ const MemberEdit: React.FC = () => {
                                 <input type="text" value={name} disabled className="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-gray-400 cursor-not-allowed" />
                             </div>
                             <div>
-                                <label className="block text-gray-300 mb-2">照片 (上傳或網址)</label>
+                                <label className="block text-gray-300 mb-2">照片上傳</label>
                                 <div className="space-y-2">
-                                    <input
-                                        type="text"
-                                        value={photo}
-                                        onChange={(e) => setPhoto(e.target.value)}
-                                        placeholder="例如: images/members/您的名字.jpg"
-                                        className="w-full bg-black/30 border border-white/20 rounded-lg p-3 text-white focus:border-primary focus:outline-none"
-                                    />
-                                    <div className="flex flex-col sm:flex-row sm:items-center gap-2">
-                                        <span className="text-sm text-gray-400 shrink-0">或直接上傳:</span>
+                                    <div className="p-6 border-2 border-dashed border-white/20 rounded-lg bg-black/20 text-center hover:border-primary/50 transition-colors">
                                         <input
                                             type="file"
                                             accept="image/*"
                                             onChange={handleFileUpload}
-                                            className="text-gray-300 text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-bg-dark hover:file:bg-primary-dark cursor-pointer w-full"
+                                            className="hidden"
+                                            id="photo-upload"
                                         />
+                                        <label htmlFor="photo-upload" className="cursor-pointer flex flex-col items-center gap-2">
+                                            <div className="p-3 bg-primary/20 rounded-full text-primary">
+                                                📤
+                                            </div>
+                                            <span className="text-gray-300 font-medium">點擊選擇照片上傳</span>
+                                            <span className="text-xs text-gray-500">支援 JPG, PNG (自動壓縮優化)</span>
+                                        </label>
                                     </div>
-                                    <p className="text-xs text-gray-500">上傳後將自動儲存到伺服器並更新上方路徑 (支援 jpg, png, max 5MB)。</p>
+                                    {photo && <p className="text-xs text-gray-500 break-all">目前已儲存: <span className="text-primary">{photo.split('/').pop()}</span></p>}
                                 </div>
                             </div>
                             <div>
