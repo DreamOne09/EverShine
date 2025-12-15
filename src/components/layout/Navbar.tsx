@@ -46,7 +46,7 @@ const Navbar: React.FC = () => {
             initial={{ y: -100 }}
             animate={{ y: 0 }}
             transition={{ duration: 0.5 }}
-            className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-[#0e2a47]/95 backdrop-blur-md shadow-lg py-4' : 'bg-gradient-to-b from-black/80 to-transparent py-6'
+            className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-[#0e2a47]/95 backdrop-blur-md shadow-lg py-4' : 'bg-gradient-to-b from-black/50 to-transparent py-6'
                 }`}
         >
             <div className="max-w-[95%] mx-auto px-6 flex justify-center md:justify-between items-center">
