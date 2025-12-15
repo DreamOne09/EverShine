@@ -69,7 +69,6 @@ const About: React.FC = () => {
                                 <span>熱情</span>
                                 <span className="text-gray-600/50">|</span>
                                 <span>實踐</span>
-                                <span>實踐</span>
                             </div>
                             <p>以專業態度與誠信為本，懷抱熱忱，將理念化為實際行動</p>
                         </AboutCard>
