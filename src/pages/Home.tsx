@@ -84,7 +84,7 @@ const Home: React.FC = () => {
                             <motion.div
                                 animate={{ y: [0, -10, 0] }}
                                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                                className="w-48 h-48 md:w-64 md:h-64 bg-white/95 rounded-full flex items-center justify-center p-8 shadow-[0_0_50px_rgba(76,168,223,0.3)] relative z-10 border-4 border-white/10"
+                                className="w-48 h-48 md:w-64 md:h-64 bg-white rounded-full flex items-center justify-center p-8 shadow-[0_0_50px_rgba(76,168,223,0.3)] relative z-10 border-4 border-white/10"
                             >
                                 <img src="/images/assets/logo/bni-logo-new.png" alt="BNI" className="w-full h-auto object-contain transform hover:scale-105 transition-transform duration-500" />
                             </motion.div>

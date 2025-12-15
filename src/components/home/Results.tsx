@@ -37,14 +37,9 @@ const Results: React.FC = () => {
                     <ResultsChart />
                 </div>
 
-                {/* Mobile Swipe Hint */}
-                <div className="md:hidden text-center text-gray-500 text-sm mb-2 animate-pulse">
-                    ← 左右滑動查看更多 →
-                </div>
-
-                {/* Metrics Grid */}
-                <div className="flex md:grid md:grid-cols-3 overflow-x-auto md:overflow-visible snap-x snap-mandatory gap-4 md:gap-6 pb-4 md:pb-0 px-4 -mx-4 md:mx-0 no-scrollbar items-stretch mask-linear-gradient md:mask-none">
-                    <div className="snap-center shrink-0 w-[85vw] md:w-auto">
+                {/* Metrics Grid - Vertical Stack on Mobile */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-6 px-4">
+                    <div className="w-full">
                         <MetricCard
                             icon={<FileText size={40} />}
                             value={25876}
@@ -52,7 +47,7 @@ const Results: React.FC = () => {
                             label="總引薦單數"
                         />
                     </div>
-                    <div className="snap-center shrink-0 w-[85vw] md:w-auto">
+                    <div className="w-full">
                         <MetricCard
                             icon={<TrendingUp size={40} />}
                             value={580} // 5.8億
@@ -62,7 +57,7 @@ const Results: React.FC = () => {
                             isCurrency
                         />
                     </div>
-                    <div className="snap-center shrink-0 w-[85vw] md:w-auto h-full">
+                    <div className="w-full h-full">
                         <div className="bg-bg-dark/60 backdrop-blur-md border border-primary/20 rounded-2xl shadow-xl p-8 flex flex-col items-center justify-center hover:-translate-y-2 transition-transform duration-300 text-center h-full">
                             <div className="text-primary mb-6 p-4 bg-primary/10 rounded-full">
                                 <Users size={40} />

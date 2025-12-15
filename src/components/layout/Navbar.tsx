@@ -49,7 +49,7 @@ const Navbar: React.FC = () => {
             className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-[#0e2a47]/95 backdrop-blur-md shadow-lg py-4 border-b border-primary/20' : 'bg-transparent py-6'
                 }`}
         >
-            <div className="max-w-[95%] mx-auto px-6 flex justify-between items-center">
+            <div className="max-w-[95%] mx-auto px-6 flex justify-center md:justify-between items-center">
                 {/* Logo */}
                 <Link to="/" className="flex items-center gap-3 group">
                     <div className="relative w-10 h-10 overflow-hidden rounded-md transition-colors">
