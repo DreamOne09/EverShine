@@ -43,6 +43,7 @@ const Contact: React.FC = () => {
                                 src="/images/members/王年煜.jpg"
                                 alt="王年煜"
                                 className="w-full h-full object-cover"
+                                style={{ objectPosition: 'top' }}
                                 onError={(e) => e.currentTarget.src = '/images/assets/logo/白色正方形logo.png'}
                             />
                         </div>
@@ -50,17 +51,22 @@ const Contact: React.FC = () => {
                         <div className="text-2xl text-primary font-bold mb-2">王年煜</div>
                         <div className="text-gray-400 mb-6">AI程式交易</div>
 
-                        <div className="border-t border-white/10 pt-6 space-y-3">
-                            <div className="flex items-center justify-center gap-2 text-gray-300">
-                                <span className="font-medium">職位：</span> 主席
+                        <div className="border-t border-white/10 pt-6 space-y-3 text-left inline-block w-full">
+                            <div className="flex items-center gap-3 text-gray-300 justify-center">
+                                <span className="font-medium">職位：</span> 董事長
                             </div>
-                            <div className="flex items-center justify-center gap-2 text-gray-300">
-                                <span className="font-medium">聯絡方式：</span> 待確認
+                            <div className="flex items-center gap-3 text-gray-300 justify-center">
+                                <Phone size={16} className="text-primary" />
+                                <span>0938-767-768</span>
+                            </div>
+                            <div className="flex items-center gap-3 text-gray-300 justify-center">
+                                <Mail size={16} className="text-primary" />
+                                <span className="text-sm">wang.ian@investrontech.com</span>
                             </div>
                         </div>
                     </motion.div>
 
-                    {/* Vice President Card */}
+                    {/* Secretary/Treasurer Card */}
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -70,24 +76,28 @@ const Contact: React.FC = () => {
                     >
                         <div className="w-32 h-32 mx-auto rounded-full overflow-hidden border-2 border-primary/50 mb-6 group-hover:border-primary transition-colors">
                             <img
-                                src="/images/members/王祈.jpg"
-                                alt="王祈"
+                                src="/images/members/劉懿德.jpg"
+                                alt="劉懿德"
                                 className="w-full h-full object-cover"
+                                style={{ objectPosition: 'top' }}
                                 onError={(e) => e.currentTarget.src = '/images/assets/logo/白色正方形logo.png'}
                             />
                         </div>
-                        <h3 className="text-xl font-bold text-white mb-2">現任副主席</h3>
-                        <div className="text-2xl text-primary font-bold mb-2">王祈</div>
-                        <div className="text-gray-400 mb-6">AI學習整合</div>
+                        <h3 className="text-xl font-bold text-white mb-2">現任秘書財務</h3>
+                        <div className="text-2xl text-primary font-bold mb-2">劉懿德</div>
+                        <div className="text-gray-400 mb-6">策展規劃設計</div>
 
-                        <div className="border-t border-white/10 pt-6 space-y-3 text-left inline-block">
-                            <div className="flex items-center gap-3 text-gray-300">
-                                <Mail size={16} className="text-primary" />
-                                <span>samuel900731@gmail.com</span>
+                        <div className="border-t border-white/10 pt-6 space-y-3 text-left inline-block w-full">
+                            <div className="flex items-center gap-3 text-gray-300 justify-center">
+                                <span className="font-medium">職位：</span> 董事長
                             </div>
-                            <div className="flex items-center gap-3 text-gray-300">
+                            <div className="flex items-center gap-3 text-gray-300 justify-center">
                                 <Phone size={16} className="text-primary" />
-                                <span>@samuel_wang0731 (IG)</span>
+                                <span>0952-983-157</span>
+                            </div>
+                            <div className="flex items-center gap-3 text-gray-300 justify-center">
+                                <Mail size={16} className="text-primary" />
+                                <span className="text-sm">claire@allrange.tw</span>
                             </div>
                         </div>
                     </motion.div>
