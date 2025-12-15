@@ -1926,49 +1926,7 @@
       "updateCount": 1,
       "editCount": 2
     },
-    {
-      "id": "member-55",
-      "name": "林盈助",
-      "photo": "images/members/林盈助.jpg",
-      "industry": "麵包烘焙",
-      "category": "美食餐飲",
-      "company": "助益烘焙坊",
-      "position": "董事長",
-      "title": "董事長 - 助益烘焙坊",
-      "shortIntro": "麵包烘焙 找盈助 讓您嘗到 幸福滋味",
-      "fullIntro": "我是林盈助，專注於麵包烘焙。\n麵包烘焙 找盈助 讓您嘗到 幸福滋味\n\n【理想引薦對象】\n咖啡廳、餐飲業、飯店、公司福委會\n\n【聯絡方式】\n0917-222-444",
-      "links": [
-        {
-          "type": "facebook",
-          "url": "#",
-          "icon": "facebook"
-        },
-        {
-          "type": "line",
-          "url": "#",
-          "icon": "line"
-        },
-        {
-          "type": "website",
-          "url": "#",
-          "icon": "website"
-        }
-      ],
-      "services": [
-        "客製化麵包",
-        "企業餐盒麵包供應",
-        "烘焙課程"
-      ],
-      "hashtags": [
-        "#麵包烘焙業",
-        "#林盈助",
-        "#BNI長輝白金分會"
-      ],
-      "createdAt": "2025-11-26T01:02:38.842Z",
-      "updatedAt": "2025-12-13T16:42:16.101Z",
-      "pinHash": "e286648cc9b96588da67f1b8100a650b96850881c79cb777dc88877a3ccfb96f",
-      "editCount": 1
-    },
+
     {
       "id": "member-56",
       "name": "李慰祖",
