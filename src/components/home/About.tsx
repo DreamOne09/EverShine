@@ -42,7 +42,12 @@ const About: React.FC = () => {
                     </motion.div>
                 </div>
 
-                <div className="flex md:grid md:grid-cols-3 overflow-x-auto md:overflow-visible snap-x snap-mandatory gap-4 md:gap-8 max-w-6xl mx-auto pb-6 md:pb-0 px-4 -mx-4 md:mx-0 no-scrollbar items-stretch">
+                {/* Mobile Swipe Hint */}
+                <div className="md:hidden text-center text-gray-500 text-sm mb-2 animate-pulse">
+                    ← 左右滑動查看更多 →
+                </div>
+
+                <div className="flex md:grid md:grid-cols-3 overflow-x-auto md:overflow-visible snap-x snap-mandatory gap-4 md:gap-8 max-w-6xl mx-auto pb-6 md:pb-0 px-4 -mx-4 md:mx-0 no-scrollbar items-stretch mask-linear-gradient md:mask-none">
                     <div className="snap-center shrink-0 w-[85vw] md:w-auto h-full">
                         <AboutCard icon={<Target size={32} />} title="Core Purpose" delay={0}>
                             <p>精進會員的個人成長<br />壯大夥伴彼此的事業</p>

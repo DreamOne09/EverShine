@@ -1,7 +1,7 @@
+```javascript
 import React from 'react';
 import { useCountUp } from '../../hooks/useCountUp';
-import { FileText, TrendingUp, Users, Quote } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { FileText, TrendingUp, Users } from 'lucide-react';
 
 
 const MetricCard: React.FC<{ icon: React.ReactNode, value: number, suffix: string, label: string, subtext?: string, isCurrency?: boolean }> = ({ icon, value, suffix, label, subtext, isCurrency }) => {
@@ -26,7 +26,7 @@ import ResultsChart from './ResultsChart';
 
 const Results: React.FC = () => {
     return (
-        <section className="py-20 relative">
+        <section className="py-24 relative">
             <div className="container mx-auto px-4">
                 <div className="text-center mb-16">
                     <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">成果會說話</h2>
@@ -36,14 +36,17 @@ const Results: React.FC = () => {
                     </p>
                 </div>
 
-
-
                 <div className="mb-20">
                     <ResultsChart />
                 </div>
 
+                {/* Mobile Swipe Hint */}
+                <div className="md:hidden text-center text-gray-500 text-sm mb-2 animate-pulse">
+                    ← 左右滑動查看更多 →
+                </div>
+
                 {/* Metrics Grid */}
-                <div className="flex md:grid md:grid-cols-3 overflow-x-auto md:overflow-visible snap-x snap-mandatory gap-4 md:gap-6 pb-4 md:pb-0 px-4 -mx-4 md:mx-0 no-scrollbar items-stretch">
+                <div className="flex md:grid md:grid-cols-3 overflow-x-auto md:overflow-visible snap-x snap-mandatory gap-4 md:gap-6 pb-4 md:pb-0 px-4 -mx-4 md:mx-0 no-scrollbar items-stretch mask-linear-gradient md:mask-none">
                     <div className="snap-center shrink-0 w-[85vw] md:w-auto">
                         <MetricCard
                             icon={<FileText size={40} />}
