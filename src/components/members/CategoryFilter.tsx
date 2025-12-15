@@ -10,8 +10,11 @@ interface CategoryFilterProps {
 
 const CategoryFilter: React.FC<CategoryFilterProps> = ({ categories, activeCategory, onSelect }) => {
     return (
-        <div className="flex flex-wrap gap-3 justify-center mb-12">
-
+        <div className="flex overflow-x-auto no-scrollbar pb-2 items-center md:flex-wrap md:justify-center px-4 -mx-4 md:mx-0 mask-linear-gradient md:mask-none mb-8 md:mb-12">
+            {/* Mobile Hint */}
+            <div className="md:hidden absolute right-4 text-gray-500 text-xs animate-pulse pointer-events-none">
+                →
+            </div>
             {categories.map(cat => (
                 <motion.button
                     key={cat}
@@ -19,7 +22,7 @@ const CategoryFilter: React.FC<CategoryFilterProps> = ({ categories, activeCateg
                     whileTap={{ scale: 0.95 }}
                     onClick={() => onSelect(cat)}
                     className={clsx(
-                        "px-5 py-2 rounded-full border transition-all duration-300 backdrop-blur-sm",
+                        "px-5 py-2 rounded-full border transition-all duration-300 backdrop-blur-sm whitespace-nowrap shrink-0",
                         activeCategory === cat
                             ? "bg-primary text-bg-dark border-primary font-bold shadow-[0_0_15px_rgba(76,168,223,0.3)]"
                             : "bg-white/5 text-gray-300 border-white/10 hover:border-primary hover:text-primary"

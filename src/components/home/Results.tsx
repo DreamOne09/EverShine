@@ -1,8 +1,7 @@
-```javascript
 import React from 'react';
 import { useCountUp } from '../../hooks/useCountUp';
 import { FileText, TrendingUp, Users } from 'lucide-react';
-
+import ResultsChart from './ResultsChart';
 
 const MetricCard: React.FC<{ icon: React.ReactNode, value: number, suffix: string, label: string, subtext?: string, isCurrency?: boolean }> = ({ icon, value, suffix, label, subtext, isCurrency }) => {
     const { count, elementRef } = useCountUp(value);
@@ -21,8 +20,6 @@ const MetricCard: React.FC<{ icon: React.ReactNode, value: number, suffix: strin
         </div>
     );
 };
-
-import ResultsChart from './ResultsChart';
 
 const Results: React.FC = () => {
     return (
