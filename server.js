@@ -221,6 +221,19 @@ const server = http.createServer((req, res) => {
             }
         } else {
             const contentType = mimeTypes[extname] || 'application/octet-stream';
+
+            // Optimization: Add Cache-Control headers
+            // Cache images for 7 days (604800 seconds)
+            if (requestPath.startsWith('/images/')) {
+                res.setHeader('Cache-Control', 'public, max-age=604800, immutable');
+            } else if (extname === '.css' || extname === '.js') {
+                // Cache CSS/JS for 24 hours
+                res.setHeader('Cache-Control', 'public, max-age=86400');
+            } else {
+                // Default no-cache for HTML (to ensure updates are seen)
+                res.setHeader('Cache-Control', 'no-cache');
+            }
+
             res.writeHead(200, { 'Content-Type': contentType });
             res.end(content, 'utf-8');
         }
