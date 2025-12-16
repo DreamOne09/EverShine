@@ -1,11 +1,8 @@
 import { useState, useEffect } from 'react';
+import { supabase } from '../lib/supabase';
 
-interface Metric {
-    amount: string;
-    type: string;
-}
-
-interface MemberInfo {
+// Simplified type for what we need in UI
+export interface MemberInfo {
     name: string;
     industry: string;
     photo: string;
@@ -18,71 +15,67 @@ export interface Referral {
     id: string;
     title: string;
     description: string;
-    metrics: Metric;
+    metrics: { amount: string; type: string };
     referrer: MemberInfo;
     referee: MemberInfo;
-}
-
-interface ReferralsData {
-    referrals: Referral[];
 }
 
 export const useReferrals = () => {
     const [referrals, setReferrals] = useState<Referral[]>([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // Fetch both referrals and members data in parallel with cache busting
-                const timestamp = new Date().getTime();
-                const [referralsRes, membersRes] = await Promise.all([
-                    fetch(`/data/referrals.json?t=${timestamp}`),
-                    fetch(`/data/members.json?t=${timestamp}`)
-                ]);
+                setLoading(true);
+                // 1. Get raw referrals data
+                const { data: refsData, error } = await supabase
+                    .from('referrals')
+                    .select('*');
 
-                if (!referralsRes.ok) throw new Error('Failed to fetch referrals');
-                // Members fetch failure is non-fatal for referrals, but we should log it
-
-                const referralsData: ReferralsData = await referralsRes.json();
-                let membersData: any[] = [];
-
-                if (membersRes.ok) {
-                    const mData = await membersRes.json();
-                    membersData = Array.isArray(mData) ? mData : (mData.members || []);
+                if (error) throw error;
+                if (!refsData) {
+                    setReferrals([]);
+                    return;
                 }
 
-                // Merge member data into referrals
-                const mergedReferrals = referralsData.referrals.map(ref => {
-                    // Update referrer
-                    const referrerMember = membersData.find(m => m.name === ref.referrer.name);
-                    const updatedReferrer = referrerMember ? {
-                        ...ref.referrer,
-                        photo: referrerMember.photo || ref.referrer.photo,
-                        industry: referrerMember.industry || ref.referrer.industry,
-                        // Could also update company/title if needed
-                    } : ref.referrer;
+                // 2. Get basic member info for mapping
+                const { data: membersData } = await supabase
+                    .from('members')
+                    .select('name, industry, photo');
 
-                    // Update referee
-                    const refereeMember = membersData.find(m => m.name === ref.referee.name);
-                    const updatedReferee = refereeMember ? {
-                        ...ref.referee,
-                        photo: refereeMember.photo || ref.referee.photo,
-                        industry: refereeMember.industry || ref.referee.industry,
-                    } : ref.referee;
+                const membersMap = new Map(membersData?.map(m => [m.name, m]));
+
+                // 3. Format data structure
+                const formattedReferrals: Referral[] = refsData.map((ref: any) => {
+                    const referrerDetails = membersMap.get(ref.referrer_name);
+                    const refereeDetails = membersMap.get(ref.referee_name);
 
                     return {
-                        ...ref,
-                        referrer: updatedReferrer,
-                        referee: updatedReferee
+                        id: ref.id,
+                        title: ref.title,
+                        description: ref.description,
+                        metrics: ref.metrics,
+                        referrer: {
+                            name: ref.referrer_name,
+                            industry: referrerDetails?.industry || 'Unknown',
+                            photo: referrerDetails?.photo || '',
+                            story: ref.referrer_story,
+                            testimonial: ref.referrer_testimonial
+                        },
+                        referee: {
+                            name: ref.referee_name,
+                            industry: refereeDetails?.industry || 'Unknown',
+                            photo: refereeDetails?.photo || '',
+                            story: ref.referee_story,
+                            value: ref.referee_value
+                        }
                     };
                 });
 
-                setReferrals(mergedReferrals);
+                setReferrals(formattedReferrals);
             } catch (err) {
-                console.error("Error fetching referrals:", err);
-                setError(err instanceof Error ? err.message : 'Unknown error');
+                console.error("Error loading referrals:", err);
             } finally {
                 setLoading(false);
             }
@@ -91,5 +84,5 @@ export const useReferrals = () => {
         fetchData();
     }, []);
 
-    return { referrals, loading, error };
+    return { referrals, loading };
 };

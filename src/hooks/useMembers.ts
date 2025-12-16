@@ -1,5 +1,24 @@
 import { useState, useEffect } from 'react';
-import type { Member } from '../types';
+import { supabase } from '../lib/supabase';
+
+export interface Member {
+    id: string;
+    name: string;
+    industry: string;
+    photo: string;
+    photoPosition?: string;
+    category: string;
+    title: string;
+    company: string;
+    shortIntro: string;
+    fullIntro: string;
+    services: string[];
+    hashtags: string[];
+    links: { type: string; url: string; icon: string }[];
+    pinHash: string; // Not usually needed in frontend lists, but kept for type compat
+    editCount?: number;
+    updatedAt?: string;
+}
 
 export const useMembers = () => {
     const [members, setMembers] = useState<Member[]>([]);
@@ -9,20 +28,33 @@ export const useMembers = () => {
     useEffect(() => {
         const fetchMembers = async () => {
             try {
-                // Add timestamp to prevent caching
-                const response = await fetch(`/data/members.json?t=${new Date().getTime()}`);
-                if (!response.ok) throw new Error('Failed to fetch members');
-                const data = await response.json();
-                setMembers(Array.isArray(data) ? data : data.members || []);
+                setLoading(true);
+                const { data, error } = await supabase
+                    .from('members')
+                    .select('*')
+                    .order('category'); // Or order by some other field
+
+                if (error) throw error;
+                setMembers(data || []);
             } catch (err) {
-                console.error("Error fetching members:", err);
-                setError(err instanceof Error ? err.message : 'Unknown error');
+                console.error('Error fetching members:', err);
+                setError('無法載入會員資料');
             } finally {
                 setLoading(false);
             }
         };
 
         fetchMembers();
+
+        // Optional: Realtime subscription
+        const subscription = supabase
+            .channel('members_changes')
+            .on('postgres_changes', { event: '*', schema: 'public', table: 'members' }, fetchMembers)
+            .subscribe();
+
+        return () => {
+            subscription.unsubscribe();
+        };
     }, []);
 
     return { members, loading, error };
