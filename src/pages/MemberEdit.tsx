@@ -592,12 +592,13 @@ const MemberEdit: React.FC = () => {
                                         className="bg-black/30 border border-white/20 rounded-lg p-3 text-white focus:border-primary focus:outline-none w-1/3"
                                     >
                                         <option value="">選擇類型</option>
-                                        <option value="website">官網</option>
-                                        <option value="facebook">Facebook</option>
-                                        <option value="instagram">Instagram</option>
-                                        <option value="linkedin">LinkedIn</option>
-                                        <option value="line">LINE</option>
-                                        <option value="youtube">YouTube</option>
+                                        <option value="website">🌐 官網</option>
+                                        <option value="facebook">📘 Facebook</option>
+                                        <option value="instagram">📷 Instagram</option>
+                                        <option value="threads">🧵 Threads</option>
+                                        <option value="linkedin">💼 LinkedIn</option>
+                                        <option value="line">💬 LINE</option>
+                                        <option value="youtube">📺 YouTube</option>
                                     </select>
                                     <input
                                         type="text"
