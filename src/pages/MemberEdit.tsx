@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Save } from 'lucide-react';
 
 const MemberEdit: React.FC = () => {
@@ -373,7 +373,35 @@ const MemberEdit: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen pt-24 pb-12 px-4 container mx-auto max-w-2xl">
+        <div className="min-h-screen pt-24 pb-12 px-4 container mx-auto max-w-2xl relative">
+            {/* Fixed Top Alert */}
+            <AnimatePresence>
+                {message && (
+                    <motion.div
+                        initial={{ opacity: 0, y: -20, x: '-50%' }}
+                        animate={{ opacity: 1, y: 0, x: '-50%' }}
+                        exit={{ opacity: 0, y: -20, x: '-50%' }}
+                        className={`fixed top-24 left-1/2 z-50 w-[90%] max-w-lg p-4 rounded-xl shadow-2xl flex items-start gap-3 border backdrop-blur-md ${message.type === 'error'
+                            ? 'bg-red-500/10 border-red-500/50 text-red-200'
+                            : 'bg-green-500/10 border-green-500/50 text-green-200'
+                            }`}
+                    >
+                        <div className={`mt-0.5 shrink-0 text-xl`}>
+                            {message.type === 'error' ? '❌' : '✅'}
+                        </div>
+                        <div className="flex-1 text-sm font-medium leading-relaxed pt-0.5">
+                            {message.text}
+                        </div>
+                        <button
+                            onClick={() => setMessage(null)}
+                            className="p-1 hover:bg-white/10 rounded transition-colors"
+                        >
+                            ✕
+                        </button>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
             <h1 className="text-3xl font-bold text-center mb-8 text-white">會員資料編輯</h1>
 
             {!isAuthenticated ? (
