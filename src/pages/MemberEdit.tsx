@@ -127,11 +127,11 @@ const MemberEdit: React.FC = () => {
             return;
         }
 
-        // Validate file size (max 10MB)
-        if (file.size > 10 * 1024 * 1024) {
+        // Validate file size (max 50MB for original file, will be compressed)
+        if (file.size > 50 * 1024 * 1024) {
             const sizeMB = (file.size / (1024 * 1024)).toFixed(2);
             setMessage({
-                text: `❌ 檔案過大：目前檔案 ${sizeMB}MB，請選擇小於 10MB 的圖片`,
+                text: `❌ 檔案過大：目前檔案 ${sizeMB}MB，請選擇小於 50MB 的圖片`,
                 type: 'error'
             });
             e.target.value = '';
@@ -445,7 +445,8 @@ const MemberEdit: React.FC = () => {
                                                 📤
                                             </div>
                                             <span className="text-gray-300 font-medium">點擊選擇照片上傳</span>
-                                            <span className="text-xs text-gray-500">支援 JPG, PNG（自動壓縮至 800x800，品質 85%）</span>
+                                            <span className="text-xs text-gray-500">支援 JPG、PNG、GIF、WebP（最大 50MB）</span>
+                                            <span className="text-xs text-primary">✨ 自動壓縮至 800x800，品質 85%</span>
                                         </label>
                                     </div>
                                     {photo && (
