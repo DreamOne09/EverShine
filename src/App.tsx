@@ -9,6 +9,7 @@ const Members = lazy(() => import('./pages/Members'));
 const Referrals = lazy(() => import('./pages/Referrals'));
 const BNIPage = lazy(() => import('./pages/BNI'));
 const MemberEdit = lazy(() => import('./pages/MemberEdit'));
+const NotFound = lazy(() => import('./pages/NotFound'));
 
 // Scroll to top on route change
 const ScrollToTop = () => {
@@ -32,6 +33,8 @@ function App() {
               <Route path="members" element={<Members />} />
               <Route path="referrals" element={<Referrals />} />
               <Route path="edit" element={<MemberEdit />} />
+              {/* 404 - Catch all unmatched routes */}
+              <Route path="*" element={<NotFound />} />
             </Route>
           </Routes>
         </Suspense>

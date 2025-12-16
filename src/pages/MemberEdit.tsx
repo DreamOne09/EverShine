@@ -273,7 +273,16 @@ const MemberEdit: React.FC = () => {
             const data = await res.json();
 
             if (data.success && data.url) {
-                setPhoto(data.url);
+                // Add timestamp to force browser to reload the image
+                const imageUrl = data.url.startsWith('/') ? data.url : `/${data.url}`;
+                const urlWithTimestamp = `${imageUrl}?t=${Date.now()}`;
+
+                console.log('✅ 照片上傳成功:', {
+                    originalUrl: data.url,
+                    finalUrl: urlWithTimestamp
+                });
+
+                setPhoto(imageUrl); // Store without timestamp for saving
                 setMessage({ text: '✅ 照片上傳成功！請確認預覽效果', type: 'success' });
 
                 // Auto-clear success message after 3 seconds
@@ -477,12 +486,14 @@ const MemberEdit: React.FC = () => {
                                     <div className="w-32 h-32 rounded-full border-2 border-primary overflow-hidden relative shadow-lg bg-gray-800">
                                         {photo ? (
                                             <img
+                                                key={photo}
                                                 src={photo}
                                                 alt="Preview"
                                                 className="w-full h-full object-cover"
                                                 style={{ objectPosition: photoPosition }}
+                                                onLoad={() => console.log('✅ 預覽圖片載入成功:', photo)}
                                                 onError={(e) => {
-                                                    console.error('Image load error:', photo);
+                                                    console.error('❌ 預覽圖片載入失敗:', photo);
                                                     e.currentTarget.src = '/images/assets/logo/白色正方形logo.png';
                                                 }}
                                             />
