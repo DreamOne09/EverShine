@@ -42,11 +42,23 @@ const MemberEdit: React.FC = () => {
         setMessage(null);
 
         try {
+            console.log("正在載入會員資料 (v2.1)...");
             // Fetch members.json to verify
             const response = await fetch(`/data/members.json?t=${new Date().getTime()}`);
             if (!response.ok) throw new Error('無法讀取會員資料');
+
             const data = await response.json();
-            const membersList = Array.isArray(data) ? data : (data.members || []);
+            console.log("會員資料載入完成:", data ? (Array.isArray(data) ? `Array[${data.length}]` : `Object keys: ${Object.keys(data)}`) : "null");
+
+            let membersList: any[] = [];
+            if (data && Array.isArray(data)) {
+                membersList = data;
+            } else if (data && typeof data === 'object' && Array.isArray(data.members)) {
+                membersList = data.members;
+            } else {
+                console.error("無法識別的資料結構:", data);
+            }
+
             const member = membersList.find((m: any) => m.name === name);
             if (!member) throw new Error('找不到此會員');
 
