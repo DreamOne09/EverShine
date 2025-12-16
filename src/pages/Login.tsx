@@ -12,12 +12,26 @@ const Login: React.FC = () => {
     const [mode, setMode] = useState<'login' | 'signup' | 'forgot' | 'claim'>('login');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState<{ text: string, type: 'error' | 'success' } | null>(null);
 
     // Claim States
     const [unclaimedMembers, setUnclaimedMembers] = useState<any[]>([]);
     const [selectedMemberId, setSelectedMemberId] = useState<string | number | null>(null);
+
+    // Validation helpers
+    const validateEmail = (email: string) => {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(email);
+    };
+
+    const validatePassword = (password: string) => {
+        // At least 8 characters, contains number and letter
+        const hasNumber = /\d/.test(password);
+        const hasLetter = /[a-zA-Z]/.test(password);
+        return password.length >= 8 && hasNumber && hasLetter;
+    };
 
     useEffect(() => {
         // If logged in, check profile linkage
@@ -66,6 +80,17 @@ const Login: React.FC = () => {
 
         try {
             if (mode === 'signup') {
+                // Validation checks
+                if (!validateEmail(email)) {
+                    throw new Error('請輸入有效的 Email 格式');
+                }
+                if (!validatePassword(password)) {
+                    throw new Error('密碼至少需要 8 個字元，並包含英文字母與數字');
+                }
+                if (password !== confirmPassword) {
+                    throw new Error('兩次輸入的密碼不一致');
+                }
+
                 const { error } = await supabase.auth.signUp({
                     email,
                     password,
@@ -156,21 +181,44 @@ const Login: React.FC = () => {
                         </div>
 
                         {mode !== 'forgot' && (
-                            <div>
-                                <label className="block text-gray-400 text-sm mb-1">密碼</label>
-                                <div className="relative">
-                                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" size={18} />
-                                    <input
-                                        type="password"
-                                        value={password}
-                                        onChange={e => setPassword(e.target.value)}
-                                        className="w-full bg-black/30 border border-white/20 rounded-lg py-3 pl-10 pr-4 text-white focus:border-primary focus:outline-none"
-                                        placeholder="••••••"
-                                        required
-                                        minLength={6}
-                                    />
+                            <>
+                                <div>
+                                    <label className="block text-gray-400 text-sm mb-1">密碼</label>
+                                    <div className="relative">
+                                        <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" size={18} />
+                                        <input
+                                            type="password"
+                                            value={password}
+                                            onChange={e => setPassword(e.target.value)}
+                                            className="w-full bg-black/30 border border-white/20 rounded-lg py-3 pl-10 pr-4 text-white focus:border-primary focus:outline-none"
+                                            placeholder="••••••••"
+                                            required
+                                            minLength={8}
+                                        />
+                                    </div>
+                                    {mode === 'signup' && (
+                                        <p className="text-xs text-gray-500 mt-1">至少 8 個字元，需包含英文字母與數字</p>
+                                    )}
                                 </div>
-                            </div>
+
+                                {mode === 'signup' && (
+                                    <div>
+                                        <label className="block text-gray-400 text-sm mb-1">確認密碼</label>
+                                        <div className="relative">
+                                            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" size={18} />
+                                            <input
+                                                type="password"
+                                                value={confirmPassword}
+                                                onChange={e => setConfirmPassword(e.target.value)}
+                                                className="w-full bg-black/30 border border-white/20 rounded-lg py-3 pl-10 pr-4 text-white focus:border-primary focus:outline-none"
+                                                placeholder="••••••••"
+                                                required
+                                                minLength={8}
+                                            />
+                                        </div>
+                                    </div>
+                                )}
+                            </>
                         )}
 
                         <button
