@@ -1,5 +1,5 @@
 export interface Member {
-    id: string;
+    id: number;
     name: string;
     photo: string;
     industry: string;
@@ -9,12 +9,12 @@ export interface Member {
     title: string;
     shortIntro: string;
     fullIntro: string;
-    links: MemberLink[];
+    links: { [key: string]: string } | MemberLink[];
     services: string[];
     hashtags: string[];
-    pinHash?: string;
     editCount?: number;
     photoPosition?: string;
+    user_id?: string;
 }
 
 export interface MemberLink {

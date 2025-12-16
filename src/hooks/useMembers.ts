@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 
 export interface Member {
-    id: string;
+    id: number;
     name: string;
     industry: string;
     photo: string;
@@ -14,8 +14,8 @@ export interface Member {
     fullIntro: string;
     services: string[];
     hashtags: string[];
-    links: { type: string; url: string; icon: string }[];
-    pinHash: string; // Not usually needed in frontend lists, but kept for type compat
+    links: { [key: string]: string } | { type: string; url: string; icon?: string }[];
+
     editCount?: number;
     updatedAt?: string;
 }

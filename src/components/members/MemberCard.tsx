@@ -20,6 +20,29 @@ const MemberCard: React.FC<{ member: Member }> = ({ member }) => {
         setImgSrc(getPhotoUrl(member.photo));
     }, [member.photo]);
 
+    // Normalize links to array format
+    const normalizedLinks = React.useMemo(() => {
+        if (!member.links) return [];
+
+        // Handle Array format (Legacy)
+        if (Array.isArray(member.links)) {
+            return member.links.filter(link => link.url && link.url.trim() !== '' && link.url !== '#');
+        }
+
+        // Handle Object format (New Standard)
+        const links: { type: string; url: string; icon: string }[] = [];
+        Object.entries(member.links).forEach(([key, url]) => {
+            if (url && typeof url === 'string' && url.trim() !== '' && url !== '#') {
+                links.push({
+                    type: key,
+                    url: url.trim(),
+                    icon: key
+                });
+            }
+        });
+        return links;
+    }, [member.links]);
+
     return (
         <motion.div
             layout
@@ -91,9 +114,9 @@ const MemberCard: React.FC<{ member: Member }> = ({ member }) => {
                                     )}
 
                                     {/* Social/Contact Links */}
-                                    {member.links && member.links.length > 0 && (
+                                    {normalizedLinks.length > 0 && (
                                         <div className="flex flex-wrap gap-2 mt-4 pt-4 border-t border-white/5">
-                                            {member.links.filter(link => link.url && link.url.trim() !== '' && link.url !== '#').map((link, i) => {
+                                            {normalizedLinks.map((link, i) => {
                                                 // Determine icon based on link type
                                                 const getIcon = () => {
                                                     const type = (link.type || link.icon || '').toLowerCase();
