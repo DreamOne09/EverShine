@@ -31,7 +31,7 @@ const FAQItem: React.FC<{ question: string, answer: React.ReactNode, isOpen: boo
                         transition={{ duration: 0.3 }}
                         className="overflow-hidden"
                     >
-                        <p className="text-gray-400 leading-relaxed pb-6 text-base md:text-lg">
+                        <p className="text-gray-400 leading-relaxed pb-8 text-lg md:text-xl">
                             {answer}
                         </p>
                     </motion.div>
