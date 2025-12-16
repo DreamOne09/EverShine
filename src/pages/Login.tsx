@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
@@ -213,6 +213,13 @@ const Login: React.FC = () => {
                                     </svg>
                                     使用 Google 登入
                                 </button>
+
+                                <p className="text-xs text-center text-gray-500 mt-3">
+                                    登入即代表您同意本站的
+                                    <Link to="/privacy" className="text-primary hover:underline mx-1">
+                                        隱私權政策與服務條款
+                                    </Link>
+                                </p>
                             </>
                         )}
 

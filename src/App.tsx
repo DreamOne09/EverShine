@@ -13,22 +13,14 @@ import Referrals from './pages/Referrals';
 import MemberEdit from './pages/MemberEdit';
 import BNI from './pages/BNI';
 import Login from './pages/Login';
-import { AuthProvider } from './contexts/AuthContext';
+import Privacy from './pages/Privacy';
 
-const AnimatedRoutes = () => {
-  const location = useLocation();
+// ...
 
-  return (
-    <AnimatePresence mode="wait">
-      <Routes location={location} key={location.pathname}>
-        <Route path="/" element={<Home />} />
-        <Route path="/bni" element={<BNI />} />
-        <Route path="/members" element={<Members />} />
-        <Route path="/referrals" element={<Referrals />} />
-        <Route path="/login" element={<Login />} />
         <Route path="/member-edit" element={<MemberEdit />} />
-      </Routes>
-    </AnimatePresence>
+        <Route path="/privacy" element={<Privacy />} />
+      </Routes >
+    </AnimatePresence >
   );
 };
 

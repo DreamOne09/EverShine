@@ -31,8 +31,8 @@ const Navbar: React.FC = () => {
     ];
 
     return (
-        <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-black/80 backdrop-blur-md py-4 shadow-lg border-b border-white/10' : 'bg-gradient-to-b from-black/50 to-transparent py-6'}`}>
-            <div className="container mx-auto px-4 flex justify-between items-center">
+        <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-[#0a192f]/95 backdrop-blur-md py-4 shadow-lg border-b border-white/10' : 'bg-gradient-to-b from-black/50 to-transparent py-6'}`}>
+            <div className="container mx-auto px-4 flex justify-center md:justify-between items-center">
                 {/* Logo */}
                 <NavLink to="/" className="flex items-center gap-3 group">
                     <img
@@ -67,9 +67,6 @@ const Navbar: React.FC = () => {
                         </a>
                         <a href="https://www.threads.net/@bnievershine" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors" title="Threads">
                             <AtSign size={20} />
-                        </a>
-                        <a href="#" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-green-500 transition-colors" title="Podcast (EP)">
-                            <Mic size={20} />
                         </a>
                     </div>
 
