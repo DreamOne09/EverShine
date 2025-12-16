@@ -5,75 +5,79 @@ Welcome to the official repository for the EverShine BNI Chapter website. This p
 ## 🚀 Tech Stack
 
 This project is built with a modern, serverless-first architecture:
+# BNI EverShine 長輝白金分會 Official Website
 
-- **Frontend Framework**: [React](https://reactjs.org/) (v18)
-- **Language**: [TypeScript](https://www.typescriptlang.org/)
-- **Styling**: [Tailwind CSS](https://tailwindcss.com/) (v3) + [Framer Motion](https://www.framer.com/motion/) (Animations)
-- **Database & Storage**: [Supabase](https://supabase.com/) (PostgreSQL + Object Storage)
-- **Build Tool**: [Vite](https://vitejs.dev/)
-- **Deployment**: [Zeabur](https://zeabur.com/)
+這是一個為 BNI 長輝白金分會打造的現代化官方網站，旨在展示分會成員專業形象、促進商務引薦，並提供即時的活動資訊。
+
+![Project Banner](public/images/assets/logo/白色長方形logo.png)
+
+## 🏗️ 系統架構 (System Architecture)
+
+本專案經歷了從靜態頁面到全端雲端架構的演進，目前的架構如下：
+
+*   **Frontend**: React (Vite) + TypeScript + Tailwind CSS (v4)
+*   **Authentication**: **Supabase Auth** (Email/Password, Secure Session Management)
+*   **Database**: **Supabase PostgreSQL** (Members, Referrals data)
+*   **Storage**: **Supabase Storage** (Member photos, Assets)
+*   **Hosting**: **Zeabur** (Dockerized Nginx container)
+*   **CI/CD**: GitHub Actions (Link to Zeabur for auto-deployment)
+
+```mermaid
+graph TD
+    User[訪客/會員] --> |HTTPS| Zeabur[Zeabur Hosting (Nginx)]
+    Zeabur --> |Serve| ReactApp[React SPA]
+    
+    subgraph "Frontend Application"
+        ReactApp --> |Routing| Router[React Router]
+        ReactApp --> |State| AuthContext[Auth Context]
+        AuthContext --> |Login Status| Navbar
+        ReactApp --> |UI| Framer[Framer Motion Animations]
+    end
+
+    subgraph "Cloud Backend (Supabase)"
+        ReactApp --> |API Calls| SupabaseJS[Supabase Client SDK]
+        SupabaseJS --> |Auth| SB_Auth[Authentication]
+        SupabaseJS --> |Data| SB_DB[PostgreSQL Database]
+        SupabaseJS --> |Files| SB_Storage[File Storage]
+    end
+```
 
 ---
 
-## 🛠️ Getting Started
+## 📅 版本演進紀錄 (Version History)
 
-### 1. Prerequisites
+### v2.0 - Cloud Transformation (Current) 🚀
+*   **Authentication**: 全面棄用不安全的 PIN 碼機制，導入 **Supabase Auth**。
+    *   支援 Email 註冊/登入。
+    *   **Claim Profile (認領檔案)** 功能：允許舊成員將現有資料綁定至新帳號。
+    *   **Password Reset**: 完整的忘記密碼/重設密碼流程。
+*   **Database Migration**:
+    *   資料來源從本地 JSON 遷移至 Supabase PostgreSQL。
+    *   `Members` 表 ID 標準化為自動遞增整數 (Integer)，提升效能與關聯便利性。
+    *   `Links` 欄位標準化為 JSON Object，解決舊版 Array 格式雜亂問題。
+*   **Components**: 全面重構 `MemberEdit` 頁面，支援即時圖片上傳與壓縮。
 
-- Node.js (v16 or higher)
-- npm or yarn
-- A Supabase account
+### v1.5 - Tailwind Refactoring & Modern UI
+*   **Styling**: 移除所有傳統 CSS (`style.css`, `bootstrap`)，全面重構為 **Tailwind CSS v4**。
+*   **Design**: 引入「深藍金」高級配色 (Deep Blue/Gold Theme)。
+*   **Responsive**: 優化移動端體驗，包括全新的漢堡選單 (Hamburger Menu) 與觸控友善介面。
+*   **Performance**: 圖片全面採用 Lazy Loading，提升 LCP 指標。
 
-### 2. Installation
+### v1.0 - React Migration (Legacy)
+*   **Tech Switch**: 從原生 HTML/jQuery 遷移至 **React + TypeScript**。
+*   **Data**: 使用本地 `json` 檔案作為資料源 (`public/data/members.json`).
+*   **Auth**: 實作基礎的 PIN 碼驗證 (Legacy, insecure)，用於簡單的會員資料修改。
+*   **Deploy**: 初步部署至 Zeabur。
 
-Clone the repository and install dependencies:
+---
 
+## 🛠️ 開發環境設定 (Setup Guide)
+
+### 1. 安裝依賴
 ```bash
-git clone https://github.com/DreamOne09/EverShine.git
-cd EverShine
 npm install
 ```
 
-### 3. Environment Setup
-
-Create a `.env` file in the root directory. You need to provide your Supabase credentials:
-
-```bash
-# .env
-VITE_SUPABASE_URL=your_supabase_project_url
-VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
-```
-
-> **Note**: You can find these keys in your Supabase Dashboard under `Project Settings` > `API`.
-
-### 4. Database Setup (Supabase)
-
-You need to create the required tables in your Supabase project. Go to the **SQL Editor** in Supabase and run the following scripts:
-
-#### Connect to Database
-Create two main tables: `members` and `referrals`.
-
-```sql
--- Create Members Table
-create table public.members (
-  id text primary key,
-  name text unique not null,
-  company text,
-  position text,
-  title text,
-  industry text,
-  category text,
-  "shortIntro" text,
-  "fullIntro" text,
-  photo text,
-  "photoPosition" text,
-  services text[],
-  hashtags text[],
-  links jsonb,
-  "pinHash" text,
-  "editCount" int default 0,
-  "createdAt" timestamptz default now(),
-  "updatedAt" timestamptz default now()
-);
 
 -- Create Referrals Table
 create table public.referrals (
