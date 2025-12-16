@@ -3,7 +3,18 @@ import { useMembers } from '../../hooks/useMembers';
 import { motion } from 'framer-motion';
 
 const MemberThumbnail: React.FC<{ photo: string, name: string, industry: string, photoPosition?: string }> = ({ photo, name, industry, photoPosition }) => {
-    const [imgSrc, setImgSrc] = useState(photo);
+    // Helper to get normalized/secure URL
+    const getPhotoUrl = (p: string) => {
+        if (!p) return '/images/assets/logo/白色正方形logo.png';
+        return p.startsWith('/') ? p : `/${p}`;
+    };
+
+    const [imgSrc, setImgSrc] = useState(getPhotoUrl(photo));
+
+    // Reactive update
+    React.useEffect(() => {
+        setImgSrc(getPhotoUrl(photo));
+    }, [photo]);
 
     return (
         <div className="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden flex-shrink-0 mx-4 relative group cursor-pointer border-2 border-transparent hover:border-primary/50 transition-all duration-300">
@@ -11,6 +22,7 @@ const MemberThumbnail: React.FC<{ photo: string, name: string, industry: string,
             <img
                 src={imgSrc}
                 alt={name}
+                loading="lazy"
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 style={{ objectPosition: photoPosition || 'center 20%' }}
                 onError={() => setImgSrc('/images/assets/logo/白色正方形logo.png')}
@@ -70,19 +82,19 @@ const MemberWall: React.FC = () => {
             <div className="relative w-full max-w-[1920px] mx-auto mask-linear-gradient">
                 <MarqueeRow speed={50}>
                     <div className="flex">
-                        {row1.map(m => <MemberThumbnail key={m.id} photo={`/images/members/${m.name}.jpg`} name={m.name} industry={m.industry} photoPosition={m.photoPosition} />)}
+                        {row1.map(m => <MemberThumbnail key={m.id} photo={m.photo || `/images/members/${m.name}.jpg`} name={m.name} industry={m.industry} photoPosition={m.photoPosition} />)}
                     </div>
                 </MarqueeRow>
 
                 <MarqueeRow direction="right" speed={55}>
                     <div className="flex">
-                        {row2.map(m => <MemberThumbnail key={m.id} photo={`/images/members/${m.name}.jpg`} name={m.name} industry={m.industry} photoPosition={m.photoPosition} />)}
+                        {row2.map(m => <MemberThumbnail key={m.id} photo={m.photo || `/images/members/${m.name}.jpg`} name={m.name} industry={m.industry} photoPosition={m.photoPosition} />)}
                     </div>
                 </MarqueeRow>
 
                 <MarqueeRow speed={60}>
                     <div className="flex">
-                        {row3.map(m => <MemberThumbnail key={m.id} photo={`/images/members/${m.name}.jpg`} name={m.name} industry={m.industry} photoPosition={m.photoPosition} />)}
+                        {row3.map(m => <MemberThumbnail key={m.id} photo={m.photo || `/images/members/${m.name}.jpg`} name={m.name} industry={m.industry} photoPosition={m.photoPosition} />)}
                     </div>
                 </MarqueeRow>
             </div>
