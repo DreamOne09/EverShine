@@ -9,7 +9,8 @@ export const useMembers = () => {
     useEffect(() => {
         const fetchMembers = async () => {
             try {
-                const response = await fetch('/data/members.json');
+                // Add timestamp to prevent caching
+                const response = await fetch(`/data/members.json?t=${new Date().getTime()}`);
                 if (!response.ok) throw new Error('Failed to fetch members');
                 const data = await response.json();
                 setMembers(Array.isArray(data) ? data : data.members || []);

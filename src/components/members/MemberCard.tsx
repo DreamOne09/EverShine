@@ -6,7 +6,19 @@ import clsx from 'clsx';
 
 const MemberCard: React.FC<{ member: Member }> = ({ member }) => {
     const [expanded, setExpanded] = useState(false);
-    const [imgSrc, setImgSrc] = useState(`/${member.photo}`);
+
+    // Ensure photo path starts with / if not present
+    const getPhotoUrl = (photo: string) => {
+        if (!photo) return '/images/assets/logo/白色正方形logo.png';
+        return photo.startsWith('/') ? photo : `/${photo}`;
+    };
+
+    const [imgSrc, setImgSrc] = useState(getPhotoUrl(member.photo));
+
+    // Update image when member prop changes
+    React.useEffect(() => {
+        setImgSrc(getPhotoUrl(member.photo));
+    }, [member.photo]);
 
     return (
         <motion.div

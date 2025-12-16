@@ -35,10 +35,11 @@ export const useReferrals = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // Fetch both referrals and members data in parallel
+                // Fetch both referrals and members data in parallel with cache busting
+                const timestamp = new Date().getTime();
                 const [referralsRes, membersRes] = await Promise.all([
-                    fetch('/data/referrals.json'),
-                    fetch('/data/members.json')
+                    fetch(`/data/referrals.json?t=${timestamp}`),
+                    fetch(`/data/members.json?t=${timestamp}`)
                 ]);
 
                 if (!referralsRes.ok) throw new Error('Failed to fetch referrals');
