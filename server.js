@@ -73,16 +73,37 @@ const server = http.createServer((req, res) => {
                 }
 
                 const buffer = Buffer.from(matches[2], 'base64');
-                const targetDir = path.join(__dirname, 'public', 'images', 'members');
-                if (!fs.existsSync(targetDir)) {
-                    fs.mkdirSync(targetDir, { recursive: true });
-                }
 
-                const filePath = path.join(targetDir, filename);
+                // Define both public and dist paths
+                const targetDirPublic = path.join(__dirname, 'public', 'images', 'members');
+                const targetDirDist = path.join(__dirname, 'dist', 'images', 'members');
 
-                fs.writeFile(filePath, buffer, (err) => {
-                    if (err) {
-                        console.error('Write error:', err);
+                // Ensure directories exist
+                [targetDirPublic, targetDirDist].forEach(dir => {
+                    if (!fs.existsSync(dir)) {
+                        fs.mkdirSync(dir, { recursive: true });
+                    }
+                });
+
+                // Helper to write file
+                const writeFile = (dir, filename, content) => {
+                    return new Promise((resolve, reject) => {
+                        const filePath = path.join(dir, filename);
+                        fs.writeFile(filePath, content, (err) => {
+                            if (err) reject(err);
+                            else resolve();
+                        });
+                    });
+                };
+
+                // Write to both locations
+                Promise.allSettled([
+                    writeFile(targetDirPublic, filename, buffer),
+                    writeFile(targetDirDist, filename, buffer)
+                ]).then((results) => {
+                    const failed = results.filter(r => r.status === 'rejected');
+                    if (failed.length === 2) {
+                        console.error('Write error:', failed[0].reason);
                         res.writeHead(500, { 'Content-Type': 'application/json' });
                         res.end(JSON.stringify({ success: false, message: 'Failed to write file' }));
                     } else {
@@ -110,134 +131,156 @@ const server = http.createServer((req, res) => {
         req.on('end', () => {
             try {
                 const memberData = JSON.parse(body);
-                const membersPath = path.join(__dirname, 'public', 'data', 'members.json');
+                const membersPathPublic = path.join(__dirname, 'public', 'data', 'members.json');
+                const membersPathDist = path.join(__dirname, 'dist', 'data', 'members.json');
 
-                fs.readFile(membersPath, 'utf8', (err, data) => {
-                    if (err) {
-                        console.error('Error reading members.json:', err);
-                        res.writeHead(500, { 'Content-Type': 'application/json' });
-                        res.end(JSON.stringify({ success: false, message: 'Server error reading data' }));
-                        return;
-                    }
+                // Helper to update members in a file
+                const updateFile = (filePath, memberData) => {
+                    return new Promise((resolve, reject) => {
+                        fs.readFile(filePath, 'utf8', (err, data) => {
+                            if (err) {
+                                // If dist file doesn't exist, we might want to copy from public or ignore
+                                if (filePath.includes('dist') && err.code === 'ENOENT') return resolve();
+                                return reject(err);
+                            }
 
-                    try {
-                        let json = JSON.parse(data);
-                        let members = json.members;
-                        const index = members.findIndex(m => m.id === memberData.id);
+                            try {
+                                let json = JSON.parse(data);
+                                let members = json.members || json; // Handle array or object wrapper
 
-                        if (index !== -1) {
-                            // Update existing member
-                            // Increment editCount
-                            const currentEditCount = members[index].editCount || 0;
-                            members[index] = {
-                                ...members[index],
-                                ...memberData,
-                                editCount: currentEditCount + 1,
-                                updatedAt: new Date().toISOString()
-                            };
+                                // Ensure it's an array if checking members
+                                const membersArray = Array.isArray(members) ? members : (json.members || []);
+                                const index = membersArray.findIndex(m => m.id === memberData.id);
 
-                            json.members = members;
+                                if (index !== -1) {
+                                    const currentEditCount = membersArray[index].editCount || 0;
+                                    membersArray[index] = {
+                                        ...membersArray[index],
+                                        ...memberData,
+                                        editCount: currentEditCount + 1,
+                                        updatedAt: new Date().toISOString()
+                                    };
 
-                            fs.writeFile(membersPath, JSON.stringify(json, null, 2), (writeErr) => {
-                                if (writeErr) {
-                                    console.error('Error writing members.json:', writeErr);
-                                    res.writeHead(500, { 'Content-Type': 'application/json' });
-                                    res.end(JSON.stringify({ success: false, message: 'Server error saving data' }));
+                                    // Create output json structure based on input
+                                    const outputJson = Array.isArray(members) ? membersArray : { ...json, members: membersArray };
+
+                                    fs.writeFile(filePath, JSON.stringify(outputJson, null, 2), (writeErr) => {
+                                        if (writeErr) return reject(writeErr);
+                                        resolve();
+                                    });
                                 } else {
-                                    console.log(`Member ${memberData.name} updated successfully.`);
-                                    res.writeHead(200, { 'Content-Type': 'application/json' });
-                                    res.end(JSON.stringify({ success: true, message: 'Member updated successfully' }));
+                                    reject(new Error('Member not found'));
                                 }
-                            });
-                        } else {
-                            res.writeHead(404, { 'Content-Type': 'application/json' });
-                            res.end(JSON.stringify({ success: false, message: 'Member not found' }));
-                        }
+                            } catch (parseErr) {
+                                reject(parseErr);
+                            }
+                        });
+                    });
+                };
 
-                    } catch (parseErr) {
-                        console.error('Error parsing members.json:', parseErr);
+                // Update both locations
+                Promise.allSettled([
+                    updateFile(membersPathPublic, memberData),
+                    updateFile(membersPathDist, memberData)
+                ]).then((results) => {
+                    const failed = results.filter(r => r.status === 'rejected');
+                    if (failed.length === 2) {
+                        // Both failed
+                        console.error('Error updating members:', failed[0].reason);
                         res.writeHead(500, { 'Content-Type': 'application/json' });
-                        res.end(JSON.stringify({ success: false, message: 'Server error parsing data' }));
+                        res.end(JSON.stringify({ success: false, message: 'Server error saving data' }));
+                    } else {
+                        // At least one succeeded
+                        console.log(`Member ${memberData.name} updated successfully.`);
+                        res.writeHead(200, { 'Content-Type': 'application/json' });
+                        res.end(JSON.stringify({ success: true, message: 'Member updated successfully' }));
                     }
                 });
-            } catch (e) {
-                res.writeHead(400, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ success: false, message: 'Invalid JSON body' }));
+
+            } catch (parseErr) {
+                console.error('Error parsing members.json:', parseErr);
+                res.writeHead(500, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ success: false, message: 'Server error parsing data' }));
             }
         });
-        return; // End request here for API
+    } catch (e) {
+        res.writeHead(400, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: false, message: 'Invalid JSON body' }));
+    }
+});
+return; // End request here for API
     }
 
-    // Normalize path and decode URL to handle Chinese filenames
-    let requestPath = decodeURIComponent(req.url.split('?')[0]);
+// Normalize path and decode URL to handle Chinese filenames
+let requestPath = decodeURIComponent(req.url.split('?')[0]);
 
-    // Default to index.html for root
-    if (requestPath === '/') {
-        requestPath = '/index.html';
-    }
+// Default to index.html for root
+if (requestPath === '/') {
+    requestPath = '/index.html';
+}
 
-    let filePath;
-    let extname = path.extname(requestPath);
+let filePath;
+let extname = path.extname(requestPath);
 
-    // Check if request is for public assets (images, data, etc.)
-    if (requestPath.startsWith('/images/') || requestPath.startsWith('/data/')) {
-        // Serve from public folder
-        filePath = path.join(__dirname, 'public', requestPath);
-    } else if (!extname) {
-        // If request has no extension (e.g. /about), treat as SPA route and serve index.html
-        filePath = path.join(DIST, 'index.html');
-        extname = '.html';
-    } else {
-        // Serve from dist folder (built assets)
-        filePath = path.join(DIST, requestPath);
-    }
+// Check if request is for public assets (images, data, etc.)
+if (requestPath.startsWith('/images/') || requestPath.startsWith('/data/')) {
+    // Serve from public folder
+    filePath = path.join(__dirname, 'public', requestPath);
+} else if (!extname) {
+    // If request has no extension (e.g. /about), treat as SPA route and serve index.html
+    filePath = path.join(DIST, 'index.html');
+    extname = '.html';
+} else {
+    // Serve from dist folder (built assets)
+    filePath = path.join(DIST, requestPath);
+}
 
-    fs.readFile(filePath, (err, content) => {
-        if (err) {
-            if (err.code === 'ENOENT') {
-                // File not found. 
-                // If it was looking for a specific asset (has extension), return 404
-                if (path.extname(requestPath)) {
-                    console.error(`404 Not Found: ${requestPath}`);
-                    res.writeHead(404);
-                    res.end(`File not found: ${requestPath}`);
-                    return;
+fs.readFile(filePath, (err, content) => {
+    if (err) {
+        if (err.code === 'ENOENT') {
+            // File not found. 
+            // If it was looking for a specific asset (has extension), return 404
+            if (path.extname(requestPath)) {
+                console.error(`404 Not Found: ${requestPath}`);
+                res.writeHead(404);
+                res.end(`File not found: ${requestPath}`);
+                return;
+            }
+
+            // Otherwise, it's a route, serve index.html (SPA Fallback)
+            fs.readFile(path.join(DIST, 'index.html'), (error, indexData) => {
+                if (error) {
+                    console.error('Fatal: index.html not found for SPA fallback');
+                    res.writeHead(500);
+                    res.end('Server Error');
+                } else {
+                    res.writeHead(200, { 'Content-Type': 'text/html' });
+                    res.end(indexData);
                 }
-
-                // Otherwise, it's a route, serve index.html (SPA Fallback)
-                fs.readFile(path.join(DIST, 'index.html'), (error, indexData) => {
-                    if (error) {
-                        console.error('Fatal: index.html not found for SPA fallback');
-                        res.writeHead(500);
-                        res.end('Server Error');
-                    } else {
-                        res.writeHead(200, { 'Content-Type': 'text/html' });
-                        res.end(indexData);
-                    }
-                });
-            } else {
-                res.writeHead(500);
-                res.end(`Server Error: ${err.code}`);
-            }
+            });
         } else {
-            const contentType = mimeTypes[extname] || 'application/octet-stream';
-
-            // Optimization: Add Cache-Control headers
-            // Cache images for 7 days (604800 seconds)
-            if (requestPath.startsWith('/images/')) {
-                res.setHeader('Cache-Control', 'public, max-age=604800, immutable');
-            } else if (extname === '.css' || extname === '.js') {
-                // Cache CSS/JS for 1 year (immutable) as they are hashed
-                res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
-            } else {
-                // Default no-cache for HTML (to ensure updates are seen)
-                res.setHeader('Cache-Control', 'no-cache');
-            }
-
-            res.writeHead(200, { 'Content-Type': contentType });
-            res.end(content, 'utf-8');
+            res.writeHead(500);
+            res.end(`Server Error: ${err.code}`);
         }
-    });
+    } else {
+        const contentType = mimeTypes[extname] || 'application/octet-stream';
+
+        // Optimization: Add Cache-Control headers
+        // Cache images for 7 days (604800 seconds)
+        if (requestPath.startsWith('/images/')) {
+            res.setHeader('Cache-Control', 'public, max-age=604800, immutable');
+        } else if (extname === '.css' || extname === '.js') {
+            // Cache CSS/JS for 1 year (immutable) as they are hashed
+            res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+        } else {
+            // Default no-cache for HTML (to ensure updates are seen)
+            res.setHeader('Cache-Control', 'no-cache');
+        }
+
+        res.writeHead(200, { 'Content-Type': contentType });
+        res.end(content, 'utf-8');
+    }
+});
 });
 
 server.listen(PORT, '0.0.0.0', () => {
