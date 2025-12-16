@@ -1,11 +1,10 @@
-
-import React from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import StarryBackground from './components/layout/StarryBackground';
 import BackToTop from './components/common/BackToTop';
+import ScrollToTop from './components/common/ScrollToTop';
 import BottomNav from './components/layout/BottomNav';
 import Home from './pages/Home';
 import Members from './pages/Members';
@@ -38,6 +37,7 @@ function App() {
   return (
     <AuthProvider>
       <Router>
+        <ScrollToTop />
         <StarryBackground />
         <div className="flex flex-col min-h-screen relative z-10">
           <Navbar />

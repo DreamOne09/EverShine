@@ -48,7 +48,12 @@ const Footer: React.FC = () => {
                 </div>
 
                 <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-500 text-sm gap-4">
-                    <p>&copy; {new Date().getFullYear()} BNI EverShine Chapter. All rights reserved.</p>
+                    <div className="flex flex-col md:flex-row items-center gap-2 md:gap-4">
+                        <p>&copy; {new Date().getFullYear()} BNI EverShine Chapter. All rights reserved.</p>
+                        <Link to="/privacy" className="text-gray-400 hover:text-primary transition-colors">
+                            隱私權政策與服務條款
+                        </Link>
+                    </div>
                     <p className="text-center font-bold text-white/80">
                         本網站由 琢奧科技有限公司 DropOut Tech Consulting Co., Ltd. 開發與維護，網站與系統開發歡迎洽詢{' '}
                         <a href="mailto:info@dropout.tw" className="text-primary hover:underline hover:text-white transition-colors">
