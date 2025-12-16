@@ -43,11 +43,11 @@ const MemberEdit: React.FC = () => {
 
         try {
             // Fetch members.json to verify
-            const response = await fetch('/data/members.json');
+            const response = await fetch(`/data/members.json?t=${new Date().getTime()}`);
             if (!response.ok) throw new Error('無法讀取會員資料');
             const data = await response.json();
-
-            const member = data.members.find((m: any) => m.name === name);
+            const membersList = Array.isArray(data) ? data : (data.members || []);
+            const member = membersList.find((m: any) => m.name === name);
             if (!member) throw new Error('找不到此會員');
 
             // In a real app, verify hash. 
