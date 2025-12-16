@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Save, Upload, AlertCircle, X, Camera, ArrowLeft } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
-import { Member } from '../types';
+import type { Member } from '../types';
 
 const CATEGORIES = [
     '建築工程', '室內設計', '金融服務', '專業諮詢', '健康產業',
@@ -331,8 +331,8 @@ const MemberEdit: React.FC = () => {
                                                 type="button"
                                                 onClick={() => toggleCategory(cat)}
                                                 className={`px-3 py-1.5 rounded-full text-sm border transition-all ${selectedCategories.includes(cat)
-                                                        ? 'bg-primary text-bg-dark border-primary font-bold'
-                                                        : 'bg-transparent text-gray-400 border-white/20 hover:border-white/50'
+                                                    ? 'bg-primary text-bg-dark border-primary font-bold'
+                                                    : 'bg-transparent text-gray-400 border-white/20 hover:border-white/50'
                                                     }`}
                                             >
                                                 {cat}
