@@ -5,7 +5,7 @@ import { AnimatePresence } from 'framer-motion';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import StarryBackground from './components/layout/StarryBackground';
-import BackToTop from './components/ui/BackToTop';
+import BackToTop from './components/common/BackToTop';
 import Home from './pages/Home';
 import Members from './pages/Members';
 import Referrals from './pages/Referrals';
