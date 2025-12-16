@@ -38,7 +38,7 @@ const Navbar: React.FC = () => {
                     <img
                         src="/images/assets/logo/透明底白字長條logo.png"
                         alt="BNI EverShine"
-                        className="h-10 md:h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+                        className="h-14 md:h-20 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
                     />
                 </NavLink>
 
