@@ -1,6 +1,6 @@
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import { useEffect, lazy, Suspense } from 'react';
+
 import React from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
@@ -14,13 +14,23 @@ import MemberEdit from './pages/MemberEdit';
 import BNI from './pages/BNI';
 import Login from './pages/Login';
 import Privacy from './pages/Privacy';
+import { AuthProvider } from './contexts/AuthContext';
 
-// ...
+const AnimatedRoutes = () => {
+  const location = useLocation();
 
+  return (
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route path="/" element={<Home />} />
+        <Route path="/bni" element={<BNI />} />
+        <Route path="/members" element={<Members />} />
+        <Route path="/referrals" element={<Referrals />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/member-edit" element={<MemberEdit />} />
         <Route path="/privacy" element={<Privacy />} />
-      </Routes >
-    </AnimatePresence >
+      </Routes>
+    </AnimatePresence>
   );
 };
 
