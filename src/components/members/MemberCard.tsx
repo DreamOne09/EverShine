@@ -82,7 +82,7 @@ const MemberCard: React.FC<{ member: Member }> = ({ member }) => {
                         <span className="px-3 py-1 bg-primary/10 rounded-full text-primary border border-primary/20 text-xs font-medium">{member.industry}</span>
                     </div>
 
-                    <div className="text-gray-300 text-sm mb-4 line-clamp-3 min-h-[3.6em]">
+                    <div className={clsx("text-gray-300 text-sm mb-3 line-clamp-3", !expanded && "min-h-[3.6em]")}>
                         {member.shortIntro || member.fullIntro}
                     </div>
 
@@ -93,11 +93,15 @@ const MemberCard: React.FC<{ member: Member }> = ({ member }) => {
                                     initial={{ opacity: 0, height: 0 }}
                                     animate={{ opacity: 1, height: 'auto' }}
                                     exit={{ opacity: 0, height: 0 }}
-                                    className="text-left text-sm text-gray-300 border-t border-white/10 pt-4 mt-2 overflow-hidden"
+                                    className="text-left text-sm text-gray-300 border-t border-white/10 pt-3 mt-2 overflow-hidden"
                                 >
                                     <div className="space-y-2 mb-4">
-                                        <div className="flex items-center gap-2 text-xs"><Building size={14} className="text-primary shrink-0" /> <span className="truncate">{member.company}</span></div>
-                                        <div className="flex items-center gap-2 text-xs"><Briefcase size={14} className="text-primary shrink-0" /> <span className="truncate">{member.title}</span></div>
+                                        {member.company && (
+                                            <div className="flex items-center gap-2 text-xs"><Building size={14} className="text-primary shrink-0" /> <span className="truncate">{member.company}</span></div>
+                                        )}
+                                        {member.title && (
+                                            <div className="flex items-center gap-2 text-xs"><Briefcase size={14} className="text-primary shrink-0" /> <span className="truncate">{member.title}</span></div>
+                                        )}
                                     </div>
 
                                     <div className="mb-4">
