@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { LogIn, LogOut, User, Facebook, Instagram, Mic, AtSign } from 'lucide-react';
+import { LogIn, LogOut, User, Facebook, Instagram, Mic } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 
 const Navbar: React.FC = () => {
@@ -66,7 +66,12 @@ const Navbar: React.FC = () => {
                             <Instagram size={20} />
                         </a>
                         <a href="https://www.threads.net/@bnievershine" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors" title="Threads">
-                            <AtSign size={20} />
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M12 2a10 10 0 1 0 10 10 10 10 0 0 0-10-10zm0 17a7 7 0 1 1 7-7 7 7 0 0 1-7 7zm0-12a5 5 0 1 0 5 5 5 5 0 0 0-5-5zm0 8a3 3 0 1 1 3-3 3 3 0 0 1-3 3z" style={{ display: 'none' }} />
+                                <path d="M12.0002 21.0772C16.969 21.0772 21.0002 17.0706 21.0002 12.0163C21.0002 6.96195 16.969 3.01221 12.0002 3.01221C7.03137 3.01221 3.00018 6.96195 3.00018 12.0163C3.00018 17.0706 7.03137 21.0772 12.0002 21.0772Z" stroke="none" />
+                                <path d="M12.98 10.43a2.38 2.38 0 1 0 0 4.76 2.38 2.38 0 0 0 0-4.76Z" />
+                                <path d="M12.56 16.89a6.07 6.07 0 0 0 3.22-.92v-3.41a3.91 3.91 0 0 1-3 .83 4 4 0 1 1 3.79-5.18 5 5 0 0 1 3.66 2.31 9.07 9.07 0 0 0 .34-2.88 9 9 0 1 0-5.74 8.44" />
+                            </svg>
                         </a>
                     </div>
 
