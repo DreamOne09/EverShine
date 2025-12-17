@@ -13,6 +13,9 @@ const Members: React.FC = () => {
     const { user } = useAuth();
     const navigate = useNavigate();
     const [isAdmin, setIsAdmin] = useState(false);
+    const { members, loading, error } = useMembers();
+    const [searchQuery, setSearchQuery] = useState('');
+    const [activeCategory, setActiveCategory] = useState('全部');
 
     // ... existing hooks
 
