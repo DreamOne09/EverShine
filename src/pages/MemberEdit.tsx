@@ -8,8 +8,15 @@ import { useAuth } from '../contexts/AuthContext';
 import type { Member } from '../types';
 
 const CATEGORIES = [
-    '行銷聯盟', '企業顧問', '工廠改造', '健足聯盟',
-    '工程裝修', '甜點美食', '健康產業', '休閒教育'
+    '居住與空間工程生態圈',
+    '企業營運與法稅生態圈',
+    '金融財富與資產生態圈',
+    '品牌整合與行銷生態圈',
+    '數位AI與創新科技生態圈',
+    '身心健康與醫療生態圈',
+    '飲食文化與食品生態圈',
+    '教育學習與休閒生態圈',
+    '永續發展與製造生態圈'
 ];
 
 interface MemberLink {
