@@ -23,59 +23,83 @@ export interface Referral {
 export const useReferrals = () => {
     const [referrals, setReferrals] = useState<Referral[]>([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 setLoading(true);
-                // 1. Get raw referrals data
-                const { data: refsData, error } = await supabase
-                    .from('referrals')
-                    .select('*');
+                // 1. Get referral cases
+                const { data: refsData, error: refsError } = await supabase
+                    .from('referral_cases')
+                    .select('*')
+                    .order('created_at', { ascending: false });
 
-                if (error) throw error;
-                if (!refsData) {
+                if (refsError) {
+                    // If table doesn't exist yet, we might want to handle gracefully or show error
+                    // For now, throw to show error message
+                    throw refsError;
+                }
+
+                if (!refsData || refsData.length === 0) {
                     setReferrals([]);
                     return;
                 }
 
-                // 2. Get basic member info for mapping
-                const { data: membersData } = await supabase
+                // 2. Identify all involved member IDs
+                const memberIds = new Set<string>();
+                refsData.forEach((r: any) => {
+                    if (r.referrer_id) memberIds.add(String(r.referrer_id));
+                    if (r.referee_id) memberIds.add(String(r.referee_id));
+                });
+
+                // 3. Fetch member details
+                const { data: membersData, error: membersError } = await supabase
                     .from('members')
-                    .select('name, industry, photo');
+                    .select('id, name, industry, photo, fullIntro') // Fetch fullIntro or story if needed
+                    .in('id', Array.from(memberIds));
 
-                const membersMap = new Map(membersData?.map(m => [m.name, m]));
+                if (membersError) throw membersError;
 
-                // 3. Format data structure
+                const membersMap = new Map();
+                membersData?.forEach(m => {
+                    membersMap.set(String(m.id), m);
+                });
+
+                // 4. Format data
                 const formattedReferrals: Referral[] = refsData.map((ref: any) => {
-                    const referrerDetails = membersMap.get(ref.referrer_name);
-                    const refereeDetails = membersMap.get(ref.referee_name);
+                    const referrer = membersMap.get(String(ref.referrer_id));
+                    const referee = membersMap.get(String(ref.referee_id));
 
                     return {
                         id: ref.id,
                         title: ref.title,
                         description: ref.description,
-                        metrics: ref.metrics,
+                        metrics: {
+                            amount: ref.amount || '0',
+                            type: ref.amount_type || 'TWD'
+                        },
                         referrer: {
-                            name: ref.referrer_name,
-                            industry: referrerDetails?.industry || 'Unknown',
-                            photo: referrerDetails?.photo || '',
-                            story: ref.referrer_story,
-                            testimonial: ref.referrer_testimonial
+                            name: referrer?.name || 'Unknown',
+                            industry: referrer?.industry || '',
+                            photo: referrer?.photo || '',
+                            story: ref.story // Use story from referral_cases, or fallback to referrer profile? Assuming story is specific to the case.
                         },
                         referee: {
-                            name: ref.referee_name,
-                            industry: refereeDetails?.industry || 'Unknown',
-                            photo: refereeDetails?.photo || '',
-                            story: ref.referee_story,
-                            value: ref.referee_value
+                            name: referee?.name || 'Unknown',
+                            industry: referee?.industry || '',
+                            photo: referee?.photo || '',
+                            value: '' // Optional
                         }
                     };
                 });
 
                 setReferrals(formattedReferrals);
-            } catch (err) {
+            } catch (err: any) {
                 console.error("Error loading referrals:", err);
+                // Only set error if it's not a 'table not found' type which might happen before migration
+                // But generally we want to show it.
+                setError(err.message || '無法載入引薦資料');
             } finally {
                 setLoading(false);
             }
@@ -84,5 +108,5 @@ export const useReferrals = () => {
         fetchData();
     }, []);
 
-    return { referrals, loading };
+    return { referrals, loading, error };
 };
