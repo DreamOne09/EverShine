@@ -191,16 +191,19 @@ const MemberEdit: React.FC = () => {
     };
 
     const toggleCategory = (cat: string) => {
-        if (selectedCategories.includes(cat)) {
-            setSelectedCategories(prev => prev.filter(c => c !== cat));
-            setMessage(null); // Clear message on valid action
+        const currentIndex = selectedCategories.indexOf(cat);
+        if (currentIndex !== -1) {
+            // Deselect
+            const newCategories = selectedCategories.filter(c => c !== cat);
+            setSelectedCategories(newCategories);
+            setMessage(null);
         } else {
+            // Select
             if (selectedCategories.length >= 2) {
                 setMessage({ text: '最多只能選擇 2 個產業類別', type: 'error' });
-                // Optional: Scroll to message if needed, but let's assume user sees it or we make message fixed later.
                 return;
             }
-            setSelectedCategories(prev => [...prev, cat]);
+            setSelectedCategories([...selectedCategories, cat]);
             setMessage(null);
         }
     };
@@ -298,8 +301,8 @@ const MemberEdit: React.FC = () => {
                         animate={{ opacity: 1, y: 0, x: "-50%" }}
                         exit={{ opacity: 0, y: -20, x: "-50%" }}
                         className={`fixed top-28 md:top-24 left-1/2 z-50 w-[90%] max-w-lg p-4 rounded-xl flex items-center gap-3 shadow-2xl backdrop-blur-md border ${message.type === 'error'
-                                ? 'bg-red-900/90 text-red-100 border-red-500/50'
-                                : 'bg-green-900/90 text-green-100 border-green-500/50'
+                            ? 'bg-red-900/90 text-red-100 border-red-500/50'
+                            : 'bg-green-900/90 text-green-100 border-green-500/50'
                             }`}
                     >
                         <AlertCircle size={24} className="flex-shrink-0" />
