@@ -37,6 +37,14 @@ const Admin: React.FC = () => {
     // Recent Activity State
     const [recentUpdates, setRecentUpdates] = useState<any[]>([]);
 
+    // Referrals Data
+    const [referrals, setReferrals] = useState<any[]>([]);
+
+    // Marketing Stats
+    const [marketingStats, setMarketingStats] = useState({
+        socialClicks: 0
+    });
+
     useEffect(() => {
         checkAdmin();
         fetchDashboardData();
@@ -111,6 +119,26 @@ const Admin: React.FC = () => {
             console.log('Page views table not active');
         }
 
+        // 5. Fetch Referrals
+        try {
+            const { data: refData } = await supabase
+                .from('referrals')
+                .select('*')
+                .order('createdAt', { ascending: false });
+            setReferrals(refData || []);
+        } catch (e) { console.log('Referrals fetch error', e); }
+
+        // 6. Fetch Analytics Events (for Social Clicks)
+        let socialClicksCount = 0;
+        try {
+            // We can use count with filter
+            const { count } = await supabase
+                .from('analytics_events')
+                .select('*', { count: 'exact', head: true })
+                .eq('event_name', 'click_social');
+            socialClicksCount = count || 0;
+        } catch (e) { }
+
         // Calculate extra stats
         const industryCounts: { [key: string]: number } = {};
         let hasPhotoCount = 0;
@@ -132,7 +160,21 @@ const Admin: React.FC = () => {
             completionRate: `${completionRate}%`
         });
 
+        setMarketingStats({ socialClicks: socialClicksCount });
+
         setLoading(false);
+    };
+
+    const handleDeleteReferral = async (id: string) => {
+        if (!confirm('確定要刪除這筆引薦單嗎？此動作無法復原。')) return;
+        try {
+            const { error } = await supabase.from('referrals').delete().eq('id', id);
+            if (error) throw error;
+            setReferrals(referrals.filter(r => r.id !== id));
+            alert('已刪除');
+        } catch (e: any) {
+            alert('刪除失敗: ' + e.message);
+        }
     };
 
     const updateHomeStats = async () => {
@@ -168,6 +210,7 @@ const Admin: React.FC = () => {
                     {[
                         { id: 'overview', label: '總覽概況' },
                         { id: 'members', label: '會員管理' },
+                        { id: 'referrals', label: '引薦單管理' },
                         { id: 'settings', label: '數據設定' }
                     ].map(tab => (
                         <button
@@ -225,6 +268,12 @@ const Admin: React.FC = () => {
                             value={stats.monthlyVisits.toLocaleString()}
                             icon={<Activity className="text-purple-400" />}
                             diff="+15% 上月"
+                        />
+                        <StatsCard
+                            title="社群連結點擊"
+                            value={marketingStats.socialClicks.toLocaleString()}
+                            icon={<Users className="text-pink-500" />}
+                            diff="本月累計"
                         />
 
 
@@ -314,6 +363,58 @@ const Admin: React.FC = () => {
                                                     title="編輯"
                                                 >
                                                     <Edit size={14} /> 編輯
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                )}
+
+                {/* REFERRALS TAB */}
+                {activeTab === 'referrals' && (
+                    <div className="bg-bg-dark/50 border border-white/10 rounded-2xl p-6 overflow-hidden">
+                        <div className="flex justify-between items-center mb-6">
+                            <h3 className="text-xl font-bold text-white">引薦單列表</h3>
+                        </div>
+                        <div className="overflow-x-auto">
+                            <table className="w-full text-left border-collapse">
+                                <thead>
+                                    <tr className="text-gray-400 text-sm border-b border-white/10">
+                                        <th className="p-4">日期</th>
+                                        <th className="p-4">引薦人</th>
+                                        <th className="p-4">被引薦人/產業</th>
+                                        <th className="p-4">價值</th>
+                                        <th className="p-4 text-right">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {referrals.length === 0 ? (
+                                        <tr><td colSpan={5} className="p-8 text-center text-gray-400">尚無引薦單資料</td></tr>
+                                    ) : referrals.map(ref => (
+                                        <tr key={ref.id} className="border-b border-white/5 hover:bg-white/5 transition-colors">
+                                            <td className="p-4 text-gray-300 text-sm">
+                                                {new Date(ref.createdAt || ref.created_at).toLocaleDateString()}
+                                            </td>
+                                            <td className="p-4 text-white font-medium">
+                                                {ref.referrer_name}
+                                            </td>
+                                            <td className="p-4">
+                                                <div className="text-white">{ref.referee_name}</div>
+                                                <div className="text-xs text-gray-400">{ref.title}</div>
+                                            </td>
+                                            <td className="p-4 text-yellow-400 font-mono">
+                                                {ref.metrics?.amount ? `$${Number(ref.metrics.amount).toLocaleString()}` : '-'}
+                                            </td>
+                                            <td className="p-4 text-right">
+                                                <button
+                                                    onClick={() => handleDeleteReferral(ref.id)}
+                                                    className="p-2 hover:bg-red-500/20 text-red-400 rounded-full transition-colors"
+                                                    title="刪除"
+                                                >
+                                                    <Trash2 size={16} />
                                                 </button>
                                             </td>
                                         </tr>
