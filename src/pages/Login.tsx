@@ -247,7 +247,7 @@ const Login: React.FC = () => {
                                     onClick={async () => {
                                         const { error } = await supabase.auth.signInWithOAuth({
                                             provider: 'google',
-                                            options: { redirectTo: `${window.location.origin}/member-edit` }
+                                            options: { redirectTo: window.location.origin }
                                         });
                                         if (error) setMessage({ text: error.message, type: 'error' });
                                     }}
