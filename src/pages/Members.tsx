@@ -1,15 +1,59 @@
-import React, { useState, useMemo } from 'react';
-import { useMembers } from '../hooks/useMembers';
-import MemberCard from '../components/members/MemberCard';
-import CategoryFilter from '../components/members/CategoryFilter';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Search } from 'lucide-react';
-import PageHero from '../components/common/PageHero';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
+import { supabase } from '../lib/supabase';
+import { Search, Edit } from 'lucide-react';
+// ... existing imports
 
 const Members: React.FC = () => {
-    const { members, loading, error } = useMembers();
-    const [searchQuery, setSearchQuery] = useState('');
-    const [activeCategory, setActiveCategory] = useState('全部');
+    const { user } = useAuth();
+    const navigate = useNavigate();
+    const [isAdmin, setIsAdmin] = useState(false);
+
+    // ... existing hooks
+
+    // Check Admin Status
+    React.useEffect(() => {
+        const checkAdmin = async () => {
+            if (!user) {
+                setIsAdmin(false);
+                return;
+            }
+            const { data } = await supabase
+                .from('members')
+                .select('is_admin')
+                .eq('user_id', user.id)
+                .single();
+            setIsAdmin(data?.is_admin === true);
+        };
+        checkAdmin();
+    }, [user]);
+
+    // ... existing filtering logic
+
+    // ... inside render loop
+    <motion.div
+        layout
+        key={member.id || member.name}
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.9 }}
+        transition={{ duration: 0.3 }}
+        className="relative group"
+    >
+        <MemberCard member={member} />
+        {isAdmin && (
+            <button
+                onClick={(e) => {
+                    e.stopPropagation();
+                    navigate(`/member-edit?id=${member.id}`);
+                }}
+                className="absolute top-2 right-2 z-20 p-2 bg-black/60 hover:bg-primary text-white hover:text-bg-dark rounded-full backdrop-blur-sm transition-all shadow-lg opacity-0 group-hover:opacity-100"
+                title="管理員編輯"
+            >
+                <Edit size={16} />
+            </button>
+        )}
+    </motion.div>
 
     // Extract unique categories (major categories)
     const categories = useMemo(() => {
@@ -106,8 +150,21 @@ const Members: React.FC = () => {
                                 animate={{ opacity: 1, scale: 1 }}
                                 exit={{ opacity: 0, scale: 0.9 }}
                                 transition={{ duration: 0.3 }}
+                                className="relative group"
                             >
                                 <MemberCard member={member} />
+                                {isAdmin && (
+                                    <button
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            navigate(`/member-edit?id=${member.id}`);
+                                        }}
+                                        className="absolute top-2 right-2 z-20 p-2 bg-black/60 hover:bg-primary text-white hover:text-bg-dark rounded-full backdrop-blur-sm transition-all shadow-lg opacity-0 group-hover:opacity-100 placeholder-admin-edit"
+                                        title="管理員編輯"
+                                    >
+                                        <Edit size={16} />
+                                    </button>
+                                )}
                             </motion.div>
                         ))}
                     </AnimatePresence>
