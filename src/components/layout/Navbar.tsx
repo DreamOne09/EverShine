@@ -3,6 +3,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { LogIn, LogOut, User, Facebook, Instagram, Shield } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { supabase } from '../../lib/supabase';
+import { trackEvent } from '../../lib/analytics';
 
 const Navbar: React.FC = () => {
     const [scrolled, setScrolled] = useState(false);
