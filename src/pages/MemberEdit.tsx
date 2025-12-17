@@ -8,8 +8,8 @@ import { useAuth } from '../contexts/AuthContext';
 import type { Member } from '../types';
 
 const CATEGORIES = [
-    '建築工程', '室內設計', '金融服務', '專業諮詢', '健康產業',
-    '行銷廣告', '資訊科技', '教育培訓'
+    '行銷聯盟', '企業顧問', '工廠改造', '健足教育',
+    '工程裝修', '甜點美食', '健康產業'
 ];
 
 interface MemberLink {
