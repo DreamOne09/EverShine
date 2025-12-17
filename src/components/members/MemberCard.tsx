@@ -15,14 +15,21 @@ const MemberCard: React.FC<{ member: Member }> = ({ member }) => {
             return photo;
         }
         // Otherwise, ensure it starts with /
-        return photo.startsWith('/') ? photo : `/${photo}`;
+        const result = photo.startsWith('/') ? photo : `/${photo}`;
+        // Debug: log any suspicious URLs
+        if (result.includes('https://') || result.includes('http://')) {
+            console.warn('⚠️ Suspicious photo URL:', { original: photo, result });
+        }
+        return result;
     };
 
     const [imgSrc, setImgSrc] = useState(getPhotoUrl(member.photo));
 
     // Update image when member prop changes
     React.useEffect(() => {
-        setImgSrc(getPhotoUrl(member.photo));
+        const newSrc = getPhotoUrl(member.photo);
+        console.log(`📸 ${member.name}: ${member.photo} → ${newSrc}`);
+        setImgSrc(newSrc);
     }, [member.photo]);
 
     // Normalize links to array format
