@@ -79,7 +79,7 @@ const MemberEdit: React.FC = () => {
                 setIndustry(m.industry || '');
                 setShortIntro(m.shortIntro || '');
                 setFullIntro(m.fullIntro || '');
-                setPhoto(m.photo || '');
+                setPhoto((m.photo || '').trim());
                 setPhotoPosition(m.photoPosition || 'center');
 
                 // Handle Arrays
@@ -247,7 +247,7 @@ const MemberEdit: React.FC = () => {
 
                             <div className="aspect-square rounded-full border-4 border-primary/30 overflow-hidden relative group mb-4 bg-black">
                                 <img
-                                    src={previewUrl || photo || '/images/assets/logo/白色正方形logo.png'}
+                                    src={previewUrl || (photo ? photo.trim() : '') || '/images/assets/logo/白色正方形logo.png'}
                                     alt="Profile"
                                     className="w-full h-full object-cover"
                                     style={{ objectPosition: photoPosition }}

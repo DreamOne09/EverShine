@@ -10,26 +10,22 @@ const MemberCard: React.FC<{ member: Member }> = ({ member }) => {
     // Handle both local paths and Supabase URLs
     const getPhotoUrl = (photo: string) => {
         if (!photo) return '/images/assets/logo/白色正方形logo.png';
+
+        const cleanPhoto = photo.trim();
+
         // If it's already an absolute URL (http:// or https://), return as-is
-        if (photo.startsWith('http://') || photo.startsWith('https://')) {
-            return photo;
+        if (cleanPhoto.startsWith('http://') || cleanPhoto.startsWith('https://')) {
+            return cleanPhoto;
         }
         // Otherwise, ensure it starts with /
-        const result = photo.startsWith('/') ? photo : `/${photo}`;
-        // Debug: log any suspicious URLs
-        if (result.includes('https://') || result.includes('http://')) {
-            console.warn('⚠️ Suspicious photo URL:', { original: photo, result });
-        }
-        return result;
+        return cleanPhoto.startsWith('/') ? cleanPhoto : `/${cleanPhoto}`;
     };
 
     const [imgSrc, setImgSrc] = useState(getPhotoUrl(member.photo));
 
     // Update image when member prop changes
     React.useEffect(() => {
-        const newSrc = getPhotoUrl(member.photo);
-        console.log(`📸 ${member.name}: ${member.photo} → ${newSrc}`);
-        setImgSrc(newSrc);
+        setImgSrc(getPhotoUrl(member.photo));
     }, [member.photo]);
 
     // Normalize links to array format

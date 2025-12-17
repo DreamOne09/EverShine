@@ -31,8 +31,8 @@ const Members: React.FC = () => {
         return members.filter(member => {
             if (member.name === '人名') return false; // Filter out template placeholders if any
 
-            // Only show members who have edited their profile (editCount > 0)
-            if (!member.editCount || member.editCount <= 0) return false;
+            // Allow all members to be displayed regardless of edit status
+            // if (!member.editCount || member.editCount <= 0) return false;
 
             const matchesCategory = activeCategory === '全部' || (member.category && member.category.includes(activeCategory));
             const normalizedSearch = searchQuery.toLowerCase();

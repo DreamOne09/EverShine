@@ -5,7 +5,7 @@ export interface Member {
     industry: string;
     category?: string;
     company: string;
-    position: string;
+    position?: string;
     title: string;
     shortIntro: string;
     fullIntro: string;
