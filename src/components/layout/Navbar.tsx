@@ -95,7 +95,7 @@ const Navbar: React.FC = () => {
                     {user ? (
                         <div className="flex items-center gap-4 border-l border-white/20 pl-6 h-6">
                             {isAdmin && (
-                                <NavLink to="/members" className="flex items-center gap-2 text-sm text-[#FFD700] hover:text-white transition-colors font-bold mr-2" title="管理所有會員">
+                                <NavLink to="/admin" className="flex items-center gap-2 text-sm text-[#FFD700] hover:text-white transition-colors font-bold mr-2" title="管理所有會員">
                                     <Shield size={16} />
                                     <span>管理後台</span>
                                 </NavLink>

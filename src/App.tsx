@@ -13,6 +13,7 @@ import MemberEdit from './pages/MemberEdit';
 import BNI from './pages/BNI';
 import Login from './pages/Login';
 import Privacy from './pages/Privacy';
+import Admin from './pages/Admin';
 import { AuthProvider } from './contexts/AuthContext';
 
 const AnimatedRoutes = () => {
@@ -27,6 +28,7 @@ const AnimatedRoutes = () => {
         <Route path="/referrals" element={<Referrals />} />
         <Route path="/login" element={<Login />} />
         <Route path="/member-edit" element={<MemberEdit />} />
+        <Route path="/admin" element={<Admin />} />
         <Route path="/privacy" element={<Privacy />} />
       </Routes>
     </AnimatePresence>
