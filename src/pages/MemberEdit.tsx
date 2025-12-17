@@ -75,7 +75,7 @@ const MemberEdit: React.FC = () => {
                 setMemberId(m.id.toString());
                 setName(m.name);
                 setCompany(m.company || '');
-                setPosition(m.title || ''); // Assuming title maps to position
+                setPosition(m.position || m.title || '');
                 setIndustry(m.industry || '');
                 setShortIntro(m.shortIntro || '');
                 setFullIntro(m.fullIntro || '');
@@ -182,7 +182,7 @@ const MemberEdit: React.FC = () => {
             const updates = {
                 name,
                 company,
-                title: position,
+                position, // Column name is 'position'
                 industry,
                 category: selectedCategories.join(','),
                 shortIntro,
