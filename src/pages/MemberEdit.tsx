@@ -272,14 +272,14 @@ const MemberEdit: React.FC = () => {
     if (authLoading) return <div className="min-h-screen text-white flex items-center justify-center">載入中...</div>;
 
     return (
-        <div className="min-h-screen pt-32 md:pt-24 pb-12 px-4 container mx-auto max-w-4xl">
+        <div className="min-h-screen pt-40 md:pt-32 pb-12 px-4 container mx-auto max-w-4xl">
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 className="space-y-6"
             >
                 {/* Header */}
-                <div className="flex items-center justify-between mb-8 relative z-10">
+                <div className="flex items-center justify-between mb-8 relative z-10 mt-8 md:mt-0">
                     <button onClick={() => navigate('/members')} className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors cursor-pointer">
                         <ArrowLeft size={20} /> 返回列表
                     </button>
