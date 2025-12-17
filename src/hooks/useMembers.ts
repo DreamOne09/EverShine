@@ -32,7 +32,7 @@ export const useMembers = () => {
                 const { data, error } = await supabase
                     .from('members')
                     .select('*')
-                    .order('category'); // Or order by some other field
+                    .order('id', { ascending: true });
 
                 if (error) throw error;
                 setMembers(data || []);
