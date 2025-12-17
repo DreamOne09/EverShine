@@ -259,8 +259,8 @@ const MemberEdit: React.FC = () => {
                 className="space-y-6"
             >
                 {/* Header */}
-                <div className="flex items-center justify-between mb-8">
-                    <button onClick={() => navigate('/members')} className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors">
+                <div className="flex items-center justify-between mb-8 relative z-10">
+                    <button onClick={() => navigate('/members')} className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors cursor-pointer">
                         <ArrowLeft size={20} /> 返回列表
                     </button>
                     <h1 className="text-2xl font-bold text-white">編輯個人檔案</h1>
