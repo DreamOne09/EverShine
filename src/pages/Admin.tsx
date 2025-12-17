@@ -69,100 +69,86 @@ const Admin: React.FC = () => {
     const fetchDashboardData = async () => {
         setLoading(true);
 
-        // 1. Fetch Members
-        const { data: membersData } = await supabase
-            .from('members')
-            .select('*')
-            .order('created_at', { ascending: false });
-        setMembers(membersData || []);
+        try {
+            // Parallel Fetching for O(1) perceived latency (limited by slowest request)
+            const [
+                membersRes,
+                homeStatsRes,
+                pageViewsRes,
+                referralsRes,
+                socialClicksRes
+            ] = await Promise.all([
+                // 1. Members
+                supabase.from('members').select('*').order('created_at', { ascending: false }),
+                // 2. Homepage Stats
+                supabase.from('homepage_stats').select('*').order('month', { ascending: false }).limit(1).single(),
+                // 3. Page Views (Fragile)
+                supabase.from('page_views').select('*', { count: 'exact', head: true }).catch(() => ({ count: 0, error: null })),
+                // 4. Referrals
+                supabase.from('referrals').select('*').order('createdAt', { ascending: false }).catch((e) => ({ data: [], error: e })),
+                // 5. Social Clicks (Fragile)
+                supabase.from('analytics_events').select('*', { count: 'exact', head: true }).eq('event_name', 'click_social').catch(() => ({ count: 0, error: null }))
+            ]);
 
-        // 2. Fetch Recent Updates (Last 5 modified members)
-        const { data: recentData } = await supabase
-            .from('members')
-            .select('id, name, updated_at, photo, company') // ensure column name matches DB. Usually 'updatedAt' or 'updated_at'.
-            // In MemberEdit.tsx we used 'updatedAt'. Let's assume the column is 'updatedAt' (camelCase) based on previous code.
-            // If the column in DB is `updatedAt`, we query `updatedAt`.
-            // Use `.order('updatedAt', { ascending: false })`
-            .neq('updatedAt', null)
-            .order('updatedAt', { ascending: false })
-            .limit(5);
+            // Process Members
+            const membersData = membersRes.data || [];
+            setMembers(membersData);
 
-        setRecentUpdates(recentData || []);
-
-        // 3. Fetch Stats (Real data only)
-        const { data: homeStatsData } = await supabase
-            .from('homepage_stats')
-            .select('*')
-            .order('month', { ascending: false })
-            .limit(1)
-            .single();
-
-        if (homeStatsData) {
-            setHomeStats({
-                month: homeStatsData.month,
-                referral_count: homeStatsData.referral_count,
-                referral_value: homeStatsData.referral_value
+            // Derive Recent Updates (Avoid extra API call - O(N log N) sort client side is fast for <10k records)
+            // Look for updatedAt or updated_at
+            const sortedByUpdate = [...membersData].sort((a, b) => {
+                const dateA = new Date(a.updatedAt || a.updated_at || 0).getTime();
+                const dateB = new Date(b.updatedAt || b.updated_at || 0).getTime();
+                return dateB - dateA;
             });
-        }
+            setRecentUpdates(sortedByUpdate.slice(0, 5));
 
-        // 4. Fetch Page Views (Real count)
-        let visitsCount = 0;
-        try {
-            const { count, error } = await supabase
-                .from('page_views')
-                .select('*', { count: 'exact', head: true });
-            if (!error && count !== null) {
-                visitsCount = count;
+            // Process Home Stats
+            const homeStatsData = homeStatsRes.data;
+            if (homeStatsData) {
+                setHomeStats({
+                    month: homeStatsData.month,
+                    referral_count: homeStatsData.referral_count,
+                    referral_value: homeStatsData.referral_value
+                });
             }
-        } catch (e) {
-            // Table might not exist yet, ignore
-            console.log('Page views table not active');
+
+            // Process Referrals
+            // Handle lowercase/uppercase difference in DB 'createdAt' vs 'created_at' if any
+            const refData = referralsRes.data || [];
+            setReferrals(refData);
+
+            // Stats Calculation (O(N))
+            const visitsCount = pageViewsRes.count || 0;
+            const socialClicksCount = socialClicksRes.count || 0;
+
+            const industryCounts: { [key: string]: number } = {};
+            let hasPhotoCount = 0;
+            membersData.forEach((m: any) => {
+                const ind = m.industry || '未分類';
+                industryCounts[ind] = (industryCounts[ind] || 0) + 1;
+                if (m.photo && m.photo.length > 10) hasPhotoCount++;
+            });
+
+            const topIndustry = Object.entries(industryCounts).sort((a, b) => b[1] - a[1])[0];
+            const completionRate = membersData.length ? Math.round((hasPhotoCount / membersData.length) * 100) : 0;
+
+            setStats({
+                totalMembers: membersData.length,
+                totalReferrals: homeStatsData?.referral_count || 0,
+                totalValue: homeStatsData?.referral_value || 0,
+                monthlyVisits: visitsCount,
+                topIndustry: topIndustry ? `${topIndustry[0]} (${topIndustry[1]})` : '無資料',
+                completionRate: `${completionRate}%`
+            });
+
+            setMarketingStats({ socialClicks: socialClicksCount });
+
+        } catch (error) {
+            console.error('Dashboard fetch error:', error);
+        } finally {
+            setLoading(false);
         }
-
-        // 5. Fetch Referrals
-        try {
-            const { data: refData } = await supabase
-                .from('referrals')
-                .select('*')
-                .order('createdAt', { ascending: false });
-            setReferrals(refData || []);
-        } catch (e) { console.log('Referrals fetch error', e); }
-
-        // 6. Fetch Analytics Events (for Social Clicks)
-        let socialClicksCount = 0;
-        try {
-            // We can use count with filter
-            const { count } = await supabase
-                .from('analytics_events')
-                .select('*', { count: 'exact', head: true })
-                .eq('event_name', 'click_social');
-            socialClicksCount = count || 0;
-        } catch (e) { }
-
-        // Calculate extra stats
-        const industryCounts: { [key: string]: number } = {};
-        let hasPhotoCount = 0;
-        (membersData || []).forEach((m: any) => {
-            const ind = m.industry || '未分類';
-            industryCounts[ind] = (industryCounts[ind] || 0) + 1;
-            if (m.photo && m.photo.length > 10) hasPhotoCount++;
-        });
-
-        const topIndustry = Object.entries(industryCounts).sort((a, b) => b[1] - a[1])[0];
-        const completionRate = membersData?.length ? Math.round((hasPhotoCount / membersData.length) * 100) : 0;
-
-        setStats({
-            totalMembers: membersData?.length || 0,
-            totalReferrals: homeStatsData?.referral_count || 0,
-            totalValue: homeStatsData?.referral_value || 0,
-            monthlyVisits: visitsCount,
-            topIndustry: topIndustry ? `${topIndustry[0]} (${topIndustry[1]})` : '無資料',
-            completionRate: `${completionRate}%`
-        });
-
-        setMarketingStats({ socialClicks: socialClicksCount });
-
-        setLoading(false);
     };
 
     const handleDeleteReferral = async (id: string) => {
