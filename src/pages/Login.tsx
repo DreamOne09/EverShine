@@ -43,18 +43,30 @@ const Login: React.FC = () => {
     const checkProfile = async () => {
         if (!user) return;
 
-        // 1. Check if user already has a member profile
-        const { data, error } = await supabase
-            .from('members')
-            .select('id, name')
-            .eq('user_id', user.id)
-            .single();
+        try {
+            // 1. Check if user already has a member profile
+            const { data, error } = await supabase
+                .from('members')
+                .select('id, name')
+                .eq('user_id', user.id)
+                .single();
 
-        if (data) {
-            // Already matched, go to edit
-            navigate('/member-edit');
-        } else {
-            // Logged in but no profile, load unclaimed members list
+            if (error) {
+                // If checking profile fails, we assume no profile linked yet (PGRST116)
+                // Proceed to claim mode
+                console.log('No profile linked, switching to claim mode:', error.message);
+                loadUnclaimedMembers();
+                setMode('claim');
+                return;
+            }
+
+            if (data) {
+                // Already matched, go to edit
+                navigate('/member-edit');
+            }
+        } catch (err) {
+            console.error('Unexpected error checking profile:', err);
+            // Safety fallback
             loadUnclaimedMembers();
             setMode('claim');
         }
