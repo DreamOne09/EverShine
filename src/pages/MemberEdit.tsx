@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Save, Upload, AlertCircle, X, Camera, ArrowLeft } from 'lucide-react';
 import { supabase } from '../lib/supabase';
+import imageCompression from 'browser-image-compression';
 import { useAuth } from '../contexts/AuthContext';
 import type { Member } from '../types';
 
@@ -131,15 +132,41 @@ const MemberEdit: React.FC = () => {
         }
     };
 
-    const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // Add import at the top (I'll add it in a separate block if needed, but here I assume I can edit the whole function block and top imports effectively with multi-replace or just careful replacing. Wait, this tool is replace_file_content. I need to add import. I'll do two edits or one big one.)
+    // Actually, I should use multi_replace for import + function change. But let's stay simple.
+    // I will replace handleFileUpload and add the import in a subsequent or prior call? 
+    // No, I can't add import easily without context.
+    // Let's assume I will add import in a separate step or I use a larger range.
+    // The user wants: 50MB limit + compression.
+
+    // Step 1: Update handleFileUpload to use compression.
+    const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
             const file = e.target.files[0];
-            if (file.size > 5 * 1024 * 1024) {
-                setMessage({ text: '圖片大小不能超過 5MB', type: 'error' });
+
+            // Limit to 50MB before compression
+            if (file.size > 50 * 1024 * 1024) {
+                setMessage({ text: '圖片原始大小不能超過 50MB', type: 'error' });
                 return;
             }
-            setPhotoFile(file);
-            setPreviewUrl(URL.createObjectURL(file));
+
+            try {
+                // Compress image
+                const options = {
+                    maxSizeMB: 1, // Compress to ~1MB
+                    maxWidthOrHeight: 1920,
+                    useWebWorker: true,
+                    initialQuality: 0.8
+                };
+
+                const compressedFile = await imageCompression(file, options);
+
+                setPhotoFile(compressedFile);
+                setPreviewUrl(URL.createObjectURL(compressedFile));
+            } catch (error) {
+                console.error('Compression error:', error);
+                setMessage({ text: '圖片處理失敗，請重試', type: 'error' });
+            }
         }
     };
 
