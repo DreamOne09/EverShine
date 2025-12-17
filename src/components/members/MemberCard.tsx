@@ -7,9 +7,14 @@ import clsx from 'clsx';
 const MemberCard: React.FC<{ member: Member }> = ({ member }) => {
     const [expanded, setExpanded] = useState(false);
 
-    // Ensure photo path starts with / if not present
+    // Handle both local paths and Supabase URLs
     const getPhotoUrl = (photo: string) => {
         if (!photo) return '/images/assets/logo/白色正方形logo.png';
+        // If it's already an absolute URL (http:// or https://), return as-is
+        if (photo.startsWith('http://') || photo.startsWith('https://')) {
+            return photo;
+        }
+        // Otherwise, ensure it starts with /
         return photo.startsWith('/') ? photo : `/${photo}`;
     };
 
