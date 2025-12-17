@@ -5,6 +5,7 @@ import Footer from './components/layout/Footer';
 import StarryBackground from './components/layout/StarryBackground';
 import BackToTop from './components/common/BackToTop';
 import ScrollToTop from './components/common/ScrollToTop';
+import PageTracker from './components/common/PageTracker';
 import BottomNav from './components/layout/BottomNav';
 import Home from './pages/Home';
 import Members from './pages/Members';
@@ -39,6 +40,7 @@ function App() {
   return (
     <AuthProvider>
       <Router>
+        <PageTracker />
         <ScrollToTop />
         <StarryBackground />
         <div className="flex flex-col min-h-screen relative z-10">
