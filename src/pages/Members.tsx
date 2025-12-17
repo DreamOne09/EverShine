@@ -9,6 +9,29 @@ import { supabase } from '../lib/supabase';
 import { Search, Edit } from 'lucide-react';
 import PageHero from '../components/common/PageHero';
 
+const CATEGORIES = [
+    '居住與空間工程',
+    '企業營運與法稅',
+    '金融財富與資產',
+    '品牌整合與行銷',
+    '數位AI與創新科技',
+    '身心健康與醫療',
+    '飲食文化與食品',
+    '教育學習與休閒',
+    '永續發展與製造'
+];
+
+const CATEGORY_MAPPING: { [key: string]: string } = {
+    '工程裝修': '居住與空間工程',
+    '企業行銷': '品牌整合與行銷',
+    '企業顧問': '企業營運與法稅',
+    '資訊系統': '數位AI與創新科技',
+    '健康美麗': '身心健康與醫療',
+    '美食餐飲': '飲食文化與食品',
+    '休閒教育': '教育學習與休閒',
+    '投資理財': '金融財富與資產',
+};
+
 const Members: React.FC = () => {
     const { user } = useAuth();
     const navigate = useNavigate();
@@ -41,30 +64,26 @@ const Members: React.FC = () => {
     // ... inside render loop
 
 
-    // Extract unique categories (major categories)
-    const categories = useMemo(() => {
-        const unique = new Set(members.flatMap(m =>
-            m.category ? m.category.split(/[,|、]/).map(c => c.trim()) : []
-        ).filter(Boolean));
-
-        // Remove 'All' or '全部' if they exist in data to avoid duplicates with our default
-        unique.delete('All');
-        unique.delete('all');
-        unique.delete('全部');
-
-        // Custom sort order if needed, otherwise alphabetical
-        return ['全部', ...Array.from(unique).sort((a, b) => a.localeCompare(b, 'zh-TW'))];
-    }, [members]);
+    // Use fixed categories
+    const categories = useMemo(() => ['全部', ...CATEGORIES], []);
 
     // Filter logic
     const filteredMembers = useMemo(() => {
         return members.filter(member => {
             if (member.name === '人名') return false; // Filter out template placeholders if any
 
-            // Allow all members to be displayed regardless of edit status
-            // if (!member.editCount || member.editCount <= 0) return false;
+            // Normalize member categories for filtering
+            const memberCats = (member.category || '').split(/[,|、]/).map(c => {
+                let t = c.trim();
+                // Map old legacy names to new ones
+                if (CATEGORY_MAPPING[t]) t = CATEGORY_MAPPING[t];
+                // Remove suffix if present
+                const noSuffix = t.replace('生態圈', '');
+                if (CATEGORIES.includes(noSuffix)) t = noSuffix;
+                return t;
+            });
 
-            const matchesCategory = activeCategory === '全部' || (member.category && member.category.includes(activeCategory));
+            const matchesCategory = activeCategory === '全部' || memberCats.some(c => c === activeCategory);
             const normalizedSearch = searchQuery.toLowerCase();
             const matchesSearch =
                 member.name.toLowerCase().includes(normalizedSearch) ||
