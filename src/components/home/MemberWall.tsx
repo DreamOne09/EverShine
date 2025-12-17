@@ -84,19 +84,19 @@ const MemberWall: React.FC = () => {
             <div className="relative w-full max-w-[1920px] mx-auto mask-linear-gradient">
                 <MarqueeRow speed={50}>
                     <div className="flex">
-                        {row1.map(m => <MemberThumbnail key={m.id} photo={m.photo || `/images/members/${m.name}.jpg`} name={m.name} industry={m.industry} photoPosition={m.photoPosition} />)}
+                        {row1.map(m => <MemberThumbnail key={m.id} photo={m.photo} name={m.name} industry={m.industry} photoPosition={m.photoPosition} />)}
                     </div>
                 </MarqueeRow>
 
                 <MarqueeRow direction="right" speed={55}>
                     <div className="flex">
-                        {row2.map(m => <MemberThumbnail key={m.id} photo={m.photo || `/images/members/${m.name}.jpg`} name={m.name} industry={m.industry} photoPosition={m.photoPosition} />)}
+                        {row2.map(m => <MemberThumbnail key={m.id} photo={m.photo} name={m.name} industry={m.industry} photoPosition={m.photoPosition} />)}
                     </div>
                 </MarqueeRow>
 
                 <MarqueeRow speed={60}>
                     <div className="flex">
-                        {row3.map(m => <MemberThumbnail key={m.id} photo={m.photo || `/images/members/${m.name}.jpg`} name={m.name} industry={m.industry} photoPosition={m.photoPosition} />)}
+                        {row3.map(m => <MemberThumbnail key={m.id} photo={m.photo} name={m.name} industry={m.industry} photoPosition={m.photoPosition} />)}
                     </div>
                 </MarqueeRow>
             </div>
