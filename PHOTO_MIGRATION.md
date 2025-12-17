@@ -19,12 +19,29 @@ SUPABASE_SERVICE_KEY=你的_service_role_key
 
 ## 執行遷移
 
-### 方法一：使用遷移腳本（推薦）
+### 情境一：照片已在 Supabase，只需更新資料庫路徑（推薦）
+
+如果照片已經上傳到 Supabase Storage（例如：`member-1.jpg`, `member-2.jpg`...），只需要更新資料庫中的 URL：
 
 ```bash
-# 安裝相依套件（如果還沒安裝）
-npm install
+# 設定環境變數（建立 .env.local）
+echo "SUPABASE_SERVICE_KEY=你的service_role_key" > .env.local
 
+# 執行更新腳本
+node scripts/update-photo-urls.mjs
+```
+
+這個腳本會：
+- ✅ 檢查每個會員的照片是否存在於 Supabase Storage
+- ✅ 自動更新資料庫中的 `photo` 欄位為完整的 Supabase URL
+- ✅ 跳過已經是正確 URL 的會員
+- ✅ 顯示詳細的執行報告
+
+### 情境二：從本地上傳照片到 Supabase
+
+如果照片還在本地 `public/images/members/`：
+
+```bash
 # 執行遷移腳本
 node scripts/migrate-photos.mjs
 ```
@@ -35,7 +52,7 @@ node scripts/migrate-photos.mjs
 - ✅ 更新資料庫中的 `photo` 欄位為 Supabase URL
 - ✅ 跳過已經使用 Supabase URL 的會員
 
-### 方法二：手動上傳（適合少量圖片）
+### 情境三：手動上傳（適合少量圖片）
 
 1. 前往 Supabase Dashboard → **Storage** → `member-photos`
 2. 建立 `members` 資料夾（如果還沒有）
