@@ -1,8 +1,13 @@
+import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useMembers } from '../hooks/useMembers';
+import MemberCard from '../components/members/MemberCard';
+import CategoryFilter from '../components/members/CategoryFilter';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../contexts/AuthContext';
 import { supabase } from '../lib/supabase';
 import { Search, Edit } from 'lucide-react';
-// ... existing imports
+import PageHero from '../components/common/PageHero';
 
 const Members: React.FC = () => {
     const { user } = useAuth();

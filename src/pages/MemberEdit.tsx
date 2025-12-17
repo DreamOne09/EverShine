@@ -272,7 +272,7 @@ const MemberEdit: React.FC = () => {
     if (authLoading) return <div className="min-h-screen text-white flex items-center justify-center">載入中...</div>;
 
     return (
-        <div className="min-h-screen pt-24 pb-12 px-4 container mx-auto max-w-4xl">
+        <div className="min-h-screen pt-32 md:pt-24 pb-12 px-4 container mx-auto max-w-4xl">
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
