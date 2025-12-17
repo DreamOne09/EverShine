@@ -289,7 +289,7 @@ const MemberEdit: React.FC = () => {
     if (authLoading) return <div className="min-h-screen text-white flex items-center justify-center">載入中...</div>;
 
     return (
-        <div className="min-h-screen pt-24 md:pt-32 pb-12 px-4 container mx-auto max-w-4xl">
+        <div className="min-h-screen pt-24 md:pt-32 pb-32 md:pb-12 px-4 container mx-auto max-w-4xl">
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -389,7 +389,7 @@ const MemberEdit: React.FC = () => {
                                         type="text"
                                         value={name}
                                         onChange={(e) => setName(e.target.value)}
-                                        className="w-full bg-black/30 border border-white/20 rounded-lg p-3 text-white focus:border-primary focus:outline-none"
+                                        className="w-full bg-black/30 border border-white/20 rounded-lg p-3 text-base text-white focus:border-primary focus:outline-none"
                                     />
                                 </div>
 
@@ -400,7 +400,7 @@ const MemberEdit: React.FC = () => {
                                             type="text"
                                             value={company}
                                             onChange={(e) => setCompany(e.target.value)}
-                                            className="w-full bg-black/30 border border-white/20 rounded-lg p-3 text-white focus:border-primary focus:outline-none"
+                                            className="w-full bg-black/30 border border-white/20 rounded-lg p-3 text-base text-white focus:border-primary focus:outline-none"
                                         />
                                     </div>
                                     <div>
@@ -409,7 +409,7 @@ const MemberEdit: React.FC = () => {
                                             type="text"
                                             value={position}
                                             onChange={(e) => setPosition(e.target.value)}
-                                            className="w-full bg-black/30 border border-white/20 rounded-lg p-3 text-white focus:border-primary focus:outline-none"
+                                            className="w-full bg-black/30 border border-white/20 rounded-lg p-3 text-base text-white focus:border-primary focus:outline-none"
                                         />
                                     </div>
                                 </div>
@@ -463,7 +463,7 @@ const MemberEdit: React.FC = () => {
                                         value={shortIntro}
                                         onChange={(e) => setShortIntro(e.target.value)}
                                         maxLength={100}
-                                        className="w-full bg-black/30 border border-white/20 rounded-lg p-3 text-white focus:border-primary focus:outline-none h-24 resize-none"
+                                        className="w-full bg-black/30 border border-white/20 rounded-lg p-3 text-base text-white focus:border-primary focus:outline-none h-24 resize-none"
                                         placeholder="一句話介紹您的專業..."
                                     />
                                     <div className="text-right text-xs text-gray-500">{shortIntro.length}/100</div>
@@ -473,7 +473,7 @@ const MemberEdit: React.FC = () => {
                                     <textarea
                                         value={fullIntro}
                                         onChange={(e) => setFullIntro(e.target.value)}
-                                        className="w-full bg-black/30 border border-white/20 rounded-lg p-3 text-white focus:border-primary focus:outline-none h-40"
+                                        className="w-full bg-black/30 border border-white/20 rounded-lg p-3 text-base text-white focus:border-primary focus:outline-none h-40"
                                         placeholder="詳細說明您的服務內容、經歷與優勢..."
                                     />
                                 </div>
@@ -497,7 +497,7 @@ const MemberEdit: React.FC = () => {
                                                 newServices[idx] = e.target.value;
                                                 setServices(newServices);
                                             }}
-                                            className="w-full bg-black/30 border border-white/20 rounded-lg p-3 text-white focus:border-primary focus:outline-none"
+                                            className="w-full bg-black/30 border border-white/20 rounded-lg p-3 text-base text-white focus:border-primary focus:outline-none"
                                             placeholder={`服務項目 ${idx + 1}`}
                                         />
                                     ))}
@@ -518,7 +518,7 @@ const MemberEdit: React.FC = () => {
                                                     newTags[idx] = e.target.value;
                                                     setHashtags(newTags);
                                                 }}
-                                                className="w-full bg-black/30 border border-white/20 rounded-lg p-3 pl-7 text-white focus:border-primary focus:outline-none"
+                                                className="w-full bg-black/30 border border-white/20 rounded-lg p-3 pl-7 text-base text-white focus:border-primary focus:outline-none"
                                             />
                                         </div>
                                     ))}
@@ -541,7 +541,7 @@ const MemberEdit: React.FC = () => {
                                                 newLinks[idx].url = e.target.value;
                                                 setLinks(newLinks);
                                             }}
-                                            className="flex-1 bg-black/30 border border-white/20 rounded-lg p-3 text-white focus:border-primary focus:outline-none"
+                                            className="flex-1 bg-black/30 border border-white/20 rounded-lg p-3 text-base text-white focus:border-primary focus:outline-none"
                                             placeholder="https://..."
                                         />
                                     </div>
@@ -551,18 +551,18 @@ const MemberEdit: React.FC = () => {
                     </div>
                 </div>
 
-                {/* Footer Actions */}
-                <div className="flex justify-end gap-4 pt-4 border-t border-white/10">
+                {/* Footer Actions - Sticky on Mobile */}
+                <div className="fixed bottom-0 left-0 right-0 p-4 bg-bg-dark/95 backdrop-blur-xl border-t border-white/10 z-50 flex justify-end gap-3 md:static md:bg-transparent md:border-0 md:p-0 md:pt-4 md:border-t-0">
                     <button
                         onClick={() => navigate('/members')}
-                        className="px-6 py-3 rounded-lg border border-white/10 text-white hover:bg-white/5 transition-colors"
+                        className="px-6 py-3 rounded-lg border border-white/10 text-white hover:bg-white/5 transition-colors text-sm font-medium"
                     >
                         取消
                     </button>
                     <button
                         onClick={handleSubmit}
                         disabled={loading}
-                        className="px-8 py-3 rounded-lg bg-primary text-bg-dark font-bold hover:bg-primary/90 transition-colors disabled:opacity-50 flex items-center gap-2"
+                        className="px-8 py-3 rounded-lg bg-primary text-bg-dark font-bold hover:bg-primary/90 transition-colors disabled:opacity-50 flex items-center gap-2 shadow-lg shadow-primary/20"
                     >
                         {loading ? '儲存中...' : (
                             <>
