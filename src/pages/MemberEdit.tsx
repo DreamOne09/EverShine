@@ -9,7 +9,7 @@ import type { Member } from '../types';
 
 const CATEGORIES = [
     '建築工程', '室內設計', '金融服務', '專業諮詢', '健康產業',
-    '行銷廣告', '資訊科技', '教育培訓', '餐飲食品', '房地產'
+    '行銷廣告', '資訊科技', '教育培訓'
 ];
 
 interface MemberLink {
