@@ -112,7 +112,15 @@ const MemberEdit: React.FC = () => {
 
                 // Handle Arrays
                 if (m.category) {
-                    setSelectedCategories(m.category.split(',').map(c => c.trim()).filter(Boolean));
+                    const loadedCats = m.category.split(',').map(c => c.trim()).filter(Boolean);
+                    // Normalize legacy categories (remove '生態圈' suffix if it matches new list)
+                    const normalizedCats = loadedCats.map(c => {
+                        if (CATEGORIES.includes(c)) return c;
+                        const stripped = c.replace('生態圈', '');
+                        if (CATEGORIES.includes(stripped)) return stripped;
+                        return c;
+                    });
+                    setSelectedCategories(normalizedCats);
                 }
                 if (m.services && Array.isArray(m.services)) {
                     setServices([...m.services, '', '', ''].slice(0, 3));
@@ -399,7 +407,25 @@ const MemberEdit: React.FC = () => {
                                 </div>
 
                                 <div>
-                                    <label className="block text-gray-300 mb-2">產業類別 (最多選2項)</label>
+                                    <label className="block text-gray-300 mb-2">
+                                        產業類別 (已選 {selectedCategories.length}/2)
+                                    </label>
+
+                                    {/* Selected Tags Display */}
+                                    <div className="flex flex-wrap gap-2 mb-3">
+                                        {selectedCategories.map(cat => (
+                                            <span key={cat} className="px-3 py-1 bg-primary text-bg-dark font-bold rounded-full text-sm flex items-center gap-2">
+                                                {cat}
+                                                <button
+                                                    type="button"
+                                                    onClick={() => toggleCategory(cat)}
+                                                    className="hover:text-white focus:outline-none"
+                                                >
+                                                    <X size={14} />
+                                                </button>
+                                            </span>
+                                        ))}
+                                    </div>
                                     <div className="flex flex-wrap gap-2 relative z-20">
                                         {CATEGORIES.map(cat => (
                                             <button
