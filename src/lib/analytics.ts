@@ -10,7 +10,7 @@ interface AnalyticsConfig {
 
 // Load config from environment variables
 const config: AnalyticsConfig = {
-    gaId: import.meta.env.VITE_GA_ID,
+    gaId: import.meta.env.VITE_GA_ID || 'G-NX3BWTYJQ0', // Fallback to provided ID
     pixelId: import.meta.env.VITE_FB_PIXEL_ID,
     clarityId: import.meta.env.VITE_CLARITY_ID,
 };
@@ -49,7 +49,7 @@ export const initAnalytics = () => {
         (function (f: any, b, e, v, n, t, s) {
             if (f.fbq) return; n = f.fbq = function () {
                 n.callMethod ?
-                n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
             };
             if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
             n.queue = []; t = b.createElement(e); t.async = !0;
