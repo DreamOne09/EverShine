@@ -34,6 +34,9 @@ const Admin: React.FC = () => {
         month: new Date().toISOString().slice(0, 7) // YYYY-MM
     });
 
+    // Recent Activity State
+    const [recentUpdates, setRecentUpdates] = useState<any[]>([]);
+
     useEffect(() => {
         checkAdmin();
         fetchDashboardData();
@@ -65,10 +68,20 @@ const Admin: React.FC = () => {
             .order('created_at', { ascending: false });
         setMembers(membersData || []);
 
-        // 2. Fetch Stats (Mock for now, replacing with real where possible)
-        // In a real app, you'd query 'referrals' table for sum.
-        // For now, we use the `homeStats` table or hardcoded + stored values
+        // 2. Fetch Recent Updates (Last 5 modified members)
+        const { data: recentData } = await supabase
+            .from('members')
+            .select('id, name, updated_at, photo, company') // ensure column name matches DB. Usually 'updatedAt' or 'updated_at'.
+            // In MemberEdit.tsx we used 'updatedAt'. Let's assume the column is 'updatedAt' (camelCase) based on previous code.
+            // If the column in DB is `updatedAt`, we query `updatedAt`.
+            // Use `.order('updatedAt', { ascending: false })`
+            .neq('updatedAt', null)
+            .order('updatedAt', { ascending: false })
+            .limit(5);
 
+        setRecentUpdates(recentData || []);
+
+        // 3. Fetch Stats (Mock for now, replacing with real where possible)
         const { data: homeStatsData } = await supabase
             .from('homepage_stats')
             .select('*')
@@ -84,11 +97,26 @@ const Admin: React.FC = () => {
             });
         }
 
+        // Calculate extra stats
+        const industryCounts: { [key: string]: number } = {};
+        let hasPhotoCount = 0;
+        (membersData || []).forEach((m: any) => {
+            const ind = m.industry || '未分類';
+            industryCounts[ind] = (industryCounts[ind] || 0) + 1;
+            if (m.photo && m.photo.length > 10) hasPhotoCount++;
+        });
+
+        const topIndustry = Object.entries(industryCounts).sort((a, b) => b[1] - a[1])[0];
+        const completionRate = membersData?.length ? Math.round((hasPhotoCount / membersData.length) * 100) : 0;
+
         setStats({
             totalMembers: membersData?.length || 0,
             totalReferrals: homeStatsData?.referral_count || 25876,
             totalValue: homeStatsData?.referral_value || 580000000,
-            monthlyVisits: 12450 // Mock visit count
+            monthlyVisits: 12450, // Mock visit count
+            // New stats
+            topIndustry: topIndustry ? `${topIndustry[0]} (${topIndustry[1]})` : '無資料',
+            completionRate: `${completionRate}%`
         });
 
         setLoading(false);
@@ -118,7 +146,7 @@ const Admin: React.FC = () => {
     if (loading) return <div className="min-h-screen pt-32 text-center text-white">載入後台數據中...</div>;
 
     return (
-        <div className="min-h-screen pt-24 pb-12 px-4 container mx-auto">
+        <div className="min-h-screen pt-32 pb-12 px-4 container mx-auto">
             <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
                 <h1 className="text-3xl font-bold text-white flex items-center gap-3">
                     <Activity className="text-primary" /> 管理後台
@@ -133,8 +161,8 @@ const Admin: React.FC = () => {
                             key={tab.id}
                             onClick={() => setActiveTab(tab.id as any)}
                             className={`px-4 py-2 rounded-md text-sm font-bold transition-colors ${activeTab === tab.id
-                                    ? 'bg-primary text-bg-dark'
-                                    : 'text-gray-400 hover:text-white'
+                                ? 'bg-primary text-bg-dark'
+                                : 'text-gray-400 hover:text-white'
                                 }`}
                         >
                             {tab.label}
@@ -153,7 +181,19 @@ const Admin: React.FC = () => {
                             title="總會員數"
                             value={stats.totalMembers}
                             icon={<Users className="text-blue-400" />}
-                            diff="+2 本月"
+                            diff="活躍中"
+                        />
+                        <StatsCard
+                            title="資料完整度"
+                            value={(stats as any).completionRate}
+                            icon={<Activity className="text-pink-400" />}
+                            diff="會員有照片比例"
+                        />
+                        <StatsCard
+                            title="最大產業佔比"
+                            value={(stats as any).topIndustry}
+                            icon={<Users className="text-purple-400" />}
+                            diff="最熱門產業"
                         />
                         <StatsCard
                             title="總引薦單數"
@@ -174,10 +214,39 @@ const Admin: React.FC = () => {
                             diff="+15% 上月"
                         />
 
-                        {/* Traffic Chart Placeholder */}
-                        <div className="col-span-1 lg:col-span-4 bg-bg-dark/50 border border-white/10 rounded-2xl p-6 h-80 flex items-center justify-center relative overflow-hidden group">
-                            <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                            <p className="text-gray-400">網站流量趨勢圖表 (此區域需連接 Google Analytics 或自建統計 API)</p>
+
+                        {/* Recent Activity Section */}
+                        <div className="col-span-1 lg:col-span-4 bg-bg-dark/50 border border-white/10 rounded-2xl p-6 min-h-[320px]">
+                            <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                                <Activity size={20} className="text-primary" /> 最近更新紀錄
+                            </h3>
+                            <div className="grid gap-4">
+                                {recentUpdates.length === 0 ? (
+                                    <div className="text-gray-400 text-center py-8">尚無更新紀錄</div>
+                                ) : (
+                                    recentUpdates.map((item) => (
+                                        <div key={item.id} className="flex items-center justify-between p-4 bg-white/5 rounded-xl border border-white/5 hover:border-primary/50 transition-colors">
+                                            <div className="flex items-center gap-4">
+                                                <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-800">
+                                                    <img src={item.photo || '/images/assets/logo/白色正方形logo.png'} alt={item.name} className="w-full h-full object-cover" />
+                                                </div>
+                                                <div>
+                                                    <div className="font-bold text-white">{item.name}</div>
+                                                    <div className="text-xs text-gray-400">{item.company || '未填寫公司'}</div>
+                                                </div>
+                                            </div>
+                                            <div className="text-right">
+                                                <div className="text-primary font-mono text-sm">
+                                                    {new Date(item.updatedAt).toLocaleDateString()}
+                                                </div>
+                                                <div className="text-xs text-gray-500">
+                                                    {new Date(item.updatedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} 更新
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))
+                                )}
+                            </div>
                         </div>
                     </div>
                 )}
@@ -228,10 +297,10 @@ const Admin: React.FC = () => {
                                             <td className="p-4 text-right">
                                                 <button
                                                     onClick={() => navigate(`/member-edit?id=${member.id}`)}
-                                                    className="p-2 hover:bg-white/10 rounded-full text-primary transition-colors"
+                                                    className="px-3 py-1 bg-primary/10 hover:bg-primary/20 text-primary rounded-full transition-colors text-sm flex items-center gap-1 ml-auto"
                                                     title="編輯"
                                                 >
-                                                    <Edit size={16} />
+                                                    <Edit size={14} /> 編輯
                                                 </button>
                                             </td>
                                         </tr>
