@@ -8,8 +8,8 @@ import { useAuth } from '../contexts/AuthContext';
 import type { Member } from '../types';
 
 const CATEGORIES = [
-    '行銷聯盟', '企業顧問', '工廠改造', '健足教育',
-    '工程裝修', '甜點美食', '健康產業'
+    '行銷聯盟', '企業顧問', '工廠改造', '健足聯盟',
+    '工程裝修', '甜點美食', '健康產業', '休閒教育'
 ];
 
 interface MemberLink {
