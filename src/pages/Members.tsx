@@ -36,29 +36,7 @@ const Members: React.FC = () => {
     // ... existing filtering logic
 
     // ... inside render loop
-    <motion.div
-        layout
-        key={member.id || member.name}
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.9 }}
-        transition={{ duration: 0.3 }}
-        className="relative group"
-    >
-        <MemberCard member={member} />
-        {isAdmin && (
-            <button
-                onClick={(e) => {
-                    e.stopPropagation();
-                    navigate(`/member-edit?id=${member.id}`);
-                }}
-                className="absolute top-2 right-2 z-20 p-2 bg-black/60 hover:bg-primary text-white hover:text-bg-dark rounded-full backdrop-blur-sm transition-all shadow-lg opacity-0 group-hover:opacity-100"
-                title="管理員編輯"
-            >
-                <Edit size={16} />
-            </button>
-        )}
-    </motion.div>
+
 
     // Extract unique categories (major categories)
     const categories = useMemo(() => {
