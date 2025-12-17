@@ -71,17 +71,37 @@ const MemberEdit: React.FC = () => {
         if (!user) return;
         setLoading(true);
         try {
-            const { data, error } = await supabase
+            // 1. Check if current user is Admin
+            const { data: currentUserData } = await supabase
                 .from('members')
-                .select('*')
+                .select('is_admin')
                 .eq('user_id', user.id)
                 .single();
+
+            const isAdmin = currentUserData?.is_admin === true;
+
+            // 2. Check URL params for target ID
+            const searchParams = new URLSearchParams(window.location.search);
+            const targetId = searchParams.get('id');
+
+            let query = supabase.from('members').select('*');
+
+            if (targetId && isAdmin) {
+                // Admin editing another member by ID
+                query = query.eq('id', targetId);
+            } else {
+                // Normal user editing self
+                query = query.eq('user_id', user.id);
+            }
+
+            const { data, error } = await query.single();
 
             if (error) throw error;
             if (data) {
                 const m = data as Member;
                 setMemberId(m.id.toString());
                 setName(m.name);
+                // ... (rest of mapping is same)
                 setCompany(m.company || '');
                 setPosition(m.position || m.title || '');
                 setIndustry(m.industry || '');
@@ -233,7 +253,7 @@ const MemberEdit: React.FC = () => {
             const { error } = await supabase
                 .from('members')
                 .update(updates)
-                .eq('user_id', user.id);
+                .eq('id', memberId); // Update by Primary Key ID
 
             if (error) throw error;
 
