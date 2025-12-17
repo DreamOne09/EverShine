@@ -6,7 +6,9 @@ const MemberThumbnail: React.FC<{ photo: string, name: string, industry: string,
     // Helper to get normalized/secure URL
     const getPhotoUrl = (p: string) => {
         if (!p) return '/images/assets/logo/白色正方形logo.png';
-        return p.startsWith('/') ? p : `/${p}`;
+        const cleanP = p.trim();
+        if (cleanP.startsWith('http')) return cleanP;
+        return cleanP.startsWith('/') ? cleanP : `/${cleanP}`;
     };
 
     const [imgSrc, setImgSrc] = useState(getPhotoUrl(photo));
