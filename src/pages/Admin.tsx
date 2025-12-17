@@ -8,6 +8,7 @@ import {
     Edit, Trash2, Plus, Save, X, Search
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import StatsCard from '../components/common/StatsCard';
 
 const Admin: React.FC = () => {
     const { user } = useAuth();
@@ -471,16 +472,5 @@ const Admin: React.FC = () => {
         </div>
     );
 };
-
-const StatsCard = ({ title, value, icon, diff }: any) => (
-    <div className="bg-bg-dark/50 border border-white/10 rounded-2xl p-6 backdrop-blur-sm">
-        <div className="flex justify-between items-start mb-4">
-            <div className="text-gray-400 text-sm font-medium">{title}</div>
-            <div className="p-2 bg-white/5 rounded-lg">{icon}</div>
-        </div>
-        <div className="text-3xl font-bold text-white mb-1">{value}</div>
-        <div className="text-xs text-primary">{diff}</div>
-    </div>
-);
 
 export default Admin;
