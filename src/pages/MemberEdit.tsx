@@ -112,6 +112,12 @@ const MemberEdit: React.FC = () => {
             }
         } catch (err: any) {
             console.error('Error fetching member:', err);
+            // If no rows found (PGRST116) or Not Acceptable (406), it means user hasn't claimed a profile yet.
+            if (err.code === 'PGRST116' || err.code === '406' || err.status === 406) {
+                // Redirect to login page which handles claiming
+                navigate('/login');
+                return;
+            }
             setMessage({ text: '無法載入會員資料', type: 'error' });
         } finally {
             setLoading(false);
