@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Save, Upload, AlertCircle, X, Camera, ArrowLeft } from 'lucide-react';
+import { Save, Upload, AlertCircle, X, Camera, ArrowLeft, LogOut } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import imageCompression from 'browser-image-compression';
 import { useAuth } from '../contexts/AuthContext';
@@ -27,7 +27,7 @@ interface MemberLink {
 }
 
 const MemberEdit: React.FC = () => {
-    const { user, loading: authLoading } = useAuth();
+    const { user, loading: authLoading, signOut } = useAuth();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState<{ text: string, type: 'error' | 'success' } | null>(null);
@@ -298,9 +298,17 @@ const MemberEdit: React.FC = () => {
                 {/* Header */}
                 <div className="flex items-center justify-between mb-8 relative z-10 mt-8 md:mt-0">
                     <button onClick={() => navigate('/members')} className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors cursor-pointer">
-                        <ArrowLeft size={20} /> 返回列表
+                        <ArrowLeft size={20} /> <span className="hidden sm:inline">返回列表</span><span className="sm:hidden">返回</span>
                     </button>
-                    <h1 className="text-2xl font-bold text-white">編輯個人檔案</h1>
+                    <div className="flex items-center gap-3">
+                        <h1 className="text-lg md:text-2xl font-bold text-white">編輯檔案</h1>
+                        <button
+                            onClick={async () => { await signOut(); navigate('/'); }}
+                            className="md:hidden flex items-center gap-1 text-red-400 border border-red-400/30 px-3 py-1.5 rounded-full text-xs hover:bg-red-400/10 transition-colors"
+                        >
+                            <LogOut size={14} /> 登出
+                        </button>
+                    </div>
                 </div>
 
                 {message && (
