@@ -81,7 +81,7 @@ const Admin: React.FC = () => {
 
         setRecentUpdates(recentData || []);
 
-        // 3. Fetch Stats (Mock for now, replacing with real where possible)
+        // 3. Fetch Stats (Real data only)
         const { data: homeStatsData } = await supabase
             .from('homepage_stats')
             .select('*')
@@ -95,6 +95,20 @@ const Admin: React.FC = () => {
                 referral_count: homeStatsData.referral_count,
                 referral_value: homeStatsData.referral_value
             });
+        }
+
+        // 4. Fetch Page Views (Real count)
+        let visitsCount = 0;
+        try {
+            const { count, error } = await supabase
+                .from('page_views')
+                .select('*', { count: 'exact', head: true });
+            if (!error && count !== null) {
+                visitsCount = count;
+            }
+        } catch (e) {
+            // Table might not exist yet, ignore
+            console.log('Page views table not active');
         }
 
         // Calculate extra stats
@@ -111,10 +125,9 @@ const Admin: React.FC = () => {
 
         setStats({
             totalMembers: membersData?.length || 0,
-            totalReferrals: homeStatsData?.referral_count || 25876,
-            totalValue: homeStatsData?.referral_value || 580000000,
-            monthlyVisits: 12450, // Mock visit count
-            // New stats
+            totalReferrals: homeStatsData?.referral_count || 0,
+            totalValue: homeStatsData?.referral_value || 0,
+            monthlyVisits: visitsCount,
             topIndustry: topIndustry ? `${topIndustry[0]} (${topIndustry[1]})` : '無資料',
             completionRate: `${completionRate}%`
         });
