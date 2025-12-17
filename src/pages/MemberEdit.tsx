@@ -193,9 +193,15 @@ const MemberEdit: React.FC = () => {
     const toggleCategory = (cat: string) => {
         if (selectedCategories.includes(cat)) {
             setSelectedCategories(prev => prev.filter(c => c !== cat));
+            setMessage(null); // Clear message on valid action
         } else {
-            if (selectedCategories.length >= 2) return;
+            if (selectedCategories.length >= 2) {
+                setMessage({ text: '最多只能選擇 2 個產業類別', type: 'error' });
+                // Optional: Scroll to message if needed, but let's assume user sees it or we make message fixed later.
+                return;
+            }
             setSelectedCategories(prev => [...prev, cat]);
+            setMessage(null);
         }
     };
 
@@ -288,12 +294,19 @@ const MemberEdit: React.FC = () => {
 
                 {message && (
                     <motion.div
-                        initial={{ opacity: 0, y: -10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className={`p-4 rounded-lg flex items-center gap-3 ${message.type === 'error' ? 'bg-red-500/20 text-red-200' : 'bg-green-500/20 text-green-200'}`}
+                        initial={{ opacity: 0, y: -20, x: "-50%" }}
+                        animate={{ opacity: 1, y: 0, x: "-50%" }}
+                        exit={{ opacity: 0, y: -20, x: "-50%" }}
+                        className={`fixed top-28 md:top-24 left-1/2 z-50 w-[90%] max-w-lg p-4 rounded-xl flex items-center gap-3 shadow-2xl backdrop-blur-md border ${message.type === 'error'
+                                ? 'bg-red-900/90 text-red-100 border-red-500/50'
+                                : 'bg-green-900/90 text-green-100 border-green-500/50'
+                            }`}
                     >
-                        <AlertCircle size={20} />
-                        {message.text}
+                        <AlertCircle size={24} className="flex-shrink-0" />
+                        <span className="font-medium">{message.text}</span>
+                        <button onClick={() => setMessage(null)} className="ml-auto p-1 hover:bg-white/20 rounded-full">
+                            <X size={16} />
+                        </button>
                     </motion.div>
                 )}
 
@@ -384,15 +397,15 @@ const MemberEdit: React.FC = () => {
 
                                 <div>
                                     <label className="block text-gray-300 mb-2">產業類別 (最多選2項)</label>
-                                    <div className="flex flex-wrap gap-2">
+                                    <div className="flex flex-wrap gap-2 relative z-20">
                                         {CATEGORIES.map(cat => (
                                             <button
                                                 key={cat}
                                                 type="button"
                                                 onClick={() => toggleCategory(cat)}
-                                                className={`px-3 py-1.5 rounded-full text-sm border transition-all ${selectedCategories.includes(cat)
+                                                className={`px-3 py-1.5 rounded-full text-sm border transition-all cursor-pointer ${selectedCategories.includes(cat)
                                                     ? 'bg-primary text-bg-dark border-primary font-bold'
-                                                    : 'bg-transparent text-gray-400 border-white/20 hover:border-white/50'
+                                                    : 'bg-transparent text-gray-400 border-white/20 hover:border-white/50 hover:text-white'
                                                     }`}
                                             >
                                                 {cat}
