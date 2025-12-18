@@ -139,7 +139,7 @@ const Login: React.FC = () => {
         try {
             // Check division password
             if (claimPassword !== 'evershine2025') {
-                throw new Error('分會認證密碼錯誤，請洽詢分會秘書。');
+                throw new Error('分會認證密碼錯誤，請洽詢網站管理員 (魔術方塊教學 李孟一)。');
             }
 
             // Update the selected member with current user's UUID
