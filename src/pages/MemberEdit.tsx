@@ -555,7 +555,7 @@ const MemberEdit: React.FC = () => {
                 </div>
 
                 {/* Footer Actions - Sticky on Mobile */}
-                <div className="fixed bottom-0 left-0 right-0 p-4 bg-bg-dark/95 backdrop-blur-xl border-t border-white/10 z-50 flex justify-end gap-3 md:static md:bg-transparent md:border-0 md:p-0 md:pt-4 md:border-t-0">
+                <div className="fixed bottom-[74px] left-0 right-0 p-4 bg-bg-dark/95 backdrop-blur-xl border-t border-white/10 z-[100] flex justify-end gap-3 md:static md:bg-transparent md:border-0 md:p-0 md:pt-4 md:border-t-0">
                     <button
                         onClick={() => navigate('/members')}
                         className="px-6 py-3 rounded-lg border border-white/10 text-white hover:bg-white/5 transition-colors text-sm font-medium"
@@ -575,6 +575,8 @@ const MemberEdit: React.FC = () => {
                         )}
                     </button>
                 </div>
+
+                <div className="h-20 md:hidden"></div> {/* Extra space for overlap prevention */}
 
                 {/* Floating Save Button - Only for Mobile */}
                 <button

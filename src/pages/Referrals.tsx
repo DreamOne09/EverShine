@@ -78,10 +78,36 @@ const Referrals: React.FC = () => {
                                                 <p className={`text-gray-300 text-base leading-relaxed ${isSelected ? '' : 'line-clamp-3'}`}>
                                                     {referral.description}
                                                 </p>
-                                                {isSelected && referral.referrer?.story && (
-                                                    <div className="mt-4 pt-4 border-t border-white/10">
-                                                        <p className="text-xs text-primary mb-1">引薦人故事：</p>
-                                                        <p className="text-gray-400 text-sm italic">{referral.referrer.story}</p>
+                                                {isSelected && (
+                                                    <div className="mt-8 space-y-6">
+                                                        {referral.referrer?.story && (
+                                                            <div className="bg-white/5 rounded-2xl p-5 border-l-4 border-primary/50 relative">
+                                                                <div className="absolute -top-3 left-6 px-2 bg-bg-dark text-primary text-[10px] font-bold uppercase tracking-widest">
+                                                                    引薦人真心話
+                                                                </div>
+                                                                <p className="text-gray-300 text-sm leading-relaxed italic">
+                                                                    "{referral.referrer.story}"
+                                                                </p>
+                                                                <div className="mt-2 text-right">
+                                                                    <span className="text-xs text-primary/70">— {referral.referrer.name}</span>
+                                                                </div>
+                                                            </div>
+                                                        )}
+
+                                                        {referral.referee?.story && (
+                                                            <div className="bg-primary/5 rounded-2xl p-5 border-r-4 border-primary-light/50 relative">
+                                                                <div className="absolute -top-3 right-6 px-2 bg-bg-dark text-primary-light text-[10px] font-bold uppercase tracking-widest">
+                                                                    被引薦人回饋
+                                                                </div>
+                                                                <p className="text-gray-200 text-sm leading-relaxed">
+                                                                    {referral.referee.story}
+                                                                </p>
+                                                                <div className="mt-2 flex items-center gap-2">
+                                                                    <div className="h-px flex-grow bg-white/10"></div>
+                                                                    <span className="text-xs text-primary-light/70">{referral.referee.name} 回應</span>
+                                                                </div>
+                                                            </div>
+                                                        )}
                                                     </div>
                                                 )}
                                             </div>

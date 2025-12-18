@@ -82,8 +82,20 @@ const Admin: React.FC = () => {
                 referralsRes,
                 socialClicksRes
             ] = await Promise.all([
-                // 1. Members
-                supabase.from('members').select('*').order('created_at', { ascending: false }),
+                // 1. Members - Resilient Fetching
+                (async () => {
+                    // Try createdAt first
+                    let res = await supabase.from('members').select('*').order('createdAt', { ascending: false });
+                    if (res.error) {
+                        console.warn('Attempted createdAt order failed, trying created_at...', res.error.message);
+                        res = await supabase.from('members').select('*').order('created_at', { ascending: false });
+                    }
+                    if (res.error) {
+                        console.warn('Attempted created_at order failed, trying default order...', res.error.message);
+                        res = await supabase.from('members').select('*');
+                    }
+                    return res;
+                })(),
                 // 2. Homepage Stats
                 supabase.from('homepage_stats').select('*').order('month', { ascending: false }).limit(1).maybeSingle(),
                 // 3. Page Views - Fail-safe
@@ -159,6 +171,27 @@ const Admin: React.FC = () => {
             console.error('Dashboard fetch error:', error);
         } finally {
             setLoading(false);
+        }
+    };
+
+    const handleAddMember = async () => {
+        const name = prompt('請輸入新會員姓名:');
+        if (!name) return;
+
+        try {
+            const { data, error } = await supabase.from('members').insert({
+                name,
+                industry: '新產業',
+                company: '新公司',
+                photo: '/images/assets/logo/白色正方形logo.png',
+                createdAt: new Date().toISOString()
+            }).select().single();
+
+            if (error) throw error;
+            alert(`已新增會員 ${name}，請點擊編輯按鈕完善資料。`);
+            fetchDashboardData();
+        } catch (e: any) {
+            alert('新增失敗: ' + e.message);
         }
     };
 
@@ -324,7 +357,10 @@ const Admin: React.FC = () => {
                                     className="w-full bg-black/20 border border-white/10 rounded-full py-2 pl-10 pr-4 text-white text-sm focus:outline-none focus:border-primary"
                                 />
                             </div>
-                            <button className="flex items-center gap-2 bg-primary text-bg-dark px-4 py-2 rounded-lg font-bold hover:bg-primary/90 transition-colors">
+                            <button
+                                onClick={handleAddMember}
+                                className="flex items-center gap-2 bg-primary text-bg-dark px-4 py-2 rounded-lg font-bold hover:bg-primary/90 transition-colors"
+                            >
                                 <Plus size={18} /> 新增會員
                             </button>
                         </div>
