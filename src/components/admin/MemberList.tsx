@@ -53,7 +53,13 @@ const MemberList: React.FC<Props> = ({ members, loading, onRefresh }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {displayed.map(member => (
+                    {displayed.length === 0 ? (
+                        <tr>
+                            <td colSpan={4} className="p-8 text-center text-gray-500">
+                                尚無會員資料
+                            </td>
+                        </tr>
+                    ) : displayed.map(member => (
                         <tr key={member.id} className="border-b border-white/5 hover:bg-white/5 transition-colors">
                             <td className="p-4 flex items-center gap-3">
                                 <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-700">

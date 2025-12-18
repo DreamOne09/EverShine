@@ -76,7 +76,7 @@ const Navbar: React.FC = () => {
                     ))}
 
                     {/* Social Icons */}
-                    <div className="flex items-center gap-4 border-l border-white/20 pl-6 mr-2 h-6">
+                    <div className="flex items-center gap-4 border-l border-white/20 pl-8 h-6">
                         <a
                             href="https://www.facebook.com/BNIEverShine"
                             target="_blank"
@@ -115,7 +115,7 @@ const Navbar: React.FC = () => {
 
                     {/* Auth Button */}
                     {user ? (
-                        <div className="flex items-center gap-4 border-l border-white/20 pl-6 h-6">
+                        <div className="flex items-center gap-4 border-l border-white/20 pl-8 h-6">
                             {isAdmin && (
                                 <NavLink to="/admin" className="flex items-center gap-2 text-sm text-[#FFD700] hover:text-white transition-colors font-bold mr-2" title="管理所有會員">
                                     <Shield size={16} />

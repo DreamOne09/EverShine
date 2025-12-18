@@ -83,7 +83,7 @@ const Admin: React.FC = () => {
                 socialClicksRes
             ] = await Promise.all([
                 // 1. Members
-                supabase.from('members').select('*').order('createdAt', { ascending: false }),
+                supabase.from('members').select('*').order('created_at', { ascending: false }),
                 // 2. Homepage Stats
                 supabase.from('homepage_stats').select('*').order('month', { ascending: false }).limit(1).maybeSingle(),
                 // 3. Page Views - Fail-safe
@@ -101,6 +101,7 @@ const Admin: React.FC = () => {
             ]);
 
             // Process Members
+            if (membersRes.error) console.error('Members fetch error:', membersRes.error);
             const membersData = membersRes.data || [];
             setMembers(membersData);
 
