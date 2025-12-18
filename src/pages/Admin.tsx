@@ -5,7 +5,7 @@ import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
 import {
     Users, Activity, DollarSign, Calendar,
-    Trash2, Plus, Save, Search
+    Trash2, Plus, Save, Search, Shield, RefreshCw
 } from 'lucide-react';
 import StatsCard from '../components/common/StatsCard';
 import MemberList from '../components/admin/MemberList';
@@ -103,8 +103,19 @@ const Admin: React.FC = () => {
                     try { return await supabase.from('page_views').select('*', { count: 'exact', head: true }); }
                     catch { return { count: 0, data: null, error: null }; }
                 })(),
-                // 4. Referrals
-                supabase.from('referrals').select('*').order('created_at', { ascending: false }),
+                // 4. Referrals - Resilient Fetching
+                (async () => {
+                    let res = await supabase.from('referrals').select('*').order('created_at', { ascending: false });
+                    if (res.error) {
+                        console.warn('Attempted created_at order failed for referrals, trying createdAt...', res.error.message);
+                        res = await supabase.from('referrals').select('*').order('createdAt', { ascending: false });
+                    }
+                    if (res.error) {
+                        console.warn('Attempted createdAt order failed for referrals, trying default order...', res.error.message);
+                        res = await supabase.from('referrals').select('*');
+                    }
+                    return res;
+                })(),
                 // 5. Social Clicks - Fail-safe
                 (async () => {
                     try { return await supabase.from('analytics_events').select('*', { count: 'exact', head: true }).eq('event_name', 'click_social'); }
@@ -117,13 +128,20 @@ const Admin: React.FC = () => {
             const membersData = membersRes.data || [];
             setMembers(membersData);
 
-            // Derive Recent Updates (Avoid extra API call - O(N log N) sort client side is fast for <10k records)
-            // Look for updatedAt or updated_at
-            const sortedByUpdate = [...membersData].sort((a, b) => {
-                const dateA = new Date(a.updatedAt || a.updated_at || 0).getTime();
-                const dateB = new Date(b.updatedAt || b.updated_at || 0).getTime();
-                return dateB - dateA;
-            });
+            // Process Referrals
+            if (referralsRes.error) console.error('Referrals fetch error:', referralsRes.error);
+            const refData = referralsRes.data || [];
+            setReferrals(refData);
+
+            // Derive Recent Updates (Avoid extra API call)
+            const systemNames = ['呂學承', '彭顯智', '潘芷盈'];
+            const sortedByUpdate = [...membersData]
+                .filter(m => !systemNames.includes(m.name))
+                .sort((a, b) => {
+                    const dateA = new Date(a.updatedAt || a.updated_at || 0).getTime();
+                    const dateB = new Date(b.updatedAt || b.updated_at || 0).getTime();
+                    return dateB - dateA;
+                });
             setRecentUpdates(sortedByUpdate.slice(0, 5));
 
             // Process Home Stats
@@ -136,10 +154,6 @@ const Admin: React.FC = () => {
                 });
             }
 
-            // Process Referrals
-            // Handle lowercase/uppercase difference in DB 'createdAt' vs 'created_at' if any
-            const refData = referralsRes.data || [];
-            setReferrals(refData);
 
             // Stats Calculation (O(N))
             const visitsCount = pageViewsRes.count || 0;
@@ -235,6 +249,13 @@ const Admin: React.FC = () => {
             <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
                 <h1 className="text-3xl font-bold text-white flex items-center gap-3">
                     <Activity className="text-primary" /> 管理後台
+                    <button
+                        onClick={fetchDashboardData}
+                        className={`p-2 rounded-full hover:bg-white/10 transition-all ${loading ? 'animate-spin text-primary' : 'text-gray-400'}`}
+                        title="重新整理數據"
+                    >
+                        <RefreshCw size={20} />
+                    </button>
                 </h1>
                 <div className="flex bg-white/5 p-1 rounded-lg backdrop-blur-sm border border-white/10">
                     {[
@@ -308,7 +329,7 @@ const Admin: React.FC = () => {
 
 
                         {/* Recent Activity Section */}
-                        <div className="col-span-1 lg:col-span-4 bg-bg-dark/50 border border-white/10 rounded-2xl p-6 min-h-[320px]">
+                        <div className="col-span-1 lg:col-span-3 bg-bg-dark/50 border border-white/10 rounded-2xl p-6 min-h-[320px]">
                             <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
                                 <Activity size={20} className="text-primary" /> 最近更新紀錄
                             </h3>
@@ -338,6 +359,31 @@ const Admin: React.FC = () => {
                                         </div>
                                     ))
                                 )}
+                            </div>
+                        </div>
+
+                        {/* System Support Team */}
+                        <div className="col-span-1 lg:col-span-1 bg-primary/5 border border-primary/20 rounded-2xl p-6 min-h-[320px] flex flex-col">
+                            <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                                <Shield size={20} className="text-primary" /> 系統維運團隊
+                            </h3>
+                            <div className="space-y-4 flex-grow">
+                                {['呂學承', '彭顯智', '潘芷盈'].map(name => (
+                                    <div key={name} className="flex items-center gap-3 p-3 bg-white/5 rounded-xl border border-white/5 hover:border-primary/30 transition-colors">
+                                        <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary text-sm font-bold border border-primary/30">
+                                            {name[0]}
+                                        </div>
+                                        <div>
+                                            <div className="text-sm font-bold text-white">{name}</div>
+                                            <div className="text-[10px] text-primary/70 uppercase tracking-widest font-medium">系統管理員</div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                            <div className="mt-6 pt-6 border-t border-white/10">
+                                <div className="text-[10px] text-gray-500 text-center uppercase tracking-widest">
+                                    EverShine Tech Support
+                                </div>
                             </div>
                         </div>
                     </div>
