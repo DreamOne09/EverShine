@@ -19,6 +19,7 @@ const Login: React.FC = () => {
     // Claim States
     const [unclaimedMembers, setUnclaimedMembers] = useState<any[]>([]);
     const [selectedMemberId, setSelectedMemberId] = useState<string | number | null>(null);
+    const [claimPassword, setClaimPassword] = useState('');
 
     // Validation helpers
     const validateEmail = (email: string) => {
@@ -136,6 +137,11 @@ const Login: React.FC = () => {
         setLoading(true);
 
         try {
+            // Check division password
+            if (claimPassword !== 'evershine2025') {
+                throw new Error('分會認證密碼錯誤，請洽詢分會秘書。');
+            }
+
             // Update the selected member with current user's UUID
             const { error } = await supabase
                 .from('members')
@@ -356,11 +362,29 @@ const Login: React.FC = () => {
                             )}
                         </div>
 
+                        <div className="mt-6 border-t border-white/10 pt-6">
+                            <label className="block text-gray-400 text-sm mb-2">請輸入分會認證密碼</label>
+                            <div className="relative">
+                                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" size={18} />
+                                <input
+                                    type="password"
+                                    value={claimPassword}
+                                    onChange={e => setClaimPassword(e.target.value)}
+                                    className="w-full bg-black/30 border border-white/20 rounded-lg py-3 pl-10 pr-4 text-white focus:border-primary focus:outline-none"
+                                    placeholder="分會密碼"
+                                    required
+                                />
+                            </div>
+                            <p className="text-[10px] text-gray-500 mt-2">
+                                * 為確保資料安全，認領帳號需輸入分會專屬密碼。
+                            </p>
+                        </div>
+
                         <button
                             type="button"
                             onClick={handleClaim}
-                            disabled={!selectedMemberId || loading}
-                            className={`w-full font-bold py-3 rounded-lg transition-colors mt-4 ${!selectedMemberId
+                            disabled={!selectedMemberId || !claimPassword || loading}
+                            className={`w-full font-bold py-3 rounded-lg transition-colors mt-4 ${(!selectedMemberId || !claimPassword)
                                 ? 'bg-gray-600 cursor-not-allowed text-gray-400'
                                 : 'bg-green-600 hover:bg-green-500 text-white'
                                 }`}
