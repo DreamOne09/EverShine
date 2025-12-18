@@ -579,3 +579,19 @@ const MemberEdit: React.FC = () => {
 };
 
 export default MemberEdit;
+
+{/* ---------- Mobile Floating Save Button ---------- */ }
+<button
+    onClick={handleSubmit}
+    disabled={loading}
+    className="md:hidden fixed bottom-6 right-6 flex items-center gap-2 px-4 py-2 bg-primary text-bg-dark rounded-full shadow-lg hover:bg-primary/90 disabled:opacity-50"
+>
+    {loading ? (
+        '儲存中...'
+    ) : (
+        <>
+            <Save size={20} />
+            儲存變更
+        </>
+    )}
+</button>
