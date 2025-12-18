@@ -12,6 +12,47 @@ declare global {
     }
 }
 
+// Dedicated Turnstile Component to handle its own lifecycle strictly
+const TurnstileWidget: React.FC<{ siteKey: string, onVerify: (token: string) => void }> = ({ siteKey, onVerify }) => {
+    const containerRef = React.useRef<HTMLDivElement>(null);
+    const widgetIdRef = React.useRef<string | null>(null);
+
+    useEffect(() => {
+        let isMounted = true;
+
+        const renderWidget = () => {
+            if (window.turnstile && containerRef.current && !widgetIdRef.current && isMounted) {
+                try {
+                    // Force clear container to prevent multiple iframes
+                    containerRef.current.innerHTML = '';
+                    widgetIdRef.current = window.turnstile.render(containerRef.current, {
+                        sitekey: siteKey,
+                        callback: (token: string) => {
+                            if (isMounted) onVerify(token);
+                        },
+                    });
+                } catch (e) {
+                    console.warn('Turnstile render failed:', e);
+                }
+            }
+        };
+
+        // Small delay to ensure DOM is ready
+        const timer = setTimeout(renderWidget, 300);
+
+        return () => {
+            isMounted = false;
+            clearTimeout(timer);
+            if (window.turnstile && widgetIdRef.current) {
+                window.turnstile.remove(widgetIdRef.current);
+                widgetIdRef.current = null;
+            }
+        };
+    }, [siteKey]); // Only re-run if siteKey changes
+
+    return <div ref={containerRef} className="flex justify-center"></div>;
+};
+
 const Login: React.FC = () => {
     const navigate = useNavigate();
     const { user } = useAuth();
@@ -48,31 +89,12 @@ const Login: React.FC = () => {
         if (user) {
             checkProfile();
         }
+    }, [user]);
 
-        // Initialize Turnstile if widget exists
-        if (mode === 'login' || mode === 'signup') {
-            setCaptchaToken(null); // Reset token when mode changes
-            const timer = setTimeout(() => {
-                const container = document.getElementById('turnstile-container');
-                if (window.turnstile && container) {
-                    // Safety check: only render if container is empty
-                    if (container.innerHTML === '') {
-                        window.turnstile.render('#turnstile-container', {
-                            sitekey: TURNSTILE_SITE_KEY,
-                            callback: (token: string) => {
-                                setCaptchaToken(token);
-                            },
-                        });
-                    }
-                }
-            }, 500);
-            return () => {
-                clearTimeout(timer);
-                const container = document.getElementById('turnstile-container');
-                if (container) container.innerHTML = '';
-            };
-        }
-    }, [user, mode]);
+    // Cleanup token when switching modes
+    useEffect(() => {
+        setCaptchaToken(null);
+    }, [mode]);
 
     const checkProfile = async () => {
         if (!user) return;
@@ -279,7 +301,15 @@ const Login: React.FC = () => {
                         )}
 
                         {(mode === 'login' || mode === 'signup') && (
-                            <div key={mode} id="turnstile-container" className="my-4 flex justify-center"></div>
+                            <div className="my-4 flex justify-center min-h-[65px]">
+                                <div id="turnstile-container-wrapper" key={mode}>
+                                    {/* Using a key on the wrapper ensures a fresh start whenever mode changes */}
+                                    <TurnstileWidget
+                                        siteKey={TURNSTILE_SITE_KEY}
+                                        onVerify={(token) => setCaptchaToken(token)}
+                                    />
+                                </div>
+                            </div>
                         )}
 
                         <button
