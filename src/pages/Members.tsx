@@ -8,6 +8,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { supabase } from '../lib/supabase';
 import { Search, Edit } from 'lucide-react';
 import PageHero from '../components/common/PageHero';
+import SEO from '../components/common/SEO';
 
 const CATEGORIES = [
     '居住與空間工程',
@@ -107,6 +108,11 @@ const Members: React.FC = () => {
 
     return (
         <div className="min-h-screen relative">
+            <SEO
+                title="精選會員名單"
+                description="探索 BNI 長輝白金分會的優秀企業家與專業人士。我們涵蓋居住工程、品牌行銷、金融法稅等多個領域，為您媒合最專業的合作夥伴。"
+                keywords="長輝會員, 企業合作, 行業專家, 商務媒合"
+            />
             <PageHero
                 title="會員介紹"
                 subtitle="我們為夥伴的生意著想，也為夥伴的生意做引薦"

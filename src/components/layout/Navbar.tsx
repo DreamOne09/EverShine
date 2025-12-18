@@ -45,7 +45,7 @@ const Navbar: React.FC = () => {
         { name: '首頁', path: '/' },
         { name: '關於 BNI', path: '/bni' },
         { name: '分會成員', path: '/members' },
-        { name: '引薦業務', path: '/referrals' },
+        { name: '引薦案例', path: '/referrals' },
     ];
 
     return (

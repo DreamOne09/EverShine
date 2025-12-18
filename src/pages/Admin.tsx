@@ -5,10 +5,11 @@ import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
 import {
     Users, Activity, DollarSign, Calendar,
-    Edit, Trash2, Plus, Save, X, Search
+    Trash2, Plus, Save, Search
 } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
 import StatsCard from '../components/common/StatsCard';
+import MemberList from '../components/admin/MemberList';
+
 
 const Admin: React.FC = () => {
     const { user } = useAuth();
@@ -18,7 +19,9 @@ const Admin: React.FC = () => {
         totalMembers: 0,
         totalReferrals: 0,
         totalValue: 0,
-        monthlyVisits: 0
+        monthlyVisits: 0,
+        topIndustry: '',
+        completionRate: ''
     });
 
     // Tab State
@@ -80,15 +83,21 @@ const Admin: React.FC = () => {
                 socialClicksRes
             ] = await Promise.all([
                 // 1. Members
-                supabase.from('members').select('*').order('created_at', { ascending: false }),
+                supabase.from('members').select('*').order('createdAt', { ascending: false }),
                 // 2. Homepage Stats
-                supabase.from('homepage_stats').select('*').order('month', { ascending: false }).limit(1).single(),
-                // 3. Page Views (Fragile)
-                supabase.from('page_views').select('*', { count: 'exact', head: true }).catch(() => ({ count: 0, error: null })),
+                supabase.from('homepage_stats').select('*').order('month', { ascending: false }).limit(1).maybeSingle(),
+                // 3. Page Views - Fail-safe
+                (async () => {
+                    try { return await supabase.from('page_views').select('*', { count: 'exact', head: true }); }
+                    catch { return { count: 0, data: null, error: null }; }
+                })(),
                 // 4. Referrals
-                supabase.from('referrals').select('*').order('createdAt', { ascending: false }).catch((e) => ({ data: [], error: e })),
-                // 5. Social Clicks (Fragile)
-                supabase.from('analytics_events').select('*', { count: 'exact', head: true }).eq('event_name', 'click_social').catch(() => ({ count: 0, error: null }))
+                supabase.from('referrals').select('*').order('created_at', { ascending: false }),
+                // 5. Social Clicks - Fail-safe
+                (async () => {
+                    try { return await supabase.from('analytics_events').select('*', { count: 'exact', head: true }).eq('event_name', 'click_social'); }
+                    catch { return { count: 0, data: null, error: null }; }
+                })()
             ]);
 
             // Process Members
@@ -197,7 +206,7 @@ const Admin: React.FC = () => {
                     {[
                         { id: 'overview', label: '總覽概況' },
                         { id: 'members', label: '會員管理' },
-                        { id: 'referrals', label: '引薦單管理' },
+                        { id: 'referrals', label: '引薦案例管理' },
                         { id: 'settings', label: '數據設定' }
                     ].map(tab => (
                         <button
@@ -286,10 +295,10 @@ const Admin: React.FC = () => {
                                             </div>
                                             <div className="text-right">
                                                 <div className="text-primary font-mono text-sm">
-                                                    {new Date(item.updatedAt).toLocaleDateString()}
+                                                    {new Date(item.updatedAt || item.updated_at || item.createdAt || item.created_at || Date.now()).toLocaleDateString()}
                                                 </div>
                                                 <div className="text-xs text-gray-500">
-                                                    {new Date(item.updatedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} 更新
+                                                    {new Date(item.updatedAt || item.updated_at || item.createdAt || item.created_at || Date.now()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} 更新
                                                 </div>
                                             </div>
                                         </div>
@@ -319,157 +328,230 @@ const Admin: React.FC = () => {
                             </button>
                         </div>
 
-                        <div className="overflow-x-auto">
-                            <table className="w-full text-left border-collapse">
-                                <thead>
-                                    <tr className="text-gray-400 text-sm border-b border-white/10">
-                                        <th className="p-4">會員</th>
-                                        <th className="p-4">產業/公司</th>
-                                        <th className="p-4">職稱</th>
-                                        <th className="p-4 text-right">操作</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {filteredMembers.map(member => (
-                                        <tr key={member.id} className="border-b border-white/5 hover:bg-white/5 transition-colors">
-                                            <td className="p-4 flex items-center gap-3">
-                                                <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-700">
-                                                    {member.photo && <img src={member.photo} alt={member.name} className="w-full h-full object-cover" />}
-                                                </div>
-                                                <span className="font-medium text-white">{member.name}</span>
-                                            </td>
-                                            <td className="p-4 text-gray-300">
-                                                <div className="text-white text-sm">{member.industry}</div>
-                                                <div className="text-xs opacity-70">{member.company}</div>
-                                            </td>
-                                            <td className="p-4 text-gray-300 text-sm">{member.position || member.title}</td>
-                                            <td className="p-4 text-right">
-                                                <button
-                                                    onClick={() => navigate(`/member-edit?id=${member.id}`)}
-                                                    className="px-3 py-1 bg-primary/10 hover:bg-primary/20 text-primary rounded-full transition-colors text-sm flex items-center gap-1 ml-auto"
-                                                    title="編輯"
-                                                >
-                                                    <Edit size={14} /> 編輯
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
+                        <MemberList
+                            members={filteredMembers}
+                            loading={loading}
+                            onRefresh={fetchDashboardData}
+                        />
                     </div>
                 )}
 
                 {/* REFERRALS TAB */}
                 {activeTab === 'referrals' && (
-                    <div className="bg-bg-dark/50 border border-white/10 rounded-2xl p-6 overflow-hidden">
-                        <div className="flex justify-between items-center mb-6">
-                            <h3 className="text-xl font-bold text-white">引薦單列表</h3>
+                    <div className="space-y-6">
+                        {/* Add New Case Form */}
+                        <div className="bg-bg-dark/50 border border-white/10 rounded-2xl p-6">
+                            <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                                <Plus size={20} className="text-primary" /> 新增引薦案例
+                            </h3>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label className="block text-gray-400 text-sm mb-1">引薦案例標題</label>
+                                    <input
+                                        type="text"
+                                        id="ref_title"
+                                        placeholder="例如：【💼 合作共創新價值】"
+                                        className="w-full bg-black/20 border border-white/10 rounded-lg p-3 text-white focus:border-primary focus:outline-none"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-gray-400 text-sm mb-1">簡短描述</label>
+                                    <input
+                                        type="text"
+                                        id="ref_desc"
+                                        placeholder="例如：生醫公司新產品線包裝設計引薦"
+                                        className="w-full bg-black/20 border border-white/10 rounded-lg p-3 text-white focus:border-primary focus:outline-none"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-gray-400 text-sm mb-1">引薦人姓名</label>
+                                    <input
+                                        type="text"
+                                        id="ref_referrer"
+                                        className="w-full bg-black/20 border border-white/10 rounded-lg p-3 text-white focus:border-primary focus:outline-none"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-gray-400 text-sm mb-1">被引薦人姓名</label>
+                                    <input
+                                        type="text"
+                                        id="ref_referee"
+                                        className="w-full bg-black/20 border border-white/10 rounded-lg p-3 text-white focus:border-primary focus:outline-none"
+                                    />
+                                </div>
+                                <div className="md:col-span-2">
+                                    <label className="block text-gray-400 text-sm mb-1">引薦人自述 (Referrer Story)</label>
+                                    <textarea
+                                        id="ref_referrer_story"
+                                        rows={3}
+                                        className="w-full bg-black/20 border border-white/10 rounded-lg p-3 text-white focus:border-primary focus:outline-none"
+                                    ></textarea>
+                                </div>
+                                <div className="md:col-span-2">
+                                    <label className="block text-gray-400 text-sm mb-1">被引薦人自述 (Referee Story)</label>
+                                    <textarea
+                                        id="ref_referee_story"
+                                        rows={3}
+                                        className="w-full bg-black/20 border border-white/10 rounded-lg p-3 text-white focus:border-primary focus:outline-none"
+                                    ></textarea>
+                                </div>
+                            </div>
+                            <div className="mt-6 flex justify-end">
+                                <button
+                                    onClick={async () => {
+                                        const title = (document.getElementById('ref_title') as HTMLInputElement).value;
+                                        const description = (document.getElementById('ref_desc') as HTMLInputElement).value;
+                                        const referrer_name = (document.getElementById('ref_referrer') as HTMLInputElement).value;
+                                        const referee_name = (document.getElementById('ref_referee') as HTMLInputElement).value;
+                                        const referrer_story = (document.getElementById('ref_referrer_story') as HTMLTextAreaElement).value;
+                                        const referee_story = (document.getElementById('ref_referee_story') as HTMLTextAreaElement).value;
+
+                                        if (!title || !referrer_name || !referee_name) {
+                                            alert('請填寫必填欄位');
+                                            return;
+                                        }
+
+                                        const { error } = await supabase.from('referrals').insert({
+                                            title,
+                                            description,
+                                            referrer_name,
+                                            referee_name,
+                                            referrer_story,
+                                            referee_story,
+                                            metrics: { amount: '洽談中', type: '專案合作' }
+                                        });
+
+                                        if (error) {
+                                            alert('新增失敗: ' + error.message);
+                                        } else {
+                                            alert('新增成功！');
+                                            fetchDashboardData();
+                                            // Reset fields
+                                            (document.getElementById('ref_title') as HTMLInputElement).value = '';
+                                            (document.getElementById('ref_desc') as HTMLInputElement).value = '';
+                                            (document.getElementById('ref_referrer') as HTMLInputElement).value = '';
+                                            (document.getElementById('ref_referee') as HTMLInputElement).value = '';
+                                            (document.getElementById('ref_referrer_story') as HTMLTextAreaElement).value = '';
+                                            (document.getElementById('ref_referee_story') as HTMLTextAreaElement).value = '';
+                                        }
+                                    }}
+                                    className="px-6 py-3 bg-primary text-bg-dark font-bold rounded-lg hover:bg-primary/90 transition-colors flex items-center gap-2"
+                                >
+                                    <Plus size={18} /> 提交引薦案例
+                                </button>
+                            </div>
                         </div>
-                        <div className="overflow-x-auto">
-                            <table className="w-full text-left border-collapse">
-                                <thead>
-                                    <tr className="text-gray-400 text-sm border-b border-white/10">
-                                        <th className="p-4">日期</th>
-                                        <th className="p-4">引薦人</th>
-                                        <th className="p-4">被引薦人/產業</th>
-                                        <th className="p-4">價值</th>
-                                        <th className="p-4 text-right">操作</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {referrals.length === 0 ? (
-                                        <tr><td colSpan={5} className="p-8 text-center text-gray-400">尚無引薦單資料</td></tr>
-                                    ) : referrals.map(ref => (
-                                        <tr key={ref.id} className="border-b border-white/5 hover:bg-white/5 transition-colors">
-                                            <td className="p-4 text-gray-300 text-sm">
-                                                {new Date(ref.createdAt || ref.created_at).toLocaleDateString()}
-                                            </td>
-                                            <td className="p-4 text-white font-medium">
-                                                {ref.referrer_name}
-                                            </td>
-                                            <td className="p-4">
-                                                <div className="text-white">{ref.referee_name}</div>
-                                                <div className="text-xs text-gray-400">{ref.title}</div>
-                                            </td>
-                                            <td className="p-4 text-yellow-400 font-mono">
-                                                {ref.metrics?.amount ? `$${Number(ref.metrics.amount).toLocaleString()}` : '-'}
-                                            </td>
-                                            <td className="p-4 text-right">
-                                                <button
-                                                    onClick={() => handleDeleteReferral(ref.id)}
-                                                    className="p-2 hover:bg-red-500/20 text-red-400 rounded-full transition-colors"
-                                                    title="刪除"
-                                                >
-                                                    <Trash2 size={16} />
-                                                </button>
-                                            </td>
+
+                        {/* Existing Referrals List */}
+                        <div className="bg-bg-dark/50 border border-white/10 rounded-2xl p-6 overflow-hidden">
+                            <h3 className="text-xl font-bold text-white mb-6">引薦案例列表</h3>
+                            <div className="overflow-x-auto">
+                                <table className="w-full text-left border-collapse">
+                                    <thead>
+                                        <tr className="text-gray-400 text-sm border-b border-white/10">
+                                            <th className="p-4">日期</th>
+                                            <th className="p-4">引薦人</th>
+                                            <th className="p-4">被引薦人/產業</th>
+                                            <th className="p-4">標題/內容</th>
+                                            <th className="p-4 text-right">操作</th>
                                         </tr>
-                                    ))}
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        {referrals.length === 0 ? (
+                                            <tr><td colSpan={5} className="p-8 text-center text-gray-400">尚無引薦單資料</td></tr>
+                                        ) : referrals.map(ref => (
+                                            <tr key={ref.id} className="border-b border-white/5 hover:bg-white/5 transition-colors">
+                                                <td className="p-4 text-gray-300 text-sm">
+                                                    {new Date(ref.createdAt || ref.created_at).toLocaleDateString()}
+                                                </td>
+                                                <td className="p-4 text-white font-medium">
+                                                    {ref.referrer_name}
+                                                </td>
+                                                <td className="p-4">
+                                                    <div className="text-white text-sm">{ref.referee_name}</div>
+                                                </td>
+                                                <td className="p-4">
+                                                    <div className="text-white text-sm">{ref.title}</div>
+                                                    <div className="text-xs text-gray-400 line-clamp-1">{ref.description}</div>
+                                                </td>
+                                                <td className="p-4 text-right">
+                                                    <button
+                                                        onClick={() => handleDeleteReferral(ref.id)}
+                                                        className="p-2 hover:bg-red-500/20 text-red-400 rounded-full transition-colors"
+                                                        title="刪除"
+                                                    >
+                                                        <Trash2 size={16} />
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 )}
 
                 {/* SETTINGS TAB */}
-                {activeTab === 'settings' && (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        {/* Homepage Stats Editor */}
-                        <div className="bg-bg-dark/50 border border-white/10 rounded-2xl p-6">
-                            <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
-                                <Activity size={20} className="text-primary" /> 首頁數據更新
-                            </h3>
-                            <div className="space-y-4">
-                                <div>
-                                    <label className="block text-gray-400 text-sm mb-1">統計月份</label>
-                                    <input
-                                        type="month"
-                                        value={homeStats.month}
-                                        onChange={e => setHomeStats({ ...homeStats, month: e.target.value })}
-                                        className="w-full bg-black/20 border border-white/10 rounded-lg p-3 text-white focus:border-primary focus:outline-none"
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block text-gray-400 text-sm mb-1">總引薦單數</label>
-                                    <input
-                                        type="number"
-                                        value={homeStats.referral_count}
-                                        onChange={e => setHomeStats({ ...homeStats, referral_count: Number(e.target.value) })}
-                                        className="w-full bg-black/20 border border-white/10 rounded-lg p-3 text-white focus:border-primary focus:outline-none"
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block text-gray-400 text-sm mb-1">總交易價值 (元)</label>
-                                    <input
-                                        type="number"
-                                        value={homeStats.referral_value}
-                                        onChange={e => setHomeStats({ ...homeStats, referral_value: Number(e.target.value) })}
-                                        className="w-full bg-black/20 border border-white/10 rounded-lg p-3 text-white focus:border-primary focus:outline-none"
-                                    />
-                                    <div className="text-right text-xs text-gray-500 mt-1">
-                                        預覽: ${(homeStats.referral_value / 100000000).toFixed(2)} 億
+                {
+                    activeTab === 'settings' && (
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            {/* Homepage Stats Editor */}
+                            <div className="bg-bg-dark/50 border border-white/10 rounded-2xl p-6">
+                                <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                                    <Activity size={20} className="text-primary" /> 首頁數據更新
+                                </h3>
+                                <div className="space-y-4">
+                                    <div>
+                                        <label className="block text-gray-400 text-sm mb-1">統計月份</label>
+                                        <input
+                                            type="month"
+                                            value={homeStats.month}
+                                            onChange={e => setHomeStats({ ...homeStats, month: e.target.value })}
+                                            className="w-full bg-black/20 border border-white/10 rounded-lg p-3 text-white focus:border-primary focus:outline-none"
+                                        />
                                     </div>
+                                    <div>
+                                        <label className="block text-gray-400 text-sm mb-1">總引薦單數</label>
+                                        <input
+                                            type="number"
+                                            value={homeStats.referral_count}
+                                            onChange={e => setHomeStats({ ...homeStats, referral_count: Number(e.target.value) })}
+                                            className="w-full bg-black/20 border border-white/10 rounded-lg p-3 text-white focus:border-primary focus:outline-none"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-gray-400 text-sm mb-1">總交易價值 (元)</label>
+                                        <input
+                                            type="number"
+                                            value={homeStats.referral_value}
+                                            onChange={e => setHomeStats({ ...homeStats, referral_value: Number(e.target.value) })}
+                                            className="w-full bg-black/20 border border-white/10 rounded-lg p-3 text-white focus:border-primary focus:outline-none"
+                                        />
+                                        <div className="text-right text-xs text-gray-500 mt-1">
+                                            預覽: ${(homeStats.referral_value / 100000000).toFixed(2)} 億
+                                        </div>
+                                    </div>
+                                    <button
+                                        onClick={updateHomeStats}
+                                        className="w-full py-3 bg-primary text-bg-dark font-bold rounded-lg hover:bg-primary/90 transition-colors flex justify-center items-center gap-2"
+                                    >
+                                        <Save size={18} /> 儲存數據
+                                    </button>
                                 </div>
-                                <button
-                                    onClick={updateHomeStats}
-                                    className="w-full py-3 bg-primary text-bg-dark font-bold rounded-lg hover:bg-primary/90 transition-colors flex justify-center items-center gap-2"
-                                >
-                                    <Save size={18} /> 儲存數據
-                                </button>
+                            </div>
+
+                            <div className="bg-bg-dark/50 border border-white/10 rounded-2xl p-6">
+                                <h3 className="text-xl font-bold text-white mb-6">系統公告</h3>
+                                <p className="text-gray-400 text-sm mb-4">
+                                    若需發布系統公告或暫停網站服務，請在此設定。目前功能開發中。
+                                </p>
                             </div>
                         </div>
-
-                        <div className="bg-bg-dark/50 border border-white/10 rounded-2xl p-6">
-                            <h3 className="text-xl font-bold text-white mb-6">系統公告</h3>
-                            <p className="text-gray-400 text-sm mb-4">
-                                若需發布系統公告或暫停網站服務，請在此設定。目前功能開發中。
-                            </p>
-                        </div>
-                    </div>
-                )}
-            </div>
-        </div>
+                    )
+                }
+            </div >
+        </div >
     );
 };
 

@@ -7,10 +7,15 @@ import MemberWall from '../components/home/MemberWall';
 import FAQ from '../components/home/FAQ';
 import Contact from '../components/home/Contact';
 import { Link } from 'react-router-dom';
+import SEO from '../components/common/SEO';
 
 const Home: React.FC = () => {
     return (
         <div className="overflow-hidden">
+            <SEO
+                description="BNI長輝白金分會提供專業的商務對接與引薦服務，協助企業主擴展人脈，精準媒合商務資源，實現業務共贏。"
+                keywords="BNI長輝, 商務引薦, 台北業務合作, 企業家人脈, 白金分會"
+            />
             {/* Hero Section */}
             <PageHero
                 title="BNI長輝白金分會"

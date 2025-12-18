@@ -473,9 +473,12 @@ const MemberEdit: React.FC = () => {
                                     <textarea
                                         value={fullIntro}
                                         onChange={(e) => setFullIntro(e.target.value)}
-                                        className="w-full bg-black/30 border border-white/20 rounded-lg p-3 text-base text-white focus:border-primary focus:outline-none h-40"
+                                        className="w-full bg-black/30 border border-white/20 rounded-lg p-3 text-base text-white focus:border-primary focus:outline-none h-48"
                                         placeholder="詳細說明您的服務內容、經歷與優勢..."
                                     />
+                                    <p className="mt-2 text-xs text-primary/70 leading-relaxed italic">
+                                        💡 <strong>AI 搜尋優化小提醒：</strong>建議使用自然語言描述。例如：「我是一位專門協助電商企業處理節稅問題的專業會計師...」這能幫助 AI 搜尋引擎 (如 ChatGPT/Perplexity) 更精準地將您推薦給目標客戶。
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -573,25 +576,23 @@ const MemberEdit: React.FC = () => {
                     </button>
                 </div>
 
+                {/* Floating Save Button - Only for Mobile */}
+                <button
+                    onClick={handleSubmit}
+                    disabled={loading}
+                    className="md:hidden fixed bottom-24 right-6 z-[60] flex items-center justify-center w-14 h-14 bg-primary text-bg-dark rounded-full shadow-2xl hover:scale-110 active:scale-95 transition-all duration-300 disabled:opacity-50"
+                    title="儲存變更"
+                >
+                    {loading ? (
+                        <div className="w-6 h-6 border-2 border-bg-dark/30 border-t-bg-dark rounded-full animate-spin" />
+                    ) : (
+                        <Save size={24} />
+                    )}
+                </button>
+
             </motion.div>
         </div>
     );
 };
 
 export default MemberEdit;
-
-{/* ---------- Mobile Floating Save Button ---------- */ }
-<button
-    onClick={handleSubmit}
-    disabled={loading}
-    className="md:hidden fixed bottom-6 right-6 flex items-center gap-2 px-4 py-2 bg-primary text-bg-dark rounded-full shadow-lg hover:bg-primary/90 disabled:opacity-50"
->
-    {loading ? (
-        '儲存中...'
-    ) : (
-        <>
-            <Save size={20} />
-            儲存變更
-        </>
-    )}
-</button>

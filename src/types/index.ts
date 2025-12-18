@@ -20,7 +20,7 @@ export interface Member {
 export interface MemberLink {
     type: string;
     url: string;
-    icon: string;
+    icon?: string;
 }
 
 export interface Referral {

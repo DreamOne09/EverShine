@@ -33,7 +33,7 @@ export const useReferrals = () => {
                 const { data: refsData, error: refsError } = await supabase
                     .from('referrals')
                     .select('*')
-                    .order('createdAt', { ascending: false }); // Note: column might be 'created_at' or 'createdAt' based on script logs, log said 'createdAt'
+                    .order('created_at', { ascending: false });
 
                 if (refsError) throw refsError;
 

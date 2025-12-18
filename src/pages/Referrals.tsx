@@ -3,6 +3,7 @@ import { useReferrals } from '../hooks/useReferrals';
 import { motion } from 'framer-motion';
 import { ArrowRight, Quote } from 'lucide-react';
 import PageHero from '../components/common/PageHero';
+import SEO from '../components/common/SEO';
 
 const Referrals: React.FC = () => {
     const { referrals, loading, error } = useReferrals();
@@ -26,6 +27,11 @@ const Referrals: React.FC = () => {
 
     return (
         <div className="min-h-screen relative overflow-hidden">
+            <SEO
+                title="引薦成功案例"
+                description="見證 BNI 長輝白金分會夥伴間的強強聯手。透過真實的引薦案例，展示我們如何透過專業對接與互利合作，為彼此創造巨大的商業價值。"
+                keywords="引薦案例, 商務合作故事, 成功案例, resource, 媒合"
+            />
             <PageHero
                 title="引薦案例"
                 subtitle={

@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useCountUp } from '../hooks/useCountUp';
 import PageHero from '../components/common/PageHero';
+import SEO from '../components/common/SEO';
 
 const StatCard: React.FC<{ value: number, label: React.ReactNode, subtext?: string, isLarge?: boolean }> = ({ value, label, subtext, isLarge }) => {
     const { count, elementRef } = useCountUp(value, 2000);
@@ -23,6 +24,11 @@ const StatCard: React.FC<{ value: number, label: React.ReactNode, subtext?: stri
 const BNIPage: React.FC = () => {
     return (
         <div className="min-h-screen pt-0">
+            <SEO
+                title="認識 BNI 全球商務系統"
+                description="了解全球最大的商務引薦平台 BNI。我們透過「付出者收穫」的核心價值，協助全球超過 30 萬名企業主透過系統化的引薦機制實現業務成長。"
+                keywords="什麼是BNI, 付出者收穫, Givers Gain, 商務引薦系統, 台灣BNI"
+            />
             <PageHero
                 title="關於 BNI"
                 subtitle={
