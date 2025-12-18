@@ -159,16 +159,32 @@ const Login: React.FC = () => {
                     throw new Error('兩次輸入的密碼不一致');
                 }
 
-                const { error: signUpErr } = await supabase.auth.signUp({
+                const { data: signUpData, error: signUpErr } = await supabase.auth.signUp({
                     email,
                     password,
                     options: {
                         captchaToken: captchaToken || undefined,
                     }
                 });
-                if (signUpErr) throw signUpErr;
+
+                if (signUpErr) {
+                    if (signUpErr.message.includes('already registered')) {
+                        throw new Error('此 Email 已經註冊過囉！請直接使用「登入」功能，或使用「忘記密碼」重設。');
+                    }
+                    throw signUpErr;
+                }
+
+                // If signUpData.user is null but there was no error, it usually means 
+                // the user already exists (Supabase security feature)
+                if (signUpData?.user && signUpData.session === null && signUpData.user.identities?.length === 0) {
+                    setMessage({ text: '此 Email 已被註冊，請直接登入。', type: 'error' });
+                    setMode('login');
+                    return;
+                }
+
                 setMessage({ text: '註冊成功！請檢查信箱並點擊驗證連結。', type: 'success' });
                 setMode('login');
+                setCaptchaToken(null); // Reset captcha on success
             } else if (mode === 'login') {
                 const { error } = await supabase.auth.signInWithPassword({
                     email,
@@ -188,6 +204,7 @@ const Login: React.FC = () => {
             }
         } catch (err: any) {
             setMessage({ text: err.message, type: 'error' });
+            setCaptchaToken(null);
         } finally {
             setLoading(false);
         }
