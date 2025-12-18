@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import Navbar from './components/layout/Navbar';
@@ -19,6 +20,25 @@ import { AuthProvider } from './contexts/AuthContext';
 
 const AnimatedRoutes = () => {
   const location = useLocation();
+
+  // Force external browser for social App WebViews (LINE, FB, IG)
+  useEffect(() => {
+    const ua = navigator.userAgent || navigator.vendor || (window as any).opera;
+    const isLine = /Line\//i.test(ua);
+    const isFb = /FBAN|FBAV/i.test(ua);
+    const isIg = /Instagram/i.test(ua);
+
+    const isInApp = isLine || isFb || isIg;
+    const hasParam = window.location.search.includes('openExternalBrowser=1');
+
+    // For LINE: openExternalBrowser=1 is a magic parameter that forces the browser out.
+    // For FB/IG: it doesn't force a jump but we keep it to signal the state.
+    if (isInApp && !hasParam) {
+      const url = new URL(window.location.href);
+      url.searchParams.set('openExternalBrowser', '1');
+      window.location.replace(url.toString());
+    }
+  }, [location.pathname]);
 
   return (
     <AnimatePresence mode="wait">

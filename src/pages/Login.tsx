@@ -252,6 +252,27 @@ const Login: React.FC = () => {
                     {mode === 'claim' && '認領您的會員檔案'}
                 </h1>
 
+                {/* Show warning for In-App Browsers */}
+                {(() => {
+                    const ua = navigator.userAgent || navigator.vendor || (window as any).opera;
+                    const isLine = /Line\//i.test(ua);
+                    const isFb = /FBAN|FBAV/i.test(ua);
+                    const isIg = /Instagram/i.test(ua);
+
+                    if ((isLine || isFb || isIg) && (mode === 'login' || mode === 'signup')) {
+                        return (
+                            <div className="mb-6 p-4 bg-amber-500/20 border border-amber-500/50 rounded-lg text-amber-200 text-sm flex items-start gap-3">
+                                <AlertCircle size={20} className="shrink-0 mt-0.5 text-amber-400" />
+                                <div>
+                                    <p className="font-bold mb-1">偵測到 {isLine ? 'LINE' : isFb ? 'Facebook' : 'Instagram'} 內建瀏覽器</p>
+                                    <p>Google 登入不支援此環境。請點擊右上角<strong>「...」</strong>並選擇 <strong>「使用預設瀏覽器開啟」</strong> (Safari/Chrome) 重新操作。</p>
+                                </div>
+                            </div>
+                        );
+                    }
+                    return null;
+                })()}
+
                 {message && (
                     <div className={`mb-6 p-3 rounded-lg text-sm text-center ${message.type === 'error' ? 'bg-red-500/20 text-red-200' : 'bg-green-500/20 text-green-200'}`}>
                         {message.text}
