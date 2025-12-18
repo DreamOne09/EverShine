@@ -4,7 +4,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
-import { Lock, Mail, User as UserIcon, AlertCircle, CheckCircle } from 'lucide-react';
+import { Lock, Mail, AlertCircle, CheckCircle } from 'lucide-react';
 
 declare global {
     interface Window {
@@ -51,17 +51,26 @@ const Login: React.FC = () => {
 
         // Initialize Turnstile if widget exists
         if (mode === 'login' || mode === 'signup') {
+            setCaptchaToken(null); // Reset token when mode changes
             const timer = setTimeout(() => {
-                if (window.turnstile) {
-                    window.turnstile.render('#turnstile-container', {
-                        sitekey: TURNSTILE_SITE_KEY,
-                        callback: (token: string) => {
-                            setCaptchaToken(token);
-                        },
-                    });
+                const container = document.getElementById('turnstile-container');
+                if (window.turnstile && container) {
+                    // Safety check: only render if container is empty
+                    if (container.innerHTML === '') {
+                        window.turnstile.render('#turnstile-container', {
+                            sitekey: TURNSTILE_SITE_KEY,
+                            callback: (token: string) => {
+                                setCaptchaToken(token);
+                            },
+                        });
+                    }
                 }
             }, 500);
-            return () => clearTimeout(timer);
+            return () => {
+                clearTimeout(timer);
+                const container = document.getElementById('turnstile-container');
+                if (container) container.innerHTML = '';
+            };
         }
     }, [user, mode]);
 
@@ -99,11 +108,11 @@ const Login: React.FC = () => {
 
     const loadUnclaimedMembers = async () => {
         // Fetch all members who don't have a user_id yet
-        const { data, error } = await supabase
+        const { data } = await supabase
             .from('members')
             .select('id, name, industry, photo')
             .is('user_id', null)
-            .order('id', { ascending: true }); // ID is now integer/number
+            .order('id', { ascending: true });
 
         if (data) {
             setUnclaimedMembers(data);
@@ -128,14 +137,14 @@ const Login: React.FC = () => {
                     throw new Error('兩次輸入的密碼不一致');
                 }
 
-                const { error } = await supabase.auth.signUp({
+                const { error: signUpErr } = await supabase.auth.signUp({
                     email,
                     password,
                     options: {
                         captchaToken: captchaToken || undefined,
                     }
                 });
-                if (error) throw error;
+                if (signUpErr) throw signUpErr;
                 setMessage({ text: '註冊成功！請檢查信箱並點擊驗證連結。', type: 'success' });
                 setMode('login');
             } else if (mode === 'login') {
@@ -270,7 +279,7 @@ const Login: React.FC = () => {
                         )}
 
                         {(mode === 'login' || mode === 'signup') && (
-                            <div id="turnstile-container" className="my-4 flex justify-center"></div>
+                            <div key={mode} id="turnstile-container" className="my-4 flex justify-center"></div>
                         )}
 
                         <button
