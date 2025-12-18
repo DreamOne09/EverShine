@@ -23,7 +23,7 @@ export interface Referral {
 export const useReferrals = () => {
     const [referrals, setReferrals] = useState<Referral[]>([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+    // const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -102,7 +102,13 @@ export const useReferrals = () => {
                 setReferrals(formattedReferrals);
             } catch (err: any) {
                 console.error("Error loading referrals:", err);
-                setError(err.message || '無法載入引薦資料');
+                // If it's a 404 or 400, just show empty instead of error
+                if (err.code === 'PGRST116' || err.code === '42P01' || err.code === 'PGRST204') {
+                    setReferrals([]);
+                } else {
+                    setReferrals([]); // Still return empty to prevent crash
+                    // setError(err.message || '無法載入引薦資料'); // Don't block UI with error if we can help it
+                }
             } finally {
                 setLoading(false);
             }
@@ -111,5 +117,5 @@ export const useReferrals = () => {
         fetchData();
     }, []);
 
-    return { referrals, loading, error };
+    return { referrals, loading };
 };

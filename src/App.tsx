@@ -45,7 +45,7 @@ function App() {
         <StarryBackground />
         <div className="flex flex-col min-h-screen relative z-10">
           <Navbar />
-          <main className="flex-grow">
+          <main className="flex-grow pb-[70px] md:pb-0">
             <AnimatedRoutes />
           </main>
           <Footer />
