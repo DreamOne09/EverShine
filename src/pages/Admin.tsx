@@ -97,7 +97,11 @@ const Admin: React.FC = () => {
                     return res;
                 })(),
                 // 2. Homepage Stats
-                supabase.from('homepage_stats').select('*').order('month', { ascending: false }).limit(1).maybeSingle(),
+                // 2. Homepage Stats - Fail-safe
+                (async () => {
+                    try { return await supabase.from('homepage_stats').select('*').order('month', { ascending: false }).limit(1).maybeSingle(); }
+                    catch { return { data: null, error: null }; }
+                })(),
                 // 3. Page Views - Fail-safe
                 (async () => {
                     try { return await supabase.from('page_views').select('*', { count: 'exact', head: true }); }
@@ -105,16 +109,12 @@ const Admin: React.FC = () => {
                 })(),
                 // 4. Referrals - Resilient Fetching
                 (async () => {
-                    let res = await supabase.from('referrals').select('*').order('created_at', { ascending: false });
-                    if (res.error) {
-                        console.warn('Attempted created_at order failed for referrals, trying createdAt...', res.error.message);
-                        res = await supabase.from('referrals').select('*').order('createdAt', { ascending: false });
-                    }
-                    if (res.error) {
-                        console.warn('Attempted createdAt order failed for referrals, trying default order...', res.error.message);
-                        res = await supabase.from('referrals').select('*');
-                    }
-                    return res;
+                    try {
+                        let res = await supabase.from('referrals').select('*').order('created_at', { ascending: false });
+                        if (res.error) res = await supabase.from('referrals').select('*').order('createdAt', { ascending: false });
+                        if (res.error) res = await supabase.from('referrals').select('*');
+                        return res;
+                    } catch { return { data: [], error: null }; }
                 })(),
                 // 5. Social Clicks - Fail-safe
                 (async () => {

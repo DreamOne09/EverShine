@@ -29,11 +29,33 @@ export const useReferrals = () => {
         const fetchData = async () => {
             try {
                 setLoading(true);
-                // 1. Get raw referrals data
-                const { data: refsData, error: refsError } = await supabase
+                // 1. Get raw referrals data with resilient ordering
+                let { data: refsData, error: refsError } = await supabase
                     .from('referrals')
                     .select('*')
                     .order('created_at', { ascending: false });
+
+                if (refsError) {
+                    // Try alternative column name
+                    const altRes = await supabase
+                        .from('referrals')
+                        .select('*')
+                        .order('createdAt', { ascending: false });
+
+                    if (!altRes.error) {
+                        refsData = altRes.data;
+                        refsError = null;
+                    }
+                }
+
+                if (refsError) {
+                    // Try without ordering if both fail
+                    const fallbackRes = await supabase.from('referrals').select('*');
+                    if (!fallbackRes.error) {
+                        refsData = fallbackRes.data;
+                        refsError = null;
+                    }
+                }
 
                 if (refsError) throw refsError;
 

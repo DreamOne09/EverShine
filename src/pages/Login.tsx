@@ -6,6 +6,12 @@ import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
 import { Lock, Mail, User as UserIcon, AlertCircle, CheckCircle } from 'lucide-react';
 
+declare global {
+    interface Window {
+        turnstile: any;
+    }
+}
+
 const Login: React.FC = () => {
     const navigate = useNavigate();
     const { user } = useAuth();
@@ -16,10 +22,13 @@ const Login: React.FC = () => {
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState<{ text: string, type: 'error' | 'success' } | null>(null);
 
-    // Claim States
+    const [claimPassword, setClaimPassword] = useState('');
     const [unclaimedMembers, setUnclaimedMembers] = useState<any[]>([]);
     const [selectedMemberId, setSelectedMemberId] = useState<string | number | null>(null);
-    const [claimPassword, setClaimPassword] = useState('');
+    const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+
+    // Site Key Placeholder - User should replace this with their actual Cloudflare Turnstile Site Key
+    const TURNSTILE_SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY || '1x00000000000000000000AA'; // Testing key
 
     // Validation helpers
     const validateEmail = (email: string) => {
@@ -39,7 +48,22 @@ const Login: React.FC = () => {
         if (user) {
             checkProfile();
         }
-    }, [user]);
+
+        // Initialize Turnstile if widget exists
+        if (mode === 'login' || mode === 'signup') {
+            const timer = setTimeout(() => {
+                if (window.turnstile) {
+                    window.turnstile.render('#turnstile-container', {
+                        sitekey: TURNSTILE_SITE_KEY,
+                        callback: (token: string) => {
+                            setCaptchaToken(token);
+                        },
+                    });
+                }
+            }, 500);
+            return () => clearTimeout(timer);
+        }
+    }, [user, mode]);
 
     const checkProfile = async () => {
         if (!user) return;
@@ -107,6 +131,9 @@ const Login: React.FC = () => {
                 const { error } = await supabase.auth.signUp({
                     email,
                     password,
+                    options: {
+                        captchaToken: captchaToken || undefined,
+                    }
                 });
                 if (error) throw error;
                 setMessage({ text: '註冊成功！請檢查信箱並點擊驗證連結。', type: 'success' });
@@ -115,6 +142,9 @@ const Login: React.FC = () => {
                 const { error } = await supabase.auth.signInWithPassword({
                     email,
                     password,
+                    options: {
+                        captchaToken: captchaToken || undefined,
+                    }
                 });
                 if (error) throw error;
                 // useEffect will trigger checkProfile
@@ -239,10 +269,14 @@ const Login: React.FC = () => {
                             </>
                         )}
 
+                        {(mode === 'login' || mode === 'signup') && (
+                            <div id="turnstile-container" className="my-4 flex justify-center"></div>
+                        )}
+
                         <button
                             type="submit"
-                            disabled={loading}
-                            className="w-full bg-primary hover:bg-primary-dark text-bg-dark font-bold py-3 rounded-lg transition-colors mt-2"
+                            disabled={loading || ((mode === 'login' || mode === 'signup') && !captchaToken)}
+                            className="w-full bg-primary hover:bg-primary-dark text-bg-dark font-bold py-3 rounded-lg transition-colors mt-2 disabled:opacity-50"
                         >
                             {loading ? '處理中...' :
                                 mode === 'login' ? '登入' :
