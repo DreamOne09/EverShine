@@ -239,7 +239,7 @@ const Login: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen pt-24 pb-12 px-4 container mx-auto flex items-center justify-center">
+        <div className="min-h-[calc(100dvh-160px)] flex items-center justify-center py-12 px-4 container mx-auto">
             <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}

@@ -193,7 +193,7 @@ const Admin: React.FC = () => {
         if (!name) return;
 
         try {
-            const { data, error } = await supabase.from('members').insert({
+            const { error } = await supabase.from('members').insert({
                 name,
                 industry: '新產業',
                 company: '新公司',
@@ -245,7 +245,7 @@ const Admin: React.FC = () => {
     if (loading) return <div className="min-h-screen pt-32 text-center text-white">載入後台數據中...</div>;
 
     return (
-        <div className="min-h-screen pt-32 pb-12 px-4 container mx-auto">
+        <div className="min-h-dvh pt-32 pb-12 px-4 container mx-auto">
             <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
                 <h1 className="text-3xl font-bold text-white flex items-center gap-3">
                     <Activity className="text-primary" /> 管理後台

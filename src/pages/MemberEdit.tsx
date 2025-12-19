@@ -1,8 +1,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Save, Upload, AlertCircle, X, Camera, ArrowLeft, LogOut } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Save, AlertCircle, X, Camera, ArrowLeft, LogOut } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import imageCompression from 'browser-image-compression';
 import { useAuth } from '../contexts/AuthContext';
@@ -289,7 +289,7 @@ const MemberEdit: React.FC = () => {
     if (authLoading) return <div className="min-h-screen text-white flex items-center justify-center">載入中...</div>;
 
     return (
-        <div className="min-h-screen pt-24 md:pt-32 pb-32 md:pb-12 px-4 container mx-auto max-w-4xl">
+        <div className="min-h-dvh pt-24 md:pt-32 pb-32 md:pb-12 px-4 container mx-auto max-w-4xl">
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
