@@ -68,7 +68,7 @@ const Contact: React.FC = () => {
                                 />
                             </div>
                             <h3 className="text-lg font-bold text-white mb-1">{item.title}</h3>
-                            <div className="text-xl text-primary font-bold mb-1">{item.name}</div>
+                            <div className="text-xl text-gold font-bold mb-1">{item.name}</div>
                             <div className="text-gray-300 text-base mb-4">{item.member?.industry || (index === 0 ? 'AI程式交易' : index === 1 ? 'AI學習整合' : '策展規劃設計')}</div>
 
                             <div className="border-t border-white/10 pt-4 space-y-2 text-left inline-block w-full text-base mt-auto">
@@ -76,11 +76,11 @@ const Contact: React.FC = () => {
                                     <span className="font-medium text-white text-center">{item.member?.company || (index === 0 ? '創達智能技術股份有限公司 董事長' : index === 1 ? '祈育教育實業坊 董事長' : '樂橙創作設計 董事長')}</span>
                                 </div>
                                 <div className="flex items-center gap-2 text-gray-300 justify-center pt-2">
-                                    <Phone size={16} className="text-primary shrink-0" />
+                                    <Phone size={16} className="text-gold shrink-0" />
                                     <span>{item.member?.phone || (index === 0 ? '0938-767-768' : index === 1 ? '0956-522-350' : '0952-983-157')}</span>
                                 </div>
                                 <div className="flex items-center gap-2 text-gray-300 justify-center">
-                                    <Mail size={16} className="text-primary shrink-0" />
+                                    <Mail size={16} className="text-gold shrink-0" />
                                     <span className="text-sm break-all">{item.member?.email || (index === 0 ? 'wang.ian@investrontech.com' : index === 1 ? 'samuel900731@gmail.com' : 'claire@allrange.tw')}</span>
                                 </div>
                             </div>

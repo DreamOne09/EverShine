@@ -7,8 +7,8 @@ const MetricCard: React.FC<{ icon: React.ReactNode, value: number, suffix: strin
     const { count, elementRef } = useCountUp(value);
 
     return (
-        <div ref={elementRef} className="bg-bg-dark/60 backdrop-blur-md border border-primary/20 rounded-2xl shadow-xl p-8 flex flex-col items-center justify-center hover:-translate-y-2 transition-transform duration-300">
-            <div className="text-primary mb-6 p-4 bg-primary/10 rounded-full">
+        <div ref={elementRef} className="bg-bg-dark/60 backdrop-blur-md border border-gold/20 rounded-2xl shadow-xl p-8 flex flex-col items-center justify-center hover:-translate-y-2 transition-transform duration-300">
+            <div className="text-gold mb-6 p-4 bg-gold/10 rounded-full">
                 {icon}
             </div>
             <div className="text-4xl lg:text-5xl font-bold text-white mb-2 font-mono tabular-nums">
@@ -27,7 +27,7 @@ const Results: React.FC = () => {
             <div className="container mx-auto px-4">
                 <div className="text-center mb-16">
                     <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">成果會說話</h2>
-                    <div className="w-20 h-1 bg-primary mx-auto rounded-full mb-4"></div>
+                    <div className="w-20 h-1 bg-gold mx-auto rounded-full mb-4"></div>
                     <p className="text-gray-300 text-base">
                         創會以來 - 資料更新時間：2025/12/13
                     </p>
@@ -58,13 +58,13 @@ const Results: React.FC = () => {
                         />
                     </div>
                     <div className="w-full h-full">
-                        <div className="bg-bg-dark/60 backdrop-blur-md border border-primary/20 rounded-2xl shadow-xl p-8 flex flex-col items-center justify-center hover:-translate-y-2 transition-transform duration-300 text-center h-full">
-                            <div className="text-primary mb-6 p-4 bg-primary/10 rounded-full">
+                        <div className="bg-bg-dark/60 backdrop-blur-md border border-gold/20 rounded-2xl shadow-xl p-8 flex flex-col items-center justify-center hover:-translate-y-2 transition-transform duration-300 text-center h-full">
+                            <div className="text-gold mb-6 p-4 bg-gold/10 rounded-full">
                                 <Users size={40} />
                             </div>
                             <h3 className="text-2xl font-bold text-white mb-2">邀請來賓參與</h3>
                             <p className="text-gray-400 mb-6 text-base">誠摯邀請您前來體驗我們的聚會。</p>
-                            <a href="#contact" className="inline-block px-6 py-2 bg-primary text-white font-bold rounded-full hover:bg-primary-dark transition-colors shadow-md text-sm">
+                            <a href="#contact" className="inline-block px-6 py-3 bg-gold text-bg-dark font-bold rounded-full hover:bg-gold-dark transition-colors shadow-lg shadow-gold/20 text-sm">
                                 聯繫我們
                             </a>
                         </div>

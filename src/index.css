@@ -9,14 +9,13 @@
   --color-primary-dark: #2C88BE;
   --color-primary-light: #7CD0FF;
 
+  /* 黃金配色 (Gold Accent) */
+  --color-gold: #D4AF37;
+  --color-gold-light: #F9E58B;
+  --color-gold-dark: #A68A2D;
+
   /* 背景顏色 */
   --color-bg-dark: #06203a;
-  /* 深藍背景 */
-  --color-bg-primary: #050505;
-  --color-bg-secondary: #0a0a0a;
-
-  /* 兼容性顏色 (將舊的 Gold 映射到 Primary Blue) */
-  --color-gold: #4CA8DF;
 }
 
 /* Global Reset & Base Styles */

@@ -312,7 +312,7 @@ const MemberEdit: React.FC = () => {
                             onClick={handleSubmit}
                             disabled={loading}
                             className={`flex-1 sm:flex-none flex items-center justify-center gap-2 px-6 py-2.5 rounded-full font-bold transition-all duration-300 ${hasChanges
-                                    ? 'bg-primary text-bg-dark shadow-[0_0_20px_rgba(76,168,223,0.3)] hover:scale-105 active:scale-95'
+                                    ? 'bg-gold text-bg-dark shadow-[0_0_20px_rgba(212,175,55,0.4)] hover:scale-105 active:scale-95'
                                     : 'bg-white/10 text-gray-400 border border-white/10'
                                 } disabled:opacity-50`}
                         >
@@ -606,7 +606,7 @@ const MemberEdit: React.FC = () => {
                                 onClick={handleSubmit}
                                 disabled={loading}
                                 className={`w-full py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-3 shadow-xl transition-all duration-300 ${hasChanges
-                                        ? 'bg-primary text-bg-dark shadow-primary/20 hover:scale-[1.02] active:scale-[0.98]'
+                                        ? 'bg-gold text-bg-dark shadow-gold/20 hover:scale-[1.02] active:scale-[0.98]'
                                         : 'bg-white/10 text-gray-400'
                                     }`}
                             >
