@@ -299,17 +299,39 @@ const MemberEdit: React.FC = () => {
                 className="space-y-6"
             >
                 {/* Header */}
-                <div className="flex items-center justify-between mb-8 relative z-10 mt-8 md:mt-0">
-                    <button onClick={() => navigate('/members')} className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors cursor-pointer">
-                        <ArrowLeft size={20} /> <span className="hidden sm:inline">返回列表</span><span className="sm:hidden">返回</span>
-                    </button>
-                    <div className="flex items-center gap-3">
-                        <h1 className="text-lg md:text-2xl font-bold text-white">編輯檔案</h1>
+                <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8 sticky top-20 z-[40] bg-bg-dark/80 backdrop-blur-lg p-4 -mx-4 rounded-b-2xl border-b border-white/5 md:bg-transparent md:backdrop-blur-none md:border-none md:static md:p-0 md:mx-0">
+                    <div className="flex items-center justify-between w-full sm:w-auto gap-4">
+                        <button onClick={() => navigate('/members')} className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors cursor-pointer shrink-0">
+                            <ArrowLeft size={20} /> <span className="hidden sm:inline">返回列表</span><span className="sm:hidden text-sm">返回</span>
+                        </button>
+                        <h1 className="text-xl md:text-2xl font-bold text-white truncate">編輯檔案</h1>
+                    </div>
+
+                    <div className="flex items-center gap-3 w-full sm:w-auto">
+                        <button
+                            onClick={handleSubmit}
+                            disabled={loading}
+                            className={`flex-1 sm:flex-none flex items-center justify-center gap-2 px-6 py-2.5 rounded-full font-bold transition-all duration-300 ${hasChanges
+                                    ? 'bg-primary text-bg-dark shadow-[0_0_20px_rgba(76,168,223,0.3)] hover:scale-105 active:scale-95'
+                                    : 'bg-white/10 text-gray-400 border border-white/10'
+                                } disabled:opacity-50`}
+                        >
+                            {loading ? (
+                                <div className="w-5 h-5 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                            ) : (
+                                <>
+                                    <Save size={18} />
+                                    <span>{hasChanges ? '儲存修改' : '已儲存'}</span>
+                                </>
+                            )}
+                        </button>
+
                         <button
                             onClick={async () => { await signOut(); navigate('/'); }}
-                            className="md:hidden flex items-center gap-1 text-red-400 border border-red-400/30 px-3 py-1.5 rounded-full text-xs hover:bg-red-400/10 transition-colors"
+                            className="flex items-center gap-1 text-red-400 border border-red-400/30 px-4 py-2.5 rounded-full text-sm hover:bg-red-400/10 transition-colors shrink-0"
+                            title="登出"
                         >
-                            <LogOut size={14} /> 登出
+                            <LogOut size={16} /> <span className="hidden sm:inline">登出</span>
                         </button>
                     </div>
                 </div>
@@ -319,7 +341,7 @@ const MemberEdit: React.FC = () => {
                         initial={{ opacity: 0, y: -20, x: "-50%" }}
                         animate={{ opacity: 1, y: 0, x: "-50%" }}
                         exit={{ opacity: 0, y: -20, x: "-50%" }}
-                        className={`fixed top-28 md:top-24 left-1/2 z-50 w-[90%] max-w-lg p-4 rounded-xl flex items-center gap-3 shadow-2xl backdrop-blur-md border ${message.type === 'error'
+                        className={`fixed top-36 md:top-24 left-1/2 z-50 w-[90%] max-w-lg p-4 rounded-xl flex items-center gap-3 shadow-2xl backdrop-blur-md border ${message.type === 'error'
                             ? 'bg-red-900/90 text-red-100 border-red-500/50'
                             : 'bg-green-900/90 text-green-100 border-green-500/50'
                             }`}
@@ -387,12 +409,12 @@ const MemberEdit: React.FC = () => {
                             <h2 className="text-xl font-bold text-primary mb-6 border-b border-white/10 pb-4">📝 基本資料</h2>
                             <div className="space-y-4">
                                 <div>
-                                    <label className="block text-gray-300 mb-2">真實姓名</label>
+                                    <label className="block text-gray-300 mb-2 font-medium">真實姓名</label>
                                     <input
                                         type="text"
                                         value={name}
                                         onChange={(e) => updateField(setName, e.target.value)}
-                                        className="w-full bg-black/30 border border-white/20 rounded-lg p-3 text-base text-white focus:border-primary focus:outline-none"
+                                        className="w-full bg-black/30 border border-white/20 rounded-lg p-3 text-base text-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary/30"
                                     />
                                 </div>
 
@@ -441,7 +463,7 @@ const MemberEdit: React.FC = () => {
                                 </div>
 
                                 <div>
-                                    <label className="block text-gray-300 mb-2">
+                                    <label className="block text-gray-300 mb-2 font-medium">
                                         產業類別 (已選 {selectedCategories.length}/2)
                                     </label>
 
@@ -453,7 +475,7 @@ const MemberEdit: React.FC = () => {
                                                 <button
                                                     type="button"
                                                     onClick={() => toggleCategory(cat)}
-                                                    className="hover:text-white focus:outline-none"
+                                                    className="hover:text-white focus:outline-none cursor-pointer"
                                                 >
                                                     <X size={14} />
                                                 </button>
@@ -467,7 +489,7 @@ const MemberEdit: React.FC = () => {
                                                 type="button"
                                                 onClick={() => toggleCategory(cat)}
                                                 className={`px-3 py-1.5 rounded-full text-sm border transition-all cursor-pointer ${selectedCategories.includes(cat)
-                                                    ? 'bg-primary text-bg-dark border-primary font-bold'
+                                                    ? 'bg-primary text-bg-dark border-primary font-bold shadow-[0_0_15px_rgba(76,168,223,0.3)]'
                                                     : 'bg-transparent text-gray-400 border-white/20 hover:border-white/50 hover:text-white'
                                                     }`}
                                             >
@@ -484,7 +506,7 @@ const MemberEdit: React.FC = () => {
                             <h2 className="text-xl font-bold text-primary mb-6 border-b border-white/10 pb-4">📣 自我介紹</h2>
                             <div className="space-y-4">
                                 <div>
-                                    <label className="block text-gray-300 mb-2">簡短介紹 (列表頁顯示)</label>
+                                    <label className="block text-gray-300 mb-2 font-medium">簡短介紹 (列表頁顯示)</label>
                                     <textarea
                                         value={shortIntro}
                                         onChange={(e) => updateField(setShortIntro, e.target.value)}
@@ -495,7 +517,7 @@ const MemberEdit: React.FC = () => {
                                     <div className="text-right text-xs text-gray-500">{shortIntro.length}/100</div>
                                 </div>
                                 <div>
-                                    <label className="block text-gray-300 mb-2">完整介紹 (詳細頁顯示)</label>
+                                    <label className="block text-gray-300 mb-2 font-medium">完整介紹 (詳細頁顯示)</label>
                                     <textarea
                                         value={fullIntro}
                                         onChange={(e) => updateField(setFullIntro, e.target.value)}
@@ -514,7 +536,7 @@ const MemberEdit: React.FC = () => {
                             <h2 className="text-xl font-bold text-primary mb-6 border-b border-white/10 pb-4">✨ 服務與標籤</h2>
 
                             <div className="mb-6">
-                                <label className="block text-gray-300 mb-2">主要服務 (最多3項)</label>
+                                <label className="block text-gray-300 mb-2 font-medium">主要服務 (最多3項)</label>
                                 <div className="space-y-2">
                                     {services.map((service, idx) => (
                                         <input
@@ -534,7 +556,7 @@ const MemberEdit: React.FC = () => {
                             </div>
 
                             <div>
-                                <label className="block text-gray-300 mb-2">Hashtags (標籤)</label>
+                                <label className="block text-gray-300 mb-2 font-medium">Hashtags (標籤)</label>
                                 <div className="flex gap-2">
                                     {hashtags.map((tag, idx) => (
                                         <div key={idx} className="relative flex-1">
@@ -561,7 +583,7 @@ const MemberEdit: React.FC = () => {
                             <div className="space-y-3">
                                 {links.map((link, idx) => (
                                     <div key={link.type} className="flex gap-2 items-center">
-                                        <div className="w-24 text-gray-400 capitalize text-sm">{link.type}</div>
+                                        <div className="w-24 text-gray-400 capitalize text-sm font-medium">{link.type}</div>
                                         <input
                                             type="text"
                                             value={link.url}
@@ -577,51 +599,41 @@ const MemberEdit: React.FC = () => {
                                 ))}
                             </div>
                         </div>
+
+                        {/* Bottom Actions for Mobile convenience */}
+                        <div className="pt-8 flex flex-col gap-4">
+                            <button
+                                onClick={handleSubmit}
+                                disabled={loading}
+                                className={`w-full py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-3 shadow-xl transition-all duration-300 ${hasChanges
+                                        ? 'bg-primary text-bg-dark shadow-primary/20 hover:scale-[1.02] active:scale-[0.98]'
+                                        : 'bg-white/10 text-gray-400'
+                                    }`}
+                            >
+                                {loading ? (
+                                    <div className="w-6 h-6 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                                ) : (
+                                    <>
+                                        <Save size={24} />
+                                        <span>儲存所有修改</span>
+                                    </>
+                                )}
+                            </button>
+
+                            {hasChanges && (
+                                <button
+                                    onClick={() => { fetchMemberData(); setHasChanges(false); }}
+                                    className="w-full py-3 text-gray-400 hover:text-white transition-colors text-sm"
+                                >
+                                    放棄目前修改
+                                </button>
+                            )}
+                        </div>
                     </div>
                 </div>
 
-                {/* Floating Save FAB - For All Screen Sizes */}
-                {hasChanges && (
-                    <motion.div
-                        initial={{ scale: 0, opacity: 0, y: 50 }}
-                        animate={{ scale: 1, opacity: 1, y: 0 }}
-                        className="fixed bottom-24 right-6 md:bottom-12 md:right-12 z-[100] flex flex-col items-end gap-3"
-                    >
-                        {/* Reset Button (Mini FAB) */}
-                        <motion.button
-                            whileHover={{ scale: 1.1 }}
-                            whileTap={{ scale: 0.9 }}
-                            onClick={() => { fetchMemberData(); setHasChanges(false); }}
-                            className="w-10 h-10 bg-white/10 backdrop-blur-md border border-white/20 text-white rounded-full flex items-center justify-center shadow-xl hover:bg-white/20 transition-all"
-                            title="放棄修改"
-                        >
-                            <X size={18} />
-                        </motion.button>
-
-                        {/* Main Save FAB */}
-                        <motion.button
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            onClick={handleSubmit}
-                            disabled={loading}
-                            className="bg-primary text-bg-dark font-bold rounded-full shadow-[0_8px_32px_rgba(76,168,223,0.4)] flex items-center justify-center gap-3 px-6 h-14 hover:bg-primary/90 transition-all disabled:opacity-50 min-w-[140px]"
-                        >
-                            {loading ? (
-                                <div className="w-5 h-5 border-2 border-bg-dark/30 border-t-bg-dark rounded-full animate-spin" />
-                            ) : (
-                                <>
-                                    <Save size={20} />
-                                    <span>儲存變更</span>
-                                </>
-                            )}
-
-                            {/* Pulse Effect */}
-                            {!loading && (
-                                <span className="absolute inset-0 rounded-full bg-primary/20 animate-ping -z-10" />
-                            )}
-                        </motion.button>
-                    </motion.div>
-                )}
+                {/* Spacer for bottom nav on mobile */}
+                <div className="h-24 md:hidden"></div>
             </motion.div>
         </div>
     );
