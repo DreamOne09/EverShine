@@ -57,6 +57,16 @@ const MemberEdit: React.FC = () => {
     const [photoFile, setPhotoFile] = useState<File | null>(null);
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
+    // Track if there are unsaved changes
+    const [hasChanges, setHasChanges] = useState(false);
+
+    // Helper to update state and mark as dirty
+    const updateField = (setter: (val: any) => void, value: any) => {
+        setter(value);
+        setHasChanges(true);
+        if (message?.type === 'success') setMessage(null);
+    };
+
     useEffect(() => {
         if (!authLoading && !user) {
             navigate('/login');
@@ -101,7 +111,6 @@ const MemberEdit: React.FC = () => {
                 const m = data as Member;
                 setMemberId(m.id.toString());
                 setName(m.name);
-                // ... (rest of mapping is same)
                 setCompany(m.company || '');
                 setPosition(m.position || m.title || '');
                 setIndustry(m.industry || '');
@@ -113,7 +122,6 @@ const MemberEdit: React.FC = () => {
                 // Handle Arrays
                 if (m.category) {
                     const loadedCats = m.category.split(',').map(c => c.trim()).filter(Boolean);
-                    // Normalize legacy categories (remove '生態圈' suffix if it matches new list)
                     const normalizedCats = loadedCats.map(c => {
                         if (CATEGORIES.includes(c)) return c;
                         const stripped = c.replace('生態圈', '');
@@ -129,7 +137,7 @@ const MemberEdit: React.FC = () => {
                     setHashtags([...m.hashtags, '', '', ''].slice(0, 3));
                 }
 
-                // Handle Links (Convert Object/Array to State)
+                // Handle Links
                 const newLinks = [...links];
                 if (m.links) {
                     if (Array.isArray(m.links)) {
@@ -145,12 +153,13 @@ const MemberEdit: React.FC = () => {
                     }
                 }
                 setLinks(newLinks);
+
+                // After initial load, we have no changes
+                setHasChanges(false);
             }
         } catch (err: any) {
             console.error('Error fetching member:', err);
-            // If no rows found (PGRST116) or Not Acceptable (406), it means user hasn't claimed a profile yet.
             if (err.code === 'PGRST116' || err.code === '406' || err.status === 406) {
-                // Redirect to login page which handles claiming
                 navigate('/login');
                 return;
             }
@@ -160,37 +169,28 @@ const MemberEdit: React.FC = () => {
         }
     };
 
-    // Add import at the top (I'll add it in a separate block if needed, but here I assume I can edit the whole function block and top imports effectively with multi-replace or just careful replacing. Wait, this tool is replace_file_content. I need to add import. I'll do two edits or one big one.)
-    // Actually, I should use multi_replace for import + function change. But let's stay simple.
-    // I will replace handleFileUpload and add the import in a subsequent or prior call? 
-    // No, I can't add import easily without context.
-    // Let's assume I will add import in a separate step or I use a larger range.
-    // The user wants: 50MB limit + compression.
-
-    // Step 1: Update handleFileUpload to use compression.
     const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
             const file = e.target.files[0];
 
-            // Limit to 50MB before compression
             if (file.size > 50 * 1024 * 1024) {
                 setMessage({ text: '圖片原始大小不能超過 50MB', type: 'error' });
                 return;
             }
 
             try {
-                // Compress image
                 const options = {
-                    maxSizeMB: 1, // Compress to ~1MB
+                    maxSizeMB: 1,
                     maxWidthOrHeight: 1920,
                     useWebWorker: true,
                     initialQuality: 0.8
                 };
 
                 const compressedFile = await imageCompression(file, options);
-
                 setPhotoFile(compressedFile);
                 setPreviewUrl(URL.createObjectURL(compressedFile));
+                setHasChanges(true); // Mark as dirty
+                if (message?.type === 'success') setMessage(null);
             } catch (error) {
                 console.error('Compression error:', error);
                 setMessage({ text: '圖片處理失敗，請重試', type: 'error' });
@@ -200,20 +200,19 @@ const MemberEdit: React.FC = () => {
 
     const toggleCategory = (cat: string) => {
         const currentIndex = selectedCategories.indexOf(cat);
+        let newCategories = [];
         if (currentIndex !== -1) {
-            // Deselect
-            const newCategories = selectedCategories.filter(c => c !== cat);
-            setSelectedCategories(newCategories);
-            setMessage(null);
+            newCategories = selectedCategories.filter(c => c !== cat);
         } else {
-            // Select
             if (selectedCategories.length >= 2) {
                 setMessage({ text: '最多只能選擇 2 個產業類別', type: 'error' });
                 return;
             }
-            setSelectedCategories([...selectedCategories, cat]);
-            setMessage(null);
+            newCategories = [...selectedCategories, cat];
         }
+        setSelectedCategories(newCategories);
+        setHasChanges(true);
+        if (message?.type === 'success') setMessage(null);
     };
 
     const handleSubmit = async () => {
@@ -224,7 +223,6 @@ const MemberEdit: React.FC = () => {
         try {
             let currentPhotoUrl = photo;
 
-            // 1. Upload Photo if changed
             if (photoFile) {
                 const fileExt = photoFile.name.split('.').pop();
                 const fileName = `${user.id}-${Date.now()}.${fileExt}`;
@@ -243,17 +241,15 @@ const MemberEdit: React.FC = () => {
                 currentPhotoUrl = publicUrl;
             }
 
-            // 2. Prepare Links Object
             const linksObject: { [key: string]: string } = {};
             links.forEach(l => {
                 if (l.url.trim()) linksObject[l.type] = l.url.trim();
             });
 
-            // 3. Update Database
             const updates = {
                 name,
                 company,
-                position, // Column name is 'position'
+                position,
                 industry,
                 category: selectedCategories.join(','),
                 shortIntro,
@@ -264,19 +260,20 @@ const MemberEdit: React.FC = () => {
                 photo: currentPhotoUrl,
                 photoPosition,
                 updatedAt: new Date().toISOString(),
-                editCount: 1 // Increment or set to 1 to show edited
+                editCount: 1
             };
 
             const { error } = await supabase
                 .from('members')
                 .update(updates)
-                .eq('id', memberId); // Update by Primary Key ID
+                .eq('id', memberId);
 
             if (error) throw error;
 
             setMessage({ text: '資料儲存成功！', type: 'success' });
             setPhoto(currentPhotoUrl);
-            setPhotoFile(null); // Reset file input
+            setPhotoFile(null);
+            setHasChanges(false); // SUCCESS -> Hide bar
 
         } catch (err: any) {
             console.error('Error saving:', err);
@@ -357,7 +354,7 @@ const MemberEdit: React.FC = () => {
                                 <label className="block text-gray-400 text-xs mb-1">照片位置</label>
                                 <select
                                     value={photoPosition}
-                                    onChange={(e) => setPhotoPosition(e.target.value)}
+                                    onChange={(e) => updateField(setPhotoPosition, e.target.value)}
                                     className="w-full bg-black/30 border border-white/20 rounded-lg p-2 text-sm text-white focus:border-primary focus:outline-none"
                                 >
                                     <option value="top">上方 (Top)</option>
@@ -388,7 +385,7 @@ const MemberEdit: React.FC = () => {
                                     <input
                                         type="text"
                                         value={name}
-                                        onChange={(e) => setName(e.target.value)}
+                                        onChange={(e) => updateField(setName, e.target.value)}
                                         className="w-full bg-black/30 border border-white/20 rounded-lg p-3 text-base text-white focus:border-primary focus:outline-none"
                                     />
                                 </div>
@@ -399,7 +396,7 @@ const MemberEdit: React.FC = () => {
                                         <input
                                             type="text"
                                             value={company}
-                                            onChange={(e) => setCompany(e.target.value)}
+                                            onChange={(e) => updateField(setCompany, e.target.value)}
                                             className="w-full bg-black/30 border border-white/20 rounded-lg p-3 text-base text-white focus:border-primary focus:outline-none"
                                         />
                                     </div>
@@ -408,7 +405,7 @@ const MemberEdit: React.FC = () => {
                                         <input
                                             type="text"
                                             value={position}
-                                            onChange={(e) => setPosition(e.target.value)}
+                                            onChange={(e) => updateField(setPosition, e.target.value)}
                                             className="w-full bg-black/30 border border-white/20 rounded-lg p-3 text-base text-white focus:border-primary focus:outline-none"
                                         />
                                     </div>
@@ -461,7 +458,7 @@ const MemberEdit: React.FC = () => {
                                     <label className="block text-gray-300 mb-2">簡短介紹 (列表頁顯示)</label>
                                     <textarea
                                         value={shortIntro}
-                                        onChange={(e) => setShortIntro(e.target.value)}
+                                        onChange={(e) => updateField(setShortIntro, e.target.value)}
                                         maxLength={100}
                                         className="w-full bg-black/30 border border-white/20 rounded-lg p-3 text-base text-white focus:border-primary focus:outline-none h-24 resize-none"
                                         placeholder="一句話介紹您的專業..."
@@ -472,7 +469,7 @@ const MemberEdit: React.FC = () => {
                                     <label className="block text-gray-300 mb-2">完整介紹 (詳細頁顯示)</label>
                                     <textarea
                                         value={fullIntro}
-                                        onChange={(e) => setFullIntro(e.target.value)}
+                                        onChange={(e) => updateField(setFullIntro, e.target.value)}
                                         className="w-full bg-black/30 border border-white/20 rounded-lg p-3 text-base text-white focus:border-primary focus:outline-none h-48"
                                         placeholder="詳細說明您的服務內容、經歷與優勢..."
                                     />
@@ -498,7 +495,7 @@ const MemberEdit: React.FC = () => {
                                             onChange={(e) => {
                                                 const newServices = [...services];
                                                 newServices[idx] = e.target.value;
-                                                setServices(newServices);
+                                                updateField(setServices, newServices);
                                             }}
                                             className="w-full bg-black/30 border border-white/20 rounded-lg p-3 text-base text-white focus:border-primary focus:outline-none"
                                             placeholder={`服務項目 ${idx + 1}`}
@@ -519,7 +516,7 @@ const MemberEdit: React.FC = () => {
                                                 onChange={(e) => {
                                                     const newTags = [...hashtags];
                                                     newTags[idx] = e.target.value;
-                                                    setHashtags(newTags);
+                                                    updateField(setHashtags, newTags);
                                                 }}
                                                 className="w-full bg-black/30 border border-white/20 rounded-lg p-3 pl-7 text-base text-white focus:border-primary focus:outline-none"
                                             />
@@ -542,7 +539,7 @@ const MemberEdit: React.FC = () => {
                                             onChange={(e) => {
                                                 const newLinks = [...links];
                                                 newLinks[idx].url = e.target.value;
-                                                setLinks(newLinks);
+                                                updateField(setLinks, newLinks);
                                             }}
                                             className="flex-1 bg-black/30 border border-white/20 rounded-lg p-3 text-base text-white focus:border-primary focus:outline-none"
                                             placeholder="https://..."
@@ -555,42 +552,49 @@ const MemberEdit: React.FC = () => {
                 </div>
 
                 {/* Footer Actions - Sticky on Mobile */}
-                <div className="fixed bottom-[74px] left-0 right-0 p-4 bg-bg-dark/95 backdrop-blur-xl border-t border-white/10 z-[100] flex justify-end gap-3 md:static md:bg-transparent md:border-0 md:p-0 md:pt-4 md:border-t-0">
-                    <button
-                        onClick={() => navigate('/members')}
-                        className="px-6 py-3 rounded-lg border border-white/10 text-white hover:bg-white/5 transition-colors text-sm font-medium"
-                    >
-                        取消
-                    </button>
+                {hasChanges && (
+                    <div className="fixed bottom-[74px] left-0 right-0 p-4 bg-bg-dark/95 backdrop-blur-xl border-t border-white/10 z-[100] flex justify-end gap-3 md:static md:bg-transparent md:border-0 md:p-0 md:pt-4 md:border-t-0">
+                        <button
+                            onClick={() => {
+                                fetchMemberData();
+                                setHasChanges(false);
+                            }}
+                            className="px-6 py-3 rounded-lg border border-white/10 text-white hover:bg-white/5 transition-colors text-sm font-medium"
+                        >
+                            重設
+                        </button>
+                        <button
+                            onClick={handleSubmit}
+                            disabled={loading}
+                            className="px-8 py-3 rounded-lg bg-primary text-bg-dark font-bold hover:bg-primary/90 transition-colors disabled:opacity-50 flex items-center gap-2 shadow-lg shadow-primary/20"
+                        >
+                            {loading ? '儲存中...' : (
+                                <>
+                                    <Save size={20} />
+                                    儲存變更
+                                </>
+                            )}
+                        </button>
+                    </div>
+                )}
+
+                {!hasChanges && <div className="h-20 md:hidden"></div>}
+
+                {/* Floating Save Button - Only for Mobile */}
+                {hasChanges && (
                     <button
                         onClick={handleSubmit}
                         disabled={loading}
-                        className="px-8 py-3 rounded-lg bg-primary text-bg-dark font-bold hover:bg-primary/90 transition-colors disabled:opacity-50 flex items-center gap-2 shadow-lg shadow-primary/20"
+                        className="md:hidden fixed bottom-24 right-6 z-[60] flex items-center justify-center w-14 h-14 bg-primary text-bg-dark rounded-full shadow-2xl hover:scale-110 active:scale-95 transition-all duration-300 disabled:opacity-50"
+                        title="儲存變更"
                     >
-                        {loading ? '儲存中...' : (
-                            <>
-                                <Save size={20} />
-                                儲存變更
-                            </>
+                        {loading ? (
+                            <div className="w-6 h-6 border-2 border-bg-dark/30 border-t-bg-dark rounded-full animate-spin" />
+                        ) : (
+                            <Save size={24} />
                         )}
                     </button>
-                </div>
-
-                <div className="h-20 md:hidden"></div> {/* Extra space for overlap prevention */}
-
-                {/* Floating Save Button - Only for Mobile */}
-                <button
-                    onClick={handleSubmit}
-                    disabled={loading}
-                    className="md:hidden fixed bottom-24 right-6 z-[60] flex items-center justify-center w-14 h-14 bg-primary text-bg-dark rounded-full shadow-2xl hover:scale-110 active:scale-95 transition-all duration-300 disabled:opacity-50"
-                    title="儲存變更"
-                >
-                    {loading ? (
-                        <div className="w-6 h-6 border-2 border-bg-dark/30 border-t-bg-dark rounded-full animate-spin" />
-                    ) : (
-                        <Save size={24} />
-                    )}
-                </button>
+                )}
 
             </motion.div>
         </div>
