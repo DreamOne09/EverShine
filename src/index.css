@@ -9,10 +9,16 @@
   --color-primary-dark: #2C88BE;
   --color-primary-light: #7CD0FF;
 
-  /* 黃金配色 (Gold Accent) */
-  --color-gold: #D4AF37;
-  --color-gold-light: #F9E58B;
-  --color-gold-dark: #A68A2D;
+  /* 核心顏色 (EverShine Blue) */
+  --color-primary: #4CA8DF;
+  /* Sky Blue */
+  --color-primary-dark: #2C88BE;
+  --color-primary-light: #7CD0FF;
+
+  /* 顏色映射 (將 Gold 映射至 Blue 以維持品牌色) */
+  --color-gold: #4CA8DF;
+  --color-gold-light: #7CD0FF;
+  --color-gold-dark: #2C88BE;
 
   /* 背景顏色 */
   --color-bg-dark: #06203a;

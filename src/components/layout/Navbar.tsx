@@ -67,11 +67,11 @@ const Navbar: React.FC = () => {
                             key={link.path}
                             to={link.path}
                             className={({ isActive }) =>
-                                `text-base font-medium tracking-wider transition-colors duration-300 hover:text-gold relative group ${isActive ? 'text-gold' : 'text-gray-300'}`
+                                `text-base font-medium tracking-wider transition-colors duration-300 hover:text-primary relative group ${isActive ? 'text-primary' : 'text-gray-300'}`
                             }
                         >
                             {link.name}
-                            <span className="absolute -bottom-2 left-0 w-0 h-0.5 bg-gold transition-all duration-300 group-hover:w-full opacity-0 group-hover:opacity-100"></span>
+                            <span className="absolute -bottom-2 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full opacity-0 group-hover:opacity-100"></span>
                         </NavLink>
                     ))}
 
@@ -136,7 +136,7 @@ const Navbar: React.FC = () => {
                     ) : (
                         <NavLink
                             to="/login"
-                            className="flex items-center gap-2 text-sm font-medium text-gold hover:text-white transition-colors border border-gold/50 hover:bg-gold/10 px-4 py-2 rounded-full shadow-[0_0_15px_rgba(212,175,55,0.2)]"
+                            className="flex items-center gap-2 text-sm font-medium text-primary hover:text-white transition-colors border border-primary/50 hover:bg-primary/10 px-4 py-2 rounded-full"
                         >
                             <LogIn size={16} />
                             <span>會員登入</span>
