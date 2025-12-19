@@ -15,6 +15,8 @@ export interface Member {
     editCount?: number;
     photoPosition?: string;
     user_id?: string;
+    email?: string;
+    phone?: string;
 }
 
 export interface MemberLink {

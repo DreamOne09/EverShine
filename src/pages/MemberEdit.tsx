@@ -56,6 +56,8 @@ const MemberEdit: React.FC = () => {
     const [photoPosition, setPhotoPosition] = useState('center');
     const [photoFile, setPhotoFile] = useState<File | null>(null);
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+    const [phone, setPhone] = useState('');
+    const [email, setEmail] = useState('');
 
     // Track if there are unsaved changes
     const [hasChanges, setHasChanges] = useState(false);
@@ -118,6 +120,8 @@ const MemberEdit: React.FC = () => {
                 setFullIntro(m.fullIntro || '');
                 setPhoto((m.photo || '').trim());
                 setPhotoPosition(m.photoPosition || 'center');
+                setPhone(m.phone || '');
+                setEmail(m.email || '');
 
                 // Handle Arrays
                 if (m.category) {
@@ -259,6 +263,8 @@ const MemberEdit: React.FC = () => {
                 links: linksObject,
                 photo: currentPhotoUrl,
                 photoPosition,
+                phone,
+                email,
                 updatedAt: new Date().toISOString(),
                 editCount: 1
             };
@@ -392,21 +398,44 @@ const MemberEdit: React.FC = () => {
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div>
-                                        <label className="block text-gray-300 mb-2">公司名稱</label>
+                                        <label className="block text-gray-300 mb-2 font-medium">公司名稱</label>
                                         <input
                                             type="text"
                                             value={company}
                                             onChange={(e) => updateField(setCompany, e.target.value)}
-                                            className="w-full bg-black/30 border border-white/20 rounded-lg p-3 text-base text-white focus:border-primary focus:outline-none"
+                                            className="w-full bg-black/30 border border-white/20 rounded-lg p-3 text-base text-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary/30"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-gray-300 mb-2">職稱</label>
+                                        <label className="block text-gray-300 mb-2 font-medium">職稱</label>
                                         <input
                                             type="text"
                                             value={position}
                                             onChange={(e) => updateField(setPosition, e.target.value)}
-                                            className="w-full bg-black/30 border border-white/20 rounded-lg p-3 text-base text-white focus:border-primary focus:outline-none"
+                                            className="w-full bg-black/30 border border-white/20 rounded-lg p-3 text-base text-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary/30"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label className="block text-gray-300 mb-2 font-medium">聯絡電話</label>
+                                        <input
+                                            type="tel"
+                                            value={phone}
+                                            onChange={(e) => updateField(setPhone, e.target.value)}
+                                            placeholder="例：0912-345-678"
+                                            className="w-full bg-black/30 border border-white/20 rounded-lg p-3 text-base text-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary/30"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-gray-300 mb-2 font-medium">公開信箱</label>
+                                        <input
+                                            type="email"
+                                            value={email}
+                                            onChange={(e) => updateField(setEmail, e.target.value)}
+                                            placeholder="例：name@example.com"
+                                            className="w-full bg-black/30 border border-white/20 rounded-lg p-3 text-base text-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary/30"
                                         />
                                     </div>
                                 </div>
@@ -551,51 +580,48 @@ const MemberEdit: React.FC = () => {
                     </div>
                 </div>
 
-                {/* Footer Actions - Sticky on Mobile */}
+                {/* Floating Save FAB - For All Screen Sizes */}
                 {hasChanges && (
-                    <div className="fixed bottom-[74px] left-0 right-0 p-4 bg-bg-dark/95 backdrop-blur-xl border-t border-white/10 z-[100] flex justify-end gap-3 md:static md:bg-transparent md:border-0 md:p-0 md:pt-4 md:border-t-0">
-                        <button
-                            onClick={() => {
-                                fetchMemberData();
-                                setHasChanges(false);
-                            }}
-                            className="px-6 py-3 rounded-lg border border-white/10 text-white hover:bg-white/5 transition-colors text-sm font-medium"
+                    <motion.div
+                        initial={{ scale: 0, opacity: 0, y: 50 }}
+                        animate={{ scale: 1, opacity: 1, y: 0 }}
+                        className="fixed bottom-24 right-6 md:bottom-12 md:right-12 z-[100] flex flex-col items-end gap-3"
+                    >
+                        {/* Reset Button (Mini FAB) */}
+                        <motion.button
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.9 }}
+                            onClick={() => { fetchMemberData(); setHasChanges(false); }}
+                            className="w-10 h-10 bg-white/10 backdrop-blur-md border border-white/20 text-white rounded-full flex items-center justify-center shadow-xl hover:bg-white/20 transition-all"
+                            title="放棄修改"
                         >
-                            重設
-                        </button>
-                        <button
+                            <X size={18} />
+                        </motion.button>
+
+                        {/* Main Save FAB */}
+                        <motion.button
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
                             onClick={handleSubmit}
                             disabled={loading}
-                            className="px-8 py-3 rounded-lg bg-primary text-bg-dark font-bold hover:bg-primary/90 transition-colors disabled:opacity-50 flex items-center gap-2 shadow-lg shadow-primary/20"
+                            className="bg-primary text-bg-dark font-bold rounded-full shadow-[0_8px_32px_rgba(76,168,223,0.4)] flex items-center justify-center gap-3 px-6 h-14 hover:bg-primary/90 transition-all disabled:opacity-50 min-w-[140px]"
                         >
-                            {loading ? '儲存中...' : (
+                            {loading ? (
+                                <div className="w-5 h-5 border-2 border-bg-dark/30 border-t-bg-dark rounded-full animate-spin" />
+                            ) : (
                                 <>
                                     <Save size={20} />
-                                    儲存變更
+                                    <span>儲存變更</span>
                                 </>
                             )}
-                        </button>
-                    </div>
+
+                            {/* Pulse Effect */}
+                            {!loading && (
+                                <span className="absolute inset-0 rounded-full bg-primary/20 animate-ping -z-10" />
+                            )}
+                        </motion.button>
+                    </motion.div>
                 )}
-
-                {!hasChanges && <div className="h-20 md:hidden"></div>}
-
-                {/* Floating Save Button - Only for Mobile */}
-                {hasChanges && (
-                    <button
-                        onClick={handleSubmit}
-                        disabled={loading}
-                        className="md:hidden fixed bottom-24 right-6 z-[60] flex items-center justify-center w-14 h-14 bg-primary text-bg-dark rounded-full shadow-2xl hover:scale-110 active:scale-95 transition-all duration-300 disabled:opacity-50"
-                        title="儲存變更"
-                    >
-                        {loading ? (
-                            <div className="w-6 h-6 border-2 border-bg-dark/30 border-t-bg-dark rounded-full animate-spin" />
-                        ) : (
-                            <Save size={24} />
-                        )}
-                    </button>
-                )}
-
             </motion.div>
         </div>
     );

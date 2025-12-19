@@ -4,7 +4,7 @@ import { Mail, Phone } from 'lucide-react';
 import { useMembers } from '../../hooks/useMembers';
 
 const Contact: React.FC = () => {
-    const { members, loading } = useMembers();
+    const { members } = useMembers();
 
     // Map leadership roles
     const roles = [
@@ -77,11 +77,11 @@ const Contact: React.FC = () => {
                                 </div>
                                 <div className="flex items-center gap-2 text-gray-300 justify-center pt-2">
                                     <Phone size={16} className="text-primary shrink-0" />
-                                    <span>{item.member?.links && !Array.isArray(item.member.links) && (item.member.links as any).phone || (index === 0 ? '0938-767-768' : index === 1 ? '0956-522-350' : '0952-983-157')}</span>
+                                    <span>{item.member?.phone || (index === 0 ? '0938-767-768' : index === 1 ? '0956-522-350' : '0952-983-157')}</span>
                                 </div>
                                 <div className="flex items-center gap-2 text-gray-300 justify-center">
                                     <Mail size={16} className="text-primary shrink-0" />
-                                    <span className="text-sm break-all">{(item.member?.links && !Array.isArray(item.member.links) && (item.member.links as any).email) || (index === 0 ? 'wang.ian@investrontech.com' : index === 1 ? 'samuel900731@gmail.com' : 'claire@allrange.tw')}</span>
+                                    <span className="text-sm break-all">{item.member?.email || (index === 0 ? 'wang.ian@investrontech.com' : index === 1 ? 'samuel900731@gmail.com' : 'claire@allrange.tw')}</span>
                                 </div>
                             </div>
                         </motion.div>

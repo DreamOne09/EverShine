@@ -18,6 +18,8 @@ export interface Member {
 
     editCount?: number;
     updatedAt?: string;
+    phone?: string;
+    email?: string;
 }
 
 export const useMembers = () => {
