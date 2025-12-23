@@ -151,24 +151,26 @@ const BNIPage: React.FC = () => {
 
                     <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-3">
                         {[
-                            "01. 自由聯誼 (Open Networking)",
-                            "02. 歡迎會員與來賓",
-                            "03. 目的與概況介紹",
+                            "01. 自由交流時間 (Open Networking)",
+                            "02. 歡迎及介紹領導團隊",
+                            "03. BNI 宗旨及概況說明",
                             "04. 人脈教育培訓 (Networking Education)",
-                            "05. 認可與表揚 (Recognition)",
-                            "06. 會員 60 秒專業簡報 (Weekly Presentations)",
-                            "07. 歡迎新會員",
-                            "08. 來賓自我介紹",
-                            "09. 副主席報告 (Vice President's Report)",
-                            "10. 會員委員會報告 (Membership Committee Report)",
-                            "11. 秘書/財務報告",
-                            "12. 10分鐘主題簡報 (Feature Presentation)",
-                            "13. 引薦與見證 (Referrals & Testimonials)",
-                            "14. 引薦真實驗證 (Referral Reality Check)",
-                            "15. 再次報告 (Secretary/Treasurer's Report)",
-                            "16. 主席結語 (President's Closing)",
-                            "17. 本週金句",
-                            "18. 會議結束與商務交流"
+                            "05. 傑出表現會員認可及表揚",
+                            "06. 傳遞名片盒 (Pass Business Cards)",
+                            "07. 歡迎新會員及入會儀式",
+                            "08. 會員 30-60 秒專業簡報 (Weekly Presentations)",
+                            "09. 歡迎來賓及其簡報",
+                            "10. 副主席績效報告 (Vice President's Report)",
+                            "11. 會員委員會報告 (Membership Committee Report)",
+                            "12. 秘書/財務報告",
+                            "13. 介紹本週專題簡報人",
+                            "14. 專題主題簡報 (Featured Presentation)",
+                            "15. 業務引薦及會員見證 (Referrals & Testimonials)",
+                            "16. 引薦真實性核查 (Referral Reality Check)",
+                            "17. 秘書/財務再次報告 (宣佈未來六週演講者)",
+                            "18. 分會公告與提醒 (Announcements)",
+                            "19. 門票抽獎 (Door Prize)",
+                            "20. 主席結語及會議正式結束"
                         ].map((step, idx) => (
                             <div key={idx} className="flex items-center gap-4 p-4 border-b border-white/5 hover:bg-white/5 transition-colors rounded-lg group">
                                 <div className="w-2 h-2 rounded-full bg-primary shrink-0 group-hover:scale-150 transition-transform"></div>
