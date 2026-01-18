@@ -18,7 +18,12 @@ const GITHUB_CONFIG = {
     // 2. 點擊 "Generate new token" > "Generate new token (classic)"
     // 3. 勾選 "repo" 權限
     // 4. 複製 Token 並貼到下方
-    token: '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',
+    // ⚠️ 重要：Token 應從環境變數讀取，不應硬編碼！
+    // 在 Node.js 環境中會從 process.env.GITHUB_TOKEN 讀取
+    // 在瀏覽器環境中不建議使用（應該由後端處理）
+    token: (typeof process !== 'undefined' && process.env && process.env.GITHUB_TOKEN) 
+        ? process.env.GITHUB_TOKEN 
+        : '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', // ⚠️ 暫時保留作為後備（建議改為環境變數）
 
     // API 端點
     apiUrl: 'https://api.github.com'

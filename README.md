@@ -69,6 +69,22 @@ VITE_TURNSTILE_SITE_KEY=機器人防護_KEY
 
 ---
 
+## 📚 開發文件
+
+### 核心文件
+- **[Supabase 整合指南](docs/SUPABASE_INTEGRATION_GUIDE.md)** - 完整的 Supabase 互動說明，包括連接設定、資料操作、安全性設定等
+
+### 安全性文件
+- **[安全性修復指南](docs/SUPABASE_SECURITY_FIX_GUIDE.md)** - Supabase 資安警告修復步驟
+- **[安全性檢查清單](SECURITY_CHECKLIST.md)** - 企業級安全性檢查項目
+- **[快速安全參考](docs/QUICK_SECURITY_REFERENCE.md)** - 常見安全問題與解決方案
+
+### 環境設定
+- **[環境變數設定](ENV_SETUP.md)** - 詳細的環境變數設定說明
+- **[安裝新套件指南](docs/INSTALLING_PACKAGES.md)** - 如何安裝和管理 npm 套件
+
+---
+
 ## 📮 聯絡我們
 如果有任何功能建議或錯誤回報，請聯繫長輝分會行政團隊。
 

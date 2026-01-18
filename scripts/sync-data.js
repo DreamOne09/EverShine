@@ -28,12 +28,29 @@ const downloadFile = (url, dest) => {
 
 const syncData = async () => {
     console.log('🚀 開始從營運網站同步資料...');
+    console.log(`📡 來源: ${DOMAIN}\n`);
 
     // 1. Sync Members Data
     console.log('📥 正在下載最新會員資料...');
     const membersDest = path.join(__dirname, '..', 'public', 'data', 'members.json');
-    await downloadFile(`${DOMAIN}/data/members.json`, membersDest);
-    console.log('✅ members.json 已更新');
+    try {
+        await downloadFile(`${DOMAIN}/data/members.json`, membersDest);
+        console.log('✅ members.json 已更新\n');
+    } catch (error) {
+        console.error('❌ 下載 members.json 失敗:', error.message);
+        console.log('⚠️  將跳過會員資料同步\n');
+    }
+
+    // 1.5. Sync Referrals Data
+    console.log('📥 正在下載最新引薦資料...');
+    const referralsDest = path.join(__dirname, '..', 'public', 'data', 'referrals.json');
+    try {
+        await downloadFile(`${DOMAIN}/data/referrals.json`, referralsDest);
+        console.log('✅ referrals.json 已更新\n');
+    } catch (error) {
+        console.warn('⚠️  下載 referrals.json 失敗或檔案不存在:', error.message);
+        console.log('⚠️  將跳過引薦資料同步（這可能是正常的）\n');
+    }
 
     // 2. Sync Images
     console.log('🖼️ 正在同步會員照片...');
@@ -70,8 +87,9 @@ const syncData = async () => {
     console.log(`✅ 已同步 ${downloadCount} 張照片`);
 
     console.log('🎉 資料同步完成！');
-    console.log('👉 請執行以下指令將變更推送到 GitHub 以永久保存：');
-    console.log('   git add public/data/members.json');
+    console.log('\n👉 請執行以下指令將變更推送到 GitHub 以永久保存：');
+    console.log('   git add public/data/');
+    console.log('   git add public/images/');
     console.log('   git commit -m "chore: sync data from production"');
     console.log('   git push');
 };

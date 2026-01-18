@@ -1,17 +1,50 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useAuth } from '../../contexts/AuthContext';
 
 const LoadingScreen: React.FC = () => {
+    const { loading: authLoading } = useAuth();
     const [isLoading, setIsLoading] = useState(true);
+    const loadStartTime = useRef(performance.now());
+    const [shouldShow, setShouldShow] = useState(false);
 
     useEffect(() => {
-        // Hide loading screen after a short delay
-        const timer = setTimeout(() => {
-            setIsLoading(false);
-        }, 2000);
+        // 策略 1: 只在首次訪問時顯示（使用 sessionStorage）
+        const hasVisited = sessionStorage.getItem('evershine_visited');
+        const isFirstVisit = !hasVisited;
+        
+        // 策略 2: 等待 Auth 載入完成
+        if (!authLoading) {
+            const loadTime = performance.now() - loadStartTime.current;
+            const isSlowLoad = loadTime > 500; // 超過 500ms 才顯示
+            
+            // 只在首次訪問或載入較慢時顯示
+            if (isFirstVisit || isSlowLoad) {
+                setShouldShow(true);
+                
+                // 確保至少顯示 1 秒（讓動畫完整播放）
+                const minDisplayDuration = 1000;
+                const remaining = Math.max(0, minDisplayDuration - loadTime);
+                
+                const timer = setTimeout(() => {
+                    setIsLoading(false);
+                    if (isFirstVisit) {
+                        sessionStorage.setItem('evershine_visited', 'true');
+                    }
+                }, remaining);
+                
+                return () => clearTimeout(timer);
+            } else {
+                // 載入很快且不是首次訪問，直接隱藏
+                setIsLoading(false);
+            }
+        }
+    }, [authLoading]);
 
-        return () => clearTimeout(timer);
-    }, []);
+    // 如果不需要顯示，直接返回 null
+    if (!shouldShow || !isLoading) {
+        return null;
+    }
 
     return (
         <AnimatePresence>

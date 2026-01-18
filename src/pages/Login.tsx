@@ -77,11 +77,33 @@ const Login: React.FC = () => {
         return re.test(email);
     };
 
-    const validatePassword = (password: string) => {
-        // At least 8 characters, contains number and letter
+    const validatePassword = async (password: string): Promise<{ valid: boolean; message: string }> => {
+        // 基本驗證
+        if (password.length < 8) {
+            return { valid: false, message: '密碼至少需要 8 個字元' };
+        }
+        
         const hasNumber = /\d/.test(password);
         const hasLetter = /[a-zA-Z]/.test(password);
-        return password.length >= 8 && hasNumber && hasLetter;
+        
+        if (!hasNumber || !hasLetter) {
+            return { valid: false, message: '密碼需要包含英文字母與數字' };
+        }
+        
+        // 檢查密碼是否洩漏（使用 HaveIBeenPwned API）
+        try {
+            const { checkPasswordLeaked } = await import('../lib/passwordSecurity');
+            const isLeaked = await checkPasswordLeaked(password);
+            
+            if (isLeaked) {
+                return { valid: false, message: '此密碼已在洩漏資料庫中，請使用更安全的密碼' };
+            }
+        } catch (error) {
+            // 如果檢查失敗，不阻擋使用者（但記錄錯誤）
+            console.warn('密碼洩漏檢查失敗，繼續驗證:', error);
+        }
+        
+        return { valid: true, message: '密碼符合要求' };
     };
 
     useEffect(() => {
@@ -152,9 +174,13 @@ const Login: React.FC = () => {
                 if (!validateEmail(email)) {
                     throw new Error('請輸入有效的 Email 格式');
                 }
-                if (!validatePassword(password)) {
-                    throw new Error('密碼至少需要 8 個字元，並包含英文字母與數字');
+                
+                // 密碼驗證（包含洩漏檢查）
+                const passwordValidation = await validatePassword(password);
+                if (!passwordValidation.valid) {
+                    throw new Error(passwordValidation.message);
                 }
+                
                 if (password !== confirmPassword) {
                     throw new Error('兩次輸入的密碼不一致');
                 }

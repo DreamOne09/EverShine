@@ -4,6 +4,7 @@ import { AnimatePresence } from 'framer-motion';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import StarryBackground from './components/layout/StarryBackground';
+import LoadingScreen from './components/layout/LoadingScreen';
 import BackToTop from './components/common/BackToTop';
 import ScrollToTop from './components/common/ScrollToTop';
 import PageTracker from './components/common/PageTracker';
@@ -60,6 +61,7 @@ function App() {
   return (
     <AuthProvider>
       <Router>
+        <LoadingScreen />
         <PageTracker />
         <ScrollToTop />
         <StarryBackground />
