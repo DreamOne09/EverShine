@@ -9,6 +9,7 @@ export default defineConfig({
     tailwindcss(),
   ],
   build: {
+    chunkSizeWarningLimit: 1000, // 增加 chunk size 警告限制到 1000KB
     rollupOptions: {
       output: {
         entryFileNames: `assets/[name]-[hash].js`,

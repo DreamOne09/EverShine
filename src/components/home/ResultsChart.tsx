@@ -10,10 +10,10 @@ const ResultsChart: React.FC = () => {
     const [activeTab, setActiveTab] = useState<'referrals' | 'amounts' | 'guests'>('referrals');
 
     const performanceData = {
-        labels: ['5月', '6月', '7月', '8月', '9月', '10月'],
-        referrals: [631, 456, 590, 515, 485, 613],
-        amounts: [15606645, 2144319, 9160680, 11098799, 2695123, 11050631],
-        guests: [15, 21, 17, 9, 10, 16]
+        labels: ['5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+        referrals: [631, 456, 590, 515, 485, 613, 441, 578],
+        amounts: [15606645, 2144319, 9160680, 11098799, 2695123, 11050631, 6894708, 28846258],
+        guests: [15, 21, 17, 9, 10, 16, 29, 24]
     };
 
     const createGradient = (ctx: CanvasRenderingContext2D, color: string) => {

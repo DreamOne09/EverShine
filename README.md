@@ -82,6 +82,7 @@ VITE_TURNSTILE_SITE_KEY=機器人防護_KEY
 ### 環境設定
 - **[環境變數設定](ENV_SETUP.md)** - 詳細的環境變數設定說明
 - **[安裝新套件指南](docs/INSTALLING_PACKAGES.md)** - 如何安裝和管理 npm 套件
+- **[開發工具與擴充功能設定](docs/DEVELOPER_TOOLS_SETUP.md)** - VSCode 擴充功能與 2026 最新開發技術推薦
 
 ---
 

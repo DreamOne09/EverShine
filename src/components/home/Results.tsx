@@ -29,7 +29,7 @@ const Results: React.FC = () => {
                     <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">成果會說話</h2>
                     <div className="w-20 h-1 bg-primary mx-auto rounded-full mb-4"></div>
                     <p className="text-gray-300 text-base">
-                        創會以來 - 資料更新時間：2025/12/13
+                        創會以來 - 資料更新時間：2026/01/13
                     </p>
                 </div>
 
@@ -42,7 +42,7 @@ const Results: React.FC = () => {
                     <div className="w-full">
                         <MetricCard
                             icon={<FileText size={40} />}
-                            value={25876}
+                            value={26459}
                             suffix="張"
                             label="總引薦單數"
                         />
@@ -50,10 +50,10 @@ const Results: React.FC = () => {
                     <div className="w-full">
                         <MetricCard
                             icon={<TrendingUp size={40} />}
-                            value={580} // 5.8億
+                            value={629} // 6.29億
                             suffix="億+"
                             label="總交易價值 (TWD)"
-                            subtext="NT$ 588,681,643"
+                            subtext="NT$ 629,007,136"
                             isCurrency
                         />
                     </div>
