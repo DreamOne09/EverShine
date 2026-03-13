@@ -17,6 +17,7 @@ import BNI from './pages/BNI';
 import Login from './pages/Login';
 import Privacy from './pages/Privacy';
 import Admin from './pages/Admin';
+import NotFound from './pages/NotFound';
 import { AuthProvider } from './contexts/AuthContext';
 
 const AnimatedRoutes = () => {
@@ -52,6 +53,7 @@ const AnimatedRoutes = () => {
         <Route path="/member-edit" element={<MemberEdit />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/privacy" element={<Privacy />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </AnimatePresence>
   );
