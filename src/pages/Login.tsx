@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
 import { Lock, Mail, AlertCircle, CheckCircle } from 'lucide-react';
+import SEO from '../components/common/SEO';
 
 declare global {
     interface Window {
@@ -266,6 +267,7 @@ const Login: React.FC = () => {
 
     return (
         <div className="min-h-[calc(100dvh-160px)] flex items-center justify-center py-12 px-4 container mx-auto">
+            <SEO title="會員登入" noindex />
             <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}

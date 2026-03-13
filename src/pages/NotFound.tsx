@@ -2,10 +2,12 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Home, Users, ArrowRight } from 'lucide-react';
+import SEO from '../components/common/SEO';
 
 const NotFound: React.FC = () => {
     return (
         <div className="min-h-screen flex items-center justify-center px-4 relative overflow-hidden">
+            <SEO title="找不到頁面" noindex />
             {/* Background gradient effects */}
             <div className="absolute inset-0 bg-gradient-to-br from-bg-dark via-[#0a1628] to-bg-dark"></div>
             <div className="absolute top-20 left-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl"></div>

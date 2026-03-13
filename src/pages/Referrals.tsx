@@ -28,9 +28,10 @@ const Referrals: React.FC = () => {
     return (
         <div className="min-h-screen relative overflow-hidden">
             <SEO
-                title="引薦成功案例"
-                description="見證 BNI 長輝白金分會夥伴間的強強聯手。透過真實的引薦案例，展示我們如何透過專業對接與互利合作，為彼此創造巨大的商業價值。"
-                keywords="引薦案例, 商務合作故事, 成功案例, resource, 媒合"
+                title="商會引薦成功案例 | BNI 台灣商務合作實績"
+                description="見證台灣 BNI 長輝白金分會的商務引薦實力。透過真實的引薦成功案例，展示台灣頂尖商會如何透過專業對接與互利合作，為企業主創造巨大的商業價值與商務合作機會。"
+                keywords="商會引薦案例, BNI成功案例, 台灣商務合作, 商會合作實績, 引薦成功故事, 商務媒合案例, 台灣商會, BNI台灣"
+                breadcrumbs={[{ name: '引薦案例', path: '/referrals' }]}
             />
             <PageHero
                 title="引薦案例"

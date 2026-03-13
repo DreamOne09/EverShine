@@ -7,6 +7,7 @@ import { supabase } from '../lib/supabase';
 import imageCompression from 'browser-image-compression';
 import { useAuth } from '../contexts/AuthContext';
 import type { Member } from '../types';
+import SEO from '../components/common/SEO';
 
 const CATEGORIES = [
     '居住與空間工程',
@@ -293,6 +294,7 @@ const MemberEdit: React.FC = () => {
 
     return (
         <div className="min-h-dvh pt-24 md:pt-32 pb-32 md:pb-12 px-4 container mx-auto max-w-4xl">
+            <SEO title="編輯會員資料" noindex />
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}

@@ -13,7 +13,7 @@ const Footer: React.FC = () => {
                             <img src="/images/assets/logo/透明底白字長條logo.png" alt="EverShine" className="h-20 w-auto" />
                         </Link>
                         <p className="text-gray-400 text-sm leading-relaxed max-w-sm mx-auto md:mx-0 text-center md:text-left">
-                            長輝白金分會致力於通過結構化、積極和專業的引薦行銷計畫，為會員提供增加業務機會的環境。
+                            BNI 長輝白金分會是台灣最具影響力的商會之一，隸屬全球最大商務引薦組織 BNI。致力於通過結構化、積極和專業的引薦行銷系統，為台灣企業主提供最佳商務合作與人脈拓展平台。
                         </p>
                     </div>
 

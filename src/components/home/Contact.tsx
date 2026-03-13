@@ -44,7 +44,7 @@ const Contact: React.FC = () => {
                         transition={{ delay: 0.1 }}
                         className="text-gray-400 text-lg max-w-2xl mx-auto"
                     >
-                        我們隨時準備為您服務。無論是業務合作、參訪申請，或是想了解更多關於 BNI 的資訊，歡迎隨時與我們聯繫。
+                        歡迎與台灣 BNI 長輝白金分會聯繫。無論是業務合作、商會參訪申請，或是想了解更多關於台灣 BNI 商會的資訊，我們隨時為您服務。
                     </motion.p>
                 </div>
 

@@ -3,12 +3,19 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import SEO from '../components/common/SEO';
 
 const Privacy: React.FC = () => {
     const navigate = useNavigate();
 
     return (
         <div className="min-h-screen pt-24 pb-12 px-4 container mx-auto max-w-4xl">
+            <SEO
+                title="隱私權政策與服務條款"
+                description="BNI 長輝白金分會隱私權政策與服務條款。了解我們如何保護您的個人資訊和使用條件。"
+                keywords="隱私權政策, 服務條款, BNI長輝, 個資保護"
+                breadcrumbs={[{ name: '隱私權政策', path: '/privacy' }]}
+            />
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}

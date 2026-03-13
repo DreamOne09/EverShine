@@ -13,12 +13,12 @@ const Home: React.FC = () => {
     return (
         <div className="overflow-hidden">
             <SEO
-                description="BNI長輝白金分會提供專業的商務對接與引薦服務，協助企業主擴展人脈，精準媒合商務資源，實現業務共贏。"
-                keywords="BNI長輝, 商務引薦, 台北業務合作, 企業家人脈, 白金分會"
+                description="BNI 長輝白金分會是台灣最具影響力的商會之一。作為全球最大商務引薦組織 BNI 在台灣的白金級分會，我們協助企業主透過結構化商務引薦拓展人脈、精準媒合資源，實現業務共贏。加入台北頂尖企業家商會。"
+                keywords="商會, 台灣商會, BNI, BNI台灣, 台北商會, 長輝分會, 商務引薦, 企業家商會, 商業社團, 台北商務社團, 白金分會, 商務合作, 人脈拓展, 付出者收穫, Givers Gain"
             />
             {/* Hero Section */}
             <PageHero
-                title="BNI長輝白金分會"
+                title="BNI 長輝白金分會 — 台灣頂尖商會"
                 subtitle={
                     <>
                         我們一起，打造你的夢幻 Team<br />
@@ -104,14 +104,14 @@ const Home: React.FC = () => {
 
                         {/* Content Column */}
                         <div className="w-full lg:w-2/3 text-center lg:text-left relative z-10">
-                            <h3 className="text-3xl md:text-5xl font-bold text-white mb-6 tracking-tight">
-                                什麼是 <span className="text-[#cf2030]">BNI</span>？
+                            <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 tracking-tight">
+                                什麼是 <span className="text-[#cf2030]">BNI</span>？全球最大商會組織
+                            </h2>
+                            <h3 className="text-xl md:text-2xl text-primary-light font-medium mb-6">
+                                台灣商會首選・全球最大的商務引薦組織
                             </h3>
-                            <h4 className="text-xl md:text-2xl text-primary-light font-medium mb-6">
-                                全球最大的商務引薦機構
-                            </h4>
                             <p className="text-gray-300 text-lg leading-relaxed mb-10 max-w-2xl mx-auto lg:mx-0">
-                                BNI 成立於 1985 年，擁有超過 38 年的歷史。我們的核心價值是「付出者收穫」(Givers Gain®)，透過有組織、正向且專業的引薦計畫，協助會員與優質的商務人士建立長期、信任的合作關係，進而壯大彼此的事業。
+                                BNI（Business Network International）成立於 1985 年，是全球最大的商會暨商務引薦組織，在台灣擁有 245 個分會、近萬名企業主會員。我們的核心價值是「付出者收穫」(Givers Gain®)，透過結構化、正向且專業的商務引薦系統，協助台灣企業主與優質商務人士建立長期信任的合作關係，拓展人脈、壯大事業。
                             </p>
 
                             {/* Stats Grid */}

@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import StatsCard from '../components/common/StatsCard';
 import MemberList from '../components/admin/MemberList';
+import SEO from '../components/common/SEO';
 
 
 const Admin: React.FC = () => {
@@ -246,6 +247,7 @@ const Admin: React.FC = () => {
 
     return (
         <div className="min-h-dvh pt-32 pb-12 px-4 container mx-auto">
+            <SEO title="管理後台" noindex />
             <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
                 <h1 className="text-3xl font-bold text-white flex items-center gap-3">
                     <Activity className="text-primary" /> 管理後台

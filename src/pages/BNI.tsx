@@ -25,15 +25,16 @@ const BNIPage: React.FC = () => {
     return (
         <div className="min-h-screen pt-0">
             <SEO
-                title="認識 BNI 全球商務系統"
-                description="了解全球最大的商務引薦平台 BNI。我們透過「付出者收穫」的核心價值，協助全球超過 30 萬名企業主透過系統化的引薦機制實現業務成長。"
-                keywords="什麼是BNI, 付出者收穫, Givers Gain, 商務引薦系統, 台灣BNI"
+                title="認識 BNI | 全球最大商會・台灣商務引薦系統"
+                description="BNI 是全球最大的商會暨商務引薦組織，遍及 76+ 國家、擁有 34 萬+ 會員。在台灣擁有 245 個分會、近萬名企業主會員。透過「付出者收穫 Givers Gain」核心價值，協助台灣企業主建立信任的商務合作關係。"
+                keywords="什麼是BNI, BNI商會, 台灣商會, 全球商會, 商務引薦系統, 付出者收穫, Givers Gain, 台灣BNI, BNI台灣, 台灣商務社團, 商會組織, 企業家商會, BNI七大核心價值"
+                breadcrumbs={[{ name: '認識 BNI', path: '/bni' }]}
             />
             <PageHero
-                title="關於 BNI"
+                title="關於 BNI — 全球最大商會暨商務引薦組織"
                 subtitle={
                     <>
-                        全球最大商務引薦平台<br />
+                        台灣商會首選・全球最大商務引薦平台<br />
                         成立40年，遍及76+國家，11,300+分會，34萬+會員
                     </>
                 }
@@ -49,7 +50,7 @@ const BNIPage: React.FC = () => {
             {/* Global Stats */}
             <section className="py-20 container mx-auto px-4">
                 <div className="text-center mb-16">
-                    <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">全球影響力數據</h2>
+                    <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">BNI 全球商會影響力數據</h2>
                     <div className="w-16 h-1 bg-primary mx-auto rounded-full"></div>
                 </div>
 
@@ -76,7 +77,7 @@ const BNIPage: React.FC = () => {
             <section className="py-20 bg-white/5 relative border-y border-white/5">
                 <div className="container mx-auto px-4">
                     <div className="text-center mb-16">
-                        <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">台灣 BNI 卓越表現</h2>
+                        <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">台灣商會 BNI 卓越表現</h2>
                         <div className="w-16 h-1 bg-white/20 mx-auto rounded-full"></div>
                     </div>
 
@@ -112,8 +113,8 @@ const BNIPage: React.FC = () => {
             {/* 7 Core Values */}
             <section className="py-20 container mx-auto px-4">
                 <div className="text-center mb-16">
-                    <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">BNI 七大核心價值</h2>
-                    <p className="text-gray-400 max-w-2xl mx-auto">這些核心價值是我們文化與成功的基石</p>
+                    <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">BNI 商會七大核心價值</h2>
+                    <p className="text-gray-400 max-w-2xl mx-auto">這些核心價值是 BNI 商會文化與成功的基石，也是台灣 BNI 所有分會共同遵循的行事準則</p>
                     <div className="w-16 h-1 bg-primary mx-auto rounded-full mt-4"></div>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
@@ -184,11 +185,11 @@ const BNIPage: React.FC = () => {
             {/* Why Join */}
             <section className="py-20 container mx-auto px-4">
                 <div className="max-w-5xl mx-auto bg-gradient-to-br from-primary/10 to-bg-dark border border-primary/20 rounded-3xl p-8 md:p-12 text-center relative overflow-hidden">
-                    <h2 className="text-3xl font-bold text-white mb-6 relative z-10">為什麼加入 BNI？</h2>
+                    <h2 className="text-3xl font-bold text-white mb-6 relative z-10">為什麼台灣企業主選擇加入 BNI 商會？</h2>
                     <p className="text-gray-300 mb-8 max-w-2xl mx-auto leading-relaxed relative z-10">
-                        BNI 提供了一個正向、支持及結構化的環境，透過人脈引薦來發展您的業務。
-                        我們的會員享有獨家權利，每個分會中每個行業類別只允許一位代表加入，
-                        這意味著您將獨佔該分會的所有該行業引薦資源。
+                        BNI 商會提供了一個正向、支持及結構化的環境，透過人脈引薦來發展您在台灣的業務。
+                        我們的會員享有獨家席位權利，每個分會中每個行業類別只允許一位代表加入，
+                        這意味著您將獨佔該商會分會的所有該行業引薦資源。
                     </p>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10">
                         <div className="p-4">

@@ -37,7 +37,8 @@ const About: React.FC = () => {
                         viewport={{ once: true }}
                         transition={{ duration: 0.6 }}
                     >
-                        <h2 className="text-4xl md:text-5xl font-black mb-6 text-primary">關於我們</h2>
+                        <h2 className="text-4xl md:text-5xl font-black mb-4 text-primary">關於 BNI 長輝白金分會</h2>
+                        <p className="text-gray-400 text-lg max-w-3xl mx-auto mb-6">台灣最具影響力的商會之一，隸屬全球最大商務引薦組織 BNI，致力於為台灣企業主打造最強商務合作平台</p>
                         <div className="w-24 h-1 bg-gradient-to-r from-transparent via-primary to-transparent mx-auto rounded-full opacity-80"></div>
                     </motion.div>
                 </div>

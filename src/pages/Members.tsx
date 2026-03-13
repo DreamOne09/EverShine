@@ -109,9 +109,10 @@ const Members: React.FC = () => {
     return (
         <div className="min-h-screen relative">
             <SEO
-                title="精選會員名單"
-                description="探索 BNI 長輝白金分會的優秀企業家與專業人士。我們涵蓋居住工程、品牌行銷、金融法稅等多個領域，為您媒合最專業的合作夥伴。"
-                keywords="長輝會員, 企業合作, 行業專家, 商務媒合"
+                title="台灣商會會員 | BNI 長輝白金分會企業家名錄"
+                description="探索 BNI 長輝白金分會的優秀企業家與專業人士。我們是台灣頂尖商會，涵蓋居住工程、品牌行銷、金融法稅、AI科技等 60+ 個產業類別，為台灣企業主媒合最專業的合作夥伴。"
+                keywords="台灣商會會員, BNI會員, 長輝會員, 企業家名錄, 台北商會, 商務媒合, 行業專家, 企業合作, 台灣企業家, 商會推薦"
+                breadcrumbs={[{ name: '會員介紹', path: '/members' }]}
             />
             <PageHero
                 title="會員介紹"
