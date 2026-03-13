@@ -10,7 +10,7 @@ interface PageHeroProps {
 
 const PageHero: React.FC<PageHeroProps> = ({ title, subtitle, showScrollIndicator = false, children }) => {
     return (
-        <section className="min-h-screen flex flex-col justify-center items-center text-center relative z-10 pt-20 overflow-hidden">
+        <section className="min-h-screen flex flex-col justify-center items-center text-center relative z-10 pt-20 overflow-hidden" aria-label="BNI 長輝白金分會台灣商會頁面標題">
             {/* Hero Background Image */}
             <div
                 className="absolute inset-0 z-0"

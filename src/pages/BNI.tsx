@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { useCountUp } from '../hooks/useCountUp';
 import PageHero from '../components/common/PageHero';
 import SEO from '../components/common/SEO';
@@ -29,6 +30,14 @@ const BNIPage: React.FC = () => {
                 description="BNI 是全球最大的商會暨商務引薦組織，遍及 76+ 國家、擁有 34 萬+ 會員。在台灣擁有 245 個分會、近萬名企業主會員。透過「付出者收穫 Givers Gain」核心價值，協助台灣企業主建立信任的商務合作關係。"
                 keywords="什麼是BNI, BNI商會, 台灣商會, 全球商會, 商務引薦系統, 付出者收穫, Givers Gain, 台灣BNI, BNI台灣, 台灣商務社團, 商會組織, 企業家商會, BNI七大核心價值"
                 breadcrumbs={[{ name: '認識 BNI', path: '/bni' }]}
+                structuredData={{
+                    '@type': 'WebPage',
+                    name: '認識 BNI — 全球最大商會暨商務引薦組織',
+                    description: 'BNI 是全球最大的商會，在台灣擁有 245 個分會和近萬名會員。',
+                    url: 'https://evershine.tw/bni',
+                    isPartOf: { '@id': 'https://evershine.tw/#website' },
+                    inLanguage: 'zh-TW'
+                }}
             />
             <PageHero
                 title="關於 BNI — 全球最大商會暨商務引薦組織"
@@ -207,6 +216,27 @@ const BNIPage: React.FC = () => {
                             <h3 className="font-bold text-white mb-2">全球資源</h3>
                             <p className="text-sm text-gray-400">連結全球 76+ 國家、30 萬+ 企業主的商務網絡。</p>
                         </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* Internal Links Section for SEO */}
+            <section className="py-16 container mx-auto px-4">
+                <div className="max-w-4xl mx-auto text-center">
+                    <h2 className="text-2xl font-bold text-white mb-8">探索更多 BNI 長輝白金分會台灣商會</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <Link to="/members" className="group bg-white/5 border border-white/10 rounded-xl p-6 hover:bg-white/10 hover:border-primary/50 transition-all">
+                            <h3 className="text-lg font-bold text-primary mb-2 group-hover:text-white transition-colors">認識商會會員</h3>
+                            <p className="text-gray-400 text-sm">探索 BNI 長輝白金分會 60+ 個產業的優秀台灣企業家</p>
+                        </Link>
+                        <Link to="/referrals" className="group bg-white/5 border border-white/10 rounded-xl p-6 hover:bg-white/10 hover:border-primary/50 transition-all">
+                            <h3 className="text-lg font-bold text-primary mb-2 group-hover:text-white transition-colors">引薦成功案例</h3>
+                            <p className="text-gray-400 text-sm">見證台灣商會如何透過商務引薦創造雙贏合作</p>
+                        </Link>
+                        <Link to="/#contact" className="group bg-white/5 border border-white/10 rounded-xl p-6 hover:bg-white/10 hover:border-primary/50 transition-all">
+                            <h3 className="text-lg font-bold text-primary mb-2 group-hover:text-white transition-colors">聯繫我們</h3>
+                            <p className="text-gray-400 text-sm">加入台灣頂尖商會，開始您的商務引薦之旅</p>
+                        </Link>
                     </div>
                 </div>
             </section>

@@ -26,7 +26,7 @@ const Results: React.FC = () => {
         <section className="py-24 relative">
             <div className="container mx-auto px-4">
                 <div className="text-center mb-16">
-                    <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">成果會說話</h2>
+                    <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">台灣商會引薦成果</h2>
                     <div className="w-20 h-1 bg-primary mx-auto rounded-full mb-4"></div>
                     <p className="text-gray-300 text-base">
                         創會以來 - 資料更新時間：2026/01/13

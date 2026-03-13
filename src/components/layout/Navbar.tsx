@@ -55,7 +55,7 @@ const Navbar: React.FC = () => {
                 <NavLink to="/" className="flex items-center gap-3 group">
                     <img
                         src="/images/assets/logo/透明底白字長條logo.png"
-                        alt="BNI EverShine"
+                        alt="BNI 長輝白金分會 — 台灣商會首選"
                         className="h-14 md:h-20 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
                     />
                 </NavLink>

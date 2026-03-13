@@ -15,6 +15,15 @@ const Home: React.FC = () => {
             <SEO
                 description="BNI 長輝白金分會是台灣最具影響力的商會之一。作為全球最大商務引薦組織 BNI 在台灣的白金級分會，我們協助企業主透過結構化商務引薦拓展人脈、精準媒合資源，實現業務共贏。加入台北頂尖企業家商會。"
                 keywords="商會, 台灣商會, BNI, BNI台灣, 台北商會, 長輝分會, 商務引薦, 企業家商會, 商業社團, 台北商務社團, 白金分會, 商務合作, 人脈拓展, 付出者收穫, Givers Gain"
+                structuredData={{
+                    '@type': 'WebPage',
+                    name: 'BNI 長輝白金分會 — 台灣商會首選',
+                    description: 'BNI 長輝白金分會是台灣最具影響力的商會之一，透過全球最大商務引薦系統協助台灣企業主拓展人脈與業務。',
+                    url: 'https://evershine.tw/',
+                    isPartOf: { '@id': 'https://evershine.tw/#website' },
+                    about: { '@id': 'https://evershine.tw/#organization' },
+                    inLanguage: 'zh-TW'
+                }}
             />
             {/* Hero Section */}
             <PageHero
@@ -91,7 +100,7 @@ const Home: React.FC = () => {
                                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
                                 className="w-48 h-48 md:w-64 md:h-64 bg-white rounded-full flex items-center justify-center p-8 shadow-[0_0_50px_rgba(76,168,223,0.3)] relative z-10 border-4 border-white/10"
                             >
-                                <img src="/images/assets/logo/bni-logo-new.png" alt="BNI" className="w-full h-auto object-contain transform hover:scale-105 transition-transform duration-500" />
+                                <img src="/images/assets/logo/bni-logo-new.png" alt="BNI 全球商會暨商務引薦組織 — 台灣商會首選" className="w-full h-auto object-contain transform hover:scale-105 transition-transform duration-500" />
                             </motion.div>
 
                             {/* Orbiting Decor */}
