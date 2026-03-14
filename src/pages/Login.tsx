@@ -266,12 +266,12 @@ const Login: React.FC = () => {
     };
 
     return (
-        <div className="min-h-[calc(100dvh-160px)] flex items-center justify-center py-12 px-4 container mx-auto">
+        <div className="min-h-[calc(100dvh-80px)] flex items-center justify-center py-12 pb-24 md:pb-12 px-4 container mx-auto">
             <SEO title="會員登入" noindex />
             <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="w-full max-w-md bg-bg-dark/80 backdrop-blur border border-white/10 rounded-2xl p-8 shadow-xl"
+                className="w-full max-w-md bg-bg-dark/80 backdrop-blur border border-white/10 rounded-2xl p-6 md:p-8 shadow-xl"
             >
                 <h1 className="text-2xl font-bold text-center text-white mb-6">
                     {mode === 'login' && '會員登入'}
@@ -475,7 +475,7 @@ const Login: React.FC = () => {
                             </div>
                         </div>
 
-                        <div className="max-h-60 overflow-y-auto space-y-2 pr-2 custom-scrollbar">
+                        <div className="max-h-48 md:max-h-60 overflow-y-auto space-y-2 pr-2 custom-scrollbar -mx-1 px-1">
                             {unclaimedMembers.length === 0 ? (
                                 <div className="text-center text-gray-500 py-8">
                                     沒有可供認領的會員資料

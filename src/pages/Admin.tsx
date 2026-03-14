@@ -60,13 +60,18 @@ const Admin: React.FC = () => {
             navigate('/login');
             return;
         }
-        const { data } = await supabase
-            .from('members')
-            .select('is_admin')
-            .eq('user_id', user.id)
-            .single();
 
-        if (!data?.is_admin) {
+        try {
+            const { data, error } = await supabase
+                .from('members')
+                .select('is_admin')
+                .eq('user_id', user.id)
+                .single();
+
+            if (error || !data?.is_admin) {
+                navigate('/');
+            }
+        } catch {
             navigate('/');
         }
     };
@@ -246,37 +251,39 @@ const Admin: React.FC = () => {
     if (loading) return <div className="min-h-screen pt-32 text-center text-white">載入後台數據中...</div>;
 
     return (
-        <div className="min-h-dvh pt-32 pb-12 px-4 container mx-auto">
+        <div className="min-h-dvh pt-24 md:pt-32 pb-24 md:pb-12 px-4 container mx-auto">
             <SEO title="管理後台" noindex />
-            <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
-                <h1 className="text-3xl font-bold text-white flex items-center gap-3">
-                    <Activity className="text-primary" /> 管理後台
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+                <h1 className="text-2xl md:text-3xl font-bold text-white flex items-center gap-3">
+                    <Activity className="text-primary" size={24} /> 管理後台
                     <button
                         onClick={fetchDashboardData}
                         className={`p-2 rounded-full hover:bg-white/10 transition-all ${loading ? 'animate-spin text-primary' : 'text-gray-400'}`}
                         title="重新整理數據"
                     >
-                        <RefreshCw size={20} />
+                        <RefreshCw size={18} />
                     </button>
                 </h1>
-                <div className="flex bg-white/5 p-1 rounded-lg backdrop-blur-sm border border-white/10">
-                    {[
-                        { id: 'overview', label: '總覽概況' },
-                        { id: 'members', label: '會員管理' },
-                        { id: 'referrals', label: '引薦案例管理' },
-                        { id: 'settings', label: '數據設定' }
-                    ].map(tab => (
-                        <button
-                            key={tab.id}
-                            onClick={() => setActiveTab(tab.id as any)}
-                            className={`px-4 py-2 rounded-md text-sm font-bold transition-colors ${activeTab === tab.id
-                                ? 'bg-primary text-bg-dark'
-                                : 'text-gray-400 hover:text-white'
-                                }`}
-                        >
-                            {tab.label}
-                        </button>
-                    ))}
+                <div className="w-full md:w-auto overflow-x-auto -mx-4 px-4 md:mx-0 md:px-0 scrollbar-hide">
+                    <div className="flex bg-white/5 p-1 rounded-lg backdrop-blur-sm border border-white/10 min-w-max">
+                        {[
+                            { id: 'overview', label: '總覽' },
+                            { id: 'members', label: '會員' },
+                            { id: 'referrals', label: '引薦' },
+                            { id: 'settings', label: '設定' }
+                        ].map(tab => (
+                            <button
+                                key={tab.id}
+                                onClick={() => setActiveTab(tab.id as any)}
+                                className={`px-4 py-2 rounded-md text-sm font-bold transition-colors whitespace-nowrap ${activeTab === tab.id
+                                    ? 'bg-primary text-bg-dark'
+                                    : 'text-gray-400 hover:text-white'
+                                    }`}
+                            >
+                                {tab.label}
+                            </button>
+                        ))}
+                    </div>
                 </div>
             </div>
 
@@ -285,7 +292,7 @@ const Admin: React.FC = () => {
 
                 {/* OVERVIEW TAB */}
                 {activeTab === 'overview' && (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
                         <StatsCard
                             title="總會員數"
                             value={stats.totalMembers}
@@ -331,7 +338,7 @@ const Admin: React.FC = () => {
 
 
                         {/* Recent Activity Section */}
-                        <div className="col-span-1 lg:col-span-3 bg-bg-dark/50 border border-white/10 rounded-2xl p-6 min-h-[320px]">
+                        <div className="col-span-2 lg:col-span-3 bg-bg-dark/50 border border-white/10 rounded-2xl p-4 md:p-6 min-h-[280px]">
                             <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
                                 <Activity size={20} className="text-primary" /> 最近更新紀錄
                             </h3>
@@ -365,7 +372,7 @@ const Admin: React.FC = () => {
                         </div>
 
                         {/* System Support Team */}
-                        <div className="col-span-1 lg:col-span-1 bg-primary/5 border border-primary/20 rounded-2xl p-6 min-h-[320px] flex flex-col">
+                        <div className="col-span-2 lg:col-span-1 bg-primary/5 border border-primary/20 rounded-2xl p-4 md:p-6 min-h-[280px] flex flex-col">
                             <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
                                 <Shield size={20} className="text-primary" /> 系統維運團隊
                             </h3>
@@ -393,21 +400,21 @@ const Admin: React.FC = () => {
 
                 {/* MEMBERS TAB */}
                 {activeTab === 'members' && (
-                    <div className="bg-bg-dark/50 border border-white/10 rounded-2xl p-6 overflow-hidden">
-                        <div className="flex justify-between items-center mb-6">
-                            <div className="relative w-64">
+                    <div className="bg-bg-dark/50 border border-white/10 rounded-2xl p-4 md:p-6 overflow-hidden">
+                        <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3 mb-6">
+                            <div className="relative flex-1 sm:max-w-xs">
                                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
                                 <input
                                     type="text"
                                     placeholder="搜尋會員..."
                                     value={memberSearch}
                                     onChange={e => setMemberSearch(e.target.value)}
-                                    className="w-full bg-black/20 border border-white/10 rounded-full py-2 pl-10 pr-4 text-white text-sm focus:outline-none focus:border-primary"
+                                    className="w-full bg-black/20 border border-white/10 rounded-full py-2.5 pl-10 pr-4 text-white text-sm focus:outline-none focus:border-primary"
                                 />
                             </div>
                             <button
                                 onClick={handleAddMember}
-                                className="flex items-center gap-2 bg-primary text-bg-dark px-4 py-2 rounded-lg font-bold hover:bg-primary/90 transition-colors"
+                                className="flex items-center justify-center gap-2 bg-primary text-bg-dark px-4 py-2.5 rounded-lg font-bold hover:bg-primary/90 transition-colors shrink-0"
                             >
                                 <Plus size={18} /> 新增會員
                             </button>
@@ -425,7 +432,7 @@ const Admin: React.FC = () => {
                 {activeTab === 'referrals' && (
                     <div className="space-y-6">
                         {/* Add New Case Form */}
-                        <div className="bg-bg-dark/50 border border-white/10 rounded-2xl p-6">
+                        <div className="bg-bg-dark/50 border border-white/10 rounded-2xl p-4 md:p-6">
                             <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
                                 <Plus size={20} className="text-primary" /> 新增引薦案例
                             </h3>
@@ -528,15 +535,41 @@ const Admin: React.FC = () => {
                         </div>
 
                         {/* Existing Referrals List */}
-                        <div className="bg-bg-dark/50 border border-white/10 rounded-2xl p-6 overflow-hidden">
-                            <h3 className="text-xl font-bold text-white mb-6">引薦案例列表</h3>
-                            <div className="overflow-x-auto">
+                        <div className="bg-bg-dark/50 border border-white/10 rounded-2xl p-4 md:p-6 overflow-hidden">
+                            <h3 className="text-lg md:text-xl font-bold text-white mb-4 md:mb-6">引薦案例列表</h3>
+
+                            {/* Mobile: Card Layout */}
+                            <div className="md:hidden space-y-3">
+                                {referrals.length === 0 ? (
+                                    <div className="text-center text-gray-400 py-8">尚無引薦單資料</div>
+                                ) : referrals.map(ref => (
+                                    <div key={ref.id} className="bg-white/5 border border-white/10 rounded-xl p-4">
+                                        <div className="flex justify-between items-start mb-2">
+                                            <div className="text-sm font-bold text-white line-clamp-1 flex-1 mr-2">{ref.title}</div>
+                                            <button
+                                                onClick={() => handleDeleteReferral(ref.id)}
+                                                className="p-1.5 hover:bg-red-500/20 text-red-400 rounded-lg transition-colors shrink-0"
+                                            >
+                                                <Trash2 size={14} />
+                                            </button>
+                                        </div>
+                                        <div className="text-xs text-gray-400 mb-2 line-clamp-1">{ref.description}</div>
+                                        <div className="flex items-center justify-between text-xs">
+                                            <span className="text-primary">{ref.referrer_name} → {ref.referee_name}</span>
+                                            <span className="text-gray-500">{new Date(ref.createdAt || ref.created_at).toLocaleDateString()}</span>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+
+                            {/* Desktop: Table Layout */}
+                            <div className="hidden md:block overflow-x-auto">
                                 <table className="w-full text-left border-collapse">
                                     <thead>
                                         <tr className="text-gray-400 text-sm border-b border-white/10">
                                             <th className="p-4">日期</th>
                                             <th className="p-4">引薦人</th>
-                                            <th className="p-4">被引薦人/產業</th>
+                                            <th className="p-4">被引薦人</th>
                                             <th className="p-4">標題/內容</th>
                                             <th className="p-4 text-right">操作</th>
                                         </tr>
@@ -549,12 +582,8 @@ const Admin: React.FC = () => {
                                                 <td className="p-4 text-gray-300 text-sm">
                                                     {new Date(ref.createdAt || ref.created_at).toLocaleDateString()}
                                                 </td>
-                                                <td className="p-4 text-white font-medium">
-                                                    {ref.referrer_name}
-                                                </td>
-                                                <td className="p-4">
-                                                    <div className="text-white text-sm">{ref.referee_name}</div>
-                                                </td>
+                                                <td className="p-4 text-white font-medium">{ref.referrer_name}</td>
+                                                <td className="p-4 text-white text-sm">{ref.referee_name}</td>
                                                 <td className="p-4">
                                                     <div className="text-white text-sm">{ref.title}</div>
                                                     <div className="text-xs text-gray-400 line-clamp-1">{ref.description}</div>
@@ -563,7 +592,6 @@ const Admin: React.FC = () => {
                                                     <button
                                                         onClick={() => handleDeleteReferral(ref.id)}
                                                         className="p-2 hover:bg-red-500/20 text-red-400 rounded-full transition-colors"
-                                                        title="刪除"
                                                     >
                                                         <Trash2 size={16} />
                                                     </button>
@@ -635,8 +663,8 @@ const Admin: React.FC = () => {
                         </div>
                     )
                 }
-            </div >
-        </div >
+            </div>
+        </div>
     );
 };
 

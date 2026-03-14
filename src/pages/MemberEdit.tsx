@@ -343,7 +343,7 @@ const MemberEdit: React.FC = () => {
                         initial={{ opacity: 0, y: -20, x: "-50%" }}
                         animate={{ opacity: 1, y: 0, x: "-50%" }}
                         exit={{ opacity: 0, y: -20, x: "-50%" }}
-                        className={`fixed top-36 md:top-24 left-1/2 z-50 w-[90%] max-w-lg p-4 rounded-xl flex items-center gap-3 shadow-2xl backdrop-blur-md border ${message.type === 'error'
+                        className={`fixed top-24 md:top-24 left-1/2 z-[60] w-[90%] max-w-lg p-4 rounded-xl flex items-center gap-3 shadow-2xl backdrop-blur-md border ${message.type === 'error'
                             ? 'bg-red-900/90 text-red-100 border-red-500/50'
                             : 'bg-green-900/90 text-green-100 border-green-500/50'
                             }`}
@@ -371,7 +371,7 @@ const MemberEdit: React.FC = () => {
                                     className="w-full h-full object-cover"
                                     style={{ objectPosition: photoPosition }}
                                 />
-                                <label className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
+                                <label className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 md:group-hover:opacity-100 transition-opacity cursor-pointer md:opacity-0">
                                     <input type="file" onChange={handleFileUpload} accept="image/*" className="hidden" />
                                     <div className="text-center text-white">
                                         <Camera className="mx-auto mb-1" />
@@ -379,6 +379,11 @@ const MemberEdit: React.FC = () => {
                                     </div>
                                 </label>
                             </div>
+                            <label className="md:hidden flex items-center justify-center gap-2 w-full py-2.5 bg-white/10 border border-white/20 rounded-lg text-sm text-gray-300 active:bg-primary/20 active:text-primary transition-colors cursor-pointer mb-4">
+                                <input type="file" onChange={handleFileUpload} accept="image/*" className="hidden" />
+                                <Camera size={16} />
+                                <span>更換大頭貼</span>
+                            </label>
 
                             <div className="mb-4">
                                 <label className="block text-gray-400 text-xs mb-1">照片位置</label>
