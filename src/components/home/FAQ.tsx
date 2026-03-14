@@ -199,6 +199,27 @@ const FAQ: React.FC = () => {
                             </>
                         }
                     />
+                    <FAQItem
+                        index={7}
+                        isOpen={openIndex === 7}
+                        toggle={() => toggle(7)}
+                        question="BNI 長輝可以全程線上參加嗎？線上效果好嗎？"
+                        answer={
+                            <>
+                                <p className="mb-3 text-primary font-bold">100% 可以！長輝白金分會全程支援線上與會</p>
+                                <p className="mb-2">線上與會的完整體驗：</p>
+                                <ul className="list-disc list-inside mb-4 space-y-1 ml-2">
+                                    <li><strong>全程線上：</strong>從開場到結束，所有環節都能線上完整參與</li>
+                                    <li><strong>線上分組討論：</strong>搭配分組討論室功能，保持深度交流</li>
+                                    <li><strong>線上引薦同樣有效：</strong>商務引薦與人脈經營完全不受影響</li>
+                                    <li><strong>不受地點限制：</strong>出差、在國外、在家都能照常與會</li>
+                                </ul>
+                                <div className="p-4 bg-primary/10 rounded-lg border border-primary/20 text-sm">
+                                    <strong className="text-primary">會員心得：</strong>許多會員表示，線上會議反而讓他們更專注於商務交流本身，省去通勤時間，效率更高。
+                                </div>
+                            </>
+                        }
+                    />
                 </div>
             </div>
         </section>

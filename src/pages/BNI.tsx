@@ -26,9 +26,9 @@ const BNIPage: React.FC = () => {
     return (
         <div className="min-h-screen pt-0">
             <SEO
-                title="認識 BNI | 全球最大商會・台灣商務引薦系統"
-                description="BNI 是全球最大的商會暨商務引薦組織，遍及 76+ 國家、擁有 34 萬+ 會員。在台灣擁有 245 個分會、近萬名企業主會員。透過「付出者收穫 Givers Gain」核心價值，協助台灣企業主建立信任的商務合作關係。"
-                keywords="什麼是BNI, BNI商會, 台灣商會, 全球商會, 商務引薦系統, 付出者收穫, Givers Gain, 台灣BNI, BNI台灣, 台灣商務社團, 商會組織, 企業家商會, BNI七大核心價值"
+                title="認識 BNI | 全球最大商會・台灣線上商務引薦系統"
+                description="BNI 是全球最大的商會暨商務引薦組織，遍及 76+ 國家、擁有 34 萬+ 會員。BNI 長輝白金分會 100% 支援線上與會，在台灣擁有 245 個分會、近萬名企業主會員。透過「付出者收穫 Givers Gain」核心價值，協助台灣企業主建立信任的商務合作關係。"
+                keywords="什麼是BNI, BNI商會, 台灣商會, 全球商會, 線上商會, 線上BNI, 商務引薦系統, 付出者收穫, Givers Gain, 台灣BNI, BNI台灣, 台灣商務社團, 商會組織, 企業家商會, BNI七大核心價值, 線上商務例會"
                 breadcrumbs={[{ name: '認識 BNI', path: '/bni' }]}
                 structuredData={{
                     '@type': 'WebPage',
@@ -194,13 +194,18 @@ const BNIPage: React.FC = () => {
             {/* Why Join */}
             <section className="py-20 container mx-auto px-4">
                 <div className="max-w-5xl mx-auto bg-gradient-to-br from-primary/10 to-bg-dark border border-primary/20 rounded-3xl p-8 md:p-12 text-center relative overflow-hidden">
-                    <h2 className="text-3xl font-bold text-white mb-6 relative z-10">為什麼台灣企業主選擇加入 BNI 商會？</h2>
+                    <h2 className="text-3xl font-bold text-white mb-6 relative z-10">為什麼台灣企業主選擇加入 BNI 線上商會？</h2>
                     <p className="text-gray-300 mb-8 max-w-2xl mx-auto leading-relaxed relative z-10">
-                        BNI 商會提供了一個正向、支持及結構化的環境，透過人脈引薦來發展您在台灣的業務。
+                        BNI 長輝白金分會提供正向、支持及結構化的線上商務環境，100% 支援線上與會，透過線上人脈引薦發展您在台灣的業務。
                         我們的會員享有獨家席位權利，每個分會中每個行業類別只允許一位代表加入，
                         這意味著您將獨佔該商會分會的所有該行業引薦資源。
                     </p>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10">
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-6 relative z-10">
+                        <div className="p-4">
+                            <div className="text-4xl mb-3">💻</div>
+                            <h3 className="font-bold text-white mb-2">100% 線上</h3>
+                            <p className="text-sm text-gray-400">全程線上與會，不受地點限制，出差也不中斷。</p>
+                        </div>
                         <div className="p-4">
                             <div className="text-4xl mb-3">🤝</div>
                             <h3 className="font-bold text-white mb-2">獨家席位</h3>
