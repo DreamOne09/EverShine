@@ -6,6 +6,7 @@ import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
 import { Lock, Mail, AlertCircle, CheckCircle } from 'lucide-react';
 import SEO from '../components/common/SEO';
+import { siteConfig } from '../config/site.config';
 
 declare global {
     interface Window {
@@ -243,7 +244,7 @@ const Login: React.FC = () => {
 
         try {
             // Check division password
-            if (claimPassword !== 'evershine2025') {
+            if (claimPassword !== siteConfig.claimPassword) {
                 throw new Error('分會認證密碼錯誤，請洽詢網站管理員 (魔術方塊教學 李孟一)。');
             }
 

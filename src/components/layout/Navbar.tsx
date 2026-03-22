@@ -4,6 +4,7 @@ import { LogIn, LogOut, User, Facebook, Instagram, Shield } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { supabase } from '../../lib/supabase';
 import { trackEvent } from '../../lib/analytics';
+import { siteConfig } from '../../config/site.config';
 
 const Navbar: React.FC = () => {
     const [scrolled, setScrolled] = useState(false);
@@ -54,8 +55,8 @@ const Navbar: React.FC = () => {
                 {/* Logo */}
                 <NavLink to="/" className="flex items-center gap-3 group">
                     <img
-                        src="/images/assets/logo/透明底白字長條logo.png"
-                        alt="BNI 長輝白金分會 — 台灣商會首選"
+                        src={siteConfig.logos.horizontal}
+                        alt={`${siteConfig.branchFullName} — 台灣商會首選`}
                         className="h-14 md:h-20 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
                     />
                 </NavLink>
@@ -78,7 +79,7 @@ const Navbar: React.FC = () => {
                     {/* Social Icons */}
                     <div className="flex items-center gap-4 border-l border-white/20 pl-8 h-6">
                         <a
-                            href="https://www.facebook.com/BNIEverShine"
+                            href={siteConfig.social.facebook}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-gray-400 hover:text-[#1877F2] transition-colors flex items-center"
@@ -88,7 +89,7 @@ const Navbar: React.FC = () => {
                             <Facebook size={20} />
                         </a>
                         <a
-                            href="https://www.instagram.com/bnievershine"
+                            href={siteConfig.social.instagram}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-gray-400 hover:text-[#E1306C] transition-colors flex items-center"
@@ -98,7 +99,7 @@ const Navbar: React.FC = () => {
                             <Instagram size={20} />
                         </a>
                         <a
-                            href="https://www.threads.net/@chhubni"
+                            href={siteConfig.social.threads}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-gray-400 hover:text-white transition-colors flex items-center"

@@ -10,6 +10,8 @@ import {
 import StatsCard from '../components/common/StatsCard';
 import MemberList from '../components/admin/MemberList';
 import SEO from '../components/common/SEO';
+import { siteConfig } from '../config/site.config';
+import { sanitizeText } from '../lib/sanitize';
 
 
 const Admin: React.FC = () => {
@@ -195,15 +197,17 @@ const Admin: React.FC = () => {
     };
 
     const handleAddMember = async () => {
-        const name = prompt('請輸入新會員姓名:');
-        if (!name) return;
+        const rawName = prompt('請輸入新會員姓名:');
+        if (!rawName) return;
+        const name = sanitizeText(rawName, 50);
+        if (!name) { alert('名稱無效'); return; }
 
         try {
             const { error } = await supabase.from('members').insert({
                 name,
                 industry: '新產業',
                 company: '新公司',
-                photo: '/images/assets/logo/白色正方形logo.png',
+                photo: siteConfig.defaultPhoto,
                 createdAt: new Date().toISOString()
             }).select().single();
 
@@ -350,7 +354,7 @@ const Admin: React.FC = () => {
                                         <div key={item.id} className="flex items-center justify-between p-4 bg-white/5 rounded-xl border border-white/5 hover:border-primary/50 transition-colors">
                                             <div className="flex items-center gap-4">
                                                 <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-800">
-                                                    <img src={item.photo || '/images/assets/logo/白色正方形logo.png'} alt={item.name} className="w-full h-full object-cover" />
+                                                    <img src={item.photo || siteConfig.defaultPhoto} alt={item.name} className="w-full h-full object-cover" />
                                                 </div>
                                                 <div>
                                                     <div className="font-bold text-white">{item.name}</div>

@@ -3,13 +3,14 @@ import type { Member } from '../../types';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, Building, Briefcase, Phone, Globe, Mail } from 'lucide-react';
 import clsx from 'clsx';
+import { siteConfig } from '../../config/site.config';
 
 const MemberCard: React.FC<{ member: Member }> = ({ member }) => {
     const [expanded, setExpanded] = useState(false);
 
     // Handle both local paths and Supabase URLs
     const getPhotoUrl = (photo: string) => {
-        if (!photo) return '/images/assets/logo/白色正方形logo.png';
+        if (!photo) return siteConfig.defaultPhoto;
 
         const cleanPhoto = photo.trim();
 
@@ -73,7 +74,7 @@ const MemberCard: React.FC<{ member: Member }> = ({ member }) => {
                             loading="lazy"
                             className="w-full h-full rounded-full object-cover bg-bg-dark"
                             style={{ objectPosition: member.photoPosition || 'center 20%' }}
-                            onError={() => setImgSrc('/images/assets/logo/白色正方形logo.png')}
+                            onError={() => setImgSrc(siteConfig.defaultPhoto)}
                         />
                     </div>
 

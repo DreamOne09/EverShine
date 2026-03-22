@@ -8,18 +8,10 @@ import imageCompression from 'browser-image-compression';
 import { useAuth } from '../contexts/AuthContext';
 import type { Member } from '../types';
 import SEO from '../components/common/SEO';
+import { sanitizeText, sanitizeUrl } from '../lib/sanitize';
+import { siteConfig } from '../config/site.config';
 
-const CATEGORIES = [
-    '居住與空間工程',
-    '企業營運與法稅',
-    '金融財富與資產',
-    '品牌整合與行銷',
-    '數位AI與創新科技',
-    '身心健康與醫療',
-    '飲食文化與食品',
-    '教育學習與休閒',
-    '永續發展與製造'
-];
+const CATEGORIES = [...siteConfig.industries];
 
 interface MemberLink {
     type: string;
@@ -248,26 +240,26 @@ const MemberEdit: React.FC = () => {
 
             const linksObject: { [key: string]: string } = {};
             links.forEach(l => {
-                if (l.url.trim()) linksObject[l.type] = l.url.trim();
+                const cleanUrl = sanitizeUrl(l.url);
+                if (cleanUrl) linksObject[l.type] = cleanUrl;
             });
 
             const updates = {
-                name,
-                company,
-                position,
-                industry,
-                category: selectedCategories.join(','),
-                shortIntro,
-                fullIntro,
-                services: services.filter(s => s.trim()),
-                hashtags: hashtags.filter(h => h.trim()),
+                name: sanitizeText(name, 50),
+                company: sanitizeText(company, 100),
+                position: sanitizeText(position, 50),
+                industry: sanitizeText(industry, 50),
+                category: selectedCategories.map(c => sanitizeText(c, 30)).join(','),
+                shortIntro: sanitizeText(shortIntro, 200),
+                fullIntro: sanitizeText(fullIntro, 3000),
+                services: services.filter(s => s.trim()).map(s => sanitizeText(s, 100)),
+                hashtags: hashtags.filter(h => h.trim()).map(h => sanitizeText(h, 30)),
                 links: linksObject,
                 photo: currentPhotoUrl,
                 photoPosition,
-                phone,
-                email,
+                phone: sanitizeText(phone, 20),
+                email: sanitizeText(email, 100),
                 updatedAt: new Date().toISOString(),
-                editCount: 1
             };
 
             const { error } = await supabase

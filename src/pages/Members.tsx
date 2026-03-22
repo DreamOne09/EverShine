@@ -9,18 +9,9 @@ import { supabase } from '../lib/supabase';
 import { Search, Edit } from 'lucide-react';
 import PageHero from '../components/common/PageHero';
 import SEO from '../components/common/SEO';
+import { siteConfig } from '../config/site.config';
 
-const CATEGORIES = [
-    '居住與空間工程',
-    '企業營運與法稅',
-    '金融財富與資產',
-    '品牌整合與行銷',
-    '數位AI與創新科技',
-    '身心健康與醫療',
-    '飲食文化與食品',
-    '教育學習與休閒',
-    '永續發展與製造'
-];
+const CATEGORIES = [...siteConfig.industries];
 
 const CATEGORY_MAPPING: { [key: string]: string } = {
     '工程裝修': '居住與空間工程',

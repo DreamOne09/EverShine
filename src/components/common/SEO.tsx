@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import { siteConfig } from '../../config/site.config';
 
 interface BreadcrumbItem {
     name: string;
@@ -16,10 +17,10 @@ interface SEOProps {
     structuredData?: object;
 }
 
-const SITE_URL = 'https://evershine.tw';
-const DEFAULT_OG_IMAGE = `${SITE_URL}/images/assets/logo/白色正方形logo.png`;
-const BASE_TITLE = 'BNI 長輝白金分會';
-const SITE_NAME = 'BNI 長輝白金分會 | 台灣商會';
+const SITE_URL = siteConfig.siteUrl;
+const DEFAULT_OG_IMAGE = `${SITE_URL}${siteConfig.logos.square}`;
+const BASE_TITLE = siteConfig.branchFullName;
+const SITE_NAME = `${siteConfig.branchFullName} | 台灣商會`;
 
 function setMetaTag(selector: string, attribute: string, value: string) {
     let el = document.querySelector(selector);
