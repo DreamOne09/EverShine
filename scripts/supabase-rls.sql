@@ -193,8 +193,7 @@ CREATE POLICY "member_photos_auth_upload"
     WITH CHECK (
         bucket_id = 'member-photos'
         AND auth.uid() IS NOT NULL
-        AND (storage.foldername(name))[1] = auth.uid()::text
-           OR name LIKE auth.uid()::text || '-%'
+        AND name LIKE (auth.uid())::text || '-%'
     );
 
 -- 6c. 使用者可以更新/覆寫自己上傳的照片
@@ -204,7 +203,10 @@ CREATE POLICY "member_photos_auth_update"
     USING (
         bucket_id = 'member-photos'
         AND auth.uid() IS NOT NULL
-        AND (owner = auth.uid()::text OR name LIKE auth.uid()::text || '-%')
+        AND (
+            owner_id = auth.uid()
+            OR name LIKE (auth.uid())::text || '-%'
+        )
     );
 
 -- 6d. 管理員可以管理所有照片
