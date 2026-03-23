@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 interface PageHeroProps {
-    title: string;
+    title: React.ReactNode;
     subtitle?: React.ReactNode;
     showScrollIndicator?: boolean;
     children?: React.ReactNode;
