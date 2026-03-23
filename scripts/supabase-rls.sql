@@ -4,16 +4,15 @@
 -- 使用方式：在 Supabase Dashboard → SQL Editor 貼上並執行
 -- 可安全重複執行（DROP POLICY IF EXISTS）
 --
--- 重要：members.user_id 為 TEXT 型別
---       auth.uid() 回傳 UUID 型別
---       所有比較必須使用 CAST(auth.uid() AS text)
+-- 技巧：所有 user_id 與 auth.uid() 的比較
+--       統一用 CAST 雙邊轉 text，相容 UUID 或 TEXT 欄位
 --
 -- 最後更新：2026-03-23
 -- ============================================================
 
 
 -- ============================================================
--- PART 0: 清除可能衝突的舊策略
+-- PART 0: 清除所有舊策略
 -- ============================================================
 DROP POLICY IF EXISTS "members_public_read" ON public.members;
 DROP POLICY IF EXISTS "members_self_update" ON public.members;
@@ -32,29 +31,24 @@ DROP POLICY IF EXISTS "page_views_admin_read" ON public.page_views;
 DROP POLICY IF EXISTS "analytics_events_anyone_insert" ON public.analytics_events;
 DROP POLICY IF EXISTS "analytics_events_admin_read" ON public.analytics_events;
 
+-- 刪除舊版函式（避免簽名衝突）
+DROP FUNCTION IF EXISTS public.is_admin();
+
 
 -- ============================================================
 -- PART 1: 輔助函式
 -- ============================================================
-CREATE OR REPLACE FUNCTION public.is_admin()
+CREATE FUNCTION public.is_admin()
 RETURNS boolean
-LANGUAGE plpgsql
+LANGUAGE sql
 SECURITY DEFINER
 STABLE
 AS $$
-DECLARE
-  _uid text;
-BEGIN
-  _uid := CAST(auth.uid() AS text);
-  IF _uid IS NULL THEN
-    RETURN false;
-  END IF;
-  RETURN EXISTS (
+  SELECT EXISTS (
     SELECT 1 FROM public.members
-    WHERE user_id = _uid
+    WHERE CAST(user_id AS text) = CAST(auth.uid() AS text)
       AND is_admin = true
   );
-END;
 $$;
 
 
@@ -69,25 +63,25 @@ CREATE POLICY "members_public_read"
 
 CREATE POLICY "members_self_update"
   ON public.members FOR UPDATE
-  USING (user_id = CAST(auth.uid() AS text))
-  WITH CHECK (user_id = CAST(auth.uid() AS text));
+  USING ( CAST(user_id AS text) = CAST(auth.uid() AS text) )
+  WITH CHECK ( CAST(user_id AS text) = CAST(auth.uid() AS text) );
 
 CREATE POLICY "members_admin_update"
   ON public.members FOR UPDATE
-  USING (public.is_admin());
+  USING ( public.is_admin() );
 
 CREATE POLICY "members_admin_insert"
   ON public.members FOR INSERT
-  WITH CHECK (public.is_admin());
+  WITH CHECK ( public.is_admin() );
 
 CREATE POLICY "members_admin_delete"
   ON public.members FOR DELETE
-  USING (public.is_admin());
+  USING ( public.is_admin() );
 
 CREATE POLICY "members_claim_unclaimed"
   ON public.members FOR UPDATE
-  USING (user_id IS NULL AND auth.uid() IS NOT NULL)
-  WITH CHECK (auth.uid() IS NOT NULL);
+  USING ( user_id IS NULL AND auth.uid() IS NOT NULL )
+  WITH CHECK ( auth.uid() IS NOT NULL );
 
 
 -- ============================================================
@@ -101,15 +95,15 @@ CREATE POLICY "referrals_public_read"
 
 CREATE POLICY "referrals_admin_insert"
   ON public.referrals FOR INSERT
-  WITH CHECK (public.is_admin());
+  WITH CHECK ( public.is_admin() );
 
 CREATE POLICY "referrals_admin_update"
   ON public.referrals FOR UPDATE
-  USING (public.is_admin());
+  USING ( public.is_admin() );
 
 CREATE POLICY "referrals_admin_delete"
   ON public.referrals FOR DELETE
-  USING (public.is_admin());
+  USING ( public.is_admin() );
 
 
 -- ============================================================
@@ -123,8 +117,8 @@ CREATE POLICY "homepage_stats_public_read"
 
 CREATE POLICY "homepage_stats_admin_upsert"
   ON public.homepage_stats FOR ALL
-  USING (public.is_admin())
-  WITH CHECK (public.is_admin());
+  USING ( public.is_admin() )
+  WITH CHECK ( public.is_admin() );
 
 
 -- ============================================================
@@ -138,7 +132,7 @@ CREATE POLICY "page_views_anyone_insert"
 
 CREATE POLICY "page_views_admin_read"
   ON public.page_views FOR SELECT
-  USING (public.is_admin());
+  USING ( public.is_admin() );
 
 
 -- ============================================================
@@ -152,11 +146,11 @@ CREATE POLICY "analytics_events_anyone_insert"
 
 CREATE POLICY "analytics_events_admin_read"
   ON public.analytics_events FOR SELECT
-  USING (public.is_admin());
+  USING ( public.is_admin() );
 
 
 -- ============================================================
--- 驗證
+-- 驗證：確認 RLS 已啟用
 -- ============================================================
 SELECT tablename, rowsecurity
 FROM pg_tables
