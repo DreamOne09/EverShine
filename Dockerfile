@@ -39,7 +39,7 @@ RUN npm install --production
 # Copy built files from builder stage
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/public ./public
-COPY server.js ./
+COPY server.js seo-routes.js ./
 
 # Verify files exist
 RUN ls -la dist/ && \
