@@ -23,12 +23,13 @@ export interface Referral {
 export const useReferrals = () => {
     const [referrals, setReferrals] = useState<Referral[]>([]);
     const [loading, setLoading] = useState(true);
-    // const [error, setError] = useState<string | null>(null);
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 setLoading(true);
+                setError(null);
                 // 1. Get raw referrals data with resilient ordering
                 let { data: refsData, error: refsError } = await supabase
                     .from('referrals')
@@ -73,41 +74,55 @@ export const useReferrals = () => {
                 const membersMap = new Map(membersData?.map(m => [m.name, m]));
 
                 // 3. Format data structure
-                const formattedReferrals: Referral[] = refsData.map((ref: any) => {
-                    const referrerDetails = membersMap.get(ref.referrer_name);
-                    const refereeDetails = membersMap.get(ref.referee_name);
+                const formattedReferrals: Referral[] = refsData.map((ref: Record<string, unknown>) => {
+                    const referrerName = String(ref.referrer_name ?? '');
+                    const refereeName = String(ref.referee_name ?? '');
+                    const referrerDetails = membersMap.get(referrerName);
+                    const refereeDetails = membersMap.get(refereeName);
+                    const metrics = ref.metrics as { amount?: string; type?: string } | undefined;
 
                     return {
-                        id: ref.id,
-                        title: ref.title,
-                        description: ref.description,
-                        metrics: ref.metrics || { amount: '0', type: 'TWD' },
+                        id: String(ref.id),
+                        title: String(ref.title ?? ''),
+                        description: String(ref.description ?? ''),
+                        metrics: {
+                            amount: metrics?.amount ?? '0',
+                            type: metrics?.type ?? 'TWD',
+                        },
                         referrer: {
-                            name: ref.referrer_name,
+                            name: referrerName,
                             industry: referrerDetails?.industry || 'Unknown',
                             photo: referrerDetails?.photo || '',
-                            story: ref.referrer_story,
-                            testimonial: ref.referrer_testimonial
+                            story: ref.referrer_story as string | undefined,
+                            testimonial: ref.referrer_testimonial as string | undefined,
                         },
                         referee: {
-                            name: ref.referee_name,
+                            name: refereeName,
                             industry: refereeDetails?.industry || 'Unknown',
                             photo: refereeDetails?.photo || '',
-                            story: ref.referee_story,
-                            value: ref.referee_value || ''
-                        }
+                            story: ref.referee_story as string | undefined,
+                            value: (ref.referee_value as string) || '',
+                        },
                     };
                 });
 
                 setReferrals(formattedReferrals);
-            } catch (err: any) {
-                console.error("Error loading referrals:", err);
-                // If it's a 404 or 400, just show empty instead of error
-                if (err.code === 'PGRST116' || err.code === '42P01' || err.code === 'PGRST204') {
+            } catch (err: unknown) {
+                console.error('Error loading referrals:', err);
+                const code =
+                    err && typeof err === 'object' && 'code' in err
+                        ? String((err as { code: string }).code)
+                        : '';
+                const message =
+                    err && typeof err === 'object' && 'message' in err
+                        ? String((err as { message: string }).message)
+                        : '無法載入引薦資料';
+                if (code === 'PGRST116' || code === '42P01' || code === 'PGRST204') {
                     setReferrals([]);
+                    setError(null);
                 } else {
-                    setReferrals([]); // Still return empty to prevent crash
-                    // setError(err.message || '無法載入引薦資料'); // Don't block UI with error if we can help it
+                    setReferrals([]);
+                    setError(message);
                 }
             } finally {
                 setLoading(false);
@@ -117,5 +132,5 @@ export const useReferrals = () => {
         fetchData();
     }, []);
 
-    return { referrals, loading };
+    return { referrals, loading, error };
 };

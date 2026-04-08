@@ -1,18 +1,35 @@
-
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
 import {
     Users, Activity, DollarSign, Calendar,
-    Trash2, Plus, Save, Search, Shield, RefreshCw
+    Trash2, Plus, Save, Search, Shield, RefreshCw, PencilLine, ExternalLink
 } from 'lucide-react';
 import StatsCard from '../components/common/StatsCard';
 import MemberList from '../components/admin/MemberList';
+import AdminHelpBanner from '../components/admin/AdminHelpBanner';
+import AdminMemberModal from '../components/admin/AdminMemberModal';
+import ReferralFormModal from '../components/admin/ReferralFormModal';
 import SEO from '../components/common/SEO';
 import { siteConfig } from '../config/site.config';
-import { sanitizeText } from '../lib/sanitize';
+import type { ReferralRow } from '../types/admin';
 
+type AdminTabId = 'overview' | 'members' | 'referrals' | 'settings';
+
+interface MemberRow {
+    id: string;
+    name: string;
+    industry?: string;
+    company?: string;
+    position?: string;
+    title?: string;
+    photo?: string;
+    updatedAt?: string;
+    updated_at?: string;
+    createdAt?: string;
+    created_at?: string;
+}
 
 const Admin: React.FC = () => {
     const { user } = useAuth();
@@ -28,11 +45,12 @@ const Admin: React.FC = () => {
     });
 
     // Tab State
-    const [activeTab, setActiveTab] = useState<'overview' | 'members' | 'referrals' | 'settings'>('overview');
+    const [activeTab, setActiveTab] = useState<AdminTabId>('overview');
 
     // Members Data
-    const [members, setMembers] = useState<any[]>([]);
+    const [members, setMembers] = useState<MemberRow[]>([]);
     const [memberSearch, setMemberSearch] = useState('');
+    const [memberModalOpen, setMemberModalOpen] = useState(false);
 
     // Homepage Stats Form
     const [homeStats, setHomeStats] = useState({
@@ -42,43 +60,41 @@ const Admin: React.FC = () => {
     });
 
     // Recent Activity State
-    const [recentUpdates, setRecentUpdates] = useState<any[]>([]);
+    const [recentUpdates, setRecentUpdates] = useState<MemberRow[]>([]);
 
     // Referrals Data
-    const [referrals, setReferrals] = useState<any[]>([]);
+    const [referrals, setReferrals] = useState<ReferralRow[]>([]);
+    const [referralModalOpen, setReferralModalOpen] = useState(false);
+    const [referralModalMode, setReferralModalMode] = useState<'create' | 'edit'>('create');
+    const [editingReferral, setEditingReferral] = useState<ReferralRow | null>(null);
 
     // Marketing Stats
     const [marketingStats, setMarketingStats] = useState({
         socialClicks: 0
     });
 
-    useEffect(() => {
-        checkAdmin();
-        fetchDashboardData();
-    }, [user]);
-
-    const checkAdmin = async () => {
+    const fetchDashboardData = useCallback(async () => {
         if (!user) {
             navigate('/login');
             return;
         }
 
         try {
-            const { data, error } = await supabase
+            const { data: adminRow, error: adminErr } = await supabase
                 .from('members')
                 .select('is_admin')
                 .eq('user_id', user.id)
                 .single();
 
-            if (error || !data?.is_admin) {
+            if (adminErr || !adminRow?.is_admin) {
                 navigate('/');
+                return;
             }
         } catch {
             navigate('/');
+            return;
         }
-    };
 
-    const fetchDashboardData = async () => {
         setLoading(true);
 
         try {
@@ -133,12 +149,12 @@ const Admin: React.FC = () => {
 
             // Process Members
             if (membersRes.error) console.error('Members fetch error:', membersRes.error);
-            const membersData = membersRes.data || [];
+            const membersData = (membersRes.data || []) as MemberRow[];
             setMembers(membersData);
 
             // Process Referrals
             if (referralsRes.error) console.error('Referrals fetch error:', referralsRes.error);
-            const refData = referralsRes.data || [];
+            const refData = (referralsRes.data || []) as ReferralRow[];
             setReferrals(refData);
 
             // Derive Recent Updates (Avoid extra API call)
@@ -169,7 +185,7 @@ const Admin: React.FC = () => {
 
             const industryCounts: { [key: string]: number } = {};
             let hasPhotoCount = 0;
-            membersData.forEach((m: any) => {
+            membersData.forEach((m) => {
                 const ind = m.industry || '未分類';
                 industryCounts[ind] = (industryCounts[ind] || 0) + 1;
                 if (m.photo && m.photo.length > 10) hasPhotoCount++;
@@ -194,29 +210,27 @@ const Admin: React.FC = () => {
         } finally {
             setLoading(false);
         }
+    }, [user, navigate]);
+
+    useEffect(() => {
+        void fetchDashboardData();
+    }, [fetchDashboardData]);
+
+    const memberNamesForDatalist = useMemo(
+        () => members.map((m) => m.name).filter(Boolean) as string[],
+        [members]
+    );
+
+    const openCreateReferral = () => {
+        setReferralModalMode('create');
+        setEditingReferral(null);
+        setReferralModalOpen(true);
     };
 
-    const handleAddMember = async () => {
-        const rawName = prompt('請輸入新會員姓名:');
-        if (!rawName) return;
-        const name = sanitizeText(rawName, 50);
-        if (!name) { alert('名稱無效'); return; }
-
-        try {
-            const { error } = await supabase.from('members').insert({
-                name,
-                industry: '新產業',
-                company: '新公司',
-                photo: siteConfig.defaultPhoto,
-                createdAt: new Date().toISOString()
-            }).select().single();
-
-            if (error) throw error;
-            alert(`已新增會員 ${name}，請點擊編輯按鈕完善資料。`);
-            fetchDashboardData();
-        } catch (e: any) {
-            alert('新增失敗: ' + e.message);
-        }
+    const openEditReferral = (row: ReferralRow) => {
+        setReferralModalMode('edit');
+        setEditingReferral(row);
+        setReferralModalOpen(true);
     };
 
     const handleDeleteReferral = async (id: string) => {
@@ -224,10 +238,12 @@ const Admin: React.FC = () => {
         try {
             const { error } = await supabase.from('referrals').delete().eq('id', id);
             if (error) throw error;
-            setReferrals(referrals.filter(r => r.id !== id));
+            setReferrals((prev) => prev.filter((r) => r.id !== id));
             alert('已刪除');
-        } catch (e: any) {
-            alert('刪除失敗: ' + e.message);
+            void fetchDashboardData();
+        } catch (e: unknown) {
+            const msg = e instanceof Error ? e.message : '刪除失敗';
+            alert(msg);
         }
     };
 
@@ -239,10 +255,11 @@ const Admin: React.FC = () => {
 
             if (error) throw error;
             alert('首頁數據已更新！');
-            fetchDashboardData();
-        } catch (err: any) {
+            void fetchDashboardData();
+        } catch (err: unknown) {
             console.error(err);
-            alert('更新失敗: ' + err.message);
+            const msg = err instanceof Error ? err.message : '更新失敗';
+            alert(msg);
         }
     };
 
@@ -257,6 +274,19 @@ const Admin: React.FC = () => {
     return (
         <div className="min-h-dvh pt-24 md:pt-32 pb-24 md:pb-12 px-4 container mx-auto">
             <SEO title="管理後台" noindex />
+            <AdminMemberModal
+                open={memberModalOpen}
+                onClose={() => setMemberModalOpen(false)}
+                onCreated={() => void fetchDashboardData()}
+            />
+            <ReferralFormModal
+                open={referralModalOpen}
+                mode={referralModalMode}
+                initial={editingReferral}
+                memberNames={memberNamesForDatalist}
+                onClose={() => setReferralModalOpen(false)}
+                onSaved={() => void fetchDashboardData()}
+            />
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
                 <h1 className="text-2xl md:text-3xl font-bold text-white flex items-center gap-3">
                     <Activity className="text-primary" size={24} /> 管理後台
@@ -271,14 +301,14 @@ const Admin: React.FC = () => {
                 <div className="w-full md:w-auto overflow-x-auto -mx-4 px-4 md:mx-0 md:px-0 scrollbar-hide">
                     <div className="flex bg-white/5 p-1 rounded-lg backdrop-blur-sm border border-white/10 min-w-max">
                         {[
-                            { id: 'overview', label: '總覽' },
-                            { id: 'members', label: '會員' },
-                            { id: 'referrals', label: '引薦' },
-                            { id: 'settings', label: '設定' }
+                            { id: 'overview' as const, label: '總覽' },
+                            { id: 'members' as const, label: '會員' },
+                            { id: 'referrals' as const, label: '引薦' },
+                            { id: 'settings' as const, label: '設定' }
                         ].map(tab => (
                             <button
                                 key={tab.id}
-                                onClick={() => setActiveTab(tab.id as any)}
+                                onClick={() => setActiveTab(tab.id)}
                                 className={`px-4 py-2 rounded-md text-sm font-bold transition-colors whitespace-nowrap ${activeTab === tab.id
                                     ? 'bg-primary text-bg-dark'
                                     : 'text-gray-400 hover:text-white'
@@ -293,6 +323,7 @@ const Admin: React.FC = () => {
 
             {/* Content Area */}
             <div className="space-y-6">
+                <AdminHelpBanner />
 
                 {/* OVERVIEW TAB */}
                 {activeTab === 'overview' && (
@@ -305,13 +336,13 @@ const Admin: React.FC = () => {
                         />
                         <StatsCard
                             title="資料完整度"
-                            value={(stats as any).completionRate}
+                            value={stats.completionRate}
                             icon={<Activity className="text-pink-400" />}
                             diff="會員有照片比例"
                         />
                         <StatsCard
                             title="最大產業佔比"
-                            value={(stats as any).topIndustry}
+                            value={stats.topIndustry}
                             icon={<Users className="text-purple-400" />}
                             diff="最熱門產業"
                         />
@@ -417,125 +448,40 @@ const Admin: React.FC = () => {
                                 />
                             </div>
                             <button
-                                onClick={handleAddMember}
+                                type="button"
+                                onClick={() => setMemberModalOpen(true)}
                                 className="flex items-center justify-center gap-2 bg-primary text-bg-dark px-4 py-2.5 rounded-lg font-bold hover:bg-primary/90 transition-colors shrink-0"
                             >
                                 <Plus size={18} /> 新增會員
                             </button>
                         </div>
+                        <p className="text-sm text-gray-400 mb-4">
+                            編輯會開啟與會員相同的完整表單，可改照片、介紹、連結等。刪除前請再三確認。
+                        </p>
 
-                        <MemberList
-                            members={filteredMembers}
-                            loading={loading}
-                            onRefresh={fetchDashboardData}
-                        />
+                        <MemberList members={filteredMembers} onRefresh={() => void fetchDashboardData()} />
                     </div>
                 )}
 
                 {/* REFERRALS TAB */}
                 {activeTab === 'referrals' && (
                     <div className="space-y-6">
-                        {/* Add New Case Form */}
-                        <div className="bg-bg-dark/50 border border-white/10 rounded-2xl p-4 md:p-6">
-                            <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
-                                <Plus size={20} className="text-primary" /> 新增引薦案例
-                            </h3>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div>
-                                    <label className="block text-gray-400 text-sm mb-1">引薦案例標題</label>
-                                    <input
-                                        type="text"
-                                        id="ref_title"
-                                        placeholder="例如：【💼 合作共創新價值】"
-                                        className="w-full bg-black/20 border border-white/10 rounded-lg p-3 text-white focus:border-primary focus:outline-none"
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block text-gray-400 text-sm mb-1">簡短描述</label>
-                                    <input
-                                        type="text"
-                                        id="ref_desc"
-                                        placeholder="例如：生醫公司新產品線包裝設計引薦"
-                                        className="w-full bg-black/20 border border-white/10 rounded-lg p-3 text-white focus:border-primary focus:outline-none"
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block text-gray-400 text-sm mb-1">引薦人姓名</label>
-                                    <input
-                                        type="text"
-                                        id="ref_referrer"
-                                        className="w-full bg-black/20 border border-white/10 rounded-lg p-3 text-white focus:border-primary focus:outline-none"
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block text-gray-400 text-sm mb-1">被引薦人姓名</label>
-                                    <input
-                                        type="text"
-                                        id="ref_referee"
-                                        className="w-full bg-black/20 border border-white/10 rounded-lg p-3 text-white focus:border-primary focus:outline-none"
-                                    />
-                                </div>
-                                <div className="md:col-span-2">
-                                    <label className="block text-gray-400 text-sm mb-1">引薦人自述 (Referrer Story)</label>
-                                    <textarea
-                                        id="ref_referrer_story"
-                                        rows={3}
-                                        className="w-full bg-black/20 border border-white/10 rounded-lg p-3 text-white focus:border-primary focus:outline-none"
-                                    ></textarea>
-                                </div>
-                                <div className="md:col-span-2">
-                                    <label className="block text-gray-400 text-sm mb-1">被引薦人自述 (Referee Story)</label>
-                                    <textarea
-                                        id="ref_referee_story"
-                                        rows={3}
-                                        className="w-full bg-black/20 border border-white/10 rounded-lg p-3 text-white focus:border-primary focus:outline-none"
-                                    ></textarea>
-                                </div>
+                        <div className="bg-bg-dark/50 border border-white/10 rounded-2xl p-4 md:p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                            <div>
+                                <h3 className="text-xl font-bold text-white flex items-center gap-2">
+                                    <Plus size={20} className="text-primary" /> 引薦案例 CMS
+                                </h3>
+                                <p className="text-sm text-gray-400 mt-1">
+                                    用表單新增或編輯；儲存後引薦頁會顯示最新內容。
+                                </p>
                             </div>
-                            <div className="mt-6 flex justify-end">
-                                <button
-                                    onClick={async () => {
-                                        const title = (document.getElementById('ref_title') as HTMLInputElement).value;
-                                        const description = (document.getElementById('ref_desc') as HTMLInputElement).value;
-                                        const referrer_name = (document.getElementById('ref_referrer') as HTMLInputElement).value;
-                                        const referee_name = (document.getElementById('ref_referee') as HTMLInputElement).value;
-                                        const referrer_story = (document.getElementById('ref_referrer_story') as HTMLTextAreaElement).value;
-                                        const referee_story = (document.getElementById('ref_referee_story') as HTMLTextAreaElement).value;
-
-                                        if (!title || !referrer_name || !referee_name) {
-                                            alert('請填寫必填欄位');
-                                            return;
-                                        }
-
-                                        const { error } = await supabase.from('referrals').insert({
-                                            title,
-                                            description,
-                                            referrer_name,
-                                            referee_name,
-                                            referrer_story,
-                                            referee_story,
-                                            metrics: { amount: '洽談中', type: '專案合作' }
-                                        });
-
-                                        if (error) {
-                                            alert('新增失敗: ' + error.message);
-                                        } else {
-                                            alert('新增成功！');
-                                            fetchDashboardData();
-                                            // Reset fields
-                                            (document.getElementById('ref_title') as HTMLInputElement).value = '';
-                                            (document.getElementById('ref_desc') as HTMLInputElement).value = '';
-                                            (document.getElementById('ref_referrer') as HTMLInputElement).value = '';
-                                            (document.getElementById('ref_referee') as HTMLInputElement).value = '';
-                                            (document.getElementById('ref_referrer_story') as HTMLTextAreaElement).value = '';
-                                            (document.getElementById('ref_referee_story') as HTMLTextAreaElement).value = '';
-                                        }
-                                    }}
-                                    className="px-6 py-3 bg-primary text-bg-dark font-bold rounded-lg hover:bg-primary/90 transition-colors flex items-center gap-2"
-                                >
-                                    <Plus size={18} /> 提交引薦案例
-                                </button>
-                            </div>
+                            <button
+                                type="button"
+                                onClick={openCreateReferral}
+                                className="inline-flex items-center justify-center gap-2 bg-primary text-bg-dark px-5 py-2.5 rounded-lg font-bold hover:bg-primary/90 shrink-0"
+                            >
+                                <Plus size={18} /> 新增案例
+                            </button>
                         </div>
 
                         {/* Existing Referrals List */}
@@ -548,19 +494,33 @@ const Admin: React.FC = () => {
                                     <div className="text-center text-gray-400 py-8">尚無引薦單資料</div>
                                 ) : referrals.map(ref => (
                                     <div key={ref.id} className="bg-white/5 border border-white/10 rounded-xl p-4">
-                                        <div className="flex justify-between items-start mb-2">
+                                        <div className="flex justify-between items-start mb-2 gap-2">
                                             <div className="text-sm font-bold text-white line-clamp-1 flex-1 mr-2">{ref.title}</div>
-                                            <button
-                                                onClick={() => handleDeleteReferral(ref.id)}
-                                                className="p-1.5 hover:bg-red-500/20 text-red-400 rounded-lg transition-colors shrink-0"
-                                            >
-                                                <Trash2 size={14} />
-                                            </button>
+                                            <div className="flex gap-1 shrink-0">
+                                                <button
+                                                    type="button"
+                                                    onClick={() => openEditReferral(ref)}
+                                                    className="p-1.5 hover:bg-primary/20 text-primary rounded-lg transition-colors"
+                                                    title="編輯"
+                                                >
+                                                    <PencilLine size={14} />
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => handleDeleteReferral(ref.id)}
+                                                    className="p-1.5 hover:bg-red-500/20 text-red-400 rounded-lg transition-colors"
+                                                    title="刪除"
+                                                >
+                                                    <Trash2 size={14} />
+                                                </button>
+                                            </div>
                                         </div>
                                         <div className="text-xs text-gray-400 mb-2 line-clamp-1">{ref.description}</div>
                                         <div className="flex items-center justify-between text-xs">
                                             <span className="text-primary">{ref.referrer_name} → {ref.referee_name}</span>
-                                            <span className="text-gray-500">{new Date(ref.createdAt || ref.created_at).toLocaleDateString()}</span>
+                                            <span className="text-gray-500">
+                                                {new Date(ref.createdAt || ref.created_at || Date.now()).toLocaleDateString()}
+                                            </span>
                                         </div>
                                     </div>
                                 ))}
@@ -584,7 +544,7 @@ const Admin: React.FC = () => {
                                         ) : referrals.map(ref => (
                                             <tr key={ref.id} className="border-b border-white/5 hover:bg-white/5 transition-colors">
                                                 <td className="p-4 text-gray-300 text-sm">
-                                                    {new Date(ref.createdAt || ref.created_at).toLocaleDateString()}
+                                                    {new Date(ref.createdAt || ref.created_at || Date.now()).toLocaleDateString()}
                                                 </td>
                                                 <td className="p-4 text-white font-medium">{ref.referrer_name}</td>
                                                 <td className="p-4 text-white text-sm">{ref.referee_name}</td>
@@ -593,12 +553,24 @@ const Admin: React.FC = () => {
                                                     <div className="text-xs text-gray-400 line-clamp-1">{ref.description}</div>
                                                 </td>
                                                 <td className="p-4 text-right">
-                                                    <button
-                                                        onClick={() => handleDeleteReferral(ref.id)}
-                                                        className="p-2 hover:bg-red-500/20 text-red-400 rounded-full transition-colors"
-                                                    >
-                                                        <Trash2 size={16} />
-                                                    </button>
+                                                    <div className="flex gap-1 justify-end">
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => openEditReferral(ref)}
+                                                            className="p-2 hover:bg-primary/20 text-primary rounded-full transition-colors"
+                                                            title="編輯"
+                                                        >
+                                                            <PencilLine size={16} />
+                                                        </button>
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => handleDeleteReferral(ref.id)}
+                                                            className="p-2 hover:bg-red-500/20 text-red-400 rounded-full transition-colors"
+                                                            title="刪除"
+                                                        >
+                                                            <Trash2 size={16} />
+                                                        </button>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         ))}
@@ -659,9 +631,26 @@ const Admin: React.FC = () => {
                             </div>
 
                             <div className="bg-bg-dark/50 border border-white/10 rounded-2xl p-6">
-                                <h3 className="text-xl font-bold text-white mb-6">系統公告</h3>
-                                <p className="text-gray-400 text-sm mb-4">
-                                    若需發布系統公告或暫停網站服務，請在此設定。目前功能開發中。
+                                <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                                    <ExternalLink size={20} className="text-primary" /> 快速連結
+                                </h3>
+                                <ul className="space-y-3 text-sm text-gray-300">
+                                    <li>
+                                        <a href="/members" className="text-primary hover:underline" target="_blank" rel="noreferrer">
+                                            預覽會員頁（新分頁）
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="/referrals" className="text-primary hover:underline" target="_blank" rel="noreferrer">
+                                            預覽引薦案例頁
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <span className="text-gray-500">首頁數字：</span>儲存後重新整理首頁即可看到更新。
+                                    </li>
+                                </ul>
+                                <p className="text-gray-500 text-xs mt-6 border-t border-white/10 pt-4">
+                                    網站文案若寫在程式裡（例如首頁段落），需請技術人員改程式或之後再接「站內文案」資料表。
                                 </p>
                             </div>
                         </div>

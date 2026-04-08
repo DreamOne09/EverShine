@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../lib/supabase';
 
 interface Member {
-    id: string;
+    id: string | number;
     name: string;
     industry?: string;
     company?: string;
@@ -15,13 +15,12 @@ interface Member {
 
 interface Props {
     members: Member[];
-    loading: boolean;
     onRefresh: () => void;
 }
 
 const ITEMS_PER_PAGE = 10;
 
-const MemberList: React.FC<Props> = ({ members, loading, onRefresh }) => {
+const MemberList: React.FC<Props> = ({ members, onRefresh }) => {
     const navigate = useNavigate();
     const [page, setPage] = useState(1);
 
