@@ -7,6 +7,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { Lock, Mail, AlertCircle, CheckCircle } from 'lucide-react';
 import SEO from '../components/common/SEO';
 import { siteConfig } from '../config/site.config';
+import { CardSkeleton } from '../components/loading';
 
 declare global {
     interface Window {
@@ -57,7 +58,7 @@ const TurnstileWidget: React.FC<{ siteKey: string, onVerify: (token: string) => 
 
 const Login: React.FC = () => {
     const navigate = useNavigate();
-    const { user } = useAuth();
+    const { user, loading: authLoading } = useAuth();
     const [mode, setMode] = useState<'login' | 'signup' | 'forgot' | 'claim'>('login');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -265,6 +266,15 @@ const Login: React.FC = () => {
             setLoading(false);
         }
     };
+
+    if (authLoading) {
+        return (
+            <div className="min-h-[calc(100dvh-80px)] flex items-center justify-center py-12 pb-24 md:pb-12 px-4 container mx-auto">
+                <SEO title="會員登入" noindex />
+                <CardSkeleton className="w-full max-w-md" />
+            </div>
+        );
+    }
 
     return (
         <div className="min-h-[calc(100dvh-80px)] flex items-center justify-center py-12 pb-24 md:pb-12 px-4 container mx-auto">

@@ -50,7 +50,7 @@ export const siteConfig = {
     defaultPhoto: '/images/assets/logo/白色正方形logo.png',
 
     /** Claim 密碼應從環境變數讀取，fallback 僅供開發環境 */
-    claimPassword: import.meta.env.VITE_CLAIM_PASSWORD || 'evershine2025',
+    claimPassword: import.meta.env.VITE_CLAIM_PASSWORD || 'evershine2026',
 
     industries: [
         '居住與空間工程',

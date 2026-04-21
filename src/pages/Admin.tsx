@@ -10,6 +10,12 @@ import {
 import StatsCard from '../components/common/StatsCard';
 import MemberList from '../components/admin/MemberList';
 import SEO from '../components/common/SEO';
+import {
+    MainLayoutSkeleton,
+    EmptyState,
+    ErrorFallback,
+    SmartImage,
+} from '../components/loading';
 import { siteConfig } from '../config/site.config';
 import { sanitizeText } from '../lib/sanitize';
 
@@ -18,6 +24,7 @@ const Admin: React.FC = () => {
     const { user } = useAuth();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
+    const [dashboardError, setDashboardError] = useState<string | null>(null);
     const [stats, setStats] = useState({
         totalMembers: 0,
         totalReferrals: 0,
@@ -80,6 +87,7 @@ const Admin: React.FC = () => {
 
     const fetchDashboardData = async () => {
         setLoading(true);
+        setDashboardError(null);
 
         try {
             // Parallel Fetching for O(1) perceived latency (limited by slowest request)
@@ -191,6 +199,7 @@ const Admin: React.FC = () => {
 
         } catch (error) {
             console.error('Dashboard fetch error:', error);
+            setDashboardError(error instanceof Error ? error.message : '載入後台資料時發生錯誤');
         } finally {
             setLoading(false);
         }
@@ -252,7 +261,22 @@ const Admin: React.FC = () => {
         m.industry?.toLowerCase().includes(memberSearch.toLowerCase())
     );
 
-    if (loading) return <div className="min-h-screen pt-32 text-center text-white">載入後台數據中...</div>;
+    if (loading) {
+        return <MainLayoutSkeleton />;
+    }
+
+    if (dashboardError) {
+        return (
+            <div className="min-h-dvh pt-24 md:pt-32 pb-24 px-4 container mx-auto flex items-start justify-center">
+                <SEO title="管理後台" noindex />
+                <ErrorFallback
+                    className="max-w-lg w-full mt-8"
+                    message={dashboardError}
+                    onRetry={fetchDashboardData}
+                />
+            </div>
+        );
+    }
 
     return (
         <div className="min-h-dvh pt-24 md:pt-32 pb-24 md:pb-12 px-4 container mx-auto">
@@ -348,13 +372,21 @@ const Admin: React.FC = () => {
                             </h3>
                             <div className="grid gap-4">
                                 {recentUpdates.length === 0 ? (
-                                    <div className="text-gray-400 text-center py-8">尚無更新紀錄</div>
+                                    <EmptyState
+                                        title="尚無更新紀錄"
+                                        description="會員編輯後，近期異動會顯示於此。"
+                                        className="border-white/5 bg-transparent py-10"
+                                    />
                                 ) : (
                                     recentUpdates.map((item) => (
                                         <div key={item.id} className="flex items-center justify-between p-4 bg-white/5 rounded-xl border border-white/5 hover:border-primary/50 transition-colors">
                                             <div className="flex items-center gap-4">
                                                 <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-800">
-                                                    <img src={item.photo || siteConfig.defaultPhoto} alt={item.name} className="w-full h-full object-cover" />
+                                                    <SmartImage
+                                                        src={item.photo || siteConfig.defaultPhoto}
+                                                        alt={item.name}
+                                                        className="w-full h-full"
+                                                    />
                                                 </div>
                                                 <div>
                                                     <div className="font-bold text-white">{item.name}</div>
@@ -545,7 +577,11 @@ const Admin: React.FC = () => {
                             {/* Mobile: Card Layout */}
                             <div className="md:hidden space-y-3">
                                 {referrals.length === 0 ? (
-                                    <div className="text-center text-gray-400 py-8">尚無引薦單資料</div>
+                                    <EmptyState
+                                        title="尚無引薦單資料"
+                                        description="建立第一筆引薦案例後會顯示於此列表。"
+                                        className="border-white/5 bg-transparent py-8"
+                                    />
                                 ) : referrals.map(ref => (
                                     <div key={ref.id} className="bg-white/5 border border-white/10 rounded-xl p-4">
                                         <div className="flex justify-between items-start mb-2">
@@ -580,7 +616,15 @@ const Admin: React.FC = () => {
                                     </thead>
                                     <tbody>
                                         {referrals.length === 0 ? (
-                                            <tr><td colSpan={5} className="p-8 text-center text-gray-400">尚無引薦單資料</td></tr>
+                                            <tr>
+                                                <td colSpan={5} className="p-6">
+                                                    <EmptyState
+                                                        title="尚無引薦單資料"
+                                                        description="於上方表單新增案例後，將出現在此表格。"
+                                                        className="border-white/5 bg-transparent py-8"
+                                                    />
+                                                </td>
+                                            </tr>
                                         ) : referrals.map(ref => (
                                             <tr key={ref.id} className="border-b border-white/5 hover:bg-white/5 transition-colors">
                                                 <td className="p-4 text-gray-300 text-sm">
