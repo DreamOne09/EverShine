@@ -10,6 +10,7 @@ import { Search, Edit } from 'lucide-react';
 import PageHero from '../components/common/PageHero';
 import SEO from '../components/common/SEO';
 import { siteConfig } from '../config/site.config';
+import { CardSkeleton, ErrorFallback, EmptyState } from '../components/loading';
 
 const CATEGORIES = [...siteConfig.industries];
 
@@ -89,13 +90,30 @@ const Members: React.FC = () => {
         });
     }, [members, activeCategory, searchQuery]);
 
-    if (loading) return (
-        <div className="flex justify-center items-center min-h-[60vh]">
-            <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
-        </div>
-    );
+    if (loading) {
+        return (
+            <div className="min-h-[70vh] container mx-auto px-4 py-8 pt-24 md:pt-28">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    {Array.from({ length: 8 }).map((_, i) => (
+                        <CardSkeleton key={i} />
+                    ))}
+                </div>
+            </div>
+        );
+    }
 
-    if (error) return <div className="text-center py-20 text-red-400">無法載入會員資料: {error}</div>;
+    if (error) {
+        return (
+            <div className="min-h-[60vh] flex items-center justify-center px-4 py-20">
+                <ErrorFallback
+                    title="無法載入會員資料"
+                    message={error}
+                    onRetry={() => window.location.reload()}
+                    className="max-w-md w-full"
+                />
+            </div>
+        );
+    }
 
     return (
         <div className="min-h-screen relative">
@@ -214,15 +232,25 @@ const Members: React.FC = () => {
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
-                        className="col-span-full text-center text-gray-400 py-16 bg-white/5 rounded-2xl border border-white/5 backdrop-blur-sm"
+                        className="col-span-full max-w-xl mx-auto"
                     >
-                        <p className="text-xl">沒有找到符合條件的會員</p>
-                        <button
-                            onClick={() => { setSearchQuery(''); setActiveCategory('All'); }}
-                            className="mt-4 px-6 py-2 bg-primary text-bg-dark rounded-full hover:bg-[#b08d55] transition-colors font-bold"
-                        >
-                            清除搜尋條件
-                        </button>
+                        <EmptyState
+                            title="沒有找到符合條件的會員"
+                            description="試試調整搜尋關鍵字或產業篩選。"
+                            action={
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        setSearchQuery('');
+                                        setActiveCategory('全部');
+                                    }}
+                                    className="px-6 py-2.5 bg-primary text-bg-dark rounded-full hover:bg-primary/90 transition-colors font-bold"
+                                >
+                                    清除搜尋條件
+                                </button>
+                            }
+                            className="border-white/10 bg-white/[0.03]"
+                        />
                     </motion.div>
                 )}
             </div>

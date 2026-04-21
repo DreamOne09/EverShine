@@ -7,7 +7,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { Lock, Mail, AlertCircle, CheckCircle } from 'lucide-react';
 import SEO from '../components/common/SEO';
 import { siteConfig } from '../config/site.config';
-import { CardSkeleton } from '../components/loading';
+import { CardSkeleton, ListSkeleton } from '../components/loading';
 
 declare global {
     interface Window {
@@ -70,6 +70,8 @@ const Login: React.FC = () => {
     const [unclaimedMembers, setUnclaimedMembers] = useState<any[]>([]);
     const [selectedMemberId, setSelectedMemberId] = useState<string | number | null>(null);
     const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+    const [profileCheckLoading, setProfileCheckLoading] = useState(false);
+    const [claimListLoading, setClaimListLoading] = useState(false);
 
     // Site Key Placeholder - User should replace this with their actual Cloudflare Turnstile Site Key
     const TURNSTILE_SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY || '1x00000000000000000000AA'; // Testing key
@@ -124,6 +126,7 @@ const Login: React.FC = () => {
     const checkProfile = async () => {
         if (!user) return;
 
+        setProfileCheckLoading(true);
         try {
             // 1. Check if user already has a member profile
             const { data, error } = await supabase
@@ -150,19 +153,25 @@ const Login: React.FC = () => {
             // Safety fallback
             loadUnclaimedMembers();
             setMode('claim');
+        } finally {
+            setProfileCheckLoading(false);
         }
     };
 
     const loadUnclaimedMembers = async () => {
-        // Fetch all members who don't have a user_id yet
-        const { data } = await supabase
-            .from('members')
-            .select('id, name, industry, photo')
-            .is('user_id', null)
-            .order('id', { ascending: true });
+        setClaimListLoading(true);
+        try {
+            const { data } = await supabase
+                .from('members')
+                .select('id, name, industry, photo')
+                .is('user_id', null)
+                .order('id', { ascending: true });
 
-        if (data) {
-            setUnclaimedMembers(data);
+            if (data) {
+                setUnclaimedMembers(data);
+            }
+        } finally {
+            setClaimListLoading(false);
         }
     };
 
@@ -267,7 +276,11 @@ const Login: React.FC = () => {
         }
     };
 
-    if (authLoading) {
+    const showSessionSkeleton =
+        authLoading ||
+        (user && profileCheckLoading && mode !== 'claim');
+
+    if (showSessionSkeleton) {
         return (
             <div className="min-h-[calc(100dvh-80px)] flex items-center justify-center py-12 pb-24 md:pb-12 px-4 container mx-auto">
                 <SEO title="會員登入" noindex />
@@ -487,7 +500,9 @@ const Login: React.FC = () => {
                         </div>
 
                         <div className="max-h-48 md:max-h-60 overflow-y-auto space-y-2 pr-2 custom-scrollbar -mx-1 px-1">
-                            {unclaimedMembers.length === 0 ? (
+                            {claimListLoading ? (
+                                <ListSkeleton rows={6} className="py-2" />
+                            ) : unclaimedMembers.length === 0 ? (
                                 <div className="text-center text-gray-500 py-8">
                                     沒有可供認領的會員資料
                                 </div>

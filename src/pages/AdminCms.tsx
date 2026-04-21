@@ -9,7 +9,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { ArrowLeft, Save } from 'lucide-react';
 import SEO from '../components/common/SEO';
 import { sanitizeText } from '../lib/sanitize';
-import { LoadingButton } from '../components/loading';
+import { LoadingButton, ModalContentSkeleton, TopProgressBar } from '../components/loading';
 
 const DEFAULT_SLUG = 'site';
 
@@ -140,9 +140,12 @@ const AdminCms: React.FC = () => {
 
     if (authLoading || fetching) {
         return (
-            <div className="min-h-dvh pt-28 text-center text-white px-4">
+            <div className="min-h-dvh pt-24 md:pt-28 px-4 container mx-auto max-w-4xl">
                 <SEO title="CMS 編輯" noindex />
-                載入編輯器…
+                <TopProgressBar active />
+                <div className="rounded-2xl border border-white/10 bg-bg-dark/80 p-6 mt-4">
+                    <ModalContentSkeleton />
+                </div>
             </div>
         );
     }

@@ -8,6 +8,7 @@ import imageCompression from 'browser-image-compression';
 import { useAuth } from '../contexts/AuthContext';
 import type { Member } from '../types';
 import SEO from '../components/common/SEO';
+import { CardSkeleton } from '../components/loading';
 import { sanitizeText, sanitizeUrl } from '../lib/sanitize';
 import { siteConfig } from '../config/site.config';
 
@@ -326,7 +327,21 @@ const MemberEdit: React.FC = () => {
         }
     };
 
-    if (authLoading) return <div className="min-h-screen text-white flex items-center justify-center">載入中...</div>;
+    if (authLoading) {
+        return (
+            <div className="min-h-screen flex items-center justify-center px-4 pt-24 pb-12">
+                <CardSkeleton className="w-full max-w-2xl" />
+            </div>
+        );
+    }
+
+    if (user && loading) {
+        return (
+            <div className="min-h-screen flex items-center justify-center px-4 pt-24 pb-12">
+                <CardSkeleton className="w-full max-w-2xl" />
+            </div>
+        );
+    }
 
     return (
         <div className="min-h-dvh pt-24 md:pt-32 pb-32 md:pb-12 px-4 container mx-auto max-w-4xl">

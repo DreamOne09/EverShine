@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Edit, Trash2, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../lib/supabase';
+import { TableSkeleton, EmptyState, SmartImage } from '../loading';
 
 interface Member {
     id: string;
@@ -40,8 +41,18 @@ const MemberList: React.FC<Props> = ({ members, loading, onRefresh }) => {
         }
     };
 
+    if (loading) {
+        return <TableSkeleton columns={4} rows={8} className="mt-2" />;
+    }
+
     if (displayed.length === 0) {
-        return <div className="text-center text-gray-500 py-8">尚無會員資料</div>;
+        return (
+            <EmptyState
+                title="尚無會員資料"
+                description="沒有符合條件的會員，或列表仍為空。可調整搜尋或新增會員。"
+                className="border-white/5 bg-transparent py-12"
+            />
+        );
     }
 
     return (
@@ -52,7 +63,11 @@ const MemberList: React.FC<Props> = ({ members, loading, onRefresh }) => {
                     <div key={member.id} className="bg-white/5 border border-white/10 rounded-xl p-4">
                         <div className="flex items-center gap-3 mb-3">
                             <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-700 shrink-0">
-                                {member.photo && <img src={member.photo} alt={member.name} className="w-full h-full object-cover" />}
+                                <SmartImage
+                                    src={member.photo || '/images/assets/logo/白色正方形logo.png'}
+                                    alt={member.name}
+                                    className="w-full h-full object-cover"
+                                />
                             </div>
                             <div className="min-w-0 flex-1">
                                 <div className="font-bold text-white truncate">{member.name}</div>
@@ -94,7 +109,11 @@ const MemberList: React.FC<Props> = ({ members, loading, onRefresh }) => {
                             <tr key={member.id} className="border-b border-white/5 hover:bg-white/5 transition-colors">
                                 <td className="p-4 flex items-center gap-3">
                                     <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-700 shrink-0">
-                                        {member.photo && <img src={member.photo} alt={member.name} className="w-full h-full object-cover" />}
+                                        <SmartImage
+                                            src={member.photo || '/images/assets/logo/白色正方形logo.png'}
+                                            alt={member.name}
+                                            className="w-full h-full object-cover"
+                                        />
                                     </div>
                                     <span className="font-medium text-white">{member.name}</span>
                                 </td>

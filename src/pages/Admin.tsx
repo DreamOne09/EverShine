@@ -15,6 +15,8 @@ import {
     EmptyState,
     ErrorFallback,
     SmartImage,
+    TopProgressBar,
+    TableSkeleton,
 } from '../components/loading';
 import { siteConfig } from '../config/site.config';
 import { sanitizeText } from '../lib/sanitize';
@@ -24,6 +26,8 @@ const Admin: React.FC = () => {
     const { user } = useAuth();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
+    /** 第一次進入後台：全頁骨架；之後僅顯示頂部進度條 */
+    const [initialLoad, setInitialLoad] = useState(true);
     const [dashboardError, setDashboardError] = useState<string | null>(null);
     const [stats, setStats] = useState({
         totalMembers: 0,
@@ -202,6 +206,7 @@ const Admin: React.FC = () => {
             setDashboardError(error instanceof Error ? error.message : '載入後台資料時發生錯誤');
         } finally {
             setLoading(false);
+            setInitialLoad(false);
         }
     };
 
@@ -261,7 +266,7 @@ const Admin: React.FC = () => {
         m.industry?.toLowerCase().includes(memberSearch.toLowerCase())
     );
 
-    if (loading) {
+    if (loading && initialLoad) {
         return <MainLayoutSkeleton />;
     }
 
@@ -280,6 +285,7 @@ const Admin: React.FC = () => {
 
     return (
         <div className="min-h-dvh pt-24 md:pt-32 pb-24 md:pb-12 px-4 container mx-auto">
+            <TopProgressBar active={loading && !initialLoad} />
             <SEO title="管理後台" noindex />
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
                 <h1 className="text-2xl md:text-3xl font-bold text-white flex items-center gap-3 flex-wrap">

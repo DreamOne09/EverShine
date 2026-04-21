@@ -9,3 +9,4 @@ export { TableSkeleton } from './TableSkeleton';
 export { EmptyState } from './EmptyState';
 export { ErrorFallback } from './ErrorFallback';
 export { SkeletonBlock } from './skeleton-primitives';
+export { RouteFallback } from './RouteFallback';

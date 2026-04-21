@@ -7,6 +7,7 @@ import '@blocknote/react/style.css';
 import { supabase } from '../lib/supabase';
 import SEO from '../components/common/SEO';
 import { ArrowLeft } from 'lucide-react';
+import { ModalContentSkeleton, TopProgressBar } from '../components/loading';
 
 const evershineBnTheme = `
 .bn-container[data-color-scheme="dark"] {
@@ -74,9 +75,12 @@ const CmsPageView: React.FC = () => {
 
     if (!ready) {
         return (
-            <div className="min-h-dvh pt-28 text-center text-gray-400">
+            <div className="min-h-dvh pt-24 md:pt-28 px-4 container mx-auto max-w-3xl">
                 <SEO title={title || '內容頁'} />
-                載入中…
+                <TopProgressBar active />
+                <div className="rounded-2xl border border-white/10 bg-bg-dark/80 p-6 mt-4">
+                    <ModalContentSkeleton />
+                </div>
             </div>
         );
     }

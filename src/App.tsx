@@ -18,6 +18,7 @@ import Login from './pages/Login';
 import Privacy from './pages/Privacy';
 import Admin from './pages/Admin';
 import NotFound from './pages/NotFound';
+import { RouteFallback } from './components/loading';
 
 const AdminCms = lazy(() => import('./pages/AdminCms'));
 const CmsPageView = lazy(() => import('./pages/CmsPageView'));
@@ -47,7 +48,7 @@ const AnimatedRoutes = () => {
 
   return (
     <AnimatePresence mode="wait">
-      <Suspense fallback={<div className="min-h-[50dvh] pt-32 text-center text-gray-400">載入中…</div>}>
+      <Suspense fallback={<RouteFallback />}>
         <Routes location={location} key={location.pathname}>
           <Route path="/" element={<Home />} />
           <Route path="/bni" element={<BNI />} />

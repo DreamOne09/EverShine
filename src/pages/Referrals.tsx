@@ -4,18 +4,36 @@ import { motion } from 'framer-motion';
 import { ArrowRight, Quote } from 'lucide-react';
 import PageHero from '../components/common/PageHero';
 import SEO from '../components/common/SEO';
+import { CardSkeleton, ErrorFallback, EmptyState, SmartImage } from '../components/loading';
 
 const Referrals: React.FC = () => {
     const { referrals, loading, error } = useReferrals();
     const [selectedReferralId, setSelectedReferralId] = React.useState<string | null>(null);
 
-    if (loading) return (
-        <div className="flex justify-center items-center min-h-[60vh]">
-            <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
-        </div>
-    );
+    if (loading) {
+        return (
+            <div className="min-h-[70vh] container mx-auto px-4 py-12 pt-24 md:pt-28 max-w-6xl">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+                    {Array.from({ length: 4 }).map((_, i) => (
+                        <CardSkeleton key={i} />
+                    ))}
+                </div>
+            </div>
+        );
+    }
 
-    if (error) return <div className="text-center py-20 text-red-400">無法載入引薦資料: {error}</div>;
+    if (error) {
+        return (
+            <div className="min-h-[60vh] flex items-center justify-center px-4 py-20">
+                <ErrorFallback
+                    title="無法載入引薦資料"
+                    message={error}
+                    onRetry={() => window.location.reload()}
+                    className="max-w-md w-full"
+                />
+            </div>
+        );
+    }
 
     const toggleReferral = (id: string) => {
         if (selectedReferralId === id) {
@@ -62,6 +80,15 @@ const Referrals: React.FC = () => {
 
                 {/* Referrals Grid - Waterfall/Vertical Stack on Mobile */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 pb-8 md:pb-0 max-w-6xl mx-auto">
+                    {referrals.length === 0 && (
+                        <div className="col-span-full max-w-xl mx-auto">
+                            <EmptyState
+                                title="尚無引薦案例"
+                                description="目前沒有可顯示的引薦資料。"
+                                className="border-white/10 bg-white/[0.03]"
+                            />
+                        </div>
+                    )}
                     {referrals.map((referral, index) => {
                         const isSelected = selectedReferralId === referral.id;
                         return (
@@ -137,11 +164,10 @@ const Referrals: React.FC = () => {
                                                 {/* Referrer */}
                                                 <div className="flex items-center gap-4 w-[45%]">
                                                     <div className="w-12 h-12 rounded-full overflow-hidden border border-white/20 shrink-0">
-                                                        <img
+                                                        <SmartImage
                                                             src={referral.referrer.photo || '/images/assets/logo/白色正方形logo.png'}
                                                             alt={referral.referrer.name}
                                                             className="w-full h-full object-cover object-[center_top]"
-                                                            onError={(e) => e.currentTarget.src = '/images/assets/logo/白色正方形logo.png'}
                                                         />
                                                     </div>
                                                     <div className="overflow-hidden">
@@ -165,11 +191,10 @@ const Referrals: React.FC = () => {
                                                         <div className="text-xs text-gray-400 truncate">{referral.referee.industry}</div>
                                                     </div>
                                                     <div className="w-12 h-12 rounded-full overflow-hidden border border-white/20 shrink-0">
-                                                        <img
+                                                        <SmartImage
                                                             src={referral.referee.photo || '/images/assets/logo/白色正方形logo.png'}
                                                             alt={referral.referee.name}
                                                             className="w-full h-full object-cover object-[center_top]"
-                                                            onError={(e) => e.currentTarget.src = '/images/assets/logo/白色正方形logo.png'}
                                                         />
                                                     </div>
                                                 </div>
