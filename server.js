@@ -96,7 +96,7 @@ function injectSeoMeta(html, routePath) {
     return result;
 }
 
-const NOINDEX_ROUTES = ['/login', '/admin', '/member-edit'];
+const NOINDEX_ROUTES = ['/login', '/admin', '/member-edit', '/admin/cms'];
 
 function injectNoindex(html) {
     return html.replace(

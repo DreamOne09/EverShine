@@ -55,6 +55,9 @@ const MemberEdit: React.FC = () => {
     // Track if there are unsaved changes
     const [hasChanges, setHasChanges] = useState(false);
 
+    const [isAdminUser, setIsAdminUser] = useState(false);
+    const [unbindLoading, setUnbindLoading] = useState(false);
+
     // Helper to update state and mark as dirty
     const updateField = (setter: (val: any) => void, value: any) => {
         setter(value);
@@ -84,6 +87,7 @@ const MemberEdit: React.FC = () => {
                 .single();
 
             const isAdmin = currentUserData?.is_admin === true;
+            setIsAdminUser(isAdmin);
 
             // 2. Check URL params for target ID
             const searchParams = new URLSearchParams(window.location.search);
@@ -163,6 +167,46 @@ const MemberEdit: React.FC = () => {
             setMessage({ text: '無法載入會員資料', type: 'error' });
         } finally {
             setLoading(false);
+        }
+    };
+
+    const editingOtherMember = Boolean(
+        typeof window !== 'undefined' &&
+            new URLSearchParams(window.location.search).get('id') &&
+            isAdminUser
+    );
+
+    const handleUnbindProfile = async () => {
+        if (!user || !memberId || editingOtherMember) return;
+        if (
+            !confirm(
+                '確定要「解除綁定」嗎？解除後此會員卡將開放給他人認領，您需重新登入並再次認領。'
+            )
+        ) {
+            return;
+        }
+        setUnbindLoading(true);
+        try {
+            const { error } = await supabase
+                .from('members')
+                .update({ user_id: null, updatedAt: new Date().toISOString() })
+                .eq('id', memberId)
+                .eq('user_id', user.id);
+
+            if (error) throw error;
+            await signOut();
+            navigate('/login');
+        } catch (err: unknown) {
+            const msg = err instanceof Error ? err.message : String(err);
+            setMessage({
+                text:
+                    '解除綁定失敗：' +
+                    msg +
+                    '（若持續失敗，請確認 Supabase 已套用 members_self_update 的 RLS 更新）',
+                type: 'error',
+            });
+        } finally {
+            setUnbindLoading(false);
         }
     };
 
@@ -397,6 +441,22 @@ const MemberEdit: React.FC = () => {
                                     會員編號: {memberId || '-'}
                                 </div>
                             </div>
+
+                            {!editingOtherMember && (
+                                <div className="mt-6 pt-6 border-t border-white/10">
+                                    <p className="text-xs text-gray-500 mb-2 leading-relaxed">
+                                        若要改以其他帳號認領此會員卡，請先解除綁定，再登入新帳號並重新認領。
+                                    </p>
+                                    <button
+                                        type="button"
+                                        onClick={handleUnbindProfile}
+                                        disabled={unbindLoading || loading}
+                                        className="w-full py-2.5 rounded-lg text-sm font-medium border border-amber-500/40 text-amber-200/90 hover:bg-amber-500/10 transition-colors disabled:opacity-50"
+                                    >
+                                        {unbindLoading ? '處理中…' : '解除會員綁定'}
+                                    </button>
+                                </div>
+                            )}
                         </div>
                     </div>
 

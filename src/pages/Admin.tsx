@@ -1,11 +1,11 @@
 
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
 import {
     Users, Activity, DollarSign, Calendar,
-    Trash2, Plus, Save, Search, Shield, RefreshCw
+    Trash2, Plus, Save, Search, Shield, RefreshCw, FileEdit
 } from 'lucide-react';
 import StatsCard from '../components/common/StatsCard';
 import MemberList from '../components/admin/MemberList';
@@ -282,7 +282,7 @@ const Admin: React.FC = () => {
         <div className="min-h-dvh pt-24 md:pt-32 pb-24 md:pb-12 px-4 container mx-auto">
             <SEO title="管理後台" noindex />
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
-                <h1 className="text-2xl md:text-3xl font-bold text-white flex items-center gap-3">
+                <h1 className="text-2xl md:text-3xl font-bold text-white flex items-center gap-3 flex-wrap">
                     <Activity className="text-primary" size={24} /> 管理後台
                     <button
                         onClick={fetchDashboardData}
@@ -291,6 +291,12 @@ const Admin: React.FC = () => {
                     >
                         <RefreshCw size={18} />
                     </button>
+                    <Link
+                        to="/admin/cms"
+                        className="inline-flex items-center gap-2 text-sm font-bold text-primary hover:text-white border border-primary/40 rounded-full px-3 py-1.5 hover:bg-primary/10 transition-colors"
+                    >
+                        <FileEdit size={16} /> CMS
+                    </Link>
                 </h1>
                 <div className="w-full md:w-auto overflow-x-auto -mx-4 px-4 md:mx-0 md:px-0 scrollbar-hide">
                     <div className="flex bg-white/5 p-1 rounded-lg backdrop-blur-sm border border-white/10 min-w-max">

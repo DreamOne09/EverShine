@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { LogIn, LogOut, User, Facebook, Instagram, Shield } from 'lucide-react';
+import { LogIn, LogOut, User, Facebook, Instagram, Shield, FileEdit } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { supabase } from '../../lib/supabase';
 import { trackEvent } from '../../lib/analytics';
@@ -118,10 +118,16 @@ const Navbar: React.FC = () => {
                     {user ? (
                         <div className="flex items-center gap-4 border-l border-white/20 pl-8 h-6">
                             {isAdmin && (
-                                <NavLink to="/admin" className="flex items-center gap-2 text-sm text-[#FFD700] hover:text-white transition-colors font-bold mr-2" title="管理所有會員">
-                                    <Shield size={16} />
-                                    <span>管理後台</span>
-                                </NavLink>
+                                <>
+                                    <NavLink to="/admin" className="flex items-center gap-2 text-sm text-[#FFD700] hover:text-white transition-colors font-bold mr-2" title="管理所有會員">
+                                        <Shield size={16} />
+                                        <span>管理後台</span>
+                                    </NavLink>
+                                    <NavLink to="/admin/cms" className="flex items-center gap-2 text-sm text-primary/90 hover:text-white transition-colors font-bold mr-2" title="CMS 編輯">
+                                        <FileEdit size={16} />
+                                        <span>CMS</span>
+                                    </NavLink>
+                                </>
                             )}
                             <NavLink to="/member-edit" className="flex items-center gap-2 text-sm text-gray-300 hover:text-white transition-colors">
                                 <User size={16} />

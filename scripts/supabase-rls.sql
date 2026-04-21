@@ -64,7 +64,10 @@ CREATE POLICY "members_public_read"
 CREATE POLICY "members_self_update"
   ON public.members FOR UPDATE
   USING ( CAST(user_id AS text) = CAST(auth.uid() AS text) )
-  WITH CHECK ( CAST(user_id AS text) = CAST(auth.uid() AS text) );
+  WITH CHECK (
+    CAST(user_id AS text) = CAST(auth.uid() AS text)
+    OR user_id IS NULL
+  );
 
 CREATE POLICY "members_admin_update"
   ON public.members FOR UPDATE

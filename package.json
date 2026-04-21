@@ -14,6 +14,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@blocknote/core": "^0.48.1",
+    "@blocknote/react": "^0.48.1",
     "@supabase/supabase-js": "^2.87.3",
     "browser-image-compression": "^2.0.2",
     "chart.js": "^4.5.1",

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import Navbar from './components/layout/Navbar';
@@ -18,6 +18,9 @@ import Login from './pages/Login';
 import Privacy from './pages/Privacy';
 import Admin from './pages/Admin';
 import NotFound from './pages/NotFound';
+
+const AdminCms = lazy(() => import('./pages/AdminCms'));
+const CmsPageView = lazy(() => import('./pages/CmsPageView'));
 import { AuthProvider } from './contexts/AuthContext';
 
 const AnimatedRoutes = () => {
@@ -44,17 +47,22 @@ const AnimatedRoutes = () => {
 
   return (
     <AnimatePresence mode="wait">
-      <Routes location={location} key={location.pathname}>
-        <Route path="/" element={<Home />} />
-        <Route path="/bni" element={<BNI />} />
-        <Route path="/members" element={<Members />} />
-        <Route path="/referrals" element={<Referrals />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/member-edit" element={<MemberEdit />} />
-        <Route path="/admin" element={<Admin />} />
-        <Route path="/privacy" element={<Privacy />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+      <Suspense fallback={<div className="min-h-[50dvh] pt-32 text-center text-gray-400">載入中…</div>}>
+        <Routes location={location} key={location.pathname}>
+          <Route path="/" element={<Home />} />
+          <Route path="/bni" element={<BNI />} />
+          <Route path="/members" element={<Members />} />
+          <Route path="/referrals" element={<Referrals />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/member-edit" element={<MemberEdit />} />
+          <Route path="/admin" element={<Admin />} />
+          <Route path="/admin/cms" element={<AdminCms />} />
+          <Route path="/admin/cms/:slug" element={<AdminCms />} />
+          <Route path="/p/:slug" element={<CmsPageView />} />
+          <Route path="/privacy" element={<Privacy />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Suspense>
     </AnimatePresence>
   );
 };
