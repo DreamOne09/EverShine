@@ -5,7 +5,7 @@ import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
 import {
     Users, Activity, DollarSign, Calendar,
-    Trash2, Plus, Save, Search, Shield, RefreshCw, FileEdit
+    Trash2, Plus, Save, Search, Shield, RefreshCw, FileEdit, Pencil
 } from 'lucide-react';
 import StatsCard from '../components/common/StatsCard';
 import MemberList from '../components/admin/MemberList';
@@ -57,6 +57,18 @@ const Admin: React.FC = () => {
 
     // Referrals Data
     const [referrals, setReferrals] = useState<any[]>([]);
+    const createEmptyReferralForm = () => ({
+        title: '',
+        description: '',
+        referrer_name: '',
+        referee_name: '',
+        referrer_story: '',
+        referee_story: '',
+        metrics_amount: '洽談中',
+        metrics_type: '專案合作',
+    });
+    const [referralForm, setReferralForm] = useState(createEmptyReferralForm);
+    const [editingReferralId, setEditingReferralId] = useState<string | null>(null);
 
     // Marketing Stats
     const [marketingStats, setMarketingStats] = useState({
@@ -243,6 +255,58 @@ const Admin: React.FC = () => {
         } catch (e: any) {
             alert('刪除失敗: ' + e.message);
         }
+    };
+
+    const submitReferralForm = async () => {
+        const metrics = {
+            amount: referralForm.metrics_amount || '洽談中',
+            type: referralForm.metrics_type || '專案合作',
+        };
+        const row = {
+            title: sanitizeText(referralForm.title, 200),
+            description: sanitizeText(referralForm.description, 500),
+            referrer_name: sanitizeText(referralForm.referrer_name, 50),
+            referee_name: sanitizeText(referralForm.referee_name, 50),
+            referrer_story: sanitizeText(referralForm.referrer_story, 4000),
+            referee_story: sanitizeText(referralForm.referee_story, 4000),
+            metrics,
+        };
+        if (!row.title || !row.referrer_name || !row.referee_name) {
+            alert('請填寫標題與引薦人／被引薦人姓名');
+            return;
+        }
+        try {
+            if (editingReferralId) {
+                const { error } = await supabase.from('referrals').update(row).eq('id', editingReferralId);
+                if (error) throw error;
+                alert('引薦案例已更新（前台引薦頁將顯示此內容）');
+            } else {
+                const { error } = await supabase.from('referrals').insert(row);
+                if (error) throw error;
+                alert('引薦案例已新增');
+            }
+            setReferralForm(createEmptyReferralForm());
+            setEditingReferralId(null);
+            fetchDashboardData();
+        } catch (e: any) {
+            alert('儲存失敗: ' + e.message);
+        }
+    };
+
+    const startEditReferral = (ref: any) => {
+        const m = ref.metrics && typeof ref.metrics === 'object' ? ref.metrics : {};
+        setEditingReferralId(ref.id);
+        setReferralForm({
+            title: ref.title || '',
+            description: ref.description || '',
+            referrer_name: ref.referrer_name || '',
+            referee_name: ref.referee_name || '',
+            referrer_story: ref.referrer_story || '',
+            referee_story: ref.referee_story || '',
+            metrics_amount: (m as { amount?: string }).amount ?? '洽談中',
+            metrics_type: (m as { type?: string }).type ?? '專案合作',
+        });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
     const updateHomeStats = async () => {
@@ -479,17 +543,33 @@ const Admin: React.FC = () => {
                 {/* REFERRALS TAB */}
                 {activeTab === 'referrals' && (
                     <div className="space-y-6">
-                        {/* Add New Case Form */}
+                        <p className="text-sm text-gray-400 -mt-2 mb-2">
+                            此處管理<strong className="text-primary">引薦案例</strong>（前台 <Link to="/referrals" className="text-primary hover:underline">/referrals</Link>）。
+                            首頁「引薦成果」數字請至<strong className="text-white">設定</strong>分頁更新。
+                        </p>
+                        {/* Add / Edit Case Form */}
                         <div className="bg-bg-dark/50 border border-white/10 rounded-2xl p-4 md:p-6">
-                            <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
-                                <Plus size={20} className="text-primary" /> 新增引薦案例
+                            <h3 className="text-xl font-bold text-white mb-2 flex items-center gap-2 flex-wrap">
+                                {editingReferralId ? (
+                                    <>
+                                        <Pencil size={20} className="text-primary" /> 編輯引薦案例
+                                    </>
+                                ) : (
+                                    <>
+                                        <Plus size={20} className="text-primary" /> 新增引薦案例
+                                    </>
+                                )}
                             </h3>
+                            {editingReferralId && (
+                                <p className="text-xs text-amber-200/90 mb-4">編輯中：儲存後將更新資料庫並同步至引薦案例頁。</p>
+                            )}
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
                                     <label className="block text-gray-400 text-sm mb-1">引薦案例標題</label>
                                     <input
                                         type="text"
-                                        id="ref_title"
+                                        value={referralForm.title}
+                                        onChange={(e) => setReferralForm({ ...referralForm, title: e.target.value })}
                                         placeholder="例如：【💼 合作共創新價值】"
                                         className="w-full bg-black/20 border border-white/10 rounded-lg p-3 text-white focus:border-primary focus:outline-none"
                                     />
@@ -498,16 +578,18 @@ const Admin: React.FC = () => {
                                     <label className="block text-gray-400 text-sm mb-1">簡短描述</label>
                                     <input
                                         type="text"
-                                        id="ref_desc"
+                                        value={referralForm.description}
+                                        onChange={(e) => setReferralForm({ ...referralForm, description: e.target.value })}
                                         placeholder="例如：生醫公司新產品線包裝設計引薦"
                                         className="w-full bg-black/20 border border-white/10 rounded-lg p-3 text-white focus:border-primary focus:outline-none"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-gray-400 text-sm mb-1">引薦人姓名</label>
+                                    <label className="block text-gray-400 text-sm mb-1">引薦人姓名（需與會員名錄一致以顯示頭像）</label>
                                     <input
                                         type="text"
-                                        id="ref_referrer"
+                                        value={referralForm.referrer_name}
+                                        onChange={(e) => setReferralForm({ ...referralForm, referrer_name: e.target.value })}
                                         className="w-full bg-black/20 border border-white/10 rounded-lg p-3 text-white focus:border-primary focus:outline-none"
                                     />
                                 </div>
@@ -515,69 +597,70 @@ const Admin: React.FC = () => {
                                     <label className="block text-gray-400 text-sm mb-1">被引薦人姓名</label>
                                     <input
                                         type="text"
-                                        id="ref_referee"
+                                        value={referralForm.referee_name}
+                                        onChange={(e) => setReferralForm({ ...referralForm, referee_name: e.target.value })}
+                                        className="w-full bg-black/20 border border-white/10 rounded-lg p-3 text-white focus:border-primary focus:outline-none"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-gray-400 text-sm mb-1">成效（顯示於案例卡）</label>
+                                    <input
+                                        type="text"
+                                        value={referralForm.metrics_amount}
+                                        onChange={(e) => setReferralForm({ ...referralForm, metrics_amount: e.target.value })}
+                                        placeholder="例如：洽談中、$120萬"
+                                        className="w-full bg-black/20 border border-white/10 rounded-lg p-3 text-white focus:border-primary focus:outline-none"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-gray-400 text-sm mb-1">類型</label>
+                                    <input
+                                        type="text"
+                                        value={referralForm.metrics_type}
+                                        onChange={(e) => setReferralForm({ ...referralForm, metrics_type: e.target.value })}
+                                        placeholder="例如：專案合作"
                                         className="w-full bg-black/20 border border-white/10 rounded-lg p-3 text-white focus:border-primary focus:outline-none"
                                     />
                                 </div>
                                 <div className="md:col-span-2">
                                     <label className="block text-gray-400 text-sm mb-1">引薦人自述 (Referrer Story)</label>
                                     <textarea
-                                        id="ref_referrer_story"
                                         rows={3}
+                                        value={referralForm.referrer_story}
+                                        onChange={(e) => setReferralForm({ ...referralForm, referrer_story: e.target.value })}
                                         className="w-full bg-black/20 border border-white/10 rounded-lg p-3 text-white focus:border-primary focus:outline-none"
-                                    ></textarea>
+                                    />
                                 </div>
                                 <div className="md:col-span-2">
                                     <label className="block text-gray-400 text-sm mb-1">被引薦人自述 (Referee Story)</label>
                                     <textarea
-                                        id="ref_referee_story"
                                         rows={3}
+                                        value={referralForm.referee_story}
+                                        onChange={(e) => setReferralForm({ ...referralForm, referee_story: e.target.value })}
                                         className="w-full bg-black/20 border border-white/10 rounded-lg p-3 text-white focus:border-primary focus:outline-none"
-                                    ></textarea>
+                                    />
                                 </div>
                             </div>
-                            <div className="mt-6 flex justify-end">
+                            <div className="mt-6 flex flex-wrap justify-end gap-3">
+                                {editingReferralId && (
+                                    <button
+                                        type="button"
+                                        onClick={() => {
+                                            setEditingReferralId(null);
+                                            setReferralForm(createEmptyReferralForm());
+                                        }}
+                                        className="px-5 py-3 border border-white/20 text-gray-300 rounded-lg hover:bg-white/5"
+                                    >
+                                        取消編輯
+                                    </button>
+                                )}
                                 <button
-                                    onClick={async () => {
-                                        const title = (document.getElementById('ref_title') as HTMLInputElement).value;
-                                        const description = (document.getElementById('ref_desc') as HTMLInputElement).value;
-                                        const referrer_name = (document.getElementById('ref_referrer') as HTMLInputElement).value;
-                                        const referee_name = (document.getElementById('ref_referee') as HTMLInputElement).value;
-                                        const referrer_story = (document.getElementById('ref_referrer_story') as HTMLTextAreaElement).value;
-                                        const referee_story = (document.getElementById('ref_referee_story') as HTMLTextAreaElement).value;
-
-                                        if (!title || !referrer_name || !referee_name) {
-                                            alert('請填寫必填欄位');
-                                            return;
-                                        }
-
-                                        const { error } = await supabase.from('referrals').insert({
-                                            title,
-                                            description,
-                                            referrer_name,
-                                            referee_name,
-                                            referrer_story,
-                                            referee_story,
-                                            metrics: { amount: '洽談中', type: '專案合作' }
-                                        });
-
-                                        if (error) {
-                                            alert('新增失敗: ' + error.message);
-                                        } else {
-                                            alert('新增成功！');
-                                            fetchDashboardData();
-                                            // Reset fields
-                                            (document.getElementById('ref_title') as HTMLInputElement).value = '';
-                                            (document.getElementById('ref_desc') as HTMLInputElement).value = '';
-                                            (document.getElementById('ref_referrer') as HTMLInputElement).value = '';
-                                            (document.getElementById('ref_referee') as HTMLInputElement).value = '';
-                                            (document.getElementById('ref_referrer_story') as HTMLTextAreaElement).value = '';
-                                            (document.getElementById('ref_referee_story') as HTMLTextAreaElement).value = '';
-                                        }
-                                    }}
+                                    type="button"
+                                    onClick={submitReferralForm}
                                     className="px-6 py-3 bg-primary text-bg-dark font-bold rounded-lg hover:bg-primary/90 transition-colors flex items-center gap-2"
                                 >
-                                    <Plus size={18} /> 提交引薦案例
+                                    {editingReferralId ? <Save size={18} /> : <Plus size={18} />}
+                                    {editingReferralId ? '儲存變更' : '提交引薦案例'}
                                 </button>
                             </div>
                         </div>
@@ -596,14 +679,26 @@ const Admin: React.FC = () => {
                                     />
                                 ) : referrals.map(ref => (
                                     <div key={ref.id} className="bg-white/5 border border-white/10 rounded-xl p-4">
-                                        <div className="flex justify-between items-start mb-2">
+                                        <div className="flex justify-between items-start mb-2 gap-2">
                                             <div className="text-sm font-bold text-white line-clamp-1 flex-1 mr-2">{ref.title}</div>
-                                            <button
-                                                onClick={() => handleDeleteReferral(ref.id)}
-                                                className="p-1.5 hover:bg-red-500/20 text-red-400 rounded-lg transition-colors shrink-0"
-                                            >
-                                                <Trash2 size={14} />
-                                            </button>
+                                            <div className="flex gap-1 shrink-0">
+                                                <button
+                                                    type="button"
+                                                    onClick={() => startEditReferral(ref)}
+                                                    className="p-1.5 hover:bg-primary/20 text-primary rounded-lg transition-colors"
+                                                    title="編輯"
+                                                >
+                                                    <Pencil size={14} />
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => handleDeleteReferral(ref.id)}
+                                                    className="p-1.5 hover:bg-red-500/20 text-red-400 rounded-lg transition-colors"
+                                                    title="刪除"
+                                                >
+                                                    <Trash2 size={14} />
+                                                </button>
+                                            </div>
                                         </div>
                                         <div className="text-xs text-gray-400 mb-2 line-clamp-1">{ref.description}</div>
                                         <div className="flex items-center justify-between text-xs">
@@ -649,12 +744,24 @@ const Admin: React.FC = () => {
                                                     <div className="text-xs text-gray-400 line-clamp-1">{ref.description}</div>
                                                 </td>
                                                 <td className="p-4 text-right">
-                                                    <button
-                                                        onClick={() => handleDeleteReferral(ref.id)}
-                                                        className="p-2 hover:bg-red-500/20 text-red-400 rounded-full transition-colors"
-                                                    >
-                                                        <Trash2 size={16} />
-                                                    </button>
+                                                    <div className="flex justify-end gap-1">
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => startEditReferral(ref)}
+                                                            className="p-2 hover:bg-primary/20 text-primary rounded-full transition-colors"
+                                                            title="編輯"
+                                                        >
+                                                            <Pencil size={16} />
+                                                        </button>
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => handleDeleteReferral(ref.id)}
+                                                            className="p-2 hover:bg-red-500/20 text-red-400 rounded-full transition-colors"
+                                                            title="刪除"
+                                                        >
+                                                            <Trash2 size={16} />
+                                                        </button>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         ))}

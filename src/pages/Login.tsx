@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { supabase } from '../lib/supabase';
@@ -11,49 +11,94 @@ import { CardSkeleton, ListSkeleton } from '../components/loading';
 
 declare global {
     interface Window {
-        turnstile: any;
+        turnstile: {
+            render: (el: HTMLElement, opts: Record<string, unknown>) => string;
+            remove: (id: string) => void;
+        };
     }
 }
 
-// Dedicated Turnstile Component to handle its own lifecycle strictly
-const TurnstileWidget: React.FC<{ siteKey: string, onVerify: (token: string) => void }> = ({ siteKey, onVerify }) => {
+const TURNSTILE_READY = 'evershine-turnstile-ready';
+
+/** 等待 Turnstile API（腳本 async defer，可能晚於首次 render） */
+function waitForTurnstile(maxMs = 15000): Promise<void> {
+    if (typeof window !== 'undefined' && window.turnstile?.render) {
+        return Promise.resolve();
+    }
+    return new Promise((resolve, reject) => {
+        const onReady = () => {
+            if (window.turnstile?.render) {
+                window.removeEventListener(TURNSTILE_READY, onReady);
+                resolve();
+            }
+        };
+        window.addEventListener(TURNSTILE_READY, onReady);
+        const t0 = Date.now();
+        const id = window.setInterval(() => {
+            if (window.turnstile?.render) {
+                window.clearInterval(id);
+                window.removeEventListener(TURNSTILE_READY, onReady);
+                resolve();
+            } else if (Date.now() - t0 > maxMs) {
+                window.clearInterval(id);
+                window.removeEventListener(TURNSTILE_READY, onReady);
+                reject(new Error('Turnstile 載入逾時，請重新整理頁面'));
+            }
+        }, 50);
+    });
+}
+
+// Dedicated Turnstile Component — 重試直到 API 可用
+const TurnstileWidget: React.FC<{ siteKey: string; onVerify: (token: string) => void }> = ({ siteKey, onVerify }) => {
     const containerRef = React.useRef<HTMLDivElement>(null);
     const widgetIdRef = React.useRef<string | null>(null);
+    const onVerifyRef = React.useRef(onVerify);
+    onVerifyRef.current = onVerify;
 
     useEffect(() => {
         let isMounted = true;
+        let cancelled = false;
 
-        const renderWidget = () => {
-            if (window.turnstile && containerRef.current && !widgetIdRef.current && isMounted) {
-                try {
-                    // Force clear container to prevent multiple iframes
-                    containerRef.current.innerHTML = '';
-                    widgetIdRef.current = window.turnstile.render(containerRef.current, {
-                        sitekey: siteKey,
-                        callback: (token: string) => {
-                            if (isMounted) onVerify(token);
-                        },
-                    });
-                } catch (e) {
-                    console.warn('Turnstile render failed:', e);
-                }
+        const tryRender = async () => {
+            try {
+                await waitForTurnstile();
+            } catch {
+                if (!isMounted) return;
+                console.warn('Turnstile 不可用');
+                return;
+            }
+            if (!isMounted || !containerRef.current || cancelled) return;
+            if (widgetIdRef.current) return;
+            try {
+                containerRef.current.innerHTML = '';
+                widgetIdRef.current = window.turnstile.render(containerRef.current, {
+                    sitekey: siteKey,
+                    callback: (token: string) => {
+                        if (isMounted) onVerifyRef.current(token);
+                    },
+                });
+            } catch (e) {
+                console.warn('Turnstile render failed:', e);
             }
         };
 
-        // Small delay to ensure DOM is ready
-        const timer = setTimeout(renderWidget, 300);
+        void tryRender();
 
         return () => {
             isMounted = false;
-            clearTimeout(timer);
+            cancelled = true;
             if (window.turnstile && widgetIdRef.current) {
-                window.turnstile.remove(widgetIdRef.current);
+                try {
+                    window.turnstile.remove(widgetIdRef.current);
+                } catch {
+                    /* ignore */
+                }
                 widgetIdRef.current = null;
             }
         };
-    }, [siteKey]); // Only re-run if siteKey changes
+    }, [siteKey]);
 
-    return <div ref={containerRef} className="flex justify-center"></div>;
+    return <div ref={containerRef} className="flex justify-center min-h-[65px]" />;
 };
 
 const Login: React.FC = () => {
@@ -64,116 +109,119 @@ const Login: React.FC = () => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [loading, setLoading] = useState(false);
-    const [message, setMessage] = useState<{ text: string, type: 'error' | 'success' } | null>(null);
+    const [message, setMessage] = useState<{ text: string; type: 'error' | 'success' } | null>(null);
 
     const [claimPassword, setClaimPassword] = useState('');
-    const [unclaimedMembers, setUnclaimedMembers] = useState<any[]>([]);
+    const [unclaimedMembers, setUnclaimedMembers] = useState<{ id: string | number; name: string; industry?: string; photo?: string }[]>([]);
     const [selectedMemberId, setSelectedMemberId] = useState<string | number | null>(null);
     const [captchaToken, setCaptchaToken] = useState<string | null>(null);
     const [profileCheckLoading, setProfileCheckLoading] = useState(false);
     const [claimListLoading, setClaimListLoading] = useState(false);
+    const [claimListError, setClaimListError] = useState<string | null>(null);
 
-    // Site Key Placeholder - User should replace this with their actual Cloudflare Turnstile Site Key
-    const TURNSTILE_SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY || '1x00000000000000000000AA'; // Testing key
+    const TURNSTILE_SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY || '1x00000000000000000000AA';
 
-    // Validation helpers
-    const validateEmail = (email: string) => {
+    const validateEmail = (value: string) => {
         const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return re.test(email);
+        return re.test(value);
     };
 
-    const validatePassword = async (password: string): Promise<{ valid: boolean; message: string }> => {
-        // 基本驗證
-        if (password.length < 8) {
+    const validatePassword = async (pwd: string): Promise<{ valid: boolean; message: string }> => {
+        if (pwd.length < 8) {
             return { valid: false, message: '密碼至少需要 8 個字元' };
         }
-        
-        const hasNumber = /\d/.test(password);
-        const hasLetter = /[a-zA-Z]/.test(password);
-        
+        const hasNumber = /\d/.test(pwd);
+        const hasLetter = /[a-zA-Z]/.test(pwd);
         if (!hasNumber || !hasLetter) {
             return { valid: false, message: '密碼需要包含英文字母與數字' };
         }
-        
-        // 檢查密碼是否洩漏（使用 HaveIBeenPwned API）
         try {
             const { checkPasswordLeaked } = await import('../lib/passwordSecurity');
-            const isLeaked = await checkPasswordLeaked(password);
-            
+            const isLeaked = await checkPasswordLeaked(pwd);
             if (isLeaked) {
                 return { valid: false, message: '此密碼已在洩漏資料庫中，請使用更安全的密碼' };
             }
         } catch (error) {
-            // 如果檢查失敗，不阻擋使用者（但記錄錯誤）
             console.warn('密碼洩漏檢查失敗，繼續驗證:', error);
         }
-        
         return { valid: true, message: '密碼符合要求' };
     };
 
-    useEffect(() => {
-        // If logged in, check profile linkage
-        if (user) {
-            checkProfile();
-        }
-    }, [user]);
-
-    // Cleanup token when switching modes
-    useEffect(() => {
-        setCaptchaToken(null);
-    }, [mode]);
-
-    const checkProfile = async () => {
-        if (!user) return;
-
-        setProfileCheckLoading(true);
-        try {
-            // 1. Check if user already has a member profile
-            const { data, error } = await supabase
-                .from('members')
-                .select('id, name')
-                .eq('user_id', user.id)
-                .single();
-
-            if (error) {
-                // If checking profile fails, we assume no profile linked yet (PGRST116)
-                // Proceed to claim mode
-                console.log('No profile linked, switching to claim mode:', error.message);
-                loadUnclaimedMembers();
-                setMode('claim');
-                return;
-            }
-
-            if (data) {
-                // Already matched, go to edit
-                navigate('/member-edit');
-            }
-        } catch (err) {
-            console.error('Unexpected error checking profile:', err);
-            // Safety fallback
-            loadUnclaimedMembers();
-            setMode('claim');
-        } finally {
-            setProfileCheckLoading(false);
-        }
-    };
-
-    const loadUnclaimedMembers = async () => {
+    const loadUnclaimedMembers = useCallback(async (): Promise<{ ok: boolean }> => {
         setClaimListLoading(true);
+        setClaimListError(null);
         try {
-            const { data } = await supabase
+            const { data, error } = await supabase
                 .from('members')
                 .select('id, name, industry, photo')
                 .is('user_id', null)
                 .order('id', { ascending: true });
 
-            if (data) {
-                setUnclaimedMembers(data);
+            if (error) {
+                setClaimListError(error.message || '無法載入可認領名單');
+                setUnclaimedMembers([]);
+                return { ok: false };
             }
+            setUnclaimedMembers(data || []);
+            return { ok: true };
         } finally {
             setClaimListLoading(false);
         }
-    };
+    }, []);
+
+    const checkProfile = useCallback(async () => {
+        if (!user) return;
+
+        setProfileCheckLoading(true);
+        try {
+            const { data, error } = await supabase
+                .from('members')
+                .select('id, name')
+                .eq('user_id', user.id)
+                .maybeSingle();
+
+            if (error) {
+                const dup =
+                    error.code === 'PGRST116' ||
+                    /multiple|more than one/i.test(error.message || '');
+                setMessage({
+                    text: dup
+                        ? '會員資料異常（多筆綁定同一帳號），請聯絡管理員處理。'
+                        : `無法確認會員綁定狀態：${error.message}。請稍後再試或聯絡管理員。`,
+                    type: 'error',
+                });
+                return;
+            }
+
+            if (!data) {
+                const listOk = await loadUnclaimedMembers();
+                if (listOk) {
+                    setMode('claim');
+                }
+                return;
+            }
+
+            navigate('/member-edit');
+        } catch (err) {
+            console.error('Unexpected error checking profile:', err);
+            setMessage({
+                text: err instanceof Error ? err.message : '檢查會員資料時發生錯誤',
+                type: 'error',
+            });
+        } finally {
+            setProfileCheckLoading(false);
+        }
+    }, [user, navigate, loadUnclaimedMembers]);
+
+    useEffect(() => {
+        if (user) {
+            void checkProfile();
+        }
+    }, [user, checkProfile]);
+
+    useEffect(() => {
+        setCaptchaToken(null);
+    }, [mode]);
 
     const handleAuth = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -182,17 +230,13 @@ const Login: React.FC = () => {
 
         try {
             if (mode === 'signup') {
-                // Validation checks
                 if (!validateEmail(email)) {
                     throw new Error('請輸入有效的 Email 格式');
                 }
-                
-                // 密碼驗證（包含洩漏檢查）
                 const passwordValidation = await validatePassword(password);
                 if (!passwordValidation.valid) {
                     throw new Error(passwordValidation.message);
                 }
-                
                 if (password !== confirmPassword) {
                     throw new Error('兩次輸入的密碼不一致');
                 }
@@ -202,7 +246,7 @@ const Login: React.FC = () => {
                     password,
                     options: {
                         captchaToken: captchaToken || undefined,
-                    }
+                    },
                 });
 
                 if (signUpErr) {
@@ -212,8 +256,6 @@ const Login: React.FC = () => {
                     throw signUpErr;
                 }
 
-                // If signUpData.user is null but there was no error, it usually means 
-                // the user already exists (Supabase security feature)
                 if (signUpData?.user && signUpData.session === null && signUpData.user.identities?.length === 0) {
                     setMessage({ text: '此 Email 已被註冊，請直接登入。', type: 'error' });
                     setMode('login');
@@ -222,17 +264,16 @@ const Login: React.FC = () => {
 
                 setMessage({ text: '註冊成功！請檢查信箱並點擊驗證連結。', type: 'success' });
                 setMode('login');
-                setCaptchaToken(null); // Reset captcha on success
+                setCaptchaToken(null);
             } else if (mode === 'login') {
                 const { error } = await supabase.auth.signInWithPassword({
                     email,
                     password,
                     options: {
                         captchaToken: captchaToken || undefined,
-                    }
+                    },
                 });
                 if (error) throw error;
-                // useEffect will trigger checkProfile
             } else if (mode === 'forgot') {
                 const { error } = await supabase.auth.resetPasswordForEmail(email, {
                     redirectTo: `${window.location.origin}/member-edit?reset=true`,
@@ -240,8 +281,8 @@ const Login: React.FC = () => {
                 if (error) throw error;
                 setMessage({ text: '密碼重設信已發送，請檢查您的信箱。', type: 'success' });
             }
-        } catch (err: any) {
-            setMessage({ text: err.message, type: 'error' });
+        } catch (err: unknown) {
+            setMessage({ text: err instanceof Error ? err.message : String(err), type: 'error' });
             setCaptchaToken(null);
         } finally {
             setLoading(false);
@@ -253,32 +294,29 @@ const Login: React.FC = () => {
         setLoading(true);
 
         try {
-            // Check division password
             if (claimPassword !== siteConfig.claimPassword) {
                 throw new Error('分會認證密碼錯誤，請洽詢網站管理員 (魔術方塊教學 李孟一)。');
             }
 
-            // Update the selected member with current user's UUID
             const { error } = await supabase
                 .from('members')
                 .update({ user_id: user.id })
-                .eq('id', selectedMemberId);
+                .eq('id', selectedMemberId)
+                .is('user_id', null);
 
             if (error) throw error;
 
             setMessage({ text: '綁定成功！', type: 'success' });
             setTimeout(() => navigate('/member-edit'), 1000);
-
-        } catch (err: any) {
-            setMessage({ text: '綁定失敗：' + err.message, type: 'error' });
+        } catch (err: unknown) {
+            setMessage({ text: '綁定失敗：' + (err instanceof Error ? err.message : String(err)), type: 'error' });
         } finally {
             setLoading(false);
         }
     };
 
     const showSessionSkeleton =
-        authLoading ||
-        (user && profileCheckLoading && mode !== 'claim');
+        authLoading || (user && profileCheckLoading && mode !== 'claim');
 
     if (showSessionSkeleton) {
         return (
@@ -288,6 +326,8 @@ const Login: React.FC = () => {
             </div>
         );
     }
+
+    const oauthRedirect = `${window.location.origin}/login`;
 
     return (
         <div className="min-h-[calc(100dvh-80px)] flex items-center justify-center py-12 pb-24 md:pb-12 px-4 container mx-auto">
@@ -304,9 +344,8 @@ const Login: React.FC = () => {
                     {mode === 'claim' && '認領您的會員檔案'}
                 </h1>
 
-                {/* Show warning for In-App Browsers */}
                 {(() => {
-                    const ua = navigator.userAgent || navigator.vendor || (window as any).opera;
+                    const ua = navigator.userAgent || navigator.vendor || '';
                     const isLine = /Line\//i.test(ua);
                     const isFb = /FBAN|FBAV/i.test(ua);
                     const isIg = /Instagram/i.test(ua);
@@ -331,7 +370,6 @@ const Login: React.FC = () => {
                     </div>
                 )}
 
-                {/* LOGIN / SIGNUP / FORGOT FORM */}
                 {['login', 'signup', 'forgot'].includes(mode) && (
                     <form onSubmit={handleAuth} className="space-y-4">
                         <div>
@@ -341,7 +379,7 @@ const Login: React.FC = () => {
                                 <input
                                     type="email"
                                     value={email}
-                                    onChange={e => setEmail(e.target.value)}
+                                    onChange={(e) => setEmail(e.target.value)}
                                     className="w-full bg-black/30 border border-white/20 rounded-lg py-3 pl-10 pr-4 text-white focus:border-primary focus:outline-none"
                                     placeholder="name@example.com"
                                     required
@@ -358,7 +396,7 @@ const Login: React.FC = () => {
                                         <input
                                             type="password"
                                             value={password}
-                                            onChange={e => setPassword(e.target.value)}
+                                            onChange={(e) => setPassword(e.target.value)}
                                             className="w-full bg-black/30 border border-white/20 rounded-lg py-3 pl-10 pr-4 text-white focus:border-primary focus:outline-none"
                                             placeholder="••••••••"
                                             required
@@ -378,7 +416,7 @@ const Login: React.FC = () => {
                                             <input
                                                 type="password"
                                                 value={confirmPassword}
-                                                onChange={e => setConfirmPassword(e.target.value)}
+                                                onChange={(e) => setConfirmPassword(e.target.value)}
                                                 className="w-full bg-black/30 border border-white/20 rounded-lg py-3 pl-10 pr-4 text-white focus:border-primary focus:outline-none"
                                                 placeholder="••••••••"
                                                 required
@@ -393,11 +431,7 @@ const Login: React.FC = () => {
                         {(mode === 'login' || mode === 'signup') && (
                             <div className="my-4 flex justify-center min-h-[65px]">
                                 <div id="turnstile-container-wrapper" key={mode}>
-                                    {/* Using a key on the wrapper ensures a fresh start whenever mode changes */}
-                                    <TurnstileWidget
-                                        siteKey={TURNSTILE_SITE_KEY}
-                                        onVerify={(token) => setCaptchaToken(token)}
-                                    />
+                                    <TurnstileWidget siteKey={TURNSTILE_SITE_KEY} onVerify={(token) => setCaptchaToken(token)} />
                                 </div>
                             </div>
                         )}
@@ -428,7 +462,10 @@ const Login: React.FC = () => {
                                     onClick={async () => {
                                         const { error } = await supabase.auth.signInWithOAuth({
                                             provider: 'google',
-                                            options: { redirectTo: window.location.origin }
+                                            options: {
+                                                redirectTo: oauthRedirect,
+                                                queryParams: { prompt: 'select_account' },
+                                            },
                                         });
                                         if (error) setMessage({ text: error.message, type: 'error' });
                                     }}
@@ -488,7 +525,6 @@ const Login: React.FC = () => {
                     </form>
                 )}
 
-                {/* CLAIM PROFILE LIST */}
                 {mode === 'claim' && (
                     <div className="space-y-4">
                         <div className="bg-blue-500/10 border border-blue-500/30 p-4 rounded-lg mb-4 flex gap-3 text-sm text-blue-200">
@@ -499,15 +535,21 @@ const Login: React.FC = () => {
                             </div>
                         </div>
 
+                        {claimListError && (
+                            <div className="p-3 rounded-lg text-sm text-center bg-red-500/20 text-red-200">
+                                {claimListError}
+                            </div>
+                        )}
+
                         <div className="max-h-48 md:max-h-60 overflow-y-auto space-y-2 pr-2 custom-scrollbar -mx-1 px-1">
                             {claimListLoading ? (
                                 <ListSkeleton rows={6} className="py-2" />
-                            ) : unclaimedMembers.length === 0 ? (
+                            ) : unclaimedMembers.length === 0 && !claimListError ? (
                                 <div className="text-center text-gray-500 py-8">
                                     沒有可供認領的會員資料
                                 </div>
                             ) : (
-                                unclaimedMembers.map(m => (
+                                unclaimedMembers.map((m) => (
                                     <div
                                         key={m.id}
                                         onClick={() => setSelectedMemberId(m.id)}
@@ -534,7 +576,7 @@ const Login: React.FC = () => {
                                 <input
                                     type="password"
                                     value={claimPassword}
-                                    onChange={e => setClaimPassword(e.target.value)}
+                                    onChange={(e) => setClaimPassword(e.target.value)}
                                     className="w-full bg-black/30 border border-white/20 rounded-lg py-3 pl-10 pr-4 text-white focus:border-primary focus:outline-none"
                                     placeholder="分會密碼"
                                     required

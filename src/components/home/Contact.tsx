@@ -3,27 +3,23 @@ import { motion } from 'framer-motion';
 import { Mail, Phone } from 'lucide-react';
 import { useMembers } from '../../hooks/useMembers';
 
+/** 幹部與會員庫 name 對應（產業／稱呼由站方設定，頭像與聯絡方式由 members 帶入） */
+const LEADERSHIP = [
+    { title: '現任主席', industry: '共享空間', name: '鄭雅菁' },
+    { title: '副主席', industry: '空調工程', name: '洪智威' },
+    { title: '秘書財務', industry: '信託規劃顧問', name: '王執定' },
+] as const;
+
 const Contact: React.FC = () => {
     const { members } = useMembers();
 
-    // Map leadership roles
-    const roles = [
-        { title: '現任主席', name: '王年煜' },
-        { title: '現任副主席', name: '王祈' },
-        { title: '現任秘書財務', name: '劉懿德' }
-    ];
-
-    const leadership = roles.map(role => {
-        const member = members.find(m => m.name === role.name);
-        return {
-            ...role,
-            member: member || null
-        };
+    const leadership = LEADERSHIP.map((role) => {
+        const member = members.find((m) => m.name === role.name);
+        return { ...role, member: member ?? null };
     });
 
     return (
         <section className="min-h-screen flex flex-col justify-center relative py-24 md:py-32 overflow-hidden" id="contact">
-            {/* Background Elements */}
             <div className="absolute top-0 right-0 w-1/2 h-full bg-bg-dark/50 -skew-x-12 transform origin-top-right"></div>
             <div className="absolute bottom-0 left-0 w-96 h-96 bg-primary/5 rounded-full blur-[100px] z-0"></div>
 
@@ -64,24 +60,30 @@ const Contact: React.FC = () => {
                                     alt={item.name}
                                     className="w-full h-full object-cover"
                                     style={{ objectPosition: 'top' }}
-                                    onError={(e) => e.currentTarget.src = '/images/assets/logo/白色正方形logo.png'}
+                                    onError={(e) => {
+                                        e.currentTarget.src = '/images/assets/logo/白色正方形logo.png';
+                                    }}
                                 />
                             </div>
                             <h3 className="text-lg font-bold text-white mb-1">{item.title}</h3>
-                            <div className="text-xl text-primary font-bold mb-1">{item.name}</div>
-                            <div className="text-gray-300 text-base mb-4">{item.member?.industry || (index === 0 ? 'AI程式交易' : index === 1 ? 'AI學習整合' : '策展規劃設計')}</div>
+                            <div className="text-primary/90 text-sm font-medium mb-1">
+                                {item.industry}
+                            </div>
+                            <div className="text-xl text-white font-bold mb-4">{item.name}</div>
 
                             <div className="border-t border-white/10 pt-4 space-y-2 text-left inline-block w-full text-base mt-auto">
                                 <div className="flex flex-col items-center gap-1 text-gray-300 justify-center">
-                                    <span className="font-medium text-white text-center">{item.member?.company || (index === 0 ? '創達智能技術股份有限公司 董事長' : index === 1 ? '祈育教育實業坊 董事長' : '樂橙創作設計 董事長')}</span>
+                                    <span className="font-medium text-white text-center">
+                                        {item.member?.company || '—'}
+                                    </span>
                                 </div>
                                 <div className="flex items-center gap-2 text-gray-300 justify-center pt-2">
                                     <Phone size={16} className="text-primary shrink-0" />
-                                    <span>{item.member?.phone || (index === 0 ? '0938-767-768' : index === 1 ? '0956-522-350' : '0952-983-157')}</span>
+                                    <span>{item.member?.phone || '—'}</span>
                                 </div>
                                 <div className="flex items-center gap-2 text-gray-300 justify-center">
                                     <Mail size={16} className="text-primary shrink-0" />
-                                    <span className="text-sm break-all">{item.member?.email || (index === 0 ? 'wang.ian@investrontech.com' : index === 1 ? 'samuel900731@gmail.com' : 'claire@allrange.tw')}</span>
+                                    <span className="text-sm break-all">{item.member?.email || '—'}</span>
                                 </div>
                             </div>
                         </motion.div>
