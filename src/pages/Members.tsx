@@ -98,8 +98,8 @@ const Members: React.FC = () => {
 
     if (loading) {
         return (
-            <div className="min-h-[70vh] container mx-auto px-4 py-8 pt-24 md:pt-28">
-                <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-5 xl:grid-cols-4">
+            <div className="min-h-[70vh] container mx-auto px-3 py-8 pt-24 md:px-4 md:pt-28">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3 lg:gap-4 xl:grid-cols-4">
                     {Array.from({ length: 8 }).map((_, i) => (
                         <CardSkeleton key={i} />
                     ))}
@@ -149,9 +149,10 @@ const Members: React.FC = () => {
             <PageHero
                 title="台灣商會會員"
                 subtitle={<>BNI 長輝白金分會 — 60+ 個產業的優質台灣企業家<br />我們為夥伴的生意著想，也為夥伴的生意做引薦</>}
+                subtitleClassName="!text-lg sm:!text-xl md:!text-2xl lg:!text-3xl text-slate-100 font-normal max-w-4xl"
             />
 
-            <div className="container relative z-10 mx-auto px-4 py-8 pt-4 md:pt-10">
+            <div className="container relative z-10 mx-auto px-3 py-6 pt-2 md:px-4 md:py-8 md:pt-6">
                 <div className="text-center mb-8 relative z-10">
 
                     {/* Search Bar - Sticky on Mobile */}
@@ -181,7 +182,7 @@ const Members: React.FC = () => {
                     />
                 </div>
 
-                <motion.div layout className="grid grid-cols-1 gap-5 pb-12 md:grid-cols-2 lg:grid-cols-4">
+                <motion.div layout className="grid grid-cols-1 gap-4 pb-12 md:grid-cols-2 lg:grid-cols-4">
                     <AnimatePresence mode="popLayout">
                         {filteredMembers.map((member) => (
                             <motion.div
@@ -200,7 +201,7 @@ const Members: React.FC = () => {
                                             e.stopPropagation();
                                             navigate(`/member-edit?id=${member.id}`);
                                         }}
-                                        className="absolute left-2 top-2 z-20 rounded-full bg-black/60 p-2 opacity-0 shadow-lg backdrop-blur-sm transition-all hover:bg-primary hover:text-bg-dark group-hover:opacity-100"
+                                        className="absolute right-2 top-2 z-20 rounded-full bg-black/60 p-2 opacity-0 shadow-lg backdrop-blur-sm transition-all hover:bg-primary hover:text-bg-dark group-hover:opacity-100"
                                         title="管理員編輯"
                                     >
                                         <Edit size={16} />

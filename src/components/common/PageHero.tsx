@@ -8,12 +8,21 @@ interface PageHeroProps {
     /** 小標（大標下方、獨立段落，字級較小，與大標分開渲染） */
     heroTagline?: React.ReactNode;
     subtitle?: React.ReactNode;
+    /** 套用在 subtitle 外層的額外 class（例如會員頁放大說明層級） */
+    subtitleClassName?: string;
     /** 為 true 時在區塊底部顯示向下捲動提示（首頁用） */
     showScrollIndicator?: boolean;
     children?: React.ReactNode;
 }
 
-const PageHero: React.FC<PageHeroProps> = ({ title, heroTagline, subtitle, showScrollIndicator, children }) => {
+const PageHero: React.FC<PageHeroProps> = ({
+    title,
+    heroTagline,
+    subtitle,
+    subtitleClassName,
+    showScrollIndicator,
+    children,
+}) => {
     return (
         <section className="min-h-screen flex flex-col justify-center items-center text-center relative z-10 pt-20 overflow-hidden" aria-label="BNI 長輝白金分會台灣商會頁面標題">
             {/* Hero Background Image */}
@@ -53,7 +62,9 @@ const PageHero: React.FC<PageHeroProps> = ({ title, heroTagline, subtitle, showS
                     </p>
                 )}
                 {subtitle && (
-                    <div className="text-base md:text-2xl text-gray-200 max-w-3xl mx-auto leading-relaxed font-light">
+                    <div
+                        className={`text-base md:text-2xl text-gray-200 max-w-3xl mx-auto leading-relaxed font-light ${subtitleClassName || ''}`}
+                    >
                         {subtitle}
                     </div>
                 )}
