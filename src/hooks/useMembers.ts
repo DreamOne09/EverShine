@@ -35,15 +35,17 @@ export const useMembers = () => {
     });
 
     useEffect(() => {
+        // 每個 hook 實例使用唯一 channel 名稱：多處同時 useMembers() 時，若共用名稱會在 subscribe 後重複 .on() 而拋錯導致白畫面
+        const channelName = `members_changes_${Date.now()}_${Math.random().toString(36).slice(2, 11)}`;
         const subscription = supabase
-            .channel('members_changes')
+            .channel(channelName)
             .on('postgres_changes', { event: '*', schema: 'public', table: 'members' }, () => {
                 void queryClient.invalidateQueries({ queryKey: queryKeys.members.list });
             })
             .subscribe();
 
         return () => {
-            subscription.unsubscribe();
+            void supabase.removeChannel(subscription);
         };
     }, [queryClient]);
 
