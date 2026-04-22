@@ -23,11 +23,11 @@ const LEADERSHIP = [
     },
     {
         title: '現任秘書財務',
-        name: '劉懿德',
-        industry: '策展規劃設計',
-        company: '樂橙創作設計',
-        phone: '0952-983-157',
-        email: 'claire@allrange.tw',
+        name: '王執定',
+        industry: '信託規劃顧問',
+        company: '問大師家族辦公室',
+        phone: '0927-860-882',
+        email: 'garfiwang@gmail.com',
     },
 ] as const;
 
