@@ -162,11 +162,11 @@ const MemberDetailModal: React.FC<{
                     </button>
                 </div>
 
-                <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-6 sm:px-8">
-                    <div className="grid gap-8 lg:grid-cols-2 lg:gap-10">
-                        {/* 左欄：頭像 + 基本資料 + 聯絡按鈕 */}
-                        <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
-                            <div className="mb-6 h-40 w-40 shrink-0 overflow-hidden rounded-full border-2 border-white/15 ring-1 ring-white/10">
+                <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-4 sm:px-6 sm:py-5">
+                    <div className="grid gap-5 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] lg:gap-6">
+                        {/* 左欄：頭像加大 + 基本資料 + 聯絡按鈕（緊湊） */}
+                        <div className="flex flex-col items-center gap-2 text-center lg:items-start lg:text-left">
+                            <div className="mb-1 h-52 w-52 shrink-0 overflow-hidden rounded-full border-2 border-white/15 bg-black/20 ring-1 ring-white/10 sm:h-56 sm:w-56">
                                 <img
                                     src={photoSrc}
                                     alt=""
@@ -174,24 +174,24 @@ const MemberDetailModal: React.FC<{
                                     style={{ objectPosition: member.photoPosition || 'center top' }}
                                 />
                             </div>
-                            <span className="mb-3 inline-flex max-w-full items-center rounded-xl border border-primary/40 bg-primary/25 px-4 py-2 text-sm font-bold tracking-wide text-sky-100">
+                            <span className="mb-0.5 inline-flex max-w-full items-center rounded-lg border border-primary/40 bg-primary/20 px-2.5 py-1 text-xs font-bold tracking-wide text-sky-100">
                                 {member.industry || '未分類'}
                             </span>
-                            <p className="mb-1 text-2xl font-bold text-white">{member.name}</p>
+                            <p className="line-clamp-1 text-xl font-bold text-white sm:text-2xl">{member.name}</p>
                             {member.company && (
-                                <p className="mb-2 flex items-center justify-center gap-2 text-sm text-gray-400 lg:justify-start">
-                                    <Building size={16} className="shrink-0 text-primary" />
+                                <p className="line-clamp-2 flex items-center justify-center gap-1.5 text-xs font-normal text-gray-400 lg:justify-start">
+                                    <Building size={14} className="shrink-0 text-primary" />
                                     <span>{member.company}</span>
                                 </p>
                             )}
                             {member.title && (
-                                <p className="mb-6 flex items-center justify-center gap-2 text-sm text-gray-400 lg:justify-start">
-                                    <Briefcase size={16} className="shrink-0 text-primary" />
+                                <p className="line-clamp-2 mb-1 flex items-center justify-center gap-1.5 text-xs font-normal text-gray-500 lg:justify-start">
+                                    <Briefcase size={14} className="shrink-0 text-primary" />
                                     <span>{member.title}</span>
                                 </p>
                             )}
 
-                            <div className="mt-auto w-full max-w-sm space-y-2 lg:max-w-none">
+                            <div className="mt-auto w-full max-w-sm space-y-1.5 lg:max-w-none">
                                 {phoneDisplay && phoneHref && (
                                     <a href={`tel:${phoneHref}`} className={linkButtonClass}>
                                         <Phone size={18} />
@@ -208,32 +208,32 @@ const MemberDetailModal: React.FC<{
                             </div>
                         </div>
 
-                        {/* 右欄：介紹 + 理想引薦 + 服務 */}
-                        <div className="space-y-6 leading-relaxed text-gray-300">
+                        {/* 右欄：介紹 text-sm + 理想引薦高對比 + 服務 */}
+                        <div className="space-y-4 text-gray-300">
                             <section>
-                                <h3 className="mb-3 text-xs font-bold uppercase tracking-widest text-primary">個人介紹</h3>
-                                <p className="whitespace-pre-line text-sm sm:text-base">{displayIntro}</p>
+                                <h3 className="mb-2 text-[10px] font-bold uppercase tracking-widest text-primary">個人介紹</h3>
+                                <p className="whitespace-pre-line text-sm leading-relaxed text-gray-300">{displayIntro}</p>
                             </section>
 
                             {ideal && (
-                                <section className="rounded-xl border border-white/10 bg-slate-800/50 p-4 sm:p-5">
-                                    <h3 className="mb-3 flex items-center gap-2 text-sm font-bold text-sky-200">
-                                        <Target size={18} className="text-primary" />
+                                <section className="rounded-xl border border-sky-500/25 bg-gradient-to-br from-slate-950/90 via-slate-900/80 to-sky-950/40 p-3.5 shadow-inner shadow-black/30 sm:p-4">
+                                    <h3 className="mb-2 flex items-center gap-2 text-xs font-bold text-sky-100">
+                                        <Target size={16} className="text-sky-400" />
                                         理想引薦對象
                                     </h3>
-                                    <p className="whitespace-pre-line text-sm text-gray-300 sm:text-base">{ideal}</p>
+                                    <p className="whitespace-pre-line text-sm leading-relaxed text-slate-100/95">{ideal}</p>
                                 </section>
                             )}
 
                             {member.services && member.services.length > 0 && (
                                 <section>
-                                    <h3 className="mb-3 text-xs font-bold uppercase tracking-widest text-primary">服務項目</h3>
-                                    <ul className="space-y-2">
+                                    <h3 className="mb-2 text-[10px] font-bold uppercase tracking-widest text-primary">服務項目</h3>
+                                    <ul className="space-y-1.5">
                                         {member.services
                                             .filter((s) => s && s.trim())
                                             .map((s, i) => (
-                                                <li key={i} className="flex items-start gap-3 text-sm sm:text-base">
-                                                    <Check className="mt-0.5 shrink-0 text-primary" size={18} strokeWidth={2.5} />
+                                                <li key={i} className="flex items-start gap-2 text-sm leading-relaxed">
+                                                    <Check className="mt-0.5 shrink-0 text-primary" size={16} strokeWidth={2.5} />
                                                     <span>{s}</span>
                                                 </li>
                                             ))}
