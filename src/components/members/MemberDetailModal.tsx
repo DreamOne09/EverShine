@@ -1,5 +1,6 @@
 import React, { useEffect, useCallback } from 'react';
 import { createPortal } from 'react-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import { X, Building, Briefcase, Phone, Mail, Globe, Target, Check } from 'lucide-react';
 import type { Member } from '../../types';
 import { siteConfig } from '../../config/site.config';
@@ -13,7 +14,6 @@ function getPhotoUrl(photo: string) {
     return clean.startsWith('/') ? clean : `/${clean}`;
 }
 
-/** 從 fullIntro 拆出「主要介紹」與「理想引薦對象」區塊（常見 BNI 格式） */
 function splitIntro(fullIntro: string): { main: string; ideal: string | null } {
     if (!fullIntro) return { main: '', ideal: null };
     const text = fullIntro.replace(/\\n/g, '\n');
@@ -35,8 +35,8 @@ function splitIntro(fullIntro: string): { main: string; ideal: string | null } {
     return { main: main || text.trim(), ideal: ideal || null };
 }
 
-const linkButtonClass =
-    'inline-flex w-full items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/10 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-primary/20 hover:border-primary/40';
+const actionBtnClass =
+    'flex w-full items-center justify-center gap-3 rounded-xl border border-white/15 bg-white/[0.06] px-4 py-3.5 text-sm font-semibold tracking-wide text-white shadow-inner shadow-black/20 transition-all hover:border-[#3b82f6]/50 hover:bg-[#3b82f6]/15 hover:text-sky-100';
 
 const MemberDetailModal: React.FC<{
     member: Member | null;
@@ -60,48 +60,41 @@ const MemberDetailModal: React.FC<{
         };
     }, [open, onKeyDown]);
 
-    if (!open || !member) return null;
-
-    const photoSrc = getPhotoUrl(member.photo);
-    const links = normalizeMemberLinks(member.links);
-    const { main: introMain, ideal } = splitIntro(member.fullIntro || '');
-    const displayIntro = introMain || member.shortIntro || member.fullIntro?.replace(/\\n/g, '\n') || '';
-    const phoneDisplay = member.phone ? formatTaiwanPhoneDisplay(member.phone) : '';
-    const phoneHref = member.phone ? formatTaiwanPhoneTelHref(member.phone) : '';
+    const logoSrc = siteConfig.logos.horizontal;
 
     const linkIcon = (t: string) => {
-        switch (t) {
+        switch (t.toLowerCase()) {
             case 'phone':
-                return <Phone size={18} />;
+                return <Phone size={20} />;
             case 'mail':
             case 'email':
-                return <Mail size={18} />;
+                return <Mail size={20} />;
             case 'facebook':
             case 'fb':
                 return (
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" className="shrink-0">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="shrink-0">
                         <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
                     </svg>
                 );
             case 'instagram':
             case 'ig':
                 return (
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" className="shrink-0">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="shrink-0">
                         <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
                     </svg>
                 );
             case 'line':
                 return (
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" className="shrink-0">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="shrink-0">
                         <path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346 0 .627.285.627.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346 0 .628.285.628.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314" />
                     </svg>
                 );
             default:
-                return <Globe size={18} />;
+                return <Globe size={20} />;
         }
     };
 
-    const renderLinkButton = (link: { type: string; url: string }) => {
+    const renderVerticalLink = (link: { type: string; url: string }) => {
         const t = (link.type || '').toLowerCase();
         const label =
             t === 'line'
@@ -113,10 +106,10 @@ const MemberDetailModal: React.FC<{
                     : t === 'website' || t === 'globe'
                       ? '官方網站'
                       : t === 'phone'
-                        ? '電話連結'
+                        ? '電話'
                         : t === 'mail' || t === 'email'
-                          ? 'Email 連結'
-                          : (link.type || '連結').charAt(0).toUpperCase() + (link.type || '').slice(1);
+                          ? 'Email'
+                          : link.type;
 
         const href = t === 'phone' ? `tel:${formatTaiwanPhoneTelHref(link.url)}` : link.url;
         const isTel = t === 'phone';
@@ -126,7 +119,7 @@ const MemberDetailModal: React.FC<{
                 key={`${link.type}-${link.url}`}
                 href={href}
                 {...(!isTel ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                className={linkButtonClass}
+                className={actionBtnClass}
             >
                 {linkIcon(t)}
                 {label}
@@ -134,130 +127,205 @@ const MemberDetailModal: React.FC<{
         );
     };
 
-    const modal = (
-        <div
-            className="fixed inset-0 z-[10050] flex items-end justify-center sm:items-center sm:p-4"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="member-detail-title"
-        >
-            <button
-                type="button"
-                className="absolute inset-0 bg-black/70 backdrop-blur-sm"
-                aria-label="關閉"
-                onClick={onClose}
-            />
-            <div className="relative flex max-h-[100dvh] w-full max-w-5xl flex-col overflow-hidden rounded-t-2xl border border-white/10 bg-[#0B1120]/95 shadow-2xl sm:max-h-[90vh] sm:rounded-2xl">
-                <div className="flex shrink-0 items-center justify-between border-b border-white/10 px-4 py-3 sm:px-6">
-                    <h2 id="member-detail-title" className="truncate pr-4 text-lg font-bold text-white sm:text-xl">
-                        {member.name}
-                    </h2>
-                    <button
+    if (!open || !member) return null;
+
+    const m = member;
+
+    return createPortal(
+        <AnimatePresence mode="wait">
+            {open && member ? (
+                <div className="fixed inset-0 z-[10050] flex items-end justify-center sm:items-center sm:p-4">
+                    <motion.button
                         type="button"
-                        onClick={onClose}
-                        className="shrink-0 rounded-xl p-2 text-gray-400 transition-colors hover:bg-white/10 hover:text-white"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                        className="absolute inset-0 bg-black/75 backdrop-blur-sm"
                         aria-label="關閉"
+                        onClick={onClose}
+                    />
+                    <motion.div
+                        key={String(m.id)}
+                        role="dialog"
+                        aria-modal="true"
+                        aria-labelledby="member-detail-title"
+                        initial={{ opacity: 0, scale: 0.96, y: 12 }}
+                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        exit={{ opacity: 0, scale: 0.98, y: 8 }}
+                        transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                        className="relative z-10 flex max-h-[100dvh] w-full max-w-5xl flex-col overflow-hidden rounded-t-2xl border border-white/10 bg-slate-950/90 shadow-2xl shadow-blue-950/50 backdrop-blur-2xl sm:max-h-[92vh] sm:rounded-2xl"
                     >
-                        <X size={22} />
-                    </button>
-                </div>
+            {/* 背景浮水印 LOGO */}
+            <div
+                className="pointer-events-none absolute inset-0 flex items-center justify-center overflow-hidden rounded-2xl"
+                aria-hidden
+            >
+                <img
+                    src={siteConfig.logos.square}
+                    alt=""
+                    className="max-h-[min(85vw,520px)] w-auto opacity-[0.02] grayscale contrast-125"
+                />
+            </div>
 
-                <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-4 sm:px-6 sm:py-5">
-                    <div className="grid gap-5 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] lg:gap-6">
-                        {/* 左欄：頭像加大 + 基本資料 + 聯絡按鈕（緊湊） */}
-                        <div className="flex flex-col items-center gap-2 text-center lg:items-start lg:text-left">
-                            <div className="mb-1 h-52 w-52 shrink-0 overflow-hidden rounded-full border-2 border-white/15 bg-black/20 ring-1 ring-white/10 sm:h-56 sm:w-56">
-                                <img
-                                    src={photoSrc}
-                                    alt=""
-                                    className="h-full w-full object-cover"
-                                    style={{ objectPosition: member.photoPosition || 'center top' }}
-                                />
-                            </div>
-                            <span className="mb-0.5 inline-flex max-w-full items-center rounded-lg border border-primary/40 bg-primary/20 px-2.5 py-1 text-xs font-bold tracking-wide text-sky-100">
-                                {member.industry || '未分類'}
-                            </span>
-                            <p className="line-clamp-1 text-xl font-bold text-white sm:text-2xl">{member.name}</p>
-                            {member.company && (
-                                <p className="line-clamp-2 flex items-center justify-center gap-1.5 text-xs font-normal text-gray-400 lg:justify-start">
-                                    <Building size={14} className="shrink-0 text-primary" />
-                                    <span>{member.company}</span>
-                                </p>
-                            )}
-                            {member.title && (
-                                <p className="line-clamp-2 mb-1 flex items-center justify-center gap-1.5 text-xs font-normal text-gray-500 lg:justify-start">
-                                    <Briefcase size={14} className="shrink-0 text-primary" />
-                                    <span>{member.title}</span>
-                                </p>
-                            )}
+            {/* 細網格紋理 */}
+            <div
+                className="pointer-events-none absolute inset-0 opacity-[0.12]"
+                style={{
+                    backgroundImage: `radial-gradient(circle at 1px 1px, rgba(59,130,246,0.15) 1px, transparent 0)`,
+                    backgroundSize: '24px 24px',
+                }}
+                aria-hidden
+            />
 
-                            <div className="mt-auto w-full max-w-sm space-y-1.5 lg:max-w-none">
-                                {phoneDisplay && phoneHref && (
-                                    <a href={`tel:${phoneHref}`} className={linkButtonClass}>
-                                        <Phone size={18} />
-                                        電話 {phoneDisplay}
-                                    </a>
-                                )}
-                                {member.email && (
-                                    <a href={`mailto:${member.email}`} className={linkButtonClass}>
-                                        <Mail size={18} />
-                                        Email
-                                    </a>
-                                )}
-                                {links.map(renderLinkButton)}
+            {/* 右上角分會 LOGO */}
+            <div className="pointer-events-none absolute right-14 top-3 z-20 hidden h-8 opacity-80 sm:block">
+                <img src={logoSrc} alt="BNI 長輝白金分會" className="h-8 w-auto object-contain object-right" />
+            </div>
+
+            <div className="relative z-10 flex shrink-0 items-center justify-between border-b border-white/10 px-4 py-3 sm:px-6">
+                <h2 id="member-detail-title" className="truncate pr-16 text-base font-bold tracking-wider text-white sm:text-lg">
+                    會員檔案
+                </h2>
+                <button
+                    type="button"
+                    onClick={onClose}
+                    className="shrink-0 rounded-xl p-2 text-gray-400 transition-colors hover:bg-white/10 hover:text-white"
+                    aria-label="關閉"
+                >
+                    <X size={22} />
+                </button>
+            </div>
+
+            <div className="relative z-10 min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-5 sm:px-8 sm:py-6">
+                <div className="grid gap-6 lg:grid-cols-[minmax(0,280px)_1fr] lg:gap-8">
+                    {/* 左欄 Identity */}
+                    <div className="flex flex-col items-center text-center lg:items-center">
+                        <div className="relative mb-4 flex w-full justify-center lg:-mt-6">
+                            <div className="relative h-44 w-44 shrink-0 sm:h-52 sm:w-52">
+                                <div className="absolute -inset-1 rounded-full bg-gradient-to-b from-[#3b82f6]/25 to-transparent blur-md" aria-hidden />
+                                <div className="relative h-full w-full overflow-hidden rounded-full border-2 border-white/30 shadow-[0_20px_50px_rgba(0,0,0,0.55)] ring-2 ring-white/10">
+                                    <img
+                                        src={getPhotoUrl(m.photo)}
+                                        alt=""
+                                        className="h-full w-full object-cover"
+                                        style={{ objectPosition: m.photoPosition || 'center top' }}
+                                    />
+                                </div>
                             </div>
                         </div>
 
-                        {/* 右欄：介紹 text-sm + 理想引薦高對比 + 服務 */}
-                        <div className="space-y-4 text-gray-300">
-                            <section>
-                                <h3 className="mb-2 text-[10px] font-bold uppercase tracking-widest text-primary">個人介紹</h3>
-                                <p className="whitespace-pre-line text-sm leading-relaxed text-gray-300">{displayIntro}</p>
-                            </section>
+                        <h3 className="mb-2 line-clamp-2 text-2xl font-black tracking-wider text-white sm:text-3xl">{m.name}</h3>
 
-                            {ideal && (
-                                <section className="rounded-xl border border-sky-500/25 bg-gradient-to-br from-slate-950/90 via-slate-900/80 to-sky-950/40 p-3.5 shadow-inner shadow-black/30 sm:p-4">
-                                    <h3 className="mb-2 flex items-center gap-2 text-xs font-bold text-sky-100">
-                                        <Target size={16} className="text-sky-400" />
-                                        理想引薦對象
-                                    </h3>
-                                    <p className="whitespace-pre-line text-sm leading-relaxed text-slate-100/95">{ideal}</p>
-                                </section>
-                            )}
+                        {/* 工職／產業：金屬質感漸層 */}
+                        <div className="mb-2 w-full max-w-xs rounded-full border border-amber-400/25 bg-gradient-to-r from-amber-200/15 via-yellow-500/15 to-amber-600/10 px-4 py-2 text-center text-xs font-semibold tracking-wide text-amber-50 shadow-inner shadow-black/30 sm:text-sm">
+                            工職：{m.industry || '未分類'}
+                        </div>
 
-                            {member.services && member.services.length > 0 && (
-                                <section>
-                                    <h3 className="mb-2 text-[10px] font-bold uppercase tracking-widest text-primary">服務項目</h3>
-                                    <ul className="space-y-1.5">
-                                        {member.services
-                                            .filter((s) => s && s.trim())
-                                            .map((s, i) => (
-                                                <li key={i} className="flex items-start gap-2 text-sm leading-relaxed">
-                                                    <Check className="mt-0.5 shrink-0 text-primary" size={16} strokeWidth={2.5} />
-                                                    <span>{s}</span>
-                                                </li>
-                                            ))}
-                                    </ul>
-                                </section>
+                        {m.company && (
+                            <p className="mb-1 flex items-center justify-center gap-2 text-xs tracking-wide text-slate-400">
+                                <Building size={14} className="shrink-0 text-[#3b82f6]" />
+                                <span className="line-clamp-2">{m.company}</span>
+                            </p>
+                        )}
+                        {(m.position || m.title) && (
+                            <p className="mb-6 flex items-center justify-center gap-2 text-[11px] tracking-wide text-slate-500">
+                                <Briefcase size={14} className="shrink-0 text-[#fbbf24]/80" />
+                                <span className="line-clamp-2">{m.position || m.title}</span>
+                            </p>
+                        )}
+
+                        <div className="mt-auto flex w-full max-w-xs flex-col gap-2">
+                            {m.phone && (
+                                <a
+                                    href={`tel:${formatTaiwanPhoneTelHref(m.phone)}`}
+                                    className={`${actionBtnClass} flex-col gap-1 py-3.5 sm:flex-row sm:gap-2`}
+                                >
+                                    <span className="flex items-center gap-2">
+                                        <Phone size={20} />
+                                        Phone
+                                    </span>
+                                    <span className="text-xs font-normal tabular-nums text-slate-400">
+                                        {formatTaiwanPhoneDisplay(m.phone)}
+                                    </span>
+                                </a>
                             )}
+                            {m.email && (
+                                <a href={`mailto:${m.email}`} className={actionBtnClass}>
+                                    <Mail size={20} />
+                                    Email
+                                </a>
+                            )}
+                            {normalizeMemberLinks(m.links)
+                                .filter((l) => !['mail', 'email', 'phone'].includes((l.type || '').toLowerCase()))
+                                .map(renderVerticalLink)}
                         </div>
                     </div>
-                </div>
 
-                <div className="shrink-0 border-t border-white/10 bg-[#0B1120] p-4 sm:hidden">
-                    <button
-                        type="button"
-                        onClick={onClose}
-                        className="w-full rounded-xl bg-primary py-3 text-center text-sm font-bold text-[#0B1120]"
-                    >
-                        關閉
-                    </button>
+                    {/* 右欄 Bento */}
+                    <div className="flex flex-col gap-4">
+                        {(() => {
+                            const { main: introMain, ideal } = splitIntro(m.fullIntro || '');
+                            const displayIntro =
+                                introMain || m.shortIntro || m.fullIntro?.replace(/\\n/g, '\n') || '';
+                            const services = (m.services || []).filter((s) => s && s.trim());
+
+                            return (
+                                <>
+                                    <section className="rounded-2xl border border-white/10 bg-white/[0.04] p-4 backdrop-blur-md sm:p-5">
+                                        <h3 className="mb-2 text-[10px] font-bold uppercase tracking-[0.2em] text-[#3b82f6]">關於我</h3>
+                                        <p className="whitespace-pre-line text-sm leading-relaxed text-slate-300">{displayIntro}</p>
+                                    </section>
+
+                                    {ideal && (
+                                        <section className="rounded-2xl p-[1px] shadow-[0_0_32px_rgba(59,130,246,0.12)]">
+                                            <div className="rounded-2xl bg-gradient-to-br from-[#fbbf24]/35 via-[#3b82f6]/35 to-blue-600/40 p-[1px]">
+                                                <div className="rounded-[15px] bg-slate-950/95 p-4 backdrop-blur-md sm:p-5">
+                                                    <h3 className="mb-3 flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-amber-200">
+                                                        <Target className="text-[#3b82f6]" size={18} />
+                                                        理想引薦對象
+                                                    </h3>
+                                                    <p className="whitespace-pre-line text-sm leading-relaxed text-slate-100">{ideal}</p>
+                                                </div>
+                                            </div>
+                                        </section>
+                                    )}
+
+                                    {services.length > 0 && (
+                                        <section className="rounded-2xl border border-white/10 bg-white/[0.03] p-4 backdrop-blur-md sm:p-5">
+                                            <h3 className="mb-3 text-[10px] font-bold uppercase tracking-[0.2em] text-[#fbbf24]">服務項目</h3>
+                                            <ul className="grid grid-cols-1 gap-x-4 gap-y-2 sm:grid-cols-2">
+                                                {services.map((s, i) => (
+                                                    <li key={i} className="flex items-start gap-2 text-sm leading-relaxed text-slate-300">
+                                                        <Check className="mt-0.5 shrink-0 text-[#3b82f6]" size={16} strokeWidth={2.5} />
+                                                        <span>{s}</span>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </section>
+                                    )}
+                                </>
+                            );
+                        })()}
+                    </div>
                 </div>
             </div>
-        </div>
-    );
 
-    return createPortal(modal, document.body);
+                        <div className="relative z-10 shrink-0 border-t border-white/10 bg-slate-950/95 p-3 sm:hidden">
+                            <button
+                                type="button"
+                                onClick={onClose}
+                                className="w-full rounded-xl bg-gradient-to-r from-[#3b82f6] to-blue-600 py-3 text-sm font-bold tracking-wide text-white"
+                            >
+                                關閉
+                            </button>
+                        </div>
+                    </motion.div>
+                </div>
+            ) : null}
+        </AnimatePresence>,
+        document.body
+    );
 };
 
 export default MemberDetailModal;

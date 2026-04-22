@@ -122,7 +122,16 @@ const Members: React.FC = () => {
     }
 
     return (
-        <div className="min-h-screen relative">
+        <div className="relative min-h-screen bg-[#030712]">
+            {/* 沈浸式底紋 */}
+            <div
+                className="pointer-events-none fixed inset-0 z-0 opacity-[0.35]"
+                style={{
+                    backgroundImage: `radial-gradient(circle at 1px 1px, rgba(59,130,246,0.12) 1px, transparent 0), linear-gradient(180deg, rgba(3,7,18,0.95) 0%, rgba(15,23,42,0.98) 100%)`,
+                    backgroundSize: '28px 28px, 100% 100%',
+                }}
+                aria-hidden
+            />
             <SEO
                 title="台灣商會會員 | BNI 長輝白金分會企業家名錄"
                 description="探索 BNI 長輝白金分會的優秀企業家與專業人士。我們是台灣頂尖商會，涵蓋居住工程、品牌行銷、金融法稅、AI科技等 60+ 個產業類別，為台灣企業主媒合最專業的合作夥伴。"
@@ -142,7 +151,7 @@ const Members: React.FC = () => {
                 subtitle={<>BNI 長輝白金分會 — 60+ 個產業的優質台灣企業家<br />我們為夥伴的生意著想，也為夥伴的生意做引薦</>}
             />
 
-            <div className="container mx-auto px-4 py-8 relative z-10 pt-4 md:pt-10">
+            <div className="container relative z-10 mx-auto px-4 py-8 pt-4 md:pt-10">
                 <div className="text-center mb-8 relative z-10">
 
                     {/* Search Bar - Sticky on Mobile */}
@@ -191,7 +200,7 @@ const Members: React.FC = () => {
                                             e.stopPropagation();
                                             navigate(`/member-edit?id=${member.id}`);
                                         }}
-                                        className="absolute top-2 right-2 z-20 p-2 bg-black/60 hover:bg-primary text-white hover:text-bg-dark rounded-full backdrop-blur-sm transition-all shadow-lg opacity-0 group-hover:opacity-100 placeholder-admin-edit"
+                                        className="absolute left-2 top-2 z-20 rounded-full bg-black/60 p-2 opacity-0 shadow-lg backdrop-blur-sm transition-all hover:bg-primary hover:text-bg-dark group-hover:opacity-100"
                                         title="管理員編輯"
                                     >
                                         <Edit size={16} />
