@@ -164,7 +164,7 @@ const MemberDetailModal: React.FC<{
                 <img
                     src={siteConfig.logos.square}
                     alt=""
-                    className="max-h-[min(85vw,520px)] w-auto opacity-[0.02] grayscale contrast-125"
+                    className="max-h-[min(85vw,520px)] w-auto opacity-[0.03] grayscale contrast-125"
                 />
             </div>
 
@@ -197,42 +197,51 @@ const MemberDetailModal: React.FC<{
                 </button>
             </div>
 
-            <div className="relative z-10 min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-5 sm:px-8 sm:py-6">
+            <div className="relative z-10 min-h-0 flex-1 overflow-x-hidden overflow-y-auto overscroll-contain px-4 pb-5 pt-2 sm:px-8 sm:pb-6 sm:pt-3">
                 <div className="grid gap-6 lg:grid-cols-[minmax(0,280px)_1fr] lg:gap-8">
-                    {/* 左欄 Identity */}
-                    <div className="flex flex-col items-center text-center lg:items-center">
-                        <div className="relative mb-4 flex w-full justify-center lg:-mt-6">
+                    {/* 左欄 Identity — 頭像破格向上「半衝出」內容區頂線 */}
+                    <div className="flex flex-col items-center pt-6 text-center sm:pt-8 lg:items-center">
+                        <div className="relative -mt-14 mb-1 flex w-full justify-center sm:-mt-16">
                             <div className="relative h-44 w-44 shrink-0 sm:h-52 sm:w-52">
                                 <div className="absolute -inset-1 rounded-full bg-gradient-to-b from-[#3b82f6]/25 to-transparent blur-md" aria-hidden />
-                                <div className="relative h-full w-full overflow-hidden rounded-full border-2 border-white/30 shadow-[0_20px_50px_rgba(0,0,0,0.55)] ring-2 ring-white/10">
-                                    <img
-                                        src={getPhotoUrl(m.photo)}
-                                        alt=""
-                                        className="h-full w-full object-cover"
-                                        style={{ objectPosition: m.photoPosition || 'center top' }}
-                                    />
+                                {/* 4px 深色外圈 + 1px 亮藍內圈（立體懸浮） */}
+                                <div className="relative rounded-full border-[4px] border-slate-950 bg-slate-950 shadow-[0_24px_60px_rgba(0,0,0,0.55)]">
+                                    <div className="relative h-full w-full overflow-hidden rounded-full border border-[#3b82f6] ring-1 ring-white/10">
+                                        <img
+                                            src={getPhotoUrl(m.photo)}
+                                            alt=""
+                                            className="h-full w-full object-cover"
+                                            style={{ objectPosition: m.photoPosition || 'center top' }}
+                                        />
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        <h3 className="mb-2 line-clamp-2 text-2xl font-black tracking-wider text-white sm:text-3xl">{m.name}</h3>
+                        <h3 className="mb-2 line-clamp-2 text-2xl font-black tracking-[0.2em] text-white sm:text-3xl">{m.name}</h3>
 
-                        {/* 工職／產業：金屬質感漸層 */}
-                        <div className="mb-2 w-full max-w-xs rounded-full border border-amber-400/25 bg-gradient-to-r from-amber-200/15 via-yellow-500/15 to-amber-600/10 px-4 py-2 text-center text-xs font-semibold tracking-wide text-amber-50 shadow-inner shadow-black/30 sm:text-sm">
+                        {/* 工職／產業：金屬漸層 + 亮色邊 */}
+                        <div
+                            className={`mb-2 w-full max-w-xs rounded-full border border-white/25 bg-gradient-to-r from-slate-600/50 via-slate-400/25 to-slate-700/50 px-4 py-2 text-center text-xs font-semibold tracking-wide text-slate-100 shadow-[inset_0_1px_0_rgba(255,255,255,0.22),0_6px_20px_rgba(0,0,0,0.35)] sm:text-sm ${!(m.company || m.position || m.title) ? 'mb-6' : ''}`}
+                        >
                             工職：{m.industry || '未分類'}
                         </div>
 
-                        {m.company && (
-                            <p className="mb-1 flex items-center justify-center gap-2 text-xs tracking-wide text-slate-400">
-                                <Building size={14} className="shrink-0 text-[#3b82f6]" />
-                                <span className="line-clamp-2">{m.company}</span>
-                            </p>
-                        )}
-                        {(m.position || m.title) && (
-                            <p className="mb-6 flex items-center justify-center gap-2 text-[11px] tracking-wide text-slate-500">
-                                <Briefcase size={14} className="shrink-0 text-[#fbbf24]/80" />
-                                <span className="line-clamp-2">{m.position || m.title}</span>
-                            </p>
+                        {(m.company || m.position || m.title) && (
+                            <div className="mb-6 w-full max-w-xs space-y-0.5 text-xs leading-tight tracking-wide text-slate-400">
+                                {m.company ? (
+                                    <p className="flex items-center justify-center gap-2">
+                                        <Building size={14} className="shrink-0 text-[#3b82f6]/90" />
+                                        <span className="line-clamp-2">{m.company}</span>
+                                    </p>
+                                ) : null}
+                                {(m.position || m.title) ? (
+                                    <p className="flex items-center justify-center gap-2">
+                                        <Briefcase size={14} className="shrink-0 text-[#3b82f6]/70" />
+                                        <span className="line-clamp-2">{m.position || m.title}</span>
+                                    </p>
+                                ) : null}
+                            </div>
                         )}
 
                         <div className="mt-auto flex w-full max-w-xs flex-col gap-2">
@@ -278,15 +287,13 @@ const MemberDetailModal: React.FC<{
                                     </section>
 
                                     {ideal && (
-                                        <section className="rounded-2xl p-[1px] shadow-[0_0_32px_rgba(59,130,246,0.12)]">
-                                            <div className="rounded-2xl bg-gradient-to-br from-[#fbbf24]/35 via-[#3b82f6]/35 to-blue-600/40 p-[1px]">
-                                                <div className="rounded-[15px] bg-slate-950/95 p-4 backdrop-blur-md sm:p-5">
-                                                    <h3 className="mb-3 flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-amber-200">
-                                                        <Target className="text-[#3b82f6]" size={18} />
-                                                        理想引薦對象
-                                                    </h3>
-                                                    <p className="whitespace-pre-line text-sm leading-relaxed text-slate-100">{ideal}</p>
-                                                </div>
+                                        <section className="rounded-2xl bg-gradient-to-br from-[#3b82f6] via-purple-500 to-emerald-400 p-[1px] shadow-[0_0_36px_rgba(59,130,246,0.18)]">
+                                            <div className="rounded-[15px] bg-slate-950/96 p-4 backdrop-blur-md sm:p-5">
+                                                <h3 className="mb-3 flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-amber-100">
+                                                    <Target className="shrink-0 text-[#3b82f6] animate-pulse" size={18} aria-hidden />
+                                                    理想引薦對象
+                                                </h3>
+                                                <p className="whitespace-pre-line text-sm leading-relaxed text-slate-100">{ideal}</p>
                                             </div>
                                         </section>
                                     )}
