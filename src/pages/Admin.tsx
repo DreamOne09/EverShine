@@ -10,7 +10,6 @@ import {
     ErrorFallback,
     TopProgressBar,
 } from '../components/loading';
-import { siteConfig } from '../config/site.config';
 import { sanitizeText } from '../lib/sanitize';
 import { fetchAdminDashboardBundle, deriveAdminDerivedState } from '../api/dashboard';
 import { queryKeys } from '../api/queryKeys';
@@ -19,6 +18,8 @@ import AdminMembersTab from '../components/admin/AdminMembersTab';
 import AdminReferralsTab from '../components/admin/AdminReferralsTab';
 import type { ReferralFormState } from '../components/admin/AdminReferralsTab';
 import AdminSettingsTab from '../components/admin/AdminSettingsTab';
+import AdminHelpBanner from '../components/admin/AdminHelpBanner';
+import AdminMemberModal from '../components/admin/AdminMemberModal';
 
 const createEmptyReferralForm = (): ReferralFormState => ({
     title: '',
@@ -45,6 +46,7 @@ const Admin: React.FC = () => {
     });
     const [referralForm, setReferralForm] = useState<ReferralFormState>(createEmptyReferralForm);
     const [editingReferralId, setEditingReferralId] = useState<string | null>(null);
+    const [memberModalOpen, setMemberModalOpen] = useState(false);
 
     const dashboardQuery = useQuery({
         queryKey: queryKeys.admin.dashboard,
@@ -174,35 +176,6 @@ const Admin: React.FC = () => {
         onError: (e: Error) => alert('更新失敗: ' + e.message),
     });
 
-    const handleAddMember = async () => {
-        const rawName = prompt('請輸入新會員姓名:');
-        if (!rawName) return;
-        const name = sanitizeText(rawName, 50);
-        if (!name) {
-            alert('名稱無效');
-            return;
-        }
-        try {
-            const { error } = await supabase
-                .from('members')
-                .insert({
-                    name,
-                    industry: '新產業',
-                    company: '新公司',
-                    photo: siteConfig.defaultPhoto,
-                    createdAt: new Date().toISOString(),
-                })
-                .select()
-                .single();
-            if (error) throw error;
-            alert(`已新增會員 ${name}，請點擊編輯按鈕完善資料。`);
-            void queryClient.invalidateQueries({ queryKey: queryKeys.members.list });
-            void refetchDashboard();
-        } catch (e: unknown) {
-            alert('新增失敗: ' + (e instanceof Error ? e.message : String(e)));
-        }
-    };
-
     const filteredMembers = members.filter(
         (m) =>
             String(m.name || '')
@@ -247,6 +220,15 @@ const Admin: React.FC = () => {
         <div className="min-h-dvh pt-24 md:pt-32 pb-24 md:pb-12 px-4 container mx-auto">
             <TopProgressBar active={dashboardQuery.isFetching && !!dashboardQuery.data} />
             <SEO title="管理後台" noindex />
+            <AdminHelpBanner />
+            <AdminMemberModal
+                open={memberModalOpen}
+                onClose={() => setMemberModalOpen(false)}
+                onCreated={() => {
+                    void queryClient.invalidateQueries({ queryKey: queryKeys.members.list });
+                    void refetchDashboard();
+                }}
+            />
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
                 <h1 className="text-2xl md:text-3xl font-bold text-white flex items-center gap-3 flex-wrap">
                     <Activity className="text-primary" size={24} /> 管理後台
@@ -298,7 +280,7 @@ const Admin: React.FC = () => {
                     <AdminMembersTab
                         memberSearch={memberSearch}
                         onMemberSearch={setMemberSearch}
-                        onAddMember={handleAddMember}
+                        onAddMember={() => setMemberModalOpen(true)}
                         filteredMembers={filteredMembers}
                         loading={loading}
                         onRefresh={() => void refetchDashboard()}
