@@ -58,7 +58,7 @@ const MemberCard: React.FC<MemberCardProps> = ({ member, onOpenDetails }) => {
                 </span>
 
                 <div className="flex flex-1 flex-col items-center gap-1.5 pt-0.5 text-center">
-                    <div className="h-[6.75rem] w-[6.75rem] shrink-0 overflow-hidden rounded-full border border-white/40 ring-1 ring-white/10 shadow-lg shadow-black/40">
+                    <div className="h-[8.1rem] w-[8.1rem] shrink-0 overflow-hidden rounded-full border border-white/40 ring-1 ring-white/10 shadow-lg shadow-black/40">
                         <img
                             src={imgSrc}
                             alt=""
