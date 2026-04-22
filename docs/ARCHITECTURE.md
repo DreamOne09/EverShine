@@ -50,3 +50,21 @@
 
 - 新環境請執行 `scripts/migration_cms_pages_and_members_unbind.sql`（若尚未套用）。
 - 環境變數見 `.env.example`、`ENV_SETUP.md`。
+- **`dist/` 不納入 Git**：正式機須先 `npm run build`（Dockerfile 已於 builder 階段建置）。
+- **內部檢查腳本**：`node .agent/check-migration.mjs`、`node .agent/check-file-references.mjs`（已對齊現況：App 組合 Navbar/Footer、會員資料來自 Supabase 等）。
+
+## 對話歷程中的待辦狀態（摘要）
+
+| 項目 | 狀態 |
+|------|------|
+| 登入／Turnstile／OAuth／認領邏輯 | 已於先前迭代實作 |
+| 十種載入 UI + 頁面套用 | 已實作 |
+| 首頁 Hero 大標／小標分離（`h1` + `p`）、捲動提示 | 已實作 |
+| 首頁底部「聯繫」三尊資料與版面 | 已實作 |
+| 後台引薦成果／案例、CMS BlockNote | 已實作 |
+| 架構階段 A–D（Query、Admin 拆分、E2E、文件） | 已合併 `main` |
+| `@tanstack/react-query` 為 **dependencies** | 已修正 |
+| 會員／引薦頁錯誤「重試」改 **invalidateQueries** | 已修正 |
+| `.agent` 檢查腳本（Layout、dist、useMembers 等） | 已更新，遷移檢查可 100% 通過 |
+| ESLint 大量 **warning**（LoadingScreen、NotFound、Login ref 等） | 未全數消除，可分期重構 |
+| 主 bundle > 1000KB（BlockNote） | 已知，可再拆 chunk |

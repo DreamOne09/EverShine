@@ -1,6 +1,8 @@
 import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useQueryClient } from '@tanstack/react-query';
 import { useMembers } from '../hooks/useMembers';
+import { queryKeys } from '../api/queryKeys';
 import MemberCard from '../components/members/MemberCard';
 import CategoryFilter from '../components/members/CategoryFilter';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -28,6 +30,7 @@ const CATEGORY_MAPPING: { [key: string]: string } = {
 const Members: React.FC = () => {
     const { user } = useAuth();
     const navigate = useNavigate();
+    const queryClient = useQueryClient();
     const [isAdmin, setIsAdmin] = useState(false);
     const { members, loading, error } = useMembers();
     const [searchQuery, setSearchQuery] = useState('');
@@ -108,7 +111,7 @@ const Members: React.FC = () => {
                 <ErrorFallback
                     title="無法載入會員資料"
                     message={error}
-                    onRetry={() => window.location.reload()}
+                    onRetry={() => void queryClient.invalidateQueries({ queryKey: queryKeys.members.list })}
                     className="max-w-md w-full"
                 />
             </div>

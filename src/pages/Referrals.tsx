@@ -1,5 +1,7 @@
 import React from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 import { useReferrals } from '../hooks/useReferrals';
+import { queryKeys } from '../api/queryKeys';
 import { motion } from 'framer-motion';
 import { ArrowRight, Quote } from 'lucide-react';
 import PageHero from '../components/common/PageHero';
@@ -7,6 +9,7 @@ import SEO from '../components/common/SEO';
 import { CardSkeleton, ErrorFallback, EmptyState, SmartImage } from '../components/loading';
 
 const Referrals: React.FC = () => {
+    const queryClient = useQueryClient();
     const { referrals, loading, error } = useReferrals();
     const [selectedReferralId, setSelectedReferralId] = React.useState<string | null>(null);
 
@@ -28,7 +31,7 @@ const Referrals: React.FC = () => {
                 <ErrorFallback
                     title="無法載入引薦資料"
                     message={error}
-                    onRetry={() => window.location.reload()}
+                    onRetry={() => void queryClient.invalidateQueries({ queryKey: queryKeys.referrals.list })}
                     className="max-w-md w-full"
                 />
             </div>
