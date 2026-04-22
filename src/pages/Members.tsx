@@ -4,6 +4,8 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useMembers } from '../hooks/useMembers';
 import { queryKeys } from '../api/queryKeys';
 import MemberCard from '../components/members/MemberCard';
+import MemberDetailModal from '../components/members/MemberDetailModal';
+import type { Member } from '../types';
 import CategoryFilter from '../components/members/CategoryFilter';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../contexts/AuthContext';
@@ -32,6 +34,7 @@ const Members: React.FC = () => {
     const navigate = useNavigate();
     const queryClient = useQueryClient();
     const [isAdmin, setIsAdmin] = useState(false);
+    const [detailMember, setDetailMember] = useState<Member | null>(null);
     const { members, loading, error } = useMembers();
     const [searchQuery, setSearchQuery] = useState('');
     const [activeCategory, setActiveCategory] = useState('全部');
@@ -169,12 +172,9 @@ const Members: React.FC = () => {
                     />
                 </div>
 
-                <motion.div
-                    layout
-                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 pb-12"
-                >
-                    <AnimatePresence mode='popLayout'>
-                        {filteredMembers.map(member => (
+                <motion.div layout className="grid grid-cols-1 gap-6 pb-12 md:grid-cols-2 lg:grid-cols-4">
+                    <AnimatePresence mode="popLayout">
+                        {filteredMembers.map((member) => (
                             <motion.div
                                 layout
                                 key={member.id || member.name}
@@ -184,7 +184,7 @@ const Members: React.FC = () => {
                                 transition={{ duration: 0.3 }}
                                 className="relative group"
                             >
-                                <MemberCard member={member} />
+                                <MemberCard member={member} onOpenDetails={setDetailMember} />
                                 {isAdmin && (
                                     <button
                                         onClick={(e) => {
@@ -201,6 +201,8 @@ const Members: React.FC = () => {
                         ))}
                     </AnimatePresence>
                 </motion.div>
+
+                <MemberDetailModal member={detailMember} open={detailMember !== null} onClose={() => setDetailMember(null)} />
 
                 {/* Member Pledge - Moved to Bottom */}
                 <motion.div
