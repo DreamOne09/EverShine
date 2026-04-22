@@ -10,6 +10,7 @@ import type { Member } from '../types';
 import SEO from '../components/common/SEO';
 import { CardSkeleton } from '../components/loading';
 import { sanitizeText, sanitizeUrl } from '../lib/sanitize';
+import { formatTaiwanPhoneDisplay } from '../lib/phoneFormat';
 import { siteConfig } from '../config/site.config';
 
 const CATEGORIES = [...siteConfig.industries];
@@ -118,7 +119,7 @@ const MemberEdit: React.FC = () => {
                 setFullIntro(m.fullIntro || '');
                 setPhoto((m.photo || '').trim());
                 setPhotoPosition(m.photoPosition || 'center');
-                setPhone(m.phone || '');
+                setPhone(formatTaiwanPhoneDisplay(m.phone || ''));
                 setEmail(m.email || '');
 
                 // Handle Arrays
@@ -302,7 +303,7 @@ const MemberEdit: React.FC = () => {
                 links: linksObject,
                 photo: currentPhotoUrl,
                 photoPosition,
-                phone: sanitizeText(phone, 20),
+                phone: sanitizeText(formatTaiwanPhoneDisplay(phone), 25),
                 email: sanitizeText(email, 100),
                 updatedAt: new Date().toISOString(),
             };
@@ -520,6 +521,7 @@ const MemberEdit: React.FC = () => {
                                             type="tel"
                                             value={phone}
                                             onChange={(e) => updateField(setPhone, e.target.value)}
+                                            onBlur={() => setPhone((p) => formatTaiwanPhoneDisplay(p))}
                                             placeholder="例：0912-345-678"
                                             className="w-full bg-black/30 border border-white/20 rounded-lg p-3 text-base text-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary/30"
                                         />

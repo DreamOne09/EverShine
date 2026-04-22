@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Phone } from 'lucide-react';
 import { useMembers } from '../../hooks/useMembers';
+import { formatTaiwanPhoneDisplay, formatTaiwanPhoneTelHref } from '../../lib/phoneFormat';
 
 /** 三尊幹部：站方設定職稱與預設聯絡；與會員庫 name 對應時由 Supabase members 覆寫公司／電話／信箱／產業 */
 const LEADERSHIP = [
@@ -40,7 +41,7 @@ const Contact: React.FC = () => {
             ...role,
             member: member ?? null,
             company: member?.company?.trim() || role.company,
-            phone: member?.phone?.trim() || role.phone,
+            phone: formatTaiwanPhoneDisplay(member?.phone?.trim() || role.phone),
             email: (member?.email?.trim() || role.email || '').trim(),
             industry: member?.industry?.trim() || role.industry,
         };
@@ -135,7 +136,7 @@ const Contact: React.FC = () => {
 
                                 <div className="space-y-3.5">
                                     <a
-                                        href={`tel:${item.phone.replace(/-/g, '')}`}
+                                        href={`tel:${formatTaiwanPhoneTelHref(item.phone)}`}
                                         className="flex items-start gap-3 rounded-lg px-1 py-1 text-gray-200 transition-colors hover:bg-white/5 hover:text-[#7dd3fc]"
                                     >
                                         <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#4FB0E3]/12 text-[#4FB0E3]">
