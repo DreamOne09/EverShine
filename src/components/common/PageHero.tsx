@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { ChevronDown } from 'lucide-react';
 
 interface PageHeroProps {
     /** 大標（僅一行主標題，語意為頁面唯一 h1） */
@@ -7,11 +8,12 @@ interface PageHeroProps {
     /** 小標（大標下方、獨立段落，字級較小，與大標分開渲染） */
     heroTagline?: React.ReactNode;
     subtitle?: React.ReactNode;
+    /** 為 true 時在區塊底部顯示向下捲動提示（首頁用） */
     showScrollIndicator?: boolean;
     children?: React.ReactNode;
 }
 
-const PageHero: React.FC<PageHeroProps> = ({ title, heroTagline, subtitle, children }) => {
+const PageHero: React.FC<PageHeroProps> = ({ title, heroTagline, subtitle, showScrollIndicator, children }) => {
     return (
         <section className="min-h-screen flex flex-col justify-center items-center text-center relative z-10 pt-20 overflow-hidden" aria-label="BNI 長輝白金分會台灣商會頁面標題">
             {/* Hero Background Image */}
@@ -56,6 +58,17 @@ const PageHero: React.FC<PageHeroProps> = ({ title, heroTagline, subtitle, child
                     </div>
                 )}
                 {children}
+                {showScrollIndicator && (
+                    <motion.div
+                        className="mt-10 flex justify-center"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1, y: [0, 6, 0] }}
+                        transition={{ opacity: { delay: 1 }, y: { duration: 1.8, repeat: Infinity, ease: 'easeInOut' } }}
+                        aria-hidden
+                    >
+                        <ChevronDown className="w-8 h-8 text-primary/80" strokeWidth={2} />
+                    </motion.div>
+                )}
             </motion.div>
         </section>
     );
