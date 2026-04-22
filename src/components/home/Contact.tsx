@@ -3,23 +3,23 @@ import { motion } from 'framer-motion';
 import { Mail, Phone } from 'lucide-react';
 import { useMembers } from '../../hooks/useMembers';
 
-/** 三尊幹部：站方設定職稱與聯絡資訊；頭像與會員庫 name 對應時由 members 帶入照片 */
+/** 三尊幹部：站方設定職稱與預設聯絡；與會員庫 name 對應時由 Supabase members 覆寫公司／電話／信箱／產業 */
 const LEADERSHIP = [
     {
         title: '現任主席',
-        name: '王年煜',
-        industry: 'AI程式交易',
-        company: '創達智能技術股份有限公司',
-        phone: '0938-767-768',
-        email: 'wang.ian@investrontech.com',
+        name: '鄭雅菁',
+        industry: '共享空間',
+        company: '小島好日 LifeArt Studio',
+        phone: '0970-862-180',
+        email: 'islanday.life@gmail.com',
     },
     {
         title: '現任副主席',
-        name: '王祈',
-        industry: 'AI學習整合',
-        company: '祈育教育實業坊',
-        phone: '0956-522-350',
-        email: 'samuel900731@gmail.com',
+        name: '洪智威',
+        industry: '空調工程',
+        company: '昇宏空調工程有限公司',
+        phone: '0956-865-098',
+        email: '',
     },
     {
         title: '現任秘書財務',
@@ -41,7 +41,7 @@ const Contact: React.FC = () => {
             member: member ?? null,
             company: member?.company?.trim() || role.company,
             phone: member?.phone?.trim() || role.phone,
-            email: member?.email?.trim() || role.email,
+            email: (member?.email?.trim() || role.email || '').trim(),
             industry: member?.industry?.trim() || role.industry,
         };
     });
@@ -145,17 +145,21 @@ const Contact: React.FC = () => {
                                             {item.phone}
                                         </span>
                                     </a>
-                                    <a
-                                        href={`mailto:${item.email}`}
-                                        className="flex items-start gap-3 rounded-lg px-1 py-1 text-gray-200 transition-colors hover:bg-white/5 hover:text-[#7dd3fc]"
-                                    >
-                                        <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#4FB0E3]/12 text-[#4FB0E3]">
-                                            <Mail size={18} strokeWidth={2} aria-hidden />
-                                        </span>
-                                        <span className="min-w-0 break-words pt-1.5 text-[13px] leading-snug sm:text-sm">
-                                            {item.email}
-                                        </span>
-                                    </a>
+                                    {item.email ? (
+                                        <a
+                                            href={`mailto:${item.email}`}
+                                            className="flex items-start gap-3 rounded-lg px-1 py-1 text-gray-200 transition-colors hover:bg-white/5 hover:text-[#7dd3fc]"
+                                        >
+                                            <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#4FB0E3]/12 text-[#4FB0E3]">
+                                                <Mail size={18} strokeWidth={2} aria-hidden />
+                                            </span>
+                                            <span className="min-w-0 break-words pt-1.5 text-[13px] leading-snug sm:text-sm">
+                                                {item.email}
+                                            </span>
+                                        </a>
+                                    ) : (
+                                        <p className="pl-1 text-xs text-gray-500">聯絡請優先使用電話</p>
+                                    )}
                                 </div>
                             </div>
                         </motion.article>
