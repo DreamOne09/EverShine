@@ -29,7 +29,7 @@ const AnimatedRoutes = () => {
 
   // Force external browser for social App WebViews (LINE, FB, IG)
   useEffect(() => {
-    const ua = navigator.userAgent || navigator.vendor || (window as any).opera;
+    const ua = navigator.userAgent || navigator.vendor || '';
     const isLine = /Line\//i.test(ua);
     const isFb = /FBAN|FBAV/i.test(ua);
     const isIg = /Instagram/i.test(ua);

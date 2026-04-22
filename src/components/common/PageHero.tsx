@@ -11,7 +11,7 @@ interface PageHeroProps {
     children?: React.ReactNode;
 }
 
-const PageHero: React.FC<PageHeroProps> = ({ title, heroTagline, subtitle, showScrollIndicator = false, children }) => {
+const PageHero: React.FC<PageHeroProps> = ({ title, heroTagline, subtitle, children }) => {
     return (
         <section className="min-h-screen flex flex-col justify-center items-center text-center relative z-10 pt-20 overflow-hidden" aria-label="BNI 長輝白金分會台灣商會頁面標題">
             {/* Hero Background Image */}

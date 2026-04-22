@@ -4,21 +4,11 @@ import { BlockNoteViewRaw } from '@blocknote/react';
 import { useCreateBlockNote } from '@blocknote/react';
 import '@blocknote/core/fonts/inter.css';
 import '@blocknote/react/style.css';
+import '../styles/blocknote-evershine.css';
 import { supabase } from '../lib/supabase';
 import SEO from '../components/common/SEO';
 import { ArrowLeft } from 'lucide-react';
 import { ModalContentSkeleton, TopProgressBar } from '../components/loading';
-
-const evershineBnTheme = `
-.bn-container[data-color-scheme="dark"] {
-  --bn-colors-editor-background: #06203a;
-  --bn-colors-editor-text: #f3f4f6;
-  --bn-colors-menu-background: #0a2744;
-  --bn-colors-menu-text: #e5e7eb;
-  --bn-colors-border: rgba(255,255,255,0.12);
-  --bn-colors-side-menu: #0a2744;
-}
-`;
 
 const CmsPageView: React.FC = () => {
     const { slug: slugParam } = useParams<{ slug: string }>();
@@ -88,7 +78,6 @@ const CmsPageView: React.FC = () => {
     return (
         <div className="min-h-dvh pt-24 md:pt-28 pb-16 px-4 container mx-auto max-w-3xl">
             <SEO title={title} />
-            <style>{evershineBnTheme}</style>
             <Link to="/" className="inline-flex items-center gap-2 text-gray-400 hover:text-primary text-sm mb-6">
                 <ArrowLeft size={18} /> 返回首頁
             </Link>

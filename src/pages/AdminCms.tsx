@@ -4,6 +4,7 @@ import { BlockNoteViewRaw } from '@blocknote/react';
 import { useCreateBlockNote } from '@blocknote/react';
 import '@blocknote/core/fonts/inter.css';
 import '@blocknote/react/style.css';
+import '../styles/blocknote-evershine.css';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
 import { ArrowLeft, Save } from 'lucide-react';
@@ -12,19 +13,6 @@ import { sanitizeText } from '../lib/sanitize';
 import { LoadingButton, ModalContentSkeleton, TopProgressBar } from '../components/loading';
 
 const DEFAULT_SLUG = 'site';
-
-/** EverShine 站內深色主題：對齊 bg-dark / primary */
-const evershineBnTheme = `
-.bn-container[data-color-scheme="dark"] {
-  --bn-colors-editor-background: #06203a;
-  --bn-colors-editor-text: #f3f4f6;
-  --bn-colors-menu-background: #0a2744;
-  --bn-colors-menu-text: #e5e7eb;
-  --bn-colors-border: rgba(255,255,255,0.12);
-  --bn-colors-side-menu: #0a2744;
-  --bn-font-family: ui-sans-serif, system-ui, sans-serif;
-}
-`;
 
 function defaultBlocks() {
     return [
@@ -153,7 +141,6 @@ const AdminCms: React.FC = () => {
     return (
         <div className="min-h-dvh pt-24 md:pt-28 pb-16 px-4 container mx-auto max-w-4xl">
             <SEO title="CMS 編輯" noindex />
-            <style>{evershineBnTheme}</style>
 
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
                 <button

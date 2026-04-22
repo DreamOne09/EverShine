@@ -1,5 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '../lib/supabase';
+import { fetchPublicMembers } from '../api/members';
+import { queryKeys } from '../api/queryKeys';
 
 export interface Member {
     id: number;
@@ -23,41 +26,30 @@ export interface Member {
 }
 
 export const useMembers = () => {
-    const [members, setMembers] = useState<Member[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+    const queryClient = useQueryClient();
+
+    const query = useQuery({
+        queryKey: queryKeys.members.list,
+        queryFn: fetchPublicMembers,
+        staleTime: 60_000,
+    });
 
     useEffect(() => {
-        const fetchMembers = async () => {
-            try {
-                setLoading(true);
-                const { data, error } = await supabase
-                    .from('members')
-                    .select('*')
-                    .order('id', { ascending: true });
-
-                if (error) throw error;
-                setMembers(data || []);
-            } catch (err) {
-                console.error('Error fetching members:', err);
-                setError('無法載入會員資料');
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchMembers();
-
-        // Optional: Realtime subscription
         const subscription = supabase
             .channel('members_changes')
-            .on('postgres_changes', { event: '*', schema: 'public', table: 'members' }, fetchMembers)
+            .on('postgres_changes', { event: '*', schema: 'public', table: 'members' }, () => {
+                void queryClient.invalidateQueries({ queryKey: queryKeys.members.list });
+            })
             .subscribe();
 
         return () => {
             subscription.unsubscribe();
         };
-    }, []);
+    }, [queryClient]);
 
-    return { members, loading, error };
+    return {
+        members: query.data ?? [],
+        loading: query.isPending,
+        error: query.isError ? '無法載入會員資料' : null,
+    };
 };
