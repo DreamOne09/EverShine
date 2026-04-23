@@ -137,7 +137,7 @@ const MemberDetailModal: React.FC<{
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.98, y: 8 }}
                         transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                        className="member-card-neon-breathe relative z-10 flex max-h-[100dvh] w-full max-w-5xl flex-col overflow-hidden rounded-t-2xl border border-white/[0.14] bg-slate-950/88 shadow-2xl shadow-blue-950/45 backdrop-blur-2xl sm:max-h-[92vh] sm:rounded-2xl"
+                        className="relative z-10 flex max-h-[100dvh] w-full max-w-5xl flex-col overflow-hidden rounded-t-2xl border border-white/[0.14] bg-slate-950/88 shadow-2xl shadow-blue-950/45 backdrop-blur-2xl sm:max-h-[92vh] sm:rounded-2xl"
                     >
                         {/* 背景浮水印 LOGO — 略放大以利「分會榮譽感」 */}
                         <div
@@ -187,36 +187,38 @@ const MemberDetailModal: React.FC<{
 
                         <div className="relative z-10 min-h-0 flex-1 overflow-x-hidden overflow-y-auto overscroll-contain px-3 pb-4 pt-0 sm:px-6 sm:pb-6 sm:pt-1">
                             <div className="mx-auto grid max-w-5xl gap-5 lg:grid-cols-12 lg:gap-4 lg:pt-2">
-                                {/* 左欄：頭像破格 + 身分 + Bento 聯絡塢 */}
+                                {/* 左欄：預留上方空間讓頭像「半衝出」且不被子層 overflow 裁切 */}
                                 <div className="flex flex-col items-center lg:col-span-4 lg:items-stretch">
                                     <div className="relative z-10 flex w-full flex-col items-center text-center lg:items-center">
-                                        <div className="relative -mt-16 mb-2 flex w-full justify-center sm:-mt-[4.5rem] lg:-mt-20">
-                                            <div className="relative h-40 w-40 shrink-0 sm:h-48 sm:w-48">
-                                                <div
-                                                    className="absolute -inset-1 rounded-full bg-gradient-to-b from-[#3b82f6]/30 to-transparent blur-md"
-                                                    aria-hidden
-                                                />
-                                                <div className="relative rounded-full border-[4px] border-slate-950 bg-slate-950 shadow-[0_28px_70px_rgba(0,0,0,0.6)]">
-                                                    <div className="relative h-full w-full overflow-hidden rounded-full border border-[#38bdf8] ring-1 ring-white/15">
-                                                        <img
-                                                            src={getPhotoUrl(m.photo)}
-                                                            alt=""
-                                                            className="h-full w-full object-cover"
-                                                            style={{ objectPosition: m.photoPosition || 'center top' }}
-                                                        />
+                                        <div className="w-full pt-2 sm:pt-3">
+                                            <div className="relative -mt-14 flex w-full justify-center sm:-mt-[4.25rem] lg:-mt-[4.5rem]">
+                                                <div className="relative h-40 w-40 shrink-0 sm:h-48 sm:w-48">
+                                                    <div
+                                                        className="absolute -inset-1 rounded-full bg-gradient-to-b from-[#3b82f6]/30 to-transparent blur-md"
+                                                        aria-hidden
+                                                    />
+                                                    <div className="relative rounded-full border-[4px] border-slate-950 bg-slate-950 shadow-[0_28px_70px_rgba(0,0,0,0.6)]">
+                                                        <div className="relative h-full w-full overflow-hidden rounded-full border border-[#38bdf8] ring-1 ring-white/15">
+                                                            <img
+                                                                src={getPhotoUrl(m.photo)}
+                                                                alt=""
+                                                                className="h-full w-full object-cover"
+                                                                style={{ objectPosition: m.photoPosition || 'center top' }}
+                                                            />
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <h3 className="mb-2 line-clamp-2 text-2xl font-black tracking-[0.2em] text-white sm:text-3xl">
+                                        <h3 className="relative z-20 mt-4 line-clamp-2 text-2xl font-black tracking-[0.12em] text-white sm:mt-5 sm:text-3xl sm:tracking-[0.18em]">
                                             {m.name}
                                         </h3>
 
                                         <div
-                                            className={`mb-3 w-full max-w-sm rounded-full border border-amber-200/30 bg-gradient-to-r from-amber-900/40 via-slate-600/50 to-amber-950/35 px-4 py-2 text-center text-sm font-semibold tracking-wide text-amber-50 shadow-[inset_0_1px_0_rgba(255,255,255,0.2)] sm:text-base ${!(m.company || m.position || m.title) ? 'mb-5' : ''}`}
+                                            className={`relative z-20 mt-3 w-full max-w-sm rounded-2xl border border-amber-200/35 bg-gradient-to-r from-amber-900/45 via-slate-600/50 to-amber-950/40 px-3 py-2.5 text-center text-sm font-semibold leading-snug tracking-wide text-amber-50 shadow-[inset_0_1px_0_rgba(255,255,255,0.2)] sm:px-4 sm:text-base ${!(m.company || m.position || m.title) ? 'mb-5' : ''}`}
                                         >
-                                            工職：{m.industry || '未分類'}
+                                            <span className="line-clamp-2 break-words">工職：{m.industry || '未分類'}</span>
                                         </div>
 
                                         {(m.company || m.position || m.title) && (

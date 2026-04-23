@@ -55,10 +55,10 @@ const MemberCard: React.FC<MemberCardProps> = ({ member, onOpenDetails }) => {
                 )}
             >
                 <div className="flex flex-1 flex-col gap-2">
-                    {/* 頭像 + 身分欄：提高資訊密度 */}
-                    <div className="flex gap-2.5">
+                    {/* 窄欄改直向堆疊，避免頭像與文字並排擠壓跑版 */}
+                    <div className="flex flex-col items-center gap-2 sm:flex-row sm:items-start sm:gap-2.5">
                         <div className="relative shrink-0">
-                            <div className="h-[8.1rem] w-[8.1rem] overflow-hidden rounded-full border border-white/35 shadow-[0_12px_40px_rgba(0,0,0,0.45)] ring-1 ring-sky-400/20">
+                            <div className="h-[7.5rem] w-[7.5rem] overflow-hidden rounded-full border border-white/35 shadow-[0_12px_40px_rgba(0,0,0,0.45)] ring-1 ring-sky-400/20 sm:h-[8.1rem] sm:w-[8.1rem]">
                                 <img
                                     src={imgSrc}
                                     alt=""
@@ -69,19 +69,25 @@ const MemberCard: React.FC<MemberCardProps> = ({ member, onOpenDetails }) => {
                                 />
                             </div>
                         </div>
-                        <div className="min-w-0 flex-1 pt-0.5 text-left">
-                            <div className="mb-1 flex justify-end">
+                        <div className="min-w-0 w-full flex-1 text-center sm:pt-0.5 sm:text-left">
+                            <div className="mb-1 flex justify-center sm:justify-end">
                                 <span className="max-w-full truncate rounded-full border border-white/15 bg-black/45 px-2 py-0.5 text-[11px] font-medium tracking-wide text-slate-200 backdrop-blur-sm">
                                     {member.industry || '未分類'}
                                 </span>
                             </div>
-                            <h3 className="line-clamp-1 text-xl font-bold tracking-[0.18em] text-white">{member.name}</h3>
+                            <h3 className="line-clamp-2 text-lg font-bold tracking-[0.12em] text-white sm:line-clamp-1 sm:text-xl sm:tracking-[0.18em]">
+                                {member.name}
+                            </h3>
                             <div className="mt-1 space-y-0.5">
                                 {member.company ? (
-                                    <p className="line-clamp-1 text-sm font-normal tracking-wide text-slate-300">{member.company}</p>
+                                    <p className="line-clamp-2 text-sm font-normal tracking-wide text-slate-300 sm:line-clamp-1">
+                                        {member.company}
+                                    </p>
                                 ) : null}
                                 {titleLine ? (
-                                    <p className="line-clamp-1 text-sm font-normal tracking-wide text-slate-400">{titleLine}</p>
+                                    <p className="line-clamp-2 text-sm font-normal tracking-wide text-slate-400 sm:line-clamp-1">
+                                        {titleLine}
+                                    </p>
                                 ) : null}
                             </div>
                         </div>
