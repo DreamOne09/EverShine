@@ -96,16 +96,16 @@ export function deriveAdminDerivedState(bundle: AdminDashboardFetchResult) {
     const visitsCount = bundle.pageViewsCount;
     const socialClicksCount = bundle.socialClicks;
 
-    const industryCounts: { [key: string]: number } = {};
+    const industrySet = new Set<string>();
     let hasPhotoCount = 0;
     membersData.forEach((m: Record<string, unknown>) => {
-        const ind = (m.industry as string) || '未分類';
-        industryCounts[ind] = (industryCounts[ind] || 0) + 1;
+        const ind = ((m.industry as string) || '').trim();
+        if (ind && ind !== '未分類') industrySet.add(ind);
         const photo = m.photo as string | undefined;
         if (photo && photo.length > 10) hasPhotoCount++;
     });
 
-    const topIndustry = Object.entries(industryCounts).sort((a, b) => b[1] - a[1])[0];
+    const industryCount = industrySet.size;
     const completionRate = membersData.length ? Math.round((hasPhotoCount / membersData.length) * 100) : 0;
 
     const sortedByUpdate = [...membersData]
@@ -122,7 +122,7 @@ export function deriveAdminDerivedState(bundle: AdminDashboardFetchResult) {
             totalReferrals: homeStatsData?.referral_count || 0,
             totalValue: homeStatsData?.referral_value || 0,
             monthlyVisits: visitsCount,
-            topIndustry: topIndustry ? `${topIndustry[0]} (${topIndustry[1]})` : '無資料',
+            industryCount,
             completionRate: `${completionRate}%`,
         },
         recentUpdates: sortedByUpdate.slice(0, 5),

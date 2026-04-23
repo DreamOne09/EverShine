@@ -210,7 +210,7 @@ const Admin: React.FC = () => {
         totalReferrals: 0,
         totalValue: 0,
         monthlyVisits: 0,
-        topIndustry: '無資料',
+        industryCount: 0,
         completionRate: '0%',
     };
     const recentUpdates = derived?.recentUpdates ?? [];

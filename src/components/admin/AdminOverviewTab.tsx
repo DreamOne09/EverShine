@@ -11,7 +11,7 @@ export interface AdminOverviewTabProps {
         totalReferrals: number;
         totalValue: number;
         monthlyVisits: number;
-        topIndustry: string;
+        industryCount: number;
         completionRate: string;
     };
     recentUpdates: Record<string, unknown>[];
@@ -23,7 +23,7 @@ const AdminOverviewTab: React.FC<AdminOverviewTabProps> = ({ stats, recentUpdate
         <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
             <StatsCard title="總會員數" value={stats.totalMembers} icon={<Users className="text-blue-400" />} diff="活躍中" />
             <StatsCard title="資料完整度" value={stats.completionRate} icon={<Activity className="text-pink-400" />} diff="會員有照片比例" />
-            <StatsCard title="最大產業佔比" value={stats.topIndustry} icon={<Users className="text-purple-400" />} diff="最熱門產業" />
+            <StatsCard title="涵蓋產業數" value={`${stats.industryCount} 項`} icon={<Users className="text-purple-400" />} diff="會員多元度" />
             <StatsCard title="總引薦單數" value={stats.totalReferrals.toLocaleString()} icon={<Calendar className="text-green-400" />} diff="歷史累計" />
             <StatsCard
                 title="總交易價值"
