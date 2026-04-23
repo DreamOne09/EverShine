@@ -8,6 +8,7 @@ import { Lock, Mail, AlertCircle, CheckCircle } from 'lucide-react';
 import SEO from '../components/common/SEO';
 import { siteConfig } from '../config/site.config';
 import { CardSkeleton, ListSkeleton } from '../components/loading';
+import { claimMemberRpc } from '../lib/claimMember';
 
 declare global {
     interface Window {
@@ -112,8 +113,16 @@ const Login: React.FC = () => {
     const [message, setMessage] = useState<{ text: string; type: 'error' | 'success' } | null>(null);
 
     const [claimPassword, setClaimPassword] = useState('');
-    const [unclaimedMembers, setUnclaimedMembers] = useState<{ id: string | number; name: string; industry?: string; photo?: string }[]>([]);
+    type ClaimListRow = {
+        id: string | number;
+        name: string;
+        industry?: string;
+        photo?: string;
+        claimed: boolean;
+    };
+    const [claimableMembers, setClaimableMembers] = useState<ClaimListRow[]>([]);
     const [selectedMemberId, setSelectedMemberId] = useState<string | number | null>(null);
+    const [claimEmailProof, setClaimEmailProof] = useState('');
     const [captchaToken, setCaptchaToken] = useState<string | null>(null);
     const [profileCheckLoading, setProfileCheckLoading] = useState(false);
     const [claimListLoading, setClaimListLoading] = useState(false);
@@ -147,22 +156,28 @@ const Login: React.FC = () => {
         return { valid: true, message: '密碼符合要求' };
     };
 
-    const loadUnclaimedMembers = useCallback(async (): Promise<{ ok: boolean }> => {
+    const loadClaimableMembers = useCallback(async (): Promise<{ ok: boolean }> => {
         setClaimListLoading(true);
         setClaimListError(null);
         try {
             const { data, error } = await supabase
                 .from('members')
-                .select('id, name, industry, photo')
-                .is('user_id', null)
+                .select('id, name, industry, photo, user_id')
                 .order('id', { ascending: true });
 
             if (error) {
                 setClaimListError(error.message || '無法載入可認領名單');
-                setUnclaimedMembers([]);
+                setClaimableMembers([]);
                 return { ok: false };
             }
-            setUnclaimedMembers(data || []);
+            const rows: ClaimListRow[] = (data || []).map((r: { id: number; name: string; industry?: string; photo?: string; user_id?: string | null }) => ({
+                id: r.id,
+                name: r.name,
+                industry: r.industry,
+                photo: r.photo,
+                claimed: r.user_id != null && r.user_id !== '',
+            }));
+            setClaimableMembers(rows);
             return { ok: true };
         } finally {
             setClaimListLoading(false);
@@ -194,7 +209,7 @@ const Login: React.FC = () => {
             }
 
             if (!data) {
-                const listOk = await loadUnclaimedMembers();
+                const listOk = await loadClaimableMembers();
                 if (listOk) {
                     setMode('claim');
                 }
@@ -211,7 +226,7 @@ const Login: React.FC = () => {
         } finally {
             setProfileCheckLoading(false);
         }
-    }, [user, navigate, loadUnclaimedMembers]);
+    }, [user, navigate, loadClaimableMembers]);
 
     useEffect(() => {
         if (user) {
@@ -222,6 +237,10 @@ const Login: React.FC = () => {
     useEffect(() => {
         setCaptchaToken(null);
     }, [mode]);
+
+    useEffect(() => {
+        setClaimEmailProof('');
+    }, [selectedMemberId]);
 
     const handleAuth = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -298,16 +317,20 @@ const Login: React.FC = () => {
                 throw new Error('分會認證密碼錯誤，請洽詢網站管理員 (魔術方塊教學 李孟一)。');
             }
 
-            const { error } = await supabase
-                .from('members')
-                .update({ user_id: user.id })
-                .eq('id', selectedMemberId)
-                .is('user_id', null);
+            const selected = claimableMembers.find((m) => m.id === selectedMemberId);
+            if (selected?.claimed) {
+                if (!validateEmail(claimEmailProof.trim())) {
+                    throw new Error('此檔案已被認領過，請輸入當初登記的 Email 以驗證身分。');
+                }
+            }
 
-            if (error) throw error;
+            const result = await claimMemberRpc(selectedMemberId, selected?.claimed ? claimEmailProof : '');
+            if (!result.ok) {
+                throw new Error(result.message);
+            }
 
-            setMessage({ text: '綁定成功！', type: 'success' });
-            setTimeout(() => navigate('/member-edit'), 1000);
+            setMessage({ text: result.alreadyYours ? '此檔案已綁定至您目前帳號。' : '綁定成功！', type: 'success' });
+            setTimeout(() => navigate('/member-edit'), result.alreadyYours ? 400 : 1000);
         } catch (err: unknown) {
             setMessage({ text: '綁定失敗：' + (err instanceof Error ? err.message : String(err)), type: 'error' });
         } finally {
@@ -531,7 +554,10 @@ const Login: React.FC = () => {
                             <AlertCircle className="shrink-0 text-blue-400" size={20} />
                             <div>
                                 歡迎！請從下方選擇您的會員檔案進行綁定。<br />
-                                <span className="text-xs opacity-70">綁定後，只有您能編輯此檔案。</span>
+                                <span className="text-xs opacity-70">
+                                    若檔案顯示「已認領」，須輸入<strong className="text-blue-100">當初登記的 Email</strong>
+                                    與分會密碼方可換綁至本帳號（他人無法冒領）。
+                                </span>
                             </div>
                         </div>
 
@@ -544,12 +570,12 @@ const Login: React.FC = () => {
                         <div className="max-h-48 md:max-h-60 overflow-y-auto space-y-2 pr-2 custom-scrollbar -mx-1 px-1">
                             {claimListLoading ? (
                                 <ListSkeleton rows={6} className="py-2" />
-                            ) : unclaimedMembers.length === 0 && !claimListError ? (
+                            ) : claimableMembers.length === 0 && !claimListError ? (
                                 <div className="text-center text-gray-500 py-8">
-                                    沒有可供認領的會員資料
+                                    沒有會員資料
                                 </div>
                             ) : (
-                                unclaimedMembers.map((m) => (
+                                claimableMembers.map((m) => (
                                     <div
                                         key={m.id}
                                         onClick={() => setSelectedMemberId(m.id)}
@@ -558,16 +584,44 @@ const Login: React.FC = () => {
                                             : 'bg-white/5 border-white/10 text-gray-300 hover:bg-white/10'
                                             }`}
                                     >
-                                        <div className="flex items-center gap-3">
+                                        <div className="flex min-w-0 flex-1 flex-wrap items-center gap-2 sm:gap-3">
                                             <span className="text-xs font-mono opacity-50">#{m.id}</span>
                                             <span className="font-medium">{m.name}</span>
                                             <span className="text-xs text-gray-500 bg-black/30 px-2 py-0.5 rounded">{m.industry}</span>
+                                            {m.claimed ? (
+                                                <span className="text-[10px] uppercase tracking-wider text-amber-300/90">已認領</span>
+                                            ) : (
+                                                <span className="text-[10px] uppercase tracking-wider text-emerald-400/90">可認領</span>
+                                            )}
                                         </div>
-                                        {selectedMemberId === m.id && <CheckCircle size={18} />}
+                                        {selectedMemberId === m.id && <CheckCircle size={18} className="shrink-0" />}
                                     </div>
                                 ))
                             )}
                         </div>
+
+                        {selectedMemberId != null &&
+                            claimableMembers.find((x) => x.id === selectedMemberId)?.claimed && (
+                                <div className="rounded-lg border border-amber-500/30 bg-amber-500/10 p-4">
+                                    <label className="mb-1.5 block text-sm font-medium text-amber-100">
+                                        驗證原登記 Email（與會員檔案相同，大小寫不拘）
+                                    </label>
+                                    <div className="relative">
+                                        <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-amber-200/70" size={18} />
+                                        <input
+                                            type="email"
+                                            value={claimEmailProof}
+                                            onChange={(e) => setClaimEmailProof(e.target.value)}
+                                            className="w-full rounded-lg border border-amber-500/30 bg-black/30 py-3 pl-10 pr-4 text-white placeholder:text-gray-500 focus:border-amber-400 focus:outline-none"
+                                            placeholder="name@example.com"
+                                            autoComplete="email"
+                                        />
+                                    </div>
+                                    <p className="mt-2 text-[11px] leading-relaxed text-amber-100/80">
+                                        多重防護：須與該會員在資料庫登記的 Email 完全一致（去空白後比對），並通過分會密碼後才能完成換綁。
+                                    </p>
+                                </div>
+                            )}
 
                         <div className="mt-6 border-t border-white/10 pt-6">
                             <label className="block text-gray-400 text-sm mb-2">請輸入分會認證密碼</label>
@@ -590,8 +644,14 @@ const Login: React.FC = () => {
                         <button
                             type="button"
                             onClick={handleClaim}
-                            disabled={!selectedMemberId || !claimPassword || loading}
-                            className={`w-full font-bold py-3 rounded-lg transition-colors mt-4 ${(!selectedMemberId || !claimPassword)
+                            disabled={
+                                !selectedMemberId ||
+                                !claimPassword ||
+                                loading ||
+                                (claimableMembers.find((x) => x.id === selectedMemberId)?.claimed === true &&
+                                    !validateEmail(claimEmailProof.trim()))
+                            }
+                            className={`w-full font-bold py-3 rounded-lg transition-colors mt-4 ${!selectedMemberId || !claimPassword || loading || (claimableMembers.find((x) => x.id === selectedMemberId)?.claimed === true && !validateEmail(claimEmailProof.trim()))
                                 ? 'bg-gray-600 cursor-not-allowed text-gray-400'
                                 : 'bg-green-600 hover:bg-green-500 text-white'
                                 }`}
