@@ -99,7 +99,7 @@ const Members: React.FC = () => {
     if (loading) {
         return (
             <div className="min-h-[70vh] container mx-auto px-3 py-8 pt-24 md:px-4 md:pt-28">
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3 lg:gap-4 xl:grid-cols-4">
+                <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6 xl:grid-cols-4">
                     {Array.from({ length: 8 }).map((_, i) => (
                         <CardSkeleton key={i} />
                     ))}
@@ -182,7 +182,7 @@ const Members: React.FC = () => {
                     />
                 </div>
 
-                <motion.div layout className="grid grid-cols-1 gap-4 pb-12 md:grid-cols-2 lg:grid-cols-4">
+                <motion.div layout className="grid grid-cols-1 gap-5 pb-12 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6 xl:grid-cols-4">
                     <AnimatePresence mode="popLayout">
                         {filteredMembers.map((member) => (
                             <motion.div
