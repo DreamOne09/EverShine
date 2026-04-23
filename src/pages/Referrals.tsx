@@ -7,6 +7,7 @@ import { ArrowRight, Quote } from 'lucide-react';
 import PageHero from '../components/common/PageHero';
 import SEO from '../components/common/SEO';
 import { CardSkeleton, ErrorFallback, EmptyState, SmartImage } from '../components/loading';
+import { resolveMemberPhotoObjectPosition } from '../lib/memberPhotoPosition';
 
 const Referrals: React.FC = () => {
     const queryClient = useQueryClient();
@@ -170,7 +171,12 @@ const Referrals: React.FC = () => {
                                                         <SmartImage
                                                             src={referral.referrer.photo || '/images/assets/logo/白色正方形logo.png'}
                                                             alt={referral.referrer.name}
-                                                            className="w-full h-full object-cover object-[center_top]"
+                                                            className="w-full h-full object-cover"
+                                                            style={{
+                                                                objectPosition: resolveMemberPhotoObjectPosition(
+                                                                    referral.referrer.photoPosition
+                                                                ),
+                                                            }}
                                                         />
                                                     </div>
                                                     <div className="overflow-hidden">
@@ -197,7 +203,12 @@ const Referrals: React.FC = () => {
                                                         <SmartImage
                                                             src={referral.referee.photo || '/images/assets/logo/白色正方形logo.png'}
                                                             alt={referral.referee.name}
-                                                            className="w-full h-full object-cover object-[center_top]"
+                                                            className="w-full h-full object-cover"
+                                                            style={{
+                                                                objectPosition: resolveMemberPhotoObjectPosition(
+                                                                    referral.referee.photoPosition
+                                                                ),
+                                                            }}
                                                         />
                                                     </div>
                                                 </div>

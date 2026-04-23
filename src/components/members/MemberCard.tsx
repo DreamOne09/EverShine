@@ -7,6 +7,7 @@ import { siteConfig } from '../../config/site.config';
 import { normalizeMemberLinks } from '../../lib/memberLinks';
 import { formatTaiwanPhoneDisplay, formatTaiwanPhoneTelHref } from '../../lib/phoneFormat';
 import { idealPreviewLine } from '../../lib/memberIntroSplit';
+import { resolveMemberPhotoObjectPosition } from '../../lib/memberPhotoPosition';
 
 export interface MemberCardProps {
     member: Member;
@@ -64,7 +65,7 @@ const MemberCard: React.FC<MemberCardProps> = ({ member, onOpenDetails }) => {
                                     alt=""
                                     loading="lazy"
                                     className="h-full w-full object-cover"
-                                    style={{ objectPosition: member.photoPosition || 'center top' }}
+                                    style={{ objectPosition: resolveMemberPhotoObjectPosition(member.photoPosition) }}
                                     onError={() => setImgSrc(siteConfig.defaultPhoto)}
                                 />
                             </div>

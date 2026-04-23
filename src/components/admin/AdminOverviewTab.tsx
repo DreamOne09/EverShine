@@ -2,6 +2,7 @@ import React from 'react';
 import { Users, Activity, DollarSign, Calendar, Shield } from 'lucide-react';
 import StatsCard from '../common/StatsCard';
 import { EmptyState, SmartImage } from '../loading';
+import { resolveMemberPhotoObjectPosition } from '../../lib/memberPhotoPosition';
 import { siteConfig } from '../../config/site.config';
 
 export interface AdminOverviewTabProps {
@@ -55,7 +56,12 @@ const AdminOverviewTab: React.FC<AdminOverviewTabProps> = ({ stats, recentUpdate
                                         <SmartImage
                                             src={(item.photo as string) || siteConfig.defaultPhoto}
                                             alt={String(item.name)}
-                                            className="w-full h-full"
+                                            className="w-full h-full object-cover"
+                                            style={{
+                                                objectPosition: resolveMemberPhotoObjectPosition(
+                                                    (item.photoPosition ?? item.photo_position) as string | undefined
+                                                ),
+                                            }}
                                         />
                                     </div>
                                     <div>

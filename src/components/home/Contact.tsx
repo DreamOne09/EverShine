@@ -5,6 +5,7 @@ import { useMembers } from '../../hooks/useMembers';
 import { formatTaiwanPhoneDisplay, formatTaiwanPhoneTelHref } from '../../lib/phoneFormat';
 import type { Member } from '../../types';
 import MemberDetailModal from '../members/MemberDetailModal';
+import { resolveMemberPhotoObjectPosition } from '../../lib/memberPhotoPosition';
 
 /** 三尊幹部：站方設定職稱與預設聯絡；與會員庫 name 對應時由 Supabase members 覆寫公司／電話／信箱／產業 */
 const LEADERSHIP = [
@@ -166,7 +167,9 @@ const Contact: React.FC = () => {
                                             src={item.member?.photo || `/images/members/${item.name}.jpg`}
                                             alt={item.name}
                                             className="h-full w-full object-cover"
-                                            style={{ objectPosition: item.member?.photoPosition || 'center top' }}
+                                            style={{
+                                                objectPosition: resolveMemberPhotoObjectPosition(item.member?.photoPosition),
+                                            }}
                                             onError={(e) => {
                                                 e.currentTarget.src = '/images/assets/logo/白色正方形logo.png';
                                             }}

@@ -12,6 +12,7 @@ import { CardSkeleton } from '../components/loading';
 import { sanitizeText, sanitizeUrl } from '../lib/sanitize';
 import { formatTaiwanPhoneDisplay } from '../lib/phoneFormat';
 import { siteConfig } from '../config/site.config';
+import { resolveMemberPhotoObjectPosition } from '../lib/memberPhotoPosition';
 
 const CATEGORIES = [...siteConfig.industries];
 
@@ -48,7 +49,7 @@ const MemberEdit: React.FC = () => {
 
     // Photo
     const [photo, setPhoto] = useState('');
-    const [photoPosition, setPhotoPosition] = useState('center');
+    const [photoPosition, setPhotoPosition] = useState('top');
     const [photoFile, setPhotoFile] = useState<File | null>(null);
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
     const [phone, setPhone] = useState('');
@@ -118,7 +119,7 @@ const MemberEdit: React.FC = () => {
                 setShortIntro(m.shortIntro || '');
                 setFullIntro(m.fullIntro || '');
                 setPhoto((m.photo || '').trim());
-                setPhotoPosition(m.photoPosition || 'center');
+                setPhotoPosition(m.photoPosition?.trim() ? m.photoPosition : 'top');
                 setPhone(formatTaiwanPhoneDisplay(m.phone || ''));
                 setEmail(m.email || '');
 
@@ -421,7 +422,7 @@ const MemberEdit: React.FC = () => {
                                     src={previewUrl || (photo ? photo.trim() : '') || '/images/assets/logo/白色正方形logo.png'}
                                     alt="Profile"
                                     className="w-full h-full object-cover"
-                                    style={{ objectPosition: photoPosition }}
+                                    style={{ objectPosition: resolveMemberPhotoObjectPosition(photoPosition) }}
                                 />
                                 <label className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 md:group-hover:opacity-100 transition-opacity cursor-pointer md:opacity-0">
                                     <input type="file" onChange={handleFileUpload} accept="image/*" className="hidden" />

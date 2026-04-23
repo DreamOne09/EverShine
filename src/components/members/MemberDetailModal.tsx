@@ -7,6 +7,7 @@ import { siteConfig } from '../../config/site.config';
 import { normalizeMemberLinks } from '../../lib/memberLinks';
 import { formatTaiwanPhoneDisplay, formatTaiwanPhoneTelHref } from '../../lib/phoneFormat';
 import { splitIntro } from '../../lib/memberIntroSplit';
+import { resolveMemberPhotoObjectPosition } from '../../lib/memberPhotoPosition';
 
 function getPhotoUrl(photo: string) {
     if (!photo) return siteConfig.defaultPhoto;
@@ -203,7 +204,9 @@ const MemberDetailModal: React.FC<{
                                                                 src={getPhotoUrl(m.photo)}
                                                                 alt=""
                                                                 className="h-full w-full object-cover"
-                                                                style={{ objectPosition: m.photoPosition || 'center top' }}
+                                                                style={{
+                                                                    objectPosition: resolveMemberPhotoObjectPosition(m.photoPosition),
+                                                                }}
                                                             />
                                                         </div>
                                                     </div>

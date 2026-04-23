@@ -30,12 +30,14 @@ export async function fetchReferralsForDisplay(): Promise<Referral[]> {
     const refsData = await fetchReferralsRaw();
     if (refsData.length === 0) return [];
 
-    const { data: membersData } = await supabase.from('members').select('name, industry, photo');
+    const { data: membersData } = await supabase.from('members').select('name, industry, photo, photoPosition');
     const membersMap = new Map(membersData?.map((m) => [m.name, m]));
 
     return refsData.map((ref) => {
-        const referrerDetails = membersMap.get(ref.referrer_name as string);
-        const refereeDetails = membersMap.get(ref.referee_name as string);
+        const referrerDetails = membersMap.get(ref.referrer_name as string) as Record<string, unknown> | undefined;
+        const refereeDetails = membersMap.get(ref.referee_name as string) as Record<string, unknown> | undefined;
+        const refPos = (row: Record<string, unknown> | undefined) =>
+            (row?.photoPosition ?? row?.photo_position) as string | undefined;
         return {
             id: String(ref.id),
             title: (ref.title as string) || '',
@@ -45,6 +47,7 @@ export async function fetchReferralsForDisplay(): Promise<Referral[]> {
                 name: ref.referrer_name as string,
                 industry: referrerDetails?.industry || 'Unknown',
                 photo: referrerDetails?.photo || '',
+                photoPosition: refPos(referrerDetails),
                 story: ref.referrer_story as string | undefined,
                 testimonial: ref.referrer_testimonial as string | undefined,
             },
@@ -52,6 +55,7 @@ export async function fetchReferralsForDisplay(): Promise<Referral[]> {
                 name: ref.referee_name as string,
                 industry: refereeDetails?.industry || 'Unknown',
                 photo: refereeDetails?.photo || '',
+                photoPosition: refPos(refereeDetails),
                 story: ref.referee_story as string | undefined,
                 value: (ref.referee_value as string) || '',
             },

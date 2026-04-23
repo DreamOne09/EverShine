@@ -3,6 +3,7 @@ import { Edit, Trash2, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../lib/supabase';
 import { TableSkeleton, EmptyState, SmartImage } from '../loading';
+import { resolveMemberPhotoObjectPosition } from '../../lib/memberPhotoPosition';
 
 interface Member {
     id: string;
@@ -12,6 +13,7 @@ interface Member {
     position?: string;
     title?: string;
     photo?: string;
+    photoPosition?: string;
 }
 
 interface Props {
@@ -67,6 +69,9 @@ const MemberList: React.FC<Props> = ({ members, loading, onRefresh }) => {
                                     src={member.photo || '/images/assets/logo/白色正方形logo.png'}
                                     alt={member.name}
                                     className="w-full h-full object-cover"
+                                    style={{
+                                        objectPosition: resolveMemberPhotoObjectPosition(member.photoPosition),
+                                    }}
                                 />
                             </div>
                             <div className="min-w-0 flex-1">
@@ -113,6 +118,9 @@ const MemberList: React.FC<Props> = ({ members, loading, onRefresh }) => {
                                             src={member.photo || '/images/assets/logo/白色正方形logo.png'}
                                             alt={member.name}
                                             className="w-full h-full object-cover"
+                                            style={{
+                                                objectPosition: resolveMemberPhotoObjectPosition(member.photoPosition),
+                                            }}
                                         />
                                     </div>
                                     <span className="font-medium text-white">{member.name}</span>

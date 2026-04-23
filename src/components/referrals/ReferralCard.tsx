@@ -1,9 +1,17 @@
 import React, { useState } from 'react';
 import type { Referral } from '../../types';
 import { ArrowRight, Quote } from 'lucide-react';
+import { resolveMemberPhotoObjectPosition } from '../../lib/memberPhotoPosition';
 
-const PersonAvatar: React.FC<{ name: string, photo: string, industry: string, isReferee?: boolean }> = ({ name, photo, industry, isReferee }) => {
+const PersonAvatar: React.FC<{
+    name: string;
+    photo: string;
+    industry: string;
+    photoPosition?: string;
+    isReferee?: boolean;
+}> = ({ name, photo, industry, photoPosition, isReferee }) => {
     const [imgSrc, setImgSrc] = useState(photo);
+    const pos = resolveMemberPhotoObjectPosition(photoPosition);
 
     return (
         <div className="flex flex-col items-center text-center">
@@ -12,6 +20,7 @@ const PersonAvatar: React.FC<{ name: string, photo: string, industry: string, is
                     src={imgSrc}
                     alt={name}
                     className="w-full h-full rounded-full object-cover bg-[#06203a]"
+                    style={{ objectPosition: pos }}
                     onError={() => setImgSrc('/images/assets/logo/白色正方形logo.png')}
                 />
             </div>
@@ -56,6 +65,7 @@ const ReferralCard: React.FC<{ referral: Referral }> = ({ referral }) => {
                         name={referral.referrer.name}
                         photo={referral.referrer.photo}
                         industry={referral.referrer.industry}
+                        photoPosition={referral.referrer.photoPosition}
                     />
 
                     <div className="text-[#c5a47e]/50 flex flex-col items-center">
@@ -67,6 +77,7 @@ const ReferralCard: React.FC<{ referral: Referral }> = ({ referral }) => {
                         name={referral.referee.name}
                         photo={referral.referee.photo}
                         industry={referral.referee.industry}
+                        photoPosition={referral.referee.photoPosition}
                         isReferee
                     />
                 </div>

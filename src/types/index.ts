@@ -41,6 +41,8 @@ export interface ReferralPerson {
     name: string;
     industry: string;
     photo: string;
+    /** 與 members.photoPosition 同步，供頭像 object-position */
+    photoPosition?: string;
     story?: string;
     testimonial?: string;
     value?: string;
