@@ -236,7 +236,7 @@ const MemberDetailModal: React.FC<{
 
                         <div className="relative z-10 min-h-0 flex-1 overflow-x-hidden overflow-y-auto overscroll-contain px-4 pb-5 pt-1 sm:px-8 sm:pb-8 sm:pt-2">
                             <div className="mx-auto grid max-w-5xl items-start gap-8 lg:grid-cols-12 lg:gap-10">
-                                {/* 左欄：破格頭像 + 工職金屬標 + 2x2 圖示網格 */}
+                                {/* 左欄：破格頭像 + 產業別金屬標 + 2x2 圖示網格 */}
                                 <div className="flex w-full min-w-0 flex-col items-center lg:col-span-4 lg:items-stretch">
                                     <div className="relative flex w-full max-w-sm flex-col items-center px-1 text-center lg:mx-auto">
                                         {/* 預留頭像向上偏移空間 */}
@@ -260,7 +260,7 @@ const MemberDetailModal: React.FC<{
                                             </h3>
 
                                             <div className="mt-4 w-full rounded-full border border-amber-300/30 bg-gradient-to-r from-amber-200/20 to-yellow-500/20 px-4 py-2.5 text-center text-xs font-semibold tracking-wide text-amber-50 shadow-inner shadow-black/20 sm:text-sm">
-                                                <span className="line-clamp-2 break-words">工職：{m.industry || '未分類'}</span>
+                                                <span className="line-clamp-2 break-words">產業別：{m.industry || '未分類'}</span>
                                             </div>
 
                                             {(m.company || m.position || m.title) && (
