@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Phone } from 'lucide-react';
 import { useMembers } from '../../hooks/useMembers';
 import { formatTaiwanPhoneDisplay, formatTaiwanPhoneTelHref } from '../../lib/phoneFormat';
+import type { Member } from '../../types';
+import MemberDetailModal from '../members/MemberDetailModal';
 
 /** 三尊幹部：站方設定職稱與預設聯絡；與會員庫 name 對應時由 Supabase members 覆寫公司／電話／信箱／產業 */
 const LEADERSHIP = [
@@ -32,20 +34,58 @@ const LEADERSHIP = [
     },
 ] as const;
 
+type LeadershipRow = {
+    title: string;
+    name: string;
+    industry: string;
+    company: string;
+    phone: string;
+    email: string;
+    member: Member | null;
+};
+
+function buildLeaderMemberForModal(row: LeadershipRow, fallback: (typeof LEADERSHIP)[number], index: number): Member {
+    if (row.member) return row.member;
+    const phoneDigits = row.phone.replace(/\D/g, '');
+    return {
+        id: -(100_000 + index),
+        name: row.name,
+        photo: `/images/members/${row.name}.jpg`,
+        industry: row.industry,
+        company: row.company,
+        position: fallback.title.replace(/^現任/, ''),
+        title: fallback.title.replace(/^現任/, ''),
+        shortIntro: '',
+        fullIntro: '',
+        links: row.email ? { mail: `mailto:${row.email}` } : {},
+        services: [],
+        hashtags: [],
+        email: row.email || undefined,
+        phone: phoneDigits || undefined,
+    };
+}
+
 const Contact: React.FC = () => {
     const { members } = useMembers();
+    const [detailMember, setDetailMember] = useState<Member | null>(null);
 
-    const leadership = LEADERSHIP.map((role) => {
-        const member = members.find((m) => m.name === role.name);
-        return {
-            ...role,
-            member: member ?? null,
-            company: member?.company?.trim() || role.company,
-            phone: formatTaiwanPhoneDisplay(member?.phone?.trim() || role.phone),
-            email: (member?.email?.trim() || role.email || '').trim(),
-            industry: member?.industry?.trim() || role.industry,
-        };
-    });
+    const leadership = useMemo(() => {
+        return LEADERSHIP.map((role) => {
+            const member = members.find((m) => m.name === role.name) ?? null;
+            return {
+                ...role,
+                member,
+                company: member?.company?.trim() || role.company,
+                phone: formatTaiwanPhoneDisplay(member?.phone?.trim() || role.phone),
+                email: (member?.email?.trim() || role.email || '').trim(),
+                industry: member?.industry?.trim() || role.industry,
+            } satisfies LeadershipRow;
+        });
+    }, [members]);
+
+    const openLeaderDetail = useCallback((row: LeadershipRow, fallback: (typeof LEADERSHIP)[number], index: number) => {
+        setDetailMember(buildLeaderMemberForModal(row, fallback, index));
+    }, []);
 
     return (
         <section
@@ -93,14 +133,26 @@ const Contact: React.FC = () => {
 
                 {/* 三尊卡片 */}
                 <div className="mx-auto grid max-w-6xl grid-cols-1 gap-8 md:grid-cols-3 md:gap-6 lg:gap-8">
-                    {leadership.map((item, index) => (
+                    {leadership.map((item, index) => {
+                        const fallback = LEADERSHIP[index];
+                        return (
                         <motion.article
                             key={item.name}
+                            role="button"
+                            tabIndex={0}
+                            aria-label={`查看 ${item.name} 完整會員介紹`}
                             initial={{ opacity: 0, y: 24 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true, margin: '-40px' }}
                             transition={{ delay: index * 0.08, duration: 0.45 }}
-                            className="group flex h-full min-h-0 flex-col rounded-2xl border border-[#4FB0E3]/25 bg-gradient-to-b from-[#0c1a2e]/95 to-[#081018]/95 p-6 shadow-[0_12px_40px_rgba(0,0,0,0.35)] backdrop-blur-md transition-all duration-300 hover:border-[#4FB0E3]/45 hover:shadow-[0_16px_48px_rgba(79,176,227,0.08)] sm:p-7"
+                            onClick={() => openLeaderDetail(item, fallback, index)}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter' || e.key === ' ') {
+                                    e.preventDefault();
+                                    openLeaderDetail(item, fallback, index);
+                                }
+                            }}
+                            className="group flex h-full min-h-0 cursor-pointer flex-col rounded-2xl border border-[#4FB0E3]/25 bg-gradient-to-b from-[#0c1a2e]/95 to-[#081018]/95 p-6 shadow-[0_12px_40px_rgba(0,0,0,0.35)] backdrop-blur-md transition-all duration-300 hover:border-[#4FB0E3]/45 hover:shadow-[0_16px_48px_rgba(79,176,227,0.08)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#4FB0E3]/60 sm:p-7"
                         >
                             {/* 頭像 */}
                             <div className="mb-6 flex flex-col items-center text-center">
@@ -137,6 +189,8 @@ const Contact: React.FC = () => {
                                 <div className="space-y-3.5">
                                     <a
                                         href={`tel:${formatTaiwanPhoneTelHref(item.phone)}`}
+                                        onClick={(e) => e.stopPropagation()}
+                                        onKeyDown={(e) => e.stopPropagation()}
                                         className="flex items-start gap-3 rounded-lg px-1 py-1 text-gray-200 transition-colors hover:bg-white/5 hover:text-[#7dd3fc]"
                                     >
                                         <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#4FB0E3]/12 text-[#4FB0E3]">
@@ -149,6 +203,8 @@ const Contact: React.FC = () => {
                                     {item.email ? (
                                         <a
                                             href={`mailto:${item.email}`}
+                                            onClick={(e) => e.stopPropagation()}
+                                            onKeyDown={(e) => e.stopPropagation()}
                                             className="flex items-start gap-3 rounded-lg px-1 py-1 text-gray-200 transition-colors hover:bg-white/5 hover:text-[#7dd3fc]"
                                         >
                                             <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#4FB0E3]/12 text-[#4FB0E3]">
@@ -164,9 +220,12 @@ const Contact: React.FC = () => {
                                 </div>
                             </div>
                         </motion.article>
-                    ))}
+                    );
+                    })}
                 </div>
             </div>
+
+            <MemberDetailModal member={detailMember} open={detailMember !== null} onClose={() => setDetailMember(null)} />
         </section>
     );
 };
