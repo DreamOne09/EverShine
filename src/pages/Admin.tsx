@@ -276,6 +276,7 @@ const Admin: React.FC = () => {
                         memberSearch={memberSearch}
                         onMemberSearch={setMemberSearch}
                         onAddMember={() => setMemberModalOpen(true)}
+                        allMembers={members}
                         filteredMembers={filteredMembers}
                         loading={loading}
                         onRefresh={() => void refetchDashboard()}

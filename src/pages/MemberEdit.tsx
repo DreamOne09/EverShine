@@ -111,6 +111,15 @@ const MemberEdit: React.FC = () => {
             if (error) throw error;
             if (data) {
                 const m = data as Member;
+
+                // 冷凍會員不得進入編輯頁（非 admin 本人進自己）
+                if (!targetId && m.status && m.status !== 'active') {
+                    alert(`歡迎您隨時回到 ${siteConfig.branchFullName}，我們隨時歡迎您。`);
+                    await signOut();
+                    navigate('/');
+                    return;
+                }
+
                 setMemberId(m.id.toString());
                 setName(m.name);
                 setCompany(m.company || '');
