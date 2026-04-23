@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Building, Briefcase, Phone, Mail, Globe, Target, Check } from 'lucide-react';
+import { X, Building, Briefcase, Phone, Mail, Globe, Target, Check, Linkedin } from 'lucide-react';
 import type { Member } from '../../types';
 import { siteConfig } from '../../config/site.config';
 import { normalizeMemberLinks } from '../../lib/memberLinks';
@@ -19,9 +19,26 @@ function getPhotoUrl(photo: string) {
 const bentoPanel =
     'rounded-2xl border border-white/[0.11] bg-white/[0.055] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] backdrop-blur-xl sm:p-5';
 
-/** 長文 Bento 區：內部捲動，避免撐破外層或與左欄高度打架（如設計稿圖 2） */
-const bentoScrollBody =
-    'max-h-[min(52vh,22rem)] overflow-y-auto overscroll-contain pr-1 [scrollbar-width:thin] [scrollbar-color:rgba(148,163,184,0.45)_transparent] sm:max-h-[min(58vh,26rem)] lg:max-h-[min(68vh,32rem)]';
+/** 長文區：在父層已限制高度時用 flex-1 + min-h-0 捲動，避免穿透下方區塊 */
+const bentoTextScroll =
+    'min-h-0 flex-1 overflow-y-auto overscroll-contain py-0.5 pr-2 [scrollbar-width:thin] [scrollbar-color:rgba(148,163,184,0.5)_transparent]';
+
+const proseTight = 'whitespace-pre-wrap break-words text-sm leading-[1.65] text-slate-200 sm:text-base';
+
+function inferLinkVisualType(type: string, url: string): string {
+    const t = (type || '').toLowerCase();
+    const u = (url || '').toLowerCase();
+    if (t === 'facebook' || t === 'fb' || u.includes('facebook.com')) return 'facebook';
+    if (t === 'instagram' || t === 'ig' || u.includes('instagram.com')) return 'instagram';
+    if (t === 'linkedin' || u.includes('linkedin.com')) return 'linkedin';
+    if (t === 'line' || u.includes('line.me')) return 'line';
+    if (t === 'website' || t === 'globe' || /^https?:\/\//i.test(url || '')) {
+        if (u.includes('facebook.com')) return 'facebook';
+        if (u.includes('instagram.com')) return 'instagram';
+        if (u.includes('linkedin.com')) return 'linkedin';
+    }
+    return t;
+}
 
 const MemberDetailModal: React.FC<{
     member: Member | null;
@@ -47,8 +64,9 @@ const MemberDetailModal: React.FC<{
 
     const logoSrc = siteConfig.logos.horizontal;
 
-    const linkIcon = (t: string, size = 18) => {
-        switch (t.toLowerCase()) {
+    const linkIcon = (t: string, size = 18, url?: string) => {
+        const kind = inferLinkVisualType(t, url || '');
+        switch (kind) {
             case 'phone':
                 return <Phone size={size} />;
             case 'mail':
@@ -57,17 +75,19 @@ const MemberDetailModal: React.FC<{
             case 'facebook':
             case 'fb':
                 return (
-                    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" className="shrink-0">
+                    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" className="shrink-0 text-[#1877F2]">
                         <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
                     </svg>
                 );
             case 'instagram':
             case 'ig':
                 return (
-                    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" className="shrink-0">
+                    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" className="shrink-0 text-pink-300">
                         <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
                     </svg>
                 );
+            case 'linkedin':
+                return <Linkedin size={size} className="shrink-0 text-[#0A66C2]" />;
             case 'line':
                 return (
                     <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" className="shrink-0">
@@ -75,7 +95,7 @@ const MemberDetailModal: React.FC<{
                     </svg>
                 );
             default:
-                return <Globe size={size} />;
+                return <Globe size={size} className="text-sky-300/90" />;
         }
     };
 
@@ -84,20 +104,23 @@ const MemberDetailModal: React.FC<{
 
     const renderDockLink = (link: { type: string; url: string }) => {
         const t = (link.type || '').toLowerCase();
+        const vis = inferLinkVisualType(link.type, link.url);
         const label =
-            t === 'line'
+            vis === 'line'
                 ? 'LINE'
-                : t === 'instagram' || t === 'ig'
+                : vis === 'instagram' || vis === 'ig'
                   ? 'IG'
-                  : t === 'facebook' || t === 'fb'
-                    ? 'FB'
-                    : t === 'website' || t === 'globe'
-                      ? '網站'
-                      : t === 'phone'
-                        ? '電話'
-                        : t === 'mail' || t === 'email'
-                          ? '信箱'
-                          : link.type;
+                  : vis === 'facebook' || vis === 'fb'
+                    ? 'Facebook'
+                    : vis === 'linkedin'
+                      ? 'LinkedIn'
+                      : vis === 'website' || vis === 'globe'
+                        ? '網站'
+                        : t === 'phone'
+                          ? '電話'
+                          : t === 'mail' || t === 'email'
+                            ? '信箱'
+                            : link.type;
 
         const href = t === 'phone' ? `tel:${formatTaiwanPhoneTelHref(link.url)}` : link.url;
         const isTel = t === 'phone';
@@ -109,7 +132,7 @@ const MemberDetailModal: React.FC<{
                 {...(!isTel ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                 className={contactDockClass}
             >
-                {linkIcon(t, 18)}
+                {linkIcon(link.type, 18, link.url)}
                 <span className="max-w-full truncate px-0.5 text-center">{label}</span>
             </a>
         );
@@ -165,26 +188,26 @@ const MemberDetailModal: React.FC<{
                             aria-hidden
                         />
 
-                        {/* 頂列：長輝分會標誌（右上）+ 浮動關閉 */}
-                        <div className="relative z-20 shrink-0 px-3 pb-1 pt-3 sm:px-6 sm:pt-4">
+                        {/* 頂列：預留右側給關閉鈕，避免 Logo 被裁切 */}
+                        <div className="relative z-20 shrink-0 px-4 pb-2 pt-4 sm:px-7 sm:pb-3 sm:pt-5">
                             <h2 id="member-detail-title" className="sr-only">
                                 {m.name} — 會員檔案
                             </h2>
                             <button
                                 type="button"
                                 onClick={onClose}
-                                className="absolute right-2 top-2 z-30 rounded-xl p-2 text-slate-400 transition-colors hover:bg-white/10 hover:text-white sm:right-4 sm:top-3"
+                                className="absolute right-3 top-3 z-30 rounded-xl p-2 text-slate-400 transition-colors hover:bg-white/10 hover:text-white sm:right-5 sm:top-4"
                                 aria-label="關閉"
                             >
                                 <X size={22} />
                             </button>
-                            <div className="flex flex-col items-end gap-1 pr-11 sm:pr-12">
+                            <div className="flex flex-col items-end gap-1.5 pr-14 sm:pr-16">
                                 <img
                                     src={logoSrc}
                                     alt="BNI 長輝白金分會"
-                                    className="h-12 w-auto max-w-[min(78vw,300px)] object-contain object-right drop-shadow-[0_0_24px_rgba(59,130,246,0.28)] sm:h-[3.75rem]"
+                                    className="h-11 w-auto max-w-[min(70vw,280px)] object-contain object-right contrast-[1.08] drop-shadow-[0_0_20px_rgba(59,130,246,0.35)] sm:h-[3.25rem] sm:max-w-[min(65vw,320px)]"
                                 />
-                                <span className="text-[11px] font-semibold tracking-[0.32em] text-slate-400 sm:text-xs">
+                                <span className="text-[11px] font-semibold tracking-[0.28em] text-slate-300 sm:text-xs">
                                     長輝白金分會
                                 </span>
                             </div>
@@ -195,15 +218,16 @@ const MemberDetailModal: React.FC<{
                                 {/* 左欄：大螢幕 sticky，長文捲動時身分區仍固定可見 */}
                                 <div className="flex w-full min-w-0 flex-col items-center lg:sticky lg:top-2 lg:col-span-4 lg:self-start lg:px-1">
                                     <div className="relative z-10 flex w-full max-w-md flex-col items-center text-center lg:mx-auto lg:items-center">
-                                        <div className="w-full pt-1 sm:pt-2">
-                                            <div className="relative -mt-12 flex w-full justify-center sm:-mt-14 lg:-mt-16">
-                                                <div className="relative h-36 w-36 shrink-0 sm:h-44 sm:w-44 lg:h-48 lg:w-48">
+                                        {/* 頭像獨立區塊：姓名在圓形下方，避免與照片重疊、裁切頭頂 */}
+                                        <div className="flex w-full flex-col items-center pt-2">
+                                            <div className="relative flex justify-center">
+                                                <div className="relative h-[8.5rem] w-[8.5rem] shrink-0 sm:h-40 sm:w-40 lg:h-44 lg:w-44">
                                                     <div
-                                                        className="absolute -inset-1 rounded-full bg-gradient-to-b from-[#3b82f6]/30 to-transparent blur-md"
+                                                        className="absolute -inset-1 rounded-full bg-gradient-to-b from-[#3b82f6]/28 to-transparent blur-md"
                                                         aria-hidden
                                                     />
-                                                    <div className="relative rounded-full border-[4px] border-slate-950 bg-slate-950 shadow-[0_28px_70px_rgba(0,0,0,0.6)]">
-                                                        <div className="relative h-full w-full overflow-hidden rounded-full border border-[#38bdf8] ring-1 ring-white/15">
+                                                    <div className="relative rounded-full border-[4px] border-slate-950 bg-slate-950 shadow-[0_24px_60px_rgba(0,0,0,0.55)]">
+                                                        <div className="relative aspect-square w-full overflow-hidden rounded-full border border-[#38bdf8] ring-1 ring-white/15">
                                                             <img
                                                                 src={getPhotoUrl(m.photo)}
                                                                 alt=""
@@ -216,14 +240,14 @@ const MemberDetailModal: React.FC<{
                                                     </div>
                                                 </div>
                                             </div>
+
+                                            <h3 className="mt-5 w-full break-words px-1 text-xl font-black tracking-[0.06em] text-white sm:mt-6 sm:text-2xl sm:tracking-[0.1em] lg:text-3xl">
+                                                {m.name}
+                                            </h3>
                                         </div>
 
-                                        <h3 className="relative z-20 mt-3 w-full break-words text-xl font-black tracking-[0.08em] text-white sm:mt-4 sm:text-2xl sm:tracking-[0.12em] lg:text-3xl">
-                                            {m.name}
-                                        </h3>
-
                                         <div
-                                            className={`relative z-20 mt-3 w-full rounded-2xl border border-amber-200/35 bg-gradient-to-r from-amber-900/45 via-slate-600/50 to-amber-950/40 px-3 py-2.5 text-center text-sm font-semibold leading-snug tracking-wide text-amber-50 shadow-[inset_0_1px_0_rgba(255,255,255,0.2)] sm:px-4 sm:text-base ${!(m.company || m.position || m.title) ? 'mb-4' : ''}`}
+                                            className={`mt-5 w-full rounded-2xl border border-amber-200/35 bg-gradient-to-r from-amber-900/45 via-slate-600/50 to-amber-950/40 px-4 py-3 text-center text-sm font-semibold leading-snug tracking-wide text-amber-50 shadow-[inset_0_1px_0_rgba(255,255,255,0.2)] sm:px-5 sm:text-base ${!(m.company || m.position || m.title) ? 'mb-4' : ''}`}
                                         >
                                             <span className="block break-words">
                                                 產業別：{m.industry || '未分類'}
@@ -231,7 +255,7 @@ const MemberDetailModal: React.FC<{
                                         </div>
 
                                         {(m.company || m.position || m.title) && (
-                                            <div className="mb-4 w-full space-y-2 text-sm leading-snug tracking-wide text-slate-400 sm:text-base">
+                                            <div className="mb-5 mt-1 w-full space-y-2.5 text-sm leading-relaxed tracking-wide text-slate-400 sm:text-base">
                                                 {m.company ? (
                                                     <p className="flex items-start justify-center gap-2 text-left lg:justify-start">
                                                         <Building size={16} className="mt-0.5 shrink-0 text-sky-400/90" />
@@ -247,11 +271,11 @@ const MemberDetailModal: React.FC<{
                                             </div>
                                         )}
 
-                                        <div className="mt-1 w-full lg:mt-2">
-                                            <p className="mb-2 text-center text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500 lg:text-left">
+                                        <div className="mt-2 w-full pb-1 lg:mt-3">
+                                            <p className="mb-2.5 text-center text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500 lg:text-left">
                                                 聯絡方式
                                             </p>
-                                            <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-2">
+                                            <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 lg:grid-cols-2">
                                                 {m.phone ? (
                                                     <a
                                                         href={`tel:${formatTaiwanPhoneTelHref(m.phone)}`}
@@ -292,31 +316,29 @@ const MemberDetailModal: React.FC<{
                                                 <div
                                                     className={
                                                         ideal
-                                                            ? 'flex flex-col gap-3 lg:flex-row lg:items-stretch lg:gap-4'
-                                                            : 'flex flex-col gap-3'
+                                                            ? 'flex min-h-0 flex-col gap-3 lg:max-h-[min(52vh,28rem)] lg:flex-row lg:items-stretch lg:gap-5'
+                                                            : 'flex min-h-0 flex-col gap-3'
                                                     }
                                                 >
                                                     <section
                                                         className={
                                                             ideal
-                                                                ? `${bentoPanel} flex min-h-0 min-w-0 flex-1 flex-col lg:basis-[58%]`
-                                                                : `${bentoPanel} min-w-0`
+                                                                ? `${bentoPanel} flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden lg:min-h-[12rem] lg:basis-[58%]`
+                                                                : `${bentoPanel} flex min-h-0 min-w-0 flex-col overflow-hidden`
                                                         }
                                                     >
-                                                        <h3 className="mb-2 shrink-0 text-xs font-bold uppercase tracking-[0.22em] text-sky-400 sm:text-sm">
+                                                        <h3 className="mb-2.5 shrink-0 text-xs font-bold uppercase tracking-[0.22em] text-sky-400 sm:text-sm">
                                                             個人介紹
                                                         </h3>
-                                                        <div className={bentoScrollBody}>
-                                                            <p className="whitespace-pre-wrap break-words text-sm leading-relaxed text-slate-200 sm:text-base lg:text-[0.95rem] lg:leading-7">
-                                                                {displayIntro || '—'}
-                                                            </p>
+                                                        <div className={ideal ? `${bentoTextScroll} min-h-[8rem]` : `${bentoTextScroll} max-h-[min(55vh,24rem)]`}>
+                                                            <p className={proseTight}>{displayIntro || '—'}</p>
                                                         </div>
                                                     </section>
 
                                                     {ideal ? (
-                                                        <section className="flex min-h-0 min-w-0 flex-1 shrink-0 rounded-2xl bg-gradient-to-br from-amber-400 via-[#3b82f6] to-emerald-400 p-[1px] shadow-[0_0_40px_rgba(59,130,246,0.2)] lg:basis-[42%]">
+                                                        <section className="flex min-h-0 min-w-0 flex-1 shrink-0 overflow-hidden rounded-2xl bg-gradient-to-br from-amber-400 via-[#3b82f6] to-emerald-400 p-[1px] shadow-[0_0_40px_rgba(59,130,246,0.2)] lg:min-h-[12rem] lg:basis-[42%]">
                                                             <div className="flex h-full min-h-0 min-w-0 flex-col rounded-[15px] bg-slate-950/96 p-4 backdrop-blur-xl sm:p-5">
-                                                                <h3 className="mb-2 flex shrink-0 items-center gap-2 text-sm font-bold uppercase tracking-[0.18em] text-amber-100 sm:text-base">
+                                                                <h3 className="mb-2.5 flex shrink-0 items-center gap-2 text-sm font-bold uppercase tracking-[0.18em] text-amber-100 sm:text-base">
                                                                     <Target
                                                                         className="shrink-0 text-sky-300 animate-pulse"
                                                                         size={20}
@@ -324,10 +346,8 @@ const MemberDetailModal: React.FC<{
                                                                     />
                                                                     理想引薦對象
                                                                 </h3>
-                                                                <div className={`min-h-0 flex-1 ${bentoScrollBody}`}>
-                                                                    <p className="whitespace-pre-wrap break-words text-sm leading-relaxed text-slate-100 sm:text-base lg:text-[0.95rem] lg:leading-7">
-                                                                        {ideal}
-                                                                    </p>
+                                                                <div className={`${bentoTextScroll} min-h-[6rem]`}>
+                                                                    <p className={`${proseTight} text-slate-100`}>{ideal}</p>
                                                                 </div>
                                                             </div>
                                                         </section>
@@ -335,7 +355,7 @@ const MemberDetailModal: React.FC<{
                                                 </div>
 
                                                 {services.length > 0 ? (
-                                                    <section className={`${bentoPanel} relative min-w-0 overflow-hidden`}>
+                                                    <section className={`${bentoPanel} relative min-h-0 min-w-0 overflow-hidden`}>
                                                         <div
                                                             className="pointer-events-none absolute inset-0 opacity-[0.22]"
                                                             style={{
@@ -348,11 +368,11 @@ const MemberDetailModal: React.FC<{
                                                             <h3 className="mb-3 text-xs font-bold uppercase tracking-[0.22em] text-amber-200/90 sm:text-sm">
                                                                 服務項目
                                                             </h3>
-                                                            <ul className="grid grid-cols-1 gap-x-6 gap-y-2 sm:grid-cols-2">
+                                                            <ul className="grid max-h-[min(42vh,17rem)] grid-cols-1 gap-x-6 gap-y-2 overflow-y-auto overscroll-contain pr-1 [scrollbar-width:thin] sm:max-h-[min(48vh,20rem)] sm:grid-cols-2 lg:max-h-[min(40vh,18rem)]">
                                                                 {services.map((s, i) => (
                                                                     <li
                                                                         key={i}
-                                                                        className="flex items-start gap-2.5 text-sm leading-relaxed text-slate-200 sm:text-base"
+                                                                        className="flex items-start gap-2.5 text-sm leading-[1.65] text-slate-200 sm:text-base"
                                                                     >
                                                                         <Check
                                                                             className="mt-0.5 shrink-0 text-sky-400"
