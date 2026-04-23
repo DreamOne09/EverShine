@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
-import { Activity, FileEdit, RefreshCw } from 'lucide-react';
+import { Activity, RefreshCw } from 'lucide-react';
 import SEO from '../components/common/SEO';
 import {
     MainLayoutSkeleton,
@@ -240,12 +240,6 @@ const Admin: React.FC = () => {
                     >
                         <RefreshCw size={18} />
                     </button>
-                    <Link
-                        to="/admin/cms"
-                        className="inline-flex items-center gap-2 text-sm font-bold text-primary hover:text-white border border-primary/40 rounded-full px-3 py-1.5 hover:bg-primary/10 transition-colors"
-                    >
-                        <FileEdit size={16} /> CMS
-                    </Link>
                 </h1>
                 <div className="w-full md:w-auto overflow-x-auto -mx-4 px-4 md:mx-0 md:px-0 scrollbar-hide">
                     <div className="flex bg-white/5 p-1 rounded-lg backdrop-blur-sm border border-white/10 min-w-max">

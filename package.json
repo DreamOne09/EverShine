@@ -16,9 +16,8 @@
     "test:e2e:ci": "npm run build && playwright test"
   },
   "dependencies": {
-    "@blocknote/core": "^0.48.1",
-    "@blocknote/react": "^0.48.1",
     "@supabase/supabase-js": "^2.87.3",
+    "@tanstack/react-query": "^5.99.2",
     "browser-image-compression": "^2.0.2",
     "chart.js": "^4.5.1",
     "clsx": "^2.1.1",
@@ -30,8 +29,7 @@
     "react-dom": "^19.2.1",
     "react-router-dom": "^7.10.1",
     "serve": "^14.2.5",
-    "tailwind-merge": "^3.4.0",
-    "@tanstack/react-query": "^5.99.2"
+    "tailwind-merge": "^3.4.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
