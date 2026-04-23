@@ -19,6 +19,10 @@ function getPhotoUrl(photo: string) {
 const bentoPanel =
     'rounded-2xl border border-white/[0.11] bg-white/[0.055] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] backdrop-blur-xl sm:p-5';
 
+/** 長文 Bento 區：內部捲動，避免撐破外層或與左欄高度打架（如設計稿圖 2） */
+const bentoScrollBody =
+    'max-h-[min(52vh,22rem)] overflow-y-auto overscroll-contain pr-1 [scrollbar-width:thin] [scrollbar-color:rgba(148,163,184,0.45)_transparent] sm:max-h-[min(58vh,26rem)] lg:max-h-[min(68vh,32rem)]';
+
 const MemberDetailModal: React.FC<{
     member: Member | null;
     open: boolean;
@@ -76,7 +80,7 @@ const MemberDetailModal: React.FC<{
     };
 
     const contactDockClass =
-        'flex flex-col items-center gap-1 rounded-xl border border-white/[0.12] bg-black/35 px-2 py-2.5 text-[11px] font-medium tracking-wide text-slate-200 shadow-inner shadow-black/30 transition-all hover:border-sky-400/40 hover:bg-white/[0.06] hover:text-white sm:text-xs';
+        'flex min-h-[4.5rem] min-w-0 flex-col items-center justify-center gap-1 rounded-xl border border-white/[0.12] bg-black/35 px-1.5 py-2 text-[10px] font-medium tracking-wide text-slate-200 shadow-inner shadow-black/30 transition-all hover:border-sky-400/40 hover:bg-white/[0.06] hover:text-white sm:px-2 sm:text-xs';
 
     const renderDockLink = (link: { type: string; url: string }) => {
         const t = (link.type || '').toLowerCase();
@@ -106,7 +110,7 @@ const MemberDetailModal: React.FC<{
                 className={contactDockClass}
             >
                 {linkIcon(t, 18)}
-                <span className="max-w-[4.5rem] truncate">{label}</span>
+                <span className="max-w-full truncate px-0.5 text-center">{label}</span>
             </a>
         );
     };
@@ -186,14 +190,14 @@ const MemberDetailModal: React.FC<{
                             </div>
                         </div>
 
-                        <div className="relative z-10 min-h-0 flex-1 overflow-x-hidden overflow-y-auto overscroll-contain px-3 pb-4 pt-0 sm:px-6 sm:pb-6 sm:pt-1">
-                            <div className="mx-auto grid max-w-5xl gap-5 lg:grid-cols-12 lg:gap-4 lg:pt-2">
-                                {/* 左欄：預留上方空間讓頭像「半衝出」且不被子層 overflow 裁切 */}
-                                <div className="flex flex-col items-center lg:col-span-4 lg:items-stretch">
-                                    <div className="relative z-10 flex w-full flex-col items-center text-center lg:items-center">
-                                        <div className="w-full pt-2 sm:pt-3">
-                                            <div className="relative -mt-14 flex w-full justify-center sm:-mt-[4.25rem] lg:-mt-[4.5rem]">
-                                                <div className="relative h-40 w-40 shrink-0 sm:h-48 sm:w-48">
+                        <div className="relative z-10 min-h-0 flex-1 overflow-x-hidden overflow-y-auto overscroll-contain px-3 pb-4 pt-2 sm:px-6 sm:pb-6 sm:pt-3">
+                            <div className="mx-auto grid max-w-5xl items-start gap-6 lg:grid-cols-12 lg:gap-6 lg:pt-1">
+                                {/* 左欄：大螢幕 sticky，長文捲動時身分區仍固定可見 */}
+                                <div className="flex w-full min-w-0 flex-col items-center lg:sticky lg:top-2 lg:col-span-4 lg:self-start lg:px-1">
+                                    <div className="relative z-10 flex w-full max-w-md flex-col items-center text-center lg:mx-auto lg:items-center">
+                                        <div className="w-full pt-1 sm:pt-2">
+                                            <div className="relative -mt-12 flex w-full justify-center sm:-mt-14 lg:-mt-16">
+                                                <div className="relative h-36 w-36 shrink-0 sm:h-44 sm:w-44 lg:h-48 lg:w-48">
                                                     <div
                                                         className="absolute -inset-1 rounded-full bg-gradient-to-b from-[#3b82f6]/30 to-transparent blur-md"
                                                         aria-hidden
@@ -214,45 +218,47 @@ const MemberDetailModal: React.FC<{
                                             </div>
                                         </div>
 
-                                        <h3 className="relative z-20 mt-4 line-clamp-2 text-2xl font-black tracking-[0.12em] text-white sm:mt-5 sm:text-3xl sm:tracking-[0.18em]">
+                                        <h3 className="relative z-20 mt-3 w-full break-words text-xl font-black tracking-[0.08em] text-white sm:mt-4 sm:text-2xl sm:tracking-[0.12em] lg:text-3xl">
                                             {m.name}
                                         </h3>
 
                                         <div
-                                            className={`relative z-20 mt-3 w-full max-w-sm rounded-2xl border border-amber-200/35 bg-gradient-to-r from-amber-900/45 via-slate-600/50 to-amber-950/40 px-3 py-2.5 text-center text-sm font-semibold leading-snug tracking-wide text-amber-50 shadow-[inset_0_1px_0_rgba(255,255,255,0.2)] sm:px-4 sm:text-base ${!(m.company || m.position || m.title) ? 'mb-5' : ''}`}
+                                            className={`relative z-20 mt-3 w-full rounded-2xl border border-amber-200/35 bg-gradient-to-r from-amber-900/45 via-slate-600/50 to-amber-950/40 px-3 py-2.5 text-center text-sm font-semibold leading-snug tracking-wide text-amber-50 shadow-[inset_0_1px_0_rgba(255,255,255,0.2)] sm:px-4 sm:text-base ${!(m.company || m.position || m.title) ? 'mb-4' : ''}`}
                                         >
-                                            <span className="line-clamp-2 break-words">工職：{m.industry || '未分類'}</span>
+                                            <span className="block break-words">
+                                                產業別：{m.industry || '未分類'}
+                                            </span>
                                         </div>
 
                                         {(m.company || m.position || m.title) && (
-                                            <div className="mb-5 w-full max-w-sm space-y-1 text-sm leading-snug tracking-wide text-slate-400 sm:text-base">
+                                            <div className="mb-4 w-full space-y-2 text-sm leading-snug tracking-wide text-slate-400 sm:text-base">
                                                 {m.company ? (
-                                                    <p className="flex items-start justify-center gap-2 lg:justify-start">
+                                                    <p className="flex items-start justify-center gap-2 text-left lg:justify-start">
                                                         <Building size={16} className="mt-0.5 shrink-0 text-sky-400/90" />
-                                                        <span className="line-clamp-3 text-left">{m.company}</span>
+                                                        <span className="min-w-0 flex-1 break-words">{m.company}</span>
                                                     </p>
                                                 ) : null}
                                                 {m.position || m.title ? (
-                                                    <p className="flex items-start justify-center gap-2 lg:justify-start">
+                                                    <p className="flex items-start justify-center gap-2 text-left lg:justify-start">
                                                         <Briefcase size={16} className="mt-0.5 shrink-0 text-sky-400/70" />
-                                                        <span className="line-clamp-2 text-left">{m.position || m.title}</span>
+                                                        <span className="min-w-0 flex-1 break-words">{m.position || m.title}</span>
                                                     </p>
                                                 ) : null}
                                             </div>
                                         )}
 
-                                        <div className="mt-auto w-full max-w-sm">
-                                            <p className="mb-2 text-left text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">
+                                        <div className="mt-1 w-full lg:mt-2">
+                                            <p className="mb-2 text-center text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500 lg:text-left">
                                                 聯絡方式
                                             </p>
-                                            <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4">
+                                            <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-2">
                                                 {m.phone ? (
                                                     <a
                                                         href={`tel:${formatTaiwanPhoneTelHref(m.phone)}`}
                                                         className={contactDockClass}
                                                     >
                                                         {linkIcon('phone', 18)}
-                                                        <span className="tabular-nums text-[10px] text-slate-400 sm:text-[11px]">
+                                                        <span className="w-full break-all text-center tabular-nums text-[10px] leading-tight text-slate-400 sm:text-[11px]">
                                                             {formatTaiwanPhoneDisplay(m.phone)}
                                                         </span>
                                                     </a>
@@ -273,8 +279,8 @@ const MemberDetailModal: React.FC<{
                                     </div>
                                 </div>
 
-                                {/* 右欄：Bento — 關於我 / 理想引薦 / 服務 不等高色塊 */}
-                                <div className="flex flex-col gap-3 lg:col-span-8">
+                                {/* 右欄：Bento — 個人介紹與理想引薦並排同高；長文區內捲動 */}
+                                <div className="flex min-w-0 flex-col gap-4 lg:col-span-8">
                                     {(() => {
                                         const { main: introMain, ideal } = splitIntro(m.fullIntro || '');
                                         const displayIntro =
@@ -282,36 +288,54 @@ const MemberDetailModal: React.FC<{
                                         const services = (m.services || []).filter((s) => s && s.trim());
 
                                         return (
-                                            <div className="grid auto-rows-min gap-3 lg:grid-cols-12">
-                                                <section className={ideal ? `${bentoPanel} lg:col-span-7` : `${bentoPanel} lg:col-span-12`}>
-                                                    <h3 className="mb-2 text-xs font-bold uppercase tracking-[0.22em] text-sky-400 sm:text-sm">
-                                                        個人介紹
-                                                    </h3>
-                                                    <p className="whitespace-pre-line text-base leading-relaxed text-slate-200 sm:text-lg">
-                                                        {displayIntro || '—'}
-                                                    </p>
-                                                </section>
-
-                                                {ideal ? (
-                                                    <section className="rounded-2xl bg-gradient-to-br from-amber-400 via-[#3b82f6] to-emerald-400 p-[1px] shadow-[0_0_40px_rgba(59,130,246,0.2)] lg:col-span-5">
-                                                        <div className={`h-full rounded-[15px] bg-slate-950/96 p-4 backdrop-blur-xl sm:p-5`}>
-                                                            <h3 className="mb-3 flex items-center gap-2 text-sm font-bold uppercase tracking-[0.18em] text-amber-100 sm:text-base">
-                                                                <Target
-                                                                    className="shrink-0 text-sky-300 animate-pulse"
-                                                                    size={20}
-                                                                    aria-hidden
-                                                                />
-                                                                理想引薦對象
-                                                            </h3>
-                                                            <p className="whitespace-pre-line text-base leading-relaxed text-slate-100 sm:text-lg">
-                                                                {ideal}
+                                            <>
+                                                <div
+                                                    className={
+                                                        ideal
+                                                            ? 'flex flex-col gap-3 lg:flex-row lg:items-stretch lg:gap-4'
+                                                            : 'flex flex-col gap-3'
+                                                    }
+                                                >
+                                                    <section
+                                                        className={
+                                                            ideal
+                                                                ? `${bentoPanel} flex min-h-0 min-w-0 flex-1 flex-col lg:basis-[58%]`
+                                                                : `${bentoPanel} min-w-0`
+                                                        }
+                                                    >
+                                                        <h3 className="mb-2 shrink-0 text-xs font-bold uppercase tracking-[0.22em] text-sky-400 sm:text-sm">
+                                                            個人介紹
+                                                        </h3>
+                                                        <div className={bentoScrollBody}>
+                                                            <p className="whitespace-pre-wrap break-words text-sm leading-relaxed text-slate-200 sm:text-base lg:text-[0.95rem] lg:leading-7">
+                                                                {displayIntro || '—'}
                                                             </p>
                                                         </div>
                                                     </section>
-                                                ) : null}
+
+                                                    {ideal ? (
+                                                        <section className="flex min-h-0 min-w-0 flex-1 shrink-0 rounded-2xl bg-gradient-to-br from-amber-400 via-[#3b82f6] to-emerald-400 p-[1px] shadow-[0_0_40px_rgba(59,130,246,0.2)] lg:basis-[42%]">
+                                                            <div className="flex h-full min-h-0 min-w-0 flex-col rounded-[15px] bg-slate-950/96 p-4 backdrop-blur-xl sm:p-5">
+                                                                <h3 className="mb-2 flex shrink-0 items-center gap-2 text-sm font-bold uppercase tracking-[0.18em] text-amber-100 sm:text-base">
+                                                                    <Target
+                                                                        className="shrink-0 text-sky-300 animate-pulse"
+                                                                        size={20}
+                                                                        aria-hidden
+                                                                    />
+                                                                    理想引薦對象
+                                                                </h3>
+                                                                <div className={`min-h-0 flex-1 ${bentoScrollBody}`}>
+                                                                    <p className="whitespace-pre-wrap break-words text-sm leading-relaxed text-slate-100 sm:text-base lg:text-[0.95rem] lg:leading-7">
+                                                                        {ideal}
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </section>
+                                                    ) : null}
+                                                </div>
 
                                                 {services.length > 0 ? (
-                                                    <section className={`${bentoPanel} relative overflow-hidden lg:col-span-12`}>
+                                                    <section className={`${bentoPanel} relative min-w-0 overflow-hidden`}>
                                                         <div
                                                             className="pointer-events-none absolute inset-0 opacity-[0.22]"
                                                             style={{
@@ -324,25 +348,25 @@ const MemberDetailModal: React.FC<{
                                                             <h3 className="mb-3 text-xs font-bold uppercase tracking-[0.22em] text-amber-200/90 sm:text-sm">
                                                                 服務項目
                                                             </h3>
-                                                            <ul className="grid grid-cols-1 gap-x-5 gap-y-2.5 sm:grid-cols-2">
+                                                            <ul className="grid grid-cols-1 gap-x-6 gap-y-2 sm:grid-cols-2">
                                                                 {services.map((s, i) => (
                                                                     <li
                                                                         key={i}
-                                                                        className="flex items-start gap-2.5 text-base leading-relaxed text-slate-200 sm:text-lg"
+                                                                        className="flex items-start gap-2.5 text-sm leading-relaxed text-slate-200 sm:text-base"
                                                                     >
                                                                         <Check
                                                                             className="mt-0.5 shrink-0 text-sky-400"
                                                                             size={18}
                                                                             strokeWidth={2.5}
                                                                         />
-                                                                        <span>{s}</span>
+                                                                        <span className="min-w-0 break-words">{s}</span>
                                                                     </li>
                                                                 ))}
                                                             </ul>
                                                         </div>
                                                     </section>
                                                 ) : null}
-                                            </div>
+                                            </>
                                         );
                                     })()}
                                 </div>
