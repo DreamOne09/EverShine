@@ -40,7 +40,7 @@ function inferLinkVisualType(type: string, url: string): string {
 }
 
 const microCell =
-    'flex h-12 min-h-0 w-full items-center justify-center rounded-xl border border-white/10 bg-white/[0.06] text-slate-200 transition-all hover:border-sky-400/50 hover:bg-sky-500/15 hover:text-white';
+    'flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/[0.06] text-slate-200 transition-all hover:border-sky-400/50 hover:bg-sky-500/15 hover:text-white';
 
 const MemberDetailModal: React.FC<{
     member: Member | null;
@@ -217,14 +217,14 @@ const MemberDetailModal: React.FC<{
                         </div>
 
                         <div className="relative z-10 min-h-0 flex-1 overflow-x-hidden overflow-y-auto overscroll-contain px-4 pb-5 pt-1 sm:px-8 sm:pb-8 sm:pt-2">
-                            <div className="mx-auto grid max-w-5xl items-start gap-8 lg:grid-cols-12 lg:gap-10">
-                                {/* 左欄：破格頭像 + 產業別金屬標 + 2x2 圖示網格 */}
-                                <div className="flex w-full min-w-0 flex-col items-center lg:col-span-4 lg:items-stretch">
-                                    <div className="relative flex w-full max-w-sm flex-col items-center px-1 text-center lg:mx-auto">
+                            <div className="mx-auto grid max-w-5xl items-start gap-6 lg:grid-cols-12 lg:gap-8">
+                                {/* 左欄：破格頭像 + 產業別膠囊 + 聯絡圖示 */}
+                                <div className="flex w-full min-w-0 flex-col items-center lg:col-span-4 lg:items-stretch xl:col-span-3">
+                                    <div className="relative flex w-full max-w-[18rem] flex-col items-center px-1 text-center lg:mx-auto">
                                         {/* 預留頭像向上偏移空間 */}
-                                        <div className="flex w-full flex-col items-center pt-[4.5rem] sm:pt-20">
-                                            <div className="relative -mt-[60px] flex justify-center">
-                                                <div className="relative h-[8.75rem] w-[8.75rem] shrink-0 rounded-full ring-2 ring-blue-500/50 ring-offset-2 ring-offset-slate-950 sm:h-40 sm:w-40">
+                                        <div className="flex w-full flex-col items-center pt-16 sm:pt-[4.5rem]">
+                                            <div className="relative -mt-[56px] flex justify-center">
+                                                <div className="relative h-32 w-32 shrink-0 rounded-full ring-2 ring-blue-500/50 ring-offset-2 ring-offset-slate-950 sm:h-36 sm:w-36">
                                                     <div className="absolute inset-0 animate-pulse rounded-full bg-gradient-to-b from-blue-400/30 to-transparent blur-md" aria-hidden />
                                                     <div className="relative h-full w-full overflow-hidden rounded-full border-2 border-white/25 bg-slate-950 shadow-[0_20px_60px_rgba(0,0,0,0.55)]">
                                                         <img
@@ -237,19 +237,17 @@ const MemberDetailModal: React.FC<{
                                                 </div>
                                             </div>
 
-                                            <h3 className="mt-5 line-clamp-2 w-full text-xl font-black tracking-[0.06em] text-white sm:text-2xl">
+                                            <h3 className="mt-4 line-clamp-2 w-full text-xl font-black tracking-[0.06em] text-white sm:text-2xl">
                                                 {m.name}
                                             </h3>
 
-                                            <div className="mt-4 w-full rounded-full border border-sky-400/25 bg-sky-500/10 px-4 py-2 text-center text-xs font-semibold tracking-wide text-sky-100 sm:text-sm">
-                                                <span className="line-clamp-2 break-words">
-                                                    <span className="mr-1 text-[10px] font-bold uppercase tracking-[0.2em] text-sky-300/80">產業別</span>
-                                                    {m.industry || '未分類'}
-                                                </span>
+                                            <div className="mt-3 inline-flex max-w-full items-center gap-1.5 rounded-full border border-sky-400/25 bg-sky-500/10 px-3 py-1.5 text-xs font-semibold tracking-wide text-sky-100 sm:text-sm">
+                                                <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-sky-300/80">產業別</span>
+                                                <span className="line-clamp-1 break-all">{m.industry || '未分類'}</span>
                                             </div>
 
                                             {(m.company || m.position || m.title) && (
-                                                <div className="mt-4 w-full space-y-2 text-left text-xs leading-relaxed text-slate-400 sm:text-sm">
+                                                <div className="mt-3 w-full space-y-1.5 text-left text-xs leading-relaxed text-slate-400 sm:text-sm">
                                                     {m.company ? (
                                                         <p className="flex items-start gap-2">
                                                             <Building size={15} className="mt-0.5 shrink-0 text-sky-400/90" />
@@ -266,14 +264,9 @@ const MemberDetailModal: React.FC<{
                                             )}
 
                                             {contactMicroCells.length > 0 ? (
-                                                <div className="mt-6 w-full">
+                                                <div className="mt-5 w-full">
                                                     <p className="mb-2 text-left text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">聯絡方式</p>
-                                                    <div
-                                                        className="grid gap-2"
-                                                        style={{
-                                                            gridTemplateColumns: `repeat(${Math.min(contactMicroCells.length, 4)}, minmax(0, 1fr))`,
-                                                        }}
-                                                    >
+                                                    <div className="flex flex-wrap items-center gap-2">
                                                         {contactMicroCells}
                                                     </div>
                                                 </div>
@@ -283,7 +276,7 @@ const MemberDetailModal: React.FC<{
                                 </div>
 
                                 {/* 右欄 Bento */}
-                                <div className="flex min-w-0 flex-col gap-4 lg:col-span-8">
+                                <div className="flex min-w-0 flex-col gap-4 lg:col-span-8 xl:col-span-9">
                                     {(() => {
                                         const { main: introMain, ideal } = splitIntro(m.fullIntro || '');
                                         const displayIntro =

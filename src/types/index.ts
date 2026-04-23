@@ -1,3 +1,6 @@
+export type MemberStatus = 'active' | 'frozen';
+export type MembershipType = 'resigned' | 'credit_hold';
+
 export interface Member {
     id: number;
     name: string;
@@ -17,6 +20,10 @@ export interface Member {
     user_id?: string;
     email?: string;
     phone?: string;
+    is_admin?: boolean;
+    status?: MemberStatus;
+    membership_type?: MembershipType | null;
+    frozen_at?: string | null;
 }
 
 export interface MemberLink {

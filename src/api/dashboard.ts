@@ -88,7 +88,14 @@ export async function fetchAdminDashboardBundle(): Promise<AdminDashboardFetchRe
     };
 }
 
-const SYSTEM_NAMES = ['呂學承', '彭顯智', '潘芷盈'];
+export interface AdminStaffItem {
+    id: string;
+    name: string;
+    photo?: string;
+    photoPosition?: string;
+    position?: string;
+    title?: string;
+}
 
 export function deriveAdminDerivedState(bundle: AdminDashboardFetchResult) {
     const membersData = bundle.members;
@@ -96,9 +103,15 @@ export function deriveAdminDerivedState(bundle: AdminDashboardFetchResult) {
     const visitsCount = bundle.pageViewsCount;
     const socialClicksCount = bundle.socialClicks;
 
+    const isActive = (m: Record<string, unknown>) =>
+        ((m.status as string | undefined) || 'active') === 'active';
+
+    const activeMembers = membersData.filter(isActive);
+
+    // 涵蓋產業數 / 完整度 / 最近更新 — 只計在籍
     const industrySet = new Set<string>();
     let hasPhotoCount = 0;
-    membersData.forEach((m: Record<string, unknown>) => {
+    activeMembers.forEach((m) => {
         const ind = ((m.industry as string) || '').trim();
         if (ind && ind !== '未分類') industrySet.add(ind);
         const photo = m.photo as string | undefined;
@@ -106,10 +119,29 @@ export function deriveAdminDerivedState(bundle: AdminDashboardFetchResult) {
     });
 
     const industryCount = industrySet.size;
-    const completionRate = membersData.length ? Math.round((hasPhotoCount / membersData.length) * 100) : 0;
+    const completionRate = activeMembers.length
+        ? Math.round((hasPhotoCount / activeMembers.length) * 100)
+        : 0;
 
-    const sortedByUpdate = [...membersData]
-        .filter((m) => !SYSTEM_NAMES.includes(m.name as string))
+    // 系統維運團隊：從會員資料表 is_admin=true 動態取得（含冷凍者不列）
+    const admins: AdminStaffItem[] = activeMembers
+        .filter((m) => m.is_admin === true)
+        .map((m) => ({
+            id: String(m.id),
+            name: String(m.name || ''),
+            photo: (m.photo as string) || undefined,
+            photoPosition:
+                (m.photoPosition as string | undefined) ||
+                (m.photo_position as string | undefined),
+            position: (m.position as string | undefined),
+            title: (m.title as string | undefined),
+        }))
+        .filter((a) => a.name);
+
+    // 最近更新：排除系統管理員避免洗版
+    const adminIds = new Set(admins.map((a) => a.id));
+    const sortedByUpdate = [...activeMembers]
+        .filter((m) => !adminIds.has(String(m.id)))
         .sort((a, b) => {
             const dateA = new Date((a.updatedAt || a.updated_at || 0) as string).getTime();
             const dateB = new Date((b.updatedAt || b.updated_at || 0) as string).getTime();
@@ -118,7 +150,7 @@ export function deriveAdminDerivedState(bundle: AdminDashboardFetchResult) {
 
     return {
         stats: {
-            totalMembers: membersData.length,
+            totalMembers: activeMembers.length,
             totalReferrals: homeStatsData?.referral_count || 0,
             totalValue: homeStatsData?.referral_value || 0,
             monthlyVisits: visitsCount,
@@ -127,5 +159,6 @@ export function deriveAdminDerivedState(bundle: AdminDashboardFetchResult) {
         },
         recentUpdates: sortedByUpdate.slice(0, 5),
         marketingStats: { socialClicks: socialClicksCount },
+        admins,
     };
 }

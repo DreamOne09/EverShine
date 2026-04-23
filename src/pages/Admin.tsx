@@ -215,6 +215,7 @@ const Admin: React.FC = () => {
     };
     const recentUpdates = derived?.recentUpdates ?? [];
     const marketingStats = derived?.marketingStats ?? { socialClicks: 0 };
+    const admins = derived?.admins ?? [];
 
     return (
         <div className="min-h-dvh pt-24 md:pt-32 pb-24 md:pb-12 px-4 container mx-auto">
@@ -268,7 +269,7 @@ const Admin: React.FC = () => {
 
             <div className="space-y-6">
                 {activeTab === 'overview' && (
-                    <AdminOverviewTab stats={stats} recentUpdates={recentUpdates} marketingStats={marketingStats} />
+                    <AdminOverviewTab stats={stats} recentUpdates={recentUpdates} marketingStats={marketingStats} admins={admins} />
                 )}
                 {activeTab === 'members' && (
                     <AdminMembersTab

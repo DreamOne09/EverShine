@@ -4,6 +4,7 @@ import StatsCard from '../common/StatsCard';
 import { EmptyState, SmartImage } from '../loading';
 import { resolveMemberPhotoObjectPosition } from '../../lib/memberPhotoPosition';
 import { siteConfig } from '../../config/site.config';
+import type { AdminStaffItem } from '../../api/dashboard';
 
 export interface AdminOverviewTabProps {
     stats: {
@@ -16,9 +17,10 @@ export interface AdminOverviewTabProps {
     };
     recentUpdates: Record<string, unknown>[];
     marketingStats: { socialClicks: number };
+    admins: AdminStaffItem[];
 }
 
-const AdminOverviewTab: React.FC<AdminOverviewTabProps> = ({ stats, recentUpdates, marketingStats }) => {
+const AdminOverviewTab: React.FC<AdminOverviewTabProps> = ({ stats, recentUpdates, marketingStats, admins }) => {
     return (
         <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
             <StatsCard title="總會員數" value={stats.totalMembers} icon={<Users className="text-blue-400" />} diff="活躍中" />
@@ -96,18 +98,36 @@ const AdminOverviewTab: React.FC<AdminOverviewTabProps> = ({ stats, recentUpdate
                 <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
                     <Shield size={20} className="text-primary" /> 系統維運團隊
                 </h3>
-                <div className="space-y-4 flex-grow">
-                    {['呂學承', '彭顯智', '潘芷盈'].map((name) => (
-                        <div key={name} className="flex items-center gap-3 p-3 bg-white/5 rounded-xl border border-white/5 hover:border-primary/30 transition-colors">
-                            <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary text-sm font-bold border border-primary/30">
-                                {name[0]}
-                            </div>
-                            <div>
-                                <div className="text-sm font-bold text-white">{name}</div>
-                                <div className="text-[10px] text-primary/70 uppercase tracking-widest font-medium">系統管理員</div>
-                            </div>
+                <div className="space-y-3 flex-grow">
+                    {admins.length === 0 ? (
+                        <div className="text-xs text-gray-500 leading-relaxed">
+                            尚無系統管理員。請在會員列表為指定會員勾選 is_admin。
                         </div>
-                    ))}
+                    ) : (
+                        admins.map((a) => (
+                            <div
+                                key={a.id}
+                                className="flex items-center gap-3 p-2.5 bg-white/5 rounded-xl border border-white/5 hover:border-primary/30 transition-colors"
+                            >
+                                <div className="w-10 h-10 rounded-full overflow-hidden bg-primary/10 border border-primary/20 shrink-0">
+                                    <SmartImage
+                                        src={a.photo || siteConfig.defaultPhoto}
+                                        alt={a.name}
+                                        className="w-full h-full object-cover"
+                                        style={{
+                                            objectPosition: resolveMemberPhotoObjectPosition(a.photoPosition),
+                                        }}
+                                    />
+                                </div>
+                                <div className="min-w-0">
+                                    <div className="text-sm font-bold text-white truncate">{a.name}</div>
+                                    <div className="text-[10px] text-primary/70 uppercase tracking-widest font-medium truncate">
+                                        {a.position || a.title || '系統管理員'}
+                                    </div>
+                                </div>
+                            </div>
+                        ))
+                    )}
                 </div>
                 <div className="mt-6 pt-6 border-t border-white/10">
                     <div className="text-[10px] text-gray-500 text-center uppercase tracking-widest">EverShine Tech Support</div>
