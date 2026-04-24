@@ -162,7 +162,8 @@ const Login: React.FC = () => {
         try {
             const { data, error } = await supabase
                 .from('members')
-                .select('id, name, industry, photo, user_id')
+                .select('id, name, industry, photo, user_id, status')
+                .or('status.is.null,status.eq.active')
                 .order('id', { ascending: true });
 
             if (error) {
@@ -191,7 +192,7 @@ const Login: React.FC = () => {
         try {
             const { data, error } = await supabase
                 .from('members')
-                .select('id, name')
+                .select('id, name, status')
                 .eq('user_id', user.id)
                 .maybeSingle();
 
@@ -213,6 +214,17 @@ const Login: React.FC = () => {
                 if (listOk) {
                     setMode('claim');
                 }
+                return;
+            }
+
+            // 冷凍會員：顯示溫暖訊息並強制登出
+            if (data.status && data.status !== 'active') {
+                setMessage({
+                    text: `歡迎您隨時回到 ${siteConfig.branchFullName}，我們隨時歡迎您。`,
+                    type: 'success',
+                });
+                await supabase.auth.signOut();
+                setMode('login');
                 return;
             }
 

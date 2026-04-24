@@ -13,7 +13,8 @@ interface Props {
 const AdminMemberModal: React.FC<Props> = ({ open, onClose, onCreated }) => {
     const [name, setName] = useState('');
     const [company, setCompany] = useState('');
-    const [industry, setIndustry] = useState(siteConfig.industries[0] ?? '');
+    const [category, setCategory] = useState<string>(siteConfig.industries[0] ?? '');
+    const [industry, setIndustry] = useState('');
     const [position, setPosition] = useState('');
     const [saving, setSaving] = useState(false);
     const [formError, setFormError] = useState<string | null>(null);
@@ -23,7 +24,8 @@ const AdminMemberModal: React.FC<Props> = ({ open, onClose, onCreated }) => {
     const reset = () => {
         setName('');
         setCompany('');
-        setIndustry(siteConfig.industries[0] ?? '');
+        setCategory(siteConfig.industries[0] ?? '');
+        setIndustry('');
         setPosition('');
         setFormError(null);
     };
@@ -35,17 +37,27 @@ const AdminMemberModal: React.FC<Props> = ({ open, onClose, onCreated }) => {
             setFormError('請填寫姓名');
             return;
         }
+        const cleanIndustry = sanitizeText(industry, 50);
+        if (!cleanIndustry) {
+            setFormError('請填寫產業別（如：泥作工程、醫療輔具）');
+            return;
+        }
+        const cleanCategory = sanitizeText(category, 30);
+        if (!cleanCategory || !siteConfig.industries.includes(cleanCategory as typeof siteConfig.industries[number])) {
+            setFormError('請選擇大分類');
+            return;
+        }
         setSaving(true);
         setFormError(null);
         try {
             const cleanCompany = sanitizeText(company, 100) || '待補充';
-            const cleanIndustry = sanitizeText(industry, 50) || '未分類';
             const cleanPosition = sanitizeText(position, 50);
 
             const payload: Record<string, unknown> = {
                 name: cleanName,
                 company: cleanCompany,
                 industry: cleanIndustry,
+                category: cleanCategory,
                 photo: siteConfig.defaultPhoto,
                 shortIntro: '',
                 fullIntro: '',
@@ -131,10 +143,10 @@ const AdminMemberModal: React.FC<Props> = ({ open, onClose, onCreated }) => {
                         />
                     </div>
                     <div>
-                        <label className="block text-gray-400 text-sm mb-1">產業類別</label>
+                        <label className="block text-gray-400 text-sm mb-1">大分類（生態圈）＊</label>
                         <select
-                            value={industry}
-                            onChange={(e) => setIndustry(e.target.value)}
+                            value={category}
+                            onChange={(e) => setCategory(e.target.value)}
                             className="w-full bg-black/30 border border-white/10 rounded-lg px-3 py-2.5 text-white focus:border-primary focus:outline-none"
                         >
                             {siteConfig.industries.map((ind) => (
@@ -143,6 +155,19 @@ const AdminMemberModal: React.FC<Props> = ({ open, onClose, onCreated }) => {
                                 </option>
                             ))}
                         </select>
+                        <p className="text-[11px] text-gray-500 mt-1">用於產業篩選與分類統計。</p>
+                    </div>
+                    <div>
+                        <label className="block text-gray-400 text-sm mb-1">產業別＊</label>
+                        <input
+                            value={industry}
+                            onChange={(e) => setIndustry(e.target.value)}
+                            className="w-full bg-black/30 border border-white/10 rounded-lg px-3 py-2.5 text-white focus:border-primary focus:outline-none"
+                            placeholder="例：泥作工程、醫療輔具、人壽保險"
+                            required
+                            maxLength={50}
+                        />
+                        <p className="text-[11px] text-gray-500 mt-1">會顯示在會員卡片右上角的膠囊上。</p>
                     </div>
                     <div>
                         <label className="block text-gray-400 text-sm mb-1">職稱</label>

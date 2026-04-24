@@ -10,6 +10,7 @@ const MESSAGES: Record<string, string> = {
     race_or_claimed: '此名額已被他人認領，請重新整理後再試。',
     no_email_on_file: '此會員檔案未登記 Email，無法線上驗證換帳，請聯絡管理員。',
     email_mismatch: '原登記 Email 不符，無法認領。請輸入當初綁定此檔案時使用的 Email。',
+    member_frozen: '此會員目前已不在分會在籍名單中，歡迎您隨時回到長輝白金分會，我們隨時歡迎您。',
 };
 
 function mapRpcError(code: string): string {

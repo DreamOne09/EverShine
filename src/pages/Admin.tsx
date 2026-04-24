@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
-import { Activity, FileEdit, RefreshCw } from 'lucide-react';
+import { Activity, RefreshCw } from 'lucide-react';
 import SEO from '../components/common/SEO';
 import {
     MainLayoutSkeleton,
@@ -210,11 +210,12 @@ const Admin: React.FC = () => {
         totalReferrals: 0,
         totalValue: 0,
         monthlyVisits: 0,
-        topIndustry: '無資料',
+        industryCount: 0,
         completionRate: '0%',
     };
     const recentUpdates = derived?.recentUpdates ?? [];
     const marketingStats = derived?.marketingStats ?? { socialClicks: 0 };
+    const admins = derived?.admins ?? [];
 
     return (
         <div className="min-h-dvh pt-24 md:pt-32 pb-24 md:pb-12 px-4 container mx-auto">
@@ -240,12 +241,6 @@ const Admin: React.FC = () => {
                     >
                         <RefreshCw size={18} />
                     </button>
-                    <Link
-                        to="/admin/cms"
-                        className="inline-flex items-center gap-2 text-sm font-bold text-primary hover:text-white border border-primary/40 rounded-full px-3 py-1.5 hover:bg-primary/10 transition-colors"
-                    >
-                        <FileEdit size={16} /> CMS
-                    </Link>
                 </h1>
                 <div className="w-full md:w-auto overflow-x-auto -mx-4 px-4 md:mx-0 md:px-0 scrollbar-hide">
                     <div className="flex bg-white/5 p-1 rounded-lg backdrop-blur-sm border border-white/10 min-w-max">
@@ -274,13 +269,14 @@ const Admin: React.FC = () => {
 
             <div className="space-y-6">
                 {activeTab === 'overview' && (
-                    <AdminOverviewTab stats={stats} recentUpdates={recentUpdates} marketingStats={marketingStats} />
+                    <AdminOverviewTab stats={stats} recentUpdates={recentUpdates} marketingStats={marketingStats} admins={admins} />
                 )}
                 {activeTab === 'members' && (
                     <AdminMembersTab
                         memberSearch={memberSearch}
                         onMemberSearch={setMemberSearch}
                         onAddMember={() => setMemberModalOpen(true)}
+                        allMembers={members}
                         filteredMembers={filteredMembers}
                         loading={loading}
                         onRefresh={() => void refetchDashboard()}

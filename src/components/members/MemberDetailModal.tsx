@@ -40,7 +40,7 @@ function inferLinkVisualType(type: string, url: string): string {
 }
 
 const microCell =
-    'flex aspect-square min-h-0 w-full items-center justify-center rounded-xl border border-white/10 bg-white/[0.06] text-slate-200 transition-all hover:border-sky-400/50 hover:bg-sky-500/15 hover:text-white';
+    'flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/[0.06] text-slate-200 transition-all hover:border-sky-400/50 hover:bg-sky-500/15 hover:text-white';
 
 const MemberDetailModal: React.FC<{
     member: Member | null;
@@ -103,14 +103,8 @@ const MemberDetailModal: React.FC<{
 
     const contactMicroCells = useMemo(() => {
         const mem = member;
-        if (!mem) {
-            return [
-                <span key="p" className={`${microCell} opacity-30`} aria-hidden><Phone size={20} /></span>,
-                <span key="e" className={`${microCell} opacity-30`} aria-hidden><Mail size={20} /></span>,
-                <span key="l" className={`${microCell} opacity-30`} aria-hidden>{linkIconOnly('line', 20)}</span>,
-                <span key="i" className={`${microCell} opacity-30`} aria-hidden>{linkIconOnly('instagram', 20)}</span>,
-            ];
-        }
+        if (!mem) return [] as React.ReactNode[];
+
         const links = normalizeMemberLinks(mem.links);
         const line = links.find((l) => (l.type || '').toLowerCase() === 'line');
         const ig = links.find((l) => {
@@ -118,47 +112,36 @@ const MemberDetailModal: React.FC<{
             return t === 'instagram' || t === 'ig';
         });
 
-        const phoneEl = mem.phone ? (
-            <a key="p" href={`tel:${formatTaiwanPhoneTelHref(mem.phone)}`} className={microCell} aria-label={`電話 ${formatTaiwanPhoneDisplay(mem.phone)}`}>
-                {linkIconOnly('phone', 20)}
-            </a>
-        ) : (
-            <span key="p" className={`${microCell} cursor-not-allowed opacity-30`} aria-hidden>
-                <Phone size={20} />
-            </span>
-        );
-
-        const mailEl = mem.email ? (
-            <a key="e" href={`mailto:${mem.email}`} className={microCell} aria-label="Email">
-                {linkIconOnly('mail', 20)}
-            </a>
-        ) : (
-            <span key="e" className={`${microCell} cursor-not-allowed opacity-30`} aria-hidden>
-                <Mail size={20} />
-            </span>
-        );
-
-        const lineEl = line ? (
-            <a key="l" href={line.url} target="_blank" rel="noopener noreferrer" className={microCell} aria-label="LINE">
-                {linkIconOnly('line', 20, line.url)}
-            </a>
-        ) : (
-            <span key="l" className={`${microCell} cursor-not-allowed opacity-30`} aria-hidden>
-                {linkIconOnly('line', 20)}
-            </span>
-        );
-
-        const igEl = ig ? (
-            <a key="i" href={ig.url} target="_blank" rel="noopener noreferrer" className={microCell} aria-label="Instagram">
-                {linkIconOnly('instagram', 20, ig.url)}
-            </a>
-        ) : (
-            <span key="i" className={`${microCell} cursor-not-allowed opacity-30`} aria-hidden>
-                {linkIconOnly('instagram', 20)}
-            </span>
-        );
-
-        return [phoneEl, mailEl, lineEl, igEl];
+        const cells: React.ReactNode[] = [];
+        if (mem.phone) {
+            cells.push(
+                <a key="p" href={`tel:${formatTaiwanPhoneTelHref(mem.phone)}`} className={microCell} aria-label={`電話 ${formatTaiwanPhoneDisplay(mem.phone)}`}>
+                    {linkIconOnly('phone', 20)}
+                </a>
+            );
+        }
+        if (mem.email) {
+            cells.push(
+                <a key="e" href={`mailto:${mem.email}`} className={microCell} aria-label="Email">
+                    {linkIconOnly('mail', 20)}
+                </a>
+            );
+        }
+        if (line) {
+            cells.push(
+                <a key="l" href={line.url} target="_blank" rel="noopener noreferrer" className={microCell} aria-label="LINE">
+                    {linkIconOnly('line', 20, line.url)}
+                </a>
+            );
+        }
+        if (ig) {
+            cells.push(
+                <a key="i" href={ig.url} target="_blank" rel="noopener noreferrer" className={microCell} aria-label="Instagram">
+                    {linkIconOnly('instagram', 20, ig.url)}
+                </a>
+            );
+        }
+        return cells;
     }, [member]);
 
     if (!open || !member) return null;
@@ -224,25 +207,24 @@ const MemberDetailModal: React.FC<{
                             >
                                 <X size={22} />
                             </button>
-                            <div className="flex flex-col items-end gap-1 pr-12 sm:pr-14">
+                            <div className="flex flex-col items-end pr-12 sm:pr-14">
                                 <img
                                     src={logoSrc}
                                     alt="BNI 長輝白金分會"
                                     className="h-8 w-auto max-w-[min(72vw,260px)] object-contain object-right opacity-80 drop-shadow-[0_0_16px_rgba(59,130,246,0.25)]"
                                 />
-                                <span className="text-[10px] font-semibold tracking-[0.28em] text-slate-500">長輝白金分會</span>
                             </div>
                         </div>
 
                         <div className="relative z-10 min-h-0 flex-1 overflow-x-hidden overflow-y-auto overscroll-contain px-4 pb-5 pt-1 sm:px-8 sm:pb-8 sm:pt-2">
-                            <div className="mx-auto grid max-w-5xl items-start gap-8 lg:grid-cols-12 lg:gap-10">
-                                {/* 左欄：破格頭像 + 產業別金屬標 + 2x2 圖示網格 */}
-                                <div className="flex w-full min-w-0 flex-col items-center lg:col-span-4 lg:items-stretch">
-                                    <div className="relative flex w-full max-w-sm flex-col items-center px-1 text-center lg:mx-auto">
+                            <div className="mx-auto grid max-w-5xl items-start gap-6 lg:grid-cols-12 lg:gap-8">
+                                {/* 左欄：破格頭像 + 產業別膠囊 + 聯絡圖示 */}
+                                <div className="flex w-full min-w-0 flex-col items-center lg:col-span-4 lg:items-stretch xl:col-span-3">
+                                    <div className="relative flex w-full max-w-[18rem] flex-col items-center px-1 text-center lg:mx-auto">
                                         {/* 預留頭像向上偏移空間 */}
-                                        <div className="flex w-full flex-col items-center pt-[4.5rem] sm:pt-20">
-                                            <div className="relative -mt-[60px] flex justify-center">
-                                                <div className="relative h-[8.75rem] w-[8.75rem] shrink-0 rounded-full ring-2 ring-blue-500/50 ring-offset-2 ring-offset-slate-950 sm:h-40 sm:w-40">
+                                        <div className="flex w-full flex-col items-center pt-16 sm:pt-[4.5rem]">
+                                            <div className="relative -mt-[56px] flex justify-center">
+                                                <div className="relative h-32 w-32 shrink-0 rounded-full ring-2 ring-blue-500/50 ring-offset-2 ring-offset-slate-950 sm:h-36 sm:w-36">
                                                     <div className="absolute inset-0 animate-pulse rounded-full bg-gradient-to-b from-blue-400/30 to-transparent blur-md" aria-hidden />
                                                     <div className="relative h-full w-full overflow-hidden rounded-full border-2 border-white/25 bg-slate-950 shadow-[0_20px_60px_rgba(0,0,0,0.55)]">
                                                         <img
@@ -255,16 +237,17 @@ const MemberDetailModal: React.FC<{
                                                 </div>
                                             </div>
 
-                                            <h3 className="mt-5 line-clamp-2 w-full text-xl font-black tracking-[0.06em] text-white sm:text-2xl">
+                                            <h3 className="mt-4 line-clamp-2 w-full text-xl font-black tracking-[0.06em] text-white sm:text-2xl">
                                                 {m.name}
                                             </h3>
 
-                                            <div className="mt-4 w-full rounded-full border border-amber-300/30 bg-gradient-to-r from-amber-200/20 to-yellow-500/20 px-4 py-2.5 text-center text-xs font-semibold tracking-wide text-amber-50 shadow-inner shadow-black/20 sm:text-sm">
-                                                <span className="line-clamp-2 break-words">產業別：{m.industry || '未分類'}</span>
+                                            <div className="mt-3 inline-flex max-w-full items-center gap-1.5 rounded-full border border-sky-400/25 bg-sky-500/10 px-3 py-1.5 text-xs font-semibold tracking-wide text-sky-100 sm:text-sm">
+                                                <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-sky-300/80">產業別</span>
+                                                <span className="line-clamp-1 break-all">{m.industry || '未分類'}</span>
                                             </div>
 
                                             {(m.company || m.position || m.title) && (
-                                                <div className="mt-4 w-full space-y-2 text-left text-xs leading-relaxed text-slate-400 sm:text-sm">
+                                                <div className="mt-3 w-full space-y-1.5 text-left text-xs leading-relaxed text-slate-400 sm:text-sm">
                                                     {m.company ? (
                                                         <p className="flex items-start gap-2">
                                                             <Building size={15} className="mt-0.5 shrink-0 text-sky-400/90" />
@@ -280,16 +263,20 @@ const MemberDetailModal: React.FC<{
                                                 </div>
                                             )}
 
-                                            <div className="mt-6 w-full">
-                                                <p className="mb-2 text-left text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">聯絡方式</p>
-                                                <div className="grid grid-cols-2 gap-2">{contactMicroCells}</div>
-                                            </div>
+                                            {contactMicroCells.length > 0 ? (
+                                                <div className="mt-5 w-full">
+                                                    <p className="mb-2 text-left text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">聯絡方式</p>
+                                                    <div className="flex flex-wrap items-center gap-2">
+                                                        {contactMicroCells}
+                                                    </div>
+                                                </div>
+                                            ) : null}
                                         </div>
                                     </div>
                                 </div>
 
                                 {/* 右欄 Bento */}
-                                <div className="flex min-w-0 flex-col gap-4 lg:col-span-8">
+                                <div className="flex min-w-0 flex-col gap-4 lg:col-span-8 xl:col-span-9">
                                     {(() => {
                                         const { main: introMain, ideal } = splitIntro(m.fullIntro || '');
                                         const displayIntro =
@@ -301,43 +288,29 @@ const MemberDetailModal: React.FC<{
                                                 <div
                                                     className={
                                                         ideal
-                                                            ? 'flex min-h-0 flex-col gap-4 lg:max-h-[min(50vh,26rem)] lg:flex-row lg:items-stretch lg:gap-5'
-                                                            : 'flex min-h-0 flex-col gap-4'
+                                                            ? 'grid gap-4 lg:grid-cols-2 lg:gap-5'
+                                                            : 'flex flex-col gap-4'
                                                     }
                                                 >
-                                                    <section
-                                                        className={
-                                                            ideal
-                                                                ? `${bentoMuted} flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden lg:basis-[52%]`
-                                                                : `${bentoMuted} flex min-h-0 min-w-0 flex-col overflow-hidden`
-                                                        }
-                                                    >
+                                                    <section className={`${bentoMuted} flex min-w-0 flex-col`}>
                                                         <h3 className="mb-2 shrink-0 text-[10px] font-bold uppercase tracking-[0.2em] text-sky-400 sm:text-xs">
                                                             關於我
                                                         </h3>
-                                                        <div className={ideal ? `${bentoTextScroll} min-h-[7rem]` : `${bentoTextScroll} max-h-[min(50vh,22rem)]`}>
+                                                        <div className={`${bentoTextScroll} max-h-[min(50vh,22rem)]`}>
                                                             <p className={proseBody}>{displayIntro || '—'}</p>
                                                         </div>
                                                     </section>
 
                                                     {ideal ? (
-                                                        <div className="relative flex min-h-0 min-w-0 flex-1 shrink-0 lg:basis-[48%]">
-                                                            <div
-                                                                className="pointer-events-none absolute -inset-0.5 rounded-2xl bg-gradient-to-r from-blue-400 via-cyan-400 to-sky-400 opacity-70 blur-md animate-pulse"
-                                                                aria-hidden
-                                                            />
-                                                            <section className="relative flex min-h-0 w-full flex-col overflow-hidden rounded-2xl bg-gradient-to-r from-blue-400 to-cyan-400 p-[1px] shadow-[0_0_32px_rgba(56,189,248,0.25)]">
-                                                                <div className="flex h-full min-h-0 flex-col rounded-[15px] bg-slate-950/96 p-4 backdrop-blur-xl sm:p-5">
-                                                                    <h3 className="mb-2 flex shrink-0 items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-cyan-100 sm:text-sm">
-                                                                        <Target className="shrink-0 text-cyan-300" size={18} aria-hidden />
-                                                                        理想引薦對象
-                                                                    </h3>
-                                                                    <div className={`${bentoTextScroll} min-h-[5rem]`}>
-                                                                        <p className={`${proseBody} text-slate-100`}>{ideal}</p>
-                                                                    </div>
-                                                                </div>
-                                                            </section>
-                                                        </div>
+                                                        <section className="relative flex min-w-0 flex-col overflow-hidden rounded-2xl border border-cyan-400/30 bg-gradient-to-br from-sky-500/10 via-cyan-500/5 to-blue-500/10 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] backdrop-blur-xl sm:p-5">
+                                                            <h3 className="mb-2 flex shrink-0 items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-cyan-100 sm:text-sm">
+                                                                <Target className="shrink-0 text-cyan-300" size={18} aria-hidden />
+                                                                理想引薦對象
+                                                            </h3>
+                                                            <div className={`${bentoTextScroll} max-h-[min(50vh,22rem)]`}>
+                                                                <p className={`${proseBody} text-slate-100`}>{ideal}</p>
+                                                            </div>
+                                                        </section>
                                                     ) : null}
                                                 </div>
 
@@ -352,10 +325,10 @@ const MemberDetailModal: React.FC<{
                                                             aria-hidden
                                                         />
                                                         <div className="relative z-10">
-                                                            <h3 className="mb-3 text-[10px] font-bold uppercase tracking-[0.2em] text-amber-200/90 sm:text-xs">
+                                                            <h3 className="mb-3 text-[10px] font-bold uppercase tracking-[0.2em] text-sky-400 sm:text-xs">
                                                                 服務項目
                                                             </h3>
-                                                            <ul className="grid max-h-[min(38vh,15rem)] grid-cols-2 gap-x-4 gap-y-2 overflow-y-auto overscroll-contain pr-1 [scrollbar-width:thin] sm:max-h-[min(42vh,18rem)]">
+                                                            <ul className="grid grid-cols-1 gap-x-4 gap-y-2 sm:grid-cols-2">
                                                                 {services.map((s, i) => (
                                                                     <li
                                                                         key={i}
