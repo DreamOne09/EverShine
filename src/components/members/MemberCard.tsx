@@ -57,9 +57,9 @@ const MemberCard: React.FC<MemberCardProps> = ({ member, onOpenDetails }) => {
                     'active:scale-[0.99] hover:scale-[1.02] hover:ring-1 hover:ring-blue-500/50 hover:shadow-[0_0_32px_rgba(59,130,246,0.12)]'
                 )}
             >
-                {/* 產業標籤：右上角膠囊（強化可讀性） */}
+                {/* 產業標籤：右上角膠囊（短字單行 / 長字自動 2 行） */}
                 <span
-                    className="absolute right-2.5 top-2.5 z-10 max-w-[58%] truncate rounded-full border border-sky-400/25 bg-sky-500/10 px-2.5 py-0.5 text-[11px] font-semibold tracking-wide text-sky-100 backdrop-blur-md sm:right-3 sm:top-3 sm:max-w-[62%] sm:px-3 sm:py-1 sm:text-xs"
+                    className="absolute right-2.5 top-2.5 z-10 block max-w-[58%] rounded-2xl border border-sky-400/25 bg-sky-500/10 px-2.5 py-1 text-center text-[11px] font-semibold leading-tight tracking-wide text-sky-100 line-clamp-2 backdrop-blur-md sm:right-3 sm:top-3 sm:max-w-[62%] sm:px-3 sm:text-xs"
                     title={member.industry || '未分類'}
                 >
                     {member.industry || '未分類'}
