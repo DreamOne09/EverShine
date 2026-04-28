@@ -156,21 +156,21 @@ const Members: React.FC = () => {
                 <div className="text-center mb-8 relative z-10">
 
                     {/* Search Bar - Sticky on Mobile */}
-                    <div className="sticky top-[60px] md:top-[80px] z-30 bg-bg-primary/95 backdrop-blur-xl py-4 -mx-4 px-4 mb-2 transition-all shadow-sm md:shadow-none md:static md:bg-transparent md:p-0">
+                    <div className="sticky top-[60px] md:top-[80px] z-30 bg-bg-primary/95 backdrop-blur-xl py-3 -mx-4 px-4 mb-2 transition-all shadow-sm md:py-4 md:shadow-none md:static md:bg-transparent md:p-0">
                         <motion.div
                             initial={{ opacity: 0, width: "80%" }}
                             animate={{ opacity: 1, width: "100%" }}
                             className="relative max-w-lg mx-auto group"
                         >
-                            <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
-                                <Search className="text-gray-400 group-focus-within:text-primary transition-colors" size={20} />
+                            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none sm:pl-5">
+                                <Search className="text-gray-400 group-focus-within:text-primary transition-colors" size={18} />
                             </div>
                             <input
                                 type="text"
                                 placeholder="搜尋會員名字、行業、公司..."
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                className="w-full bg-bg-dark/80 backdrop-blur-sm border border-gray-600 rounded-full py-3.5 pl-12 pr-6 text-white placeholder-gray-500 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-lg"
+                                className="w-full bg-bg-dark/80 backdrop-blur-sm border border-gray-600 rounded-full py-3 pl-11 pr-5 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-lg sm:py-3.5 sm:pl-12 sm:pr-6 sm:text-base"
                             />
                         </motion.div>
                     </div>
@@ -182,7 +182,7 @@ const Members: React.FC = () => {
                     />
                 </div>
 
-                <motion.div layout className="grid grid-cols-1 gap-5 pb-12 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6 xl:grid-cols-4">
+                <motion.div layout className="grid grid-cols-1 gap-4 pb-12 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-6 xl:grid-cols-4">
                     <AnimatePresence mode="popLayout">
                         {filteredMembers.map((member) => (
                             <motion.div
