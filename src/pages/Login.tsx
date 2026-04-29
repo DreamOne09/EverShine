@@ -130,6 +130,26 @@ const Login: React.FC = () => {
 
     const TURNSTILE_SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY || '1x00000000000000000000AA';
 
+    /**
+     * 取得 OAuth / 密碼重設的 redirect base，永遠回傳 https 版本。
+     * 規則：
+     * 1. 若目前 host 是 evershine.tw（不論 www 與否）→ 用 https://evershine.tw
+     * 2. 若是 localhost 或其他開發環境 → 保持原 origin（http 也行，方便本機測）
+     * 3. 其餘（如 zeabur 預設網域）→ 強制升級為 https 並仍用該 host
+     *    這樣 Supabase Auth 白名單只需收 https://*.zeabur.app 就能涵蓋。
+     */
+    const getRedirectBase = (): string => {
+        if (typeof window === 'undefined') return siteConfig.siteUrl;
+        const { hostname, origin, protocol } = window.location;
+        const isDev = hostname === 'localhost' || hostname === '127.0.0.1';
+        if (isDev) return origin;
+        if (hostname === 'evershine.tw' || hostname === 'www.evershine.tw') {
+            return siteConfig.siteUrl; // = https://evershine.tw
+        }
+        if (protocol === 'https:') return origin;
+        return `https://${hostname}`;
+    };
+
     const validateEmail = (value: string) => {
         const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return re.test(value);
@@ -307,7 +327,7 @@ const Login: React.FC = () => {
                 if (error) throw error;
             } else if (mode === 'forgot') {
                 const { error } = await supabase.auth.resetPasswordForEmail(email, {
-                    redirectTo: `${window.location.origin}/member-edit?reset=true`,
+                    redirectTo: `${getRedirectBase()}/member-edit?reset=true`,
                 });
                 if (error) throw error;
                 setMessage({ text: '密碼重設信已發送，請檢查您的信箱。', type: 'success' });
@@ -362,7 +382,7 @@ const Login: React.FC = () => {
         );
     }
 
-    const oauthRedirect = `${window.location.origin}/login`;
+    const oauthRedirect = `${getRedirectBase()}/login`;
 
     return (
         <div className="min-h-dvh flex items-center justify-center pt-28 pb-24 md:pt-32 md:pb-12 px-4 container mx-auto">
