@@ -355,7 +355,7 @@ const Login: React.FC = () => {
 
     if (showSessionSkeleton) {
         return (
-            <div className="min-h-[calc(100dvh-80px)] flex items-center justify-center py-12 pb-24 md:pb-12 px-4 container mx-auto">
+            <div className="min-h-dvh flex items-center justify-center pt-28 pb-24 md:pt-32 md:pb-12 px-4 container mx-auto">
                 <SEO title="會員登入" noindex />
                 <CardSkeleton className="w-full max-w-md" />
             </div>
@@ -365,7 +365,7 @@ const Login: React.FC = () => {
     const oauthRedirect = `${window.location.origin}/login`;
 
     return (
-        <div className="min-h-[calc(100dvh-80px)] flex items-center justify-center py-12 pb-24 md:pb-12 px-4 container mx-auto">
+        <div className="min-h-dvh flex items-center justify-center pt-28 pb-24 md:pt-32 md:pb-12 px-4 container mx-auto">
             <SEO title="會員登入" noindex />
             <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
