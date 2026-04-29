@@ -105,8 +105,54 @@ function injectNoindex(html) {
     );
 }
 
+// 正式品牌域名：用於 HTTP→HTTPS 與非品牌域名的標準化 redirect
+const PRIMARY_HOST = 'evershine.tw';
+// 允許不重新導向（仍視為 HTTPS）的內部網域，避免 Zeabur 健康檢查或內部呼叫被誤導
+const ALLOWED_INTERNAL_HOSTS = new Set([
+    'localhost',
+    '127.0.0.1',
+]);
+
+function isHttpsRequest(req) {
+    // Zeabur / Cloudflare / 一般反向代理會用 x-forwarded-proto 帶原始協定
+    const xfp = (req.headers['x-forwarded-proto'] || '').split(',')[0].trim().toLowerCase();
+    if (xfp) return xfp === 'https';
+    // node http server 沒走 TLS 時 socket.encrypted 會是 undefined
+    return Boolean(req.socket && req.socket.encrypted);
+}
+
+function applySecurityHeaders(res) {
+    // 強制 HTTPS（瀏覽器一年內自動把 http 升級為 https）。
+    // 注意：HSTS 一旦下發很難撤回；先用 1 年但 preload 不開，安全可控。
+    res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+    // 防點擊劫持（不允許他站 iframe 嵌入本站）
+    res.setHeader('X-Frame-Options', 'SAMEORIGIN');
+    // 防 MIME sniffing
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    // 跨站來源政策：對外連結僅送出 origin（不漏路徑）
+    res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+    // 預設關閉危險瀏覽器 API；如未來要用相機/位置可在前端 request 時再 prompt
+    res.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=(), interest-cohort=()');
+}
+
 const server = http.createServer((req, res) => {
     console.log(`Request: ${req.method} ${req.url}`);
+
+    // 1) 強制 HTTPS：若上游是 http 一律 301 redirect 到 https://evershine.tw 對應路徑
+    const hostHeader = (req.headers.host || '').toLowerCase().split(':')[0];
+    const isInternal = ALLOWED_INTERNAL_HOSTS.has(hostHeader);
+    if (!isInternal && !isHttpsRequest(req)) {
+        const targetHost = hostHeader || PRIMARY_HOST;
+        res.writeHead(301, {
+            Location: `https://${targetHost}${req.url}`,
+            'Cache-Control': 'no-cache',
+        });
+        res.end();
+        return;
+    }
+
+    // 2) 為所有回應加上安全 headers
+    applySecurityHeaders(res);
 
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET, POST, PUT, DELETE');
