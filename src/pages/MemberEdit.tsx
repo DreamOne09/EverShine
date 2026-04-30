@@ -16,6 +16,18 @@ import { resolveMemberPhotoObjectPosition } from '../lib/memberPhotoPosition';
 
 const CATEGORIES = [...siteConfig.industries];
 
+// 欄位字數上限（與 Supabase column 長度與資料庫合理性對齊）
+const LIMITS = {
+    name: 50,
+    company: 100,
+    position: 50,
+    industry: 50,
+    shortIntro: 100,
+    fullIntro: 3000,
+    service: 100,
+    hashtag: 30,
+} as const;
+
 interface MemberLink {
     type: string;
     url: string;
@@ -270,6 +282,33 @@ const MemberEdit: React.FC = () => {
 
     const handleSubmit = async () => {
         if (!user) return;
+
+        // 超字數驗證：不裁剪，直接擋下並提示要求刪減
+        const overLimitFields: string[] = [];
+        if (shortIntro.length > LIMITS.shortIntro) {
+            overLimitFields.push(`簡短介紹（${shortIntro.length}/${LIMITS.shortIntro}）`);
+        }
+        if (fullIntro.length > LIMITS.fullIntro) {
+            overLimitFields.push(`完整介紹（${fullIntro.length}/${LIMITS.fullIntro}）`);
+        }
+        if (name.length > LIMITS.name) {
+            overLimitFields.push(`姓名（${name.length}/${LIMITS.name}）`);
+        }
+        if (company.length > LIMITS.company) {
+            overLimitFields.push(`公司（${company.length}/${LIMITS.company}）`);
+        }
+        if (position.length > LIMITS.position) {
+            overLimitFields.push(`職稱（${position.length}/${LIMITS.position}）`);
+        }
+        if (overLimitFields.length > 0) {
+            setMessage({
+                text: `以下欄位超過字數上限，請先刪減後再儲存：${overLimitFields.join('、')}`,
+                type: 'error',
+            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            return;
+        }
+
         setLoading(true);
         setMessage(null);
 
@@ -301,15 +340,15 @@ const MemberEdit: React.FC = () => {
             });
 
             const updates = {
-                name: sanitizeText(name, 50),
-                company: sanitizeText(company, 100),
-                position: sanitizeText(position, 50),
-                industry: sanitizeText(industry, 50),
-                category: selectedCategories.map(c => sanitizeText(c, 30)).join(','),
-                shortIntro: sanitizeText(shortIntro, 200),
-                fullIntro: sanitizeText(fullIntro, 3000),
-                services: services.filter(s => s.trim()).map(s => sanitizeText(s, 100)),
-                hashtags: hashtags.filter(h => h.trim()).map(h => sanitizeText(h, 30)),
+                name: sanitizeText(name, LIMITS.name),
+                company: sanitizeText(company, LIMITS.company),
+                position: sanitizeText(position, LIMITS.position),
+                industry: sanitizeText(industry, LIMITS.industry),
+                category: selectedCategories.map(c => sanitizeText(c, LIMITS.hashtag)).join(','),
+                shortIntro: sanitizeText(shortIntro, LIMITS.shortIntro),
+                fullIntro: sanitizeText(fullIntro, LIMITS.fullIntro),
+                services: services.filter(s => s.trim()).map(s => sanitizeText(s, LIMITS.service)),
+                hashtags: hashtags.filter(h => h.trim()).map(h => sanitizeText(h, LIMITS.hashtag)),
                 links: linksObject,
                 photo: currentPhotoUrl,
                 photoPosition,
@@ -590,27 +629,49 @@ const MemberEdit: React.FC = () => {
                         {/* Intro Section */}
                         <div className="bg-bg-dark/80 backdrop-blur border border-white/10 rounded-2xl p-6 md:p-8">
                             <h2 className="text-xl font-bold text-primary mb-6 border-b border-white/10 pb-4">📣 自我介紹</h2>
-                            <div className="space-y-4">
+                            <div className="space-y-6">
                                 <div>
-                                    <label className="block text-gray-300 mb-2 font-medium">簡短介紹 (列表頁顯示)</label>
+                                    <label className="block text-gray-300 mb-2 font-medium">
+                                        簡短介紹 <span className="text-xs text-gray-500">(列表頁顯示)</span>
+                                    </label>
                                     <textarea
                                         value={shortIntro}
                                         onChange={(e) => updateField(setShortIntro, e.target.value)}
-                                        maxLength={100}
-                                        className="w-full bg-black/30 border border-white/20 rounded-lg p-3 text-base text-white focus:border-primary focus:outline-none h-24 resize-none"
+                                        className={`w-full bg-black/30 border rounded-lg p-4 text-base text-white focus:outline-none h-32 resize-y leading-relaxed transition-colors ${
+                                            shortIntro.length > LIMITS.shortIntro
+                                                ? 'border-red-500/60 focus:border-red-400'
+                                                : 'border-white/20 focus:border-primary'
+                                        }`}
                                         placeholder="一句話介紹您的專業..."
                                     />
-                                    <div className="text-right text-xs text-gray-500">{shortIntro.length}/100</div>
+                                    <div className={`mt-1 text-right text-xs font-mono ${shortIntro.length > LIMITS.shortIntro ? 'text-red-400 font-bold' : 'text-gray-500'}`}>
+                                        {shortIntro.length} / {LIMITS.shortIntro}
+                                        {shortIntro.length > LIMITS.shortIntro && (
+                                            <span className="ml-2">已超過 {shortIntro.length - LIMITS.shortIntro} 字，請刪減</span>
+                                        )}
+                                    </div>
                                 </div>
                                 <div>
-                                    <label className="block text-gray-300 mb-2 font-medium">完整介紹 (詳細頁顯示)</label>
+                                    <label className="block text-gray-300 mb-2 font-medium">
+                                        完整介紹 <span className="text-xs text-gray-500">(詳細頁顯示)</span>
+                                    </label>
                                     <textarea
                                         value={fullIntro}
                                         onChange={(e) => updateField(setFullIntro, e.target.value)}
-                                        className="w-full bg-black/30 border border-white/20 rounded-lg p-3 text-base text-white focus:border-primary focus:outline-none h-48"
-                                        placeholder="詳細說明您的服務內容、經歷與優勢..."
+                                        className={`w-full bg-black/30 border rounded-lg p-4 text-base text-white focus:outline-none h-72 md:h-96 resize-y leading-relaxed transition-colors ${
+                                            fullIntro.length > LIMITS.fullIntro
+                                                ? 'border-red-500/60 focus:border-red-400'
+                                                : 'border-white/20 focus:border-primary'
+                                        }`}
+                                        placeholder={`詳細說明您的服務內容、經歷與優勢...\n\n小技巧：在內文加入下面這段，系統會自動把它獨立顯示在彈窗右上方：\n【理想引薦對象】\n例如：骨科、復健科醫師，醫院及診所`}
                                     />
-                                    <p className="mt-2 text-xs text-primary/70 leading-relaxed italic">
+                                    <div className={`mt-1 text-right text-xs font-mono ${fullIntro.length > LIMITS.fullIntro ? 'text-red-400 font-bold' : 'text-gray-500'}`}>
+                                        {fullIntro.length} / {LIMITS.fullIntro}
+                                        {fullIntro.length > LIMITS.fullIntro && (
+                                            <span className="ml-2">已超過 {fullIntro.length - LIMITS.fullIntro} 字，請刪減</span>
+                                        )}
+                                    </div>
+                                    <p className="mt-3 text-xs text-primary/70 leading-relaxed italic">
                                         💡 <strong>AI 搜尋優化小提醒：</strong>建議使用自然語言描述。例如：「我是一位專門協助電商企業處理節稅問題的專業會計師...」這能幫助 AI 搜尋引擎 (如 ChatGPT/Perplexity) 更精準地將您推薦給目標客戶。
                                     </p>
                                 </div>

@@ -157,7 +157,7 @@ export function deriveAdminDerivedState(bundle: AdminDashboardFetchResult) {
             industryCount,
             completionRate: `${completionRate}%`,
         },
-        recentUpdates: sortedByUpdate.slice(0, 5),
+        recentUpdates: sortedByUpdate.slice(0, 12),
         marketingStats: { socialClicks: socialClicksCount },
         admins,
     };
