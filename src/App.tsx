@@ -11,6 +11,7 @@ import PageTracker from './components/common/PageTracker';
 import BottomNav from './components/layout/BottomNav';
 import Home from './pages/Home';
 import Members from './pages/Members';
+import MemberPage from './pages/MemberPage';
 import Referrals from './pages/Referrals';
 import MemberEdit from './pages/MemberEdit';
 import BNI from './pages/BNI';
@@ -49,6 +50,7 @@ const AnimatedRoutes = () => {
         <Route path="/" element={<Home />} />
         <Route path="/bni" element={<BNI />} />
         <Route path="/members" element={<Members />} />
+        <Route path="/member/:slug" element={<MemberPage />} />
         <Route path="/referrals" element={<Referrals />} />
         <Route path="/login" element={<Login />} />
         <Route path="/member-edit" element={<MemberEdit />} />

@@ -2,11 +2,13 @@ import React, { useMemo, useState } from 'react';
 import type { Member } from '../../types';
 import { motion } from 'framer-motion';
 import clsx from 'clsx';
-import { Phone } from 'lucide-react';
+import { Phone, ExternalLink } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { siteConfig } from '../../config/site.config';
 import { normalizeMemberLinks } from '../../lib/memberLinks';
 import { formatTaiwanPhoneDisplay, formatTaiwanPhoneTelHref } from '../../lib/phoneFormat';
 import { resolveMemberPhotoObjectPosition } from '../../lib/memberPhotoPosition';
+import { buildMemberSlug } from '../../lib/memberSlug';
 
 export interface MemberCardProps {
     member: Member;
@@ -64,6 +66,17 @@ const MemberCard: React.FC<MemberCardProps> = ({ member, onOpenDetails }) => {
                 >
                     {member.industry || '未分類'}
                 </span>
+
+                {/* 左上角：獨立頁面連結（SEO 與分享入口） */}
+                <Link
+                    to={`/member/${buildMemberSlug(member)}`}
+                    onClick={(e) => e.stopPropagation()}
+                    className="absolute left-2.5 top-2.5 z-10 flex h-7 w-7 items-center justify-center rounded-full border border-white/10 bg-black/40 text-slate-300 backdrop-blur-md transition-colors hover:border-sky-400/40 hover:bg-sky-500/15 hover:text-sky-100 sm:left-3 sm:top-3 sm:h-8 sm:w-8"
+                    title={`${member.name} 的獨立頁面`}
+                    aria-label={`開啟 ${member.name} 的獨立頁面`}
+                >
+                    <ExternalLink size={13} />
+                </Link>
 
                 <div className="flex flex-1 flex-col items-center text-center">
                     {/* 大頭照：直式名片視覺重心 */}
