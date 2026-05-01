@@ -2,8 +2,8 @@ import React, { useMemo, useState } from 'react';
 import type { Member } from '../../types';
 import { motion } from 'framer-motion';
 import clsx from 'clsx';
-import { Phone, ExternalLink } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Phone } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
 import { siteConfig } from '../../config/site.config';
 import { normalizeMemberLinks } from '../../lib/memberLinks';
 import { formatTaiwanPhoneDisplay, formatTaiwanPhoneTelHref } from '../../lib/phoneFormat';
@@ -24,6 +24,7 @@ function getPhotoUrl(photo: string) {
 
 /** 直式菁英名片：沈浸磨砂玻璃 + hover 呼吸環與微放大 */
 const MemberCard: React.FC<MemberCardProps> = ({ member, onOpenDetails }) => {
+    const navigate = useNavigate();
     const [imgSrc, setImgSrc] = useState(getPhotoUrl(member.photo));
     React.useEffect(() => {
         setImgSrc(getPhotoUrl(member.photo));
@@ -31,6 +32,20 @@ const MemberCard: React.FC<MemberCardProps> = ({ member, onOpenDetails }) => {
 
     const slogan = (member.shortIntro || member.fullIntro || '').replace(/\\n/g, ' ').trim();
     const titleLine = member.position || member.title || '';
+    const memberHref = `/member/${buildMemberSlug(member)}`;
+
+    /** 點卡片空白處：導去個別頁；按鈕/連結等子元素已 stopPropagation 不會誤觸發 */
+    const handleCardClick = () => {
+        navigate(memberHref);
+    };
+
+    /** 鍵盤 Enter / Space 也能進個別頁（無障礙） */
+    const handleCardKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            navigate(memberHref);
+        }
+    };
     const links = useMemo(() => normalizeMemberLinks(member.links), [member.links]);
     const lineUrl = links.find((l) => (l.type || '').toLowerCase() === 'line');
     const igUrl = links.find((l) => {
@@ -53,10 +68,16 @@ const MemberCard: React.FC<MemberCardProps> = ({ member, onOpenDetails }) => {
             className="flex h-full min-h-[23rem] flex-col sm:min-h-[26rem]"
         >
             <div
+                role="link"
+                tabIndex={0}
+                onClick={handleCardClick}
+                onKeyDown={handleCardKeyDown}
+                aria-label={`查看 ${member.name} 的會員頁`}
                 className={clsx(
-                    'relative flex h-full min-h-[23rem] flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-4 pt-5 backdrop-blur-2xl sm:min-h-[26rem] sm:p-5 sm:pt-6',
+                    'group relative flex h-full min-h-[23rem] cursor-pointer flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-4 pt-5 backdrop-blur-2xl sm:min-h-[26rem] sm:p-5 sm:pt-6',
                     'transition-all duration-300 ease-out',
-                    'active:scale-[0.99] hover:scale-[1.02] hover:ring-1 hover:ring-blue-500/50 hover:shadow-[0_0_32px_rgba(59,130,246,0.12)]'
+                    'active:scale-[0.99] hover:scale-[1.02] hover:ring-1 hover:ring-blue-500/50 hover:shadow-[0_0_32px_rgba(59,130,246,0.12)]',
+                    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary'
                 )}
             >
                 {/* 產業標籤：右上角膠囊（短字單行 / 長字自動 2 行） */}
@@ -66,17 +87,6 @@ const MemberCard: React.FC<MemberCardProps> = ({ member, onOpenDetails }) => {
                 >
                     {member.industry || '未分類'}
                 </span>
-
-                {/* 左上角：獨立頁面連結（SEO 與分享入口） */}
-                <Link
-                    to={`/member/${buildMemberSlug(member)}`}
-                    onClick={(e) => e.stopPropagation()}
-                    className="absolute left-2.5 top-2.5 z-10 flex h-7 w-7 items-center justify-center rounded-full border border-white/10 bg-black/40 text-slate-300 backdrop-blur-md transition-colors hover:border-sky-400/40 hover:bg-sky-500/15 hover:text-sky-100 sm:left-3 sm:top-3 sm:h-8 sm:w-8"
-                    title={`${member.name} 的獨立頁面`}
-                    aria-label={`開啟 ${member.name} 的獨立頁面`}
-                >
-                    <ExternalLink size={13} />
-                </Link>
 
                 <div className="flex flex-1 flex-col items-center text-center">
                     {/* 大頭照：直式名片視覺重心 */}
@@ -91,7 +101,15 @@ const MemberCard: React.FC<MemberCardProps> = ({ member, onOpenDetails }) => {
                         />
                     </div>
 
-                    <h3 className="line-clamp-1 w-full px-1 text-lg font-bold tracking-wide text-white sm:text-xl">{member.name}</h3>
+                    {/* 姓名：同時是給爬蟲與 SEO 可索引的連結 */}
+                    <Link
+                        to={memberHref}
+                        onClick={(e) => e.stopPropagation()}
+                        className="line-clamp-1 w-full px-1 text-lg font-bold tracking-wide text-white transition-colors hover:text-primary sm:text-xl"
+                        title={`${member.name} 的獨立頁面`}
+                    >
+                        <h3 className="inline">{member.name}</h3>
+                    </Link>
 
                     <div className="mt-1 w-full space-y-0.5 px-0.5">
                         {titleLine ? (
