@@ -60,7 +60,7 @@ const Footer: React.FC = () => {
                             href="https://dropout.tw"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-red-400 hover:text-red-300 hover:underline transition-colors"
+                            className="text-primary hover:text-white hover:underline transition-colors"
                         >
                             琢奧科技有限公司 DropOut Tech Consulting Co., Ltd.
                         </a>
