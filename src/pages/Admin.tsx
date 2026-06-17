@@ -42,6 +42,7 @@ const Admin: React.FC = () => {
     const [homeStats, setHomeStats] = useState({
         referral_count: 0,
         referral_value: 0,
+        guest_count: 0,
         month: new Date().toISOString().slice(0, 7),
     });
     const [referralForm, setReferralForm] = useState<ReferralFormState>(createEmptyReferralForm);
@@ -86,9 +87,12 @@ const Admin: React.FC = () => {
                 month: hs.month,
                 referral_count: hs.referral_count,
                 referral_value: hs.referral_value,
+                guest_count: hs.guest_count,
             });
         }
     }, [dashboardQuery.data?.homeStats]);
+
+    const homeStatsHistory = dashboardQuery.data?.homeStatsHistory ?? [];
 
     const derived = dashboardQuery.data ? deriveAdminDerivedState(dashboardQuery.data) : null;
 
@@ -172,6 +176,7 @@ const Admin: React.FC = () => {
         onSuccess: () => {
             alert('首頁數據已更新！');
             void refetchDashboard();
+            void queryClient.invalidateQueries({ queryKey: queryKeys.homepageStats.history });
         },
         onError: (e: Error) => alert('更新失敗: ' + e.message),
     });
@@ -302,6 +307,7 @@ const Admin: React.FC = () => {
                         homeStats={homeStats}
                         onHomeStatsChange={setHomeStats}
                         onSaveHomeStats={() => saveHomeStatsMutation.mutate()}
+                        homeStatsHistory={homeStatsHistory}
                     />
                 )}
             </div>
