@@ -64,7 +64,7 @@ const Referrals: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen relative overflow-hidden">
+        <div className="min-h-screen relative overflow-x-hidden">
             <SEO
                 title="商會引薦成功案例 | BNI 台灣商務合作實績"
                 description="見證台灣 BNI 長輝白金分會的商務引薦實力。透過真實的引薦成功案例，展示台灣頂尖商會如何透過專業對接與互利合作，為企業主創造巨大的商業價值與商務合作機會。"
@@ -80,6 +80,7 @@ const Referrals: React.FC = () => {
                 }}
             />
             <PageHero
+                compact
                 title="台灣商會引薦案例"
                 subtitle={
                     <>
@@ -88,7 +89,8 @@ const Referrals: React.FC = () => {
                 }
             />
 
-            <div className="container mx-auto px-4 py-12 relative z-10">
+            <div className="relative z-10 bg-bg-primary/98 border-t border-white/5">
+            <div className="container mx-auto px-4 py-8 md:py-10">
 
                 {/* Weekly Feature Note */}
                 <div className="bg-primary/10 border border-primary/20 rounded-xl p-4 mb-6 text-center max-w-2xl mx-auto">
@@ -108,8 +110,8 @@ const Referrals: React.FC = () => {
                     categoryCounts={categoryCounts}
                 />
 
-                {/* Referrals Grid - Waterfall/Vertical Stack on Mobile */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 pb-8 md:pb-0 max-w-6xl mx-auto">
+                {/* Referrals Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 pb-12 md:pb-16 max-w-6xl mx-auto items-start">
                     {filteredReferrals.length === 0 && referrals.length > 0 && (
                         <div className="col-span-full max-w-xl mx-auto">
                             <EmptyState
@@ -131,6 +133,10 @@ const Referrals: React.FC = () => {
                     {filteredReferrals.map((referral, index) => {
                         const isSelected = selectedReferralId === referral.id;
                         const ecosystem = getReferralEcosystem(referral);
+                        const showMetricsType =
+                            referral.metrics.type &&
+                            referral.metrics.type !== referral.title &&
+                            referral.metrics.type !== ecosystem;
                         return (
                             <motion.article
                                 key={referral.id}
@@ -138,7 +144,7 @@ const Referrals: React.FC = () => {
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: Math.min(index * 0.05, 0.4), duration: 0.45 }}
                                 onClick={() => toggleReferral(referral.id)}
-                                className={`bg-bg-dark/60 backdrop-blur-md border rounded-2xl overflow-hidden transition-colors duration-300 flex flex-col cursor-pointer h-full ${
+                                className={`bg-bg-dark/60 backdrop-blur-md border rounded-2xl overflow-hidden transition-colors duration-300 flex flex-col cursor-pointer ${
                                     isSelected
                                         ? 'border-primary ring-1 ring-primary shadow-[0_8px_30px_rgba(59,130,246,0.15)]'
                                         : 'border-white/10 hover:border-primary/50 hover:shadow-[0_8px_30px_rgba(0,0,0,0.3)]'
@@ -160,8 +166,8 @@ const Referrals: React.FC = () => {
                                             aria-hidden
                                         />
                                     </div>
-                                    <div className="mb-4">
-                                        <span className="inline-block text-[10px] font-medium text-primary/90 bg-primary/10 border border-primary/20 rounded-full px-2.5 py-0.5">
+                                    <div className="flex flex-wrap items-start gap-2 mb-4">
+                                        <span className="inline-block text-[10px] font-medium text-primary/90 bg-primary/10 border border-primary/20 rounded-full px-2.5 py-0.5 max-w-full">
                                             {ecosystem}
                                         </span>
                                     </div>
@@ -200,15 +206,17 @@ const Referrals: React.FC = () => {
                                     )}
 
                                     {/* Metrics Badge */}
-                                    <div className="bg-primary/10 rounded-xl p-5 border border-primary/20 mt-auto">
-                                        <div className="flex items-end justify-between gap-3">
+                                    <div className="bg-primary/10 rounded-xl p-4 sm:p-5 border border-primary/20 mt-auto">
+                                        <div className="flex flex-col gap-2 sm:gap-3">
                                             <div className="min-w-0">
                                                 <div className="text-[10px] text-primary-light uppercase tracking-widest mb-1 font-bold">成效數據</div>
-                                                <div className="font-bold text-white text-xl md:text-2xl truncate">{referral.metrics.amount}</div>
+                                                <div className="font-bold text-white text-lg sm:text-xl md:text-2xl break-words">{referral.metrics.amount}</div>
                                             </div>
-                                            <div className="text-xs text-gray-300 font-medium px-2.5 py-1 bg-white/5 rounded-md shrink-0">
-                                                {referral.metrics.type}
-                                            </div>
+                                            {showMetricsType && (
+                                                <div className="text-xs text-gray-300 font-medium px-2.5 py-1.5 bg-white/5 rounded-md w-fit max-w-full line-clamp-2">
+                                                    {referral.metrics.type}
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
 
@@ -229,10 +237,10 @@ const Referrals: React.FC = () => {
                                                         }}
                                                     />
                                                 </div>
-                                                <div className="mt-2 font-bold text-sm text-white truncate max-w-full">
+                                                <div className="mt-2 font-bold text-sm text-white break-words text-center max-w-full">
                                                     {referral.referrer.name}
                                                 </div>
-                                                <div className="text-[11px] text-gray-400 line-clamp-1 max-w-full">
+                                                <div className="text-[11px] text-gray-400 line-clamp-2 max-w-full text-center">
                                                     {referral.referrer.industry}
                                                 </div>
                                             </div>
@@ -259,10 +267,10 @@ const Referrals: React.FC = () => {
                                                         }}
                                                     />
                                                 </div>
-                                                <div className="mt-2 font-bold text-sm text-white truncate max-w-full">
+                                                <div className="mt-2 font-bold text-sm text-white break-words text-center max-w-full">
                                                     {referral.referee.name}
                                                 </div>
-                                                <div className="text-[11px] text-gray-400 line-clamp-1 max-w-full">
+                                                <div className="text-[11px] text-gray-400 line-clamp-2 max-w-full text-center">
                                                     {referral.referee.industry}
                                                 </div>
                                             </div>
@@ -283,6 +291,7 @@ const Referrals: React.FC = () => {
                         );
                     })}
                 </div>
+            </div>
             </div>
         </div>
     );

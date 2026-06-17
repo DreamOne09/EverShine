@@ -12,6 +12,8 @@ interface PageHeroProps {
     subtitleClassName?: string;
     /** 為 true 時在區塊底部顯示向下捲動提示（首頁用） */
     showScrollIndicator?: boolean;
+    /** 列表頁用較矮的標題區，避免與下方篩選／內容重疊 */
+    compact?: boolean;
     children?: React.ReactNode;
 }
 
@@ -21,10 +23,18 @@ const PageHero: React.FC<PageHeroProps> = ({
     subtitle,
     subtitleClassName,
     showScrollIndicator,
+    compact,
     children,
 }) => {
     return (
-        <section className="min-h-screen flex flex-col justify-center items-center text-center relative z-10 pt-20 overflow-hidden" aria-label="BNI 長輝白金分會台灣商會頁面標題">
+        <section
+            className={
+                compact
+                    ? 'relative z-10 flex flex-col items-center justify-center text-center pt-24 pb-10 md:pt-28 md:pb-12 overflow-hidden'
+                    : 'min-h-screen flex flex-col justify-center items-center text-center relative z-10 pt-20 overflow-hidden'
+            }
+            aria-label="BNI 長輝白金分會台灣商會頁面標題"
+        >
             {/* Hero Background Image */}
             <div
                 className="absolute inset-0 z-0"
@@ -46,11 +56,15 @@ const PageHero: React.FC<PageHeroProps> = ({
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-                className="relative z-10 px-4 mt-[-5vh] md:mt-[-10vh]"
+                className={compact ? 'relative z-10 px-4' : 'relative z-10 px-4 mt-[-5vh] md:mt-[-10vh]'}
             >
                 {/* 大標／小標分開：h1 僅大標；小標用 p，避免被讀成一個長標題 */}
                 <h1
-                    className={`text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-black tracking-tight font-sans ${heroTagline ? 'mb-0' : 'mb-6'}`}
+                    className={`font-black tracking-tight font-sans ${heroTagline ? 'mb-0' : 'mb-6'} ${
+                        compact
+                            ? 'text-2xl sm:text-4xl md:text-5xl'
+                            : 'text-3xl sm:text-5xl md:text-7xl lg:text-8xl'
+                    }`}
                 >
                     <span className="block bg-clip-text text-transparent bg-gradient-to-b from-[#E0F2FE] via-[#7DD3FC] to-[#0284C7] drop-shadow-[0_0_15px_rgba(14,165,233,0.6)] px-2">
                         {title}
@@ -63,7 +77,9 @@ const PageHero: React.FC<PageHeroProps> = ({
                 )}
                 {subtitle && (
                     <div
-                        className={`text-base md:text-2xl text-gray-200 max-w-3xl mx-auto leading-relaxed font-light ${subtitleClassName || ''}`}
+                        className={`text-gray-200 max-w-3xl mx-auto leading-relaxed font-light ${
+                            compact ? 'text-sm md:text-lg mt-3 mb-0' : 'text-base md:text-2xl'
+                        } ${subtitleClassName || ''}`}
                     >
                         {subtitle}
                     </div>

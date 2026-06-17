@@ -1,8 +1,21 @@
 import React from 'react';
 import clsx from 'clsx';
-import { motion } from 'framer-motion';
 import { Search, X } from 'lucide-react';
 import { REFERRAL_CATEGORIES } from '../../lib/referralFilter';
+
+/** 分類 pill 顯示用短標（完整名稱放 title 供 hover） */
+const CATEGORY_SHORT_LABELS: Record<string, string> = {
+    全部: '全部案例',
+    居住與空間工程: '居住工程',
+    企業營運與法稅: '企業法稅',
+    金融財富與資產: '金融資產',
+    品牌整合與行銷: '品牌行銷',
+    '數位AI與創新科技': '數位AI',
+    身心健康與醫療: '身心健康',
+    飲食文化與食品: '飲食食品',
+    教育學習與休閒: '教育休閒',
+    永續發展與製造: '永續製造',
+};
 
 interface ReferralFilterBarProps {
     query: string;
@@ -27,60 +40,63 @@ const ReferralFilterBar: React.FC<ReferralFilterBarProps> = ({
 
     return (
         <div className="max-w-6xl mx-auto mb-8 md:mb-10 space-y-4">
-            <div className="relative max-w-xl mx-auto">
-                <Search
-                    className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"
-                    size={18}
-                    aria-hidden
-                />
-                <input
-                    type="search"
-                    value={query}
-                    onChange={(e) => onQueryChange(e.target.value)}
-                    placeholder="搜尋案例、會員姓名、產業或關鍵字…"
-                    aria-label="搜尋引薦案例"
-                    className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-11 pr-10 text-white placeholder-gray-500 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/40 transition-all text-sm md:text-base"
-                />
-                {query && (
-                    <button
-                        type="button"
-                        onClick={() => onQueryChange('')}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-gray-400 hover:text-white rounded-md"
-                        aria-label="清除搜尋"
-                    >
-                        <X size={16} />
-                    </button>
-                )}
+            <div className="sticky top-[60px] md:top-[72px] z-20 -mx-1 px-1 py-2 bg-bg-primary/95 backdrop-blur-md rounded-xl md:static md:bg-transparent md:backdrop-blur-none md:p-0">
+                <div className="relative max-w-xl mx-auto">
+                    <Search
+                        className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"
+                        size={18}
+                        aria-hidden
+                    />
+                    <input
+                        type="search"
+                        value={query}
+                        onChange={(e) => onQueryChange(e.target.value)}
+                        placeholder="搜尋案例、會員姓名、產業或關鍵字…"
+                        aria-label="搜尋引薦案例"
+                        className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-11 pr-10 text-white placeholder-gray-500 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/40 transition-all text-sm md:text-base"
+                    />
+                    {query && (
+                        <button
+                            type="button"
+                            onClick={() => onQueryChange('')}
+                            className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-gray-400 hover:text-white rounded-md"
+                            aria-label="清除搜尋"
+                        >
+                            <X size={16} />
+                        </button>
+                    )}
+                </div>
             </div>
 
-            <div className="flex w-full items-center gap-2.5 overflow-x-auto no-scrollbar pb-1 px-1 md:flex-wrap md:justify-center">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2">
                 {REFERRAL_CATEGORIES.map((cat) => {
                     const count = categoryCounts.get(cat) ?? 0;
                     const isActive = activeCategory === cat;
+                    const shortLabel = CATEGORY_SHORT_LABELS[cat] ?? cat;
                     return (
-                        <motion.button
+                        <button
                             key={cat}
                             type="button"
-                            whileTap={{ scale: 0.97 }}
+                            title={cat}
                             onClick={() => onCategoryChange(cat)}
                             className={clsx(
-                                'rounded-full border transition-all duration-200 whitespace-nowrap shrink-0',
-                                'px-3 py-1.5 text-xs sm:text-sm flex items-center gap-1.5',
+                                'rounded-xl border transition-all duration-200 text-left',
+                                'px-2.5 py-2 text-xs sm:text-sm flex items-center justify-between gap-1.5 min-h-[2.75rem]',
                                 isActive
                                     ? 'bg-primary text-bg-dark border-primary font-bold shadow-[0_0_12px_rgba(76,168,223,0.25)]'
                                     : 'bg-white/5 text-gray-300 border-white/10 hover:border-primary/60 hover:text-primary'
                             )}
                         >
-                            <span>{cat === '全部' ? '全部案例' : cat}</span>
+                            <span className="leading-tight line-clamp-2">{shortLabel}</span>
                             <span
                                 className={clsx(
-                                    'tabular-nums text-[10px] px-1.5 py-0.5 rounded-full',
+                                    'tabular-nums text-[10px] px-1.5 py-0.5 rounded-full shrink-0',
                                     isActive ? 'bg-bg-dark/20 text-bg-dark' : 'bg-white/10 text-gray-400'
                                 )}
                             >
                                 {count}
                             </span>
-                        </motion.button>
+                        </button>
                     );
                 })}
             </div>
