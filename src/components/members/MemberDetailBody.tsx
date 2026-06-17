@@ -6,6 +6,7 @@ import { normalizeMemberLinks } from '../../lib/memberLinks';
 import { formatTaiwanPhoneDisplay, formatTaiwanPhoneTelHref } from '../../lib/phoneFormat';
 import { splitIntro } from '../../lib/memberIntroSplit';
 import { resolveMemberPhotoObjectPosition } from '../../lib/memberPhotoPosition';
+import GoldMedalBadge from './GoldMedalBadge';
 
 /**
  * 會員檔案核心內容 — 給 Modal（彈窗）與 /member/:slug（獨立頁）共用。
@@ -158,9 +159,12 @@ const MemberDetailBody: React.FC<MemberDetailBodyProps> = ({ member: m, expanded
                             </div>
                         </div>
 
-                        <h3 className={`mt-4 w-full text-xl font-black tracking-[0.06em] text-white sm:text-2xl ${expanded ? 'break-words' : 'line-clamp-2'}`}>
-                            {m.name}
-                        </h3>
+                        <div className="mt-4 flex w-full items-center justify-center gap-2">
+                            <h3 className={`text-xl font-black tracking-[0.06em] text-white sm:text-2xl ${expanded ? 'break-words' : 'line-clamp-2'}`}>
+                                {m.name}
+                            </h3>
+                            {m.has_gold_medal ? <GoldMedalBadge size={16} /> : null}
+                        </div>
 
                         <div className="mt-3 inline-flex max-w-full items-center gap-1.5 rounded-full border border-sky-400/25 bg-sky-500/10 px-3 py-1.5 text-xs font-semibold tracking-wide text-sky-100 sm:text-sm">
                             <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-sky-300/80">產業別</span>

@@ -23,6 +23,7 @@ export interface Member {
     updatedAt?: string;
     phone?: string;
     email?: string;
+    has_gold_medal?: boolean;
 }
 
 export const useMembers = () => {

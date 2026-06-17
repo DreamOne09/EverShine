@@ -24,6 +24,7 @@ export interface Member {
     status?: MemberStatus;
     membership_type?: MembershipType | null;
     frozen_at?: string | null;
+    has_gold_medal?: boolean;
 }
 
 export interface MemberLink {
