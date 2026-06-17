@@ -7,6 +7,7 @@ import { formatTaiwanPhoneDisplay, formatTaiwanPhoneTelHref } from '../../lib/ph
 import { splitIntro } from '../../lib/memberIntroSplit';
 import { resolveMemberPhotoObjectPosition } from '../../lib/memberPhotoPosition';
 import GoldMedalBadge from './GoldMedalBadge';
+import { resolveGoldMedalCount } from '../../lib/goldMedal';
 
 /**
  * 會員檔案核心內容 — 給 Modal（彈窗）與 /member/:slug（獨立頁）共用。
@@ -134,6 +135,7 @@ const MemberDetailBody: React.FC<MemberDetailBodyProps> = ({ member: m, expanded
     const { main: introMain, ideal } = splitIntro(m.fullIntro || '');
     const displayIntro = introMain || m.shortIntro || m.fullIntro?.replace(/\\n/g, '\n') || '';
     const services = (m.services || []).filter((s) => s && s.trim());
+    const goldMedalCount = resolveGoldMedalCount(m);
 
     // expanded（個別頁）：移除內部高度限制，讓全文一次展開。
     // 預設（modal）：保留 max-h + scroll 以維持彈窗適中尺寸。
@@ -163,7 +165,7 @@ const MemberDetailBody: React.FC<MemberDetailBodyProps> = ({ member: m, expanded
                             <h3 className={`text-xl font-black tracking-[0.06em] text-white sm:text-2xl ${expanded ? 'break-words' : 'line-clamp-2'}`}>
                                 {m.name}
                             </h3>
-                            {m.has_gold_medal ? <GoldMedalBadge size={16} /> : null}
+                            {goldMedalCount > 0 ? <GoldMedalBadge count={goldMedalCount} size={16} /> : null}
                         </div>
 
                         <div className="mt-3 inline-flex max-w-full items-center gap-1.5 rounded-full border border-sky-400/25 bg-sky-500/10 px-3 py-1.5 text-xs font-semibold tracking-wide text-sky-100 sm:text-sm">

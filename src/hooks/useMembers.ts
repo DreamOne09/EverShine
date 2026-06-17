@@ -23,6 +23,7 @@ export interface Member {
     updatedAt?: string;
     phone?: string;
     email?: string;
+    gold_medal_count?: number;
     has_gold_medal?: boolean;
 }
 

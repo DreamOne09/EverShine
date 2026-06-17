@@ -24,6 +24,9 @@ export interface Member {
     status?: MemberStatus;
     membership_type?: MembershipType | null;
     frozen_at?: string | null;
+    /** 金質獎章數：0 無、1 金質、2 雙金質 */
+    gold_medal_count?: number;
+    /** @deprecated 請改用 gold_medal_count；保留相容舊資料 */
     has_gold_medal?: boolean;
 }
 

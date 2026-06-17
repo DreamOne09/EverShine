@@ -16,7 +16,7 @@ const AdminMemberModal: React.FC<Props> = ({ open, onClose, onCreated }) => {
     const [category, setCategory] = useState<string>(siteConfig.industries[0] ?? '');
     const [industry, setIndustry] = useState('');
     const [position, setPosition] = useState('');
-    const [hasGoldMedal, setHasGoldMedal] = useState(false);
+    const [goldMedalCount, setGoldMedalCount] = useState<0 | 1 | 2>(0);
     const [saving, setSaving] = useState(false);
     const [formError, setFormError] = useState<string | null>(null);
 
@@ -28,7 +28,7 @@ const AdminMemberModal: React.FC<Props> = ({ open, onClose, onCreated }) => {
         setCategory(siteConfig.industries[0] ?? '');
         setIndustry('');
         setPosition('');
-        setHasGoldMedal(false);
+        setGoldMedalCount(0);
         setFormError(null);
     };
 
@@ -66,7 +66,8 @@ const AdminMemberModal: React.FC<Props> = ({ open, onClose, onCreated }) => {
                 services: [],
                 hashtags: [],
                 links: {},
-                has_gold_medal: hasGoldMedal,
+                gold_medal_count: goldMedalCount,
+                has_gold_medal: goldMedalCount >= 1,
                 createdAt: new Date().toISOString(),
                 updatedAt: new Date().toISOString(),
             };
@@ -182,19 +183,22 @@ const AdminMemberModal: React.FC<Props> = ({ open, onClose, onCreated }) => {
                             maxLength={50}
                         />
                     </div>
-                    <label className="flex cursor-pointer items-center gap-3 rounded-lg border border-amber-300/20 bg-amber-500/5 px-3 py-2.5 hover:bg-amber-500/10 transition-colors">
-                        <input
-                            type="checkbox"
-                            checked={hasGoldMedal}
-                            onChange={(e) => setHasGoldMedal(e.target.checked)}
-                            className="h-4 w-4 cursor-pointer accent-amber-400"
-                        />
-                        <Crown size={16} className="text-amber-300" />
-                        <div className="flex-1">
-                            <div className="text-sm font-medium text-amber-100">頒予金質獎章</div>
-                            <div className="text-[11px] text-amber-200/60">分會年度卓越貢獻表揚；卡片左上角會出現王冠標誌</div>
-                        </div>
-                    </label>
+                    <div>
+                        <label className="block text-gray-400 text-sm mb-1 flex items-center gap-1.5">
+                            <Crown size={14} className="text-amber-300" />
+                            金質獎章
+                        </label>
+                        <select
+                            value={goldMedalCount}
+                            onChange={(e) => setGoldMedalCount(Number(e.target.value) as 0 | 1 | 2)}
+                            className="w-full bg-black/30 border border-amber-300/20 rounded-lg px-3 py-2.5 text-white focus:border-amber-400 focus:outline-none"
+                        >
+                            <option value={0} className="bg-bg-dark">無</option>
+                            <option value={1} className="bg-bg-dark">金質獎章</option>
+                            <option value={2} className="bg-bg-dark">雙金質獎章（引薦 12 人）</option>
+                        </select>
+                        <p className="text-[11px] text-amber-200/60 mt-1">卡片左上角顯示王冠；雙金質為兩枚王冠。</p>
+                    </div>
                     <div className="flex gap-2 pt-2">
                         <button
                             type="button"

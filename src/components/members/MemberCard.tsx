@@ -10,6 +10,7 @@ import { formatTaiwanPhoneDisplay, formatTaiwanPhoneTelHref } from '../../lib/ph
 import { resolveMemberPhotoObjectPosition } from '../../lib/memberPhotoPosition';
 import { buildMemberSlug } from '../../lib/memberSlug';
 import GoldMedalBadge from './GoldMedalBadge';
+import { resolveGoldMedalCount } from '../../lib/goldMedal';
 
 export interface MemberCardProps {
     member: Member;
@@ -56,6 +57,7 @@ const MemberCard: React.FC<MemberCardProps> = ({ member, onOpenDetails }) => {
     const phoneDisplay = member.phone ? formatTaiwanPhoneDisplay(member.phone) : '';
     const phoneHref = member.phone ? formatTaiwanPhoneTelHref(member.phone) : '';
     const hasContactStrip = Boolean(phoneHref || lineUrl || igUrl);
+    const goldMedalCount = resolveGoldMedalCount(member);
 
     const iconBtn =
         'flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-white/[0.06] text-slate-200 transition-colors hover:border-sky-400/40 hover:bg-sky-500/10 hover:text-sky-100';
@@ -89,9 +91,13 @@ const MemberCard: React.FC<MemberCardProps> = ({ member, onOpenDetails }) => {
                     {member.industry || '未分類'}
                 </span>
 
-                {/* 金質獎章：左上角王冠（有獲獎才顯示，hover 出說明） */}
-                {member.has_gold_medal ? (
-                    <GoldMedalBadge className="absolute left-2.5 top-2.5 z-10 sm:left-3 sm:top-3" size={14} />
+                {/* 金質獎章：左上角王冠（單金質一枚、雙金質兩枚） */}
+                {goldMedalCount > 0 ? (
+                    <GoldMedalBadge
+                        count={goldMedalCount}
+                        className="absolute left-2.5 top-2.5 z-10 sm:left-3 sm:top-3"
+                        size={14}
+                    />
                 ) : null}
 
                 <div className="flex flex-1 flex-col items-center text-center">
