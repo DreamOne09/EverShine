@@ -82,9 +82,14 @@ function linkIconOnly(t: string, size = 20, url?: string) {
 
 interface MemberDetailBodyProps {
     member: Member;
+    /**
+     * 預設 false（modal 用）：「關於我」/「理想引薦」/「服務項目」會限制高度並出現
+     * 內部捲軸；true（個別頁 /member/:slug 用）：全文直接展開，使用整頁的捲動空間。
+     */
+    expanded?: boolean;
 }
 
-const MemberDetailBody: React.FC<MemberDetailBodyProps> = ({ member: m }) => {
+const MemberDetailBody: React.FC<MemberDetailBodyProps> = ({ member: m, expanded = false }) => {
     const contactMicroCells = useMemo(() => {
         const links = normalizeMemberLinks(m.links);
         const line = links.find((l) => (l.type || '').toLowerCase() === 'line');
@@ -129,6 +134,10 @@ const MemberDetailBody: React.FC<MemberDetailBodyProps> = ({ member: m }) => {
     const displayIntro = introMain || m.shortIntro || m.fullIntro?.replace(/\\n/g, '\n') || '';
     const services = (m.services || []).filter((s) => s && s.trim());
 
+    // expanded（個別頁）：移除內部高度限制，讓全文一次展開。
+    // 預設（modal）：保留 max-h + scroll 以維持彈窗適中尺寸。
+    const proseScrollClass = expanded ? 'min-h-0 flex-1' : `${bentoTextScroll} max-h-[min(50vh,22rem)]`;
+
     return (
         <div className="mx-auto grid max-w-5xl items-start gap-6 lg:grid-cols-12 lg:gap-8">
             {/* 左欄：頭像 + 產業別 + 公司/職稱 + 聯絡方式 */}
@@ -149,13 +158,15 @@ const MemberDetailBody: React.FC<MemberDetailBodyProps> = ({ member: m }) => {
                             </div>
                         </div>
 
-                        <h3 className="mt-4 line-clamp-2 w-full text-xl font-black tracking-[0.06em] text-white sm:text-2xl">
+                        <h3 className={`mt-4 w-full text-xl font-black tracking-[0.06em] text-white sm:text-2xl ${expanded ? 'break-words' : 'line-clamp-2'}`}>
                             {m.name}
                         </h3>
 
                         <div className="mt-3 inline-flex max-w-full items-center gap-1.5 rounded-full border border-sky-400/25 bg-sky-500/10 px-3 py-1.5 text-xs font-semibold tracking-wide text-sky-100 sm:text-sm">
                             <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-sky-300/80">產業別</span>
-                            <span className="line-clamp-1 break-all">{m.industry || '未分類'}</span>
+                            <span className={`min-w-0 break-words ${expanded ? '' : 'line-clamp-1'}`}>
+                                {m.industry || '未分類'}
+                            </span>
                         </div>
 
                         {(m.company || m.position || m.title) && (
@@ -163,13 +174,17 @@ const MemberDetailBody: React.FC<MemberDetailBodyProps> = ({ member: m }) => {
                                 {m.company ? (
                                     <p className="flex items-start gap-2">
                                         <Building size={15} className="mt-0.5 shrink-0 text-sky-400/90" />
-                                        <span className="line-clamp-3 min-w-0">{m.company}</span>
+                                        <span className={`min-w-0 break-words ${expanded ? '' : 'line-clamp-3'}`}>
+                                            {m.company}
+                                        </span>
                                     </p>
                                 ) : null}
                                 {m.position || m.title ? (
                                     <p className="flex items-start gap-2">
                                         <Briefcase size={15} className="mt-0.5 shrink-0 text-sky-400/70" />
-                                        <span className="line-clamp-2 min-w-0">{m.position || m.title}</span>
+                                        <span className={`min-w-0 break-words ${expanded ? '' : 'line-clamp-2'}`}>
+                                            {m.position || m.title}
+                                        </span>
                                     </p>
                                 ) : null}
                             </div>
@@ -190,7 +205,13 @@ const MemberDetailBody: React.FC<MemberDetailBodyProps> = ({ member: m }) => {
                 <div className={ideal ? 'grid gap-4 lg:grid-cols-2 lg:gap-5' : 'flex flex-col gap-4'}>
                     <section className={`${bentoMuted} flex min-w-0 flex-col`}>
                         <h3 className="mb-2 shrink-0 text-[10px] font-bold uppercase tracking-[0.2em] text-sky-400 sm:text-xs">關於我</h3>
-                        <div className={`${bentoTextScroll} max-h-[min(50vh,22rem)]`}>
+                        <div className={proseScrollClass}>
+                            {/* 個別頁同時有短介+長介時，把短介當引言列在最前面 */}
+                            {expanded && m.shortIntro && introMain && m.shortIntro.trim() !== introMain.trim() ? (
+                                <p className={`${proseBody} mb-3 text-sky-100/90 italic border-l-2 border-sky-400/40 pl-3`}>
+                                    {m.shortIntro.replace(/\\n/g, '\n')}
+                                </p>
+                            ) : null}
                             <p className={proseBody}>{displayIntro || '—'}</p>
                         </div>
                     </section>
@@ -201,7 +222,7 @@ const MemberDetailBody: React.FC<MemberDetailBodyProps> = ({ member: m }) => {
                                 <Target className="shrink-0 text-cyan-300" size={18} aria-hidden />
                                 理想引薦對象
                             </h3>
-                            <div className={`${bentoTextScroll} max-h-[min(50vh,22rem)]`}>
+                            <div className={proseScrollClass}>
                                 <p className={`${proseBody} text-slate-100`}>{ideal}</p>
                             </div>
                         </section>
@@ -227,7 +248,7 @@ const MemberDetailBody: React.FC<MemberDetailBodyProps> = ({ member: m }) => {
                                         className="flex items-start gap-1.5 text-xs leading-snug text-slate-200 sm:text-sm"
                                     >
                                         <Check className="mt-0.5 shrink-0 text-cyan-400" size={14} strokeWidth={2.5} />
-                                        <span className="line-clamp-4 min-w-0 break-words">{s}</span>
+                                        <span className={`min-w-0 break-words ${expanded ? '' : 'line-clamp-4'}`}>{s}</span>
                                     </li>
                                 ))}
                             </ul>
