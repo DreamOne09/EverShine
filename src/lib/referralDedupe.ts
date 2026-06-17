@@ -30,8 +30,9 @@ function pairKey(referral: Referral): string {
 }
 
 /**
- * 若同一引薦人＋被引薦人已有 es-case-* 完整案例，隱藏舊版 ref-* / new-case-* 避免重複顯示。
- * 同一組合的多筆不同案例（例如多個 es-case）仍會全部保留。
+ * 內容去重：若同一引薦人＋被引薦人已有 es-case-* 完整案例，
+ * 隱藏所有舊版 ref-* / new-case-*（以及任何非 es-case 的舊 ID），避免與 67 筆新批次內容重疊。
+ * 同一組合的多筆不同 es-case 案例（不同故事）仍會全部保留。
  */
 export function dedupeReferralsForDisplay(referrals: Referral[]): Referral[] {
     const esCasePairs = new Set(
@@ -39,8 +40,10 @@ export function dedupeReferralsForDisplay(referrals: Referral[]): Referral[] {
     );
 
     return referrals.filter((referral) => {
-        if (!LEGACY_SUPERSEDED_REFERRAL_IDS.has(referral.id)) return true;
-        return !esCasePairs.has(pairKey(referral));
+        if (referral.id.startsWith('es-case-')) return true;
+        if (!esCasePairs.has(pairKey(referral))) return true;
+        // 已有新版 es-case，略過舊批次（ref-*、new-case-* 等）
+        return false;
     });
 }
 

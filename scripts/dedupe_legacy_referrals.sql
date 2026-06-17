@@ -1,5 +1,7 @@
--- 刪除已被 es-case-001～067 取代的舊引薦案例（與前端 dedupeReferralsForDisplay 對應）
--- 在 Supabase SQL Editor 執行一次即可；若 ID 不存在則略過。
+-- 刪除與 es-case-001～067「內容重疊」的舊引薦案例
+-- 舊版 ref-001～013（public/data/referrals.json）與 new-case-1～6（insert_referral_cases.js）
+-- 與新版 es-case-* 為同一組引薦人＋被引薦人，故事內容已被完整版取代。
+-- 在 Supabase SQL Editor 執行一次；若 ID 不存在則略過。
 
 DELETE FROM referrals
 WHERE id IN (
