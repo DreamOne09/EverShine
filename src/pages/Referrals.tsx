@@ -6,8 +6,8 @@ import { motion } from 'framer-motion';
 import { ArrowRight, Quote, ChevronDown } from 'lucide-react';
 import PageHero from '../components/common/PageHero';
 import SEO from '../components/common/SEO';
-import { CardSkeleton, ErrorFallback, EmptyState, SmartImage } from '../components/loading';
-import { resolveMemberPhotoObjectPosition } from '../lib/memberPhotoPosition';
+import { CardSkeleton, ErrorFallback, EmptyState } from '../components/loading';
+import ReferralAvatar from '../components/referrals/ReferralAvatar';
 import ReferralFilterBar from '../components/referrals/ReferralFilterBar';
 import {
     REFERRAL_ALL_CATEGORY,
@@ -225,18 +225,13 @@ const Referrals: React.FC = () => {
                                         <div className="grid grid-cols-[1fr_auto_1fr] items-start gap-3 sm:gap-4">
                                             {/* Referrer */}
                                             <div className="flex flex-col items-center text-center min-w-0">
-                                                <div className="h-16 w-16 rounded-full overflow-hidden border-2 border-primary/30 ring-2 ring-primary/10 bg-slate-900 shadow-[0_8px_20px_rgba(0,0,0,0.35)]">
-                                                    <SmartImage
-                                                        src={referral.referrer.photo || '/images/assets/logo/白色正方形logo.png'}
-                                                        alt={referral.referrer.name}
-                                                        className="w-full h-full object-cover"
-                                                        style={{
-                                                            objectPosition: resolveMemberPhotoObjectPosition(
-                                                                referral.referrer.photoPosition
-                                                            ),
-                                                        }}
-                                                    />
-                                                </div>
+                                                <ReferralAvatar
+                                                    name={referral.referrer.name}
+                                                    photo={referral.referrer.photo}
+                                                    photoPosition={referral.referrer.photoPosition}
+                                                    borderClassName="border-primary/30"
+                                                    ringClassName="ring-primary/10"
+                                                />
                                                 <div className="mt-2 font-bold text-sm text-white break-words text-center max-w-full">
                                                     {referral.referrer.name}
                                                 </div>
@@ -255,18 +250,13 @@ const Referrals: React.FC = () => {
 
                                             {/* Referee */}
                                             <div className="flex flex-col items-center text-center min-w-0">
-                                                <div className="h-16 w-16 rounded-full overflow-hidden border-2 border-cyan-400/30 ring-2 ring-cyan-400/10 bg-slate-900 shadow-[0_8px_20px_rgba(0,0,0,0.35)]">
-                                                    <SmartImage
-                                                        src={referral.referee.photo || '/images/assets/logo/白色正方形logo.png'}
-                                                        alt={referral.referee.name}
-                                                        className="w-full h-full object-cover"
-                                                        style={{
-                                                            objectPosition: resolveMemberPhotoObjectPosition(
-                                                                referral.referee.photoPosition
-                                                            ),
-                                                        }}
-                                                    />
-                                                </div>
+                                                <ReferralAvatar
+                                                    name={referral.referee.name}
+                                                    photo={referral.referee.photo}
+                                                    photoPosition={referral.referee.photoPosition}
+                                                    borderClassName="border-cyan-400/30"
+                                                    ringClassName="ring-cyan-400/10"
+                                                />
                                                 <div className="mt-2 font-bold text-sm text-white break-words text-center max-w-full">
                                                     {referral.referee.name}
                                                 </div>
