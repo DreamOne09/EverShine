@@ -9,6 +9,7 @@ import { normalizeMemberLinks } from '../../lib/memberLinks';
 import { formatTaiwanPhoneDisplay, formatTaiwanPhoneTelHref } from '../../lib/phoneFormat';
 import { resolveMemberPhotoObjectPosition } from '../../lib/memberPhotoPosition';
 import { buildMemberSlug } from '../../lib/memberSlug';
+import GoldMedalBadge from './GoldMedalBadge';
 
 export interface MemberCardProps {
     member: Member;
@@ -87,6 +88,11 @@ const MemberCard: React.FC<MemberCardProps> = ({ member, onOpenDetails }) => {
                 >
                     {member.industry || '未分類'}
                 </span>
+
+                {/* 金質獎章：左上角王冠（有獲獎才顯示，hover 出說明） */}
+                {member.has_gold_medal ? (
+                    <GoldMedalBadge className="absolute left-2.5 top-2.5 z-10 sm:left-3 sm:top-3" size={14} />
+                ) : null}
 
                 <div className="flex flex-1 flex-col items-center text-center">
                     {/* 大頭照：直式名片視覺重心 */}

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, UserPlus } from 'lucide-react';
+import { X, UserPlus, Crown } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import { sanitizeText } from '../../lib/sanitize';
 import { siteConfig } from '../../config/site.config';
@@ -16,6 +16,7 @@ const AdminMemberModal: React.FC<Props> = ({ open, onClose, onCreated }) => {
     const [category, setCategory] = useState<string>(siteConfig.industries[0] ?? '');
     const [industry, setIndustry] = useState('');
     const [position, setPosition] = useState('');
+    const [hasGoldMedal, setHasGoldMedal] = useState(false);
     const [saving, setSaving] = useState(false);
     const [formError, setFormError] = useState<string | null>(null);
 
@@ -27,6 +28,7 @@ const AdminMemberModal: React.FC<Props> = ({ open, onClose, onCreated }) => {
         setCategory(siteConfig.industries[0] ?? '');
         setIndustry('');
         setPosition('');
+        setHasGoldMedal(false);
         setFormError(null);
     };
 
@@ -64,6 +66,7 @@ const AdminMemberModal: React.FC<Props> = ({ open, onClose, onCreated }) => {
                 services: [],
                 hashtags: [],
                 links: {},
+                has_gold_medal: hasGoldMedal,
                 createdAt: new Date().toISOString(),
                 updatedAt: new Date().toISOString(),
             };
@@ -179,6 +182,19 @@ const AdminMemberModal: React.FC<Props> = ({ open, onClose, onCreated }) => {
                             maxLength={50}
                         />
                     </div>
+                    <label className="flex cursor-pointer items-center gap-3 rounded-lg border border-amber-300/20 bg-amber-500/5 px-3 py-2.5 hover:bg-amber-500/10 transition-colors">
+                        <input
+                            type="checkbox"
+                            checked={hasGoldMedal}
+                            onChange={(e) => setHasGoldMedal(e.target.checked)}
+                            className="h-4 w-4 cursor-pointer accent-amber-400"
+                        />
+                        <Crown size={16} className="text-amber-300" />
+                        <div className="flex-1">
+                            <div className="text-sm font-medium text-amber-100">頒予金質獎章</div>
+                            <div className="text-[11px] text-amber-200/60">分會年度卓越貢獻表揚；卡片左上角會出現王冠標誌</div>
+                        </div>
+                    </label>
                     <div className="flex gap-2 pt-2">
                         <button
                             type="button"
