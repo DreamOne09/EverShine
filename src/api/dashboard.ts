@@ -1,13 +1,17 @@
 import { supabase } from '../lib/supabase';
 
+export interface HomepageStatsRow {
+    month: string;
+    referral_count: number;
+    referral_value: number;
+    guest_count: number;
+}
+
 export interface AdminDashboardFetchResult {
     members: Record<string, unknown>[];
     referrals: Record<string, unknown>[];
-    homeStats: {
-        month: string;
-        referral_count: number;
-        referral_value: number;
-    } | null;
+    homeStats: HomepageStatsRow | null;
+    homeStatsHistory: HomepageStatsRow[];
     pageViewsCount: number;
     socialClicks: number;
 }
@@ -33,7 +37,11 @@ export async function fetchAdminDashboardBundle(): Promise<AdminDashboardFetchRe
         })(),
         (async () => {
             try {
-                return await supabase.from('homepage_stats').select('*').order('month', { ascending: false }).limit(1).maybeSingle();
+                return await supabase
+                    .from('homepage_stats')
+                    .select('*')
+                    .order('month', { ascending: false })
+                    .limit(24);
             } catch {
                 return { data: null, error: null };
             }
@@ -70,22 +78,46 @@ export async function fetchAdminDashboardBundle(): Promise<AdminDashboardFetchRe
     if (membersRes.error) console.error('Members fetch error:', membersRes.error);
     if (referralsRes.error) console.error('Referrals fetch error:', referralsRes.error);
 
-    const homeRow = homeStatsRes.data as Record<string, unknown> | null;
-    const homeStats = homeRow
-        ? {
-              month: String(homeRow.month || ''),
-              referral_count: Number(homeRow.referral_count) || 0,
-              referral_value: Number(homeRow.referral_value) || 0,
-          }
-        : null;
+    const homeRows = Array.isArray(homeStatsRes.data) ? (homeStatsRes.data as Record<string, unknown>[]) : [];
+    const homeStatsHistory: HomepageStatsRow[] = homeRows.map((r) => ({
+        month: String(r.month || ''),
+        referral_count: Number(r.referral_count) || 0,
+        referral_value: Number(r.referral_value) || 0,
+        guest_count: Number(r.guest_count) || 0,
+    }));
+    const homeStats: HomepageStatsRow | null = homeStatsHistory[0] || null;
 
     return {
         members: (membersRes.data || []) as Record<string, unknown>[],
         referrals: (referralsRes.data || []) as Record<string, unknown>[],
         homeStats,
+        homeStatsHistory,
         pageViewsCount: pageViewsRes.count || 0,
         socialClicks: socialClicksRes.count || 0,
     };
+}
+
+/** 給前台 ResultsChart 用：取最近 N 個月（按時間遞增排序給圖表用） */
+export async function fetchHomepageStatsForChart(monthsLimit = 12): Promise<HomepageStatsRow[]> {
+    try {
+        const { data, error } = await supabase
+            .from('homepage_stats')
+            .select('*')
+            .order('month', { ascending: false })
+            .limit(monthsLimit);
+        if (error) throw error;
+        const rows: HomepageStatsRow[] = (data || []).map((r: Record<string, unknown>) => ({
+            month: String(r.month || ''),
+            referral_count: Number(r.referral_count) || 0,
+            referral_value: Number(r.referral_value) || 0,
+            guest_count: Number(r.guest_count) || 0,
+        }));
+        // 圖表 X 軸需要時間遞增排序
+        return rows.reverse();
+    } catch (e) {
+        console.warn('fetchHomepageStatsForChart failed:', e);
+        return [];
+    }
 }
 
 export interface AdminStaffItem {
