@@ -167,7 +167,7 @@ const MemberPage: React.FC = () => {
                     <h1 className="sr-only">
                         {member.name} — {member.industry || siteConfig.branchFullName}
                     </h1>
-                    <MemberDetailBody member={member} />
+                    <MemberDetailBody member={member} expanded />
                 </div>
             </motion.div>
         </div>
