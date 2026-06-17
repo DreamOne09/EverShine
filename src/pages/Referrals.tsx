@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useReferrals } from '../hooks/useReferrals';
 import { queryKeys } from '../api/queryKeys';
@@ -8,11 +8,27 @@ import PageHero from '../components/common/PageHero';
 import SEO from '../components/common/SEO';
 import { CardSkeleton, ErrorFallback, EmptyState, SmartImage } from '../components/loading';
 import { resolveMemberPhotoObjectPosition } from '../lib/memberPhotoPosition';
+import ReferralFilterBar from '../components/referrals/ReferralFilterBar';
+import {
+    REFERRAL_ALL_CATEGORY,
+    countReferralsByCategory,
+    filterReferrals,
+    getReferralEcosystem,
+} from '../lib/referralFilter';
 
 const Referrals: React.FC = () => {
     const queryClient = useQueryClient();
     const { referrals, loading, error } = useReferrals();
-    const [selectedReferralId, setSelectedReferralId] = React.useState<string | null>(null);
+    const [selectedReferralId, setSelectedReferralId] = useState<string | null>(null);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [activeCategory, setActiveCategory] = useState(REFERRAL_ALL_CATEGORY);
+
+    const categoryCounts = useMemo(() => countReferralsByCategory(referrals), [referrals]);
+
+    const filteredReferrals = useMemo(
+        () => filterReferrals(referrals, { query: searchQuery, category: activeCategory }),
+        [referrals, searchQuery, activeCategory]
+    );
 
     if (loading) {
         return (
@@ -75,15 +91,34 @@ const Referrals: React.FC = () => {
             <div className="container mx-auto px-4 py-12 relative z-10">
 
                 {/* Weekly Feature Note */}
-                <div className="bg-primary/10 border border-primary/20 rounded-xl p-4 mb-8 text-center max-w-2xl mx-auto">
+                <div className="bg-primary/10 border border-primary/20 rounded-xl p-4 mb-6 text-center max-w-2xl mx-auto">
                     <p className="text-primary font-bold text-lg mb-1">每週精選案例</p>
                     <p className="text-gray-400 text-sm">
                         實際上門引薦單遠大於此，目前已累積 <span className="text-white font-mono font-bold">16,800+</span> 筆引薦商機，這裡僅展示每週精選的成功故事。
                     </p>
                 </div>
 
+                <ReferralFilterBar
+                    query={searchQuery}
+                    onQueryChange={setSearchQuery}
+                    activeCategory={activeCategory}
+                    onCategoryChange={setActiveCategory}
+                    totalCount={referrals.length}
+                    filteredCount={filteredReferrals.length}
+                    categoryCounts={categoryCounts}
+                />
+
                 {/* Referrals Grid - Waterfall/Vertical Stack on Mobile */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 pb-8 md:pb-0 max-w-6xl mx-auto">
+                    {filteredReferrals.length === 0 && referrals.length > 0 && (
+                        <div className="col-span-full max-w-xl mx-auto">
+                            <EmptyState
+                                title="找不到符合的案例"
+                                description="試試其他關鍵字，或切換分類篩選。"
+                                className="border-white/10 bg-white/[0.03]"
+                            />
+                        </div>
+                    )}
                     {referrals.length === 0 && (
                         <div className="col-span-full max-w-xl mx-auto">
                             <EmptyState
@@ -93,14 +128,15 @@ const Referrals: React.FC = () => {
                             />
                         </div>
                     )}
-                    {referrals.map((referral, index) => {
+                    {filteredReferrals.map((referral, index) => {
                         const isSelected = selectedReferralId === referral.id;
+                        const ecosystem = getReferralEcosystem(referral);
                         return (
                             <motion.article
                                 key={referral.id}
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: index * 0.08, duration: 0.45 }}
+                                transition={{ delay: Math.min(index * 0.05, 0.4), duration: 0.45 }}
                                 onClick={() => toggleReferral(referral.id)}
                                 className={`bg-bg-dark/60 backdrop-blur-md border rounded-2xl overflow-hidden transition-colors duration-300 flex flex-col cursor-pointer h-full ${
                                     isSelected
@@ -112,7 +148,7 @@ const Referrals: React.FC = () => {
 
                                 <div className="p-6 md:p-7 flex-grow flex flex-col">
                                     {/* Title */}
-                                    <div className="flex items-start gap-3 mb-4">
+                                    <div className="flex items-start gap-3 mb-3">
                                         <h3 className={`flex-1 text-xl md:text-2xl font-bold transition-colors leading-snug ${
                                             isSelected ? 'text-primary' : 'text-white'
                                         }`}>
@@ -123,6 +159,11 @@ const Referrals: React.FC = () => {
                                             size={22}
                                             aria-hidden
                                         />
+                                    </div>
+                                    <div className="mb-4">
+                                        <span className="inline-block text-[10px] font-medium text-primary/90 bg-primary/10 border border-primary/20 rounded-full px-2.5 py-0.5">
+                                            {ecosystem}
+                                        </span>
                                     </div>
 
                                     {/* Description */}
