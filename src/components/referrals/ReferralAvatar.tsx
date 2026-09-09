@@ -9,6 +9,7 @@ interface ReferralAvatarProps {
     photoPosition?: string;
     borderClassName: string;
     ringClassName: string;
+    size?: 'sm' | 'md';
 }
 
 /** 引薦案例頭像：無照片或載入失敗時顯示長輝預設 logo */
@@ -18,6 +19,7 @@ const ReferralAvatar: React.FC<ReferralAvatarProps> = ({
     photoPosition,
     borderClassName,
     ringClassName,
+    size = 'md',
 }) => {
     const [src, setSrc] = useState(() => resolveMemberPhotoUrl(photo));
 
@@ -27,7 +29,7 @@ const ReferralAvatar: React.FC<ReferralAvatarProps> = ({
 
     return (
         <div
-            className={`h-16 w-16 rounded-full overflow-hidden border-2 ${borderClassName} ring-2 ${ringClassName} bg-slate-900 shadow-[0_8px_20px_rgba(0,0,0,0.35)]`}
+            className={`${size === 'sm' ? 'h-12 w-12' : 'h-16 w-16'} rounded-full overflow-hidden border-2 ${borderClassName} ring-2 ${ringClassName} bg-slate-900 shadow-[0_8px_20px_rgba(0,0,0,0.35)]`}
         >
             <img
                 src={src}

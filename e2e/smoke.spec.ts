@@ -24,6 +24,16 @@ test.describe('Smoke', () => {
         await expect(page.getByText('團服第3次下單').first()).toBeVisible();
     });
 
+    test('引薦頁桌面為三欄', async ({ page }) => {
+        await page.setViewportSize({ width: 1440, height: 900 });
+        await page.goto('/referrals');
+        await expect(page.getByText('空調工程 × 水電工程').first()).toBeVisible({ timeout: 20_000 });
+        const columns = await page.locator('[data-testid="referrals-grid"]').evaluate((el) => {
+            return getComputedStyle(el).gridTemplateColumns.split(' ').filter(Boolean).length;
+        });
+        expect(columns).toBe(3);
+    });
+
     test('引薦頁不露出客戶品牌名', async ({ page }) => {
         await page.goto('/referrals');
         await expect(page.getByText('空調工程 × 水電工程').first()).toBeVisible({ timeout: 20_000 });
