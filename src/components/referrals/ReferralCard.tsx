@@ -1,9 +1,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Quote, ChevronDown } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 import type { Referral } from '../../types';
 import { getReferralEcosystem } from '../../lib/referralFilter';
-import ReferralAvatar from './ReferralAvatar';
+import ReferralPeoplePair from './ReferralPeoplePair';
 
 interface ReferralCardProps {
     referral: Referral;
@@ -51,32 +51,36 @@ const ReferralCard: React.FC<ReferralCardProps> = ({
             <div className="h-1.5 bg-gradient-to-r from-primary-light via-primary to-primary-dark" />
 
             <div className="p-4 sm:p-5 flex-grow flex flex-col">
-                <div className="flex items-start gap-2 mb-2.5">
-                    <h3
-                        className={`flex-1 text-[1.05rem] sm:text-lg font-bold transition-colors leading-snug ${
-                            isSelected ? 'text-primary' : 'text-white'
-                        }`}
-                    >
-                        {referral.title}
-                    </h3>
-                    <Quote
-                        className={`shrink-0 mt-0.5 transition-colors ${isSelected ? 'text-primary/60' : 'text-primary/30'}`}
-                        size={18}
-                        aria-hidden
-                    />
-                </div>
-                <div className="flex flex-wrap items-start gap-2 mb-3">
+                <ReferralPeoplePair referrer={referral.referrer} referee={referral.referee} />
+
+                <h3
+                    className={`mt-4 text-center text-[1.05rem] sm:text-lg font-bold transition-colors leading-snug ${
+                        isSelected ? 'text-primary' : 'text-white'
+                    }`}
+                >
+                    {referral.title}
+                </h3>
+
+                <div className="mt-2.5 flex flex-wrap items-center justify-center gap-1.5">
                     <span className="inline-block text-[10px] font-medium text-primary/90 bg-primary/10 border border-primary/20 rounded-full px-2.5 py-0.5 max-w-full">
                         {ecosystem}
                     </span>
+                    <span className="inline-block text-[10px] font-bold text-white bg-primary/20 border border-primary/30 rounded-full px-2.5 py-0.5 max-w-full">
+                        {referral.metrics.amount}
+                    </span>
+                    {showMetricsType && (
+                        <span className="inline-block text-[10px] text-gray-300 bg-white/5 border border-white/10 rounded-full px-2.5 py-0.5 max-w-full line-clamp-1">
+                            {referral.metrics.type}
+                        </span>
+                    )}
                 </div>
 
-                <p className={`text-gray-300 text-sm leading-relaxed mb-4 ${isSelected ? '' : 'line-clamp-3'}`}>
+                <p className={`mt-3 text-gray-300 text-sm leading-relaxed text-center ${isSelected ? '' : 'line-clamp-3'}`}>
                     {referral.description}
                 </p>
 
                 {isSelected && hasStories && (
-                    <div className="space-y-3 mb-4">
+                    <div className="mt-4 space-y-3 text-left">
                         {referral.referrer?.story && (
                             <div className="rounded-xl border border-primary/20 bg-primary/5 p-3.5">
                                 <div className="text-[10px] font-bold uppercase tracking-widest text-primary/80 mb-1.5">
@@ -102,68 +106,13 @@ const ReferralCard: React.FC<ReferralCardProps> = ({
                     </div>
                 )}
 
-                <div className="bg-primary/10 rounded-xl px-3.5 py-3 border border-primary/20 mt-auto">
-                    <div className="text-[10px] text-primary-light uppercase tracking-widest mb-0.5 font-bold">成效數據</div>
-                    <div className="font-bold text-white text-lg break-words leading-snug">{referral.metrics.amount}</div>
-                    {showMetricsType && (
-                        <div className="mt-2 text-xs text-gray-300 font-medium px-2 py-1 bg-white/5 rounded-md w-fit max-w-full line-clamp-2">
-                            {referral.metrics.type}
-                        </div>
-                    )}
-                </div>
-
-                <div className="mt-4 border-t border-white/10 pt-4">
-                    <div className="grid grid-cols-[1fr_auto_1fr] items-start gap-2">
-                        <div className="flex flex-col items-center text-center min-w-0">
-                            <ReferralAvatar
-                                name={referral.referrer.name}
-                                photo={referral.referrer.photo}
-                                photoPosition={referral.referrer.photoPosition}
-                                borderClassName="border-primary/30"
-                                ringClassName="ring-primary/10"
-                                size="sm"
-                            />
-                            <div className="mt-1.5 font-bold text-xs sm:text-sm text-white break-words text-center max-w-full">
-                                {referral.referrer.name}
-                            </div>
-                            <div className="text-[10px] sm:text-[11px] text-gray-400 line-clamp-2 max-w-full text-center">
-                                {referral.referrer.industry}
-                            </div>
-                        </div>
-
-                        <div className="flex items-center justify-center pt-5">
-                            <div className="flex items-center gap-1 rounded-full border border-primary/30 bg-primary/10 px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-primary">
-                                <span>引薦</span>
-                                <ArrowRight size={11} />
-                            </div>
-                        </div>
-
-                        <div className="flex flex-col items-center text-center min-w-0">
-                            <ReferralAvatar
-                                name={referral.referee.name}
-                                photo={referral.referee.photo}
-                                photoPosition={referral.referee.photoPosition}
-                                borderClassName="border-cyan-400/30"
-                                ringClassName="ring-cyan-400/10"
-                                size="sm"
-                            />
-                            <div className="mt-1.5 font-bold text-xs sm:text-sm text-white break-words text-center max-w-full">
-                                {referral.referee.name}
-                            </div>
-                            <div className="text-[10px] sm:text-[11px] text-gray-400 line-clamp-2 max-w-full text-center">
-                                {referral.referee.industry}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="mt-3 flex items-center justify-center gap-1 text-[11px] text-gray-500">
-                        <span>{isSelected ? '點擊收合' : '點擊展開完整故事'}</span>
-                        <ChevronDown
-                            size={12}
-                            className={`transition-transform ${isSelected ? 'rotate-180' : ''}`}
-                            aria-hidden
-                        />
-                    </div>
+                <div className="mt-auto pt-4 flex items-center justify-center gap-1 text-[11px] text-gray-500">
+                    <span>{isSelected ? '點擊收合' : '點擊展開完整故事'}</span>
+                    <ChevronDown
+                        size={12}
+                        className={`transition-transform ${isSelected ? 'rotate-180' : ''}`}
+                        aria-hidden
+                    />
                 </div>
             </div>
         </motion.article>
