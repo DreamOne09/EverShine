@@ -1,4 +1,5 @@
 import extraReferralCases from '../data/referral-cases-extra.json' with { type: 'json' };
+import { deidentifyReferralRow } from '../lib/deidentifyReferralCopy';
 import { extraCasesToRows, mergeReferralRows, type ExtraReferralCase } from '../lib/mergeReferralRows';
 import { supabase } from '../lib/supabase';
 import type { Referral } from '../types';
@@ -33,7 +34,7 @@ export async function fetchReferralsForDisplay(): Promise<Referral[]> {
     const refsData = mergeReferralRows(
         await fetchReferralsRaw(),
         extraCasesToRows(extraReferralCases as ExtraReferralCase[])
-    );
+    ).map(deidentifyReferralRow);
     if (refsData.length === 0) return [];
 
     const { data: membersData } = await supabase.from('members').select('name, industry, photo, photoPosition');
