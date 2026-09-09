@@ -2,7 +2,7 @@ import { siteConfig } from '../config/site.config';
 import type { Referral } from '../types';
 import { resolveMemberPhotoUrl } from './memberPhotoUrl';
 
-/** 已被 es-case-001～067 完整版取代的舊 ID（Supabase 可一併刪除） */
+/** 已被 es-case-* 完整版取代的舊 ID（Supabase 可一併刪除） */
 export const LEGACY_SUPERSEDED_REFERRAL_IDS = new Set([
     'ref-001',
     'ref-002',
@@ -31,7 +31,7 @@ function pairKey(referral: Referral): string {
 
 /**
  * 內容去重：若同一引薦人＋被引薦人已有 es-case-* 完整案例，
- * 隱藏所有舊版 ref-* / new-case-*（以及任何非 es-case 的舊 ID），避免與 67 筆新批次內容重疊。
+ * 隱藏所有舊版 ref-* / new-case-*（以及任何非 es-case 的舊 ID），避免與 es-case 完整案例重疊。
  * 同一組合的多筆不同 es-case 案例（不同故事）仍會全部保留。
  */
 export function dedupeReferralsForDisplay(referrals: Referral[]): Referral[] {
