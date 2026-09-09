@@ -32,7 +32,7 @@
 
 ### 3. 引薦報告 (Referrals Page) - 成果展示
 *   **[Referral Stats] 統計數據**：展示分會內部的互助成果。
-*   **[Showcase] 引薦案例**：分享成功的商務對接故事。前台以 Supabase `referrals` 為主，並合併 `src/data/referral-cases-extra.json`（同一 `id` 以資料庫為準）。新增案例後請執行 `python3 scripts/build_referrals_extra_sql.py`，再到 Supabase SQL Editor 執行產生的 SQL，讓後台列表同步。客戶品牌請走 `src/data/referral-brand-replacements.json` 去識別化（夥伴自己的公司名可保留）。
+*   **[Showcase] 引薦案例**：分享成功的商務對接故事。列表為手機單欄、平板兩欄、桌面三欄。前台以 Supabase `referrals` 為主，並合併 `src/data/referral-cases-extra.json`（同一 `id` 以資料庫為準）。新增案例後請執行 `python3 scripts/build_referrals_extra_sql.py`，再到 Supabase SQL Editor 執行產生的 SQL，讓後台列表同步。客戶品牌請走 `src/data/referral-brand-replacements.json` 去識別化（夥伴自己的公司名可保留）。
 
 ### 4. 會員中心 (Member Edit) - 自主管理
 *   **[Auth] 會員登入**：支援 Email 與 Google 快速登入。

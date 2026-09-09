@@ -39,7 +39,7 @@ const ReferralFilterBar: React.FC<ReferralFilterBarProps> = ({
     const hasActiveFilters = query.trim().length > 0 || activeCategory !== '全部';
 
     return (
-        <div className="max-w-6xl mx-auto mb-8 md:mb-10 space-y-4">
+        <div className="max-w-7xl mx-auto mb-8 md:mb-10 space-y-4">
             <div className="sticky top-[60px] md:top-[72px] z-20 -mx-1 px-1 py-2 bg-bg-primary/95 backdrop-blur-md rounded-xl md:static md:bg-transparent md:backdrop-blur-none md:p-0">
                 <div className="relative max-w-xl mx-auto">
                     <Search
