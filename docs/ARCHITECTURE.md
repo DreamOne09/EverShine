@@ -30,7 +30,7 @@
 | 使用者看到 | 資料表 / 來源 |
 |------------|----------------|
 | 首頁「引薦成果」數字 | `homepage_stats`（後台 **設定** 分頁） |
-| 引薦案例列表／內容 | `referrals`（後台 **引薦** 分頁；前台 `/referrals`） |
+| 引薦案例列表／內容 | `referrals`（後台 **引薦** 分頁；前台 `/referrals` 會再合併 `src/data/referral-cases-extra.json`，同一 id 以資料庫為準） |
 | 會員名錄 | `members` |
 
 ## 載入 UX

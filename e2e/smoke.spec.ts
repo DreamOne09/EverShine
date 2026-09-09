@@ -15,4 +15,12 @@ test.describe('Smoke', () => {
         await page.goto('/login');
         await expect(page.getByRole('heading', { name: /會員登入/i })).toBeVisible();
     });
+
+    test('引薦頁顯示 2026 新案例', async ({ page }) => {
+        await page.goto('/referrals');
+        await expect(page.getByRole('heading', { name: /引薦案例/ })).toBeVisible();
+        await expect(page.getByText('空調工程 × 水電工程').first()).toBeVisible({ timeout: 20_000 });
+        await expect(page.getByText('NT$1,050萬').first()).toBeVisible();
+        await expect(page.getByText('團服第3次下單').first()).toBeVisible();
+    });
 });

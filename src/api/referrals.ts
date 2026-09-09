@@ -1,3 +1,5 @@
+import extraReferralCases from '../data/referral-cases-extra.json' with { type: 'json' };
+import { extraCasesToRows, mergeReferralRows, type ExtraReferralCase } from '../lib/mergeReferralRows';
 import { supabase } from '../lib/supabase';
 import type { Referral } from '../types';
 import { dedupeReferralsForDisplay, resolveReferralMemberPhoto } from '../lib/referralDedupe';
@@ -28,7 +30,10 @@ async function fetchReferralsRaw(): Promise<Record<string, unknown>[]> {
 
 /** 引薦頁用：合併 members 頭像／產業 */
 export async function fetchReferralsForDisplay(): Promise<Referral[]> {
-    const refsData = await fetchReferralsRaw();
+    const refsData = mergeReferralRows(
+        await fetchReferralsRaw(),
+        extraCasesToRows(extraReferralCases as ExtraReferralCase[])
+    );
     if (refsData.length === 0) return [];
 
     const { data: membersData } = await supabase.from('members').select('name, industry, photo, photoPosition');
