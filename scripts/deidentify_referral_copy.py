@@ -11,6 +11,7 @@ REPL_PATH = ROOT / "src" / "data" / "referral-brand-replacements.json"
 CASES_67 = ROOT / "scripts" / "referrals_67_cases.json"
 CASES_EXTRA = ROOT / "src" / "data" / "referral-cases-extra.json"
 PENDING = ROOT / "scripts" / "referrals_pending_confirm.json"
+PUBLIC_LEGACY = ROOT / "public" / "data" / "referrals.json"
 SQL_OUT = ROOT / "scripts" / "deidentify_referrals.sql"
 
 TRAILING = [
@@ -59,6 +60,10 @@ def main() -> None:
 
     pending = json.loads(PENDING.read_text(encoding="utf-8"))
     PENDING.write_text(json.dumps(walk(pending, pairs), ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+    if PUBLIC_LEGACY.exists():
+        public = json.loads(PUBLIC_LEGACY.read_text(encoding="utf-8"))
+        PUBLIC_LEGACY.write_text(json.dumps(walk(public, pairs), ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
     lines = [
         "-- 引薦案例客戶品牌去識別化（可重複執行）",

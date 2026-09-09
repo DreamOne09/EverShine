@@ -28,7 +28,7 @@ test.describe('Smoke', () => {
         await page.goto('/referrals');
         await expect(page.getByText('空調工程 × 水電工程').first()).toBeVisible({ timeout: 20_000 });
         const body = await page.locator('body').innerText();
-        for (const brand of ['聯華製粉', '再興小學', '弘第家具', '摩斯漢堡', '中越百花園', '亞洲生技展']) {
+        for (const brand of ['聯華製粉', '再興小學', '弘第家具', '摩斯漢堡', '中越百花園', '亞洲生技展', '領袖鐵人', '領袖人']) {
             expect(body, brand).not.toContain(brand);
         }
     });
