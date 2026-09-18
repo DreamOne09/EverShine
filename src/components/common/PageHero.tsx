@@ -62,7 +62,8 @@ const PageHero: React.FC<PageHeroProps> = ({
                 className={compact ? 'relative z-10 px-4' : 'relative z-10 px-4 mt-[-5vh] md:mt-[-10vh]'}
             >
                 {badge && (
-                    <div className="mb-5 inline-flex items-center rounded-full border border-platinum/35 bg-platinum/10 px-4 py-1.5 text-[11px] font-semibold tracking-[0.18em] text-platinum-soft sm:text-xs">
+                    <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-platinum/40 bg-black/25 px-4 py-1.5 text-[11px] font-semibold tracking-[0.2em] text-platinum-soft shadow-[inset_0_1px_0_rgba(255,243,200,0.2)] backdrop-blur-md sm:text-xs">
+                        <span className="h-1.5 w-1.5 rounded-full bg-platinum-light shadow-[0_0_8px_rgba(232,197,71,0.8)]" aria-hidden />
                         {badge}
                     </div>
                 )}
@@ -74,7 +75,7 @@ const PageHero: React.FC<PageHeroProps> = ({
                             : 'text-3xl sm:text-5xl md:text-7xl lg:text-8xl'
                     }`}
                 >
-                    <span className="block bg-clip-text text-transparent bg-gradient-to-b from-[#E0F2FE] via-[#7DD3FC] to-[#0284C7] drop-shadow-[0_0_15px_rgba(14,165,233,0.6)] px-2">
+                    <span className="block bg-clip-text text-transparent bg-gradient-to-b from-[#F8FBFF] via-[#9AD8F8] to-[#2B8FCB] drop-shadow-[0_0_18px_rgba(14,165,233,0.45)] px-2">
                         {title}
                     </span>
                 </h1>
@@ -85,8 +86,8 @@ const PageHero: React.FC<PageHeroProps> = ({
                 )}
                 {subtitle && (
                     <div
-                        className={`text-gray-200 max-w-3xl mx-auto leading-relaxed font-light ${
-                            compact ? 'text-sm md:text-lg mt-3 mb-0' : 'text-base md:text-2xl'
+                        className={`mx-auto max-w-3xl leading-relaxed tracking-[0.04em] text-slate-200/90 ${
+                            compact ? 'mt-3 mb-0 text-sm md:text-lg font-light' : 'text-base font-light md:text-xl'
                         } ${subtitleClassName || ''}`}
                     >
                         {subtitle}

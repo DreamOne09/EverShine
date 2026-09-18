@@ -12,14 +12,14 @@ const AboutCard: React.FC<{ icon: React.ReactNode, title: string, children: Reac
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.6, delay, ease: "easeOut" }}
             className={clsx(
-                "bg-bg-dark/40 backdrop-blur-md border border-white/10 rounded-2xl p-8 flex flex-col items-center text-center hover:bg-bg-dark/60 hover:border-primary/30 transition-all duration-300 group shadow-lg hover:shadow-xl hover:-translate-y-1",
+                "glass-panel group flex h-full flex-col items-center rounded-2xl p-8 text-center hover:-translate-y-1",
                 fullWidth ? "md:col-span-3" : ""
             )}
         >
-            <div className="text-primary mb-6 p-4 bg-white/5 rounded-full group-hover:bg-primary group-hover:text-bg-dark transition-all duration-300 transform group-hover:scale-110">
+            <div className="mb-6 rounded-full border border-white/10 bg-white/[0.04] p-4 text-primary shadow-[inset_0_1px_0_rgba(255,255,255,0.12)]">
                 {icon}
             </div>
-            <h3 className="text-2xl font-bold text-white mb-4 font-serif tracking-wide">{title}</h3>
+            <h3 className="mb-4 font-serif text-2xl font-bold tracking-wide text-white">{title}</h3>
             <div className="text-gray-300 leading-relaxed text-lg font-light">
                 {children}
             </div>
@@ -40,8 +40,7 @@ const About: React.FC = () => {
                     >
                         <SectionLabel>About EverShine</SectionLabel>
                         <h2 className="text-4xl md:text-5xl font-black mb-4 text-primary">關於長輝白金分會</h2>
-                        <p className="text-gray-400 text-lg max-w-3xl mx-auto mb-6">全台少數 100% 線上與會的 BNI 白金分會。每週三早晨，用結構化例會把專業變成引薦。</p>
-                        <div className="w-24 h-1 bg-gradient-to-r from-transparent via-primary to-transparent mx-auto rounded-full opacity-80"></div>
+                        <p className="mx-auto mb-2 max-w-3xl text-lg text-gray-400">全台少數 100% 線上與會的 BNI 白金分會。每週三早晨，用結構化例會把專業變成引薦。</p>
                     </motion.div>
                 </div>
 
@@ -64,13 +63,13 @@ const About: React.FC = () => {
 
                     <div className="md:col-span-3 h-full">
                         <AboutCard icon={<Heart size={32} />} title="核心價值" delay={0.3} fullWidth>
-                            <div className="flex flex-wrap justify-center items-center gap-4 text-xl font-bold text-primary mb-4">
+                            <div className="mb-4 flex flex-wrap items-center justify-center gap-4 text-xl font-bold text-primary">
                                 <span>專業</span>
-                                <span className="text-gray-600/50">|</span>
+                                <span className="h-3 w-px bg-platinum/40" aria-hidden />
                                 <span>誠信</span>
-                                <span className="text-gray-600/50">|</span>
+                                <span className="h-3 w-px bg-platinum/40" aria-hidden />
                                 <span>熱情</span>
-                                <span className="text-gray-600/50">|</span>
+                                <span className="h-3 w-px bg-platinum/40" aria-hidden />
                                 <span>實踐</span>
                             </div>
                             <p>以專業態度與誠信為本，懷抱熱忱，將理念化為實際行動</p>

@@ -9,7 +9,7 @@ const FAQItem: React.FC<{ question: string, answer: React.ReactNode, isOpen: boo
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: index * 0.1 }}
-            className="border-b border-white/10 last:border-0"
+            className="border-b border-white/8 last:border-0"
         >
             <button
                 onClick={toggle}
@@ -18,7 +18,7 @@ const FAQItem: React.FC<{ question: string, answer: React.ReactNode, isOpen: boo
                 <span className={`text-xl md:text-2xl font-medium transition-colors duration-300 pr-8 ${isOpen ? 'text-primary' : 'text-white group-hover:text-primary'}`}>
                     {question}
                 </span>
-                <span className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center border transition-all duration-300 ${isOpen ? 'bg-primary border-primary text-bg-dark' : 'border-white/20 text-gray-400 group-hover:border-primary group-hover:text-primary'}`}>
+                <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border transition-all duration-300 ${isOpen ? 'border-primary bg-primary text-bg-dark shadow-[inset_0_1px_0_rgba(255,255,255,0.35)]' : 'border-white/20 text-gray-400 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] group-hover:border-primary group-hover:text-primary'}`}>
                     {isOpen ? <Minus size={18} /> : <Plus size={18} />}
                 </span>
             </button>

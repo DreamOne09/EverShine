@@ -115,7 +115,7 @@ const MemberWall: React.FC = () => {
             <div className="relative z-10 mt-10 text-center">
                 <Link
                     to="/members"
-                    className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-6 py-2.5 text-sm font-bold text-white transition-colors hover:border-primary/50 hover:text-primary"
+                    className="btn-lux btn-ghost-lux inline-flex items-center gap-2 rounded-full px-6 py-2.5 text-sm font-bold"
                 >
                     查看所有會員
                     <ArrowRight size={16} />

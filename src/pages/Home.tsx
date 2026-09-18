@@ -8,6 +8,7 @@ import FAQ from '../components/home/FAQ';
 import Contact from '../components/home/Contact';
 import VisitSteps from '../components/home/VisitSteps';
 import { Link } from 'react-router-dom';
+import { Users, BookOpen, Sparkles } from 'lucide-react';
 import SEO from '../components/common/SEO';
 import { siteConfig } from '../config/site.config';
 
@@ -38,29 +39,32 @@ const Home: React.FC = () => {
                 }
                 showScrollIndicator
             >
-                <div className="mt-8 flex flex-col items-center justify-center gap-3 px-4 sm:flex-row sm:gap-4">
-                    <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}>
+                <div className="mt-9 flex flex-col items-center justify-center gap-3 px-4 sm:flex-row sm:gap-3.5">
+                    <motion.div whileHover={{ y: -2 }} whileTap={{ scale: 0.97 }}>
                         <Link
                             to="/members"
-                            className="inline-flex w-full items-center justify-center rounded-full bg-gradient-to-r from-primary to-primary-dark px-8 py-3.5 text-center text-base font-bold text-bg-dark shadow-[0_0_30px_rgba(76,168,223,0.4)] sm:w-auto"
+                            className="btn-lux btn-primary-lux inline-flex w-full items-center justify-center gap-2 rounded-full px-8 py-3.5 text-base font-bold sm:w-auto"
                         >
+                            <Users size={17} strokeWidth={2.2} />
                             瀏覽會員
                         </Link>
                     </motion.div>
-                    <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}>
+                    <motion.div whileHover={{ y: -2 }} whileTap={{ scale: 0.97 }}>
                         <Link
                             to="/bni"
-                            className="inline-flex w-full items-center justify-center rounded-full border border-white/20 bg-white/5 px-8 py-3.5 text-center text-base font-bold text-white backdrop-blur-md hover:border-primary/50 sm:w-auto"
+                            className="btn-lux btn-ghost-lux inline-flex w-full items-center justify-center gap-2 rounded-full px-8 py-3.5 text-base font-bold sm:w-auto"
                         >
+                            <BookOpen size={17} strokeWidth={2.2} />
                             了解例會
                         </Link>
                     </motion.div>
                     <motion.a
                         href="#contact"
-                        whileHover={{ scale: 1.04 }}
-                        whileTap={{ scale: 0.96 }}
-                        className="inline-flex w-full items-center justify-center rounded-full border border-platinum/40 bg-platinum/10 px-8 py-3.5 text-center text-base font-bold text-platinum-soft hover:bg-platinum/20 sm:w-auto"
+                        whileHover={{ y: -2 }}
+                        whileTap={{ scale: 0.97 }}
+                        className="btn-lux btn-platinum-lux inline-flex w-full items-center justify-center gap-2 rounded-full px-8 py-3.5 text-base font-bold sm:w-auto"
                     >
+                        <Sparkles size={17} strokeWidth={2.2} />
                         我要來訪
                     </motion.a>
                 </div>
@@ -102,14 +106,14 @@ const Home: React.FC = () => {
                         whileInView={{ opacity: 1, rotateX: 0, y: 0 }}
                         viewport={{ once: true, margin: "-100px" }}
                         transition={{ duration: 0.8, type: "spring" }}
-                        className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-3xl p-8 md:p-16 border border-white/20 flex flex-col lg:flex-row items-center justify-between gap-12 group shadow-[0_20px_60px_-15px_rgba(0,0,0,0.5)] relative overflow-hidden"
+                        className="glass-panel relative flex flex-col items-center justify-between gap-12 overflow-hidden rounded-3xl p-8 group md:p-16 lg:flex-row"
                     >
                         {/* Decorative glow inside card */}
                         <div className="absolute -top-40 -right-40 w-96 h-96 bg-[#cf2030]/30 blur-[100px] rounded-full mix-blend-screen animate-pulse"></div>
                         <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-primary/30 blur-[100px] rounded-full mix-blend-screen animate-pulse"></div>
 
                         {/* Floating Badge */}
-                        <div className="absolute top-6 right-6 bg-white/10 backdrop-blur-md border border-white/20 px-4 py-1.5 rounded-full text-xs font-mono text-primary-light tracking-widest uppercase hidden md:block">
+                        <div className="absolute top-6 right-6 hidden items-center gap-2 rounded-full border border-white/15 bg-black/20 px-4 py-1.5 font-mono text-xs tracking-widest text-primary-light uppercase shadow-[inset_0_1px_0_rgba(255,255,255,0.12)] md:flex">
                             EST. 1985
                         </div>
 

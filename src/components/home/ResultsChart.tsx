@@ -182,7 +182,7 @@ const ResultsChart: React.FC = () => {
     };
 
     return (
-        <div className="w-full max-w-4xl mx-auto bg-bg-dark/80 backdrop-blur-md border border-white/10 rounded-2xl p-6 md:p-8 shadow-2xl">
+        <div className="glass-panel mx-auto w-full max-w-4xl rounded-2xl p-6 md:p-8">
             <div className="flex flex-wrap justify-center gap-4 mb-8">
                 <button
                     onClick={() => setActiveTab('referrals')}

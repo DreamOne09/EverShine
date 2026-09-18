@@ -390,7 +390,7 @@ const Login: React.FC = () => {
             <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="w-full max-w-md bg-bg-dark/80 backdrop-blur border border-white/10 rounded-2xl p-6 md:p-8 shadow-xl"
+                className="glass-panel w-full max-w-md rounded-2xl p-6 md:p-8"
             >
                 <h1 className="text-2xl font-bold text-center text-white mb-3">
                     {mode === 'login' && '會員登入'}

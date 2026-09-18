@@ -133,7 +133,7 @@ const Contact: React.FC = () => {
                     >
                         想參觀例會、了解入會，或找對的產業夥伴，請直接聯繫三長。
                     </motion.p>
-                    <div className="mx-auto mt-6 inline-flex items-center gap-2 rounded-full border border-platinum/30 bg-platinum/10 px-4 py-2 text-sm text-platinum-soft">
+                    <div className="mx-auto mt-6 inline-flex items-center gap-2 rounded-full border border-platinum/35 bg-black/25 px-4 py-2 text-sm text-platinum-soft shadow-[inset_0_1px_0_rgba(255,243,200,0.16)] backdrop-blur-md">
                         <Clock size={16} />
                         {siteConfig.meeting.scheduleLabel}
                     </div>

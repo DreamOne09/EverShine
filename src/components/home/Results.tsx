@@ -22,7 +22,7 @@ const MetricCard: React.FC<{
             ref={elementRef}
             className="glass-panel flex flex-col items-center justify-center rounded-2xl p-8"
         >
-            <div className="mb-6 rounded-full bg-primary/10 p-4 text-primary">{icon}</div>
+            <div className="mb-6 rounded-full border border-white/10 bg-white/[0.04] p-4 text-primary shadow-[inset_0_1px_0_rgba(255,255,255,0.12)]">{icon}</div>
             <div className="mb-2 font-mono text-4xl font-bold tabular-nums text-white lg:text-5xl">
                 {isCurrency ? (count / 100).toFixed(1) : count.toLocaleString()}
                 <span className="ml-1 font-sans text-2xl text-gray-400">{suffix}</span>
