@@ -108,18 +108,6 @@ const Members: React.FC = () => {
         });
     }, [members, activeCategory, searchQuery]);
 
-    if (loading) {
-        return (
-            <div className="min-h-[70vh] container mx-auto px-3 py-8 pt-24 md:px-4 md:pt-28">
-                <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6 xl:grid-cols-4">
-                    {Array.from({ length: 8 }).map((_, i) => (
-                        <CardSkeleton key={i} />
-                    ))}
-                </div>
-            </div>
-        );
-    }
-
     if (error) {
         return (
             <div className="min-h-[60vh] flex items-center justify-center px-4 py-20">
@@ -195,9 +183,17 @@ const Members: React.FC = () => {
                     />
                 </div>
 
+                {loading && (
+                    <div className="grid grid-cols-1 gap-5 pb-12 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6 xl:grid-cols-4">
+                        {Array.from({ length: 8 }).map((_, i) => (
+                            <CardSkeleton key={i} />
+                        ))}
+                    </div>
+                )}
+
                 <motion.div layout className="grid grid-cols-1 gap-4 pb-12 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-6 xl:grid-cols-4">
                     <AnimatePresence mode="popLayout">
-                        {filteredMembers.map((member) => (
+                        {!loading && filteredMembers.map((member) => (
                             <motion.div
                                 layout
                                 key={member.id || member.name}
@@ -256,7 +252,7 @@ const Members: React.FC = () => {
                     </div>
                 </motion.div>
 
-                {filteredMembers.length === 0 && (
+                {!loading && filteredMembers.length === 0 && (
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}

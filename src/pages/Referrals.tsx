@@ -31,18 +31,6 @@ const Referrals: React.FC = () => {
         [referrals, searchQuery, activeCategory]
     );
 
-    if (loading) {
-        return (
-            <div className="min-h-[70vh] container mx-auto px-4 py-12 pt-24 md:pt-28 max-w-7xl">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
-                    {Array.from({ length: 6 }).map((_, i) => (
-                        <CardSkeleton key={i} />
-                    ))}
-                </div>
-            </div>
-        );
-    }
-
     if (error) {
         return (
             <div className="min-h-[60vh] flex items-center justify-center px-4 py-20">
@@ -108,7 +96,10 @@ const Referrals: React.FC = () => {
                 />
 
                 <div data-testid="referrals-grid" className={REFERRALS_GRID_CLASS}>
-                    {filteredReferrals.length === 0 && referrals.length > 0 && (
+                    {loading && Array.from({ length: 6 }).map((_, i) => (
+                        <CardSkeleton key={`sk-${i}`} />
+                    ))}
+                    {!loading && filteredReferrals.length === 0 && referrals.length > 0 && (
                         <div className="col-span-full max-w-xl mx-auto">
                             <EmptyState
                                 title="找不到符合的案例"
@@ -117,7 +108,7 @@ const Referrals: React.FC = () => {
                             />
                         </div>
                     )}
-                    {referrals.length === 0 && (
+                    {!loading && referrals.length === 0 && (
                         <div className="col-span-full max-w-xl mx-auto">
                             <EmptyState
                                 title="尚無引薦案例"
@@ -126,7 +117,7 @@ const Referrals: React.FC = () => {
                             />
                         </div>
                     )}
-                    {filteredReferrals.map((referral, index) => (
+                    {!loading && filteredReferrals.map((referral, index) => (
                         <ReferralCard
                             key={referral.id}
                             referral={referral}
