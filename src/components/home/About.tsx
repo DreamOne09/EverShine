@@ -2,6 +2,7 @@ import React from 'react';
 import { Target, Compass, Flag, Heart } from 'lucide-react';
 import clsx from 'clsx';
 import { motion } from 'framer-motion';
+import SectionLabel from '../common/SectionLabel';
 
 const AboutCard: React.FC<{ icon: React.ReactNode, title: string, children: React.ReactNode, delay: number, fullWidth?: boolean }> = ({ icon, title, children, delay, fullWidth }) => {
     return (
@@ -37,25 +38,26 @@ const About: React.FC = () => {
                         viewport={{ once: true }}
                         transition={{ duration: 0.6 }}
                     >
-                        <h2 className="text-4xl md:text-5xl font-black mb-4 text-primary">關於 BNI 長輝白金分會</h2>
-                        <p className="text-gray-400 text-lg max-w-3xl mx-auto mb-6">台灣最具影響力的線上商會之一，100% 支援線上與會，隸屬全球最大商務引薦組織 BNI，致力於為台灣企業主打造最強線上商務合作平台</p>
+                        <SectionLabel>About EverShine</SectionLabel>
+                        <h2 className="text-4xl md:text-5xl font-black mb-4 text-primary">關於長輝白金分會</h2>
+                        <p className="text-gray-400 text-lg max-w-3xl mx-auto mb-6">全台少數 100% 線上與會的 BNI 白金分會。每週三早晨，用結構化例會把專業變成引薦。</p>
                         <div className="w-24 h-1 bg-gradient-to-r from-transparent via-primary to-transparent mx-auto rounded-full opacity-80"></div>
                     </motion.div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 max-w-6xl mx-auto px-4">
                     <div className="h-full">
-                        <AboutCard icon={<Target size={32} />} title="Core Purpose" delay={0}>
+                        <AboutCard icon={<Target size={32} />} title="核心目的" delay={0}>
                             <p>精進會員的個人成長<br />壯大夥伴彼此的事業</p>
                         </AboutCard>
                     </div>
                     <div className="h-full">
-                        <AboutCard icon={<Compass size={32} />} title="Mission" delay={0.1}>
+                        <AboutCard icon={<Compass size={32} />} title="使命" delay={0.1}>
                             <p>強化產業合作<br />發展強而有力的夥伴關係<br />創造持續不斷的引薦</p>
                         </AboutCard>
                     </div>
                     <div className="h-full">
-                        <AboutCard icon={<Flag size={32} />} title="Vision" delay={0.2}>
+                        <AboutCard icon={<Flag size={32} />} title="願景" delay={0.2}>
                             <p>成為企業家首選的<br />商務合作平台</p>
                         </AboutCard>
                     </div>

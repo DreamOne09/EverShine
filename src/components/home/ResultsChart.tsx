@@ -8,7 +8,7 @@ import { queryKeys } from '../../api/queryKeys';
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
 
 /** 後備假資料：DB 撈不到時才用，確保前台不會出現空白圖 */
-const FALLBACK_ROWS: HomepageStatsRow[] = [
+export const FALLBACK_ROWS: HomepageStatsRow[] = [
     { month: '2025-05', referral_count: 631, referral_value: 15606645, guest_count: 15 },
     { month: '2025-06', referral_count: 456,  referral_value: 2144319, guest_count: 21 },
     { month: '2025-07', referral_count: 590,  referral_value: 9160680, guest_count: 17 },

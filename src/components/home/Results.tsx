@@ -1,77 +1,88 @@
-import React from 'react';
+import React, { useMemo } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { useCountUp } from '../../hooks/useCountUp';
 import { FileText, TrendingUp, Users } from 'lucide-react';
-import ResultsChart from './ResultsChart';
+import ResultsChart, { FALLBACK_ROWS } from './ResultsChart';
+import { fetchHomepageStatsForChart } from '../../api/dashboard';
+import { queryKeys } from '../../api/queryKeys';
+import SectionLabel from '../common/SectionLabel';
 
-const MetricCard: React.FC<{ icon: React.ReactNode, value: number, suffix: string, label: string, subtext?: string, isCurrency?: boolean }> = ({ icon, value, suffix, label, subtext, isCurrency }) => {
+const MetricCard: React.FC<{
+    icon: React.ReactNode;
+    value: number;
+    suffix: string;
+    label: string;
+    subtext?: string;
+    isCurrency?: boolean;
+}> = ({ icon, value, suffix, label, subtext, isCurrency }) => {
     const { count, elementRef } = useCountUp(value);
 
     return (
-        <div ref={elementRef} className="bg-bg-dark/60 backdrop-blur-md border border-primary/20 rounded-2xl shadow-xl p-8 flex flex-col items-center justify-center hover:-translate-y-2 transition-transform duration-300">
-            <div className="text-primary mb-6 p-4 bg-primary/10 rounded-full">
-                {icon}
-            </div>
-            <div className="text-4xl lg:text-5xl font-bold text-white mb-2 font-mono tabular-nums">
+        <div
+            ref={elementRef}
+            className="glass-panel flex flex-col items-center justify-center rounded-2xl p-8"
+        >
+            <div className="mb-6 rounded-full bg-primary/10 p-4 text-primary">{icon}</div>
+            <div className="mb-2 font-mono text-4xl font-bold tabular-nums text-white lg:text-5xl">
                 {isCurrency ? (count / 100).toFixed(1) : count.toLocaleString()}
-                <span className="text-2xl ml-1 text-gray-400 font-sans">{suffix}</span>
+                <span className="ml-1 font-sans text-2xl text-gray-400">{suffix}</span>
             </div>
-            <div className="text-gray-300 font-medium text-lg uppercase tracking-wide mt-2">{label}</div>
-            {subtext && <div className="text-sm text-gray-500 mt-2">{subtext}</div>}
+            <div className="mt-2 text-lg font-medium tracking-wide text-gray-300">{label}</div>
+            {subtext && <div className="mt-2 text-sm text-gray-500">{subtext}</div>}
         </div>
     );
 };
 
+const ALL_TIME_REFERRALS = 26459;
+const ALL_TIME_VALUE_YI = 629;
+const ALL_TIME_VALUE_LABEL = 'NT$ 629,007,136';
+
 const Results: React.FC = () => {
+    const { data: rowsRaw } = useQuery({
+        queryKey: queryKeys.homepageStats.chart,
+        queryFn: () => fetchHomepageStatsForChart(12),
+        staleTime: 5 * 60_000,
+    });
+
+    const rows = rowsRaw && rowsRaw.length > 0 ? rowsRaw : FALLBACK_ROWS;
+    const latest = rows[rows.length - 1];
+    const guestTotal = useMemo(() => rows.reduce((sum, row) => sum + (row.guest_count || 0), 0), [rows]);
+    const updatedLabel = latest?.month
+        ? latest.month.replace('-', '/')
+        : '2026/01';
+
     return (
-        <section className="py-24 relative">
+        <section className="relative py-24">
             <div className="container mx-auto px-4">
-                <div className="text-center mb-16">
-                    <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">台灣商會引薦成果</h2>
-                    <div className="w-20 h-1 bg-primary mx-auto rounded-full mb-4"></div>
-                    <p className="text-gray-300 text-base">
-                        創會以來 - 資料更新時間：2026/01/13
-                    </p>
+                <div className="mb-16 text-center">
+                    <SectionLabel>Results</SectionLabel>
+                    <h2 className="mb-4 text-3xl font-bold text-white md:text-4xl">長輝白金分會引薦成果</h2>
+                    <div className="mx-auto mb-4 h-1 w-20 rounded-full bg-primary"></div>
+                    <p className="text-base text-gray-300">創會以來 · 資料更新 {updatedLabel}</p>
                 </div>
 
                 <div className="mb-20">
                     <ResultsChart />
                 </div>
 
-                {/* Metrics Grid - Vertical Stack on Mobile */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-6 px-4">
-                    <div className="w-full">
-                        <MetricCard
-                            icon={<FileText size={40} />}
-                            value={26459}
-                            suffix="張"
-                            label="總引薦單數"
-                        />
-                    </div>
-                    <div className="w-full">
-                        <MetricCard
-                            icon={<TrendingUp size={40} />}
-                            value={629} // 6.29億
-                            suffix="億+"
-                            label="總交易價值 (TWD)"
-                            subtext="NT$ 629,007,136"
-                            isCurrency
-                        />
-                    </div>
-                    <div className="w-full h-full">
-                        <div className="bg-bg-dark/60 backdrop-blur-md border border-primary/20 rounded-2xl shadow-xl p-8 flex flex-col items-center justify-center hover:-translate-y-2 transition-transform duration-300 text-center h-full">
-                            <div className="text-primary mb-6 p-4 bg-primary/10 rounded-full">
-                                <Users size={40} />
-                            </div>
-                            <h3 className="text-2xl font-bold text-white mb-2">邀請來賓參與</h3>
-                            <p className="text-gray-400 mb-6 text-base">誠摯邀請您前來體驗我們的聚會。</p>
-                            <a href="#contact" className="inline-block px-6 py-2 bg-primary text-white font-bold rounded-full hover:bg-primary-dark transition-colors shadow-md text-sm">
-                                聯繫我們
-                            </a>
-                        </div>
-                    </div>
+                <div className="grid grid-cols-1 gap-6 px-4 md:grid-cols-3">
+                    <MetricCard icon={<FileText size={40} />} value={ALL_TIME_REFERRALS} suffix="張" label="總引薦單數" />
+                    <MetricCard
+                        icon={<TrendingUp size={40} />}
+                        value={ALL_TIME_VALUE_YI}
+                        suffix="億+"
+                        label="總交易價值 (TWD)"
+                        subtext={ALL_TIME_VALUE_LABEL}
+                        isCurrency
+                    />
+                    <MetricCard
+                        icon={<Users size={40} />}
+                        value={guestTotal}
+                        suffix="位"
+                        label="近一年來賓"
+                        subtext="誠摯邀請您前來體驗例會"
+                    />
                 </div>
-
-
             </div>
         </section>
     );

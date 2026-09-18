@@ -392,12 +392,20 @@ const Login: React.FC = () => {
                 animate={{ opacity: 1, scale: 1 }}
                 className="w-full max-w-md bg-bg-dark/80 backdrop-blur border border-white/10 rounded-2xl p-6 md:p-8 shadow-xl"
             >
-                <h1 className="text-2xl font-bold text-center text-white mb-6">
+                <h1 className="text-2xl font-bold text-center text-white mb-3">
                     {mode === 'login' && '會員登入'}
-                    {mode === 'signup' && '註冊新帳號'}
+                    {mode === 'signup' && '建立會員帳號'}
                     {mode === 'forgot' && '重設密碼'}
                     {mode === 'claim' && '認領您的會員檔案'}
                 </h1>
+                {mode === 'login' && (
+                    <p className="mb-6 text-center text-sm leading-relaxed text-gray-400">
+                        僅限分會會員登入。想參觀例會？
+                        <Link to="/#contact" className="ml-1 text-primary hover:underline">
+                            請聯繫三長預約來訪
+                        </Link>
+                    </p>
+                )}
 
                 {(() => {
                     const ua = navigator.userAgent || navigator.vendor || '';
@@ -548,9 +556,9 @@ const Login: React.FC = () => {
                             {mode === 'login' && (
                                 <>
                                     <p>
-                                        還沒有帳號？
+                                        已是會員、還沒帳號？
                                         <button type="button" onClick={() => setMode('signup')} className="text-primary hover:underline ml-1">
-                                            立即註冊
+                                            建立登入帳號
                                         </button>
                                     </p>
                                     <p>

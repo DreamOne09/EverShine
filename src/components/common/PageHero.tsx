@@ -3,6 +3,8 @@ import { motion } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
 
 interface PageHeroProps {
+    /** 金色徽章（主標上方） */
+    badge?: React.ReactNode;
     /** 大標（僅一行主標題，語意為頁面唯一 h1） */
     title: React.ReactNode;
     /** 小標（大標下方、獨立段落，字級較小，與大標分開渲染） */
@@ -18,6 +20,7 @@ interface PageHeroProps {
 }
 
 const PageHero: React.FC<PageHeroProps> = ({
+    badge,
     title,
     heroTagline,
     subtitle,
@@ -58,9 +61,14 @@ const PageHero: React.FC<PageHeroProps> = ({
                 transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
                 className={compact ? 'relative z-10 px-4' : 'relative z-10 px-4 mt-[-5vh] md:mt-[-10vh]'}
             >
+                {badge && (
+                    <div className="mb-5 inline-flex items-center rounded-full border border-platinum/35 bg-platinum/10 px-4 py-1.5 text-[11px] font-semibold tracking-[0.18em] text-platinum-soft sm:text-xs">
+                        {badge}
+                    </div>
+                )}
                 {/* 大標／小標分開：h1 僅大標；小標用 p，避免被讀成一個長標題 */}
                 <h1
-                    className={`font-black tracking-tight font-sans ${heroTagline ? 'mb-0' : 'mb-6'} ${
+                    className={`font-black tracking-tight font-sans text-glow ${heroTagline ? 'mb-0' : 'mb-6'} ${
                         compact
                             ? 'text-2xl sm:text-4xl md:text-5xl'
                             : 'text-3xl sm:text-5xl md:text-7xl lg:text-8xl'

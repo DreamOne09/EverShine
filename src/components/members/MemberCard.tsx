@@ -123,18 +123,18 @@ const MemberCard: React.FC<MemberCardProps> = ({ member, onOpenDetails }) => {
                         <h3 className="inline">{member.name}</h3>
                     </Link>
 
-                    <div className="mt-1 w-full space-y-0.5 px-0.5">
-                        {titleLine ? (
-                            <p className="line-clamp-1 text-xs font-normal text-slate-300 sm:text-sm">{titleLine}</p>
-                        ) : null}
-                        {member.company ? (
-                            <p className="line-clamp-1 text-xs font-normal text-slate-400 sm:text-sm">{member.company}</p>
-                        ) : null}
-                    </div>
-
-                    <p className="mt-2 line-clamp-2 min-h-[2.4rem] w-full flex-1 px-0.5 text-xs leading-relaxed text-slate-400 sm:text-sm">
+                    <p className="mt-2 line-clamp-2 min-h-[2.4rem] w-full px-0.5 text-xs leading-relaxed text-slate-200 sm:text-sm">
                         {slogan || '\u00a0'}
                     </p>
+
+                    <div className="mt-1 w-full flex-1 space-y-0.5 px-0.5">
+                        {titleLine ? (
+                            <p className="line-clamp-1 text-xs font-normal text-slate-400 sm:text-sm">{titleLine}</p>
+                        ) : null}
+                        {member.company ? (
+                            <p className="line-clamp-1 text-xs font-normal text-slate-500 sm:text-sm">{member.company}</p>
+                        ) : null}
+                    </div>
 
                     {/* 底部動作條：左圖示 + 右半透明 CTA */}
                     <div className="mt-auto flex w-full items-stretch gap-0 overflow-hidden rounded-xl border border-white/10 bg-black/35">

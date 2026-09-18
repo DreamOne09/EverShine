@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 import { useMembers } from '../hooks/useMembers';
 import { queryKeys } from '../api/queryKeys';
@@ -42,8 +42,14 @@ const Members: React.FC = () => {
     const [isAdmin, setIsAdmin] = useState(false);
     const [detailMember, setDetailMember] = useState<Member | null>(null);
     const { members, loading, error } = useMembers();
-    const [searchQuery, setSearchQuery] = useState('');
+    const [searchParams] = useSearchParams();
+    const [searchQuery, setSearchQuery] = useState(() => searchParams.get('q') || '');
     const [activeCategory, setActiveCategory] = useState('全部');
+
+    React.useEffect(() => {
+        const q = searchParams.get('q');
+        if (q) setSearchQuery(q);
+    }, [searchParams]);
 
     // ... existing hooks
 
@@ -139,23 +145,24 @@ const Members: React.FC = () => {
                 aria-hidden
             />
             <SEO
-                title="台灣商會會員 | BNI 長輝白金分會企業家名錄"
-                description="探索 BNI 長輝白金分會的優秀企業家與專業人士。我們是台灣頂尖商會，涵蓋居住工程、品牌行銷、金融法稅、AI科技等 八大產業領域，為台灣企業主媒合最專業的合作夥伴。"
-                keywords="台灣商會會員, BNI會員, 長輝會員, 企業家名錄, 台北商會, 商務媒合, 行業專家, 企業合作, 台灣企業家, 商會推薦"
+                title="長輝會員｜八大產業企業家名錄"
+                description="認識 BNI 長輝白金分會的會員。涵蓋居住工程、品牌行銷、金融法稅、數位科技等八大產業，每位會員都是該領域的獨家代表。"
+                keywords="長輝會員, BNI會員, 企業家名錄, 商務媒合, 行業專家, 長輝白金分會"
                 breadcrumbs={[{ name: '會員介紹', path: '/members' }]}
                 structuredData={{
                     '@type': 'CollectionPage',
                     name: 'BNI 長輝白金分會台灣商會會員名錄',
-                    description: '台灣 BNI 長輝白金分會涵蓋 八大產業的優秀企業家與專業人士。',
+                    description: '台灣 BNI 長輝白金分會涵蓋八大產業的優秀企業家與專業人士。',
                     url: 'https://evershine.tw/members',
                     isPartOf: { '@id': 'https://evershine.tw/#website' },
                     inLanguage: 'zh-TW'
                 }}
             />
             <PageHero
-                title="台灣商會會員"
-                subtitle={<>BNI 長輝白金分會 — 八大產業的優質台灣企業家<br />我們為夥伴的生意著想，也為夥伴的生意做引薦</>}
-                subtitleClassName="!text-lg sm:!text-xl md:!text-2xl lg:!text-3xl text-slate-100 font-normal max-w-4xl"
+                compact
+                badge="EverShine Members"
+                title="長輝會員"
+                subtitle={<>八大產業的獨家代表<br />我們為夥伴的生意著想，也為夥伴的生意做引薦</>}
             />
 
             <div className="container relative z-10 mx-auto px-3 py-6 pt-2 md:px-4 md:py-8 md:pt-6">

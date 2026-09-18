@@ -1,6 +1,8 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Phone } from 'lucide-react';
+import { Mail, Phone, Clock } from 'lucide-react';
+import { siteConfig } from '../../config/site.config';
+import SectionLabel from '../common/SectionLabel';
 import { useMembers } from '../../hooks/useMembers';
 import { formatTaiwanPhoneDisplay, formatTaiwanPhoneTelHref } from '../../lib/phoneFormat';
 import type { Member } from '../../types';
@@ -112,6 +114,7 @@ const Contact: React.FC = () => {
             <div className="container relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
                 {/* 標題區 */}
                 <div className="mx-auto mb-14 max-w-2xl text-center md:mb-16">
+                    <SectionLabel>Visit us</SectionLabel>
                     <motion.h2
                         id="contact-heading"
                         initial={{ opacity: 0, y: 16 }}
@@ -119,7 +122,7 @@ const Contact: React.FC = () => {
                         viewport={{ once: true }}
                         className="mb-5 text-3xl font-black tracking-tight text-white sm:text-4xl md:text-5xl"
                     >
-                        聯繫 <span className="text-[#4FB0E3]">EverShine</span>
+                        聯繫 <span className="text-[#4FB0E3]">長輝</span>
                     </motion.h2>
                     <motion.p
                         initial={{ opacity: 0, y: 16 }}
@@ -128,8 +131,12 @@ const Contact: React.FC = () => {
                         transition={{ delay: 0.08 }}
                         className="text-base leading-relaxed text-gray-400 sm:text-lg"
                     >
-                        歡迎與台灣 BNI 長輝白金分會聯繫。無論是業務合作、商會參訪申請，或是想了解更多關於台灣 BNI 商會的資訊，我們隨時為您服務。
+                        想參觀例會、了解入會，或找對的產業夥伴，請直接聯繫三長。
                     </motion.p>
+                    <div className="mx-auto mt-6 inline-flex items-center gap-2 rounded-full border border-platinum/30 bg-platinum/10 px-4 py-2 text-sm text-platinum-soft">
+                        <Clock size={16} />
+                        {siteConfig.meeting.scheduleLabel}
+                    </div>
                 </div>
 
                 {/* 三尊卡片 */}

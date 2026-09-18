@@ -57,9 +57,9 @@ const FAQ: React.FC = () => {
                     viewport={{ once: true }}
                     className="text-center mb-16"
                 >
-                    <h2 className="text-3xl md:text-5xl font-black mb-4 text-white">BNI 台灣商會常見問題</h2>
+                    <h2 className="text-3xl md:text-5xl font-black mb-4 text-white">常見問題</h2>
                     <p className="text-gray-400 max-w-2xl mx-auto text-lg">
-                        關於加入 BNI 長輝白金分會，我們整理了台灣企業主最關心的問題
+                        關於加入長輝白金分會，我們整理了來賓與企業主最常問的事
                     </p>
                 </motion.div>
 

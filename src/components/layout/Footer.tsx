@@ -13,8 +13,9 @@ const Footer: React.FC = () => {
                             <img src={siteConfig.logos.horizontal} alt={`${siteConfig.branchFullName} — 台灣商會`} className="h-20 w-auto" />
                         </Link>
                         <p className="text-gray-400 text-sm leading-relaxed max-w-sm mx-auto md:mx-0 text-center md:text-left">
-                            BNI 長輝白金分會是台灣最具影響力的線上商會之一，100% 支援線上與會，隸屬全球最大商務引薦組織 BNI。致力於通過結構化的線上引薦行銷系統，為台灣企業主提供不受地點限制的商務合作與人脈拓展平台。
+                            長輝白金分會是全台少數 100% 線上與會的 BNI 白金分會。每週三早晨，用結構化例會把專業變成引薦。
                         </p>
+                        <p className="text-xs text-platinum-soft/80">{siteConfig.meeting.scheduleLabel}</p>
                     </div>
 
                     <div>

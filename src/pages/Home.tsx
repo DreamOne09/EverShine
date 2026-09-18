@@ -6,49 +6,67 @@ import Results from '../components/home/Results';
 import MemberWall from '../components/home/MemberWall';
 import FAQ from '../components/home/FAQ';
 import Contact from '../components/home/Contact';
+import VisitSteps from '../components/home/VisitSteps';
 import { Link } from 'react-router-dom';
 import SEO from '../components/common/SEO';
+import { siteConfig } from '../config/site.config';
 
 const Home: React.FC = () => {
     return (
         <div className="overflow-hidden">
             <SEO
-                description="BNI 長輝白金分會是台灣最具影響力的線上商會。全台少數 100% 支援線上與會的 BNI 分會，協助企業主透過結構化線上商務引薦拓展人脈、精準媒合資源，實現業務共贏。加入台北頂尖線上企業家商會。"
-                keywords="商會, 台灣商會, 線上商會, 線上BNI, BNI, BNI台灣, 台北商會, 長輝分會, 商務引薦, 企業家商會, 線上商務社團, 線上會議, 線上人脈, 白金分會, 商務合作, 人脈拓展, 付出者收穫, Givers Gain"
+                description="BNI 長輝白金分會 EverShine 是全台少數 100% 線上與會的白金級分會。每週三 06:30–08:30 舉行結構化例會，用引薦把專業變成生意。"
+                keywords="長輝白金分會, EverShine, BNI長輝, 線上BNI, 每週三例會, 商務引薦, 線上商會, BNI台灣, 白金分會, Givers Gain"
                 structuredData={{
                     '@type': 'WebPage',
-                    name: 'BNI 長輝白金分會 — 台灣線上商會首選',
-                    description: 'BNI 長輝白金分會是台灣最具影響力的線上商會，100% 支援線上與會，透過全球最大商務引薦系統協助台灣企業主拓展人脈與業務。',
+                    name: '長輝白金分會 EverShine — 每週三線上例會',
+                    description: 'BNI 長輝白金分會 100% 支援線上與會，每週三早晨把專業變成引薦。',
                     url: 'https://evershine.tw/',
                     isPartOf: { '@id': 'https://evershine.tw/#website' },
                     about: { '@id': 'https://evershine.tw/#organization' },
                     inLanguage: 'zh-TW'
                 }}
             />
-            {/* Hero Section */}
             <PageHero
-                title="BNI 長輝白金分會"
-                heroTagline="台灣頂尖線上商會"
+                badge={`${siteConfig.branchName} · ${siteConfig.meeting.dayZh} ${siteConfig.meeting.startTime}–${siteConfig.meeting.endTime}`}
+                title="連結能創造價值的人"
                 subtitle={
                     <>
-                        100% 支援線上與會・不受地點限制<br />
-                        我們一起，打造你的夢幻 Team<br />
-                        <span className="text-[#38bdf8] font-sans font-medium mt-4 block text-2xl tracking-wide opacity-90">Stand by we! We are one team.</span>
+                        線上開會的 BNI 白金分會<br />
+                        用每週例會，把專業變成引薦
                     </>
                 }
                 showScrollIndicator
             >
-                <div className="flex flex-col md:flex-row gap-6 justify-center items-center mt-8 px-4">
+                <div className="mt-8 flex flex-col items-center justify-center gap-3 px-4 sm:flex-row sm:gap-4">
+                    <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}>
+                        <Link
+                            to="/members"
+                            className="inline-flex w-full items-center justify-center rounded-full bg-gradient-to-r from-primary to-primary-dark px-8 py-3.5 text-center text-base font-bold text-bg-dark shadow-[0_0_30px_rgba(76,168,223,0.4)] sm:w-auto"
+                        >
+                            瀏覽會員
+                        </Link>
+                    </motion.div>
+                    <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}>
+                        <Link
+                            to="/bni"
+                            className="inline-flex w-full items-center justify-center rounded-full border border-white/20 bg-white/5 px-8 py-3.5 text-center text-base font-bold text-white backdrop-blur-md hover:border-primary/50 sm:w-auto"
+                        >
+                            了解例會
+                        </Link>
+                    </motion.div>
                     <motion.a
                         href="#contact"
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        className="px-10 py-4 bg-gradient-to-r from-primary to-primary-dark text-bg-dark font-bold text-lg rounded-full shadow-[0_0_30px_rgba(76,168,223,0.4)] hover:shadow-[0_0_50px_rgba(76,168,223,0.6)] transition-all duration-300 transform border border-primary-light/30 w-full md:w-auto text-center"
+                        whileHover={{ scale: 1.04 }}
+                        whileTap={{ scale: 0.96 }}
+                        className="inline-flex w-full items-center justify-center rounded-full border border-platinum/40 bg-platinum/10 px-8 py-3.5 text-center text-base font-bold text-platinum-soft hover:bg-platinum/20 sm:w-auto"
                     >
-                        加入我們
+                        我要來訪
                     </motion.a>
                 </div>
             </PageHero>
+
+            <VisitSteps />
 
             <About />
 
@@ -116,10 +134,10 @@ const Home: React.FC = () => {
                         {/* Content Column */}
                         <div className="w-full lg:w-2/3 text-center lg:text-left relative z-10">
                             <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 tracking-tight">
-                                什麼是 <span className="text-[#cf2030]">BNI</span>？全球最大商會組織
+                                什麼是 <span className="text-[#cf2030]">BNI</span>？
                             </h2>
                             <h3 className="text-xl md:text-2xl text-primary-light font-medium mb-6">
-                                台灣線上商會首選・全球最大的商務引薦組織
+                                全球最大商務引薦組織 · 長輝用線上例會把它落地
                             </h3>
                             <p className="text-gray-300 text-lg leading-relaxed mb-10 max-w-2xl mx-auto lg:mx-0">
                                 BNI（Business Network International）成立於 1985 年，是全球最大的商會暨商務引薦組織，在台灣擁有 245 個分會、近萬名企業主會員。長輝白金分會是全台少數 100% 支援線上與會的商會，我們的核心價值是「付出者收穫」(Givers Gain®)，透過結構化的線上商務引薦系統，協助台灣企業主不受地點限制，與優質商務人士建立長期信任的合作關係。

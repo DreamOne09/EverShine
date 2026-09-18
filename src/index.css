@@ -22,6 +22,27 @@
 
   /* 背景顏色 */
   --color-bg-dark: #06203a;
+
+  /* 白金點綴：不取代長輝藍，只作為層次與強調 */
+  --color-platinum: #d4a017;
+  --color-platinum-light: #e8c547;
+  --color-platinum-soft: #f3e2a3;
+}
+
+.glass-panel {
+  background: rgba(6, 32, 58, 0.48);
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.glass-panel:hover {
+  border-color: rgba(212, 160, 23, 0.28);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.28);
+}
+
+.text-glow {
+  text-shadow: 0 0 22px rgba(76, 168, 223, 0.35);
 }
 
 /* Global Reset & Base Styles */

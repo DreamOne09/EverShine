@@ -18,9 +18,9 @@ interface SEOProps {
 }
 
 const SITE_URL = siteConfig.siteUrl;
-const DEFAULT_OG_IMAGE = `${SITE_URL}${siteConfig.logos.square}`;
+const DEFAULT_OG_IMAGE = `${SITE_URL}${siteConfig.logos.og}`;
 const BASE_TITLE = siteConfig.branchFullName;
-const SITE_NAME = `${siteConfig.branchFullName} | 台灣商會`;
+const SITE_NAME = `${siteConfig.branchFullName} EverShine`;
 
 function setMetaTag(selector: string, attribute: string, value: string) {
     let el = document.querySelector(selector);
@@ -116,7 +116,7 @@ const SEO: React.FC<SEOProps> = ({
     structuredData
 }) => {
     const location = useLocation();
-    const fullTitle = title ? `${title} | ${BASE_TITLE}` : `${BASE_TITLE} | 台灣商會首選・商務引薦平台`;
+    const fullTitle = title ? `${title} | ${BASE_TITLE}` : `${BASE_TITLE}｜每週三線上例會・把專業變成引薦`;
     const pageUrl = `${SITE_URL}${location.pathname}`;
     const imageUrl = ogImage ? `${SITE_URL}${ogImage}` : DEFAULT_OG_IMAGE;
 

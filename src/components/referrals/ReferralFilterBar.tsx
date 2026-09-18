@@ -82,8 +82,8 @@ const ReferralFilterBar: React.FC<ReferralFilterBarProps> = ({
                                 'rounded-xl border transition-all duration-200 text-left',
                                 'px-2.5 py-2 text-xs sm:text-sm flex items-center justify-between gap-1.5 min-h-[2.75rem]',
                                 isActive
-                                    ? 'bg-primary text-bg-dark border-primary font-bold shadow-[0_0_12px_rgba(76,168,223,0.25)]'
-                                    : 'bg-white/5 text-gray-300 border-white/10 hover:border-primary/60 hover:text-primary'
+                                    ? 'bg-platinum text-bg-dark border-platinum font-bold shadow-[0_0_12px_rgba(212,160,23,0.25)]'
+                                    : 'bg-white/5 text-gray-300 border-white/10 hover:border-platinum/50 hover:text-platinum-soft'
                             )}
                         >
                             <span className="leading-tight line-clamp-2">{shortLabel}</span>

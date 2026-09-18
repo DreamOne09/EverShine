@@ -18,11 +18,14 @@ export const siteConfig = {
     meeting: {
         day: 'Wednesday',
         dayZh: '週三',
+        onlineTime: '06:20',
         startTime: '06:30',
+        formalStartTime: '07:00',
         endTime: '08:30',
         timezone: 'Asia/Taipei',
         format: 'online' as const,
         formatDescription: '100% 支援線上與會',
+        scheduleLabel: '週三 06:20 上線 · 06:30 早鳥 · 07:00 例會',
     },
 
     location: {
@@ -45,6 +48,7 @@ export const siteConfig = {
         square: '/images/assets/logo/白色正方形logo.png',
         horizontal: '/images/assets/logo/透明底白字長條logo.png',
         bni: '/images/assets/logo/bni-logo-new.png',
+        og: '/images/assets/og-evershine-1200.png',
     },
 
     defaultPhoto: '/images/assets/logo/白色正方形logo.png',

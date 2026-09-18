@@ -26,9 +26,9 @@ const BNIPage: React.FC = () => {
     return (
         <div className="min-h-screen pt-0">
             <SEO
-                title="認識 BNI | 全球最大商會・台灣線上商務引薦系統"
-                description="BNI 是全球最大的商會暨商務引薦組織，遍及 76+ 國家、擁有 34 萬+ 會員。BNI 長輝白金分會 100% 支援線上與會，在台灣擁有 245 個分會、近萬名企業主會員。透過「付出者收穫 Givers Gain」核心價值，協助台灣企業主建立信任的商務合作關係。"
-                keywords="什麼是BNI, BNI商會, 台灣商會, 全球商會, 線上商會, 線上BNI, 商務引薦系統, 付出者收穫, Givers Gain, 台灣BNI, BNI台灣, 台灣商務社團, 商會組織, 企業家商會, BNI七大核心價值, 線上商務例會"
+                title="認識 BNI｜全球最大商務引薦組織"
+                description="BNI 是全球最大的商務引薦組織，遍及 76+ 國家、擁有 34 萬+ 會員。長輝白金分會 100% 支援線上與會，每週三早晨舉行結構化例會。"
+                keywords="什麼是BNI, BNI商會, 線上BNI, 商務引薦系統, 付出者收穫, Givers Gain, 長輝白金分會, 線上商務例會"
                 breadcrumbs={[{ name: '認識 BNI', path: '/bni' }]}
                 structuredData={{
                     '@type': 'WebPage',
@@ -40,11 +40,13 @@ const BNIPage: React.FC = () => {
                 }}
             />
             <PageHero
-                title="關於 BNI — 全球最大商會暨商務引薦組織"
+                compact
+                badge="Givers Gain®"
+                title="認識 BNI"
                 subtitle={
                     <>
-                        台灣商會首選・全球最大商務引薦平台<br />
-                        成立40年，遍及76+國家，11,300+分會，34萬+會員
+                        全球最大商務引薦組織<br />
+                        成立 40 年，遍及 76+ 國家、11,300+ 分會、34 萬+ 會員
                     </>
                 }
             />
@@ -86,7 +88,7 @@ const BNIPage: React.FC = () => {
             <section className="py-20 bg-white/5 relative border-y border-white/5">
                 <div className="container mx-auto px-4">
                     <div className="text-center mb-16">
-                        <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">台灣商會 BNI 卓越表現</h2>
+                        <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">BNI 台灣卓越表現</h2>
                         <div className="w-16 h-1 bg-white/20 mx-auto rounded-full"></div>
                     </div>
 

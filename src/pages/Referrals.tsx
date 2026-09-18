@@ -63,9 +63,9 @@ const Referrals: React.FC = () => {
     return (
         <div className="min-h-screen relative overflow-x-hidden">
             <SEO
-                title="商會引薦成功案例 | BNI 台灣商務合作實績"
-                description="見證台灣 BNI 長輝白金分會的商務引薦實力。透過真實的引薦成功案例，展示台灣頂尖商會如何透過專業對接與互利合作，為企業主創造巨大的商業價值與商務合作機會。"
-                keywords="商會引薦案例, BNI成功案例, 台灣商務合作, 商會合作實績, 引薦成功故事, 商務媒合案例, 台灣商會, BNI台灣"
+                title="引薦案例｜長輝真實商務對接"
+                description="見證長輝白金分會的引薦實力。這裡展示每週精選的成功故事，每一次引薦都是信任的傳遞。"
+                keywords="引薦案例, BNI成功案例, 商務合作, 引薦成功故事, 長輝白金分會"
                 breadcrumbs={[{ name: '引薦案例', path: '/referrals' }]}
                 structuredData={{
                     '@type': 'CollectionPage',
@@ -78,10 +78,11 @@ const Referrals: React.FC = () => {
             />
             <PageHero
                 compact
-                title="台灣商會引薦案例"
+                badge="Referral Stories"
+                title="引薦案例"
                 subtitle={
                     <>
-                        BNI 長輝白金分會真實的商務引薦案例<br />展現台灣商會的商業價值，每一次的引薦都是信任的傳遞
+                        長輝白金分會真實的商務對接<br />每一次引薦，都是信任的傳遞
                     </>
                 }
             />
