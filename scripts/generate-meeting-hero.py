@@ -26,6 +26,9 @@ NAVY_DEEP = (2, 8, 18)
 SKY = (76, 168, 223)
 
 
+ILLUSTRATION_NAMES = {"劉祐沁.jpg"}
+
+
 def load_portraits() -> list[Image.Image]:
     files = sorted(
         [p for p in MEMBERS.iterdir() if p.suffix.lower() in {".jpg", ".jpeg", ".png", ".webp"}],
@@ -33,6 +36,8 @@ def load_portraits() -> list[Image.Image]:
     )
     images: list[Image.Image] = []
     for path in files:
+        if path.name in ILLUSTRATION_NAMES:
+            continue
         try:
             im = Image.open(path).convert("RGB")
         except OSError:
