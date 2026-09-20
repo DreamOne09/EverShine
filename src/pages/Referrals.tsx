@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useReferrals } from '../hooks/useReferrals';
 import { queryKeys } from '../api/queryKeys';
+import { siteConfig } from '../config/site.config';
 import PageHero from '../components/common/PageHero';
 import SEO from '../components/common/SEO';
 import { CardSkeleton, ErrorFallback, EmptyState } from '../components/loading';
@@ -66,6 +67,9 @@ const Referrals: React.FC = () => {
             />
             <PageHero
                 compact
+                tone="meeting"
+                backgroundImage={siteConfig.backgrounds.meetingPair}
+                backgroundPosition="center 35%"
                 badge="Referral Stories"
                 title="引薦案例"
                 subtitle={

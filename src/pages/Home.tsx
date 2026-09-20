@@ -30,6 +30,7 @@ const Home: React.FC = () => {
             />
             <PageHero
                 badge={`${siteConfig.branchName} · ${siteConfig.meeting.dayZh} ${siteConfig.meeting.startTime}–${siteConfig.meeting.endTime}`}
+                tone="earth"
                 title="連結能創造價值的人"
                 subtitle={
                     <>

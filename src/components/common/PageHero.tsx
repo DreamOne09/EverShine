@@ -1,6 +1,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
+import { siteConfig } from '../../config/site.config';
+
+export type PageHeroTone = 'earth' | 'meeting';
 
 interface PageHeroProps {
     /** 金色徽章（主標上方） */
@@ -16,8 +19,16 @@ interface PageHeroProps {
     showScrollIndicator?: boolean;
     /** 列表頁用較矮的標題區，避免與下方篩選／內容重疊 */
     compact?: boolean;
+    /** earth：首頁地球底圖；meeting：真實會員組成的線上例會 Gallery */
+    tone?: PageHeroTone;
+    /** 覆寫底圖路徑（預設依 tone） */
+    backgroundImage?: string;
+    backgroundPosition?: string;
     children?: React.ReactNode;
 }
+
+const EARTH_BG = siteConfig.backgrounds.earth;
+const MEETING_BG = siteConfig.backgrounds.meeting;
 
 const PageHero: React.FC<PageHeroProps> = ({
     badge,
@@ -27,8 +38,14 @@ const PageHero: React.FC<PageHeroProps> = ({
     subtitleClassName,
     showScrollIndicator,
     compact,
+    tone = 'earth',
+    backgroundImage,
+    backgroundPosition = 'center center',
     children,
 }) => {
+    const isMeeting = tone === 'meeting';
+    const src = backgroundImage || (isMeeting ? MEETING_BG : EARTH_BG);
+
     return (
         <section
             className={
@@ -38,22 +55,31 @@ const PageHero: React.FC<PageHeroProps> = ({
             }
             aria-label="BNI 長輝白金分會台灣商會頁面標題"
         >
-            {/* Hero Background Image */}
             <div
                 className="absolute inset-0 z-0"
                 style={{
-                    backgroundImage: 'url(/images/assets/background.png)',
+                    backgroundImage: `url(${src})`,
                     backgroundSize: 'cover',
-                    backgroundPosition: 'center center',
+                    backgroundPosition,
                     backgroundRepeat: 'no-repeat',
-                    backgroundAttachment: 'fixed',
+                    backgroundAttachment: isMeeting ? 'scroll' : 'fixed',
                     willChange: 'transform',
                     imageRendering: '-webkit-optimize-contrast',
-                    mixBlendMode: 'screen',
-                    maskImage: 'linear-gradient(to bottom, black 60%, transparent 100%)',
-                    WebkitMaskImage: 'linear-gradient(to bottom, black 60%, transparent 100%)'
+                    mixBlendMode: isMeeting ? 'normal' : 'screen',
+                    maskImage: 'linear-gradient(to bottom, black 62%, transparent 100%)',
+                    WebkitMaskImage: 'linear-gradient(to bottom, black 62%, transparent 100%)',
                 }}
             />
+            {isMeeting && (
+                <div
+                    className="absolute inset-0 z-[1] pointer-events-none"
+                    style={{
+                        background:
+                            'linear-gradient(180deg, rgba(2,8,18,0.22) 0%, rgba(2,10,22,0.4) 52%, rgba(3,7,18,0.9) 100%)',
+                    }}
+                    aria-hidden
+                />
+            )}
 
             <motion.div
                 initial={{ opacity: 0, y: 30 }}

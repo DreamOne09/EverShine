@@ -148,6 +148,7 @@ const Members: React.FC = () => {
             />
             <PageHero
                 compact
+                tone="meeting"
                 badge="EverShine Members"
                 title="長輝會員"
                 subtitle={<>八大產業的獨家代表<br />我們為夥伴的生意著想，也為夥伴的生意做引薦</>}

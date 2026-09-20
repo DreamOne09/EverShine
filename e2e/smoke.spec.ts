@@ -9,6 +9,11 @@ test.describe('Smoke', () => {
     test('會員頁可開啟', async ({ page }) => {
         await page.goto('/members');
         await expect(page).toHaveURL(/\/members/);
+        await expect(page.getByRole('heading', { level: 1, name: '長輝會員' })).toBeVisible();
+        const heroBg = await page.locator('section[aria-label*="頁面標題"] > div').first().evaluate((el) => {
+            return getComputedStyle(el).backgroundImage;
+        });
+        expect(heroBg).toContain('meeting-hero');
     });
 
     test('登入頁可開啟', async ({ page }) => {

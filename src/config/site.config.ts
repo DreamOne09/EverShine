@@ -53,6 +53,13 @@ export const siteConfig = {
 
     defaultPhoto: '/images/assets/logo/白色正方形logo.png',
 
+    backgrounds: {
+        earth: '/images/assets/background.png',
+        meeting: '/images/assets/meeting-hero.jpg',
+        meetingSpeaker: '/images/assets/meeting-hero-speaker.jpg',
+        meetingPair: '/images/assets/meeting-hero-pair.jpg',
+    },
+
     /** Claim 密碼應從環境變數讀取，fallback 僅供開發環境 */
     claimPassword: import.meta.env.VITE_CLAIM_PASSWORD || 'evershine2026',
 

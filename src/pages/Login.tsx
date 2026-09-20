@@ -102,6 +102,20 @@ const TurnstileWidget: React.FC<{ siteKey: string; onVerify: (token: string) => 
     return <div ref={containerRef} className="flex justify-center min-h-[65px]" />;
 };
 
+const LoginShell: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+    <div className="relative min-h-dvh flex items-center justify-center pt-28 pb-24 md:pt-32 md:pb-12 px-4">
+        <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+            <div
+                className="absolute inset-0 bg-cover bg-center"
+                style={{ backgroundImage: `url(${siteConfig.backgrounds.meeting})` }}
+            />
+            <div className="absolute inset-0 bg-[#030712]/72" />
+            <div className="absolute inset-0 bg-gradient-to-b from-[#030712]/50 via-transparent to-[#030712]" />
+        </div>
+        <div className="relative z-10 w-full max-w-md">{children}</div>
+    </div>
+);
+
 const Login: React.FC = () => {
     const navigate = useNavigate();
     const { user, loading: authLoading } = useAuth();
@@ -375,22 +389,22 @@ const Login: React.FC = () => {
 
     if (showSessionSkeleton) {
         return (
-            <div className="min-h-dvh flex items-center justify-center pt-28 pb-24 md:pt-32 md:pb-12 px-4 container mx-auto">
+            <LoginShell>
                 <SEO title="會員登入" noindex />
-                <CardSkeleton className="w-full max-w-md" />
-            </div>
+                <CardSkeleton className="w-full" />
+            </LoginShell>
         );
     }
 
     const oauthRedirect = `${getRedirectBase()}/login`;
 
     return (
-        <div className="min-h-dvh flex items-center justify-center pt-28 pb-24 md:pt-32 md:pb-12 px-4 container mx-auto">
+        <LoginShell>
             <SEO title="會員登入" noindex />
             <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="glass-panel w-full max-w-md rounded-2xl p-6 md:p-8"
+                className="glass-panel w-full rounded-2xl p-6 md:p-8"
             >
                 <h1 className="text-2xl font-bold text-center text-white mb-3">
                     {mode === 'login' && '會員登入'}
@@ -712,7 +726,7 @@ const Login: React.FC = () => {
                     </div>
                 )}
             </motion.div>
-        </div>
+        </LoginShell>
     );
 };
 

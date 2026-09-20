@@ -12,6 +12,7 @@
 *   **深邃黑 (Deep Black)**：底層配色營造科技感與穩重感，讓內容更顯專業。
 *   **動態星空**：象徵商務引薦如繁星般閃耀，串聯起每一位會員的商機。
 *   **白金金**：作為層次點綴（徽章、篩選選中、來訪 CTA），不取代長輝藍。
+*   **Hero 底圖**：首頁維持地球圖 `public/images/assets/background.png`。會員／認識 BNI／引薦／登入改為真實會員組成的線上例會 Gallery（`meeting-hero.jpg`、`meeting-hero-speaker.jpg`、`meeting-hero-pair.jpg`）。重新產出請執行 `python3 scripts/generate-meeting-hero.py`。若有週三 Zoom Gallery 或主講截圖，可直接替換這三個檔案。
 
 社群分享（LINE / Facebook / 訊息預覽）使用 `public/images/assets/og-evershine-1200.png`（1200×630）。重新產出請執行 `python3 scripts/generate-og-image.py`。
 

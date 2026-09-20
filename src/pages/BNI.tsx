@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { useCountUp } from '../hooks/useCountUp';
 import PageHero from '../components/common/PageHero';
 import SEO from '../components/common/SEO';
+import { siteConfig } from '../config/site.config';
 
 const StatCard: React.FC<{ value: number, label: React.ReactNode, subtext?: string, isLarge?: boolean }> = ({ value, label, subtext, isLarge }) => {
     const { count, elementRef } = useCountUp(value, 2000);
@@ -41,6 +42,9 @@ const BNIPage: React.FC = () => {
             />
             <PageHero
                 compact
+                tone="meeting"
+                backgroundImage={siteConfig.backgrounds.meetingSpeaker}
+                backgroundPosition="center 28%"
                 badge="Givers Gain®"
                 title="認識 BNI"
                 subtitle={
