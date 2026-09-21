@@ -1,6 +1,38 @@
 -- Apply after migration_members_add_20260921.sql and the ID-based member-page deployment.
 BEGIN;
 LOCK TABLE public.members IN SHARE ROW EXCLUSIVE MODE;
+-- Run inside the same transaction as the member identity migration.
+ALTER TABLE public.referrals ADD COLUMN IF NOT EXISTS referrer_id bigint REFERENCES public.members(id) ON UPDATE CASCADE ON DELETE SET NULL;
+ALTER TABLE public.referrals ADD COLUMN IF NOT EXISTS referee_id bigint REFERENCES public.members(id) ON UPDATE CASCADE ON DELETE SET NULL;
+UPDATE public.referrals r SET referrer_id=m.id FROM public.members m WHERE r.referrer_id IS NULL AND r.referrer_name=m.name;
+UPDATE public.referrals r SET referee_id=m.id FROM public.members m WHERE r.referee_id IS NULL AND r.referee_name=m.name;
+DO $$ BEGIN IF EXISTS (SELECT 1 FROM public.referrals WHERE (referrer_name IS NOT NULL AND referrer_id IS NULL) OR (referee_name IS NOT NULL AND referee_id IS NULL)) THEN RAISE EXCEPTION 'Unresolved referral identity'; END IF; END $$;
+ALTER TABLE public.referrals DROP CONSTRAINT IF EXISTS referrals_referrer_name_fkey;
+ALTER TABLE public.referrals DROP CONSTRAINT IF EXISTS referrals_referee_name_fkey;
+CREATE OR REPLACE FUNCTION public.sync_referral_member_identity() RETURNS trigger LANGUAGE plpgsql SECURITY INVOKER SET search_path=public,pg_temp AS $fn$
+DECLARE role text; member_id bigint; member_name text; matches integer; prior jsonb; current_row jsonb;
+BEGIN
+IF TG_OP='UPDATE' THEN prior:=to_jsonb(OLD); END IF;
+FOREACH role IN ARRAY ARRAY['referrer','referee'] LOOP
+current_row:=to_jsonb(NEW); member_id:=(current_row->>(role || '_id'))::bigint; member_name:=current_row->>(role || '_name');
+IF TG_OP='UPDATE' THEN
+  IF member_id IS NULL AND (prior->>(role || '_id')) IS NOT NULL AND member_name IS NOT DISTINCT FROM (prior->>(role || '_name')) THEN member_name:=NULL;
+  ELSIF member_name IS DISTINCT FROM (prior->>(role || '_name')) AND member_id IS NOT DISTINCT FROM (prior->>(role || '_id'))::bigint THEN member_id:=NULL;
+  END IF;
+END IF;
+IF member_id IS NULL AND member_name IS NOT NULL THEN
+ SELECT count(*),min(id) INTO matches,member_id FROM public.members WHERE name=member_name;
+ IF matches<>1 THEN RAISE EXCEPTION 'Member name % is missing or ambiguous; select a member ID',member_name; END IF;
+END IF;
+IF member_id IS NOT NULL THEN
+ SELECT name INTO member_name FROM public.members WHERE id=member_id;
+ IF NOT FOUND THEN RAISE EXCEPTION 'Unknown member ID %',member_id; END IF;
+END IF;
+NEW:=jsonb_populate_record(NEW,jsonb_build_object(role || '_id',member_id,role || '_name',member_name));
+END LOOP;
+RETURN NEW;
+END $fn$;
+CREATE OR REPLACE TRIGGER referrals_member_identity BEFORE INSERT OR UPDATE ON public.referrals FOR EACH ROW EXECUTE FUNCTION public.sync_referral_member_identity();
 ALTER TABLE public.members DROP CONSTRAINT IF EXISTS members_name_key;
 DO $$ BEGIN
   IF NOT EXISTS (SELECT 1 FROM public.members WHERE id=48 AND name='楊明翰' AND user_id IS NULL AND status='active') THEN
@@ -41,4 +73,3 @@ DO $$ BEGIN
 END $$;
 COMMIT;
 SELECT category,count(*) FROM public.members WHERE status='active' OR status IS NULL GROUP BY category ORDER BY category;
-

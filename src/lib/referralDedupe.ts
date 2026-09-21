@@ -26,7 +26,7 @@ export const LEGACY_SUPERSEDED_REFERRAL_IDS = new Set([
 ]);
 
 function pairKey(referral: Referral): string {
-    return `${referral.referrer.name}\0${referral.referee.name}`;
+    return `${referral.referrer.memberId ?? referral.referrer.name}\0${referral.referee.memberId ?? referral.referee.name}`;
 }
 
 /**

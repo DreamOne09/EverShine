@@ -20,3 +20,7 @@
 彭顯智居家鍍膜歸入生活服務與消費；李慰祖團體服歸入品牌整合與行銷。湯益承與吳儀沂仍離會且不公開。本次不重新匯入舊快照、不變更其他會員身份與聯絡資料。
 
 驗證：node scripts/test-member-identity.mjs；npm run build；正式站 59 位及八分類逐一核對。
+
+姓名唯一約束原被 referrals 的兩個外鍵參照。身分遷移腳本先補入 referrer_id/referee_id 外鍵，保留既有案例關聯，再移除姓名外鍵與唯一約束；不刪除任何案例。舊的姓名寫入只在唯一匹配時允許，同名需指定 ID。函式使用 SECURITY INVOKER，不擴大資料權限。管理介面改為含公司／產業的會員選單，前台也依 ID 對應照片與產業。
+
+完整 TypeScript 檢查另有既有 memberLinks、Login、MemberPage position 型別問題；本次未更動相關登入邏輯，Vite 正式建置與本次身分測試通過。

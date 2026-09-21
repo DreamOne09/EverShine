@@ -49,6 +49,7 @@ export interface Referral {
 }
 
 export interface ReferralPerson {
+    memberId?: string;
     name: string;
     industry: string;
     photo: string;

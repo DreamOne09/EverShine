@@ -16,7 +16,7 @@ import SEO from '../components/common/SEO';
 import { siteConfig } from '../config/site.config';
 import { CardSkeleton, ErrorFallback, EmptyState } from '../components/loading';
 
-const CATEGORIES = [...siteConfig.industries];
+const CATEGORIES: string[] = [...siteConfig.industries];
 
 const CATEGORY_MAPPING: { [key: string]: string } = {
     '工程裝修': '居住空間與工程',

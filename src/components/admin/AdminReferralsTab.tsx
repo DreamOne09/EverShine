@@ -8,6 +8,8 @@ export interface ReferralFormState {
     description: string;
     referrer_name: string;
     referee_name: string;
+    referrer_id: string;
+    referee_id: string;
     referrer_story: string;
     referee_story: string;
     metrics_amount: string;
@@ -15,6 +17,7 @@ export interface ReferralFormState {
 }
 
 export interface AdminReferralsTabProps {
+    members: Record<string, unknown>[];
     referrals: Record<string, unknown>[];
     referralForm: ReferralFormState;
     onReferralFormChange: (next: ReferralFormState) => void;
@@ -26,6 +29,7 @@ export interface AdminReferralsTabProps {
 }
 
 const AdminReferralsTab: React.FC<AdminReferralsTabProps> = ({
+    members,
     referrals,
     referralForm,
     onReferralFormChange,
@@ -84,24 +88,24 @@ const AdminReferralsTab: React.FC<AdminReferralsTabProps> = ({
                             className="w-full bg-black/20 border border-white/10 rounded-lg p-3 text-white focus:border-primary focus:outline-none"
                         />
                     </div>
-                    <div>
-                        <label className="block text-gray-400 text-sm mb-1">引薦人姓名（需與會員名錄一致以顯示頭像）</label>
-                        <input
-                            type="text"
-                            value={referralForm.referrer_name}
-                            onChange={(e) => setField('referrer_name', e.target.value)}
-                            className="w-full bg-black/20 border border-white/10 rounded-lg p-3 text-white focus:border-primary focus:outline-none"
-                        />
-                    </div>
-                    <div>
-                        <label className="block text-gray-400 text-sm mb-1">被引薦人姓名</label>
-                        <input
-                            type="text"
-                            value={referralForm.referee_name}
-                            onChange={(e) => setField('referee_name', e.target.value)}
-                            className="w-full bg-black/20 border border-white/10 rounded-lg p-3 text-white focus:border-primary focus:outline-none"
-                        />
-                    </div>
+                    {(['referrer', 'referee'] as const).map((role) => (
+                        <div key={role}>
+                            <label htmlFor={`${role}-member`} className="block text-gray-400 text-sm mb-1">
+                                {role === 'referrer' ? '引薦人' : '被引薦人'}（依產業與公司區分同名會員）
+                            </label>
+                            <select id={`${role}-member`} value={referralForm[`${role}_id`]}
+                                onChange={(e) => {
+                                    const member = members.find((m) => String(m.id) === e.target.value);
+                                    onReferralFormChange({ ...referralForm, [`${role}_id`]: e.target.value, [`${role}_name`]: String(member?.name ?? '') });
+                                }}
+                                className="w-full bg-bg-dark border border-white/10 rounded-lg p-3 text-white focus:border-primary focus:outline-none">
+                                <option value="">請選擇會員</option>
+                                {members.map((member) => <option key={String(member.id)} value={String(member.id)}>
+                                    {String(member.name)}｜{String(member.industry || '')}｜{String(member.company || member.Company || '')}
+                                </option>)}
+                            </select>
+                        </div>
+                    ))}
                     <div>
                         <label className="block text-gray-400 text-sm mb-1">成效（顯示於案例卡）</label>
                         <input

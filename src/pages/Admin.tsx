@@ -11,6 +11,7 @@ import {
     TopProgressBar,
 } from '../components/loading';
 import { sanitizeText } from '../lib/sanitize';
+import { findReferralMember } from '../lib/referralMember';
 import { fetchAdminDashboardBundle, deriveAdminDerivedState } from '../api/dashboard';
 import { queryKeys } from '../api/queryKeys';
 import AdminOverviewTab from '../components/admin/AdminOverviewTab';
@@ -26,6 +27,8 @@ const createEmptyReferralForm = (): ReferralFormState => ({
     description: '',
     referrer_name: '',
     referee_name: '',
+    referrer_id: '',
+    referee_id: '',
     referrer_story: '',
     referee_story: '',
     metrics_amount: '洽談中',
@@ -128,11 +131,13 @@ const Admin: React.FC = () => {
             description: sanitizeText(referralForm.description, 500),
             referrer_name: sanitizeText(referralForm.referrer_name, 50),
             referee_name: sanitizeText(referralForm.referee_name, 50),
+            referrer_id: referralForm.referrer_id ? Number(referralForm.referrer_id) : null,
+            referee_id: referralForm.referee_id ? Number(referralForm.referee_id) : null,
             referrer_story: sanitizeText(referralForm.referrer_story, 4000),
             referee_story: sanitizeText(referralForm.referee_story, 4000),
             metrics,
         };
-        if (!row.title || !row.referrer_name || !row.referee_name) {
+        if (!row.title || !row.referrer_id || !row.referee_id) {
             alert('請填寫標題與引薦人／被引薦人姓名');
             return;
         }
@@ -147,6 +152,8 @@ const Admin: React.FC = () => {
             description: (ref.description as string) || '',
             referrer_name: (ref.referrer_name as string) || '',
             referee_name: (ref.referee_name as string) || '',
+            referrer_id: String(findReferralMember(members, ref.referrer_id, ref.referrer_name)?.id ?? ''),
+            referee_id: String(findReferralMember(members, ref.referee_id, ref.referee_name)?.id ?? ''),
             referrer_story: (ref.referrer_story as string) || '',
             referee_story: (ref.referee_story as string) || '',
             metrics_amount: m.amount ?? '洽談中',
@@ -289,6 +296,7 @@ const Admin: React.FC = () => {
                 )}
                 {activeTab === 'referrals' && (
                     <AdminReferralsTab
+                        members={members}
                         referrals={referrals}
                         referralForm={referralForm}
                         onReferralFormChange={setReferralForm}

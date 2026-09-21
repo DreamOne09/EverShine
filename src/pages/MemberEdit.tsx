@@ -14,7 +14,7 @@ import { formatTaiwanPhoneDisplay } from '../lib/phoneFormat';
 import { siteConfig } from '../config/site.config';
 import { resolveMemberPhotoObjectPosition } from '../lib/memberPhotoPosition';
 
-const CATEGORIES = [...siteConfig.industries];
+const CATEGORIES: string[] = [...siteConfig.industries];
 
 // 欄位字數上限（與 Supabase column 長度與資料庫合理性對齊）
 const LIMITS = {
