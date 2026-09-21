@@ -58,5 +58,8 @@ export function formatTaiwanPhoneDisplay(raw: string | null | undefined): string
 
 /** `tel:` 用：僅數字 */
 export function formatTaiwanPhoneTelHref(raw: string | null | undefined): string {
+    if (raw?.trim().startsWith('+') && !raw.trim().startsWith('+886')) {
+        return '+' + onlyDigits(raw);
+    }
     return normalizePhoneDigits(raw);
 }

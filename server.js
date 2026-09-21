@@ -69,7 +69,7 @@ async function fetchMemberBySlug(slug) {
     };
 
     const isNumericId = /^\d+$/.test(decoded);
-    const baseQuery = `select=id,name,industry,company,position,title,shortIntro,fullIntro,photo,status&limit=1`;
+    const baseQuery = `select=id,name,industry,company,position,shortIntro,fullIntro,photo,status&or=(status.is.null,status.eq.active)&limit=2`;
 
     try {
         let url;
@@ -81,7 +81,7 @@ async function fetchMemberBySlug(slug) {
         const res = await fetch(url, { headers });
         if (!res.ok) return null;
         const arr = await res.json();
-        const m = Array.isArray(arr) ? arr[0] : null;
+        const m = Array.isArray(arr) && arr.length === 1 ? arr[0] : null;
         if (!m) return null;
         if (m.status && m.status !== 'active') return null;
         return m;
@@ -108,7 +108,7 @@ function buildMemberSeoMeta(member) {
     );
 
     const title = `${name}｜${industry || '會員'}｜BNI 長輝白金分會`;
-    const slug = encodeURIComponent(member.name || String(member.id));
+    const slug = String(member.id);
     const canonical = `${PRIMARY_SITE_URL}/member/${slug}`;
     const keywords = [name, industry, company, position, 'BNI', 'BNI 長輝白金分會'].filter(Boolean).join(', ');
 

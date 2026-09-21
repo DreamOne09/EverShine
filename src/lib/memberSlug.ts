@@ -4,8 +4,7 @@ import type { Member } from '../types';
  * 從會員物件產出 URL slug。
  *
  * 設計原則：
- *  1. 優先用 name（中文 URL，瀏覽器分享/閱讀都直觀）
- *  2. name 無法產出 slug 時 fallback 用 id
+ * 使用穩定 ID 避免同名會員互相覆蓋；舊姓名連結只接受唯一匹配。
  *
  * 解析端 (resolveMemberFromSlug) 同時支援兩種：
  *  - 完全相符的 name
@@ -13,8 +12,6 @@ import type { Member } from '../types';
  */
 
 export function buildMemberSlug(member: Pick<Member, 'id' | 'name'>): string {
-    const name = (member.name || '').trim();
-    if (name) return encodeURIComponent(name);
     return String(member.id);
 }
 
@@ -32,11 +29,12 @@ export function resolveMemberFromSlug<T extends Pick<Member, 'id' | 'name'>>(
     })();
     if (!decoded) return null;
 
-    // 完全相符的姓名（多筆同名時取第一筆，按 id 由小到大）
+    // 姓名不是唯一識別碼，不可任意選取同名會員。
     const byName = members
         .filter((m) => (m.name || '').trim() === decoded)
         .sort((a, b) => Number(a.id) - Number(b.id));
-    if (byName.length > 0) return byName[0];
+    if (byName.length === 1) return byName[0];
+    if (byName.length > 1) return null;
 
     // 純數字 → id 解析
     if (/^\d+$/.test(decoded)) {

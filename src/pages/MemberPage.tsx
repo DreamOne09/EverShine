@@ -3,7 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Share2 } from 'lucide-react';
 import { useMembers } from '../hooks/useMembers';
-import { resolveMemberFromSlug } from '../lib/memberSlug';
+import { buildMemberSlug, resolveMemberFromSlug } from '../lib/memberSlug';
 import SEO from '../components/common/SEO';
 import { CardSkeleton, EmptyState } from '../components/loading';
 import MemberDetailBody from '../components/members/MemberDetailBody';
@@ -123,7 +123,7 @@ const MemberPage: React.FC = () => {
                     .join(', ')}
                 breadcrumbs={[
                     { name: '會員介紹', path: '/members' },
-                    { name: member.name, path: `/member/${encodeURIComponent(member.name)}` },
+                    { name: member.name, path: `/member/${buildMemberSlug(member)}` },
                 ]}
                 ogImage={member.photo && !member.photo.startsWith('http') ? member.photo : undefined}
                 structuredData={personSchema}

@@ -6,15 +6,14 @@ import { REFERRAL_CATEGORIES } from '../../lib/referralFilter';
 /** 分類 pill 顯示用短標（完整名稱放 title 供 hover） */
 const CATEGORY_SHORT_LABELS: Record<string, string> = {
     全部: '全部案例',
-    居住與空間工程: '居住工程',
-    企業營運與法稅: '企業法稅',
+    居住空間與工程: '居住工程',
+    企業經營與法稅: '企業法稅',
     金融財富與資產: '金融資產',
     品牌整合與行銷: '品牌行銷',
-    '數位AI與創新科技': '數位AI',
-    身心健康與醫療: '身心健康',
-    飲食文化與食品: '飲食食品',
-    教育學習與休閒: '教育休閒',
-    永續發展與製造: '永續製造',
+    數位科技與智能應用: '數位科技',
+    健康照護與身心: '健康身心',
+    生活服務與消費: '生活消費',
+    學習成長與探索: '學習探索',
 };
 
 interface ReferralFilterBarProps {
