@@ -60,7 +60,8 @@
 | 首頁底部「聯繫」三尊資料與版面 | 已實作 |
 | 後台引薦成果／案例 | 已實作 |
 | 架構階段 A–D（Query、Admin 拆分、E2E、文件） | 已合併 `main` |
-| 2026-09-21 八大產業、同名會員、會籍凍結、引薦改走會員 id | 已合併 `main`（見 `docs/industry-members-20260921.md`） |
+| 2026-09-21 八大產業、會籍凍結、引薦改走會員 id | 已合併 `main`（見 `docs/industry-members-20260921.md`） |
+| 2026-09-22 機電改名陽明翰M、補泰安楊明翰；張瀞文／林育聖照片 | 資料在 Supabase；檔案與 SQL 在本分支 |
 | 前台視覺／LINE OG／例會 Gallery Hero | PR #12，尚未部署 |
 | `@tanstack/react-query` 為 **dependencies** | 已修正 |
 | 會員／引薦頁錯誤「重試」改 **invalidateQueries** | 已修正 |
