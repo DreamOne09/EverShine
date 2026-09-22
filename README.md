@@ -31,13 +31,13 @@
 *   **[Contact] 領導團隊**：動態連結最新任主席、副主席、秘財之聯繫方式。
 
 ### 2. 成員名錄 (Members Page) - 專業媒合
-*   **[Filter] 行業篩選**：透過標籤快速找尋特定產業的專業人士。
-*   **[Grid] 會員列表**：以簡約大氣的卡片形式展示所有成員。
-*   **[Profile] 會員詳頁**：深入了解成員的服務內容、經歷與聯繫方式。
+*   **[Filter] 行業篩選**：八大產業標籤（見 `site.config.industries`）。
+*   **[Grid] 會員列表**：現役約 59 位；離會會員凍結後不出現在名錄，歷史引薦仍保留。
+*   **[Profile] 會員詳頁**：以穩定會員 **id** 為主鍵。同名（例如兩位楊明翰）各是獨立檔案，舊姓名網址只在唯一匹配時才解析。
 
 ### 3. 引薦報告 (Referrals Page) - 成果展示
 *   **[Referral Stats] 統計數據**：展示分會內部的互助成果。
-*   **[Showcase] 引薦案例**：分享成功的商務對接故事。列表為手機單欄、平板兩欄、桌面三欄。前台以 Supabase `referrals` 為主，並合併 `src/data/referral-cases-extra.json`（同一 `id` 以資料庫為準）。新增案例後請執行 `python3 scripts/build_referrals_extra_sql.py`，再到 Supabase SQL Editor 執行產生的 SQL，讓後台列表同步。客戶品牌請走 `src/data/referral-brand-replacements.json` 去識別化（夥伴自己的公司名可保留）。
+*   **[Showcase] 引薦案例**：分享成功的商務對接故事。列表為手機單欄、平板兩欄、桌面三欄。前台以 Supabase `referrals` 為主，並合併 `src/data/referral-cases-extra.json`（同一 `id` 以資料庫為準）。引薦人／被引薦人用 `referrer_id`／`referee_id` 對應會員，不再用姓名當唯一鍵。新增案例後請執行 `python3 scripts/build_referrals_extra_sql.py`，再到 Supabase SQL Editor 執行產生的 SQL，讓後台列表同步。客戶品牌請走 `src/data/referral-brand-replacements.json` 去識別化（夥伴自己的公司名可保留）。
 
 ### 4. 會員中心 (Member Edit) - 自主管理
 *   **[Auth] 會員登入**：支援 Email 與 Google 快速登入。
@@ -46,11 +46,32 @@
 
 ---
 
+## 📌 近期前台更新（請勿跟「還沒上線的視覺 PR」搞混）
+
+### 已在 `main`／正式站（2026-09-21）
+
+這些是會員資料與分類的前台更新，細節在 `docs/member-update-20260921.md`、`docs/industry-members-20260921.md`。
+
+*   **八大產業**：居住空間與工程、品牌整合與行銷、健康照護與身心、金融財富與資產、數位科技與智能應用、學習成長與探索、生活服務與消費、企業經營與法稅。
+*   **9 月會籍**：吳貞妮產業改為文創商業設計；湯益承、吳儀沂凍結離會，名錄不顯示、引薦故事不刪。
+*   **新會員照片**：蔡宇正、江啟亮、劉宗霖等已進 `public/images/members/`。
+*   **同名會員**：兩位楊明翰分開（id=48 泰安產險；另一筆欣楠科技，暫用預設圖）。姓名不再唯一。
+*   **引薦對人**：後台選單與前台頭像改走會員 id（`referrer_id`／`referee_id`），避免同名對錯人。
+*   正式名單以 **Supabase `members`** 為準，不要把 `public/data/members.json` 整份匯回去覆蓋。
+
+### 還在 PR [#12](https://github.com/DreamOne09/EverShine/pull/12)、尚未部署
+
+*   LINE 1200×630 分享圖、全站 meta、首頁主標與三 CTA、來訪三步驟。
+*   玻璃高光／琺瑯按鈕等質感。
+*   首頁地球底圖；會員／認識 BNI／引薦／登入改為真實會員例會 Gallery。
+
+---
+
 ## 🚀 核心技術 (Tech Stack)
 
 | 類別 | 技術 | 說明 |
 | :--- | :--- | :--- |
-| **前端** | React 18 / Vite | 極速開發與部署 |
+| **前端** | React 19 / Vite 7 | 極速開發與部署 |
 | **樣式** | Tailwind 4 | 現代化、可擴展的 CSS 框架 |
 | **資料庫** | Supabase DB | PostgreSQL 強大驅動 |
 | **驗證** | Supabase Auth | 提供多方登入與安全 Session |
@@ -77,6 +98,9 @@ VITE_TURNSTILE_SITE_KEY=機器人防護_KEY
 ## 📚 開發文件
 
 ### 核心文件
+- **[前端架構](docs/ARCHITECTURE.md)** - 技術棧、資料來源對照、載入 UX
+- **[2026-09-21 會籍更新](docs/member-update-20260921.md)** - 吳貞妮產業、湯益承／吳儀沂凍結離會
+- **[八大產業與同名會員](docs/industry-members-20260921.md)** - 現役 59 位、八分類、兩位楊明翰、引薦改走會員 id
 - **[Supabase 整合指南](docs/SUPABASE_INTEGRATION_GUIDE.md)** - 完整的 Supabase 互動說明，包括連接設定、資料操作、安全性設定等
 
 ### 安全性文件

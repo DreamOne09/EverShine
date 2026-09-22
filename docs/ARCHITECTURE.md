@@ -30,8 +30,8 @@
 | 使用者看到 | 資料表 / 來源 |
 |------------|----------------|
 | 首頁「引薦成果」數字 | `homepage_stats`（後台 **設定** 分頁） |
-| 引薦案例列表／內容 | `referrals`（後台 **引薦** 分頁；前台 `/referrals` 會再合併 `src/data/referral-cases-extra.json`，同一 id 以資料庫為準）。前台會套用 `src/data/referral-brand-replacements.json`，把客戶品牌改成通稱。 |
-| 會員名錄 | `members` |
+| 引薦案例列表／內容 | `referrals`（後台 **引薦** 分頁；前台 `/referrals` 會再合併 `src/data/referral-cases-extra.json`，同一 id 以資料庫為準）。人用 `referrer_id`／`referee_id` 對會員，不再用姓名當唯一鍵。前台會套用 `src/data/referral-brand-replacements.json`，把客戶品牌改成通稱。 |
+| 會員名錄 | `members`（僅 `active`；離會凍結不公開）。分類為 `site.config.industries` 八大產業。個人頁以會員 id 為準。 |
 
 ## 載入 UX
 
@@ -60,6 +60,8 @@
 | 首頁底部「聯繫」三尊資料與版面 | 已實作 |
 | 後台引薦成果／案例 | 已實作 |
 | 架構階段 A–D（Query、Admin 拆分、E2E、文件） | 已合併 `main` |
+| 2026-09-21 八大產業、同名會員、會籍凍結、引薦改走會員 id | 已合併 `main`（見 `docs/industry-members-20260921.md`） |
+| 前台視覺／LINE OG／例會 Gallery Hero | PR #12，尚未部署 |
 | `@tanstack/react-query` 為 **dependencies** | 已修正 |
 | 會員／引薦頁錯誤「重試」改 **invalidateQueries** | 已修正 |
 | `.agent` 檢查腳本（Layout、dist、useMembers 等） | 已更新，遷移檢查可 100% 通過 |
