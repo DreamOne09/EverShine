@@ -61,7 +61,7 @@ export const siteConfig = {
     },
 
     /** Claim 密碼應從環境變數讀取，fallback 僅供開發環境 */
-    claimPassword: import.meta.env.VITE_CLAIM_PASSWORD || 'evershine2026',
+    claimPassword: import.meta.env.VITE_CLAIM_PASSWORD || 'evershine',
 
     industries: [
         '居住空間與工程',

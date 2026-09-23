@@ -1,24 +1,24 @@
 -- 2026-09-22
--- 機電設計那位改名為「陽明翰M」，不再跟泰安產險「楊明翰」同名。
+-- 機電設計那位改名為「楊明翰M」，不再跟泰安產險「楊明翰」同名。
 -- 正式站先前只有一筆混在一起的 id=48（公司/介紹是欣楠機電，產業卻寫產物保險）。
 -- 此腳本：把 id=48 還原成機電並改名；另建泰安產險楊明翰。不刪引薦。
 
 BEGIN;
 
--- 1) 現有 id=48 是欣楠科技機電設計 → 陽明翰M
+-- 1) 現有 id=48 是欣楠科技機電設計 → 楊明翰M
 UPDATE public.members
 SET
-  name = '陽明翰M',
+  name = '楊明翰M',
   industry = '機電設計',
   category = '居住空間與工程',
   company = '欣楠科技股份有限公司',
   "Company" = '欣楠科技股份有限公司',
   phone = COALESCE(phone, '0978059263'),
   email = COALESCE(email, 'sunshineminghan@gmail.com'),
-  hashtags = ARRAY['#機電設計', '#陽明翰M', '#BNI長輝白金分會'],
+  hashtags = ARRAY['#機電設計', '#楊明翰M', '#BNI長輝白金分會'],
   "updatedAt" = now()
 WHERE id = 48
-  AND name IN ('楊明翰', '陽明翰M')
+  AND name IN ('楊明翰', '楊明翰M')
   AND company = '欣楠科技股份有限公司';
 
 -- 2) 泰安產險楊明翰（新紀錄；照片尚未提供則用預設 logo）
@@ -52,9 +52,9 @@ DO $$
 BEGIN
   IF NOT EXISTS (
     SELECT 1 FROM public.members
-    WHERE id = 48 AND name = '陽明翰M' AND industry = '機電設計' AND status = 'active'
+    WHERE id = 48 AND name = '楊明翰M' AND industry = '機電設計' AND status = 'active'
   ) THEN
-    RAISE EXCEPTION '陽明翰M identity not applied';
+    RAISE EXCEPTION '楊明翰M identity not applied';
   END IF;
   IF NOT EXISTS (
     SELECT 1 FROM public.members
@@ -62,8 +62,8 @@ BEGIN
   ) THEN
     RAISE EXCEPTION 'Insurance 楊明翰 not inserted';
   END IF;
-  IF (SELECT count(*) FROM public.members WHERE name IN ('楊明翰', '陽明翰M') AND status = 'active') <> 2 THEN
-    RAISE EXCEPTION 'Expected 楊明翰 and 陽明翰M as two active members';
+  IF (SELECT count(*) FROM public.members WHERE name IN ('楊明翰', '楊明翰M') AND status = 'active') <> 2 THEN
+    RAISE EXCEPTION 'Expected 楊明翰 and 楊明翰M as two active members';
   END IF;
 END $$;
 
@@ -71,5 +71,5 @@ COMMIT;
 
 SELECT id, name, company, industry, category, status
 FROM public.members
-WHERE name IN ('楊明翰', '陽明翰M')
+WHERE name IN ('楊明翰', '楊明翰M')
 ORDER BY id;

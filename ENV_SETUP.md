@@ -33,6 +33,9 @@ GITHUB_BRANCH=main
 # Cloudflare Turnstile（機器人防護，可選）
 VITE_TURNSTILE_SITE_KEY=your_turnstile_site_key
 
+# 分會認領密碼（會員綁定檔案用；未設定時程式預設 evershine）
+VITE_CLAIM_PASSWORD=evershine
+
 # Server Port（預設 8080）
 PORT=8080
 
