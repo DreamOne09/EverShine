@@ -55,8 +55,8 @@ UPDATE public.members SET category='居住空間與工程', "updatedAt"=now() WH
 UPDATE public.members SET category='品牌整合與行銷', "updatedAt"=now() WHERE (status='active' OR status IS NULL) AND (id IN (10,11,27,30,41,44,46,49,56,1011));
 UPDATE public.members SET category='健康照護與身心', "updatedAt"=now() WHERE (status='active' OR status IS NULL) AND (id IN (1,4,9,19,20,22,23,1007));
 UPDATE public.members SET category='金融財富與資產', "updatedAt"=now() WHERE (status='active' OR status IS NULL) AND (id IN (2,5,34,48,50,53) OR name IN ('江啟亮'));
-UPDATE public.members SET category='數位科技與智能應用', "updatedAt"=now() WHERE (status='active' OR status IS NULL) AND (id IN (32,33,39,40,54));
-UPDATE public.members SET category='學習成長與探索', "updatedAt"=now() WHERE (status='active' OR status IS NULL) AND (id IN (26,37,1012,1013,1014,1016));
+UPDATE public.members SET category='數位科技與應用', "updatedAt"=now() WHERE (status='active' OR status IS NULL) AND (id IN (32,33,39,40,54,1012));
+UPDATE public.members SET category='學習成長與探索', "updatedAt"=now() WHERE (status='active' OR status IS NULL) AND (id IN (26,37,1013,1014,1016));
 UPDATE public.members SET category='生活服務與消費', "updatedAt"=now() WHERE (status='active' OR status IS NULL) AND (id IN (3,21,28,51,59,63,1015));
 UPDATE public.members SET category='企業經營與法稅', "updatedAt"=now() WHERE (status='active' OR status IS NULL) AND (id IN (7,13,14,18,24));
 DO $$ BEGIN
@@ -65,8 +65,8 @@ DO $$ BEGIN
   IF (SELECT count(*) FROM public.members WHERE (status='active' OR status IS NULL) AND category='品牌整合與行銷') <> 10 THEN RAISE EXCEPTION 'Unexpected count for 品牌整合與行銷'; END IF;
   IF (SELECT count(*) FROM public.members WHERE (status='active' OR status IS NULL) AND category='健康照護與身心') <> 8 THEN RAISE EXCEPTION 'Unexpected count for 健康照護與身心'; END IF;
   IF (SELECT count(*) FROM public.members WHERE (status='active' OR status IS NULL) AND category='金融財富與資產') <> 7 THEN RAISE EXCEPTION 'Unexpected count for 金融財富與資產'; END IF;
-  IF (SELECT count(*) FROM public.members WHERE (status='active' OR status IS NULL) AND category='數位科技與智能應用') <> 5 THEN RAISE EXCEPTION 'Unexpected count for 數位科技與智能應用'; END IF;
-  IF (SELECT count(*) FROM public.members WHERE (status='active' OR status IS NULL) AND category='學習成長與探索') <> 6 THEN RAISE EXCEPTION 'Unexpected count for 學習成長與探索'; END IF;
+  IF (SELECT count(*) FROM public.members WHERE (status='active' OR status IS NULL) AND category='數位科技與應用') <> 6 THEN RAISE EXCEPTION 'Unexpected count for 數位科技與應用'; END IF;
+  IF (SELECT count(*) FROM public.members WHERE (status='active' OR status IS NULL) AND category='學習成長與探索') <> 5 THEN RAISE EXCEPTION 'Unexpected count for 學習成長與探索'; END IF;
   IF (SELECT count(*) FROM public.members WHERE (status='active' OR status IS NULL) AND category='生活服務與消費') <> 7 THEN RAISE EXCEPTION 'Unexpected count for 生活服務與消費'; END IF;
   IF (SELECT count(*) FROM public.members WHERE (status='active' OR status IS NULL) AND category='企業經營與法稅') <> 5 THEN RAISE EXCEPTION 'Unexpected count for 企業經營與法稅'; END IF;
   IF (SELECT count(*) FROM public.members WHERE name='楊明翰' AND status='active') <> 2 THEN RAISE EXCEPTION 'Expected two distinct Yang members'; END IF;
