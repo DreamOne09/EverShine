@@ -24,7 +24,7 @@
 
 1. **evershine.tw 公開官網**（本 repo）— 進行中。
 2. **EverShine AI** — GCP VM，資料庫另在 Zeabur；先不要整合，除非長輝要。
-3. **EverShine OS 後台** — 尚未開工。Wiki：`https://github.com/tripletech-ai/BNI-Evershine-wiki`。
+3. **EverShine OS 後台** — 2026-10-06 起在本 repo 的 `/admin` 開工（PR [#13](https://github.com/DreamOne09/EverShine/pull/13)）：功能選單 + 委員會會議紀錄（會後行動自動帶入下次）。來賓跟進規劃中。需先執行 `scripts/migration_committee_meetings_20261006.sql`。Wiki：`https://github.com/tripletech-ai/BNI-Evershine-wiki`。
 
 ### Git／PR 現況
 

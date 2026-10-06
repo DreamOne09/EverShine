@@ -39,7 +39,7 @@ const createEmptyReferralForm = (): ReferralFormState => ({
 });
 
 const Admin: React.FC = () => {
-    const { user } = useAuth();
+    const { user, loading: authLoading } = useAuth();
     const navigate = useNavigate();
     const queryClient = useQueryClient();
     const [initialLoad, setInitialLoad] = useState(true);
@@ -82,6 +82,7 @@ const Admin: React.FC = () => {
     }, [dashboardQuery.data]);
 
     const checkAdmin = useCallback(async () => {
+        if (authLoading) return;
         if (!user) {
             navigate('/login');
             return;
@@ -92,7 +93,7 @@ const Admin: React.FC = () => {
         } catch {
             navigate('/');
         }
-    }, [user, navigate]);
+    }, [user, authLoading, navigate]);
 
     useEffect(() => {
         void checkAdmin();
@@ -315,7 +316,7 @@ const Admin: React.FC = () => {
                     {activeModule.id !== 'committee' && <AdminHelpBanner />}
 
                     <div className="space-y-6">
-                        {activeModule.id === 'committee' && (
+                        {activeModule.id === 'committee' && user && (
                             <CommitteeModule
                                 members={members}
                                 view={activeView as CommitteeView}
