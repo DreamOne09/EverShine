@@ -11,6 +11,9 @@ export const queryKeys = {
     admin: {
         dashboard: ['admin', 'dashboard'] as const,
     },
+    committee: {
+        bundle: ['committee', 'bundle'] as const,
+    },
     homepageStats: {
         all: ['homepage_stats'] as const,
         history: ['homepage_stats', 'history'] as const,
