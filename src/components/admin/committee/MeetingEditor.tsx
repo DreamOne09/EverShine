@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { ClipboardCopy, History, Lock, LockOpen, Plus, Trash2 } from 'lucide-react';
+import { AlertCircle, CheckCircle2, ClipboardCopy, History, Loader2, Lock, LockOpen, Plus, Trash2 } from 'lucide-react';
 import { createAgendaItem, deleteMeeting, updateMeeting, type CommitteeBundle } from '../../../api/committee';
 import {
     carriedActionsFor,
@@ -14,7 +14,7 @@ import ActionItemCard from './ActionItemCard';
 import AddActionForm from './AddActionForm';
 import AgendaItemRow from './AgendaItemRow';
 import MemberSelect from './MemberSelect';
-import { inputClass, type MemberOption, type RunCommittee } from './memberOptions';
+import { inputClass, type MemberOption, type RunCommittee, type SaveState } from './memberOptions';
 
 interface MeetingEditorProps {
     meeting: CommitteeMeeting;
@@ -22,9 +22,34 @@ interface MeetingEditorProps {
     options: MemberOption[];
     nameOf: (id: number | null | undefined) => string;
     run: RunCommittee;
+    saveState: SaveState;
+    savedAt: Date | null;
     onOpenMeeting: (id: string) => void;
     onDeleted: () => void;
 }
+
+const SaveIndicator: React.FC<{ state: SaveState; savedAt: Date | null }> = ({ state, savedAt }) => {
+    if (state === 'saving')
+        return (
+            <span className="inline-flex items-center gap-1 text-xs text-gray-400">
+                <Loader2 size={13} className="animate-spin" /> 儲存中…
+            </span>
+        );
+    if (state === 'failed')
+        return (
+            <span className="inline-flex items-center gap-1 text-xs font-bold text-rose-300">
+                <AlertCircle size={13} /> 上一次儲存失敗
+            </span>
+        );
+    if (state === 'saved' && savedAt)
+        return (
+            <span className="inline-flex items-center gap-1 text-xs text-emerald-300/90">
+                <CheckCircle2 size={13} /> 已自動儲存{' '}
+                {savedAt.toLocaleTimeString('zh-TW', { hour: '2-digit', minute: '2-digit', hour12: false })}
+            </span>
+        );
+    return <span className="text-xs text-gray-500">內容會自動儲存</span>;
+};
 
 const panel = 'rounded-2xl border border-white/10 bg-bg-dark/50 p-4 md:p-5';
 
@@ -34,10 +59,13 @@ const MeetingEditor: React.FC<MeetingEditorProps> = ({
     options,
     nameOf,
     run,
+    saveState,
+    savedAt,
     onOpenMeeting,
     onDeleted,
 }) => {
     const [addingLoose, setAddingLoose] = useState(false);
+    const [focusSection, setFocusSection] = useState<string | null>(null);
     const readOnly = meeting.status === 'finalized';
     const defaultDue = defaultDueDate(meeting.meeting_date);
 
@@ -57,6 +85,7 @@ const MeetingEditor: React.FC<MeetingEditorProps> = ({
 
     const addItem = (section: (typeof COMMITTEE_SECTIONS)[number]['id']) => {
         const max = agenda.filter((a) => a.section === section).reduce((m, a) => Math.max(m, a.sort_order), -1);
+        setFocusSection(section);
         void run(() => createAgendaItem({ meeting_id: meeting.id, section, sort_order: max + 1, content: '' }));
     };
 
@@ -96,6 +125,7 @@ const MeetingEditor: React.FC<MeetingEditorProps> = ({
                     >
                         {readOnly ? '已定稿' : '草稿'}
                     </span>
+                    <SaveIndicator state={saveState} savedAt={savedAt} />
                     <div className="ml-auto flex flex-wrap gap-2">
                         <button
                             type="button"
@@ -221,6 +251,7 @@ const MeetingEditor: React.FC<MeetingEditorProps> = ({
                                         nameOf={nameOf}
                                         run={run}
                                         readOnly={readOnly}
+                                        autoFocus={focusSection === section.id && i === items.length - 1 && !item.content}
                                     />
                                 ))}
                             </ol>

@@ -4,6 +4,8 @@ export interface MemberOption {
     active: boolean;
 }
 
+export type SaveState = 'idle' | 'saving' | 'saved' | 'failed';
+
 export type RunCommittee = (fn: () => Promise<unknown>) => Promise<boolean>;
 
 export const toMemberOptions = (members: Record<string, unknown>[]): MemberOption[] =>
