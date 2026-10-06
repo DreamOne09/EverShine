@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { ListPlus, Trash2 } from 'lucide-react';
 import { deleteAgendaItem, updateAgendaItem } from '../../../api/committee';
 import type { CommitteeActionItem, CommitteeAgendaItem, CommitteeSectionDef } from '../../../lib/committee';
@@ -19,7 +19,10 @@ interface AgendaItemRowProps {
     nameOf: (id: number | null | undefined) => string;
     run: RunCommittee;
     readOnly: boolean;
+    autoFocus?: boolean;
 }
+
+const AUTOSAVE_MS = 1200;
 
 const AgendaItemRow: React.FC<AgendaItemRowProps> = ({
     item,
@@ -32,15 +35,27 @@ const AgendaItemRow: React.FC<AgendaItemRowProps> = ({
     nameOf,
     run,
     readOnly,
+    autoFocus,
 }) => {
     const [content, setContent] = useState(item.content);
     const [adding, setAdding] = useState(false);
+    const savedRef = useRef(item.content);
+    const latestRef = useRef(item.content);
 
-    const saveContent = () => {
-        const next = sanitizeText(content, 4000).trim();
-        if (next === item.content) return;
+    const saveContent = useCallback(() => {
+        const next = sanitizeText(latestRef.current, 4000).trim();
+        if (next === savedRef.current) return;
+        savedRef.current = next;
         void run(() => updateAgendaItem(item.id, { content: next }));
-    };
+    }, [run, item.id]);
+
+    useEffect(() => {
+        if (readOnly) return;
+        const t = window.setTimeout(saveContent, AUTOSAVE_MS);
+        return () => window.clearTimeout(t);
+    }, [content, readOnly, saveContent]);
+
+    useEffect(() => saveContent, [saveContent]);
 
     const remove = () => {
         const msg = actions.length
@@ -69,7 +84,11 @@ const AgendaItemRow: React.FC<AgendaItemRowProps> = ({
                         value={content}
                         disabled={readOnly}
                         rows={2}
-                        onChange={(e) => setContent(e.target.value)}
+                        autoFocus={autoFocus}
+                        onChange={(e) => {
+                            latestRef.current = e.target.value;
+                            setContent(e.target.value);
+                        }}
                         onBlur={saveContent}
                         placeholder={section.hint}
                         className={`${inputClass} resize-y leading-relaxed`}

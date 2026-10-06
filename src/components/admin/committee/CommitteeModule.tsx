@@ -13,7 +13,7 @@ import { formatMeetingDate, nextMeetingDate } from '../../../lib/committee';
 import { ErrorFallback } from '../../loading';
 import ActionBoard from './ActionBoard';
 import MeetingEditor from './MeetingEditor';
-import { toMemberOptions, type RunCommittee } from './memberOptions';
+import { toMemberOptions, type RunCommittee, type SaveState } from './memberOptions';
 
 export type CommitteeView = 'meetings' | 'actions';
 
@@ -49,7 +49,10 @@ const SetupNotice: React.FC<{ onRetry: () => void }> = ({ onRetry }) => (
 const CommitteeModule: React.FC<CommitteeModuleProps> = ({ members, view, onViewChange }) => {
     const queryClient = useQueryClient();
     const [searchParams, setSearchParams] = useSearchParams();
-    const [busy, setBusy] = useState(false);
+    const [pending, setPending] = useState(0);
+    const [savedAt, setSavedAt] = useState<Date | null>(null);
+    const [saveFailed, setSaveFailed] = useState(false);
+    const busy = pending > 0;
 
     const query = useQuery({
         queryKey: queryKeys.committee.bundle,
@@ -64,20 +67,32 @@ const CommitteeModule: React.FC<CommitteeModuleProps> = ({ members, view, onView
 
     const run: RunCommittee = useCallback(
         async (fn) => {
-            setBusy(true);
+            setPending((n) => n + 1);
             try {
                 await fn();
                 await queryClient.invalidateQueries({ queryKey: queryKeys.committee.bundle });
+                setSavedAt(new Date());
+                setSaveFailed(false);
                 return true;
             } catch (e) {
+                setSaveFailed(true);
                 alert('儲存失敗：' + (e instanceof Error ? e.message : String(e)));
                 return false;
             } finally {
-                setBusy(false);
+                setPending((n) => n - 1);
             }
         },
         [queryClient]
     );
+
+    useEffect(() => {
+        if (!busy) return;
+        const warn = (e: BeforeUnloadEvent) => e.preventDefault();
+        window.addEventListener('beforeunload', warn);
+        return () => window.removeEventListener('beforeunload', warn);
+    }, [busy]);
+
+    const saveState: SaveState = busy ? 'saving' : saveFailed ? 'failed' : savedAt ? 'saved' : 'idle';
 
     const meetings = useMemo(() => query.data?.meetings ?? [], [query.data]);
     const selectedId = searchParams.get('meeting');
@@ -150,7 +165,26 @@ const CommitteeModule: React.FC<CommitteeModuleProps> = ({ members, view, onView
                 >
                     <CalendarPlus size={18} /> 新增會議紀錄
                 </button>
-                <div className="max-h-[60vh] space-y-1.5 overflow-y-auto pr-1 [scrollbar-width:thin]">
+                {meetings.length > 0 && (
+                    <select
+                        value={selected?.id ?? ''}
+                        onChange={(e) => selectMeeting(e.target.value)}
+                        aria-label="選擇會議"
+                        className="w-full rounded-xl border border-white/10 bg-black/30 px-3 py-3 text-sm font-bold text-white focus:border-primary focus:outline-none lg:hidden"
+                    >
+                        {meetings.map((m) => {
+                            const open = bundle.actions.filter((a) => a.meeting_id === m.id && a.status === 'open').length;
+                            return (
+                                <option key={m.id} value={m.id}>
+                                    {formatMeetingDate(m.meeting_date)}
+                                    {m.status === 'finalized' ? '・已定稿' : '・草稿'}
+                                    {open > 0 ? `・追蹤中 ${open}` : ''}
+                                </option>
+                            );
+                        })}
+                    </select>
+                )}
+                <div className="hidden max-h-[60vh] space-y-1.5 overflow-y-auto pr-1 [scrollbar-width:thin] lg:block">
                     {meetings.length === 0 && (
                         <p className="rounded-xl border border-white/5 px-3 py-6 text-center text-sm text-gray-500">
                             還沒有會議紀錄
@@ -200,12 +234,14 @@ const CommitteeModule: React.FC<CommitteeModuleProps> = ({ members, view, onView
                         options={options}
                         nameOf={nameOf}
                         run={run}
+                        saveState={saveState}
+                        savedAt={savedAt}
                         onOpenMeeting={openMeeting}
                         onDeleted={() => selectMeeting(null)}
                     />
                 ) : (
                     <div className="rounded-2xl border border-white/10 bg-bg-dark/50 px-6 py-16 text-center text-gray-400">
-                        按左上「新增會議紀錄」開始第一次的委員會會議。
+                        按「新增會議紀錄」開始第一次的委員會會議。
                     </div>
                 )}
             </div>
