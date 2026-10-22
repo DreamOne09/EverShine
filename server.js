@@ -228,8 +228,8 @@ function isHttpsRequest(req) {
 
 function applySecurityHeaders(res) {
     // 強制 HTTPS（瀏覽器一年內自動把 http 升級為 https）。
-    // 注意：HSTS 一旦下發很難撤回；先用 1 年但 preload 不開，安全可控。
-    res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+    // 注意：HSTS 一旦下發很難撤回；先用 1 年，未確認所有子網域皆 HTTPS 前不加 includeSubDomains / preload。
+    res.setHeader('Strict-Transport-Security', 'max-age=31536000');
     // 防點擊劫持（不允許他站 iframe 嵌入本站）
     res.setHeader('X-Frame-Options', 'SAMEORIGIN');
     // 防 MIME sniffing
@@ -237,7 +237,7 @@ function applySecurityHeaders(res) {
     // 跨站來源政策：對外連結僅送出 origin（不漏路徑）
     res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
     // 預設關閉危險瀏覽器 API；如未來要用相機/位置可在前端 request 時再 prompt
-    res.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=(), interest-cohort=()');
+    res.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=(), payment=()');
 }
 
 const server = http.createServer((req, res) => {
