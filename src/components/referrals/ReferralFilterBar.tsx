@@ -1,5 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
+import { motion } from 'motion/react';
+import { useMotionTokens, useShouldReduceMotion } from '@animate-ui/react/utils/motion';
 import { Search, X } from 'lucide-react';
 import { REFERRAL_CATEGORIES } from '../../lib/referralFilter';
 
@@ -35,6 +37,9 @@ const ReferralFilterBar: React.FC<ReferralFilterBarProps> = ({
     filteredCount,
     categoryCounts,
 }) => {
+    const reduce = useShouldReduceMotion();
+    const { spring, scale } = useMotionTokens();
+    const pressedTransform = reduce ? 'scale(1)' : `scale(${scale.press})`;
     const hasActiveFilters = query.trim().length > 0 || activeCategory !== '全部';
 
     return (
@@ -52,7 +57,7 @@ const ReferralFilterBar: React.FC<ReferralFilterBarProps> = ({
                         onChange={(e) => onQueryChange(e.target.value)}
                         placeholder="搜尋案例、會員姓名、產業或關鍵字…"
                         aria-label="搜尋引薦案例"
-                        className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-11 pr-10 text-white placeholder-gray-500 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/40 transition-all text-sm md:text-base"
+                        className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-11 pr-10 text-white placeholder-gray-500 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/40 transition-colors text-sm md:text-base"
                     />
                     {query && (
                         <button
@@ -67,35 +72,48 @@ const ReferralFilterBar: React.FC<ReferralFilterBarProps> = ({
                 </div>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2" role="tablist" aria-label="案例產業分類">
                 {REFERRAL_CATEGORIES.map((cat) => {
                     const count = categoryCounts.get(cat) ?? 0;
                     const isActive = activeCategory === cat;
                     const shortLabel = CATEGORY_SHORT_LABELS[cat] ?? cat;
                     return (
-                        <button
+                        <motion.button
                             key={cat}
                             type="button"
+                            role="tab"
+                            aria-selected={isActive}
                             title={cat}
+                            initial={{ transform: 'scale(1)' }}
+                            whileTap={{ transform: pressedTransform }}
+                            transition={spring.press}
                             onClick={() => onCategoryChange(cat)}
                             className={clsx(
-                                'rounded-xl border transition-all duration-200 text-left',
+                                'relative rounded-xl border transition-colors duration-200 text-left',
                                 'px-2.5 py-2 text-xs sm:text-sm flex items-center justify-between gap-1.5 min-h-[2.75rem]',
                                 isActive
-                                    ? 'bg-platinum text-bg-dark border-platinum font-bold shadow-[0_0_12px_rgba(212,160,23,0.25)]'
+                                    ? 'text-bg-dark border-platinum font-bold'
                                     : 'bg-white/5 text-gray-300 border-white/10 hover:border-platinum/50 hover:text-platinum-soft'
                             )}
                         >
-                            <span className="leading-tight line-clamp-2">{shortLabel}</span>
+                            {isActive && (
+                                <motion.span
+                                    layoutId="referral-category-indicator"
+                                    transition={spring.selection}
+                                    className="absolute inset-0 rounded-xl bg-platinum shadow-[0_0_12px_rgba(212,160,23,0.25)]"
+                                    aria-hidden
+                                />
+                            )}
+                            <span className="relative z-10 leading-tight line-clamp-2">{shortLabel}</span>
                             <span
                                 className={clsx(
-                                    'tabular-nums text-[10px] px-1.5 py-0.5 rounded-full shrink-0',
+                                    'relative z-10 tabular-nums text-[10px] px-1.5 py-0.5 rounded-full shrink-0',
                                     isActive ? 'bg-bg-dark/20 text-bg-dark' : 'bg-white/10 text-gray-400'
                                 )}
                             >
                                 {count}
                             </span>
-                        </button>
+                        </motion.button>
                     );
                 })}
             </div>

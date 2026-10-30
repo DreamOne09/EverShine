@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import type { Member } from '../../types';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
+import { useMotionTokens, useShouldReduceMotion } from '@animate-ui/react/utils/motion';
 import clsx from 'clsx';
 import { Phone } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -24,9 +25,13 @@ function getPhotoUrl(photo: string) {
     return clean.startsWith('/') ? clean : `/${clean}`;
 }
 
-/** 直式菁英名片：沈浸磨砂玻璃 + hover 呼吸環與微放大 */
+/** 直式菁英名片：磨砂玻璃 + 按壓彈簧回饋 + 頭像微縮放 */
 const MemberCard: React.FC<MemberCardProps> = ({ member, onOpenDetails }) => {
     const navigate = useNavigate();
+    const reduce = useShouldReduceMotion();
+    const { spring, scale } = useMotionTokens();
+    const pressedTransform = reduce ? 'scale(1)' : `scale(${scale.choice})`;
+
     const [imgSrc, setImgSrc] = useState(getPhotoUrl(member.photo));
     React.useEffect(() => {
         setImgSrc(getPhotoUrl(member.photo));
@@ -36,12 +41,10 @@ const MemberCard: React.FC<MemberCardProps> = ({ member, onOpenDetails }) => {
     const titleLine = member.position || member.title || '';
     const memberHref = `/member/${buildMemberSlug(member)}`;
 
-    /** 點卡片空白處：導去個別頁；按鈕/連結等子元素已 stopPropagation 不會誤觸發 */
     const handleCardClick = () => {
         navigate(memberHref);
     };
 
-    /** 鍵盤 Enter / Space 也能進個別頁（無障礙） */
     const handleCardKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
         if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();
@@ -63,27 +66,24 @@ const MemberCard: React.FC<MemberCardProps> = ({ member, onOpenDetails }) => {
         'flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-white/[0.06] text-slate-200 transition-colors hover:border-sky-400/40 hover:bg-sky-500/10 hover:text-sky-100';
 
     return (
-        <motion.div
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 8 }}
-            transition={{ duration: 0.25 }}
-            className="flex h-full min-h-[23rem] flex-col sm:min-h-[26rem]"
-        >
-            <div
+        <div className="flex h-full min-h-[23rem] flex-col sm:min-h-[26rem]">
+            <motion.div
                 role="link"
                 tabIndex={0}
+                initial={{ transform: 'scale(1)' }}
+                whileTap={{ transform: pressedTransform }}
+                transition={spring.press}
                 onClick={handleCardClick}
                 onKeyDown={handleCardKeyDown}
                 aria-label={`查看 ${member.name} 的會員頁`}
                 className={clsx(
                     'group relative flex h-full min-h-[23rem] cursor-pointer flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-4 pt-5 backdrop-blur-2xl sm:min-h-[26rem] sm:p-5 sm:pt-6',
-                    'transition-all duration-300 ease-out',
-                    'active:scale-[0.99] hover:scale-[1.02] hover:ring-1 hover:ring-blue-500/50 hover:shadow-[0_0_32px_rgba(59,130,246,0.12)]',
+                    'transition-[border-color,box-shadow,translate] duration-300 ease-out',
+                    'hover:-translate-y-0.5 motion-reduce:hover:translate-y-0 hover:border-sky-400/45 hover:shadow-[0_0_32px_rgba(59,130,246,0.14)]',
                     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary'
                 )}
             >
-                {/* 產業標籤：右上角膠囊（短字單行 / 長字自動 2 行） */}
+                {/* 產業標籤：右上角膠囊 */}
                 <span
                     className="absolute right-2.5 top-2.5 z-10 block max-w-[58%] rounded-2xl border border-sky-400/25 bg-sky-500/10 px-2.5 py-1 text-center text-[11px] font-semibold leading-tight tracking-wide text-sky-100 line-clamp-2 backdrop-blur-md sm:right-3 sm:top-3 sm:max-w-[62%] sm:px-3 sm:text-xs"
                     title={member.industry || '未分類'}
@@ -91,7 +91,7 @@ const MemberCard: React.FC<MemberCardProps> = ({ member, onOpenDetails }) => {
                     {member.industry || '未分類'}
                 </span>
 
-                {/* 金質獎章：左上角王冠（單金質一枚、雙金質兩枚） */}
+                {/* 金質獎章：左上角王冠 */}
                 {goldMedalCount > 0 ? (
                     <GoldMedalBadge
                         count={goldMedalCount}
@@ -101,19 +101,19 @@ const MemberCard: React.FC<MemberCardProps> = ({ member, onOpenDetails }) => {
                 ) : null}
 
                 <div className="flex flex-1 flex-col items-center text-center">
-                    {/* 大頭照：直式名片視覺重心 */}
+                    {/* 大頭照 */}
                     <div className="mb-3 mt-1 h-28 w-28 shrink-0 overflow-hidden rounded-full border border-white/40 shadow-[0_16px_48px_rgba(0,0,0,0.45)] ring-1 ring-white/10 sm:mb-4 sm:mt-2 sm:h-[8.5rem] sm:w-[8.5rem] lg:h-[9rem] lg:w-[9rem]">
                         <img
                             src={imgSrc}
                             alt=""
                             loading="lazy"
-                            className="h-full w-full object-cover"
+                            className="h-full w-full object-cover transition-transform duration-300 ease-out group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
                             style={{ objectPosition: resolveMemberPhotoObjectPosition(member.photoPosition) }}
                             onError={() => setImgSrc(siteConfig.defaultPhoto)}
                         />
                     </div>
 
-                    {/* 姓名：同時是給爬蟲與 SEO 可索引的連結 */}
+                    {/* 姓名 */}
                     <Link
                         to={memberHref}
                         onClick={(e) => e.stopPropagation()}
@@ -136,7 +136,7 @@ const MemberCard: React.FC<MemberCardProps> = ({ member, onOpenDetails }) => {
                         ) : null}
                     </div>
 
-                    {/* 底部動作條：左圖示 + 右半透明 CTA */}
+                    {/* 底部動作條 */}
                     <div className="mt-auto flex w-full items-stretch gap-0 overflow-hidden rounded-xl border border-white/10 bg-black/35">
                         {hasContactStrip ? (
                             <div className="flex shrink-0 items-center gap-1 border-r border-white/10 px-1.5 py-1.5">
@@ -183,15 +183,18 @@ const MemberCard: React.FC<MemberCardProps> = ({ member, onOpenDetails }) => {
                         ) : null}
                         <button
                             type="button"
-                            onClick={() => onOpenDetails(member)}
-                            className="min-w-0 flex-1 bg-gradient-to-r from-sky-600/25 via-blue-600/20 to-sky-700/25 px-3 py-2.5 text-xs font-bold tracking-wide text-sky-100/95 backdrop-blur-sm transition-all hover:from-sky-500/35 hover:via-blue-500/30 hover:to-sky-600/35 sm:py-3 sm:text-sm"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                onOpenDetails(member);
+                            }}
+                            className="min-w-0 flex-1 bg-gradient-to-r from-sky-600/25 via-blue-600/20 to-sky-700/25 px-3 py-2.5 text-xs font-bold tracking-wide text-sky-100/95 backdrop-blur-sm transition-colors hover:from-sky-500/35 hover:via-blue-500/30 hover:to-sky-600/35 sm:py-3 sm:text-sm"
                         >
-                            完整介紹
+                            快速預覽
                         </button>
                     </div>
                 </div>
-            </div>
-        </motion.div>
+            </motion.div>
+        </div>
     );
 };
 

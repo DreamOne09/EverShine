@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 test.describe('Smoke', () => {
     test('首頁載入並含主標', async ({ page }) => {
         await page.goto('/');
-        await expect(page.getByRole('heading', { level: 1, name: /連結能創造價值的人|長輝白金分會/ })).toBeVisible();
+        await expect(page.getByRole('heading', { level: 1, name: /把專業變成引薦|連結能創造價值的人|長輝白金分會/ })).toBeVisible();
     });
 
     test('會員頁可開啟', async ({ page }) => {

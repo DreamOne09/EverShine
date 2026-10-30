@@ -1,6 +1,14 @@
 import React, { useEffect, useCallback } from 'react';
 import { createPortal } from 'react-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
+import {
+    blur,
+    scale,
+    spring,
+    transition as motionTransition,
+    useShouldReduceMotion,
+    useTempoTransition,
+} from '@animate-ui/react/utils/motion';
 import { Link } from 'react-router-dom';
 import { X, ExternalLink } from 'lucide-react';
 import type { Member } from '../../types';
@@ -8,11 +16,20 @@ import { siteConfig } from '../../config/site.config';
 import MemberDetailBody from './MemberDetailBody';
 import { buildMemberSlug } from '../../lib/memberSlug';
 
+const TIPPED = `perspective(500px) rotateX(-20deg) scale(${scale.dialog})`;
+const UPRIGHT = 'perspective(500px) rotateX(0deg) scale(1)';
+
 const MemberDetailModal: React.FC<{
     member: Member | null;
     open: boolean;
     onClose: () => void;
 }> = ({ member, open, onClose }) => {
+    const reduce = useShouldReduceMotion();
+    const tip = useTempoTransition(spring.dialog);
+    const fade = useTempoTransition(motionTransition.dialogFade);
+    const leave = useTempoTransition(motionTransition.dismiss);
+    const overlayTransition = useTempoTransition(motionTransition.overlay);
+
     const onKeyDown = useCallback(
         (e: KeyboardEvent) => {
             if (e.key === 'Escape') onClose();
@@ -32,34 +49,47 @@ const MemberDetailModal: React.FC<{
 
     const logoSrc = siteConfig.logos.horizontal;
 
-    if (!open || !member) return null;
-
-    const m = member;
-    const slug = buildMemberSlug(m);
+    const hidden = {
+        opacity: 0,
+        filter: blur.surface,
+        transform: reduce ? UPRIGHT : TIPPED,
+    };
 
     return createPortal(
-        <AnimatePresence mode="wait">
+        <AnimatePresence>
             {open && member ? (
                 <div className="fixed inset-0 z-[10050] flex items-end justify-center sm:items-center sm:p-4">
                     <motion.button
                         type="button"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.2 }}
-                        className="absolute inset-0 bg-black/80 backdrop-blur-md"
+                        initial={{ backgroundColor: 'rgb(0 0 0 / 0)', backdropFilter: 'blur(0px)' }}
+                        animate={{
+                            backgroundColor: 'rgb(0 0 0 / 0.8)',
+                            backdropFilter: 'blur(12px)',
+                            transition: overlayTransition,
+                        }}
+                        exit={{
+                            backgroundColor: 'rgb(0 0 0 / 0)',
+                            backdropFilter: 'blur(0px)',
+                            transition: overlayTransition,
+                        }}
+                        className="absolute inset-0"
                         aria-label="關閉"
                         onClick={onClose}
                     />
                     <motion.div
-                        key={String(m.id)}
+                        key={String(member.id)}
                         role="dialog"
                         aria-modal="true"
                         aria-labelledby="member-detail-title"
-                        initial={{ opacity: 0, scale: 0.96, y: 12 }}
-                        animate={{ opacity: 1, scale: 1, y: 0 }}
-                        exit={{ opacity: 0, scale: 0.98, y: 8 }}
-                        transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                        initial={hidden}
+                        animate={{
+                            opacity: 1,
+                            filter: 'blur(0px)',
+                            transform: UPRIGHT,
+                            transition: { ...tip, opacity: fade },
+                            transitionEnd: { filter: 'none' },
+                        }}
+                        exit={{ ...hidden, transition: leave }}
                         className="relative z-10 flex max-h-[100dvh] w-full max-w-5xl flex-col overflow-hidden rounded-t-2xl border border-white/10 bg-slate-950/90 shadow-[0_0_0_1px_rgba(255,255,255,0.06),0_32px_80px_rgba(0,0,0,0.65)] backdrop-blur-2xl sm:max-h-[92vh] sm:rounded-2xl"
                     >
                         {/* 防偽浮水印 */}
@@ -83,10 +113,10 @@ const MemberDetailModal: React.FC<{
                             aria-hidden
                         />
 
-                        {/* Header：右上角 LOGO + 「分享頁面」連結 + 關閉 */}
+                        {/* Header */}
                         <div className="relative z-20 shrink-0 px-5 pb-2 pt-5 sm:px-8 sm:pt-6">
                             <h2 id="member-detail-title" className="sr-only">
-                                {m.name} — 會員檔案
+                                {member.name} — 會員檔案
                             </h2>
 
                             <button
@@ -100,7 +130,7 @@ const MemberDetailModal: React.FC<{
 
                             <div className="flex items-end justify-between gap-3 pr-12 sm:pr-14">
                                 <Link
-                                    to={`/member/${slug}`}
+                                    to={`/member/${buildMemberSlug(member)}`}
                                     onClick={onClose}
                                     className="inline-flex items-center gap-1.5 rounded-full border border-sky-400/30 bg-sky-500/10 px-3 py-1.5 text-[11px] font-semibold tracking-wide text-sky-100 transition-colors hover:border-sky-300/50 hover:bg-sky-500/20 sm:text-xs"
                                     aria-label="開啟此會員的獨立頁面"
@@ -119,7 +149,7 @@ const MemberDetailModal: React.FC<{
                         </div>
 
                         <div className="relative z-10 min-h-0 flex-1 overflow-x-hidden overflow-y-auto overscroll-contain px-4 pb-5 pt-1 sm:px-8 sm:pb-8 sm:pt-2">
-                            <MemberDetailBody member={m} />
+                            <MemberDetailBody member={member} />
                         </div>
 
                         <div className="relative z-10 shrink-0 border-t border-white/10 bg-slate-950/95 p-3 sm:hidden">

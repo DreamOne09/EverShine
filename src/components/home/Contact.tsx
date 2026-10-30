@@ -1,6 +1,8 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { Mail, Phone, Clock } from 'lucide-react';
+import { Effect } from '@animate-ui/react/primitives/effects/effect';
+import { useMotionTokens, useShouldReduceMotion } from '@animate-ui/react/utils/motion';
 import { siteConfig } from '../../config/site.config';
 import SectionLabel from '../common/SectionLabel';
 import { useMembers } from '../../hooks/useMembers';
@@ -71,6 +73,9 @@ function buildLeaderMemberForModal(row: LeadershipRow, fallback: (typeof LEADERS
 const Contact: React.FC = () => {
     const { members } = useMembers();
     const [detailMember, setDetailMember] = useState<Member | null>(null);
+    const reduce = useShouldReduceMotion();
+    const { spring, scale } = useMotionTokens();
+    const pressedTransform = reduce ? 'scale(1)' : `scale(${scale.choice})`;
 
     const leadership = useMemo(() => {
         return LEADERSHIP.map((role) => {
@@ -96,7 +101,7 @@ const Contact: React.FC = () => {
             id="contact"
             aria-labelledby="contact-heading"
         >
-            {/* 背景：網格＋漸層（不搶前景可讀性） */}
+            {/* 背景：網格＋漸層 */}
             <div
                 className="pointer-events-none absolute inset-0 opacity-[0.22]"
                 style={{
@@ -113,124 +118,127 @@ const Contact: React.FC = () => {
 
             <div className="container relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
                 {/* 標題區 */}
-                <div className="mx-auto mb-14 max-w-2xl text-center md:mb-16">
-                    <SectionLabel>Visit us</SectionLabel>
-                    <motion.h2
-                        id="contact-heading"
-                        initial={{ opacity: 0, y: 16 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="mb-5 text-3xl font-black tracking-tight text-white sm:text-4xl md:text-5xl"
-                    >
-                        聯繫 <span className="text-[#4FB0E3]">長輝</span>
-                    </motion.h2>
-                    <motion.p
-                        initial={{ opacity: 0, y: 16 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.08 }}
-                        className="text-base leading-relaxed text-gray-400 sm:text-lg"
-                    >
-                        想參觀例會、了解入會，或找對的產業夥伴，請直接聯繫三長。
-                    </motion.p>
-                    <div className="mx-auto mt-6 inline-flex items-center gap-2 rounded-full border border-platinum/35 bg-black/25 px-4 py-2 text-sm text-platinum-soft shadow-[inset_0_1px_0_rgba(255,243,200,0.16)] backdrop-blur-md">
-                        <Clock size={16} />
-                        {siteConfig.meeting.scheduleLabel}
+                <Effect inView fade blur={{ initialBlur: 2 }} slide={{ offset: 14 }}>
+                    <div className="mx-auto mb-14 max-w-2xl text-center md:mb-16">
+                        <SectionLabel>Visit us</SectionLabel>
+                        <h2
+                            id="contact-heading"
+                            className="mb-5 text-3xl font-black tracking-tight text-white sm:text-4xl md:text-5xl"
+                        >
+                            預約參觀 <span className="text-[#4FB0E3]">長輝例會</span>
+                        </h2>
+                        <p className="text-base leading-relaxed text-gray-400 sm:text-lg">
+                            想來週三早上聽聽看、確認你的行業還有沒有席位，或是想找特定專業的夥伴合作，直接撥電話或寫信給下面三位幹部最快。
+                        </p>
+                        <div className="mx-auto mt-6 inline-flex items-center gap-2 rounded-full border border-platinum/35 bg-black/25 px-4 py-2 text-sm text-platinum-soft shadow-[inset_0_1px_0_rgba(255,243,200,0.16)] backdrop-blur-md">
+                            <Clock size={16} />
+                            {siteConfig.meeting.scheduleLabel}
+                        </div>
                     </div>
-                </div>
+                </Effect>
 
-                {/* 三尊卡片 */}
+                {/* 三長卡片 */}
                 <div className="mx-auto grid max-w-6xl grid-cols-1 gap-8 md:grid-cols-3 md:gap-6 lg:gap-8">
                     {leadership.map((item, index) => {
                         const fallback = LEADERSHIP[index];
                         return (
-                        <motion.article
-                            key={item.name}
-                            role="button"
-                            tabIndex={0}
-                            aria-label={`查看 ${item.name} 完整會員介紹`}
-                            initial={{ opacity: 0, y: 24 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, margin: '-40px' }}
-                            transition={{ delay: index * 0.08, duration: 0.45 }}
-                            onClick={() => openLeaderDetail(item, fallback, index)}
-                            onKeyDown={(e) => {
-                                if (e.key === 'Enter' || e.key === ' ') {
-                                    e.preventDefault();
-                                    openLeaderDetail(item, fallback, index);
-                                }
-                            }}
-                            className="group flex h-full min-h-0 cursor-pointer flex-col rounded-2xl border border-[#4FB0E3]/25 bg-gradient-to-b from-[#0c1a2e]/95 to-[#081018]/95 p-6 shadow-[0_12px_40px_rgba(0,0,0,0.35)] backdrop-blur-md transition-all duration-300 hover:border-[#4FB0E3]/45 hover:shadow-[0_16px_48px_rgba(79,176,227,0.08)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#4FB0E3]/60 sm:p-7"
-                        >
-                            {/* 頭像 */}
-                            <div className="mb-6 flex flex-col items-center text-center">
-                                <div className="relative mb-5 h-[7.5rem] w-[7.5rem] shrink-0 sm:h-32 sm:w-32">
-                                    <div
-                                        className="absolute inset-0 scale-[1.08] rounded-full bg-gradient-to-br from-[#4FB0E3]/30 to-transparent opacity-70 blur-xl transition-opacity group-hover:opacity-100"
-                                        aria-hidden
-                                    />
-                                    <div className="relative h-full w-full overflow-hidden rounded-full border-[3px] border-[#4FB0E3]/50 shadow-[0_0_0_1px_rgba(79,176,227,0.15),0_8px_32px_rgba(0,0,0,0.4)] ring-4 ring-[#4FB0E3]/10">
-                                        <img
-                                            src={item.member?.photo || `/images/members/${item.name}.jpg`}
-                                            alt={item.name}
-                                            className="h-full w-full object-cover"
-                                            style={{
-                                                objectPosition: resolveMemberPhotoObjectPosition(item.member?.photoPosition),
-                                            }}
-                                            onError={(e) => {
-                                                e.currentTarget.src = '/images/assets/logo/白色正方形logo.png';
-                                            }}
-                                        />
+                            <Effect
+                                key={item.name}
+                                inView
+                                fade
+                                blur={{ initialBlur: 4 }}
+                                slide={{ offset: 16 }}
+                                delay={index * 80}
+                                className="h-full"
+                            >
+                                <motion.article
+                                    role="button"
+                                    tabIndex={0}
+                                    aria-label={`查看 ${item.name} 完整會員介紹`}
+                                    initial={{ transform: 'scale(1)' }}
+                                    whileTap={{ transform: pressedTransform }}
+                                    transition={spring.press}
+                                    onClick={() => openLeaderDetail(item, fallback, index)}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter' || e.key === ' ') {
+                                            e.preventDefault();
+                                            openLeaderDetail(item, fallback, index);
+                                        }
+                                    }}
+                                    className="group flex h-full min-h-0 cursor-pointer flex-col rounded-2xl border border-[#4FB0E3]/25 bg-gradient-to-b from-[#0c1a2e]/95 to-[#081018]/95 p-6 shadow-[0_12px_40px_rgba(0,0,0,0.35)] backdrop-blur-md transition-[border-color,box-shadow,translate] duration-300 hover:-translate-y-0.5 motion-reduce:hover:translate-y-0 hover:border-[#4FB0E3]/45 hover:shadow-[0_16px_48px_rgba(79,176,227,0.08)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#4FB0E3]/60 sm:p-7"
+                                >
+                                    {/* 頭像 */}
+                                    <div className="mb-6 flex flex-col items-center text-center">
+                                        <div className="relative mb-5 h-[7.5rem] w-[7.5rem] shrink-0 sm:h-32 sm:w-32">
+                                            <div
+                                                className="absolute inset-0 scale-[1.08] rounded-full bg-gradient-to-br from-[#4FB0E3]/30 to-transparent opacity-70 blur-xl transition-opacity group-hover:opacity-100"
+                                                aria-hidden
+                                            />
+                                            <div className="relative h-full w-full overflow-hidden rounded-full border-[3px] border-[#4FB0E3]/50 shadow-[0_0_0_1px_rgba(79,176,227,0.15),0_8px_32px_rgba(0,0,0,0.4)] ring-4 ring-[#4FB0E3]/10">
+                                                <img
+                                                    src={item.member?.photo || `/images/members/${item.name}.jpg`}
+                                                    alt={item.name}
+                                                    className="h-full w-full object-cover transition-transform duration-300 ease-out group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+                                                    style={{
+                                                        objectPosition: resolveMemberPhotoObjectPosition(item.member?.photoPosition),
+                                                    }}
+                                                    onError={(e) => {
+                                                        e.currentTarget.src = '/images/assets/logo/白色正方形logo.png';
+                                                    }}
+                                                />
+                                            </div>
+                                        </div>
+                                        <p className="mb-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-[#94a3b8]">
+                                            {item.title}
+                                        </p>
+                                        <p className="mb-2 text-2xl font-black tracking-tight text-[#4FB0E3] sm:text-[1.65rem]">
+                                            {item.name}
+                                        </p>
+                                        <p className="text-sm font-medium text-white/90">{item.industry}</p>
                                     </div>
-                                </div>
-                                <p className="mb-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-[#94a3b8]">
-                                    {item.title}
-                                </p>
-                                <p className="mb-2 text-2xl font-black tracking-tight text-[#4FB0E3] sm:text-[1.65rem]">{item.name}</p>
-                                <p className="text-sm font-medium text-white/90">{item.industry}</p>
-                            </div>
 
-                            {/* 聯絡區：左對齊、固定間距，避免擠成一團 */}
-                            <div className="mt-auto flex flex-1 flex-col border-t border-white/10 pt-6">
-                                <p className="mb-5 text-center text-sm font-medium leading-relaxed text-white/95">
-                                    {item.company}
-                                </p>
+                                    {/* 聯絡區 */}
+                                    <div className="mt-auto flex flex-1 flex-col border-t border-white/10 pt-6">
+                                        <p className="mb-5 text-center text-sm font-medium leading-relaxed text-white/95">
+                                            {item.company}
+                                        </p>
 
-                                <div className="space-y-3.5">
-                                    <a
-                                        href={`tel:${formatTaiwanPhoneTelHref(item.phone)}`}
-                                        onClick={(e) => e.stopPropagation()}
-                                        onKeyDown={(e) => e.stopPropagation()}
-                                        className="flex items-start gap-3 rounded-lg px-1 py-1 text-gray-200 transition-colors hover:bg-white/5 hover:text-[#7dd3fc]"
-                                    >
-                                        <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#4FB0E3]/12 text-[#4FB0E3]">
-                                            <Phone size={18} strokeWidth={2} aria-hidden />
-                                        </span>
-                                        <span className="min-w-0 pt-1.5 text-[15px] font-medium tabular-nums tracking-wide">
-                                            {item.phone}
-                                        </span>
-                                    </a>
-                                    {item.email ? (
-                                        <a
-                                            href={`mailto:${item.email}`}
-                                            onClick={(e) => e.stopPropagation()}
-                                            onKeyDown={(e) => e.stopPropagation()}
-                                            className="flex items-start gap-3 rounded-lg px-1 py-1 text-gray-200 transition-colors hover:bg-white/5 hover:text-[#7dd3fc]"
-                                        >
-                                            <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#4FB0E3]/12 text-[#4FB0E3]">
-                                                <Mail size={18} strokeWidth={2} aria-hidden />
-                                            </span>
-                                            <span className="min-w-0 break-words pt-1.5 text-[13px] leading-snug sm:text-sm">
-                                                {item.email}
-                                            </span>
-                                        </a>
-                                    ) : (
-                                        <p className="pl-1 text-xs text-gray-500">聯絡請優先使用電話</p>
-                                    )}
-                                </div>
-                            </div>
-                        </motion.article>
-                    );
+                                        <div className="space-y-3.5">
+                                            <a
+                                                href={`tel:${formatTaiwanPhoneTelHref(item.phone)}`}
+                                                onClick={(e) => e.stopPropagation()}
+                                                onKeyDown={(e) => e.stopPropagation()}
+                                                className="flex items-start gap-3 rounded-lg px-1 py-1 text-gray-200 transition-colors hover:bg-white/5 hover:text-[#7dd3fc]"
+                                            >
+                                                <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#4FB0E3]/12 text-[#4FB0E3]">
+                                                    <Phone size={18} strokeWidth={2} aria-hidden />
+                                                </span>
+                                                <span className="min-w-0 pt-1.5 text-[15px] font-medium tabular-nums tracking-wide">
+                                                    {item.phone}
+                                                </span>
+                                            </a>
+                                            {item.email ? (
+                                                <a
+                                                    href={`mailto:${item.email}`}
+                                                    onClick={(e) => e.stopPropagation()}
+                                                    onKeyDown={(e) => e.stopPropagation()}
+                                                    className="flex items-start gap-3 rounded-lg px-1 py-1 text-gray-200 transition-colors hover:bg-white/5 hover:text-[#7dd3fc]"
+                                                >
+                                                    <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#4FB0E3]/12 text-[#4FB0E3]">
+                                                        <Mail size={18} strokeWidth={2} aria-hidden />
+                                                    </span>
+                                                    <span className="min-w-0 break-words pt-1.5 text-[13px] leading-snug sm:text-sm">
+                                                        {item.email}
+                                                    </span>
+                                                </a>
+                                            ) : (
+                                                <p className="pl-1 text-xs text-gray-500">直接撥電話聯繫最快</p>
+                                            )}
+                                        </div>
+                                    </div>
+                                </motion.article>
+                            </Effect>
+                        );
                     })}
                 </div>
             </div>

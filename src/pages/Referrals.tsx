@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
+import { CountingNumber } from '@animate-ui/react/primitives/texts/counting-number';
 import { useReferrals } from '../hooks/useReferrals';
 import { queryKeys } from '../api/queryKeys';
 import { siteConfig } from '../config/site.config';
@@ -52,17 +53,17 @@ const Referrals: React.FC = () => {
     return (
         <div className="min-h-screen relative overflow-x-hidden">
             <SEO
-                title="引薦案例｜長輝真實商務對接"
-                description="見證長輝白金分會的引薦實力。這裡展示每週精選的成功故事，每一次引薦都是信任的傳遞。"
+                title="引薦案例｜長輝夥伴真實合作紀錄"
+                description="看看長輝白金分會夥伴之間怎麼牽線、怎麼把案子做成。這裡整理了每週例會回報的真實合作案例與雙方心得。"
                 keywords="引薦案例, BNI成功案例, 商務合作, 引薦成功故事, 長輝白金分會"
                 breadcrumbs={[{ name: '引薦案例', path: '/referrals' }]}
                 structuredData={{
                     '@type': 'CollectionPage',
-                    name: 'BNI 長輝白金分會商務引薦成功案例',
-                    description: '台灣 BNI 長輝白金分會商務引薦成功案例與合作實績。',
+                    name: 'BNI 長輝白金分會商務引薦案例',
+                    description: '台灣 BNI 長輝白金分會商務引薦合作案例與夥伴回饋。',
                     url: 'https://evershine.tw/referrals',
                     isPartOf: { '@id': 'https://evershine.tw/#website' },
-                    inLanguage: 'zh-TW'
+                    inLanguage: 'zh-TW',
                 }}
             />
             <PageHero
@@ -74,64 +75,67 @@ const Referrals: React.FC = () => {
                 title="引薦案例"
                 subtitle={
                     <>
-                        長輝白金分會真實的商務對接<br />每一次引薦，都是信任的傳遞
+                        分會夥伴實際做成的合作紀錄<br />
+                        誰牽的線、解決了什麼問題、最後怎麼成交，都在這裡
                     </>
                 }
             />
 
             <div className="relative z-10 bg-bg-primary/98 border-t border-white/5">
-            <div className="container mx-auto px-4 py-8 md:py-10">
+                <div className="container mx-auto px-4 py-8 md:py-10">
+                    <div className="bg-primary/10 border border-primary/20 rounded-xl p-4 mb-6 text-center max-w-2xl mx-auto">
+                        <p className="text-primary font-bold text-lg mb-1">例會精選合作紀錄</p>
+                        <p className="text-gray-400 text-sm">
+                            創會至今已累計超過{' '}
+                            <span className="text-white font-mono font-bold tabular-nums">
+                                <CountingNumber number={26459} fromNumber={20000} thousandSeparator="," inView />
+                            </span>{' '}
+                            張引薦單；下面挑出具有代表性的跨業合作案例，點開卡片可看雙方當事人的心得。
+                        </p>
+                    </div>
 
-                <div className="bg-primary/10 border border-primary/20 rounded-xl p-4 mb-6 text-center max-w-2xl mx-auto">
-                    <p className="text-primary font-bold text-lg mb-1">每週精選案例</p>
-                    <p className="text-gray-400 text-sm">
-                        實際上門引薦單遠大於此，目前已累積 <span className="text-white font-mono font-bold">16,800+</span> 筆引薦商機，這裡僅展示每週精選的成功故事。
-                    </p>
+                    <ReferralFilterBar
+                        query={searchQuery}
+                        onQueryChange={setSearchQuery}
+                        activeCategory={activeCategory}
+                        onCategoryChange={setActiveCategory}
+                        totalCount={referrals.length}
+                        filteredCount={filteredReferrals.length}
+                        categoryCounts={categoryCounts}
+                    />
+
+                    <div data-testid="referrals-grid" className={REFERRALS_GRID_CLASS}>
+                        {loading && Array.from({ length: 6 }).map((_, i) => <CardSkeleton key={`sk-${i}`} />)}
+                        {!loading && filteredReferrals.length === 0 && referrals.length > 0 && (
+                            <div className="col-span-full max-w-xl mx-auto">
+                                <EmptyState
+                                    title="找不到符合的案例"
+                                    description="試試其他關鍵字，或切換分類篩選。"
+                                    className="border-white/10 bg-white/[0.03]"
+                                />
+                            </div>
+                        )}
+                        {!loading && referrals.length === 0 && (
+                            <div className="col-span-full max-w-xl mx-auto">
+                                <EmptyState
+                                    title="尚無引薦案例"
+                                    description="目前沒有可顯示的引薦資料。"
+                                    className="border-white/10 bg-white/[0.03]"
+                                />
+                            </div>
+                        )}
+                        {!loading &&
+                            filteredReferrals.map((referral, index) => (
+                                <ReferralCard
+                                    key={referral.id}
+                                    referral={referral}
+                                    index={index}
+                                    isSelected={selectedReferralId === referral.id}
+                                    onToggle={() => toggleReferral(referral.id)}
+                                />
+                            ))}
+                    </div>
                 </div>
-
-                <ReferralFilterBar
-                    query={searchQuery}
-                    onQueryChange={setSearchQuery}
-                    activeCategory={activeCategory}
-                    onCategoryChange={setActiveCategory}
-                    totalCount={referrals.length}
-                    filteredCount={filteredReferrals.length}
-                    categoryCounts={categoryCounts}
-                />
-
-                <div data-testid="referrals-grid" className={REFERRALS_GRID_CLASS}>
-                    {loading && Array.from({ length: 6 }).map((_, i) => (
-                        <CardSkeleton key={`sk-${i}`} />
-                    ))}
-                    {!loading && filteredReferrals.length === 0 && referrals.length > 0 && (
-                        <div className="col-span-full max-w-xl mx-auto">
-                            <EmptyState
-                                title="找不到符合的案例"
-                                description="試試其他關鍵字，或切換分類篩選。"
-                                className="border-white/10 bg-white/[0.03]"
-                            />
-                        </div>
-                    )}
-                    {!loading && referrals.length === 0 && (
-                        <div className="col-span-full max-w-xl mx-auto">
-                            <EmptyState
-                                title="尚無引薦案例"
-                                description="目前沒有可顯示的引薦資料。"
-                                className="border-white/10 bg-white/[0.03]"
-                            />
-                        </div>
-                    )}
-                    {!loading && filteredReferrals.map((referral, index) => (
-                        <ReferralCard
-                            key={referral.id}
-                            referral={referral}
-                            index={index}
-                            isSelected={selectedReferralId === referral.id}
-                            onToggle={() => toggleReferral(referral.id)}
-                        />
-                    ))}
-                </div>
-            </div>
             </div>
         </div>
     );

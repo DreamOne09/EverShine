@@ -16,6 +16,7 @@
     "test:e2e:ci": "npm run build && playwright test"
   },
   "dependencies": {
+    "@animate-ui/react": "^2.4.1",
     "@supabase/supabase-js": "^2.87.3",
     "@tanstack/react-query": "^5.99.2",
     "browser-image-compression": "^2.0.2",
@@ -24,6 +25,7 @@
     "dotenv": "^17.2.3",
     "framer-motion": "^12.23.25",
     "lucide-react": "^0.556.0",
+    "motion": "^14.8.0",
     "react": "^19.2.1",
     "react-chartjs-2": "^5.3.1",
     "react-dom": "^19.2.1",

@@ -1,43 +1,69 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, Minus } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
+import { Plus } from 'lucide-react';
+import { Effect } from '@animate-ui/react/primitives/effects/effect';
+import { blur, transition as motionTransition, useTempoTransition } from '@animate-ui/react/utils/motion';
 
-const FAQItem: React.FC<{ question: string, answer: React.ReactNode, isOpen: boolean, toggle: () => void, index: number }> = ({ question, answer, isOpen, toggle, index }) => {
+const FAQItem: React.FC<{
+    question: string;
+    answer: React.ReactNode;
+    isOpen: boolean;
+    toggle: () => void;
+    index: number;
+}> = ({ question, answer, isOpen, toggle, index }) => {
+    const disclosureTransition = useTempoTransition(motionTransition.disclosure);
+
     return (
-        <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: index * 0.1 }}
-            className="border-b border-white/8 last:border-0"
-        >
-            <button
-                onClick={toggle}
-                className="w-full py-6 flex items-center justify-between text-left group focus:outline-none"
-            >
-                <span className={`text-xl md:text-2xl font-medium transition-colors duration-300 pr-8 ${isOpen ? 'text-primary' : 'text-white group-hover:text-primary'}`}>
-                    {question}
-                </span>
-                <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border transition-all duration-300 ${isOpen ? 'border-primary bg-primary text-bg-dark shadow-[inset_0_1px_0_rgba(255,255,255,0.35)]' : 'border-white/20 text-gray-400 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] group-hover:border-primary group-hover:text-primary'}`}>
-                    {isOpen ? <Minus size={18} /> : <Plus size={18} />}
-                </span>
-            </button>
-            <AnimatePresence>
-                {isOpen && (
-                    <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.3 }}
-                        className="overflow-hidden"
+        <Effect inView fade blur={{ initialBlur: 2 }} slide={{ offset: 10 }} delay={index * 50}>
+            <div className="border-b border-white/10 last:border-0">
+                <button
+                    type="button"
+                    onClick={toggle}
+                    aria-expanded={isOpen}
+                    className="w-full py-6 flex items-center justify-between text-left group focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 rounded-lg"
+                >
+                    <span
+                        className={`text-xl md:text-2xl font-medium transition-colors duration-200 pr-8 ${
+                            isOpen ? 'text-primary' : 'text-white group-hover:text-primary'
+                        }`}
                     >
-                        <p className="text-gray-400 leading-relaxed pb-8 text-lg md:text-xl">
-                            {answer}
-                        </p>
-                    </motion.div>
-                )}
-            </AnimatePresence>
-        </motion.div>
+                        {question}
+                    </span>
+                    <span
+                        className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border transition-colors duration-200 ${
+                            isOpen
+                                ? 'border-primary bg-primary text-bg-dark shadow-[inset_0_1px_0_rgba(255,255,255,0.35)]'
+                                : 'border-white/20 text-gray-400 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] group-hover:border-primary group-hover:text-primary'
+                        }`}
+                    >
+                        <Plus
+                            size={18}
+                            className={`transition-transform duration-350 ease-[cubic-bezier(0.215,0.61,0.355,1)] ${
+                                isOpen ? 'rotate-45' : 'rotate-0'
+                            }`}
+                        />
+                    </span>
+                </button>
+                <AnimatePresence initial={false}>
+                    {isOpen && (
+                        <motion.div
+                            initial={{ height: 0, opacity: 0, filter: blur.disclosure }}
+                            animate={{
+                                height: 'auto',
+                                opacity: 1,
+                                filter: 'blur(0px)',
+                                transitionEnd: { filter: 'none' },
+                            }}
+                            exit={{ height: 0, opacity: 0, filter: blur.disclosure, transition: disclosureTransition }}
+                            transition={disclosureTransition}
+                            style={{ overflow: 'hidden' }}
+                        >
+                            <div className="text-gray-400 leading-relaxed pb-8 text-lg md:text-xl">{answer}</div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+            </div>
+        </Effect>
     );
 };
 
@@ -51,35 +77,32 @@ const FAQ: React.FC = () => {
     return (
         <section className="min-h-screen flex flex-col justify-center py-20 relative overflow-hidden" id="faq">
             <div className="container mx-auto px-4 z-10 relative">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    className="text-center mb-16"
-                >
-                    <h2 className="text-3xl md:text-5xl font-black mb-4 text-white">常見問題</h2>
-                    <p className="text-gray-400 max-w-2xl mx-auto text-lg">
-                        關於加入長輝白金分會，我們整理了來賓與企業主最常問的事
-                    </p>
-                </motion.div>
+                <Effect inView fade blur={{ initialBlur: 2 }} slide={{ offset: 14 }}>
+                    <div className="text-center mb-16">
+                        <h2 className="text-3xl md:text-5xl font-black mb-4 text-white">常見問題</h2>
+                        <p className="text-gray-400 max-w-2xl mx-auto text-lg">
+                            第一次聽到 BNI 或想來參觀的企業主，最常問我們這幾題
+                        </p>
+                    </div>
+                </Effect>
 
-                <div className="max-w-3xl mx-auto space-y-4">
+                <div className="max-w-3xl mx-auto space-y-2">
                     <FAQItem
                         index={0}
                         isOpen={openIndex === 0}
                         toggle={() => toggle(0)}
-                        question="加入 BNI 需要什麼資格？"
+                        question="加入長輝需要什麼資格？"
                         answer={
                             <>
-                                <p className="mb-3 text-primary font-bold">我們尋找遵守 321A 原則的優質夥伴：</p>
+                                <p className="mb-3 text-primary font-bold">我們用「321A」四個標準審核每一位申請人：</p>
                                 <ul className="list-disc list-inside mb-4 space-y-2 text-gray-300">
-                                    <li><strong className="text-white">3</strong>：三年以上行業經驗</li>
-                                    <li><strong className="text-white">2</strong>：公司成立兩年以上</li>
-                                    <li><strong className="text-white">1</strong>：專注於一項主要專業 (單一產業別)</li>
-                                    <li><strong className="text-white">A</strong>：Attitude 態度良好，願意付出與學習</li>
+                                    <li><strong className="text-white">3</strong>：在這個行業累積三年以上實務經驗</li>
+                                    <li><strong className="text-white">2</strong>：公司或工作室正式營運滿兩年</li>
+                                    <li><strong className="text-white">1</strong>：在分會只登記一項主力專業（一業一代表，不跟同分會夥伴撞業）</li>
+                                    <li><strong className="text-white">A</strong>：Attitude 態度正向，願意先幫別人、也願意配合分會紀律</li>
                                 </ul>
                                 <div className="p-4 bg-primary/10 rounded-lg border border-primary/20 text-sm">
-                                    <strong className="text-primary">核心精神：</strong>確保每位會員都是該領域的專家，且在分會中尚無重複代表。
+                                    <strong className="text-primary">為什麼這麼規定：</strong>因為要把自己的客戶放心交出去，必須確定對方在本業夠格，而且分會裡不會有兩個人搶同一張單。
                                 </div>
                             </>
                         }
@@ -88,13 +111,13 @@ const FAQ: React.FC = () => {
                         index={1}
                         isOpen={openIndex === 1}
                         toggle={() => toggle(1)}
-                        question="我不擅長社交，會不會很尷尬？"
+                        question="我很慢熟、不愛應酬，去那裡會不會很乾？"
                         answer={
                             <>
-                                <p className="mb-3 text-primary font-bold">BNI有結構化的流程，不需要擔心社交技巧</p>
-                                <p className="mb-4">每次例會都有固定流程：25秒專業介紹、5分鐘深度主講、分組交流。</p>
+                                <p className="mb-3 text-primary font-bold">不會。例會全程按時間表走，不用自己硬找話題破冰。</p>
+                                <p className="mb-4">每個人輪流用 25～30 秒講清楚「我做什麼、這週想認識誰」，接著是專題簡報與分組交流，誰先講、講多久都有主持人控場。</p>
                                 <div className="p-4 bg-primary/10 rounded-lg border border-primary/20 text-sm">
-                                    <strong className="text-primary">實際經驗：</strong>許多內向型會員反而在BNI找到舒適的交流方式，因為有明確的架構和目標。
+                                    <strong className="text-primary">實際情況：</strong>分會裡很多技術底、工程底的夥伴平常也不跑飯局，但因為每次只要講清楚專業需求，反而比去外面換名片自在很多。
                                 </div>
                             </>
                         }
@@ -103,18 +126,17 @@ const FAQ: React.FC = () => {
                         index={2}
                         isOpen={openIndex === 2}
                         toggle={() => toggle(2)}
-                        question="線上會議效果會不會比實體差？"
+                        question="只在線上開會，大家真的會熟、會轉介紹嗎？"
                         answer={
                             <>
-                                <p className="mb-3 text-primary font-bold">長輝白金分會專注於線上會議優化，效果不輸實體</p>
+                                <p className="mb-3 text-primary font-bold">長輝從創會就把例會設計在線上，成交與引薦量一直是白金級分會。</p>
                                 <ul className="list-disc list-inside mb-4 space-y-1 ml-2">
-                                    <li>全台少數100%支援線上與會的分會</li>
-                                    <li>專業的線上會議流程設計</li>
-                                    <li>分組討論室功能，保持深度交流</li>
-
+                                    <li>每週三早上固定見面，加上平時約「一對一」深聊各自客戶輪廓</li>
+                                    <li>Zoom 分組討論室每次拆小組交流，不會只對著大畫面發呆</li>
+                                    <li>省下雙北塞車跟找車位的時間，八點半開完會直接跑客戶</li>
                                 </ul>
                                 <div className="p-4 bg-primary/10 rounded-lg border border-primary/20 text-sm">
-                                    <strong className="text-primary">關鍵優勢：</strong>線上會議讓您即使出差也能照常與會、照常曝光、照常經營商務合作。
+                                    <strong className="text-primary">最大好處：</strong>就算人去外縣市或出國出差，開筆電照樣能出席、照樣接引薦。
                                 </div>
                             </>
                         }
@@ -123,18 +145,18 @@ const FAQ: React.FC = () => {
                         index={3}
                         isOpen={openIndex === 3}
                         toggle={() => toggle(3)}
-                        question="我需要準備什麼資料才能當來賓？"
+                        question="來當一次來賓要費用嗎？要準備什麼？"
                         answer={
                             <>
-                                <p className="mb-3 text-primary font-bold">當來賓免費，流程簡單明確，無需複雜資料</p>
-                                <p className="mb-2">您只需要準備：</p>
+                                <p className="mb-3 text-primary font-bold">來賓參觀完全免費，不用做簡報，準備 30 秒口頭自我介紹就好。</p>
+                                <p className="mb-2">上線前只要準備三件事：</p>
                                 <ul className="list-disc list-inside mb-4 space-y-1 ml-2">
-                                    <li>個人或公司基本資料（名稱、聯絡方式、服務項目）</li>
-                                    <li>簡短的自我介紹（30秒即可）</li>
-                                    <li>對引薦行銷的熱情與承諾</li>
+                                    <li>你的姓名、公司名稱與聯絡方式</li>
+                                    <li>30 秒講清楚你服務哪一類客戶、幫他們解決什麼問題</li>
+                                    <li>找個安靜、能開鏡頭的環境上 Zoom</li>
                                 </ul>
                                 <div className="p-4 bg-primary/10 rounded-lg border border-primary/20 text-sm">
-                                    <strong className="text-primary">貼心提醒：</strong>如果您確定要入會，我們將會進行資格審查，不保證一定能加入長輝
+                                    <strong className="text-primary">先說清楚：</strong>來參觀不代表一定要入會；反過來，如果想正式入會，會員委員會也會做資格面談與查核，不是繳費就能進。
                                 </div>
                             </>
                         }
@@ -143,18 +165,18 @@ const FAQ: React.FC = () => {
                         index={4}
                         isOpen={openIndex === 4}
                         toggle={() => toggle(4)}
-                        question="如果我暫時無法參加例會怎麼辦？"
+                        question="如果某個週三早上剛好有事不能出席怎麼辦？"
                         answer={
                             <>
-                                <p className="mb-3 text-primary font-bold">BNI提供彈性的代理人制度</p>
-                                <p className="mb-2">如果您因故無法參加例會，可以：</p>
+                                <p className="mb-3 text-primary font-bold">可以請「代理人」替你出席，不算缺席。</p>
+                                <p className="mb-2">當週有急事或撞期時，你可以：</p>
                                 <ul className="list-disc list-inside mb-4 space-y-1 ml-2">
-                                    <li>安排代理人代表您出席（同事、合作夥伴或家人）</li>
-                                    <li>提前提供您的自我介紹與引薦報告給代理人分享</li>
-                                    <li>無論再忙，盡可能每週早起商務不中斷</li>
+                                    <li>請公司同事、合作夥伴或熟識你的朋友代為上線</li>
+                                    <li>把你那週的 30 秒介紹稿交給代理人，照樣幫你在會場曝光</li>
+                                    <li>因為是線上開會，多數夥伴就算在飯店或高鐵站也能直接上線</li>
                                 </ul>
                                 <div className="p-4 bg-primary/10 rounded-lg border border-primary/20 text-sm">
-                                    <strong className="text-primary">重要提醒：</strong>為了維護會員權益，每位會員半年內缺席超過三次將可能被踢出，這是我們對夥伴彼此間的基本承諾。
+                                    <strong className="text-primary">出席規定：</strong>半年內無故缺席超過三次，席位會被釋出給同產業其他人。這條規定雖然嚴，但也保護大家每週早起都能見到全體夥伴。
                                 </div>
                             </>
                         }
@@ -163,18 +185,18 @@ const FAQ: React.FC = () => {
                         index={5}
                         isOpen={openIndex === 5}
                         toggle={() => toggle(5)}
-                        question="新創公司或個人工作者適合加入嗎？"
+                        question="公司剛起步、或是幾個人的小團隊適合嗎？"
                         answer={
                             <>
-                                <p className="mb-3 text-primary font-bold">BNI特別適合新創與個人工作者快速建立人脈</p>
-                                <p className="mb-2">許多成功的新創企業都從BNI起步，因為：</p>
+                                <p className="mb-3 text-primary font-bold">只要滿兩年、專業口碑穩，小團隊在分會裡反而轉得特別快。</p>
+                                <p className="mb-2">原因很務實：</p>
                                 <ul className="list-disc list-inside mb-4 space-y-1 ml-2">
-                                    <li>快速建立早期客戶群</li>
-                                    <li>獲得各領域專業人士的建議與支援</li>
-                                    <li>以合理成本接觸大量潛在客戶</li>
+                                    <li>老闆自己來開會，現場就能拍板合作方式，不用層層簽核</li>
+                                    <li>缺法務、會計、設計、工程班底時，分會裡直接有信得過的人能配合</li>
+                                    <li>跟著同生態圈的前輩一起接案，很快能接到原本單打獨鬥碰不到的客戶</li>
                                 </ul>
                                 <div className="p-4 bg-primary/10 rounded-lg border border-primary/20 text-sm">
-                                    <strong className="text-primary">成功案例：</strong>李孟一在創業初期加入BNI，透過一對一快速鏈結教育產業鏈，並做為公司擴張基礎。
+                                    <strong className="text-primary">真實例子：</strong>分會裡做魔術方塊教育的李孟一，創業初期加入後透過一對一串起補教與親子活動夥伴，把外部合作變成主力成長來源。
                                 </div>
                             </>
                         }
@@ -183,18 +205,18 @@ const FAQ: React.FC = () => {
                         index={6}
                         isOpen={openIndex === 6}
                         toggle={() => toggle(6)}
-                        question="長輝白金分會與其他BNI分會有什麼不同？"
+                        question="長輝跟其他 BNI 實體分會差在哪裡？"
                         answer={
                             <>
-                                <p className="mb-3 text-primary font-bold">我們是全台少數100%支援線上與會的分會</p>
-                                <p className="mb-2">長輝白金分會的獨特優勢：</p>
+                                <p className="mb-3 text-primary font-bold">最大差別在「全程線上」與「跨區連結」。</p>
+                                <p className="mb-2">我們的三個特點：</p>
                                 <ul className="list-disc list-inside mb-4 space-y-1 ml-2">
-                                    <li><strong>完整線上支援：</strong>所有會員都能全程線上參與，無需到場</li>
-                                    <li><strong>早晨時段：</strong>每週三中原時區早上6:30-8:30，不影響正常工作</li>
-                                    <li><strong>產業多元：</strong>60+個不同產業，資源整合能力強</li>
+                                    <li><strong>全程 Zoom 例會：</strong>不用六點前出門趕飯店早餐會，省下通勤與場地餐費</li>
+                                    <li><strong>早上 06:30–08:30：</strong>開完會剛好九點開始跑業務，完全不卡白天正事</li>
+                                    <li><strong>將近 60 個不同行業：</strong>涵蓋工程、行銷、健康、法稅、科技等八大產業鏈</li>
                                 </ul>
                                 <div className="p-4 bg-primary/10 rounded-lg border border-primary/20 text-sm">
-                                    <strong className="text-primary">特別適合：</strong>經常出差、時間彈性需求高、或偏好線上協作的專業人士。
+                                    <strong className="text-primary">誰最合適：</strong>常跑外務或出差、跨縣市接案、習慣用數位工具協作的老闆與專業工作者。
                                 </div>
                             </>
                         }
@@ -203,19 +225,19 @@ const FAQ: React.FC = () => {
                         index={7}
                         isOpen={openIndex === 7}
                         toggle={() => toggle(7)}
-                        question="BNI 長輝可以全程線上參加嗎？線上效果好嗎？"
+                        question="從參觀到正式入會，大概會經過哪些步驟？"
                         answer={
                             <>
-                                <p className="mb-3 text-primary font-bold">100% 可以！長輝白金分會全程支援線上與會</p>
-                                <p className="mb-2">線上與會的完整體驗：</p>
+                                <p className="mb-3 text-primary font-bold">先來聽一次例會，覺得頻率對了再填申請。</p>
+                                <p className="mb-2">整個流程很透明：</p>
                                 <ul className="list-disc list-inside mb-4 space-y-1 ml-2">
-                                    <li><strong>全程線上：</strong>從開場到結束，所有環節都能線上完整參與</li>
-                                    <li><strong>線上分組討論：</strong>搭配分組討論室功能，保持深度交流</li>
-                                    <li><strong>線上引薦同樣有效：</strong>商務引薦與人脈經營完全不受影響</li>
-                                    <li><strong>不受地點限制：</strong>出差、在國外、在家都能照常與會</li>
+                                    <li><strong>步驟一：</strong>聯繫主席、副主席或秘財預約週三早上參觀</li>
+                                    <li><strong>步驟二：</strong>週三 06:20 上 Zoom 體驗一場完整例會，會後跟接待小組聊聊</li>
+                                    <li><strong>步驟三：</strong>確認你的專業在分會尚無代表後，送出申請並與會員委員會面談</li>
+                                    <li><strong>步驟四：</strong>通過審核後宣誓入會，由導師帶著你跑完新人培訓與第一輪一對一</li>
                                 </ul>
                                 <div className="p-4 bg-primary/10 rounded-lg border border-primary/20 text-sm">
-                                    <strong className="text-primary">會員心得：</strong>許多會員表示，線上會議反而讓他們更專注於商務交流本身，省去通勤時間，效率更高。
+                                    <strong className="text-primary">小建議：</strong>不用看網站猜半天，直接來聽一個早上最準。
                                 </div>
                             </>
                         }

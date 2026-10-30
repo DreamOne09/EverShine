@@ -1,5 +1,12 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
+import {
+    blur,
+    transition as motionTransition,
+    useMotionTokens,
+    useShouldReduceMotion,
+    useTempoTransition,
+} from '@animate-ui/react/utils/motion';
 import { ChevronDown } from 'lucide-react';
 import type { Referral } from '../../types';
 import { getReferralEcosystem } from '../../lib/referralFilter';
@@ -18,6 +25,11 @@ const ReferralCard: React.FC<ReferralCardProps> = ({
     onToggle,
     index,
 }) => {
+    const reduce = useShouldReduceMotion();
+    const { spring, scale } = useMotionTokens();
+    const disclosureTransition = useTempoTransition(motionTransition.disclosure);
+    const pressedTransform = reduce ? 'scale(1)' : `scale(${scale.choice})`;
+
     const ecosystem = getReferralEcosystem(referral);
     const showMetricsType =
         Boolean(referral.metrics.type) &&
@@ -34,15 +46,19 @@ const ReferralCard: React.FC<ReferralCardProps> = ({
 
     return (
         <motion.article
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: Math.min(index * 0.04, 0.32), duration: 0.4 }}
+            initial={{ opacity: 0, transform: 'scale(1)' }}
+            animate={{ opacity: 1, transform: 'scale(1)' }}
+            whileTap={{ transform: pressedTransform }}
+            transition={{
+                opacity: { delay: Math.min(index * 0.03, 0.24), duration: 0.3 },
+                transform: spring.press,
+            }}
             onClick={onToggle}
             onKeyDown={onKeyDown}
             role="button"
             tabIndex={0}
             aria-expanded={isSelected}
-            className={`min-w-0 bg-bg-dark/60 backdrop-blur-md border rounded-2xl overflow-hidden transition-colors duration-300 flex flex-col cursor-pointer h-full ${
+            className={`min-w-0 bg-bg-dark/60 backdrop-blur-md border rounded-2xl overflow-hidden transition-[border-color,box-shadow,translate] duration-300 hover:-translate-y-0.5 motion-reduce:hover:translate-y-0 flex flex-col cursor-pointer h-full ${
                 isSelected
                     ? 'border-primary ring-1 ring-primary shadow-[0_8px_30px_rgba(59,130,246,0.15)]'
                     : 'border-white/10 hover:border-primary/50 hover:shadow-[0_8px_30px_rgba(0,0,0,0.3)]'
@@ -79,38 +95,60 @@ const ReferralCard: React.FC<ReferralCardProps> = ({
                     {referral.description}
                 </p>
 
-                {isSelected && hasStories && (
-                    <div className="mt-4 space-y-3 text-left">
-                        {referral.referrer?.story && (
-                            <div className="rounded-xl border border-primary/20 bg-primary/5 p-3.5">
-                                <div className="text-[10px] font-bold uppercase tracking-widest text-primary/80 mb-1.5">
-                                    引薦人真心話
-                                </div>
-                                <p className="text-gray-200 text-sm leading-relaxed italic">
-                                    「{referral.referrer.story}」
-                                </p>
-                                <div className="mt-2 text-right text-xs text-primary/70">— {referral.referrer.name}</div>
+                <AnimatePresence initial={false}>
+                    {isSelected && hasStories && (
+                        <motion.div
+                            initial={{ height: 0, opacity: 0, filter: blur.disclosure }}
+                            animate={{
+                                height: 'auto',
+                                opacity: 1,
+                                filter: 'blur(0px)',
+                                transitionEnd: { filter: 'none' },
+                            }}
+                            exit={{
+                                height: 0,
+                                opacity: 0,
+                                filter: blur.disclosure,
+                                transition: disclosureTransition,
+                            }}
+                            transition={disclosureTransition}
+                            style={{ overflow: 'hidden' }}
+                        >
+                            <div className="mt-4 space-y-3 text-left">
+                                {referral.referrer?.story && (
+                                    <div className="rounded-xl border border-primary/20 bg-primary/5 p-3.5">
+                                        <div className="text-[10px] font-bold uppercase tracking-widest text-primary/80 mb-1.5">
+                                            引薦人真心話
+                                        </div>
+                                        <p className="text-gray-200 text-sm leading-relaxed italic">
+                                            「{referral.referrer.story}」
+                                        </p>
+                                        <div className="mt-2 text-right text-xs text-primary/70">— {referral.referrer.name}</div>
+                                    </div>
+                                )}
+                                {referral.referee?.story && (
+                                    <div className="rounded-xl border border-cyan-400/20 bg-cyan-500/5 p-3.5">
+                                        <div className="text-[10px] font-bold uppercase tracking-widest text-cyan-200/80 mb-1.5">
+                                            被引薦人回饋
+                                        </div>
+                                        <p className="text-gray-200 text-sm leading-relaxed">
+                                            {referral.referee.story}
+                                        </p>
+                                        <div className="mt-2 text-right text-xs text-cyan-200/70">— {referral.referee.name}</div>
+                                    </div>
+                                )}
                             </div>
-                        )}
-                        {referral.referee?.story && (
-                            <div className="rounded-xl border border-cyan-400/20 bg-cyan-500/5 p-3.5">
-                                <div className="text-[10px] font-bold uppercase tracking-widest text-cyan-200/80 mb-1.5">
-                                    被引薦人回饋
-                                </div>
-                                <p className="text-gray-200 text-sm leading-relaxed">
-                                    {referral.referee.story}
-                                </p>
-                                <div className="mt-2 text-right text-xs text-cyan-200/70">— {referral.referee.name}</div>
-                            </div>
-                        )}
-                    </div>
-                )}
+                        </motion.div>
+                    )}
+                </AnimatePresence>
 
                 <div className="mt-auto pt-4 flex items-center justify-center gap-1 text-[11px] text-gray-500">
                     <span>{isSelected ? '點擊收合' : '點擊展開完整故事'}</span>
                     <ChevronDown
                         size={12}
-                        className={`transition-transform ${isSelected ? 'rotate-180' : ''}`}
+                        className={`transition-transform duration-350 ease-[cubic-bezier(0.215,0.61,0.355,1)] ${
+                            isSelected ? 'rotate-180' : ''
+                        }`}
                         aria-hidden
                     />
                 </div>

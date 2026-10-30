@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { motion } from 'motion/react';
+import { useMotionTokens } from '@animate-ui/react/utils/motion';
+import { Button } from '@animate-ui/react/primitives/buttons/button';
 import { LogIn, LogOut, User, Facebook, Instagram, Shield } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { supabase } from '../../lib/supabase';
@@ -10,14 +13,16 @@ const Navbar: React.FC = () => {
     const [scrolled, setScrolled] = useState(false);
     const [isAdmin, setIsAdmin] = useState(false);
     const navigate = useNavigate();
+    const location = useLocation();
     const { user, signOut } = useAuth();
+    const { spring } = useMotionTokens();
 
     useEffect(() => {
         const handleScroll = () => {
             setScrolled(window.scrollY > 50);
         };
 
-        window.addEventListener('scroll', handleScroll);
+        window.addEventListener('scroll', handleScroll, { passive: true });
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
@@ -49,31 +54,47 @@ const Navbar: React.FC = () => {
     ];
 
     return (
-        <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-[#0a192f]/95 backdrop-blur-md py-4 shadow-lg border-b border-white/10' : 'bg-gradient-to-b from-black/50 to-transparent py-6'}`}>
+        <nav
+            className={`fixed w-full z-50 transition-[background-color,padding,box-shadow] duration-300 ${
+                scrolled
+                    ? 'bg-[#0a192f]/95 backdrop-blur-md py-4 shadow-lg border-b border-white/10'
+                    : 'bg-gradient-to-b from-black/50 to-transparent py-6'
+            }`}
+        >
             <div className="container mx-auto px-4 flex justify-center md:justify-between items-center">
                 {/* Logo */}
                 <NavLink to="/" className="flex items-center gap-3 group">
                     <img
                         src={siteConfig.logos.horizontal}
-                        alt={`${siteConfig.branchFullName} — 台灣商會首選`}
-                        className="h-14 md:h-20 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+                        alt={`${siteConfig.branchFullName} EverShine`}
+                        className="h-14 md:h-20 w-auto object-contain transition-opacity duration-200 group-hover:opacity-90"
                     />
                 </NavLink>
 
                 {/* Desktop Navigation */}
                 <div className="hidden md:flex items-center space-x-8">
-                    {navLinks.map((link) => (
-                        <NavLink
-                            key={link.path}
-                            to={link.path}
-                            className={({ isActive }) =>
-                                `text-base font-medium tracking-wider transition-colors duration-300 hover:text-primary relative group ${isActive ? 'text-primary' : 'text-gray-300'}`
-                            }
-                        >
-                            {link.name}
-                            <span className="absolute -bottom-2 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full opacity-0 group-hover:opacity-100"></span>
-                        </NavLink>
-                    ))}
+                    {navLinks.map((link) => {
+                        const isActive = location.pathname.startsWith(link.path);
+                        return (
+                            <NavLink
+                                key={link.path}
+                                to={link.path}
+                                className={`text-base font-medium tracking-wider transition-colors duration-200 hover:text-primary relative py-1 ${
+                                    isActive ? 'text-primary' : 'text-gray-300'
+                                }`}
+                            >
+                                <span className="relative z-10">{link.name}</span>
+                                {isActive && (
+                                    <motion.span
+                                        layoutId="navbar-active-underline"
+                                        transition={spring.selection}
+                                        className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary rounded-full shadow-[0_0_8px_rgba(76,168,223,0.6)]"
+                                        aria-hidden
+                                    />
+                                )}
+                            </NavLink>
+                        );
+                    })}
 
                     {/* Social Icons */}
                     <div className="flex items-center gap-4 border-l border-white/20 pl-8 h-6">
@@ -117,34 +138,43 @@ const Navbar: React.FC = () => {
                     {user ? (
                         <div className="flex items-center gap-4 border-l border-white/20 pl-8 h-6">
                             {isAdmin && (
-                                <NavLink to="/admin" className="flex items-center gap-2 text-sm text-[#FFD700] hover:text-white transition-colors font-bold mr-2" title="管理所有會員">
+                                <NavLink
+                                    to="/admin"
+                                    className="flex items-center gap-2 text-sm text-[#FFD700] hover:text-white transition-colors font-bold mr-2"
+                                    title="管理後台"
+                                >
                                     <Shield size={16} />
                                     <span>管理後台</span>
                                 </NavLink>
                             )}
-                            <NavLink to="/member-edit" className="flex items-center gap-2 text-sm text-gray-300 hover:text-white transition-colors">
+                            <NavLink
+                                to="/member-edit"
+                                className="flex items-center gap-2 text-sm text-gray-300 hover:text-white transition-colors"
+                            >
                                 <User size={16} />
                                 <span>我的檔案</span>
                             </NavLink>
                             <button
+                                type="button"
                                 onClick={handleSignOut}
                                 className="flex items-center gap-2 text-sm text-red-400 hover:text-red-300 transition-colors"
+                                title="登出"
                             >
                                 <LogOut size={16} />
                             </button>
                         </div>
                     ) : (
-                        <NavLink
-                            to="/login"
-                            className="btn-lux btn-ghost-lux flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium text-primary hover:text-white"
-                        >
-                            <LogIn size={16} />
-                            <span>會員登入</span>
-                        </NavLink>
+                        <Button asChild>
+                            <NavLink
+                                to="/login"
+                                className="btn-lux btn-ghost-lux flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium text-primary hover:text-white transition-colors"
+                            >
+                                <LogIn size={16} />
+                                <span>會員登入</span>
+                            </NavLink>
+                        </Button>
                     )}
                 </div>
-
-                {/* Mobile View: Only Logo is visible here. BottomNav handles navigation. */}
             </div>
         </nav>
     );

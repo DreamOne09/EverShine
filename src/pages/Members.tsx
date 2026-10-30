@@ -1,13 +1,15 @@
 import React, { useState, useMemo } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
+import { motion, AnimatePresence } from 'motion/react';
+import { Effect } from '@animate-ui/react/primitives/effects/effect';
+import { useMotionTokens } from '@animate-ui/react/utils/motion';
 import { useMembers } from '../hooks/useMembers';
 import { queryKeys } from '../api/queryKeys';
 import MemberCard from '../components/members/MemberCard';
 import MemberDetailModal from '../components/members/MemberDetailModal';
 import type { Member } from '../types';
 import CategoryFilter from '../components/members/CategoryFilter';
-import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../contexts/AuthContext';
 import { supabase } from '../lib/supabase';
 import { Search, Edit } from 'lucide-react';
@@ -40,6 +42,7 @@ const Members: React.FC = () => {
     const { user } = useAuth();
     const navigate = useNavigate();
     const queryClient = useQueryClient();
+    const { spring } = useMotionTokens();
     const [isAdmin, setIsAdmin] = useState(false);
     const [detailMember, setDetailMember] = useState<Member | null>(null);
     const { members, loading, error } = useMembers();
@@ -52,9 +55,6 @@ const Members: React.FC = () => {
         if (q) setSearchQuery(q);
     }, [searchParams]);
 
-    // ... existing hooks
-
-    // Check Admin Status
     React.useEffect(() => {
         const checkAdmin = async () => {
             if (!user) {
@@ -71,39 +71,29 @@ const Members: React.FC = () => {
         checkAdmin();
     }, [user]);
 
-    // ... existing filtering logic
-
-    // ... inside render loop
-
-
-    // Use fixed categories
     const categories = useMemo(() => ['全部', ...CATEGORIES], []);
 
-    // Filter logic
     const filteredMembers = useMemo(() => {
-        return members.filter(member => {
-            if (member.name === '人名') return false; // Filter out template placeholders if any
+        return members.filter((member) => {
+            if (member.name === '人名') return false;
 
-            // Normalize member categories for filtering
-            const memberCats = (member.category || '').split(/[,|、]/).map(c => {
+            const memberCats = (member.category || '').split(/[,|、]/).map((c) => {
                 let t = c.trim();
-                // Map old legacy names to new ones
                 if (CATEGORY_MAPPING[t]) t = CATEGORY_MAPPING[t];
-                // Remove suffix if present
                 const noSuffix = t.replace('生態圈', '');
                 if (CATEGORIES.includes(noSuffix)) t = noSuffix;
                 return t;
             });
 
-            const matchesCategory = activeCategory === '全部' || memberCats.some(c => c === activeCategory);
+            const matchesCategory = activeCategory === '全部' || memberCats.some((c) => c === activeCategory);
             const normalizedSearch = searchQuery.toLowerCase();
             const matchesSearch =
                 member.name.toLowerCase().includes(normalizedSearch) ||
                 (member.category && member.category.toLowerCase().includes(normalizedSearch)) ||
                 (member.industry && member.industry.toLowerCase().includes(normalizedSearch)) ||
                 (member.company && member.company.toLowerCase().includes(normalizedSearch)) ||
-                (member.services && member.services.some(s => s.toLowerCase().includes(normalizedSearch))) ||
-                (member.hashtags && member.hashtags.some(h => h.toLowerCase().includes(normalizedSearch)));
+                (member.services && member.services.some((s) => s.toLowerCase().includes(normalizedSearch))) ||
+                (member.hashtags && member.hashtags.some((h) => h.toLowerCase().includes(normalizedSearch)));
 
             return matchesCategory && matchesSearch;
         });
@@ -124,7 +114,6 @@ const Members: React.FC = () => {
 
     return (
         <div className="relative min-h-screen bg-[#030712]">
-            {/* 沈浸式底紋 */}
             <div
                 className="pointer-events-none fixed inset-0 z-0 opacity-[0.35]"
                 style={{
@@ -134,17 +123,17 @@ const Members: React.FC = () => {
                 aria-hidden
             />
             <SEO
-                title="長輝會員｜八大產業企業家名錄"
-                description="認識 BNI 長輝白金分會的會員。涵蓋居住工程、品牌行銷、金融法稅、數位科技等八大產業，每位會員都是該領域的獨家代表。"
+                title="長輝會員｜八大產業專業代表名錄"
+                description="認識 BNI 長輝白金分會的在籍會員。涵蓋居住工程、品牌行銷、金融法稅、數位科技等八大產業，每個專業在分會裡只收一位代表。"
                 keywords="長輝會員, BNI會員, 企業家名錄, 商務媒合, 行業專家, 長輝白金分會"
                 breadcrumbs={[{ name: '會員介紹', path: '/members' }]}
                 structuredData={{
                     '@type': 'CollectionPage',
-                    name: 'BNI 長輝白金分會台灣商會會員名錄',
-                    description: '台灣 BNI 長輝白金分會涵蓋八大產業的優秀企業家與專業人士。',
+                    name: 'BNI 長輝白金分會會員名錄',
+                    description: '台灣 BNI 長輝白金分會涵蓋八大產業的企業主與專業代表。',
                     url: 'https://evershine.tw/members',
                     isPartOf: { '@id': 'https://evershine.tw/#website' },
-                    inLanguage: 'zh-TW'
+                    inLanguage: 'zh-TW',
                 }}
             />
             <PageHero
@@ -152,30 +141,30 @@ const Members: React.FC = () => {
                 tone="meeting"
                 badge="EverShine Members"
                 title="長輝會員"
-                subtitle={<>八大產業的獨家代表<br />我們為夥伴的生意著想，也為夥伴的生意做引薦</>}
+                subtitle={
+                    <>
+                        八大產業、一業一代表<br />
+                        點開任何一張名片，就能看到對方的服務項目與直接聯絡方式
+                    </>
+                }
             />
 
             <div className="container relative z-10 mx-auto px-3 py-6 pt-2 md:px-4 md:py-8 md:pt-6">
                 <div className="text-center mb-8 relative z-10">
-
                     {/* Search Bar - Sticky on Mobile */}
-                    <div className="sticky top-[60px] md:top-[80px] z-30 bg-bg-primary/95 backdrop-blur-xl py-3 -mx-4 px-4 mb-2 transition-all shadow-sm md:py-4 md:shadow-none md:static md:bg-transparent md:p-0">
-                        <motion.div
-                            initial={{ opacity: 0, width: "80%" }}
-                            animate={{ opacity: 1, width: "100%" }}
-                            className="relative max-w-lg mx-auto group"
-                        >
+                    <div className="sticky top-[60px] md:top-[80px] z-30 bg-bg-primary/95 backdrop-blur-xl py-3 -mx-4 px-4 mb-2 transition-colors shadow-sm md:py-4 md:shadow-none md:static md:bg-transparent md:p-0">
+                        <div className="relative max-w-lg mx-auto group">
                             <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none sm:pl-5">
                                 <Search className="text-gray-400 group-focus-within:text-primary transition-colors" size={18} />
                             </div>
                             <input
                                 type="text"
-                                placeholder="搜尋會員名字、行業、公司..."
+                                placeholder="搜尋姓名、行業、公司或服務項目…"
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                className="w-full bg-bg-dark/80 backdrop-blur-sm border border-gray-600 rounded-full py-3 pl-11 pr-5 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-lg sm:py-3.5 sm:pl-12 sm:pr-6 sm:text-base"
+                                className="w-full bg-bg-dark/80 backdrop-blur-sm border border-gray-600 rounded-full py-3 pl-11 pr-5 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors shadow-lg sm:py-3.5 sm:pl-12 sm:pr-6 sm:text-base"
                             />
-                        </motion.div>
+                        </div>
                     </div>
 
                     <CategoryFilter
@@ -193,76 +182,70 @@ const Members: React.FC = () => {
                     </div>
                 )}
 
-                <motion.div layout className="grid grid-cols-1 gap-4 pb-12 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-6 xl:grid-cols-4">
+                <div className="grid grid-cols-1 gap-4 pb-12 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-6 xl:grid-cols-4">
                     <AnimatePresence mode="popLayout">
-                        {!loading && filteredMembers.map((member) => (
-                            <motion.div
-                                layout
-                                key={member.id || member.name}
-                                initial={{ opacity: 0, scale: 0.9 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                exit={{ opacity: 0, scale: 0.9 }}
-                                transition={{ duration: 0.3 }}
-                                className="relative group"
-                            >
-                                <MemberCard member={member} onOpenDetails={setDetailMember} />
-                                {isAdmin && (
-                                    <button
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            navigate(`/member-edit?id=${member.id}`);
-                                        }}
-                                        className="absolute right-2 top-2 z-20 rounded-full bg-black/60 p-2 opacity-0 shadow-lg backdrop-blur-sm transition-all hover:bg-primary hover:text-bg-dark group-hover:opacity-100"
-                                        title="管理員編輯"
-                                    >
-                                        <Edit size={16} />
-                                    </button>
-                                )}
-                            </motion.div>
-                        ))}
+                        {!loading &&
+                            filteredMembers.map((member) => (
+                                <motion.div
+                                    layout="position"
+                                    key={member.id || member.name}
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    exit={{ opacity: 0, transition: { duration: 0.15 } }}
+                                    transition={spring.reflow}
+                                    className="relative group"
+                                >
+                                    <MemberCard member={member} onOpenDetails={setDetailMember} />
+                                    {isAdmin && (
+                                        <button
+                                            type="button"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                navigate(`/member-edit?id=${member.id}`);
+                                            }}
+                                            className="absolute right-2 top-2 z-20 rounded-full bg-black/60 p-2 opacity-0 shadow-lg backdrop-blur-sm transition-opacity hover:bg-primary hover:text-bg-dark group-hover:opacity-100"
+                                            title="管理員編輯"
+                                        >
+                                            <Edit size={16} />
+                                        </button>
+                                    )}
+                                </motion.div>
+                            ))}
                     </AnimatePresence>
-                </motion.div>
+                </div>
 
                 <MemberDetailModal member={detailMember} open={detailMember !== null} onClose={() => setDetailMember(null)} />
 
-                {/* Member Pledge - Moved to Bottom */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.3, duration: 0.6 }}
-                    className="bg-white/5 backdrop-blur-md rounded-2xl p-6 md:p-8 max-w-3xl mx-auto mb-20 border border-white/10 text-left"
-                >
-                    <div className="text-center mb-6">
-                        <h3 className="text-xl md:text-2xl font-bold text-primary mb-2">BNI 會員宣示</h3>
-                        <div className="w-12 h-1 bg-primary/50 mx-auto rounded-full"></div>
+                {/* Member Pledge */}
+                <Effect inView fade blur={{ initialBlur: 4 }} slide={{ offset: 14 }}>
+                    <div className="bg-white/5 backdrop-blur-md rounded-2xl p-6 md:p-8 max-w-3xl mx-auto mb-20 border border-white/10 text-left">
+                        <div className="text-center mb-6">
+                            <h3 className="text-xl md:text-2xl font-bold text-primary mb-2">BNI 會員專業承諾</h3>
+                            <div className="w-12 h-1 bg-primary/50 mx-auto rounded-full"></div>
+                        </div>
+                        <div className="grid md:grid-cols-2 gap-x-8 gap-y-4 text-gray-300 text-sm md:text-base">
+                            {[
+                                '我承諾按照約定的品質與報價提供服務',
+                                '我承諾對夥伴與他們介紹來的客戶坦誠相待',
+                                '我承諾與夥伴及轉介紹客戶建立互信與善意',
+                                '我承諾收到引薦後主動聯繫並回報處理進度',
+                                '我承諾對夥伴保持正向、互相支援的態度',
+                                '我承諾恪守所屬專業領域的職業道德標準',
+                            ].map((text, idx) => (
+                                <div key={idx} className="flex items-start gap-3">
+                                    <span className="text-primary font-bold font-mono text-lg">{idx + 1}.</span>
+                                    <p>{text}</p>
+                                </div>
+                            ))}
+                        </div>
                     </div>
-                    <div className="grid md:grid-cols-2 gap-x-8 gap-y-4 text-gray-300 text-sm md:text-base">
-                        {[
-                            "我願意提供我所承諾的服務品質與價格",
-                            "我願意對會員及其引薦對象誠實",
-                            "我願意在會員及其引薦對象之間建立善意與信任",
-                            "我願意對接收到的引薦負責並進行追蹤",
-                            "我願意展現正向與支持的態度",
-                            "我願意遵守我行業的道德標準"
-                        ].map((text, idx) => (
-                            <div key={idx} className="flex items-start gap-3">
-                                <span className="text-primary font-bold font-mono text-lg">{idx + 1}.</span>
-                                <p>{text}</p>
-                            </div>
-                        ))}
-                    </div>
-                </motion.div>
+                </Effect>
 
                 {!loading && filteredMembers.length === 0 && (
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        className="col-span-full max-w-xl mx-auto"
-                    >
+                    <div className="col-span-full max-w-xl mx-auto">
                         <EmptyState
                             title="沒有找到符合條件的會員"
-                            description="試試調整搜尋關鍵字或產業篩選。"
+                            description="試試調整搜尋關鍵字或切換產業分類。"
                             action={
                                 <button
                                     type="button"
@@ -277,7 +260,7 @@ const Members: React.FC = () => {
                             }
                             className="border-white/10 bg-white/[0.03]"
                         />
-                    </motion.div>
+                    </div>
                 )}
             </div>
         </div>

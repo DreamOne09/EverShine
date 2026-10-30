@@ -530,7 +530,7 @@ const MemberEdit: React.FC = () => {
 
                         {/* Basic Info Section */}
                         <div className="bg-bg-dark/80 backdrop-blur border border-white/10 rounded-2xl p-6 md:p-8">
-                            <h2 className="text-xl font-bold text-primary mb-6 border-b border-white/10 pb-4">📝 基本資料</h2>
+                            <h2 className="text-xl font-bold text-primary mb-6 border-b border-white/10 pb-4">基本資料</h2>
                             <div className="space-y-4">
                                 <div>
                                     <label className="block text-gray-300 mb-2 font-medium">真實姓名</label>
@@ -628,7 +628,7 @@ const MemberEdit: React.FC = () => {
 
                         {/* Intro Section */}
                         <div className="bg-bg-dark/80 backdrop-blur border border-white/10 rounded-2xl p-6 md:p-8">
-                            <h2 className="text-xl font-bold text-primary mb-6 border-b border-white/10 pb-4">📣 自我介紹</h2>
+                            <h2 className="text-xl font-bold text-primary mb-6 border-b border-white/10 pb-4">自我介紹</h2>
                             <div className="space-y-6">
                                 <div>
                                     <label className="block text-gray-300 mb-2 font-medium">
@@ -671,8 +671,8 @@ const MemberEdit: React.FC = () => {
                                             <span className="ml-2">已超過 {fullIntro.length - LIMITS.fullIntro} 字，請刪減</span>
                                         )}
                                     </div>
-                                    <p className="mt-3 text-xs text-primary/70 leading-relaxed italic">
-                                        💡 <strong>AI 搜尋優化小提醒：</strong>建議使用自然語言描述。例如：「我是一位專門協助電商企業處理節稅問題的專業會計師...」這能幫助 AI 搜尋引擎 (如 ChatGPT/Perplexity) 更精準地將您推薦給目標客戶。
+                                    <p className="mt-3 text-xs text-primary/70 leading-relaxed">
+                                        <strong>撰寫建議：</strong>直接寫清楚你平常幫哪一類客戶解決什麼問題（例如：「專門幫電商與中小型貿易商處理跨國稅務與節稅規劃」），夥伴在幫你轉介紹時最好記，搜尋引擎也更容易找到你。
                                     </p>
                                 </div>
                             </div>
@@ -680,7 +680,7 @@ const MemberEdit: React.FC = () => {
 
                         {/* Services & Hashtags */}
                         <div className="bg-bg-dark/80 backdrop-blur border border-white/10 rounded-2xl p-6 md:p-8">
-                            <h2 className="text-xl font-bold text-primary mb-6 border-b border-white/10 pb-4">✨ 服務與標籤</h2>
+                            <h2 className="text-xl font-bold text-primary mb-6 border-b border-white/10 pb-4">服務項目與標籤</h2>
 
                             <div className="mb-6">
                                 <label className="block text-gray-300 mb-2 font-medium">主要服務 (最多3項)</label>
@@ -726,7 +726,7 @@ const MemberEdit: React.FC = () => {
 
                         {/* Social Links */}
                         <div className="bg-bg-dark/80 backdrop-blur border border-white/10 rounded-2xl p-6 md:p-8">
-                            <h2 className="text-xl font-bold text-primary mb-6 border-b border-white/10 pb-4">🔗 社群連結</h2>
+                            <h2 className="text-xl font-bold text-primary mb-6 border-b border-white/10 pb-4">外部與社群連結</h2>
                             <div className="space-y-3">
                                 {links.map((link, idx) => (
                                     <div key={link.type} className="flex gap-2 items-center">

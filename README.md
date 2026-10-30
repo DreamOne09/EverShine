@@ -73,6 +73,16 @@
 *   LINE 1200×630 分享圖、全站 meta、首頁主標與三 CTA、來訪三步驟。
 *   玻璃高光／琺瑯按鈕等質感。
 *   首頁地球底圖；會員／認識 BNI／引薦／登入改為真實會員例會 Gallery。
+*   **Animate UI 動態系統（`@animate-ui/react` + `motion`）**：
+    *   全域包覆 `AnimateUIProvider` 與 `ReducedMotionConfig`，完整支援系統「減少動態效果（Reduced Motion）」。
+    *   `PageHero`：H1 首屏直接繪製（保護 SEO 與 LCP），徽章、副標與按鈕採 `Effect` 微幅滑入與淡出模糊。
+    *   統計數字全面改用 `CountingNumber`（`tabular-nums` 等寬不抖動，Reduced Motion 下直接顯示數值）。
+    *   `CategoryFilter`、`ReferralFilterBar`、`ResultsChart`、`Navbar`、`BottomNav` 統一採用 `spring.selection` 共享指示器（`layoutId`）平滑滑動。
+    *   `MemberCard`、`Contact`、`ReferralCard` 遵循 `scale.choice` (0.985) 按壓回饋與 `spring.press` 彈簧，移除容器 hover 放大。
+    *   `FAQ` 與 `ReferralCard` 展開收合改用 `transition.disclosure` (350ms, `ease.soft`) 搭配 `blur.disclosure`。
+    *   `MemberDetailModal` 改用 3D 傾角彈簧 `spring.dialog` 進場、`transition.dismiss` 離場，背景遮罩直接動畫化 `backgroundColor` 與 `backdropFilter`。
+    *   `MemberWall` 跑馬燈與 `StarryBackground` 星空畫布於滾出畫面、切換背景分頁或開啟減少動態時自動暫停。
+*   **全站文字去 AI 化**：移除「結構化例會、精準媒合、極大化商務效益、鏈結」等 AI 模板口號與引薦案例 71–76 的說教金句，改為台灣企業主自然口語與具體例會情境。
 
 ---
 
