@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
-import { Activity, RefreshCw } from 'lucide-react';
+import { RefreshCw } from 'lucide-react';
 import SEO from '../components/common/SEO';
 import {
     MainLayoutSkeleton,
@@ -21,6 +21,9 @@ import type { ReferralFormState } from '../components/admin/AdminReferralsTab';
 import AdminSettingsTab from '../components/admin/AdminSettingsTab';
 import AdminHelpBanner from '../components/admin/AdminHelpBanner';
 import AdminMemberModal from '../components/admin/AdminMemberModal';
+import AdminModuleNav from '../components/admin/AdminModuleNav';
+import { resolveAdminRoute, type AdminModuleId } from '../components/admin/adminModules';
+import CommitteeModule, { type CommitteeView } from '../components/admin/committee/CommitteeModule';
 
 const createEmptyReferralForm = (): ReferralFormState => ({
     title: '',
@@ -36,11 +39,26 @@ const createEmptyReferralForm = (): ReferralFormState => ({
 });
 
 const Admin: React.FC = () => {
-    const { user } = useAuth();
+    const { user, loading: authLoading } = useAuth();
     const navigate = useNavigate();
     const queryClient = useQueryClient();
     const [initialLoad, setInitialLoad] = useState(true);
-    const [activeTab, setActiveTab] = useState<'overview' | 'members' | 'referrals' | 'settings'>('overview');
+    const [searchParams, setSearchParams] = useSearchParams();
+    const { module: activeModule, view: activeView } = resolveAdminRoute(searchParams.get('m'), searchParams.get('v'));
+    const goTo = (moduleId: AdminModuleId, view?: string) =>
+        setSearchParams(() => {
+            const next = new URLSearchParams();
+            next.set('m', moduleId);
+            if (view) next.set('v', view);
+            return next;
+        });
+    const setView = (view: string) =>
+        setSearchParams((prev) => {
+            const next = new URLSearchParams(prev);
+            next.set('m', activeModule.id);
+            next.set('v', view);
+            return next;
+        });
     const [memberSearch, setMemberSearch] = useState('');
     const [homeStats, setHomeStats] = useState({
         referral_count: 0,
@@ -64,6 +82,7 @@ const Admin: React.FC = () => {
     }, [dashboardQuery.data]);
 
     const checkAdmin = useCallback(async () => {
+        if (authLoading) return;
         if (!user) {
             navigate('/login');
             return;
@@ -74,7 +93,7 @@ const Admin: React.FC = () => {
         } catch {
             navigate('/');
         }
-    }, [user, navigate]);
+    }, [user, authLoading, navigate]);
 
     useEffect(() => {
         void checkAdmin();
@@ -229,11 +248,18 @@ const Admin: React.FC = () => {
     const marketingStats = derived?.marketingStats ?? { socialClicks: 0 };
     const admins = derived?.admins ?? [];
 
+    const refreshActive = () => {
+        if (activeModule.id === 'committee') {
+            void queryClient.invalidateQueries({ queryKey: queryKeys.committee.bundle });
+        } else {
+            void refetchDashboard();
+        }
+    };
+
     return (
         <div className="min-h-dvh pt-24 md:pt-32 pb-24 md:pb-12 px-4 container mx-auto">
             <TopProgressBar active={dashboardQuery.isFetching && !!dashboardQuery.data} />
-            <SEO title="管理後台" noindex />
-            <AdminHelpBanner />
+            <SEO title={`${activeModule.label}｜管理後台`} noindex />
             <AdminMemberModal
                 open={memberModalOpen}
                 onClose={() => setMemberModalOpen(false)}
@@ -242,82 +268,101 @@ const Admin: React.FC = () => {
                     void refetchDashboard();
                 }}
             />
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
-                <h1 className="text-2xl md:text-3xl font-bold text-white flex items-center gap-3 flex-wrap">
-                    <Activity className="text-primary" size={24} /> 管理後台
-                    <button
-                        type="button"
-                        onClick={() => void refetchDashboard()}
-                        className={`p-2 rounded-full hover:bg-white/10 transition-all ${loading ? 'animate-spin text-primary' : 'text-gray-400'}`}
-                        title="重新整理數據"
-                    >
-                        <RefreshCw size={18} />
-                    </button>
-                </h1>
-                <div className="w-full md:w-auto overflow-x-auto -mx-4 px-4 md:mx-0 md:px-0 scrollbar-hide">
-                    <div className="flex bg-white/5 p-1 rounded-lg backdrop-blur-sm border border-white/10 min-w-max">
-                        {(
-                            [
-                                { id: 'overview', label: '總覽' },
-                                { id: 'members', label: '會員' },
-                                { id: 'referrals', label: '引薦' },
-                                { id: 'settings', label: '設定' },
-                            ] as const
-                        ).map((tab) => (
-                            <button
-                                key={tab.id}
-                                type="button"
-                                onClick={() => setActiveTab(tab.id)}
-                                className={`px-4 py-2 rounded-md text-sm font-bold transition-colors whitespace-nowrap ${
-                                    activeTab === tab.id ? 'bg-primary text-bg-dark' : 'text-gray-400 hover:text-white'
-                                }`}
-                            >
-                                {tab.label}
-                            </button>
-                        ))}
+            <div className="lg:grid lg:grid-cols-[15rem_minmax(0,1fr)] lg:gap-8">
+                <aside className="mb-6 lg:mb-0 lg:sticky lg:top-28 lg:self-start">
+                    <div className="mb-4 hidden lg:block">
+                        <div className="text-[10px] font-bold uppercase tracking-[0.25em] text-primary/80">EverShine OS</div>
+                        <div className="text-lg font-bold text-white">長輝管理後台</div>
                     </div>
-                </div>
-            </div>
+                    <AdminModuleNav active={activeModule.id} onSelect={(id) => goTo(id)} />
+                </aside>
 
-            <div className="space-y-6">
-                {activeTab === 'overview' && (
-                    <AdminOverviewTab stats={stats} recentUpdates={recentUpdates} marketingStats={marketingStats} admins={admins} />
-                )}
-                {activeTab === 'members' && (
-                    <AdminMembersTab
-                        memberSearch={memberSearch}
-                        onMemberSearch={setMemberSearch}
-                        onAddMember={() => setMemberModalOpen(true)}
-                        allMembers={members}
-                        filteredMembers={filteredMembers}
-                        loading={loading}
-                        onRefresh={() => void refetchDashboard()}
-                    />
-                )}
-                {activeTab === 'referrals' && (
-                    <AdminReferralsTab
-                        members={members}
-                        referrals={referrals}
-                        referralForm={referralForm}
-                        onReferralFormChange={setReferralForm}
-                        editingReferralId={editingReferralId}
-                        onCancelEdit={() => {
-                            setEditingReferralId(null);
-                            setReferralForm(createEmptyReferralForm());
-                        }}
-                        onSubmitReferral={submitReferralForm}
-                        onEditReferral={startEditReferral}
-                        onDeleteReferral={handleDeleteReferral}
-                    />
-                )}
-                {activeTab === 'settings' && (
-                    <AdminSettingsTab
-                        homeStats={homeStats}
-                        onHomeStatsChange={setHomeStats}
-                        onSaveHomeStats={() => saveHomeStatsMutation.mutate()}
-                        homeStatsHistory={homeStatsHistory}
-                    />
-                )}
+                <main className="min-w-0">
+                    <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                        <div>
+                            <h1 className="flex flex-wrap items-center gap-3 text-2xl font-bold text-white md:text-3xl">
+                                <activeModule.icon className="text-primary" size={24} /> {activeModule.label}
+                                <button
+                                    type="button"
+                                    onClick={refreshActive}
+                                    className={`rounded-full p-2 transition-all hover:bg-white/10 ${loading ? 'animate-spin text-primary' : 'text-gray-400'}`}
+                                    title="重新整理"
+                                >
+                                    <RefreshCw size={18} />
+                                </button>
+                            </h1>
+                            <p className="mt-1 text-sm text-gray-500">{activeModule.description}</p>
+                        </div>
+                        {activeModule.views.length > 1 && (
+                            <div className="-mx-4 overflow-x-auto px-4 scrollbar-hide md:mx-0 md:px-0">
+                                <div className="flex min-w-max rounded-lg border border-white/10 bg-white/5 p-1 backdrop-blur-sm">
+                                    {activeModule.views.map((v) => (
+                                        <button
+                                            key={v.id}
+                                            type="button"
+                                            onClick={() => setView(v.id)}
+                                            className={`whitespace-nowrap rounded-md px-4 py-2 text-sm font-bold transition-colors ${
+                                                activeView === v.id ? 'bg-primary text-bg-dark' : 'text-gray-400 hover:text-white'
+                                            }`}
+                                        >
+                                            {v.label}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+                    </div>
+
+                    {activeModule.id !== 'committee' && <AdminHelpBanner />}
+
+                    <div className="space-y-6">
+                        {activeModule.id === 'committee' && user && (
+                            <CommitteeModule
+                                members={members}
+                                view={activeView as CommitteeView}
+                                onViewChange={(v) => setView(v)}
+                            />
+                        )}
+                        {activeModule.id === 'members' && activeView === 'overview' && (
+                            <AdminOverviewTab stats={stats} recentUpdates={recentUpdates} marketingStats={marketingStats} admins={admins} />
+                        )}
+                        {activeModule.id === 'members' && activeView === 'list' && (
+                            <AdminMembersTab
+                                memberSearch={memberSearch}
+                                onMemberSearch={setMemberSearch}
+                                onAddMember={() => setMemberModalOpen(true)}
+                                allMembers={members}
+                                filteredMembers={filteredMembers}
+                                loading={loading}
+                                onRefresh={() => void refetchDashboard()}
+                            />
+                        )}
+                        {activeModule.id === 'referrals' && activeView === 'cases' && (
+                            <AdminReferralsTab
+                                members={members}
+                                referrals={referrals}
+                                referralForm={referralForm}
+                                onReferralFormChange={setReferralForm}
+                                editingReferralId={editingReferralId}
+                                onCancelEdit={() => {
+                                    setEditingReferralId(null);
+                                    setReferralForm(createEmptyReferralForm());
+                                }}
+                                onSubmitReferral={submitReferralForm}
+                                onEditReferral={startEditReferral}
+                                onDeleteReferral={handleDeleteReferral}
+                            />
+                        )}
+                        {activeModule.id === 'referrals' && activeView === 'monthly' && (
+                            <AdminSettingsTab
+                                homeStats={homeStats}
+                                onHomeStatsChange={setHomeStats}
+                                onSaveHomeStats={() => saveHomeStatsMutation.mutate()}
+                                homeStatsHistory={homeStatsHistory}
+                            />
+                        )}
+                    </div>
+                </main>
             </div>
         </div>
     );
