@@ -38,16 +38,16 @@ const Home: React.FC = () => {
                 }}
             />
 
-            {/* 第一章：深空母艦首屏 + 即時軌道遙測條 */}
+            {/* 首屏：品牌定位與核心實績摘要 */}
             <PageHero
-                badge={`ORBIT 25.03°N 121.56°E · ${siteConfig.branchName} · ${siteConfig.meeting.dayZh} ${siteConfig.meeting.startTime}–${siteConfig.meeting.endTime}`}
+                badge={`${siteConfig.branchName} · ${siteConfig.meeting.dayZh} ${siteConfig.meeting.startTime}–${siteConfig.meeting.endTime} 線上例會`}
                 tone="earth"
                 title="BNI 長輝白金分會"
-                heroTagline="把單打獨鬥的專業，連成彼此引薦的星系"
+                heroTagline="一業一代表，把各行各業連成長期合作的團隊"
                 subtitle={
                     <>
-                        全程在 Zoom 上開會的 BNI 線上白金分會<br />
-                        每週三早上六點半，近 60 位不同產業的老闆在同一個軌道上為彼此找生意
+                        全程在 Zoom 上開會的 BNI 白金分會<br />
+                        每週三早上六點半，近 60 位不同產業的企業主在線上為彼此找生意
                     </>
                 }
                 showScrollIndicator
@@ -59,7 +59,7 @@ const Home: React.FC = () => {
                             className="btn-lux btn-primary-lux inline-flex w-full items-center justify-center gap-2 rounded-full px-8 py-3.5 text-base font-bold transition-colors sm:w-auto"
                         >
                             <Compass size={17} strokeWidth={2.2} />
-                            探索八大產業星圖
+                            看八大產業分工
                         </a>
                     </Button>
                     <Button asChild className="w-full sm:w-auto">
@@ -68,7 +68,7 @@ const Home: React.FC = () => {
                             className="btn-lux btn-ghost-lux inline-flex w-full items-center justify-center gap-2 rounded-full px-8 py-3.5 text-base font-bold transition-colors sm:w-auto"
                         >
                             <Users size={17} strokeWidth={2.2} />
-                            認識 59 位專業代表
+                            瀏覽 59 位會員
                         </Link>
                     </Button>
                     <Button asChild className="w-full sm:w-auto">
@@ -77,41 +77,41 @@ const Home: React.FC = () => {
                             className="btn-lux btn-platinum-lux inline-flex w-full items-center justify-center gap-2 rounded-full px-8 py-3.5 text-base font-bold transition-colors sm:w-auto"
                         >
                             <Sparkles size={17} strokeWidth={2.2} />
-                            預約週三登艙來訪
+                            預約來賓參觀
                         </a>
                     </Button>
                 </div>
 
-                {/* 星艦即時遙測儀表板 (Telemetry HUD Strip) */}
+                {/* 分會核心數據一覽 */}
                 <div className="mx-auto mt-10 max-w-4xl px-2">
                     <div className="glass-panel grid grid-cols-2 sm:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-white/10 rounded-2xl border border-white/15 bg-[#041122]/75 py-3.5 px-2 backdrop-blur-xl">
                         <div className="px-3 py-1.5 text-center">
-                            <div className="font-mono text-[10px] tracking-[0.2em] text-platinum-light/85 uppercase">
-                                ACTIVE CREW
+                            <div className="text-[11px] font-medium tracking-wider text-platinum-light/90">
+                                在籍會員
                             </div>
                             <div className="mt-0.5 font-mono text-xl sm:text-2xl font-bold tabular-nums text-white">
-                                59 <span className="text-xs font-sans font-normal text-gray-300">位獨家代表</span>
+                                59 <span className="text-xs font-sans font-normal text-gray-300">位專業代表</span>
                             </div>
                         </div>
                         <div className="px-3 py-1.5 text-center">
-                            <div className="font-mono text-[10px] tracking-[0.2em] text-platinum-light/85 uppercase">
-                                SECTORS
+                            <div className="text-[11px] font-medium tracking-wider text-platinum-light/90">
+                                產業分類
                             </div>
                             <div className="mt-0.5 font-mono text-xl sm:text-2xl font-bold tabular-nums text-white">
-                                8 <span className="text-xs font-sans font-normal text-gray-300">大產業星區</span>
+                                8 <span className="text-xs font-sans font-normal text-gray-300">大產業領域</span>
                             </div>
                         </div>
                         <div className="px-3 py-1.5 text-center">
-                            <div className="font-mono text-[10px] tracking-[0.2em] text-platinum-light/85 uppercase">
-                                VERIFIED LINKS
+                            <div className="text-[11px] font-medium tracking-wider text-platinum-light/90">
+                                累計引薦
                             </div>
                             <div className="mt-0.5 font-mono text-xl sm:text-2xl font-bold tabular-nums text-white">
                                 26,459 <span className="text-xs font-sans font-normal text-gray-300">張引薦單</span>
                             </div>
                         </div>
                         <div className="px-3 py-1.5 text-center">
-                            <div className="font-mono text-[10px] tracking-[0.2em] text-platinum-light/85 uppercase">
-                                TOTAL VALUE
+                            <div className="text-[11px] font-medium tracking-wider text-platinum-light/90">
+                                累計成交
                             </div>
                             <div className="mt-0.5 font-mono text-xl sm:text-2xl font-bold tabular-nums text-platinum-light">
                                 6.3 億+ <span className="text-xs font-sans font-normal text-gray-300">新台幣</span>
@@ -121,25 +121,25 @@ const Home: React.FC = () => {
                 </div>
             </PageHero>
 
-            {/* 第二章：八大產業互動星盤（一業一代表 × 真實引薦鏈） */}
+            {/* 八大產業分工與跨業合作鏈 */}
             <ConstellationMapSection />
 
-            {/* 第三章：週三 06:20–08:30 晨間航行日誌（120 分鐘時間軸） */}
+            {/* 週三 06:20–08:30 例會流程時間軸 */}
             <MorningOrbitTimeline />
 
-            {/* 第四章：為什麼長輝能讓引薦自然發生（四條引力法則） */}
+            {/* 長輝運作原則 */}
             <About />
 
-            {/* 第五章：59 位現役星系夥伴牆 */}
+            {/* 59 位在籍會員牆 */}
             <MemberWall />
 
-            {/* 第六章：實名引薦觀測數據與近 12 個月曲線 */}
+            {/* 引薦成果統計與近 12 個月趨勢圖 */}
             <Results />
 
-            {/* 第七章：來賓登艙三步驟 */}
+            {/* 來賓參觀三步驟 */}
             <VisitSteps />
 
-            {/* 第八章：全球 BNI 母艦網絡 */}
+            {/* 認識全球 BNI 組織 */}
             <section className="flex flex-col justify-center py-20 relative z-10 px-4 overflow-hidden">
                 <div className="absolute inset-0 pointer-events-none" aria-hidden>
                     <div className="absolute top-1/4 left-10 w-32 h-32 bg-[#cf2030]/10 rounded-full blur-[40px]" />
@@ -159,7 +159,7 @@ const Home: React.FC = () => {
                             />
 
                             <div className="absolute top-6 right-6 hidden items-center gap-2 rounded-full border border-white/15 bg-black/20 px-4 py-1.5 font-mono text-xs tracking-widest text-primary-light uppercase shadow-[inset_0_1px_0_rgba(255,255,255,0.12)] md:flex">
-                                GLOBAL NETWORK · EST. 1985
+                                EST. 1985
                             </div>
 
                             {/* Logo Column */}
@@ -199,13 +199,13 @@ const Home: React.FC = () => {
                             {/* Content Column */}
                             <div className="w-full lg:w-2/3 text-center lg:text-left relative z-10">
                                 <h2 className="text-3xl md:text-5xl font-bold text-white mb-4 tracking-tight">
-                                    背後連通全球的 <span className="text-[#cf2030]">BNI</span> 商務母艦
+                                    什麼是 <span className="text-[#cf2030]">BNI</span>？
                                 </h2>
                                 <h3 className="text-xl md:text-2xl text-primary-light font-medium mb-6">
                                     不靠應酬喝酒，用 40 年驗證的制度幫彼此介紹客戶
                                 </h3>
                                 <p className="text-gray-300 text-lg leading-relaxed mb-10 max-w-2xl mx-auto lg:mx-0">
-                                    BNI（Business Network International）從 1985 年創立至今，在台灣有 245 個分會、將近一萬名企業主。規則很單純：同一個分會裡，每個專業只收一位代表。你先幫夥伴留意生意、介紹客戶，別人自然也會把案子帶給你，這就是「付出者收穫」（Givers Gain®）。長輝把這套制度完整搬上 Zoom，讓你跨出單一城市，連通全台與全球的企業主網絡。
+                                    BNI（Business Network International）從 1985 年創立至今，在台灣有 245 個分會、將近一萬名企業主。規則很單純：同一個分會裡，每個專業只收一位代表。你先幫夥伴留意生意、介紹客戶，別人自然也會把案子帶給你，這就是「付出者收穫」（Givers Gain®）。長輝把這套制度完整搬上 Zoom，讓你不受縣市與出差限制，穩定與全台企業主合作。
                                 </p>
 
                                 {/* Stats Grid */}
@@ -245,10 +245,10 @@ const Home: React.FC = () => {
                 </div>
             </section>
 
-            {/* 第九章：常見問題 */}
+            {/* 常見問題 */}
             <FAQ />
 
-            {/* 第十章：聯繫三長登艙口 */}
+            {/* 預約參觀與聯繫幹部 */}
             <Contact />
         </div>
     );

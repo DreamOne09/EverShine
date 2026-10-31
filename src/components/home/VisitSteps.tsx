@@ -7,21 +7,21 @@ import { EmblemBeaconLock, EmblemOrbitSync, EmblemBinaryBridge } from './Starshi
 const STEPS = [
     {
         emblem: <EmblemBeaconLock size={40} />,
-        code: 'STEP 01 · BEACON LOCK',
-        title: '私訊幹部，鎖定來訪名額',
+        code: 'STEP 01',
+        title: '私訊幹部，預約來訪名額',
         desc: '跟我們說你做哪一行、哪個週三方便上線。我們會先幫你確認分會裡有沒有撞業，並安排同產業鏈的夥伴在線上接待你。',
     },
     {
         emblem: <EmblemOrbitSync size={40} />,
-        code: 'STEP 02 · ORBIT SYNC',
+        code: 'STEP 02',
         title: `${siteConfig.meeting.dayZh} ${siteConfig.meeting.onlineTime} 開 Zoom 進場`,
         desc: '不用早起趕車去飯店。在家或辦公室點開同一條 Zoom 連結就能入座，前十分鐘大家會先開麥打招呼、帶你認識新朋友。',
     },
     {
         emblem: <EmblemBinaryBridge size={40} />,
-        code: 'STEP 03 · GRAVITY LINK',
+        code: 'STEP 03',
         title: `${siteConfig.meeting.startTime} 早鳥交流 · ${siteConfig.meeting.formalStartTime} 正式開會`,
-        desc: '聽一輪近 60 位老闆怎麼在 30 秒內講清楚本週需求，你也有 30 秒向全場介紹自己的事業，八點半準時收工跑業務。',
+        desc: '聽一輪近 60 位企業主怎麼在 30 秒內講清楚本週需求，你也有 30 秒向全場介紹自己的事業，八點半準時收工跑業務。',
     },
 ] as const;
 
@@ -30,9 +30,9 @@ const VisitSteps: React.FC = () => {
         <section className="relative z-10 px-4 py-16 md:py-24" aria-labelledby="visit-steps-heading">
             <div className="container mx-auto max-w-6xl">
                 <div className="mb-12 text-center">
-                    <SectionLabel>Docking Protocol · 來訪三步驟</SectionLabel>
+                    <SectionLabel>Visit Us · 來訪三步驟</SectionLabel>
                     <h2 id="visit-steps-heading" className="text-3xl font-black tracking-tight text-white md:text-4xl">
-                        第一次來參觀，照這三步登艙
+                        第一次來參觀，照這三步走
                     </h2>
                     <p className="mx-auto mt-3 max-w-2xl text-gray-300">
                         來賓參觀完全免費，也不用做簡報投影片。準備好 30 秒介紹你平常幫客戶解決什麼問題就夠了。

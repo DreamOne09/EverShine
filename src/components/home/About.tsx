@@ -45,12 +45,12 @@ const About: React.FC = () => {
                 <div className="text-center mb-16">
                     <Effect inView fade blur={{ initialBlur: 2 }} slide={{ offset: 14 }}>
                         <div>
-                            <SectionLabel>Laws of Gravity · 長輝運作法則</SectionLabel>
+                            <SectionLabel>About EverShine · 運作原則</SectionLabel>
                             <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-4 text-white">
-                                為什麼 <span className="text-primary">長輝白金分會</span> 能讓引薦自然發生？
+                                為什麼 <span className="text-primary">長輝白金分會</span> 能讓引薦持續發生？
                             </h2>
                             <p className="mx-auto mb-2 max-w-3xl text-base sm:text-lg text-gray-300 leading-relaxed">
-                                外面的社交場合常換了一疊名片卻沒下文。在長輝，我們用四條清楚的軌道規則，把將近 60 位不同產業的老闆連成同一個合作團隊。
+                                一般的社交場合常換了一疊名片卻沒下文。在長輝，我們靠清楚的制度與分工，把將近 60 位不同產業的企業主連成長期合作的團隊。
                             </p>
                         </div>
                     </Effect>
@@ -60,7 +60,7 @@ const About: React.FC = () => {
                     <div className="h-full">
                         <AboutCard
                             icon={<EmblemExclusiveOrbit size={38} />}
-                            code="ORBIT LAW 01"
+                            code="原則 01"
                             title="一業一代表，同分會不搶單"
                             delay={0}
                         >
@@ -72,7 +72,7 @@ const About: React.FC = () => {
                     <div className="h-full">
                         <AboutCard
                             icon={<EmblemConstellationMesh size={38} />}
-                            code="ORBIT LAW 02"
+                            code="原則 02"
                             title="上下游結盟，小公司也能接大案"
                             delay={80}
                         >
@@ -84,8 +84,8 @@ const About: React.FC = () => {
                     <div className="h-full">
                         <AboutCard
                             icon={<EmblemDawnCompass size={38} />}
-                            code="ORBIT LAW 03"
-                            title="全程 Zoom 晨會，把通勤變產值"
+                            code="原則 03"
+                            title="全程 Zoom 晨會，省下通勤時間"
                             delay={160}
                         >
                             <p>
@@ -97,22 +97,22 @@ const About: React.FC = () => {
                     <div className="md:col-span-3 h-full">
                         <AboutCard
                             icon={<EmblemVerifiedLedger size={38} />}
-                            code="CORE COVENANT · 付出者收穫"
-                            title="我們的底線：敢把自己的重要客戶放心交給夥伴"
+                            code="核心價值 · 付出者收穫"
+                            title="我們的默契：敢把重要客戶放心交給夥伴"
                             delay={240}
                             fullWidth
                         >
                             <div className="mb-4 flex flex-wrap items-center justify-center gap-4 text-lg sm:text-xl font-bold text-platinum-soft">
-                                <span>本業夠硬</span>
+                                <span>專業紮實</span>
                                 <span className="h-3 w-px bg-platinum/40" aria-hidden />
                                 <span>報價透明</span>
                                 <span className="h-3 w-px bg-platinum/40" aria-hidden />
                                 <span>主動回報</span>
                                 <span className="h-3 w-px bg-platinum/40" aria-hidden />
-                                <span>盯案到底</span>
+                                <span>負責到底</span>
                             </div>
                             <p className="max-w-3xl mx-auto">
-                                介紹客戶等於把自己的招牌押上去。所以在長輝，接了引薦單就一定按時聯繫、回報進度、把服務做好；你先幫夥伴把客戶照顧好，整座星系的生意自然會往你這裡匯聚。
+                                介紹客戶等於把自己的信用押上去。所以在長輝，接了引薦單就一定按時聯繫、回報進度、把服務做好；你先幫夥伴把客戶照顧好，分會裡的合作機會自然也會回到你身上。
                             </p>
                         </AboutCard>
                     </div>

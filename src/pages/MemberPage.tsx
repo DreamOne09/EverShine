@@ -34,12 +34,12 @@ const CATEGORY_MAPPING: Record<string, string> = {
 };
 
 function normalizePrimarySector(rawCategory?: string): string {
-    if (!rawCategory) return '跨產業星區';
+    if (!rawCategory) return '跨產業領域';
     const first = rawCategory.split(/[,|、]/)[0]?.trim() || '';
-    if (!first) return '跨產業星區';
+    if (!first) return '跨產業領域';
     if (CATEGORY_MAPPING[first]) return CATEGORY_MAPPING[first];
     const noSuffix = first.replace('生態圈', '');
-    return noSuffix || '跨產業星區';
+    return noSuffix || '跨產業領域';
 }
 
 function getPhotoUrl(photo: string) {
@@ -67,7 +67,6 @@ const MemberPage: React.FC = () => {
         [member?.category]
     );
 
-    // 找出此會員參與過的真實引薦案例（作為引薦人或被引薦人）
     const memberReferrals = useMemo(() => {
         if (!member) return [];
         const midStr = String(member.id);
@@ -81,7 +80,6 @@ const MemberPage: React.FC = () => {
         });
     }, [member, referrals]);
 
-    // 找出同一產業星區的協作夥伴（上限 4 位，形成全站內部連結網）
     const sameSectorPeers = useMemo(() => {
         if (!member) return [];
         return members
@@ -108,7 +106,7 @@ const MemberPage: React.FC = () => {
                 <SEO title="找不到會員" noindex />
                 <div className="text-center">
                     <EmptyState
-                        title="找不到這位會員的星軌檔案"
+                        title="找不到這位會員的檔案"
                         description={error || '此會員可能已不在分會在籍名單中，或網址有誤。'}
                         action={
                             <button
@@ -220,9 +218,9 @@ const MemberPage: React.FC = () => {
                 </Link>
 
                 <div className="flex items-center gap-2">
-                    <span className="hidden sm:inline-flex items-center gap-1.5 rounded-full border border-emerald-400/30 bg-emerald-500/10 px-3 py-1 font-mono text-[11px] font-bold text-emerald-200">
+                    <span className="hidden sm:inline-flex items-center gap-1.5 rounded-full border border-emerald-400/30 bg-emerald-500/10 px-3 py-1 text-[11px] font-bold text-emerald-200">
                         <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" aria-hidden />
-                        ACTIVE ORBIT · 在籍代表
+                        在籍會員
                     </span>
                     <button
                         type="button"
@@ -230,26 +228,25 @@ const MemberPage: React.FC = () => {
                         className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/[0.05] px-3.5 py-1.5 text-xs font-semibold text-slate-200 transition-colors hover:border-sky-400/50 hover:bg-sky-500/15 cursor-pointer"
                     >
                         {copied ? <Check size={14} className="text-emerald-300" /> : <Share2 size={14} />}
-                        {copied ? '已複製獨立網址' : '分享此代表名片'}
+                        {copied ? '已複製獨立網址' : '分享此頁名片'}
                     </button>
                 </div>
             </div>
 
-            {/* 主艙：會員完整星軌檔案 */}
+            {/* 會員完整檔案 */}
             <Effect fade blur={{ initialBlur: 4 }} slide={{ offset: 14 }}>
                 <article className="glass-panel relative overflow-hidden rounded-3xl border border-white/15 p-5 sm:p-8 md:p-10">
-                    {/* 頂部星際遙測標頭 (SEO 唯一可見 H1) */}
                     <header className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-b border-white/10 pb-4">
                         <div>
-                            <div className="font-mono text-[11px] tracking-[0.24em] text-platinum-light/90 uppercase">
-                                EVERSHINE CREW DOSSIER · SEAT #{String(member.id).padStart(3, '0')}
+                            <div className="font-mono text-[11px] tracking-wider text-platinum-light/90">
+                                {siteConfig.branchFullName} · 會員編號 #{String(member.id).padStart(3, '0')}
                             </div>
                             <h1 className="mt-1 text-lg sm:text-xl font-bold text-white">
                                 {member.name}
                                 <span className="mx-2 text-white/30">｜</span>
                                 <span className="text-primary-light">{member.industry || '專業代表'}</span>
                                 <span className="hidden md:inline text-sm font-normal text-gray-400 ml-2">
-                                    （{siteConfig.branchFullName}・{primarySector}）
+                                    （{primarySector}）
                                 </span>
                             </h1>
                         </div>
@@ -257,7 +254,7 @@ const MemberPage: React.FC = () => {
                             to={`/members?q=${encodeURIComponent(primarySector)}`}
                             className="self-start sm:self-auto inline-flex items-center gap-1.5 rounded-full border border-sky-400/30 bg-sky-500/10 px-3 py-1 text-xs font-semibold text-sky-200 hover:border-sky-300/60 hover:text-white transition-colors"
                         >
-                            星區：{primarySector}
+                            產業分類：{primarySector}
                         </Link>
                     </header>
 
@@ -265,7 +262,7 @@ const MemberPage: React.FC = () => {
                 </article>
             </Effect>
 
-            {/* 第二艙：此會員參與過的真實引薦軌跡 */}
+            {/* 此會員參與過的真實引薦紀錄 */}
             {memberReferrals.length > 0 && (
                 <section className="mt-12" aria-labelledby="member-referrals-heading">
                     <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
@@ -274,11 +271,11 @@ const MemberPage: React.FC = () => {
                                 <EmblemVerifiedLedger size={30} />
                             </span>
                             <div>
-                                <div className="font-mono text-[11px] tracking-[0.22em] text-platinum-light uppercase">
-                                    VERIFIED REFERRAL TRAJECTORY
+                                <div className="text-xs font-semibold tracking-wider text-platinum-light">
+                                    引薦合作紀錄
                                 </div>
                                 <h2 id="member-referrals-heading" className="text-xl sm:text-2xl font-black text-white">
-                                    {member.name} 參與過的真實引薦紀錄（{memberReferrals.length} 則）
+                                    {member.name} 參與過的真實引薦案例（{memberReferrals.length} 則）
                                 </h2>
                             </div>
                         </div>
@@ -306,7 +303,7 @@ const MemberPage: React.FC = () => {
                 </section>
             )}
 
-            {/* 第三艙：同產業星區的上下游協作夥伴（SEO 站內互連網） */}
+            {/* 同產業領域的上下游合作夥伴 */}
             {sameSectorPeers.length > 0 && (
                 <section className="mt-12" aria-labelledby="same-sector-peers-heading">
                     <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
@@ -315,11 +312,11 @@ const MemberPage: React.FC = () => {
                                 <EmblemConstellationMesh size={30} />
                             </span>
                             <div>
-                                <div className="font-mono text-[11px] tracking-[0.22em] text-platinum-light uppercase">
-                                    CONSTELLATION PEERS · {primarySector}
+                                <div className="text-xs font-semibold tracking-wider text-platinum-light">
+                                    同產業領域夥伴 · {primarySector}
                                 </div>
                                 <h2 id="same-sector-peers-heading" className="text-xl sm:text-2xl font-black text-white">
-                                    同屬「{primarySector}」星區的協作夥伴
+                                    同屬「{primarySector}」領域的合作夥伴
                                 </h2>
                             </div>
                         </div>
@@ -373,18 +370,18 @@ const MemberPage: React.FC = () => {
                 </section>
             )}
 
-            {/* 底部：預約週三晨會與此代表對接 */}
+            {/* 底部：預約週三晨會交流 */}
             <section className="mt-12">
                 <div className="glass-panel rounded-3xl border border-platinum/35 p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
                     <div>
-                        <div className="font-mono text-xs tracking-[0.22em] text-platinum-light uppercase mb-1">
-                            DOCKING INVITATION · 預約商務對接
+                        <div className="text-xs font-semibold tracking-wider text-platinum-light mb-1">
+                            預約商務交流
                         </div>
                         <h2 className="text-xl sm:text-2xl font-bold text-white mb-2">
                             想在週三線上例會認識 {member.name}（{member.industry}）嗎？
                         </h2>
                         <p className="text-sm sm:text-base text-gray-300 max-w-2xl">
-                            你可以直接撥打上方聯絡方式，或報名週三早上 06:30 的 Zoom 例會，一次認識 {member.name} 與整個「{primarySector}」星區的上下游老闆。
+                            你可以直接撥打上方聯絡方式，或報名週三早上 06:30 的 Zoom 例會，一次認識 {member.name} 與整個「{primarySector}」領域的上下游企業主。
                         </p>
                     </div>
                     <div className="shrink-0">
@@ -394,7 +391,7 @@ const MemberPage: React.FC = () => {
                                 className="btn-lux btn-platinum-lux inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-sm sm:text-base font-bold whitespace-nowrap"
                             >
                                 <Sparkles size={17} />
-                                預約週三登艙來訪
+                                預約來賓參觀
                             </Link>
                         </Button>
                     </div>

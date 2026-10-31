@@ -22,7 +22,7 @@ const MetricCard: React.FC<{
             <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl border border-white/15 bg-[#06182c]/80 text-primary shadow-[inset_0_1px_0_rgba(255,255,255,0.14),0_0_24px_rgba(76,168,223,0.16)]">
                 {icon}
             </div>
-            <span className="mb-2 font-mono text-[11px] tracking-[0.22em] text-platinum-light/85 uppercase">
+            <span className="mb-2 text-xs font-semibold tracking-wider text-platinum-light/90">
                 {code}
             </span>
             <div className="mb-2 font-mono text-4xl font-bold tabular-nums text-white lg:text-5xl">
@@ -61,9 +61,9 @@ const Results: React.FC = () => {
         <section className="relative py-24" id="telemetry" aria-labelledby="results-heading">
             <div className="container mx-auto px-4">
                 <div className="mb-14 text-center">
-                    <SectionLabel>Telemetry · 引薦觀測數據</SectionLabel>
+                    <SectionLabel>Results · 引薦成果統計</SectionLabel>
                     <h2 id="results-heading" className="mb-4 text-3xl font-black text-white md:text-5xl">
-                        每一張引薦單，都有 <span className="text-primary">實名軌跡</span> 可查
+                        每一張引薦單，都有 <span className="text-primary">實名紀錄</span> 可查
                     </h2>
                     <p className="mx-auto max-w-2xl text-base sm:text-lg text-gray-300">
                         不是口頭說說的人脈。從創會累計至 {updatedLabel}，分會每週例會核實登錄的引薦單數、成交金額與來賓紀錄如下：
@@ -73,7 +73,7 @@ const Results: React.FC = () => {
                 <div className="grid grid-cols-1 gap-6 px-4 md:grid-cols-3 max-w-6xl mx-auto mb-14">
                     <MetricCard
                         icon={<EmblemVerifiedLedger size={38} />}
-                        code="VERIFIED REFERRALS"
+                        code="實名引薦紀錄"
                         value={ALL_TIME_REFERRALS}
                         fromNumber={20000}
                         suffix="張"
@@ -82,7 +82,7 @@ const Results: React.FC = () => {
                     />
                     <MetricCard
                         icon={<EmblemBinaryBridge size={38} />}
-                        code="CLOSED BUSINESS"
+                        code="合作成交總額"
                         value={ALL_TIME_VALUE_YI}
                         fromNumber={4.0}
                         decimalPlaces={1}
@@ -92,12 +92,12 @@ const Results: React.FC = () => {
                     />
                     <MetricCard
                         icon={<EmblemOrbitSync size={38} />}
-                        code="VISITING FOUNDERS"
+                        code="參訪交流人次"
                         value={guestTotal}
                         fromNumber={0}
                         suffix="位"
-                        label="近 12 個月登艙來賓"
-                        subtext="各領域企業主親身參與週三晨會"
+                        label="近 12 個月參訪來賓"
+                        subtext="各領域企業主親身參與週三線上例會"
                     />
                 </div>
 

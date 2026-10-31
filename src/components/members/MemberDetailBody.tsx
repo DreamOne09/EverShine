@@ -97,10 +97,6 @@ function linkLabelText(type: string, url: string): string {
 
 interface MemberDetailBodyProps {
     member: Member;
-    /**
-     * 預設 false（modal 用）：「關於我」/「理想引薦」/「服務項目」會限制高度並出現
-     * 內部捲軸；true（個別頁 /member/:slug 用）：全文直接展開，使用整頁的捲動空間。
-     */
     expanded?: boolean;
 }
 
@@ -160,10 +156,10 @@ const MemberDetailBody: React.FC<MemberDetailBodyProps> = ({ member: m, expanded
 
     return (
         <div className="mx-auto grid max-w-5xl items-start gap-6 lg:grid-cols-12 lg:gap-8">
-            {/* 左欄：星軌頭像艙 + 產業座標 + 公司/職稱 + 聯絡通訊 */}
+            {/* 左欄：頭像 + 產業別 + 公司/職稱 + 聯絡方式 */}
             <div className="flex w-full min-w-0 flex-col items-center lg:col-span-4 lg:items-stretch">
                 <div className="relative flex w-full flex-col items-center rounded-2xl border border-white/10 bg-[#051224]/70 p-5 text-center backdrop-blur-xl">
-                    {/* 客製化雙層星軌頭像 */}
+                    {/* 客製化雙層星軌頭像框 */}
                     <div className="relative mb-3 flex h-40 w-40 items-center justify-center sm:h-44 sm:w-44">
                         <svg
                             viewBox="0 0 180 180"
@@ -203,10 +199,9 @@ const MemberDetailBody: React.FC<MemberDetailBodyProps> = ({ member: m, expanded
                         </div>
                     </div>
 
-                    {/* 專屬席位編號 */}
                     {m.id > 0 && (
-                        <span className="mb-1.5 font-mono text-[10px] tracking-[0.24em] text-platinum-light/85 uppercase">
-                            ORBIT SEAT #{String(m.id).padStart(3, '0')} · 獨家代表
+                        <span className="mb-1.5 font-mono text-[11px] tracking-wider text-platinum-light/90">
+                            會員編號 #{String(m.id).padStart(3, '0')} · 產業獨家代表
                         </span>
                     )}
 
@@ -222,8 +217,8 @@ const MemberDetailBody: React.FC<MemberDetailBodyProps> = ({ member: m, expanded
                     </div>
 
                     <div className="mt-3 inline-flex max-w-full items-center gap-1.5 rounded-full border border-platinum/40 bg-platinum/10 px-3.5 py-1.5 text-xs font-bold tracking-wide text-platinum-soft sm:text-sm">
-                        <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-platinum-light/90">
-                            專業席位
+                        <span className="text-[11px] text-platinum-light/90">
+                            專業代表
                         </span>
                         <span className={`min-w-0 break-words ${expanded ? '' : 'line-clamp-1'}`}>
                             {m.industry || '未分類'}
@@ -232,7 +227,7 @@ const MemberDetailBody: React.FC<MemberDetailBodyProps> = ({ member: m, expanded
 
                     {m.category && (
                         <p className="mt-2 text-xs text-sky-300/85">
-                            所屬星區：{m.category.replace(/,/g, ' · ')}
+                            產業分類：{m.category.replace(/,/g, ' · ')}
                         </p>
                     )}
 
@@ -259,8 +254,8 @@ const MemberDetailBody: React.FC<MemberDetailBodyProps> = ({ member: m, expanded
 
                     {contactMicroCells.length > 0 ? (
                         <div className="mt-5 w-full border-t border-white/10 pt-4">
-                            <p className="mb-2.5 text-left font-mono text-[10px] font-bold uppercase tracking-[0.22em] text-platinum-light/85">
-                                DIRECT COMMS · 直接聯繫
+                            <p className="mb-2.5 text-left text-xs font-bold tracking-wider text-platinum-light/90">
+                                聯絡方式
                             </p>
                             <div className="flex flex-wrap items-center gap-2">{contactMicroCells}</div>
                         </div>
@@ -268,7 +263,7 @@ const MemberDetailBody: React.FC<MemberDetailBodyProps> = ({ member: m, expanded
                 </div>
             </div>
 
-            {/* 右欄：星際情報艙 Bento */}
+            {/* 右欄：專業介紹、理想引薦與服務項目 */}
             <div className="flex min-w-0 flex-col gap-4 lg:col-span-8">
                 <div className={ideal ? 'grid gap-4 lg:grid-cols-2 lg:gap-5' : 'flex flex-col gap-4'}>
                     <section className={`${bentoMuted} flex min-w-0 flex-col`}>
@@ -276,8 +271,8 @@ const MemberDetailBody: React.FC<MemberDetailBodyProps> = ({ member: m, expanded
                             <span className="text-primary">
                                 <EmblemExclusiveOrbit size={22} />
                             </span>
-                            <h3 className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-sky-300 sm:text-sm">
-                                PROFILE LOG · 專業背景與實績
+                            <h3 className="text-xs font-bold tracking-wider text-sky-300 sm:text-sm">
+                                關於我與專業實績
                             </h3>
                         </div>
                         <div className={proseScrollClass}>
@@ -296,8 +291,8 @@ const MemberDetailBody: React.FC<MemberDetailBodyProps> = ({ member: m, expanded
                                 <span className="text-platinum-light">
                                     <EmblemBeaconLock size={22} />
                                 </span>
-                                <h3 className="font-mono text-xs font-bold uppercase tracking-[0.18em] text-platinum-soft sm:text-sm">
-                                    TARGET BEACON · 理想引薦對象
+                                <h3 className="text-xs font-bold tracking-wider text-platinum-soft sm:text-sm">
+                                    理想引薦對象
                                 </h3>
                             </div>
                             <div className={proseScrollClass}>
@@ -318,8 +313,8 @@ const MemberDetailBody: React.FC<MemberDetailBodyProps> = ({ member: m, expanded
                             aria-hidden
                         />
                         <div className="relative z-10">
-                            <h3 className="mb-3 font-mono text-xs font-bold uppercase tracking-[0.2em] text-sky-300 sm:text-sm">
-                                CORE CAPABILITIES · 主力服務項目
+                            <h3 className="mb-3 text-xs font-bold tracking-wider text-sky-300 sm:text-sm">
+                                主力服務項目
                             </h3>
                             <ul className="grid grid-cols-1 gap-x-4 gap-y-2.5 sm:grid-cols-2">
                                 {services.map((s, i) => (
