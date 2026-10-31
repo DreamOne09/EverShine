@@ -11,6 +11,7 @@ export interface Member {
     photo: string;
     photoPosition?: string;
     category: string;
+    position?: string;
     title: string;
     company: string;
     shortIntro: string;

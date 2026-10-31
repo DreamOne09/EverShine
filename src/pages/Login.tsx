@@ -12,9 +12,9 @@ import { claimMemberRpc } from '../lib/claimMember';
 
 declare global {
     interface Window {
-        turnstile: {
-            render: (el: HTMLElement, opts: Record<string, unknown>) => string;
-            remove: (id: string) => void;
+        turnstile?: {
+            render?: (el: HTMLElement, opts: Record<string, unknown>) => string;
+            remove?: (id: string) => void;
         };
     }
 }
@@ -70,6 +70,7 @@ const TurnstileWidget: React.FC<{ siteKey: string; onVerify: (token: string) => 
             }
             if (!isMounted || !containerRef.current || cancelled) return;
             if (widgetIdRef.current) return;
+            if (!window.turnstile?.render) return;
             try {
                 containerRef.current.innerHTML = '';
                 widgetIdRef.current = window.turnstile.render(containerRef.current, {
@@ -88,7 +89,7 @@ const TurnstileWidget: React.FC<{ siteKey: string; onVerify: (token: string) => 
         return () => {
             isMounted = false;
             cancelled = true;
-            if (window.turnstile && widgetIdRef.current) {
+            if (window.turnstile?.remove && widgetIdRef.current) {
                 try {
                     window.turnstile.remove(widgetIdRef.current);
                 } catch {

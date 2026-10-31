@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Building, Briefcase, Phone, Mail, Globe, Target, Check, Linkedin } from 'lucide-react';
+import { Building, Briefcase, Phone, Mail, Globe, Check, Linkedin, Facebook } from 'lucide-react';
 import type { Member } from '../../types';
 import { siteConfig } from '../../config/site.config';
 import { normalizeMemberLinks } from '../../lib/memberLinks';
@@ -8,6 +8,7 @@ import { splitIntro } from '../../lib/memberIntroSplit';
 import { resolveMemberPhotoObjectPosition } from '../../lib/memberPhotoPosition';
 import GoldMedalBadge from './GoldMedalBadge';
 import { resolveGoldMedalCount } from '../../lib/goldMedal';
+import { EmblemBeaconLock, EmblemExclusiveOrbit } from '../home/StarshipEmblems';
 
 /**
  * 會員檔案核心內容 — 給 Modal（彈窗）與 /member/:slug（獨立頁）共用。
@@ -22,15 +23,15 @@ function getPhotoUrl(photo: string) {
 }
 
 const bentoMuted =
-    'rounded-2xl border border-white/10 bg-white/[0.04] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] backdrop-blur-xl sm:p-5';
+    'rounded-2xl border border-white/12 bg-[#071628]/75 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-xl sm:p-6';
 
 const bentoTextScroll =
     'min-h-0 flex-1 overflow-y-auto overscroll-contain py-0.5 pr-2 [scrollbar-width:thin] [scrollbar-color:rgba(148,163,184,0.45)_transparent]';
 
-const proseBody = 'whitespace-pre-wrap break-words text-sm leading-[1.65] text-slate-200 sm:text-base';
+const proseBody = 'whitespace-pre-wrap break-words text-sm leading-[1.7] text-slate-200 sm:text-base';
 
 const microCell =
-    'flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/[0.06] text-slate-200 transition-all hover:border-sky-400/50 hover:bg-sky-500/15 hover:text-white';
+    'inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/[0.05] px-3.5 py-2 text-xs font-medium text-slate-200 transition-colors hover:border-sky-400/50 hover:bg-sky-500/15 hover:text-white';
 
 function inferLinkVisualType(type: string, url: string): string {
     const t = (type || '').toLowerCase();
@@ -47,21 +48,17 @@ function inferLinkVisualType(type: string, url: string): string {
     return t;
 }
 
-function linkIconOnly(t: string, size = 20, url?: string) {
+function linkIconOnly(t: string, size = 18, url?: string) {
     const kind = inferLinkVisualType(t, url || '');
     switch (kind) {
         case 'phone':
-            return <Phone size={size} strokeWidth={2} />;
+            return <Phone size={size} strokeWidth={2} className="text-sky-300" />;
         case 'mail':
         case 'email':
-            return <Mail size={size} strokeWidth={2} />;
+            return <Mail size={size} strokeWidth={2} className="text-sky-300" />;
         case 'facebook':
         case 'fb':
-            return (
-                <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" className="text-[#1877F2]">
-                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
-                </svg>
-            );
+            return <Facebook size={size} className="text-[#1877F2]" />;
         case 'instagram':
         case 'ig':
             return (
@@ -82,6 +79,22 @@ function linkIconOnly(t: string, size = 20, url?: string) {
     }
 }
 
+function linkLabelText(type: string, url: string): string {
+    const kind = inferLinkVisualType(type, url);
+    switch (kind) {
+        case 'facebook':
+            return 'Facebook';
+        case 'instagram':
+            return 'Instagram';
+        case 'linkedin':
+            return 'LinkedIn';
+        case 'line':
+            return 'LINE';
+        default:
+            return '官方網站';
+    }
+}
+
 interface MemberDetailBodyProps {
     member: Member;
     /**
@@ -94,140 +107,199 @@ interface MemberDetailBodyProps {
 const MemberDetailBody: React.FC<MemberDetailBodyProps> = ({ member: m, expanded = false }) => {
     const contactMicroCells = useMemo(() => {
         const links = normalizeMemberLinks(m.links);
-        const line = links.find((l) => (l.type || '').toLowerCase() === 'line');
-        const ig = links.find((l) => {
-            const t = (l.type || '').toLowerCase();
-            return t === 'instagram' || t === 'ig';
-        });
-
         const cells: React.ReactNode[] = [];
+
         if (m.phone) {
+            const displayPhone = formatTaiwanPhoneDisplay(m.phone);
             cells.push(
-                <a key="p" href={`tel:${formatTaiwanPhoneTelHref(m.phone)}`} className={microCell} aria-label={`電話 ${formatTaiwanPhoneDisplay(m.phone)}`}>
-                    {linkIconOnly('phone', 20)}
+                <a
+                    key="p"
+                    href={`tel:${formatTaiwanPhoneTelHref(m.phone)}`}
+                    className={microCell}
+                    aria-label={`電話 ${displayPhone}`}
+                >
+                    {linkIconOnly('phone', 16)}
+                    <span className="font-mono tabular-nums">{displayPhone}</span>
                 </a>
             );
         }
         if (m.email) {
             cells.push(
-                <a key="e" href={`mailto:${m.email}`} className={microCell} aria-label="Email">
-                    {linkIconOnly('mail', 20)}
+                <a key="e" href={`mailto:${m.email}`} className={microCell} aria-label={`信箱 ${m.email}`}>
+                    {linkIconOnly('mail', 16)}
+                    <span className="truncate max-w-[13rem]">{m.email}</span>
                 </a>
             );
         }
-        if (line) {
+        links.forEach((l, idx) => {
+            const label = linkLabelText(l.type, l.url);
             cells.push(
-                <a key="l" href={line.url} target="_blank" rel="noopener noreferrer" className={microCell} aria-label="LINE">
-                    {linkIconOnly('line', 20, line.url)}
+                <a
+                    key={`link-${idx}`}
+                    href={l.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={microCell}
+                    aria-label={label}
+                >
+                    {linkIconOnly(l.type, 16, l.url)}
+                    <span>{label}</span>
                 </a>
             );
-        }
-        if (ig) {
-            cells.push(
-                <a key="i" href={ig.url} target="_blank" rel="noopener noreferrer" className={microCell} aria-label="Instagram">
-                    {linkIconOnly('instagram', 20, ig.url)}
-                </a>
-            );
-        }
+        });
         return cells;
     }, [m]);
 
     const { main: introMain, ideal } = splitIntro(m.fullIntro || '');
     const displayIntro = introMain || m.shortIntro || m.fullIntro?.replace(/\\n/g, '\n') || '';
     const services = (m.services || []).filter((s) => s && s.trim());
+    const hashtags = (m.hashtags || []).filter((h) => h && h.trim());
     const goldMedalCount = resolveGoldMedalCount(m);
 
-    // expanded（個別頁）：移除內部高度限制，讓全文一次展開。
-    // 預設（modal）：保留 max-h + scroll 以維持彈窗適中尺寸。
     const proseScrollClass = expanded ? 'min-h-0 flex-1' : `${bentoTextScroll} max-h-[min(50vh,22rem)]`;
 
     return (
         <div className="mx-auto grid max-w-5xl items-start gap-6 lg:grid-cols-12 lg:gap-8">
-            {/* 左欄：頭像 + 產業別 + 公司/職稱 + 聯絡方式 */}
-            <div className="flex w-full min-w-0 flex-col items-center lg:col-span-4 lg:items-stretch xl:col-span-3">
-                <div className="relative flex w-full max-w-[18rem] flex-col items-center px-1 text-center lg:mx-auto">
-                    <div className="flex w-full flex-col items-center pt-16 sm:pt-[4.5rem]">
-                        <div className="relative -mt-[56px] flex justify-center">
-                            <div className="relative h-32 w-32 shrink-0 rounded-full ring-2 ring-blue-500/50 ring-offset-2 ring-offset-slate-950 sm:h-36 sm:w-36">
-                                <div className="absolute inset-0 animate-pulse rounded-full bg-gradient-to-b from-blue-400/30 to-transparent blur-md" aria-hidden />
-                                <div className="relative h-full w-full overflow-hidden rounded-full border-2 border-white/25 bg-slate-950 shadow-[0_20px_60px_rgba(0,0,0,0.55)]">
-                                    <img
-                                        src={getPhotoUrl(m.photo)}
-                                        alt=""
-                                        className="h-full w-full object-cover"
-                                        style={{ objectPosition: resolveMemberPhotoObjectPosition(m.photoPosition) }}
-                                    />
-                                </div>
-                            </div>
+            {/* 左欄：星軌頭像艙 + 產業座標 + 公司/職稱 + 聯絡通訊 */}
+            <div className="flex w-full min-w-0 flex-col items-center lg:col-span-4 lg:items-stretch">
+                <div className="relative flex w-full flex-col items-center rounded-2xl border border-white/10 bg-[#051224]/70 p-5 text-center backdrop-blur-xl">
+                    {/* 客製化雙層星軌頭像 */}
+                    <div className="relative mb-3 flex h-40 w-40 items-center justify-center sm:h-44 sm:w-44">
+                        <svg
+                            viewBox="0 0 180 180"
+                            className="pointer-events-none absolute inset-0 h-full w-full"
+                            aria-hidden
+                        >
+                            <circle
+                                cx="90"
+                                cy="90"
+                                r="84"
+                                fill="none"
+                                stroke="rgba(76,168,223,0.32)"
+                                strokeWidth="1"
+                                strokeDasharray="4 4"
+                            />
+                            <circle
+                                cx="90"
+                                cy="90"
+                                r="76"
+                                fill="none"
+                                stroke="rgba(232,197,71,0.38)"
+                                strokeWidth="1.2"
+                            />
+                            <circle cx="90" cy="6" r="3.5" fill="#E8C547" />
+                            <circle cx="168" cy="120" r="2.8" fill="#4CA8DF" />
+                            <circle cx="14" cy="65" r="2.5" fill="#7CD0FF" />
+                        </svg>
+                        <div className="relative h-32 w-32 overflow-hidden rounded-full border-2 border-white/30 bg-slate-950 shadow-[0_18px_48px_rgba(0,0,0,0.6)] sm:h-36 sm:w-36">
+                            <img
+                                src={getPhotoUrl(m.photo)}
+                                alt={`${m.name} — ${m.industry || 'BNI 長輝白金分會'}`}
+                                width={144}
+                                height={144}
+                                className="h-full w-full object-cover"
+                                style={{ objectPosition: resolveMemberPhotoObjectPosition(m.photoPosition) }}
+                            />
                         </div>
-
-                        <div className="mt-4 flex w-full items-center justify-center gap-2">
-                            <h3 className={`text-xl font-black tracking-[0.06em] text-white sm:text-2xl ${expanded ? 'break-words' : 'line-clamp-2'}`}>
-                                {m.name}
-                            </h3>
-                            {goldMedalCount > 0 ? <GoldMedalBadge count={goldMedalCount} size={16} /> : null}
-                        </div>
-
-                        <div className="mt-3 inline-flex max-w-full items-center gap-1.5 rounded-full border border-sky-400/25 bg-sky-500/10 px-3 py-1.5 text-xs font-semibold tracking-wide text-sky-100 sm:text-sm">
-                            <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-sky-300/80">產業別</span>
-                            <span className={`min-w-0 break-words ${expanded ? '' : 'line-clamp-1'}`}>
-                                {m.industry || '未分類'}
-                            </span>
-                        </div>
-
-                        {(m.company || m.position || m.title) && (
-                            <div className="mt-3 w-full space-y-1.5 text-left text-xs leading-relaxed text-slate-400 sm:text-sm">
-                                {m.company ? (
-                                    <p className="flex items-start gap-2">
-                                        <Building size={15} className="mt-0.5 shrink-0 text-sky-400/90" />
-                                        <span className={`min-w-0 break-words ${expanded ? '' : 'line-clamp-3'}`}>
-                                            {m.company}
-                                        </span>
-                                    </p>
-                                ) : null}
-                                {m.position || m.title ? (
-                                    <p className="flex items-start gap-2">
-                                        <Briefcase size={15} className="mt-0.5 shrink-0 text-sky-400/70" />
-                                        <span className={`min-w-0 break-words ${expanded ? '' : 'line-clamp-2'}`}>
-                                            {m.position || m.title}
-                                        </span>
-                                    </p>
-                                ) : null}
-                            </div>
-                        )}
-
-                        {contactMicroCells.length > 0 ? (
-                            <div className="mt-5 w-full">
-                                <p className="mb-2 text-left text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">聯絡方式</p>
-                                <div className="flex flex-wrap items-center gap-2">{contactMicroCells}</div>
-                            </div>
-                        ) : null}
                     </div>
+
+                    {/* 專屬席位編號 */}
+                    {m.id > 0 && (
+                        <span className="mb-1.5 font-mono text-[10px] tracking-[0.24em] text-platinum-light/85 uppercase">
+                            ORBIT SEAT #{String(m.id).padStart(3, '0')} · 獨家代表
+                        </span>
+                    )}
+
+                    <div className="flex w-full items-center justify-center gap-2">
+                        <h2
+                            className={`text-2xl font-black tracking-[0.04em] text-white sm:text-3xl ${
+                                expanded ? 'break-words' : 'line-clamp-2'
+                            }`}
+                        >
+                            {m.name}
+                        </h2>
+                        {goldMedalCount > 0 ? <GoldMedalBadge count={goldMedalCount} size={16} /> : null}
+                    </div>
+
+                    <div className="mt-3 inline-flex max-w-full items-center gap-1.5 rounded-full border border-platinum/40 bg-platinum/10 px-3.5 py-1.5 text-xs font-bold tracking-wide text-platinum-soft sm:text-sm">
+                        <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-platinum-light/90">
+                            專業席位
+                        </span>
+                        <span className={`min-w-0 break-words ${expanded ? '' : 'line-clamp-1'}`}>
+                            {m.industry || '未分類'}
+                        </span>
+                    </div>
+
+                    {m.category && (
+                        <p className="mt-2 text-xs text-sky-300/85">
+                            所屬星區：{m.category.replace(/,/g, ' · ')}
+                        </p>
+                    )}
+
+                    {(m.company || m.position || m.title) && (
+                        <div className="mt-4 w-full space-y-2 border-t border-white/10 pt-4 text-left text-xs leading-relaxed text-slate-300 sm:text-sm">
+                            {m.company ? (
+                                <p className="flex items-start gap-2.5">
+                                    <Building size={16} className="mt-0.5 shrink-0 text-sky-400" />
+                                    <span className={`min-w-0 break-words font-medium text-white/95 ${expanded ? '' : 'line-clamp-3'}`}>
+                                        {m.company}
+                                    </span>
+                                </p>
+                            ) : null}
+                            {m.position || m.title ? (
+                                <p className="flex items-start gap-2.5">
+                                    <Briefcase size={16} className="mt-0.5 shrink-0 text-sky-400/80" />
+                                    <span className={`min-w-0 break-words ${expanded ? '' : 'line-clamp-2'}`}>
+                                        {m.position || m.title}
+                                    </span>
+                                </p>
+                            ) : null}
+                        </div>
+                    )}
+
+                    {contactMicroCells.length > 0 ? (
+                        <div className="mt-5 w-full border-t border-white/10 pt-4">
+                            <p className="mb-2.5 text-left font-mono text-[10px] font-bold uppercase tracking-[0.22em] text-platinum-light/85">
+                                DIRECT COMMS · 直接聯繫
+                            </p>
+                            <div className="flex flex-wrap items-center gap-2">{contactMicroCells}</div>
+                        </div>
+                    ) : null}
                 </div>
             </div>
 
-            {/* 右欄 Bento */}
-            <div className="flex min-w-0 flex-col gap-4 lg:col-span-8 xl:col-span-9">
+            {/* 右欄：星際情報艙 Bento */}
+            <div className="flex min-w-0 flex-col gap-4 lg:col-span-8">
                 <div className={ideal ? 'grid gap-4 lg:grid-cols-2 lg:gap-5' : 'flex flex-col gap-4'}>
                     <section className={`${bentoMuted} flex min-w-0 flex-col`}>
-                        <h3 className="mb-2 shrink-0 text-[10px] font-bold uppercase tracking-[0.2em] text-sky-400 sm:text-xs">關於我</h3>
+                        <div className="mb-3 flex items-center gap-2">
+                            <span className="text-primary">
+                                <EmblemExclusiveOrbit size={22} />
+                            </span>
+                            <h3 className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-sky-300 sm:text-sm">
+                                PROFILE LOG · 專業背景與實績
+                            </h3>
+                        </div>
                         <div className={proseScrollClass}>
-                            {/* 個別頁同時有短介+長介時，把短介當引言列在最前面 */}
                             {expanded && m.shortIntro && introMain && m.shortIntro.trim() !== introMain.trim() ? (
-                                <p className={`${proseBody} mb-3 text-sky-100/90 italic border-l-2 border-sky-400/40 pl-3`}>
+                                <p className={`${proseBody} mb-3 text-sky-100 border-l-2 border-platinum/60 pl-3 font-medium`}>
                                     {m.shortIntro.replace(/\\n/g, '\n')}
                                 </p>
                             ) : null}
-                            <p className={proseBody}>{displayIntro || '—'}</p>
+                            <p className={proseBody}>{displayIntro || '尚未填寫詳細介紹。'}</p>
                         </div>
                     </section>
 
                     {ideal ? (
-                        <section className="relative flex min-w-0 flex-col overflow-hidden rounded-2xl border border-cyan-400/30 bg-gradient-to-br from-sky-500/10 via-cyan-500/5 to-blue-500/10 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] backdrop-blur-xl sm:p-5">
-                            <h3 className="mb-2 flex shrink-0 items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-cyan-100 sm:text-sm">
-                                <Target className="shrink-0 text-cyan-300" size={18} aria-hidden />
-                                理想引薦對象
-                            </h3>
+                        <section className="relative flex min-w-0 flex-col overflow-hidden rounded-2xl border border-platinum/35 bg-gradient-to-br from-platinum/10 via-[#07192e]/90 to-sky-500/10 p-4 shadow-[inset_0_1px_0_rgba(255,243,200,0.12)] backdrop-blur-xl sm:p-6">
+                            <div className="mb-3 flex shrink-0 items-center gap-2">
+                                <span className="text-platinum-light">
+                                    <EmblemBeaconLock size={22} />
+                                </span>
+                                <h3 className="font-mono text-xs font-bold uppercase tracking-[0.18em] text-platinum-soft sm:text-sm">
+                                    TARGET BEACON · 理想引薦對象
+                                </h3>
+                            </div>
                             <div className={proseScrollClass}>
                                 <p className={`${proseBody} text-slate-100`}>{ideal}</p>
                             </div>
@@ -238,7 +310,7 @@ const MemberDetailBody: React.FC<MemberDetailBodyProps> = ({ member: m, expanded
                 {services.length > 0 ? (
                     <section className={`${bentoMuted} relative min-h-0 min-w-0 overflow-hidden`}>
                         <div
-                            className="pointer-events-none absolute inset-0 opacity-[0.15]"
+                            className="pointer-events-none absolute inset-0 opacity-[0.12]"
                             style={{
                                 backgroundImage:
                                     'repeating-linear-gradient(-32deg, rgba(255,255,255,0.05) 0 1px, transparent 1px 10px)',
@@ -246,20 +318,35 @@ const MemberDetailBody: React.FC<MemberDetailBodyProps> = ({ member: m, expanded
                             aria-hidden
                         />
                         <div className="relative z-10">
-                            <h3 className="mb-3 text-[10px] font-bold uppercase tracking-[0.2em] text-sky-400 sm:text-xs">服務項目</h3>
-                            <ul className="grid grid-cols-1 gap-x-4 gap-y-2 sm:grid-cols-2">
+                            <h3 className="mb-3 font-mono text-xs font-bold uppercase tracking-[0.2em] text-sky-300 sm:text-sm">
+                                CORE CAPABILITIES · 主力服務項目
+                            </h3>
+                            <ul className="grid grid-cols-1 gap-x-4 gap-y-2.5 sm:grid-cols-2">
                                 {services.map((s, i) => (
                                     <li
                                         key={i}
-                                        className="flex items-start gap-1.5 text-xs leading-snug text-slate-200 sm:text-sm"
+                                        className="flex items-start gap-2 rounded-xl border border-white/8 bg-black/25 px-3.5 py-2.5 text-xs leading-snug text-slate-100 sm:text-sm"
                                     >
-                                        <Check className="mt-0.5 shrink-0 text-cyan-400" size={14} strokeWidth={2.5} />
+                                        <Check className="mt-0.5 shrink-0 text-platinum-light" size={15} strokeWidth={2.5} />
                                         <span className={`min-w-0 break-words ${expanded ? '' : 'line-clamp-4'}`}>{s}</span>
                                     </li>
                                 ))}
                             </ul>
                         </div>
                     </section>
+                ) : null}
+
+                {expanded && hashtags.length > 0 ? (
+                    <div className="flex flex-wrap items-center gap-2 pt-1">
+                        {hashtags.map((tag, idx) => (
+                            <span
+                                key={idx}
+                                className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 font-mono text-xs text-gray-300"
+                            >
+                                #{tag.replace(/^#/, '')}
+                            </span>
+                        ))}
+                    </div>
                 ) : null}
             </div>
         </div>

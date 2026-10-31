@@ -104,15 +104,45 @@ function buildMemberSeoMeta(member) {
         .trim();
     const introTrimmed = introRaw.length > 180 ? introRaw.slice(0, 180) + '…' : introRaw;
     const description = escapeHtml(
-        introTrimmed || `${member.name}｜${member.industry || ''}｜${member.company || ''} — BNI 長輝白金分會會員。`
+        introTrimmed || `${member.name}｜${member.industry || ''}｜${member.company || ''} — BNI 長輝白金分會獨家專業代表。`
     );
 
     const title = `${name}｜${industry || '會員'}｜BNI 長輝白金分會`;
     const slug = String(member.id);
     const canonical = `${PRIMARY_SITE_URL}/member/${slug}`;
-    const keywords = [name, industry, company, position, 'BNI', 'BNI 長輝白金分會'].filter(Boolean).join(', ');
+    const keywords = [name, industry, company, position, 'BNI', 'BNI 長輝白金分會', '長輝會員'].filter(Boolean).join(', ');
 
-    return { title, description, canonical, keywords };
+    const rawPhoto = (member.photo || '').trim();
+    const ogImage = rawPhoto
+        ? rawPhoto.startsWith('http')
+            ? rawPhoto
+            : `${PRIMARY_SITE_URL}${rawPhoto.startsWith('/') ? '' : '/'}${rawPhoto}`
+        : `${PRIMARY_SITE_URL}/images/assets/og-evershine-1200.png`;
+
+    const personSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'ProfilePage',
+        url: canonical,
+        name: `${member.name || ''} — BNI 長輝白金分會`,
+        mainEntity: {
+            '@type': 'Person',
+            '@id': `${canonical}#person`,
+            name: member.name || '',
+            jobTitle: positionRaw || undefined,
+            worksFor: member.company ? { '@type': 'Organization', name: member.company } : undefined,
+            memberOf: {
+                '@type': 'Organization',
+                '@id': `${PRIMARY_SITE_URL}/#organization`,
+                name: 'BNI 長輝白金分會',
+                url: `${PRIMARY_SITE_URL}/`,
+            },
+            description: introTrimmed || `${member.name || ''} — BNI 長輝白金分會（${member.industry || ''}）專業代表`,
+            image: ogImage,
+            url: canonical,
+        },
+    };
+
+    return { title, description, canonical, keywords, ogImage: escapeHtml(ogImage), personSchemaJson: JSON.stringify(personSchema) };
 }
 
 function applyMemberSeoMeta(html, meta) {
@@ -124,9 +154,18 @@ function applyMemberSeoMeta(html, meta) {
     result = result.replace(/<meta property="og:url" content="[^"]*"/, `<meta property="og:url" content="${meta.canonical}"`);
     result = result.replace(/<meta property="og:title" content="[^"]*"/, `<meta property="og:title" content="${meta.title}"`);
     result = result.replace(/<meta property="og:description" content="[^"]*"/, `<meta property="og:description" content="${meta.description}"`);
+    result = result.replace(/<meta property="og:image" content="[^"]*"/, `<meta property="og:image" content="${meta.ogImage}"`);
+    result = result.replace(/<meta property="og:image:secure_url" content="[^"]*"/, `<meta property="og:image:secure_url" content="${meta.ogImage}"`);
     result = result.replace(/<meta name="twitter:url" content="[^"]*"/, `<meta name="twitter:url" content="${meta.canonical}"`);
     result = result.replace(/<meta name="twitter:title" content="[^"]*"/, `<meta name="twitter:title" content="${meta.title}"`);
     result = result.replace(/<meta name="twitter:description" content="[^"]*"/, `<meta name="twitter:description" content="${meta.description}"`);
+    result = result.replace(/<meta name="twitter:image" content="[^"]*"/, `<meta name="twitter:image" content="${meta.ogImage}"`);
+    if (meta.personSchemaJson) {
+        result = result.replace(
+            '</head>',
+            `  <script type="application/ld+json" data-ssr-member-schema="true">${meta.personSchemaJson}</script>\n</head>`
+        );
+    }
     return result;
 }
 

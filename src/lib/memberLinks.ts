@@ -6,7 +6,13 @@ export type NormalizedMemberLink = { type: string; url: string; icon: string };
 export function normalizeMemberLinks(links: Member['links']): NormalizedMemberLink[] {
     if (!links) return [];
     if (Array.isArray(links)) {
-        return (links as MemberLink[]).filter((link) => link.url && link.url.trim() !== '' && link.url !== '#');
+        return (links as MemberLink[])
+            .filter((link) => link.url && link.url.trim() !== '' && link.url !== '#')
+            .map((link) => ({
+                type: link.type,
+                url: link.url.trim(),
+                icon: link.icon || link.type,
+            }));
     }
     const out: NormalizedMemberLink[] = [];
     Object.entries(links as Record<string, string>).forEach(([key, url]) => {

@@ -77,8 +77,11 @@
     *   **客製化星際向量徽章（`StarshipEmblems.tsx`）**：全面淘汰通用 AI／Emoji 圖示，改為手寫雙色精密星軌 SVG（座標鎖定星盤、雙軌同步星環、引力雙星橋接、專屬軌道徽章、星群協作網、晨間航道羅盤、實名引薦驗證盾）。
 *   **SEO 深度健檢與修復（`/seo-audit`）**：
     *   `index.html` 的 `FAQPage` JSON-LD 與前台 8 題口語問答完全對齊；`Event` JSON-LD 改為 `OnlineEventAttendanceMode` 與 `VirtualLocation`。
-    *   `server.js` 新增動態 `/sitemap.xml` 生成，自動將 Supabase 在籍會員 `/member/:id` 寫入 Sitemap 供搜尋引擎收錄。
-*   **Animate UI 動態系統（`@animate-ui/react` + `motion`）**與**全站文字去 AI 化**已同步上線。
+    *   `public/sitemap.xml` 已完整收錄 59 位在籍會員的 `/member/:id` 獨立網址；`server.js` 亦支援動態 `/sitemap.xml` 生成與 `/member/:slug` 伺服器端 `ProfilePage` / `Person` JSON-LD 及 `og:image` 注入。
+*   **星際風獨立會員頁升級（`/member/:id`）**：
+    *   採用 `EVERSHINE CREW DOSSIER` 星際檔案艙設計，包含雙層 SVG 星軌頭像環、專屬席位編號（`ORBIT SEAT #ID`）、所屬星區導覽與可見語意 `<h1>`。
+    *   自動串聯該會員參與過的「真實引薦軌跡（Verified Referral Trajectory）」與「同屬星區的協作夥伴」，形成全站 59 個會員頁的內部連結網。
+*   **Animate UI 動態系統（`@animate-ui/react` + `motion`）**與**全站文字去 AI 化**已同步上線，且全專案 `tsc -b` 零型別錯誤。
 
 ---
 

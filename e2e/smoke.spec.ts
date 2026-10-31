@@ -51,4 +51,12 @@ test.describe('Smoke', () => {
             expect(body, brand).not.toContain(brand);
         }
     });
+
+    test('獨立會員頁顯示星軌檔案、參與引薦與同星區夥伴', async ({ page }) => {
+        await page.goto('/member/10');
+        await expect(page.getByRole('heading', { level: 1, name: /江學洋/ })).toBeVisible({ timeout: 20_000 });
+        await expect(page.getByText(/ORBIT SEAT #010/)).toBeVisible();
+        await expect(page.getByText(/江學洋 參與過的真實引薦紀錄/)).toBeVisible();
+        await expect(page.getByText(/同屬「品牌整合與行銷」星區的協作夥伴/)).toBeVisible();
+    });
 });
