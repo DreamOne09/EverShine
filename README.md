@@ -77,10 +77,10 @@
     *   **客製化星際向量徽章（`StarshipEmblems.tsx`）**：全面淘汰通用 AI／Emoji 圖示，改為手寫雙色精密星軌 SVG（座標鎖定星盤、雙軌同步星環、引力雙星橋接、專屬軌道徽章、星群協作網、晨間航道羅盤、實名引薦驗證盾）。
 *   **SEO 深度健檢與修復（`/seo-audit`）**：
     *   `index.html` 的 `FAQPage` JSON-LD 與前台 8 題口語問答完全對齊；`Event` JSON-LD 改為 `OnlineEventAttendanceMode` 與 `VirtualLocation`。
-    *   `public/sitemap.xml` 已完整收錄 59 位在籍會員的 `/member/:id` 獨立網址；`server.js` 亦支援動態 `/sitemap.xml` 生成與 `/member/:slug` 伺服器端 `ProfilePage` / `Person` JSON-LD 及 `og:image` 注入。
+    *   `public/sitemap.xml` 已完整收錄 59 位在籍會員的 `/member/:id` 獨立網址；Cloudflare Pages Functions（`functions/sitemap.xml.js` 與 `functions/member/[slug].js`）亦支援邊緣動態 `/sitemap.xml` 生成與 `/member/:slug` 的 `ProfilePage` / `Person` JSON-LD 及 `og:image` 注入。
 *   **星際風獨立會員頁升級（`/member/:id`）**：
-    *   採用 `EVERSHINE CREW DOSSIER` 星際檔案艙設計，包含雙層 SVG 星軌頭像環、專屬席位編號（`ORBIT SEAT #ID`）、所屬星區導覽與可見語意 `<h1>`。
-    *   自動串聯該會員參與過的「真實引薦軌跡（Verified Referral Trajectory）」與「同屬星區的協作夥伴」，形成全站 59 個會員頁的內部連結網。
+    *   包含雙層 SVG 星軌頭像框、專屬會員編號、所屬產業領域導覽與可見語意 `<h1>`。
+    *   自動串聯該會員參與過的「真實引薦案例」與「同屬領域的合作夥伴」，形成全站 59 個會員頁的內部連結網。
 *   **Animate UI 動態系統（`@animate-ui/react` + `motion`）**與**全站文字去 AI 化**已同步上線，且全專案 `tsc -b` 零型別錯誤。
 
 ---
@@ -89,12 +89,12 @@
 
 | 類別 | 技術 | 說明 |
 | :--- | :--- | :--- |
-| **前端** | React 19 / Vite 7 | 極速開發與部署 |
+| **前端** | React 19 / Vite 7 | 極速開發與打包 |
 | **樣式** | Tailwind 4 | 現代化、可擴展的 CSS 框架 |
 | **資料庫** | Supabase DB | PostgreSQL 強大驅動 |
 | **驗證** | Supabase Auth | 提供多方登入與安全 Session |
 | **存儲** | Supabase Storage | 存儲高品質會員照片 |
-| **部署** | Zeabur | 自動化容器部署與管理 |
+| **部署與邊緣渲染** | Cloudflare Pages + Pages Functions | 全球 CDN、安全標頭（`public/_headers`）與邊緣動態 SEO（`functions/`） |
 
 ---
 

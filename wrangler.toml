@@ -1,0 +1,9 @@
+# Cloudflare Pages 設定檔 (https://evershine.tw)
+name = "evershine"
+pages_build_output_dir = "dist"
+compatibility_date = "2026-10-01"
+
+[vars]
+PRIMARY_SITE_URL = "https://evershine.tw"
+VITE_SUPABASE_URL = "https://bapwzqmlvwwmnucjimsn.supabase.co"
+VITE_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJhcHd6cW1sdnd3bW51Y2ppbXNuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4OTY3NzgsImV4cCI6MjA4MTQ3Mjc3OH0.lGgudUHGUb14wt-N_fyLSgaML9-DPG4qeHJ5npsRUDQ"

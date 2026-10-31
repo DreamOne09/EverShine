@@ -10,7 +10,7 @@
 
 - **前端：** React 19 + Vite 7 + Tailwind CSS 4
 - **後端/資料庫：** Supabase (PostgreSQL + Auth + Storage + RLS)
-- **部署：** 任何支援 Node.js 的平台（Zeabur / Vercel / Railway / Render）
+- **部署與邊緣渲染：** Cloudflare Pages + Pages Functions (`wrangler.toml`, `functions/`, `public/_headers`)
 
 Clone 新分會需要完成 **7 個步驟**，每個步驟都列出了需要向使用者詢問的問題。
 
@@ -318,26 +318,16 @@ npm run dev
 # 正式建構
 npm run build
 
-# 本地測試正式版
-npm start
+# 本地模擬 Cloudflare Pages（含 Pages Functions）
+npm run pages:dev
 ```
 
 ### 部署選項
 
-**Zeabur（推薦）：**
-1. 連接 GitHub repo
-2. 設定環境變數
-3. 自動部署
-
-**Vercel：**
-1. Import GitHub repo
-2. Framework Preset: Vite
-3. 設定環境變數
-4. 注意：需要額外處理 SPA routing（vercel.json rewrites）
-
-**自架 VPS：**
-1. `npm run build`
-2. `node server.js`（已內建 SPA fallback + SEO meta injection）
+**Cloudflare Pages（標準架構）：**
+1. 在 Cloudflare Dashboard → Workers & Pages 連結 GitHub repo（Build command: `npm run build`、Output directory: `dist`），或於 GitHub Secrets 設定 `CLOUDFLARE_API_TOKEN` 與 `CLOUDFLARE_ACCOUNT_ID` 由 `.github/workflows/cloudflare-pages.yml` 自動部署
+2. 設定環境變數（`VITE_SUPABASE_URL`、`VITE_SUPABASE_ANON_KEY`、`VITE_CLAIM_PASSWORD`）
+3. 推送 `main` 即自動部署靜態資產與 `functions/` 邊緣動態 SEO 路由
 
 ### DNS 設定
 

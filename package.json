@@ -9,9 +9,10 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "start": "node server.js",
     "lint": "eslint .",
     "preview": "vite preview",
+    "pages:dev": "npm run build && npx wrangler pages dev dist",
+    "pages:deploy": "npm run build && npx wrangler pages deploy dist --project-name=evershine",
     "test:e2e": "playwright test",
     "test:e2e:ci": "npm run build && playwright test"
   },

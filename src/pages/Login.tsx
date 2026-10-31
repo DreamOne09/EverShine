@@ -150,8 +150,8 @@ const Login: React.FC = () => {
      * 規則：
      * 1. 若目前 host 是 evershine.tw（不論 www 與否）→ 用 https://evershine.tw
      * 2. 若是 localhost 或其他開發環境 → 保持原 origin（http 也行，方便本機測）
-     * 3. 其餘（如 zeabur 預設網域）→ 強制升級為 https 並仍用該 host
-     *    這樣 Supabase Auth 白名單只需收 https://*.zeabur.app 就能涵蓋。
+     * 3. 其餘（如 Cloudflare Pages 預覽網域 *.pages.dev）→ 強制升級為 https 並仍用該 host
+     *    這樣 Supabase Auth 白名單只需收 https://*.pages.dev 就能涵蓋。
      */
     const getRedirectBase = (): string => {
         if (typeof window === 'undefined') return siteConfig.siteUrl;
