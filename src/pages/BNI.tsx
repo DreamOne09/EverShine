@@ -5,6 +5,12 @@ import { Effect } from '@animate-ui/react/primitives/effects/effect';
 import PageHero from '../components/common/PageHero';
 import SEO from '../components/common/SEO';
 import { siteConfig } from '../config/site.config';
+import {
+    EmblemOrbitSync,
+    EmblemExclusiveOrbit,
+    EmblemVerifiedLedger,
+    EmblemConstellationMesh,
+} from '../components/home/StarshipEmblems';
 
 const StatCard: React.FC<{
     value: number;
@@ -302,25 +308,25 @@ const BNIPage: React.FC = () => {
                             傳統早餐會得五點多起床、趕車去飯店；在長輝，每週三早上六點半打開 Zoom 就能跟將近 60 位不同產業的老闆對接。每個行業只收一位代表，同一個專業在分會裡沒有第二個人跟你分案源，八點半散會後直接開始跑當天的行程。
                         </p>
                         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 relative z-10">
-                            <div className="p-4">
-                                <div className="text-4xl mb-3">💻</div>
+                            <div className="p-4 flex flex-col items-center">
+                                <div className="mb-3 text-primary"><EmblemOrbitSync size={40} /></div>
                                 <h3 className="font-bold text-white mb-2">全程 Zoom 與會</h3>
-                                <p className="text-sm text-gray-400">不用趕早班車，出差或在外縣市也能照常出席。</p>
+                                <p className="text-sm text-gray-300">不用趕早班車，出差或在外縣市也能照常出席。</p>
                             </div>
-                            <div className="p-4">
-                                <div className="text-4xl mb-3">🤝</div>
+                            <div className="p-4 flex flex-col items-center">
+                                <div className="mb-3 text-primary"><EmblemExclusiveOrbit size={40} /></div>
                                 <h3 className="font-bold text-white mb-2">一業一代表</h3>
-                                <p className="text-sm text-gray-400">每個專業只收一位，分會裡的同類需求都歸你。</p>
+                                <p className="text-sm text-gray-300">每個專業只收一位，分會裡的同類需求都歸你。</p>
                             </div>
-                            <div className="p-4">
-                                <div className="text-4xl mb-3">📈</div>
+                            <div className="p-4 flex flex-col items-center">
+                                <div className="mb-3 text-primary"><EmblemVerifiedLedger size={40} /></div>
                                 <h3 className="font-bold text-white mb-2">實名引薦追蹤</h3>
-                                <p className="text-sm text-gray-400">每一張引薦單都有紀錄與核查，不是口頭說說。</p>
+                                <p className="text-sm text-gray-300">每一張引薦單都有紀錄與核查，不是口頭說說。</p>
                             </div>
-                            <div className="p-4">
-                                <div className="text-4xl mb-3">🌍</div>
+                            <div className="p-4 flex flex-col items-center">
+                                <div className="mb-3 text-primary"><EmblemConstellationMesh size={40} /></div>
                                 <h3 className="font-bold text-white mb-2">跨分會與國際資源</h3>
-                                <p className="text-sm text-gray-400">連通全台 245 個分會與全球 76+ 國的 BNI 網絡。</p>
+                                <p className="text-sm text-gray-300">連通全台 245 個分會與全球 76+ 國的 BNI 網絡。</p>
                             </div>
                         </div>
                     </div>

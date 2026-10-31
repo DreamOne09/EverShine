@@ -68,21 +68,17 @@
 *   正式名單以 **Supabase `members`** 為準，不要把 `public/data/members.json` 整份匯回去覆蓋。
 *   **交接全文**：見 `docs/HANDOFF_MEGA_PROMPT_20261002.md`。
 
-### 還在 PR [#12](https://github.com/DreamOne09/EverShine/pull/12)、尚未部署
+### 已在 `main`／正式站（2026-10-31 最新）
 
-*   LINE 1200×630 分享圖、全站 meta、首頁主標與三 CTA、來訪三步驟。
-*   玻璃高光／琺瑯按鈕等質感。
-*   首頁地球底圖；會員／認識 BNI／引薦／登入改為真實會員例會 Gallery。
-*   **Animate UI 動態系統（`@animate-ui/react` + `motion`）**：
-    *   全域包覆 `AnimateUIProvider` 與 `ReducedMotionConfig`，完整支援系統「減少動態效果（Reduced Motion）」。
-    *   `PageHero`：H1 首屏直接繪製（保護 SEO 與 LCP），徽章、副標與按鈕採 `Effect` 微幅滑入與淡出模糊。
-    *   統計數字全面改用 `CountingNumber`（`tabular-nums` 等寬不抖動，Reduced Motion 下直接顯示數值）。
-    *   `CategoryFilter`、`ReferralFilterBar`、`ResultsChart`、`Navbar`、`BottomNav` 統一採用 `spring.selection` 共享指示器（`layoutId`）平滑滑動。
-    *   `MemberCard`、`Contact`、`ReferralCard` 遵循 `scale.choice` (0.985) 按壓回饋與 `spring.press` 彈簧，移除容器 hover 放大。
-    *   `FAQ` 與 `ReferralCard` 展開收合改用 `transition.disclosure` (350ms, `ease.soft`) 搭配 `blur.disclosure`。
-    *   `MemberDetailModal` 改用 3D 傾角彈簧 `spring.dialog` 進場、`transition.dismiss` 離場，背景遮罩直接動畫化 `backgroundColor` 與 `backdropFilter`。
-    *   `MemberWall` 跑馬燈與 `StarryBackground` 星空畫布於滾出畫面、切換背景分頁或開啟減少動態時自動暫停。
-*   **全站文字去 AI 化**：移除「結構化例會、精準媒合、極大化商務效益、鏈結」等 AI 模板口號與引薦案例 71–76 的說教金句，改為台灣企業主自然口語與具體例會情境。
+*   **星際風首頁敘事重構（Starship & Constellation Narrative）**：
+    *   **第一章・深空母艦首屏 + 即時軌道遙測條（Telemetry HUD）**：主標 `<h1>BNI 長輝白金分會</h1>` 搭配副標「把單打獨鬥的專業，連成彼此引薦的星系」，下方直接顯示 59 位獨家代表、8 大產業星區、26,459 張引薦單、6.3 億+ 新台幣四組即時座標。
+    *   **第二章・八大產業互動星盤（`ConstellationMapSection.tsx`）**：客製化雙軌道 SVG 星盤，中心為 `EVERSHINE WED 06:30`，外環為 8 顆產業恆星與跨生態圈引力連線；點選任一星區可即時切換該星區的專業席位與真實成交案例。
+    *   **第三章・週三 06:20–08:30 晨間航行日誌（`MorningOrbitTimeline.tsx`）**：以 5 個時間座標（`06:20` 開艙連線、`06:30` 早鳥分組、`07:00` 30 秒廣播、`07:45` 專題與實名引薦、`08:30` 準時收工）拆解 120 分鐘線上例會。
+    *   **客製化星際向量徽章（`StarshipEmblems.tsx`）**：全面淘汰通用 AI／Emoji 圖示，改為手寫雙色精密星軌 SVG（座標鎖定星盤、雙軌同步星環、引力雙星橋接、專屬軌道徽章、星群協作網、晨間航道羅盤、實名引薦驗證盾）。
+*   **SEO 深度健檢與修復（`/seo-audit`）**：
+    *   `index.html` 的 `FAQPage` JSON-LD 與前台 8 題口語問答完全對齊；`Event` JSON-LD 改為 `OnlineEventAttendanceMode` 與 `VirtualLocation`。
+    *   `server.js` 新增動態 `/sitemap.xml` 生成，自動將 Supabase 在籍會員 `/member/:id` 寫入 Sitemap 供搜尋引擎收錄。
+*   **Animate UI 動態系統（`@animate-ui/react` + `motion`）**與**全站文字去 AI 化**已同步上線。
 
 ---
 

@@ -271,6 +271,41 @@ const server = http.createServer((req, res) => {
 
     let requestPath = decodeURIComponent(req.url.split('?')[0]);
 
+    // 3) 動態 /sitemap.xml：自動把 Supabase 在籍會員 /member/:id 附加進 Sitemap
+    if (requestPath === '/sitemap.xml' && SUPABASE_URL && SUPABASE_ANON_KEY) {
+        const baseSitemap = fs.readFileSync(path.join(DIST, 'sitemap.xml'), 'utf-8');
+        fetch(`${SUPABASE_URL}/rest/v1/members?select=id,status&or=(status.is.null,status.eq.active)&order=id`, {
+            headers: {
+                apikey: SUPABASE_ANON_KEY,
+                Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+                Accept: 'application/json',
+            },
+        })
+            .then((r) => (r.ok ? r.json() : []))
+            .then((rows) => {
+                if (!Array.isArray(rows) || rows.length === 0) {
+                    res.writeHead(200, { 'Content-Type': 'application/xml', 'Cache-Control': 'public, max-age=3600' });
+                    res.end(baseSitemap);
+                    return;
+                }
+                const memberEntries = rows
+                    .filter((m) => m && m.id != null)
+                    .map(
+                        (m) =>
+                            `  <url>\n    <loc>${PRIMARY_SITE_URL}/member/${encodeURIComponent(String(m.id))}</loc>\n    <changefreq>monthly</changefreq>\n    <priority>0.6</priority>\n  </url>`
+                    )
+                    .join('\n');
+                const merged = baseSitemap.replace('</urlset>', `${memberEntries}\n</urlset>`);
+                res.writeHead(200, { 'Content-Type': 'application/xml', 'Cache-Control': 'public, max-age=3600' });
+                res.end(merged);
+            })
+            .catch(() => {
+                res.writeHead(200, { 'Content-Type': 'application/xml', 'Cache-Control': 'public, max-age=3600' });
+                res.end(baseSitemap);
+            });
+        return;
+    }
+
     if (requestPath === '/') {
         requestPath = '/index.html';
     }
